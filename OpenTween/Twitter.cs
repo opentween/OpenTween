@@ -44,6 +44,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using OpenTween.Api;
 using OpenTween.Api.DataModel;
+using OpenTween.Api.TwitterV2;
 using OpenTween.Connection;
 using OpenTween.Models;
 using OpenTween.Setting;
@@ -547,17 +548,19 @@ namespace OpenTween
 
             var count = GetApiResultCount(MyCommon.WORKERTYPE.Timeline, more, startup);
 
-            TwitterStatus[] statuses;
-            if (more)
+            var request = new GetTimelineRequest(this.UserId)
             {
-                statuses = await this.Api.StatusesHomeTimeline(count, maxId: tab.OldestId)
-                    .ConfigureAwait(false);
-            }
-            else
-            {
-                statuses = await this.Api.StatusesHomeTimeline(count)
-                    .ConfigureAwait(false);
-            }
+                MaxResults = count,
+                UntilId = more ? tab.OldestId.ToString() : null,
+            };
+
+            var response = await request.Send(this.Api.Connection)
+                .ConfigureAwait(false);
+
+            var tweetIds = response.Data.Select(x => x.Id).ToList();
+
+            var statuses = await this.Api.StatusesLookup(tweetIds)
+                .ConfigureAwait(false);
 
             var minimumId = this.CreatePostsFromJson(statuses, MyCommon.WORKERTYPE.Timeline, tab, read);
             if (minimumId != null)

@@ -31,6 +31,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using OpenTween.Api;
+using OpenTween.Api.TwitterV2;
 
 namespace OpenTween
 {
@@ -41,7 +42,7 @@ namespace OpenTween
 
         private readonly List<string> tlEndpoints = new()
         {
-            "/statuses/home_timeline",
+            GetTimelineRequest.EndpointName,
             "/statuses/mentions_timeline",
             "/statuses/show/:id",
             "/statuses/user_timeline",

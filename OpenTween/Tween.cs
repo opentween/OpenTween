@@ -52,6 +52,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using OpenTween.Api;
 using OpenTween.Api.DataModel;
+using OpenTween.Api.TwitterV2;
 using OpenTween.Connection;
 using OpenTween.MediaUploadServices;
 using OpenTween.Models;
@@ -7042,7 +7043,7 @@ namespace OpenTween
                 // 表示中のタブに応じて更新
                 endpointName = tabType switch
                 {
-                    MyCommon.TabUsageType.Home => "/statuses/home_timeline",
+                    MyCommon.TabUsageType.Home => GetTimelineRequest.EndpointName,
                     MyCommon.TabUsageType.UserDefined => "/statuses/home_timeline",
                     MyCommon.TabUsageType.Mentions => "/statuses/mentions_timeline",
                     MyCommon.TabUsageType.Favorites => "/favorites/list",
@@ -7058,18 +7059,26 @@ namespace OpenTween
             else
             {
                 // 表示中のタブに関連する endpoint であれば更新
-                var update = endpointName switch
+                bool update;
+                if (endpointName == GetTimelineRequest.EndpointName)
                 {
-                    "/statuses/home_timeline" => tabType == MyCommon.TabUsageType.Home || tabType == MyCommon.TabUsageType.UserDefined,
-                    "/statuses/mentions_timeline" => tabType == MyCommon.TabUsageType.Mentions,
-                    "/favorites/list" => tabType == MyCommon.TabUsageType.Favorites,
-                    "/direct_messages/events/list" => tabType == MyCommon.TabUsageType.DirectMessage,
-                    "/statuses/user_timeline" => tabType == MyCommon.TabUsageType.UserTimeline,
-                    "/lists/statuses" => tabType == MyCommon.TabUsageType.Lists,
-                    "/search/tweets" => tabType == MyCommon.TabUsageType.PublicSearch,
-                    "/statuses/show/:id" => tabType == MyCommon.TabUsageType.Related,
-                    _ => false,
-                };
+                    update = tabType == MyCommon.TabUsageType.Home || tabType == MyCommon.TabUsageType.UserDefined;
+                }
+                else
+                {
+                    update = endpointName switch
+                    {
+                        "/statuses/mentions_timeline" => tabType == MyCommon.TabUsageType.Mentions,
+                        "/favorites/list" => tabType == MyCommon.TabUsageType.Favorites,
+                        "/direct_messages/events/list" => tabType == MyCommon.TabUsageType.DirectMessage,
+                        "/statuses/user_timeline" => tabType == MyCommon.TabUsageType.UserTimeline,
+                        "/lists/statuses" => tabType == MyCommon.TabUsageType.Lists,
+                        "/search/tweets" => tabType == MyCommon.TabUsageType.PublicSearch,
+                        "/statuses/show/:id" => tabType == MyCommon.TabUsageType.Related,
+                        _ => false,
+                    };
+                }
+
                 if (update)
                 {
                     this.toolStripApiGauge.ApiEndpoint = endpointName;

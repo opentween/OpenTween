@@ -198,6 +198,34 @@ namespace OpenTween.Api
         }
 
         [Fact]
+        public async Task StatusesLookup_Test()
+        {
+            var mock = new Mock<IApiConnection>();
+            mock.Setup(x =>
+                x.GetAsync<TwitterStatus[]>(
+                    new Uri("statuses/lookup.json", UriKind.Relative),
+                    new Dictionary<string, string>
+                    {
+                        { "id", "100,200" },
+                        { "include_entities", "true" },
+                        { "include_ext_alt_text", "true" },
+                        { "tweet_mode", "extended" },
+                    },
+                    "/statuses/lookup"
+                )
+            )
+            .ReturnsAsync(Array.Empty<TwitterStatus>());
+
+            using var twitterApi = new TwitterApi(ApiKey.Create("fake_consumer_key"), ApiKey.Create("fake_consumer_secret"));
+            twitterApi.ApiConnection = mock.Object;
+
+            await twitterApi.StatusesLookup(statusIds: new[] { "100", "200" })
+                .ConfigureAwait(false);
+
+            mock.VerifyAll();
+        }
+
+        [Fact]
         public async Task StatusesUpdate_Test()
         {
             var mock = new Mock<IApiConnection>();

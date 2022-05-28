@@ -92,6 +92,7 @@
     <Compile Include="Api\DataModel\TwitterUploadMediaResult.cs" />
     <Compile Include="Api\DataModel\TwitterUser.cs" />
     <Compile Include="Api\DataModel\TwitterApiAccessLevel.cs" />
+    <Compile Include="Api\DataModel\TwitterV2TweetId.cs" />
     <Compile Include="Api\ImgurApi.cs" />
     <Compile Include="Api\JsonUtils.cs" />
     <Compile Include="Api\MicrosoftTranslatorApi.cs" />
@@ -100,6 +101,8 @@
     <Compile Include="Api\TwitterApiException.cs" />
     <Compile Include="Api\TwitterApiStatus.cs" />
     <Compile Include="Api\TwitterStreamObservable.cs" />
+    <Compile Include="Api\DataModel\TwitterV2TweetIds.cs" />
+    <Compile Include="Api\TwitterV2\GetTimelineRequest.cs" />
     <Compile Include="ApplicationContainer.cs" />
     <Compile Include="ApplicationEvents.cs">
       <SubType>Code</SubType>
