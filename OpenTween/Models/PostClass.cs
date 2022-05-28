@@ -134,6 +134,8 @@ namespace OpenTween.Models
         /// </summary>
         public class ExpandedUrlInfo : ICloneable
         {
+            public static bool AutoExpand { get; set; } = true;
+
             /// <summary>展開前の t.co ドメインの URL</summary>
             public string Url { get; }
 
@@ -161,7 +163,7 @@ namespace OpenTween.Models
                 this.Url = url;
                 this.expandedUrl = expandedUrl;
 
-                if (deepExpand)
+                if (AutoExpand && deepExpand)
                     this.ExpandTask = this.DeepExpandAsync();
                 else
                     this.ExpandTask = Task.CompletedTask;

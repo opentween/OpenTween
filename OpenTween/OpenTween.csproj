@@ -110,6 +110,7 @@
     <Compile Include="ApplicationInstanceMutex.cs" />
     <Compile Include="ApplicationPreconditions.cs" />
     <Compile Include="ApplicationSettings.cs" />
+    <Compile Include="Models\TwitterPostFactory.cs" />
     <Compile Include="ThemeManager.cs" />
     <Compile Include="IconAssetsManager.cs" />
     <Compile Include="AsyncTimer.cs" />
