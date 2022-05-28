@@ -1779,19 +1779,15 @@ namespace OpenTween
             this.SetMainWindowTitle();
 
             // TLに反映
-            if (this.settings.Common.PostAndGet)
+            if (post != null)
             {
-                await this.RefreshTabAsync<HomeTabModel>();
-            }
-            else
-            {
-                if (post != null)
-                {
-                    this.statuses.AddPost(post);
-                    this.statuses.DistributePosts();
-                }
+                this.statuses.AddPost(post);
+                this.statuses.DistributePosts();
                 this.RefreshTimeline();
             }
+
+            if (this.settings.Common.PostAndGet)
+                await this.RefreshTabAsync<HomeTabModel>();
         }
 
         private async Task RetweetAsync(IReadOnlyList<long> statusIds)
