@@ -27,7 +27,7 @@
 	<data name="AuthorizeButton_Click4"><value>未認証</value></data>
 	<data name="AuthorizeButton_Click6"><value>認証サーバーに接続できませんでした。</value></data>
 	<data name="BitlyAuthorize_ErrorText"><value>認証に失敗しました ({0})</value></data>
-	<data name="BrowserStartFailed"><value>ブラウザの起動に失敗しました。エラーコード: {0}</value></data>
+	<data name="BrowserStartFailed"><value>ブラウザの起動に失敗しました: {0}</value></data>
 	<data name="Button3_ClickText1"><value>実行形式ファイル(*.exe)|*.exe|すべてのファイル(*.*)|*.*</value></data>
 	<data name="Button3_ClickText2"><value>ブラウザを指定してください</value></data>
 	<data name="ButtonBlock_ClickText1"><value> をブロックします。よろしいですか？</value></data>

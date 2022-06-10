@@ -22,7 +22,7 @@
 	<data name="AuthorizeButton_Click4"><value>Not authenticated</value></data>
 	<data name="AuthorizeButton_Click6"><value>Failed to connect auth server.</value></data>
 	<data name="BitlyAuthorize_ErrorText"><value>Failed to authorize. ({0})</value></data>
-	<data name="BrowserStartFailed"><value>Failed to start browser. Error code: {0}</value></data>
+	<data name="BrowserStartFailed"><value>Failed to start browser: {0}</value></data>
 	<data name="Button3_ClickText1"><value>Executable (*.exe)|*.exe|All files (*.*)|*.*</value></data>
 	<data name="Button3_ClickText2"><value>Choose the web browser</value></data>
 	<data name="ButtonBlock_ClickText1"><value> : Block this user?</value></data>

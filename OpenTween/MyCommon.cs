@@ -987,21 +987,21 @@ namespace OpenTween
         public static Task OpenInBrowserAsync(IWin32Window? owner, string url)
             => MyCommon.OpenInBrowserAsync(owner, SettingManager.Instance.Local.BrowserPath, url);
 
-        public static Task OpenInBrowserAsync(IWin32Window? owner, string? browserPath, string url)
+        public static async Task OpenInBrowserAsync(IWin32Window? owner, string? browserPath, string url)
         {
-            return Task.Run(() =>
+            try
             {
-                try
+                await Task.Run(() =>
                 {
                     var startInfo = MyCommon.CreateBrowserProcessStartInfo(browserPath, url);
                     Process.Start(startInfo);
-                }
-                catch (Win32Exception ex)
-                {
-                    var message = string.Format(Properties.Resources.BrowserStartFailed, ex.ErrorCode);
-                    MessageBox.Show(owner, message, ApplicationSettings.ApplicationName, MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                }
-            });
+                });
+            }
+            catch (Win32Exception ex)
+            {
+                var message = string.Format(Properties.Resources.BrowserStartFailed, ex.Message);
+                MessageBox.Show(owner, message, ApplicationSettings.ApplicationName, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
         }
 
         public static ProcessStartInfo CreateBrowserProcessStartInfo(string? browserPathWithArgs, string url)
