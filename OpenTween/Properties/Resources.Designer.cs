@@ -263,7 +263,7 @@ namespace OpenTween.Properties {
         }
         
         /// <summary>
-        ///   ブラウザの起動に失敗しました。エラーコード: {0} に類似しているローカライズされた文字列を検索します。
+        ///   ブラウザの起動に失敗しました: {0} に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string BrowserStartFailed {
             get {
