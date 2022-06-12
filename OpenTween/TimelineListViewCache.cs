@@ -236,7 +236,7 @@ namespace OpenTween
                 this.ApplyListItemStyle(item, style);
             }
 
-            updatedIndices.Remove(this.tab.SelectedIndex);
+            updatedIndices.Add(this.tab.SelectedIndex);
             this.listView.RefreshItems(updatedIndices);
         }
 
