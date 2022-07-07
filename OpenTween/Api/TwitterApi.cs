@@ -138,6 +138,20 @@ namespace OpenTween.Api
             return this.Connection.GetAsync<TwitterStatus>(endpoint, param, "/statuses/show/:id");
         }
 
+        public Task<TwitterStatus[]> StatusesLookup(IReadOnlyList<string> statusIds)
+        {
+            var endpoint = new Uri("statuses/lookup.json", UriKind.Relative);
+            var param = new Dictionary<string, string>
+            {
+                ["id"] = string.Join(",", statusIds),
+                ["include_entities"] = "true",
+                ["include_ext_alt_text"] = "true",
+                ["tweet_mode"] = "extended",
+            };
+
+            return this.Connection.GetAsync<TwitterStatus[]>(endpoint, param, "/statuses/lookup");
+        }
+
         public Task<LazyJson<TwitterStatus>> StatusesUpdate(
             string status,
             long? replyToId,

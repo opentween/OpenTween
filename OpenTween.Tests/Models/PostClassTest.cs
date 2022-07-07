@@ -417,6 +417,8 @@ namespace OpenTween.Models
         [Fact]
         public async Task ExpandedUrls_BasicScenario()
         {
+            PostClass.ExpandedUrlInfo.AutoExpand = true;
+
             var post = new PostClass
             {
                 Text = "<a href=\"http://t.co/aaaaaaa\" title=\"http://t.co/aaaaaaa\">bit.ly/abcde</a>",

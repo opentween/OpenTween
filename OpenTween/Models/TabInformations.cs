@@ -82,7 +82,7 @@ namespace OpenTween.Models
         // List
         private List<ListElement> lists = new();
 
-        private TabInformations()
+        internal TabInformations()
         {
         }
 
