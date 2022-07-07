@@ -2715,8 +2715,6 @@ namespace OpenTween
                             using (ControlTransaction.Update(lst))
                             {
                                 lst.GridLines = this.settings.Common.ShowGrid;
-                                lst.Font = this.themeManager.FontReaded;
-                                lst.BackColor = this.themeManager.ColorListBackcolor;
 
                                 if (this.Use2ColumnsMode != oldIconCol)
                                     this.ResetColumns(lst);
@@ -3089,8 +3087,6 @@ namespace OpenTween
                 listCustom.View = View.Details;
                 listCustom.OwnerDraw = true;
                 listCustom.VirtualMode = true;
-                listCustom.Font = this.themeManager.FontReaded;
-                listCustom.BackColor = this.themeManager.ColorListBackcolor;
 
                 listCustom.GridLines = this.settings.Common.ShowGrid;
                 listCustom.AllowDrop = true;
