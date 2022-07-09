@@ -857,24 +857,6 @@ namespace OpenTween.Properties {
         }
         
         /// <summary>
-        ///   更新間隔には数値（0または15～6000）を指定してください。 に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        internal static string DMPeriod_ValidatingText1 {
-            get {
-                return ResourceManager.GetString("DMPeriod_ValidatingText1", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   更新間隔には数値（0または15～6000）を指定してください。 に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        internal static string DMPeriod_ValidatingText2 {
-            get {
-                return ResourceManager.GetString("DMPeriod_ValidatingText2", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   プロフィール取得中・・・ に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string doShowUserStatusText1 {
@@ -2030,24 +2012,6 @@ namespace OpenTween.Properties {
         }
         
         /// <summary>
-        ///   更新間隔には数値（0または30～6000）を指定してください。 に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        internal static string PubSearchPeriod_ValidatingText1 {
-            get {
-                return ResourceManager.GetString("PubSearchPeriod_ValidatingText1", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   更新間隔には数値（0または30～6000）を指定してください。 に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        internal static string PubSearchPeriod_ValidatingText2 {
-            get {
-                return ResourceManager.GetString("PubSearchPeriod_ValidatingText2", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   [引用 @{0}: {1}] に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string QuoteStatus_AccessibleText {
@@ -2939,20 +2903,11 @@ namespace OpenTween.Properties {
         }
         
         /// <summary>
-        ///   更新間隔には数値（0または15～6000）を指定してください。 に類似しているローカライズされた文字列を検索します。
+        ///   更新間隔には 0 以上の数値を指定してください。 に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string TimelinePeriod_ValidatingText1 {
             get {
                 return ResourceManager.GetString("TimelinePeriod_ValidatingText1", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   更新間隔には数値（0または15～6000）を指定してください。 に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        internal static string TimelinePeriod_ValidatingText2 {
-            get {
-                return ResourceManager.GetString("TimelinePeriod_ValidatingText2", resourceCulture);
             }
         }
         

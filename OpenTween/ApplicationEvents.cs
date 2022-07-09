@@ -67,8 +67,7 @@ namespace OpenTween
 
             using var container = new ApplicationContainer(settings);
 
-            var noLimit = StartupOptions.ContainsKey("nolimit");
-            settings.Common.Validate(noLimit);
+            settings.Common.Validate();
 
             ThemeManager.ApplyGlobalUIFont(settings.Local);
             container.CultureService.Initialize();
