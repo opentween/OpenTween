@@ -91,8 +91,6 @@
 	<data name="Description" type="System.Resources.ResXFileRef, System.Windows.Forms"><value>..\Resources\Description.txt;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value></data>
 	<data name="DisableButtonCaption"><value>無効化</value></data>
 	<data name="Disabled"><value>無効</value></data>
-	<data name="DMPeriod_ValidatingText1"><value>更新間隔には数値（0または15～6000）を指定してください。</value></data>
-	<data name="DMPeriod_ValidatingText2"><value>更新間隔には数値（0または15～6000）を指定してください。</value></data>
 	<data name="doShowUserStatusText1"><value>プロフィール取得中・・・</value></data>
 	<data name="DoTabSearchText1"><value>正規表現パターンが間違っています。</value></data>
 	<data name="DoTabSearchText2"><value>検索条件に一致するデータは見つかりません。</value></data>
@@ -228,8 +226,6 @@
 	<data name="PostState14" type="System.Resources.ResXFileRef, System.Windows.Forms"><value>..\Resources\S14.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value></data>
 	<data name="PostWorker_RunWorkerCompletedText4"><value>POST完了</value></data>
 	<data name="PostWorker_RunWorkerCompletedText5"><value>Recent更新中...</value></data>
-	<data name="PubSearchPeriod_ValidatingText1"><value>更新間隔には数値（0または30～6000）を指定してください。</value></data>
-	<data name="PubSearchPeriod_ValidatingText2"><value>更新間隔には数値（0または30～6000）を指定してください。</value></data>
 	<data name="QuoteStatus_AccessibleText"><value>[引用 @{0}: {1}]</value></data>
 	<data name="ReAuthorizeText"><value>Direct Messageの送受信をするため、もう一度認証処理をして下さい。</value></data>
 	<data name="Refresh" type="System.Resources.ResXFileRef, System.Windows.Forms"><value>..\Resources\re.ico;System.Drawing.Icon, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value></data>
@@ -338,8 +334,7 @@
 	<data name="TextProxyPort_ValidatingText1"><value>ポート番号には整数値を指定してください。</value></data>
 	<data name="TextProxyPort_ValidatingText2"><value>ポート番号には0～65535を指定してください。</value></data>
 	<data name="TextSearchCountApi_Validating1"><value>取得発言数は20～100件を指定してください。</value></data>
-	<data name="TimelinePeriod_ValidatingText1"><value>更新間隔には数値（0または15～6000）を指定してください。</value></data>
-	<data name="TimelinePeriod_ValidatingText2"><value>更新間隔には数値（0または15～6000）を指定してください。</value></data>
+	<data name="TimelinePeriod_ValidatingText1"><value>更新間隔には 0 以上の数値を指定してください。</value></data>
 	<data name="TimerDM_TickText1"><value>DMRcv更新中...</value></data>
 	<data name="TimerTimeline_TickText1"><value>Recent更新中...</value></data>
 	<data name="TraceOutText1"><value>このファイルの内容を {0} まで送っていただけると助かります。</value></data>

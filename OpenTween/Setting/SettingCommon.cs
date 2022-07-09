@@ -261,28 +261,25 @@ namespace OpenTween
         [XmlElement(ElementName = nameof(SkipUpdateVersion))]
         public string SkipUpdateVersionStr { get; set; } = "";
 
-        public void Validate(bool noLimit = false)
+        public void Validate()
         {
-            if (!noLimit)
-            {
-                if (this.TimelinePeriod < 15 && this.TimelinePeriod > 0)
-                    this.TimelinePeriod = 15;
+            if (this.TimelinePeriod < 0)
+                this.TimelinePeriod = 15;
 
-                if (this.ReplyPeriod < 15 && this.ReplyPeriod > 0)
-                    this.ReplyPeriod = 15;
+            if (this.ReplyPeriod < 0)
+                this.ReplyPeriod = 15;
 
-                if (this.DMPeriod < 15 && this.DMPeriod > 0)
-                    this.DMPeriod = 15;
+            if (this.DMPeriod < 0)
+                this.DMPeriod = 15;
 
-                if (this.PubSearchPeriod < 30 && this.PubSearchPeriod > 0)
-                    this.PubSearchPeriod = 30;
+            if (this.PubSearchPeriod < 0)
+                this.PubSearchPeriod = 30;
 
-                if (this.UserTimelinePeriod < 15 && this.UserTimelinePeriod > 0)
-                    this.UserTimelinePeriod = 15;
+            if (this.UserTimelinePeriod < 0)
+                this.UserTimelinePeriod = 15;
 
-                if (this.ListsPeriod < 15 && this.ListsPeriod > 0)
-                    this.ListsPeriod = 15;
-            }
+            if (this.ListsPeriod < 0)
+                this.ListsPeriod = 15;
 
             if (!Twitter.VerifyApiResultCount(MyCommon.WORKERTYPE.Timeline, this.CountApi))
                 this.CountApi = 60;

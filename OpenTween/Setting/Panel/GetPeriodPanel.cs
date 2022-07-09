@@ -116,133 +116,67 @@ namespace OpenTween.Setting.Panel
 
         private void TimelinePeriod_Validating(object sender, CancelEventArgs e)
         {
-            int prd;
-            try
-            {
-                prd = int.Parse(this.TimelinePeriod.Text);
-            }
-            catch (Exception)
+            if (!this.ValidateIntervalStr(this.TimelinePeriod.Text))
             {
                 MessageBox.Show(Properties.Resources.TimelinePeriod_ValidatingText1);
                 e.Cancel = true;
-                return;
-            }
-
-            if (prd != 0 && (prd < 15 || prd > 6000))
-            {
-                MessageBox.Show(Properties.Resources.TimelinePeriod_ValidatingText2);
-                e.Cancel = true;
-                return;
             }
         }
 
         private void ReplyPeriod_Validating(object sender, CancelEventArgs e)
         {
-            int prd;
-            try
-            {
-                prd = int.Parse(this.ReplyPeriod.Text);
-            }
-            catch (Exception)
+            if (!this.ValidateIntervalStr(this.ReplyPeriod.Text))
             {
                 MessageBox.Show(Properties.Resources.TimelinePeriod_ValidatingText1);
                 e.Cancel = true;
-                return;
-            }
-
-            if (prd != 0 && (prd < 15 || prd > 6000))
-            {
-                MessageBox.Show(Properties.Resources.TimelinePeriod_ValidatingText2);
-                e.Cancel = true;
-                return;
             }
         }
 
         private void DMPeriod_Validating(object sender, CancelEventArgs e)
         {
-            int prd;
-            try
+            if (!this.ValidateIntervalStr(this.DMPeriod.Text))
             {
-                prd = int.Parse(this.DMPeriod.Text);
-            }
-            catch (Exception)
-            {
-                MessageBox.Show(Properties.Resources.DMPeriod_ValidatingText1);
+                MessageBox.Show(Properties.Resources.TimelinePeriod_ValidatingText1);
                 e.Cancel = true;
-                return;
-            }
-
-            if (prd != 0 && (prd < 15 || prd > 6000))
-            {
-                MessageBox.Show(Properties.Resources.DMPeriod_ValidatingText2);
-                e.Cancel = true;
-                return;
             }
         }
 
         private void PubSearchPeriod_Validating(object sender, CancelEventArgs e)
         {
-            int prd;
-            try
+            if (!this.ValidateIntervalStr(this.PubSearchPeriod.Text))
             {
-                prd = int.Parse(this.PubSearchPeriod.Text);
-            }
-            catch (Exception)
-            {
-                MessageBox.Show(Properties.Resources.PubSearchPeriod_ValidatingText1);
-                e.Cancel = true;
-                return;
-            }
-
-            if (prd != 0 && (prd < 30 || prd > 6000))
-            {
-                MessageBox.Show(Properties.Resources.PubSearchPeriod_ValidatingText2);
+                MessageBox.Show(Properties.Resources.TimelinePeriod_ValidatingText1);
                 e.Cancel = true;
             }
         }
 
         private void ListsPeriod_Validating(object sender, CancelEventArgs e)
         {
-            int prd;
-            try
+            if (!this.ValidateIntervalStr(this.ListsPeriod.Text))
             {
-                prd = int.Parse(this.ListsPeriod.Text);
-            }
-            catch (Exception)
-            {
-                MessageBox.Show(Properties.Resources.DMPeriod_ValidatingText1);
+                MessageBox.Show(Properties.Resources.TimelinePeriod_ValidatingText1);
                 e.Cancel = true;
-                return;
-            }
-
-            if (prd != 0 && (prd < 15 || prd > 6000))
-            {
-                MessageBox.Show(Properties.Resources.DMPeriod_ValidatingText2);
-                e.Cancel = true;
-                return;
             }
         }
 
         private void UserTimeline_Validating(object sender, CancelEventArgs e)
         {
-            int prd;
-            try
+            if (!this.ValidateIntervalStr(this.UserTimelinePeriod.Text))
             {
-                prd = int.Parse(this.UserTimelinePeriod.Text);
-            }
-            catch (Exception)
-            {
-                MessageBox.Show(Properties.Resources.DMPeriod_ValidatingText1);
+                MessageBox.Show(Properties.Resources.TimelinePeriod_ValidatingText1);
                 e.Cancel = true;
-                return;
             }
+        }
 
-            if (prd != 0 && (prd < 15 || prd > 6000))
-            {
-                MessageBox.Show(Properties.Resources.DMPeriod_ValidatingText2);
-                e.Cancel = true;
-                return;
-            }
+        private bool ValidateIntervalStr(string str)
+        {
+            if (!int.TryParse(str, out var value))
+                return false;
+
+            if (value < 0)
+                return false;
+
+            return true;
         }
     }
 }
