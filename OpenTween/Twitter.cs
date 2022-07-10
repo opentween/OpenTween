@@ -449,7 +449,7 @@ namespace OpenTween
             // https://dev.twitter.com/rest/public
             return type switch
             {
-                MyCommon.WORKERTYPE.Timeline => 200,
+                MyCommon.WORKERTYPE.Timeline => 100,
                 MyCommon.WORKERTYPE.Reply => 200,
                 MyCommon.WORKERTYPE.UserTimeline => 200,
                 MyCommon.WORKERTYPE.Favorites => 200,
