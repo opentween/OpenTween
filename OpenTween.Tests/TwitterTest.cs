@@ -166,7 +166,7 @@ namespace OpenTween
 
             // Timeline
             Assert.Equal(timeline, Twitter.GetApiResultCount(MyCommon.WORKERTYPE.Timeline, false, false));
-            Assert.Equal(more, Twitter.GetApiResultCount(MyCommon.WORKERTYPE.Timeline, true, false));
+            Assert.Equal(100, Twitter.GetApiResultCount(MyCommon.WORKERTYPE.Timeline, true, false)); // 100 件が上限
             Assert.Equal(startup, Twitter.GetApiResultCount(MyCommon.WORKERTYPE.Timeline, false, true));
 
             // Reply
