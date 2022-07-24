@@ -344,10 +344,18 @@
 	<data name="&gt;&gt;SettingStripMenuItem.Type"><value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
 	<data name="&gt;&gt;ShortcutKeyListMenuItem.Name"><value>ShortcutKeyListMenuItem</value></data>
 	<data name="&gt;&gt;ShortcutKeyListMenuItem.Type"><value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
+	<data name="&gt;&gt;ShowProfileContextMenuItem.Name"><value>ShowProfileContextMenuItem</value></data>
+	<data name="&gt;&gt;ShowProfileContextMenuItem.Type"><value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
+	<data name="&gt;&gt;ShowProfileMenuItem.Name"><value>ShowProfileMenuItem</value></data>
+	<data name="&gt;&gt;ShowProfileMenuItem.Type"><value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
 	<data name="&gt;&gt;ShowRelatedStatusesMenuItem.Name"><value>ShowRelatedStatusesMenuItem</value></data>
 	<data name="&gt;&gt;ShowRelatedStatusesMenuItem.Type"><value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
 	<data name="&gt;&gt;ShowRelatedStatusesMenuItem2.Name"><value>ShowRelatedStatusesMenuItem2</value></data>
 	<data name="&gt;&gt;ShowRelatedStatusesMenuItem2.Type"><value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
+	<data name="&gt;&gt;ShowUserTimelineContextMenuItem.Name"><value>ShowUserTimelineContextMenuItem</value></data>
+	<data name="&gt;&gt;ShowUserTimelineContextMenuItem.Type"><value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
+	<data name="&gt;&gt;ShowUserTimelineMenuItem.Name"><value>ShowUserTimelineMenuItem</value></data>
+	<data name="&gt;&gt;ShowUserTimelineMenuItem.Type"><value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
 	<data name="&gt;&gt;SoundFileComboBox.Name"><value>SoundFileComboBox</value></data>
 	<data name="&gt;&gt;SoundFileComboBox.Type"><value>System.Windows.Forms.ToolStripComboBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
 	<data name="&gt;&gt;SoundFileTbComboBox.Name"><value>SoundFileTbComboBox</value></data>
@@ -963,10 +971,18 @@
 	<data name="SettingStripMenuItem.Text"><value>設定(&amp;O)...</value></data>
 	<data name="ShortcutKeyListMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>251, 22</value></data>
 	<data name="ShortcutKeyListMenuItem.Text"><value>ショートカットキー一覧</value></data>
+	<data name="ShowProfileContextMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>223, 22</value></data>
+	<data name="ShowProfileContextMenuItem.Text"><value>プロフィール表示</value></data>
+	<data name="ShowProfileMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>243, 22</value></data>
+	<data name="ShowProfileMenuItem.Text"><value>プロフィール表示</value></data>
 	<data name="ShowRelatedStatusesMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>241, 22</value></data>
 	<data name="ShowRelatedStatusesMenuItem.Text"><value>関連発言表示(&amp;G)</value></data>
 	<data name="ShowRelatedStatusesMenuItem2.Size" type="System.Drawing.Size, System.Drawing"><value>313, 22</value></data>
 	<data name="ShowRelatedStatusesMenuItem2.Text"><value>関連発言表示(&amp;G)</value></data>
+	<data name="ShowUserTimelineContextMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>223, 22</value></data>
+	<data name="ShowUserTimelineContextMenuItem.Text"><value>ユーザーのタイムラインを表示</value></data>
+	<data name="ShowUserTimelineMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>243, 22</value></data>
+	<data name="ShowUserTimelineMenuItem.Text"><value>ユーザーのタイムラインを表示</value></data>
 	<data name="SoundFileComboBox.Size" type="System.Drawing.Size, System.Drawing"><value>121, 23</value></data>
 	<data name="SoundFileComboBox.ToolTipText"><value>再生するwavファイルを指定してください</value></data>
 	<data name="SoundFileTbComboBox.Size" type="System.Drawing.Size, System.Drawing"><value>121, 23</value></data>
