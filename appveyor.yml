@@ -22,6 +22,7 @@ branches:
   only:
     - develop
     - release
+    - /^OpenTween.+/ # release tag
 
 for:
   - # for dev build
