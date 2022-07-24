@@ -66,7 +66,7 @@ test_script:
       set targetFramework=net472
       set nugetPackages=%UserProfile%\.nuget\packages
 
-      %nugetPackages%\altcover\%altCoverVersion%\tools\%targetFramework%\AltCover.exe --inputDirectory .\OpenTween.Tests\bin\Debug\%targetFramework%\ --outputDirectory .\__Instrumented\ --assemblyFilter "?^OpenTween(?!\.Tests)" --typeFilter "?^OpenTween\." --fileFilter "\.Designer\.cs" --visibleBranches
+      %nugetPackages%\altcover\%altCoverVersion%\tools\%targetFramework%\AltCover.exe --inputDirectory .\OpenTween.Tests\bin\%CONFIGURATION%\%targetFramework%\ --outputDirectory .\__Instrumented\ --assemblyFilter "?^OpenTween(?!\.Tests)" --typeFilter "?^OpenTween\." --fileFilter "\.Designer\.cs" --visibleBranches
 
       %nugetPackages%\altcover\%altCoverVersion%\tools\%targetFramework%\AltCover.exe runner --recorderDirectory .\__Instrumented\ --executable %nugetPackages%\xunit.runner.console\%xunitVersion%\tools\%targetFramework%\xunit.console.exe -- .\__Instrumented\OpenTween.Tests.dll
 
