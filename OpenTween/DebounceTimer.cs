@@ -37,14 +37,16 @@ namespace OpenTween
     {
         private readonly ITimer debouncingTimer;
         private readonly Func<Task> timerCallback;
-        private readonly object lockObject = new object();
+        private readonly object lockObject = new();
 
         private DateTimeUtc lastCall;
         private bool calledSinceLastInvoke;
         private bool refreshTimerEnabled;
 
         public TimeSpan Interval { get; }
+
         public bool InvokeLeading { get; }
+
         public bool InvokeTrailing { get; }
 
         public DebounceTimer(Func<Task> timerCallback, TimeSpan interval, bool leading, bool trailing)
@@ -143,6 +145,6 @@ namespace OpenTween
             => this.debouncingTimer.Dispose();
 
         public static DebounceTimer Create(Func<Task> callback, TimeSpan wait, bool leading = false, bool trailing = true)
-            => new DebounceTimer(callback, wait, leading, trailing);
+            => new(callback, wait, leading, trailing);
     }
 }

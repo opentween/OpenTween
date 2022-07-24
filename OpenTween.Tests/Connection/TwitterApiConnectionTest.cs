@@ -57,7 +57,7 @@ namespace OpenTween.Connection
             using var mockHandler = new HttpMessageHandlerMock();
             using var http = new HttpClient(mockHandler);
             using var apiConnection = new TwitterApiConnection(ApiKey.Create(""), ApiKey.Create(""), "", "");
-            apiConnection.http = http;
+            apiConnection.Http = http;
 
             mockHandler.Enqueue(x =>
             {
@@ -96,7 +96,7 @@ namespace OpenTween.Connection
             using var mockHandler = new HttpMessageHandlerMock();
             using var http = new HttpClient(mockHandler);
             using var apiConnection = new TwitterApiConnection(ApiKey.Create(""), ApiKey.Create(""), "", "");
-            apiConnection.http = http;
+            apiConnection.Http = http;
 
             mockHandler.Enqueue(x =>
             {
@@ -134,7 +134,7 @@ namespace OpenTween.Connection
             using var mockHandler = new HttpMessageHandlerMock();
             using var http = new HttpClient(mockHandler);
             using var apiConnection = new TwitterApiConnection(ApiKey.Create(""), ApiKey.Create(""), "", "");
-            apiConnection.http = http;
+            apiConnection.Http = http;
 
             mockHandler.Enqueue(x =>
             {
@@ -175,7 +175,7 @@ namespace OpenTween.Connection
             using var mockHandler = new HttpMessageHandlerMock();
             using var http = new HttpClient(mockHandler);
             using var apiConnection = new TwitterApiConnection(ApiKey.Create(""), ApiKey.Create(""), "", "");
-            apiConnection.http = http;
+            apiConnection.Http = http;
 
             mockHandler.Enqueue(x =>
             {
@@ -203,7 +203,7 @@ namespace OpenTween.Connection
             using var mockHandler = new HttpMessageHandlerMock();
             using var http = new HttpClient(mockHandler);
             using var apiConnection = new TwitterApiConnection(ApiKey.Create(""), ApiKey.Create(""), "", "");
-            apiConnection.http = http;
+            apiConnection.Http = http;
 
             mockHandler.Enqueue(x =>
             {
@@ -234,7 +234,7 @@ namespace OpenTween.Connection
             using var http = new HttpClient(mockHandler);
             using var apiConnection = new TwitterApiConnection(ApiKey.Create(""), ApiKey.Create(""), "", "");
             using var image = TestUtils.CreateDummyImage();
-            apiConnection.http = http;
+            apiConnection.Http = http;
 
             mockHandler.Enqueue(x =>
             {
@@ -280,7 +280,7 @@ namespace OpenTween.Connection
             using var mockHandler = new HttpMessageHandlerMock();
             using var http = new HttpClient(mockHandler);
             using var apiConnection = new TwitterApiConnection(ApiKey.Create(""), ApiKey.Create(""), "", "");
-            apiConnection.http = http;
+            apiConnection.Http = http;
 
             mockHandler.Enqueue(async x =>
             {
@@ -311,8 +311,7 @@ namespace OpenTween.Connection
             var result = await apiConnection.PostLazyAsync<string>(endpoint, param)
                 .ConfigureAwait(false);
 
-            Assert.Equal("hogehoge", await result.LoadJsonAsync()
-                .ConfigureAwait(false));
+            Assert.Equal("hogehoge", await result.LoadJsonAsync().ConfigureAwait(false));
 
             Assert.Equal(0, mockHandler.QueueCount);
         }
@@ -323,7 +322,7 @@ namespace OpenTween.Connection
             using var mockHandler = new HttpMessageHandlerMock();
             using var http = new HttpClient(mockHandler);
             using var apiConnection = new TwitterApiConnection(ApiKey.Create(""), ApiKey.Create(""), "", "");
-            apiConnection.httpUpload = http;
+            apiConnection.HttpUpload = http;
 
             using var image = TestUtils.CreateDummyImage();
             using var media = new MemoryImageMediaItem(image);
@@ -339,8 +338,8 @@ namespace OpenTween.Connection
                 var boundary = x.Content.Headers.ContentType.Parameters.Cast<NameValueHeaderValue>()
                     .First(y => y.Name == "boundary").Value;
 
-                    // 前後のダブルクオーテーションを除去
-                    boundary = boundary.Substring(1, boundary.Length - 2);
+                // 前後のダブルクオーテーションを除去
+                boundary = boundary.Substring(1, boundary.Length - 2);
 
                 var expectedText =
                     $"--{boundary}\r\n" +
@@ -383,8 +382,7 @@ namespace OpenTween.Connection
             var result = await apiConnection.PostLazyAsync<string>(endpoint, param, mediaParam)
                 .ConfigureAwait(false);
 
-            Assert.Equal("hogehoge", await result.LoadJsonAsync()
-                .ConfigureAwait(false));
+            Assert.Equal("hogehoge", await result.LoadJsonAsync().ConfigureAwait(false));
 
             Assert.Equal(0, mockHandler.QueueCount);
         }
@@ -395,7 +393,7 @@ namespace OpenTween.Connection
             using var mockHandler = new HttpMessageHandlerMock();
             using var http = new HttpClient(mockHandler);
             using var apiConnection = new TwitterApiConnection(ApiKey.Create(""), ApiKey.Create(""), "", "");
-            apiConnection.httpUpload = http;
+            apiConnection.HttpUpload = http;
 
             mockHandler.Enqueue(async x =>
             {
@@ -408,8 +406,8 @@ namespace OpenTween.Connection
                 var boundary = x.Content.Headers.ContentType.Parameters.Cast<NameValueHeaderValue>()
                     .First(y => y.Name == "boundary").Value;
 
-                    // 前後のダブルクオーテーションを除去
-                    boundary = boundary.Substring(1, boundary.Length - 2);
+                // 前後のダブルクオーテーションを除去
+                boundary = boundary.Substring(1, boundary.Length - 2);
 
                 var expectedText =
                     $"--{boundary}\r\n" +
@@ -430,8 +428,7 @@ namespace OpenTween.Connection
             var result = await apiConnection.PostLazyAsync<string>(endpoint, param: null, media: null)
                 .ConfigureAwait(false);
 
-            Assert.Equal("hogehoge", await result.LoadJsonAsync()
-                .ConfigureAwait(false));
+            Assert.Equal("hogehoge", await result.LoadJsonAsync().ConfigureAwait(false));
 
             Assert.Equal(0, mockHandler.QueueCount);
         }
@@ -442,7 +439,7 @@ namespace OpenTween.Connection
             using var mockHandler = new HttpMessageHandlerMock();
             using var http = new HttpClient(mockHandler);
             using var apiConnection = new TwitterApiConnection(ApiKey.Create(""), ApiKey.Create(""), "", "");
-            apiConnection.http = http;
+            apiConnection.Http = http;
 
             mockHandler.Enqueue(async x =>
             {
@@ -474,7 +471,7 @@ namespace OpenTween.Connection
             using var mockHandler = new HttpMessageHandlerMock();
             using var http = new HttpClient(mockHandler);
             using var apiConnection = new TwitterApiConnection(ApiKey.Create(""), ApiKey.Create(""), "", "");
-            apiConnection.http = http;
+            apiConnection.Http = http;
 
             mockHandler.Enqueue(async x =>
             {
@@ -514,7 +511,7 @@ namespace OpenTween.Connection
             using var mockHandler = new HttpMessageHandlerMock();
             using var http = new HttpClient(mockHandler);
             using var apiConnection = new TwitterApiConnection(ApiKey.Create(""), ApiKey.Create(""), "", "");
-            apiConnection.http = http;
+            apiConnection.Http = http;
 
             mockHandler.Enqueue(x =>
             {

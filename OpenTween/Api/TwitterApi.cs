@@ -36,11 +36,12 @@ namespace OpenTween.Api
     public sealed class TwitterApi : IDisposable
     {
         public long CurrentUserId { get; private set; }
+
         public string CurrentScreenName { get; private set; } = "";
 
-        public IApiConnection Connection => this.apiConnection ?? throw new InvalidOperationException();
+        public IApiConnection Connection => this.ApiConnection ?? throw new InvalidOperationException();
 
-        internal IApiConnection? apiConnection;
+        internal IApiConnection? ApiConnection;
 
         private readonly ApiKey consumerKey;
         private readonly ApiKey consumerSecret;
@@ -54,7 +55,7 @@ namespace OpenTween.Api
         public void Initialize(string accessToken, string accessSecret, long userId, string screenName)
         {
             var newInstance = new TwitterApiConnection(this.consumerKey, this.consumerSecret, accessToken, accessSecret);
-            var oldInstance = Interlocked.Exchange(ref this.apiConnection, newInstance);
+            var oldInstance = Interlocked.Exchange(ref this.ApiConnection, newInstance);
             oldInstance?.Dispose();
 
             this.CurrentUserId = userId;
@@ -137,8 +138,27 @@ namespace OpenTween.Api
             return this.Connection.GetAsync<TwitterStatus>(endpoint, param, "/statuses/show/:id");
         }
 
-        public Task<LazyJson<TwitterStatus>> StatusesUpdate(string status, long? replyToId, IReadOnlyList<long>? mediaIds,
-            bool? autoPopulateReplyMetadata = null, IReadOnlyList<long>? excludeReplyUserIds = null, string? attachmentUrl = null)
+        public Task<TwitterStatus[]> StatusesLookup(IReadOnlyList<string> statusIds)
+        {
+            var endpoint = new Uri("statuses/lookup.json", UriKind.Relative);
+            var param = new Dictionary<string, string>
+            {
+                ["id"] = string.Join(",", statusIds),
+                ["include_entities"] = "true",
+                ["include_ext_alt_text"] = "true",
+                ["tweet_mode"] = "extended",
+            };
+
+            return this.Connection.GetAsync<TwitterStatus[]>(endpoint, param, "/statuses/lookup");
+        }
+
+        public Task<LazyJson<TwitterStatus>> StatusesUpdate(
+            string status,
+            long? replyToId,
+            IReadOnlyList<long>? mediaIds,
+            bool? autoPopulateReplyMetadata = null,
+            IReadOnlyList<long>? excludeReplyUserIds = null,
+            string? attachmentUrl = null)
         {
             var endpoint = new Uri("statuses/update.json", UriKind.Relative);
             var param = new Dictionary<string, string>
@@ -783,6 +803,6 @@ namespace OpenTween.Api
             => ((TwitterApiConnection)this.Connection).CreateOAuthEchoHandler(authServiceProvider, realm);
 
         public void Dispose()
-            => this.apiConnection?.Dispose();
+            => this.ApiConnection?.Dispose();
     }
 }

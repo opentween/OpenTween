@@ -38,12 +38,12 @@ using OpenTween.Models;
 
 namespace OpenTween.Thumbnail.Services
 {
-    class Tumblr : IThumbnailService
+    public class Tumblr : IThumbnailService
     {
         public static readonly Regex UrlPatternRegex =
-            new Regex(@"^https?://(?<host>[^.]+\.tumblr\.com|tumblr\.[^.]+\.[^.]+)/post/(?<postId>[0-9]+)(/.*)?");
+            new(@"^https?://(?<host>[^.]+\.tumblr\.com|tumblr\.[^.]+\.[^.]+)/post/(?<postId>[0-9]+)(/.*)?");
 
-        protected HttpClient http
+        protected HttpClient Http
             => this.localHttpClient ?? Networking.Http;
 
         private readonly ApiKey tumblrConsumerKey;
@@ -83,7 +83,7 @@ namespace OpenTween.Thumbnail.Services
             try
             {
                 var apiUrl = string.Format("https://api.tumblr.com/v2/blog/{0}/posts?", host) + MyCommon.BuildQueryString(param);
-                using var response = await this.http.GetAsync(apiUrl, token)
+                using var response = await this.Http.GetAsync(apiUrl, token)
                     .ConfigureAwait(false);
 
                 var jsonBytes = await response.Content.ReadAsByteArrayAsync()
@@ -93,8 +93,13 @@ namespace OpenTween.Thumbnail.Services
 
                 return thumbs.FirstOrDefault();
             }
-            catch (XmlException) { }
-            catch (HttpRequestException) { } // たまに api.tumblr.com が名前解決できない
+            catch (XmlException)
+            {
+            }
+            catch (HttpRequestException)
+            {
+                // たまに api.tumblr.com が名前解決できない
+            }
 
             return null;
         }

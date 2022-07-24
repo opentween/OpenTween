@@ -46,14 +46,51 @@ namespace OpenTween
             return selectedText;
         }
 
+        public static Task InvokeAsync(this Control control, Action x)
+        {
+            return control.InvokeAsync(new Func<int>(() =>
+            {
+                x();
+                return 0;
+            }));
+        }
+
+        public static Task InvokeAsync(this Control control, Func<Task> x)
+            => control.InvokeAsync<Task>(x).Unwrap();
+
+        public static Task<T> InvokeAsync<T>(this Control control, Func<Task<T>> x)
+            => control.InvokeAsync<Task<T>>(x).Unwrap();
+
+        /// <summary>
+        /// <see cref="Control.Invoke"/> メソッドのTask版みたいなやつ
+        /// </summary>
+        public static Task<T> InvokeAsync<T>(this Control control, Func<T> x)
+        {
+            var tcs = new TaskCompletionSource<T>();
+            control.BeginInvoke(() =>
+            {
+                try
+                {
+                    var ret = x();
+                    tcs.SetResult(ret);
+                }
+                catch (Exception ex)
+                {
+                    tcs.SetException(ex);
+                }
+            });
+
+            return tcs.Task;
+        }
+
         public static ReadLockTransaction BeginReadTransaction(this ReaderWriterLockSlim lockObj)
-            => new ReadLockTransaction(lockObj);
+            => new(lockObj);
 
         public static WriteLockTransaction BeginWriteTransaction(this ReaderWriterLockSlim lockObj)
-            => new WriteLockTransaction(lockObj);
+            => new(lockObj);
 
         public static UpgradeableReadLockTransaction BeginUpgradeableReadTransaction(this ReaderWriterLockSlim lockObj)
-            => new UpgradeableReadLockTransaction(lockObj);
+            => new(lockObj);
 
         /// <summary>
         /// 一方のカルチャがもう一方のカルチャを内包するかを判断します
@@ -159,13 +196,29 @@ namespace OpenTween
         }
 
         public static Task ForEachAsync<T>(this IObservable<T> observable, Action<T> subscriber)
-            => ForEachAsync(observable, value => { subscriber(value); return Task.CompletedTask; });
+        {
+            return ForEachAsync(observable, value =>
+            {
+                subscriber(value);
+                return Task.CompletedTask;
+            });
+        }
 
         public static Task ForEachAsync<T>(this IObservable<T> observable, Func<T, Task> subscriber)
             => ForEachAsync(observable, subscriber, CancellationToken.None);
 
         public static Task ForEachAsync<T>(this IObservable<T> observable, Action<T> subscriber, CancellationToken cancellationToken)
-            => ForEachAsync(observable, value => { subscriber(value); return Task.CompletedTask; }, cancellationToken);
+        {
+            return ForEachAsync(
+                observable,
+                value =>
+                {
+                    subscriber(value);
+                    return Task.CompletedTask;
+                },
+                cancellationToken
+            );
+        }
 
         public static async Task ForEachAsync<T>(this IObservable<T> observable, Func<T, Task> subscriber, CancellationToken cancellationToken)
         {
@@ -179,7 +232,7 @@ namespace OpenTween
         private class ForEachObserver<T> : IObserver<T>
         {
             private readonly Func<T, Task> subscriber;
-            private readonly TaskCompletionSource<int> tcs = new TaskCompletionSource<int>();
+            private readonly TaskCompletionSource<int> tcs = new();
 
             public Task Task
                 => this.tcs.Task;

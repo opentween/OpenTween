@@ -42,14 +42,15 @@ namespace OpenTween
     {
         public ErrorReport ErrorReport
         {
-            get => this._errorReport;
+            get => this.errorReport;
             set
             {
-                this._errorReport = value;
+                this.errorReport = value;
                 this.bindingSource.DataSource = value;
             }
         }
-        private ErrorReport _errorReport = null!;
+
+        private ErrorReport errorReport = null!;
 
         public SendErrorReportForm()
             => this.InitializeComponent();
@@ -60,16 +61,16 @@ namespace OpenTween
             this.textBoxErrorReport.DeselectAll();
         }
 
-        private void buttonReset_Click(object sender, EventArgs e)
+        private void ButtonReset_Click(object sender, EventArgs e)
             => this.ErrorReport.Reset();
 
-        private async void buttonSendByMail_Click(object sender, EventArgs e)
+        private async void ButtonSendByMail_Click(object sender, EventArgs e)
         {
             this.DialogResult = DialogResult.OK;
             await this.ErrorReport.SendByMailAsync();
         }
 
-        private async void buttonSendByDM_Click(object sender, EventArgs e)
+        private async void ButtonSendByDM_Click(object sender, EventArgs e)
         {
             this.DialogResult = DialogResult.OK;
 
@@ -86,7 +87,7 @@ namespace OpenTween
             }
         }
 
-        private void buttonNotSend_Click(object sender, EventArgs e)
+        private void ButtonNotSend_Click(object sender, EventArgs e)
             => this.DialogResult = DialogResult.Cancel;
     }
 
@@ -94,39 +95,43 @@ namespace OpenTween
     {
         public string ReportText
         {
-            get => this._reportText;
+            get => this.reportText;
             set
             {
-                this.SetProperty(ref this._reportText, value);
+                this.SetProperty(ref this.reportText, value);
                 this.UpdateEncodedReport();
             }
         }
-        private string _reportText = "";
+
+        private string reportText = "";
 
         public bool AnonymousReport
         {
-            get => this._anonymousReport;
+            get => this.anonymousReport;
             set
             {
-                this.SetProperty(ref this._anonymousReport, value);
+                this.SetProperty(ref this.anonymousReport, value);
                 this.UpdateEncodedReport();
             }
         }
-        private bool _anonymousReport = true;
+
+        private bool anonymousReport = true;
 
         public bool CanSendByDM
         {
-            get => this._canSendByDm;
-            private set => this.SetProperty(ref this._canSendByDm, value);
+            get => this.canSendByDm;
+            private set => this.SetProperty(ref this.canSendByDm, value);
         }
-        private bool _canSendByDm;
+
+        private bool canSendByDm;
 
         public string EncodedReportForDM
         {
-            get => this._encodedReportForDM;
-            private set => this.SetProperty(ref this._encodedReportForDM, value);
+            get => this.encodedReportForDM;
+            private set => this.SetProperty(ref this.encodedReportForDM, value);
         }
-        private string _encodedReportForDM = "";
+
+        private string encodedReportForDM = "";
 
         private readonly Twitter? tw;
         private readonly string originalReportText;

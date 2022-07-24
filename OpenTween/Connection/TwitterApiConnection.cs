@@ -23,6 +23,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -40,7 +41,7 @@ namespace OpenTween.Connection
 {
     public class TwitterApiConnection : IApiConnection, IDisposable
     {
-        public static Uri RestApiBase { get; set; } = new Uri("https://api.twitter.com/1.1/");
+        public static Uri RestApiBase { get; set; } = new("https://api.twitter.com/1.1/");
 
         // SettingCommon.xml の TwitterUrl との互換性のために用意
         public static string RestApiHost
@@ -52,11 +53,12 @@ namespace OpenTween.Connection
         public bool IsDisposed { get; private set; } = false;
 
         public string AccessToken { get; }
+
         public string AccessSecret { get; }
 
-        internal HttpClient http = null!;
-        internal HttpClient httpUpload = null!;
-        internal HttpClient httpStreaming = null!;
+        internal HttpClient Http;
+        internal HttpClient HttpUpload;
+        internal HttpClient HttpStreaming;
 
         private readonly ApiKey consumerKey;
         private readonly ApiKey consumerSecret;
@@ -72,15 +74,16 @@ namespace OpenTween.Connection
             Networking.WebProxyChanged += this.Networking_WebProxyChanged;
         }
 
+        [MemberNotNull(nameof(Http), nameof(HttpUpload), nameof(HttpStreaming))]
         private void InitializeHttpClients()
         {
-            this.http = InitializeHttpClient(this.consumerKey, this.consumerSecret, this.AccessToken, this.AccessSecret);
+            this.Http = InitializeHttpClient(this.consumerKey, this.consumerSecret, this.AccessToken, this.AccessSecret);
 
-            this.httpUpload = InitializeHttpClient(this.consumerKey, this.consumerSecret, this.AccessToken, this.AccessSecret);
-            this.httpUpload.Timeout = Networking.UploadImageTimeout;
+            this.HttpUpload = InitializeHttpClient(this.consumerKey, this.consumerSecret, this.AccessToken, this.AccessSecret);
+            this.HttpUpload.Timeout = Networking.UploadImageTimeout;
 
-            this.httpStreaming = InitializeHttpClient(this.consumerKey, this.consumerSecret, this.AccessToken, this.AccessSecret, disableGzip: true);
-            this.httpStreaming.Timeout = Timeout.InfiniteTimeSpan;
+            this.HttpStreaming = InitializeHttpClient(this.consumerKey, this.consumerSecret, this.AccessToken, this.AccessSecret, disableGzip: true);
+            this.HttpStreaming.Timeout = Timeout.InfiniteTimeSpan;
         }
 
         public async Task<T> GetAsync<T>(Uri uri, IDictionary<string, string>? param, string? endpointName)
@@ -98,7 +101,7 @@ namespace OpenTween.Connection
 
             try
             {
-                using var response = await this.http.SendAsync(request, HttpCompletionOption.ResponseHeadersRead)
+                using var response = await this.Http.SendAsync(request, HttpCompletionOption.ResponseHeadersRead)
                     .ConfigureAwait(false);
 
                 if (endpointName != null)
@@ -161,7 +164,7 @@ namespace OpenTween.Connection
 
             try
             {
-                return await this.http.GetStreamAsync(requestUri)
+                return await this.Http.GetStreamAsync(requestUri)
                     .ConfigureAwait(false);
             }
             catch (HttpRequestException ex)
@@ -184,7 +187,7 @@ namespace OpenTween.Connection
             try
             {
                 var request = new HttpRequestMessage(HttpMethod.Get, requestUri);
-                var response = await this.httpStreaming.SendAsync(request, HttpCompletionOption.ResponseHeadersRead)
+                var response = await this.HttpStreaming.SendAsync(request, HttpCompletionOption.ResponseHeadersRead)
                     .ConfigureAwait(false);
 
                 await this.CheckStatusCode(response)
@@ -214,7 +217,7 @@ namespace OpenTween.Connection
             HttpResponseMessage? response = null;
             try
             {
-                response = await this.http.SendAsync(request, HttpCompletionOption.ResponseHeadersRead)
+                response = await this.Http.SendAsync(request, HttpCompletionOption.ResponseHeadersRead)
                     .ConfigureAwait(false);
 
                 await this.CheckStatusCode(response)
@@ -261,7 +264,7 @@ namespace OpenTween.Connection
             HttpResponseMessage? response = null;
             try
             {
-                response = await this.httpUpload.SendAsync(request, HttpCompletionOption.ResponseHeadersRead)
+                response = await this.HttpUpload.SendAsync(request, HttpCompletionOption.ResponseHeadersRead)
                     .ConfigureAwait(false);
 
                 await this.CheckStatusCode(response)
@@ -307,7 +310,7 @@ namespace OpenTween.Connection
 
             try
             {
-                using var response = await this.httpUpload.SendAsync(request, HttpCompletionOption.ResponseHeadersRead)
+                using var response = await this.HttpUpload.SendAsync(request, HttpCompletionOption.ResponseHeadersRead)
                     .ConfigureAwait(false);
 
                 await this.CheckStatusCode(response)
@@ -339,7 +342,7 @@ namespace OpenTween.Connection
             HttpResponseMessage? response = null;
             try
             {
-                response = await this.http.SendAsync(request, HttpCompletionOption.ResponseHeadersRead)
+                response = await this.Http.SendAsync(request, HttpCompletionOption.ResponseHeadersRead)
                     .ConfigureAwait(false);
 
                 await this.CheckStatusCode(response)
@@ -371,7 +374,7 @@ namespace OpenTween.Connection
 
             try
             {
-                using var response = await this.http.SendAsync(request, HttpCompletionOption.ResponseHeadersRead)
+                using var response = await this.Http.SendAsync(request, HttpCompletionOption.ResponseHeadersRead)
                     .ConfigureAwait(false);
 
                 await this.CheckStatusCode(response)
@@ -437,8 +440,14 @@ namespace OpenTween.Connection
         {
             var uri = new Uri(RestApiBase, authServiceProvider);
 
-            return OAuthEchoHandler.CreateHandler(Networking.CreateHttpClientHandler(), uri,
-                this.consumerKey, this.consumerSecret, this.AccessToken, this.AccessSecret, realm);
+            return OAuthEchoHandler.CreateHandler(
+                Networking.CreateHttpClientHandler(),
+                uri,
+                this.consumerKey,
+                this.consumerSecret,
+                this.AccessToken,
+                this.AccessSecret,
+                realm);
         }
 
         public void Dispose()
@@ -457,9 +466,9 @@ namespace OpenTween.Connection
             if (disposing)
             {
                 Networking.WebProxyChanged -= this.Networking_WebProxyChanged;
-                this.http.Dispose();
-                this.httpUpload.Dispose();
-                this.httpStreaming.Dispose();
+                this.Http.Dispose();
+                this.HttpUpload.Dispose();
+                this.HttpStreaming.Dispose();
             }
         }
 
@@ -512,8 +521,12 @@ namespace OpenTween.Connection
             return response;
         }
 
-        private static async Task<IDictionary<string, string>> GetOAuthTokenAsync(Uri uri, IDictionary<string, string> param,
-            ApiKey consumerKey, ApiKey consumerSecret, (string Token, string TokenSecret)? oauthToken)
+        private static async Task<IDictionary<string, string>> GetOAuthTokenAsync(
+            Uri uri,
+            IDictionary<string, string> param,
+            ApiKey consumerKey,
+            ApiKey consumerSecret,
+            (string Token, string TokenSecret)? oauthToken)
         {
             HttpClient authorizeClient;
             if (oauthToken != null)

@@ -36,7 +36,8 @@ namespace OpenTween.Models
 
         public override bool IsPermanentTabType => false;
 
-        public LocalSearchTabModel(string tabName) : base(tabName)
+        public LocalSearchTabModel(string tabName)
+            : base(tabName)
         {
         }
 

@@ -7,19 +7,19 @@
 //           (c) 2011      Egtra (@egtra) <http://dev.activebasic.com/egtra/>
 //           (c) 2011      kim_upsilon (@kim_upsilon) <https://upsilo.net/~upsilon/>
 // All rights reserved.
-// 
+//
 // This file is part of OpenTween.
-// 
+//
 // This program is free software; you can redistribute it and/or modify it
 // under the terms of the GNU General public License as published by the Free
 // Software Foundation; either version 3 of the License, or (at your option)
 // any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful, but
 // WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
 // or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General public License
-// for more details. 
-// 
+// for more details.
+//
 // You should have received a copy of the GNU General public License along
 // with this program. if not, see <http://www.gnu.org/licenses/>, or write to
 // the Free Software Foundation, Inc., 51 Franklin Street - Fifth Floor,
@@ -28,40 +28,40 @@
 #nullable enable
 
 using System;
+using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.IO;
-using System.Windows.Forms;
-using System.Web;
-using System.Globalization;
-using System.Security.Cryptography;
+using System.ComponentModel;
+using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 using System.Drawing;
 using System.Drawing.Imaging;
-using System.Collections;
-using System.Security.Principal;
-using System.Runtime.Serialization.Json;
-using System.Reflection;
-using System.Diagnostics;
-using System.Text.RegularExpressions;
+using System.Globalization;
+using System.IO;
+using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Net.NetworkInformation;
+using System.Reflection;
 using System.Runtime.InteropServices;
+using System.Runtime.Serialization.Json;
+using System.Security.Cryptography;
+using System.Security.Principal;
+using System.Text;
+using System.Text.RegularExpressions;
+using System.Threading.Tasks;
+using System.Web;
+using System.Windows.Forms;
 using OpenTween.Api;
 using OpenTween.Models;
 using OpenTween.Setting;
-using System.Diagnostics.CodeAnalysis;
-using System.Threading.Tasks;
-using System.ComponentModel;
 
 namespace OpenTween
 {
     public static class MyCommon
     {
-        private static readonly object LockObj = new object();
-        public static bool _endingFlag;        //終了フラグ
-        public static string settingPath = null!;
+        private static readonly object LockObj = new();
+
+        public static bool EndingFlag { get; set; } // 終了フラグ
 
         public enum IconSizes
         {
@@ -112,11 +112,25 @@ namespace OpenTween
             Bitly,
             Jmp,
             Uxnu,
-            //特殊
+            // 特殊
             Nicoms,
-            //廃止
+            // 廃止
             Unu = -1,
             Twurl = -1,
+        }
+
+        public enum ListItemDoubleClickActionType
+        {
+            // 設定ファイルの互換性を保つため新規の項目は途中に追加しないこと
+            Reply,
+            Favorite,
+            ShowProfile,
+            ShowTimeline,
+            ShowRelated,
+            OpenHomeInBrowser,
+            OpenStatusInBrowser,
+            None,
+            ReplyAll,
         }
 
         public enum HITRESULT
@@ -135,28 +149,28 @@ namespace OpenTween
             DefaultValue = 20,
         }
 
-        //Backgroundworkerへ処理種別を通知するための引数用enum
+        // Backgroundworkerへ処理種別を通知するための引数用enum
         public enum WORKERTYPE
         {
-            Timeline,                //タイムライン取得
-            Reply,                   //返信取得
-            DirectMessegeRcv,        //受信DM取得
-            DirectMessegeSnt,        //送信DM取得
-            PostMessage,             //発言POST
-            FavAdd,                  //Fav追加
-            FavRemove,               //Fav削除
-            Follower,                //Followerリスト取得
-            Favorites,               //Fav取得
-            Retweet,                 //Retweetする
-            PublicSearch,            //公式検索
-            List,                    //Lists
-            Related,                 //関連発言
-            UserTimeline,            //UserTimeline
-            BlockIds,                //Blocking/ids
-            Configuration,           //Twitter Configuration読み込み
-            NoRetweetIds,            //RT非表示ユーザー取得
+            Timeline, // タイムライン取得
+            Reply, // 返信取得
+            DirectMessegeRcv, // 受信DM取得
+            DirectMessegeSnt, // 送信DM取得
+            PostMessage, // 発言POST
+            FavAdd, // Fav追加
+            FavRemove, // Fav削除
+            Follower, // Followerリスト取得
+            Favorites, // Fav取得
+            Retweet, // Retweetする
+            PublicSearch, // 公式検索
+            List, // Lists
+            Related, // 関連発言
+            UserTimeline, // UserTimeline
+            BlockIds, // Blocking/ids
+            Configuration, // Twitter Configuration読み込み
+            NoRetweetIds, // RT非表示ユーザー取得
             //////
-            ErrorState,              //エラー表示のみで後処理終了(認証エラー時など)
+            ErrorState, // エラー表示のみで後処理終了(認証エラー時など)
         }
 
         public static class DEFAULTTAB
@@ -191,6 +205,7 @@ namespace OpenTween
         }
 
         public static _Assembly EntryAssembly { get; internal set; }
+
         public static string FileVersion { get; internal set; }
 
         static MyCommon()
@@ -215,20 +230,20 @@ namespace OpenTween
             TraceOut(TraceFlag, message);
         }
 
-        public static void TraceOut(Exception ex, string Message)
+        public static void TraceOut(Exception ex, string message)
         {
             var buf = ExceptionOutMessage(ex);
-            TraceOut(TraceFlag, Message + Environment.NewLine + buf);
+            TraceOut(TraceFlag, message + Environment.NewLine + buf);
         }
 
-        public static void TraceOut(string Message)
-            => TraceOut(TraceFlag, Message);
+        public static void TraceOut(string message)
+            => TraceOut(TraceFlag, message);
 
-        public static void TraceOut(bool OutputFlag, string Message)
+        public static void TraceOut(bool outputFlag, string message)
         {
             lock (LockObj)
             {
-                if (!OutputFlag) return;
+                if (!outputFlag) return;
 
                 var logPath = MyCommon.GetErrorLogPath();
                 if (!Directory.Exists(logPath))
@@ -248,7 +263,7 @@ namespace OpenTween
                 writer.WriteLine(Properties.Resources.TraceOutText4, Environment.OSVersion.VersionString);
                 writer.WriteLine(Properties.Resources.TraceOutText5, Environment.Version);
                 writer.WriteLine(Properties.Resources.TraceOutText6, ApplicationSettings.AssemblyName, FileVersion);
-                writer.WriteLine(Message);
+                writer.WriteLine(message);
                 writer.WriteLine();
             }
         }
@@ -260,11 +275,11 @@ namespace OpenTween
 
         public static string ExceptionOutMessage(Exception ex)
         {
-            var IsTerminatePermission = true;
-            return ExceptionOutMessage(ex, ref IsTerminatePermission);
+            var isTerminatePermission = true;
+            return ExceptionOutMessage(ex, ref isTerminatePermission);
         }
 
-        public static string ExceptionOutMessage(Exception ex, ref bool IsTerminatePermission)
+        public static string ExceptionOutMessage(Exception ex, ref bool isTerminatePermission)
         {
             if (ex == null) return "";
 
@@ -287,7 +302,7 @@ namespace OpenTween
                     buf.AppendLine();
                     if (dt.Key.Equals("IsTerminatePermission"))
                     {
-                        IsTerminatePermission = (bool)dt.Value;
+                        isTerminatePermission = (bool)dt.Value;
                     }
                 }
                 if (!needHeader)
@@ -298,20 +313,20 @@ namespace OpenTween
             buf.AppendLine(ex.StackTrace);
             buf.AppendLine();
 
-            //InnerExceptionが存在する場合書き出す
-            var _ex = ex.InnerException;
+            // InnerExceptionが存在する場合書き出す
+            var innerException = ex.InnerException;
             var nesting = 0;
-            while (_ex != null)
+            while (innerException != null)
             {
                 buf.AppendFormat("-----InnerException[{0}]-----\r\n", nesting);
                 buf.AppendLine();
-                buf.AppendFormat(Properties.Resources.UnhandledExceptionText8, _ex.GetType().FullName, _ex.Message);
+                buf.AppendFormat(Properties.Resources.UnhandledExceptionText8, innerException.GetType().FullName, innerException.Message);
                 buf.AppendLine();
-                if (_ex.Data != null)
+                if (innerException.Data != null)
                 {
                     var needHeader = true;
 
-                    foreach (DictionaryEntry dt in _ex.Data)
+                    foreach (DictionaryEntry dt in innerException.Data)
                     {
                         if (needHeader)
                         {
@@ -322,7 +337,7 @@ namespace OpenTween
                         buf.AppendFormat("{0}  :  {1}", dt.Key, dt.Value);
                         if (dt.Key.Equals("IsTerminatePermission"))
                         {
-                            IsTerminatePermission = (bool)dt.Value;
+                            isTerminatePermission = (bool)dt.Value;
                         }
                     }
                     if (!needHeader)
@@ -330,10 +345,10 @@ namespace OpenTween
                         buf.AppendLine("-----End Extra Information-----");
                     }
                 }
-                buf.AppendLine(_ex.StackTrace);
+                buf.AppendLine(innerException.StackTrace);
                 buf.AppendLine();
                 nesting++;
-                _ex = _ex.InnerException;
+                innerException = innerException.InnerException;
             }
             return buf.ToString();
         }
@@ -342,7 +357,7 @@ namespace OpenTween
         {
             lock (LockObj)
             {
-                var IsTerminatePermission = true;
+                var isTerminatePermission = true;
 
                 var ident = WindowsIdentity.GetCurrent();
                 var princ = new WindowsPrincipal(ident);
@@ -362,7 +377,7 @@ namespace OpenTween
                     string.Format(Properties.Resources.UnhandledExceptionText6, Environment.Version),
                     string.Format(Properties.Resources.UnhandledExceptionText7, ApplicationSettings.AssemblyName, FileVersion),
 
-                    ExceptionOutMessage(ex, ref IsTerminatePermission));
+                    ExceptionOutMessage(ex, ref isTerminatePermission));
 
                 var logPath = MyCommon.GetErrorLogPath();
                 if (!Directory.Exists(logPath))
@@ -374,7 +389,7 @@ namespace OpenTween
                     writer.Write(errorReport);
                 }
 
-                var settings = SettingManager.Common;
+                var settings = SettingManager.Instance;
                 var mainForm = Application.OpenForms.OfType<TweenMain>().FirstOrDefault();
 
                 ErrorReport report;
@@ -383,15 +398,15 @@ namespace OpenTween
                 else
                     report = new ErrorReport(errorReport);
 
-                report.AnonymousReport = settings.ErrorReportAnonymous;
+                report.AnonymousReport = settings.Common.ErrorReportAnonymous;
 
                 OpenErrorReportDialog(mainForm, report);
 
                 // ダイアログ内で設定が変更されていれば保存する
-                if (settings.ErrorReportAnonymous != report.AnonymousReport)
+                if (settings.Common.ErrorReportAnonymous != report.AnonymousReport)
                 {
-                    settings.ErrorReportAnonymous = report.AnonymousReport;
-                    settings.Save();
+                    settings.Common.ErrorReportAnonymous = report.AnonymousReport;
+                    settings.SaveCommon();
                 }
 
                 return false;
@@ -492,13 +507,11 @@ namespace OpenTween
 
             if (idx_to < idx_fr)
             {
-                Array.Copy(values, idx_to, values,
-                    idx_to + 1, num_moved);
+                Array.Copy(values, idx_to, values, idx_to + 1, num_moved);
             }
             else
             {
-                Array.Copy(values, idx_fr + 1, values,
-                    idx_fr, num_moved);
+                Array.Copy(values, idx_fr + 1, values, idx_fr, num_moved);
             }
 
             values[idx_to] = moved_value;
@@ -508,16 +521,16 @@ namespace OpenTween
         {
             if (MyCommon.IsNullOrEmpty(str)) return "";
 
-            //文字列をバイト型配列にする
+            // 文字列をバイト型配列にする
             var bytesIn = Encoding.UTF8.GetBytes(str);
 
-            //DESCryptoServiceProviderオブジェクトの作成
+            // DESCryptoServiceProviderオブジェクトの作成
             using var des = new DESCryptoServiceProvider();
 
-            //共有キーと初期化ベクタを決定
-            //パスワードをバイト配列にする
+            // 共有キーと初期化ベクタを決定
+            // パスワードをバイト配列にする
             var bytesKey = Encoding.UTF8.GetBytes("_tween_encrypt_key_");
-            //共有キーと初期化ベクタを設定
+            // 共有キーと初期化ベクタを設定
             des.Key = ResizeBytesArray(bytesKey, des.Key.Length);
             des.IV = ResizeBytesArray(bytesKey, des.IV.Length);
 
@@ -526,27 +539,27 @@ namespace OpenTween
 
             try
             {
-                //暗号化されたデータを書き出すためのMemoryStream
+                // 暗号化されたデータを書き出すためのMemoryStream
                 msOut = new MemoryStream();
 
-                //DES暗号化オブジェクトの作成
+                // DES暗号化オブジェクトの作成
                 desdecrypt = des.CreateEncryptor();
 
-                //書き込むためのCryptoStreamの作成
+                // 書き込むためのCryptoStreamの作成
                 using var cryptStream = new CryptoStream(msOut, desdecrypt, CryptoStreamMode.Write);
 
-                //Disposeが重複して呼ばれないようにする
+                // Disposeが重複して呼ばれないようにする
                 var msTmp = msOut;
                 msOut = null;
                 desdecrypt = null;
 
-                //書き込む
+                // 書き込む
                 cryptStream.Write(bytesIn, 0, bytesIn.Length);
                 cryptStream.FlushFinalBlock();
-                //暗号化されたデータを取得
+                // 暗号化されたデータを取得
                 var bytesOut = msTmp.ToArray();
 
-                //Base64で文字列に変更して結果を返す
+                // Base64で文字列に変更して結果を返す
                 return Convert.ToBase64String(bytesOut);
             }
             finally
@@ -560,17 +573,17 @@ namespace OpenTween
         {
             if (MyCommon.IsNullOrEmpty(str)) return "";
 
-            //DESCryptoServiceProviderオブジェクトの作成
+            // DESCryptoServiceProviderオブジェクトの作成
             using var des = new DESCryptoServiceProvider();
 
-            //共有キーと初期化ベクタを決定
-            //パスワードをバイト配列にする
+            // 共有キーと初期化ベクタを決定
+            // パスワードをバイト配列にする
             var bytesKey = Encoding.UTF8.GetBytes("_tween_encrypt_key_");
-            //共有キーと初期化ベクタを設定
+            // 共有キーと初期化ベクタを設定
             des.Key = ResizeBytesArray(bytesKey, des.Key.Length);
             des.IV = ResizeBytesArray(bytesKey, des.IV.Length);
 
-            //Base64で文字列をバイト配列に戻す
+            // Base64で文字列をバイト配列に戻す
             var bytesIn = Convert.FromBase64String(str);
 
             MemoryStream? msIn = null;
@@ -579,24 +592,24 @@ namespace OpenTween
 
             try
             {
-                //暗号化されたデータを読み込むためのMemoryStream
+                // 暗号化されたデータを読み込むためのMemoryStream
                 msIn = new MemoryStream(bytesIn);
-                //DES復号化オブジェクトの作成
+                // DES復号化オブジェクトの作成
                 desdecrypt = des.CreateDecryptor();
-                //読み込むためのCryptoStreamの作成
+                // 読み込むためのCryptoStreamの作成
                 cryptStreem = new CryptoStream(msIn, desdecrypt, CryptoStreamMode.Read);
 
-                //Disposeが重複して呼ばれないようにする
+                // Disposeが重複して呼ばれないようにする
                 msIn = null;
                 desdecrypt = null;
 
-                //復号化されたデータを取得するためのStreamReader
+                // 復号化されたデータを取得するためのStreamReader
                 using var srOut = new StreamReader(cryptStreem, Encoding.UTF8);
 
-                //Disposeが重複して呼ばれないようにする
+                // Disposeが重複して呼ばれないようにする
                 cryptStreem = null;
 
-                //復号化されたデータを取得する
+                // 復号化されたデータを取得する
                 var result = srOut.ReadToEnd();
 
                 return result;
@@ -640,14 +653,14 @@ namespace OpenTween
         public enum TabUsageType
         {
             Undefined = 0,
-            Home = 1,      //Unique
-            Mentions = 2,     //Unique
-            DirectMessage = 4,   //Unique
-            Favorites = 8,       //Unique
+            Home = 1, // Unique
+            Mentions = 2, // Unique
+            DirectMessage = 4, // Unique
+            Favorites = 8, // Unique
             UserDefined = 16,
-            LocalQuery = 32,      //Pin(no save/no save query/distribute/no update(normal update))
-            Profile = 64,         //Pin(save/no distribute/manual update)
-            PublicSearch = 128,    //Pin(save/no distribute/auto update)
+            LocalQuery = 32, // Pin(no save/no save query/distribute/no update(normal update))
+            Profile = 64, // Pin(save/no distribute/manual update)
+            PublicSearch = 128, // Pin(save/no distribute/auto update)
             Lists = 256,
             Related = 512,
             UserTimeline = 1024,
@@ -655,7 +668,7 @@ namespace OpenTween
             SearchResults = 4096,
         }
 
-        public static TwitterApiStatus TwitterApiInfo = new TwitterApiStatus();
+        public static TwitterApiStatus TwitterApiInfo = new();
 
         public static bool IsAnimatedGif(string filename)
         {
@@ -691,7 +704,8 @@ namespace OpenTween
 
         public static DateTimeUtc DateTimeParse(string input)
         {
-            var formats = new[] {
+            var formats = new[]
+            {
                 "ddd MMM dd HH:mm:ss zzzz yyyy",
                 "ddd, d MMM yyyy HH:mm:ss zzzz",
             };
@@ -712,7 +726,7 @@ namespace OpenTween
             {
                 UseSimpleDictionaryFormat = true,
             };
-            return (T)((new DataContractJsonSerializer(typeof(T), settings)).ReadObject(stream));
+            return (T)new DataContractJsonSerializer(typeof(T), settings).ReadObject(stream);
         }
 
         public static bool IsNetworkAvailable()
@@ -721,7 +735,7 @@ namespace OpenTween
             {
                 return NetworkInterface.GetIsNetworkAvailable();
             }
-            catch(Exception)
+            catch (Exception)
             {
                 return false;
             }
@@ -729,10 +743,11 @@ namespace OpenTween
 
         public static bool IsValidEmail(string strIn)
         {
+            var pattern = @"^(?("")("".+?""@)|(([0-9a-zA-Z]((\.(?!\.))|[-!#\$%&'\*\+/=\?\^`\{\}\|~\w])*)(?<=[0-9a-zA-Z])@))" +
+                @"(?(\[)(\[(\d{1,3}\.){3}\d{1,3}\])|(([0-9a-zA-Z][-\w]*[0-9a-zA-Z]\.)+[a-zA-Z]{2,6}))$";
+
             // Return true if strIn is in valid e-mail format.
-            return Regex.IsMatch(strIn,
-                   @"^(?("")("".+?""@)|(([0-9a-zA-Z]((\.(?!\.))|[-!#\$%&'\*\+/=\?\^`\{\}\|~\w])*)(?<=[0-9a-zA-Z])@))" +
-                   @"(?(\[)(\[(\d{1,3}\.){3}\d{1,3}\])|(([0-9a-zA-Z][-\w]*[0-9a-zA-Z]\.)+[a-zA-Z]{2,6}))$");
+            return Regex.IsMatch(strIn, pattern);
         }
 
         /// <summary>
@@ -741,9 +756,9 @@ namespace OpenTween
         /// <param name="keys">状態を調べるキー</param>
         /// <returns><paramref name="keys"/> で指定された修飾キーがすべて押されている状態であれば true。それ以外であれば false。</returns>
         public static bool IsKeyDown(params Keys[] keys)
-            => MyCommon._IsKeyDown(Control.ModifierKeys, keys);
+            => MyCommon.IsKeyDownInternal(Control.ModifierKeys, keys);
 
-        internal static bool _IsKeyDown(Keys modifierKeys, Keys[] targetKeys)
+        internal static bool IsKeyDownInternal(Keys modifierKeys, Keys[] targetKeys)
         {
             foreach (var key in targetKeys)
             {
@@ -857,7 +872,7 @@ namespace OpenTween
 
         // .NET 4.5+: Reserved characters のうち、Uriクラスによってエスケープ強制解除されてしまうものも最初から Unreserved として扱う
         private static readonly HashSet<char> UnreservedChars =
-            new HashSet<char>("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-_.~!'()*:");
+            new("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-_.~!'()*:");
 
         /// <summary>
         /// 2バイト文字も考慮したクエリ用エンコード
@@ -970,23 +985,23 @@ namespace OpenTween
             => string.IsNullOrEmpty(value);
 
         public static Task OpenInBrowserAsync(IWin32Window? owner, string url)
-            => MyCommon.OpenInBrowserAsync(owner, SettingManager.Local.BrowserPath, url);
+            => MyCommon.OpenInBrowserAsync(owner, SettingManager.Instance.Local.BrowserPath, url);
 
-        public static Task OpenInBrowserAsync(IWin32Window? owner, string? browserPath, string url)
+        public static async Task OpenInBrowserAsync(IWin32Window? owner, string? browserPath, string url)
         {
-            return Task.Run(() =>
+            try
             {
-                try
+                await Task.Run(() =>
                 {
                     var startInfo = MyCommon.CreateBrowserProcessStartInfo(browserPath, url);
                     Process.Start(startInfo);
-                }
-                catch (Win32Exception ex)
-                {
-                    var message = string.Format(Properties.Resources.BrowserStartFailed, ex.ErrorCode);
-                    MessageBox.Show(owner, message, ApplicationSettings.ApplicationName, MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                }
-            });
+                });
+            }
+            catch (Win32Exception ex)
+            {
+                var message = string.Format(Properties.Resources.BrowserStartFailed, ex.Message);
+                MessageBox.Show(owner, message, ApplicationSettings.ApplicationName, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
         }
 
         public static ProcessStartInfo CreateBrowserProcessStartInfo(string? browserPathWithArgs, string url)
@@ -1000,7 +1015,7 @@ namespace OpenTween
                 };
             }
 
-            int quoteEnd = -1;
+            var quoteEnd = -1;
             if (browserPathWithArgs.StartsWith("\"", StringComparison.Ordinal))
                 quoteEnd = browserPathWithArgs.IndexOf("\"", 1, StringComparison.Ordinal);
 
@@ -1025,8 +1040,38 @@ namespace OpenTween
                 FileName = browserPath,
                 Arguments = args,
                 UseShellExecute = false,
-                
             };
+        }
+
+        public static IEnumerable<(int Start, int End)> ToRangeChunk(IEnumerable<int> values)
+        {
+            var start = -1;
+            var end = -1;
+
+            foreach (var value in values.OrderBy(x => x))
+            {
+                if (start == -1)
+                {
+                    start = value;
+                    end = value;
+                }
+                else
+                {
+                    if (value == end + 1)
+                    {
+                        end = value;
+                    }
+                    else
+                    {
+                        yield return (start, end);
+                        start = value;
+                        end = value;
+                    }
+                }
+            }
+
+            if (start != -1)
+                yield return (start, end);
         }
     }
 }

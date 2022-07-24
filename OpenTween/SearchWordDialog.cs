@@ -6,19 +6,19 @@
 //           (c) 2010-2011 fantasticswallow (@f_swallow) <http://twitter.com/f_swallow>
 //           (c) 2011      kim_upsilon (@kim_upsilon) <https://upsilo.net/~upsilon/>
 // All rights reserved.
-// 
+//
 // This file is part of OpenTween.
-// 
+//
 // This program is free software; you can redistribute it and/or modify it
 // under the terms of the GNU General Public License as published by the Free
 // Software Foundation; either version 3 of the License, or (at your option)
 // any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful, but
 // WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
 // or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License
-// for more details. 
-// 
+// for more details.
+//
 // You should have received a copy of the GNU General Public License along
 // with this program. If not, see <http://www.gnu.org/licenses/>, or write to
 // the Free Software Foundation, Inc., 51 Franklin Street - Fifth Floor,
@@ -45,33 +45,23 @@ namespace OpenTween
             /// タイムライン内を検索
             /// </summary>
             Timeline,
+
             /// <summary>
             /// Twitter検索
             /// </summary>
             Public,
         }
 
-        public class SearchOptions
-        {
-            public SearchType Type { get; }
-            public string Query { get; }
-
-            // タイムライン内検索のみで使用する
-            public bool NewTab { get; }
-            public bool CaseSensitive { get; }
-            public bool UseRegex { get; }
-
-            public SearchOptions(SearchType type, string query, bool newTab, bool caseSensitive, bool useRegex)
-            {
-                this.Type = type;
-                this.Query = query;
-                this.NewTab = newTab;
-                this.CaseSensitive = caseSensitive;
-                this.UseRegex = useRegex;
-            }
-        }
+        public record SearchOptions(
+            SearchType Type,
+            string Query,
+            bool NewTab, // タイムライン内検索のみで使用する
+            bool CaseSensitive,
+            bool UseRegex
+        );
 
         private SearchOptions? resultOptions = null;
+
         public SearchOptions? ResultOptions
         {
             get => this.resultOptions;
@@ -104,6 +94,7 @@ namespace OpenTween
         }
 
         private bool disableNetTabButton = false;
+
         public bool DisableNewTabButton
         {
             get => this.disableNetTabButton;
@@ -131,7 +122,7 @@ namespace OpenTween
         private void SearchWordDialog_Shown(object sender, EventArgs e)
             => this.ActivateSelectedTabPage();
 
-        private void tabControl_SelectedIndexChanged(object sender, EventArgs e)
+        private void TabControl_SelectedIndexChanged(object sender, EventArgs e)
             => this.ActivateSelectedTabPage();
 
         private void ActivateSelectedTabPage()
@@ -150,7 +141,7 @@ namespace OpenTween
             }
         }
 
-        private void buttonSearchTimeline_Click(object sender, EventArgs e)
+        private void ButtonSearchTimeline_Click(object sender, EventArgs e)
         {
             if (MyCommon.IsNullOrEmpty(this.textSearchTimeline.Text))
             {
@@ -169,7 +160,7 @@ namespace OpenTween
             );
         }
 
-        private void buttonSearchTimelineNew_Click(object sender, EventArgs e)
+        private void ButtonSearchTimelineNew_Click(object sender, EventArgs e)
         {
             if (MyCommon.IsNullOrEmpty(this.textSearchTimeline.Text))
             {
@@ -188,7 +179,7 @@ namespace OpenTween
             );
         }
 
-        private void buttonSearchPublic_Click(object sender, EventArgs e)
+        private void ButtonSearchPublic_Click(object sender, EventArgs e)
         {
             if (MyCommon.IsNullOrEmpty(this.textSearchPublic.Text))
             {
@@ -207,7 +198,7 @@ namespace OpenTween
             );
         }
 
-        private async void linkLabelSearchHelp_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        private async void LinkLabelSearchHelp_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             // 「検索オプションの使い方」ページのURL
             const string PublicSearchHelpUrl = "https://support.twitter.com/articles/249059";

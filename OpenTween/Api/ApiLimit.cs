@@ -28,49 +28,12 @@ using System.Text;
 
 namespace OpenTween.Api
 {
-    public class ApiLimit
-    {
-        /// <summary>
-        /// API 実行回数制限の値
-        /// </summary>
-        public int AccessLimitCount { get; }
-
-        /// <summary>
-        /// API 実行回数制限までの残回数
-        /// </summary>
-        public int AccessLimitRemain { get; }
-
-        /// <summary>
-        /// API 実行回数制限がリセットされる日時
-        /// </summary>
-        public DateTimeUtc AccessLimitResetDate { get; }
-
-        /// <summary>
-        /// API 実行回数制限値を取得した日時
-        /// </summary>
-        public DateTimeUtc UpdatedAt { get; }
-
-        public ApiLimit(int limitCount, int limitRemain, DateTimeUtc resetDate)
-            : this(limitCount, limitRemain, resetDate, DateTimeUtc.Now)
-        {
-        }
-
-        public ApiLimit(int limitCount, int limitRemain, DateTimeUtc resetDate, DateTimeUtc updatedAt)
-        {
-            this.AccessLimitCount = limitCount;
-            this.AccessLimitRemain = limitRemain;
-            this.AccessLimitResetDate = resetDate;
-            this.UpdatedAt = updatedAt;
-        }
-
-        public override bool Equals(object? obj)
-            => this.Equals(obj as ApiLimit);
-
-        public bool Equals(ApiLimit? obj)
-            => obj != null && this.AccessLimitCount == obj.AccessLimitCount &&
-                this.AccessLimitRemain == obj.AccessLimitRemain && this.AccessLimitResetDate == obj.AccessLimitResetDate;
-
-        public override int GetHashCode()
-            => this.AccessLimitCount ^ this.AccessLimitRemain ^ this.AccessLimitResetDate.GetHashCode();
-    }
+    /// <param name="AccessLimitCount">API 実行回数制限の値</param>
+    /// <param name="AccessLimitRemain">API 実行回数制限までの残回数</param>
+    /// <param name="AccessLimitResetDate">API 実行回数制限がリセットされる日時</param>
+    public record ApiLimit(
+        int AccessLimitCount,
+        int AccessLimitRemain,
+        DateTimeUtc AccessLimitResetDate
+    );
 }

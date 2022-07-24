@@ -1,19 +1,19 @@
 ﻿// OpenTween - Client of Twitter
 // Copyright (c) 2013 kim_upsilon (@kim_upsilon) <https://upsilo.net/~upsilon/>
 // All rights reserved.
-// 
+//
 // This file is part of OpenTween.
-// 
+//
 // This program is free software; you can redistribute it and/or modify it
 // under the terms of the GNU General Public License as published by the Free
 // Software Foundation; either version 3 of the License, or (at your option)
 // any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful, but
 // WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
 // or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License
-// for more details. 
-// 
+// for more details.
+//
 // You should have received a copy of the GNU General Public License along
 // with this program. If not, see <http://www.gnu.org/licenses/>, or write to
 // the Free Software Foundation, Inc., 51 Franklin Street - Fifth Floor,
@@ -23,12 +23,12 @@
 
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
-using System.Drawing;
 using System.Windows.Forms.Design;
-using System.ComponentModel;
 using OpenTween.Api;
 
 namespace OpenTween
@@ -41,7 +41,7 @@ namespace OpenTween
     {
         public ToolStripAPIGauge()
         {
-            UpdateText();
+            this.UpdateText();
 
             this.DisplayStyle = ToolStripItemDisplayStyle.Text;
         }
@@ -53,16 +53,17 @@ namespace OpenTween
         [RefreshProperties(RefreshProperties.Repaint)]
         public int GaugeHeight
         {
-            get => this._GaugeHeight;
+            get => this.gaugeHeight;
             set
             {
-                this._GaugeHeight = value;
+                this.gaugeHeight = value;
 
                 this.UpdateGaugeBounds();
                 this.Invalidate();
             }
         }
-        private int _GaugeHeight = 8;
+
+        private int gaugeHeight = 8;
 
         /// <summary>
         /// API 実行回数制限の値
@@ -70,10 +71,10 @@ namespace OpenTween
         [Browsable(false)]
         public ApiLimit? ApiLimit
         {
-            get => this._ApiLimit;
+            get => this.apiLimit;
             private set
             {
-                this._ApiLimit = value;
+                this.apiLimit = value;
 
                 this.UpdateRemainMinutes();
                 this.UpdateText();
@@ -81,45 +82,48 @@ namespace OpenTween
                 this.Invalidate();
             }
         }
-        private ApiLimit? _ApiLimit = null;
+
+        private ApiLimit? apiLimit = null;
 
         /// <summary>
         /// API エンドポイント名
         /// </summary>
         [Browsable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public string? ApiEndpoint
         {
-            get => this._ApiEndpoint;
+            get => this.apiEndpoint;
             set
             {
                 if (MyCommon.IsNullOrEmpty(value))
                 {
                     // リセット
-                    this._ApiEndpoint = null;
+                    this.apiEndpoint = null;
                     this.ApiLimit = null;
                     return;
                 }
 
                 var apiLimit = MyCommon.TwitterApiInfo.AccessLimit[value];
 
-                if (this._ApiEndpoint != value)
+                if (this.apiEndpoint != value)
                 {
                     // ApiEndpointが変更されているので更新する
-                    this._ApiEndpoint = value;
+                    this.apiEndpoint = value;
                     this.ApiLimit = apiLimit;
                 }
                 else
                 {
                     // ApiLimitが変更されていれば更新する
-                    if (this._ApiLimit == null ||
-                        !this._ApiLimit.Equals(apiLimit))
+                    if (this.apiLimit == null ||
+                        !this.apiLimit.Equals(apiLimit))
                     {
                         this.ApiLimit = apiLimit;
                     }
                 }
             }
         }
-        private string? _ApiEndpoint = null;
+
+        private string? apiEndpoint = null;
 
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
@@ -149,8 +153,8 @@ namespace OpenTween
 
         protected virtual void UpdateRemainMinutes()
         {
-            if (this._ApiLimit != null)
-                this.remainMinutes = (this._ApiLimit.AccessLimitResetDate - DateTimeUtc.Now).TotalMinutes;
+            if (this.apiLimit != null)
+                this.remainMinutes = (this.apiLimit.AccessLimitResetDate - DateTimeUtc.Now).TotalMinutes;
             else
                 this.remainMinutes = -1;
         }
@@ -159,11 +163,11 @@ namespace OpenTween
         {
             var g = e.Graphics;
 
-            if (this.apiGaugeBounds != Rectangle.Empty)
-                g.FillRectangle(Brushes.LightBlue, this.apiGaugeBounds);
+            if (this.ApiGaugeBounds != Rectangle.Empty)
+                g.FillRectangle(Brushes.LightBlue, this.ApiGaugeBounds);
 
-            if (this.timeGaugeBounds != Rectangle.Empty)
-                g.FillRectangle(Brushes.LightPink, this.timeGaugeBounds);
+            if (this.TimeGaugeBounds != Rectangle.Empty)
+                g.FillRectangle(Brushes.LightPink, this.TimeGaugeBounds);
 
             base.OnPaint(e);
         }
@@ -174,32 +178,32 @@ namespace OpenTween
         //   (C) 2010 anis774 (@anis774) <http://d.hatena.ne.jp/anis774/>
         //   (C) 2010 Moz (@syo68k)
 
-        internal Rectangle apiGaugeBounds = Rectangle.Empty;
-        internal Rectangle timeGaugeBounds = Rectangle.Empty;
+        internal Rectangle ApiGaugeBounds = Rectangle.Empty;
+        internal Rectangle TimeGaugeBounds = Rectangle.Empty;
 
         protected virtual void UpdateGaugeBounds()
         {
-            if (this._ApiLimit == null || this._GaugeHeight < 1)
+            if (this.apiLimit == null || this.gaugeHeight < 1)
             {
-                this.apiGaugeBounds = Rectangle.Empty;
-                this.timeGaugeBounds = Rectangle.Empty;
+                this.ApiGaugeBounds = Rectangle.Empty;
+                this.TimeGaugeBounds = Rectangle.Empty;
                 return;
             }
 
-            var apiGaugeValue = (double)this._ApiLimit.AccessLimitRemain / this._ApiLimit.AccessLimitCount;
-            this.apiGaugeBounds = new Rectangle(
+            var apiGaugeValue = (double)this.apiLimit.AccessLimitRemain / this.apiLimit.AccessLimitCount;
+            this.ApiGaugeBounds = new Rectangle(
                 0,
-                (this.Height - this._GaugeHeight * 2) / 2,
+                (this.Height - this.gaugeHeight * 2) / 2,
                 (int)(this.Width * apiGaugeValue),
-                this._GaugeHeight
+                this.gaugeHeight
             );
 
             var timeGaugeValue = this.remainMinutes >= 15 ? 1.00 : this.remainMinutes / 15;
-            this.timeGaugeBounds = new Rectangle(
+            this.TimeGaugeBounds = new Rectangle(
                 0,
-                this.apiGaugeBounds.Top + this._GaugeHeight,
+                this.ApiGaugeBounds.Top + this.gaugeHeight,
                 (int)(this.Width * timeGaugeValue),
-                this._GaugeHeight
+                this.gaugeHeight
             );
         }
 
@@ -209,7 +213,7 @@ namespace OpenTween
             string maxCountText;
             string minuteText;
 
-            if (this._ApiLimit == null || this.remainMinutes < 0)
+            if (this.apiLimit == null || this.remainMinutes < 0)
             {
                 remainCountText = "???";
                 maxCountText = "???";
@@ -217,12 +221,12 @@ namespace OpenTween
             }
             else
             {
-                remainCountText = this._ApiLimit.AccessLimitRemain.ToString();
-                maxCountText = this._ApiLimit.AccessLimitCount.ToString();
+                remainCountText = this.apiLimit.AccessLimitRemain.ToString();
+                maxCountText = this.apiLimit.AccessLimitCount.ToString();
                 minuteText = Math.Ceiling(this.remainMinutes).ToString();
             }
 
-            var endpointText = MyCommon.IsNullOrEmpty(this._ApiEndpoint) ? "unknown" : this._ApiEndpoint;
+            var endpointText = MyCommon.IsNullOrEmpty(this.apiEndpoint) ? "unknown" : this.apiEndpoint;
 
             var textFormat = "API {0}/{1}";
             this.Text = string.Format(textFormat, remainCountText, maxCountText);

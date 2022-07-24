@@ -1,11 +1,17 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.29215.179
-MinimumVisualStudioVersion = 16.0
+# Visual Studio Version 17
+VisualStudioVersion = 17.1.32319.34
+MinimumVisualStudioVersion = 17.0
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenTween", "OpenTween\OpenTween.csproj", "{3D8995C7-BDF3-4273-9F9D-DDD902F6A101}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenTween.Tests", "OpenTween.Tests\OpenTween.Tests.csproj", "{18A32642-A8F3-425B-978D-0C6F630EDDE8}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{8B1F66B9-8C63-4236-AB06-F5F19C20EE71}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+		stylecop.json = stylecop.json
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -38,5 +44,8 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {DDF8A3B3-E5D3-4853-84B5-3B3ADCB356C0}
 	EndGlobalSection
 EndGlobal

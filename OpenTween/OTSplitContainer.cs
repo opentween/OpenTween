@@ -22,10 +22,10 @@
 #nullable enable
 
 using System;
-using System.Windows.Forms;
 using System.Collections.Generic;
-using System.Linq;
 using System.ComponentModel;
+using System.Linq;
+using System.Windows.Forms;
 
 namespace OpenTween
 {
@@ -39,12 +39,12 @@ namespace OpenTween
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public bool IsPanelInverted
         {
-            get => this._isPanelInverted;
+            get => this.isPanelInverted;
             set
             {
-                if (_isPanelInverted == value)
+                if (this.isPanelInverted == value)
                     return;
-                _isPanelInverted = value;
+                this.isPanelInverted = value;
 
                 // Panel1 と Panel2 の中身を入れ替え
                 using (ControlTransaction.Layout(this, false))
@@ -60,22 +60,18 @@ namespace OpenTween
                     if (base.FixedPanel != FixedPanel.None)
                         base.FixedPanel = (base.FixedPanel == FixedPanel.Panel1) ? FixedPanel.Panel2 : FixedPanel.Panel1;
 
-                    base.SplitterDistance = SplitterTotalWidth - (base.SplitterDistance + SplitterWidth);
+                    base.SplitterDistance = this.SplitterTotalWidth - (base.SplitterDistance + this.SplitterWidth);
 
-                    var tmpMinSize = base.Panel1MinSize;
-                    base.Panel1MinSize = base.Panel2MinSize;
-                    base.Panel2MinSize = tmpMinSize;
-
-                    var tmpCollapsed = base.Panel1Collapsed;
-                    base.Panel1Collapsed = base.Panel2Collapsed;
-                    base.Panel2Collapsed = tmpCollapsed;
+                    (base.Panel2MinSize, base.Panel1MinSize) = (base.Panel1MinSize, base.Panel2MinSize);
+                    (base.Panel2Collapsed, base.Panel1Collapsed) = (base.Panel1Collapsed, base.Panel2Collapsed);
 
                     base.Panel1.Controls.AddRange(cont2.ToArray());
                     base.Panel2.Controls.AddRange(cont1.ToArray());
                 }
             }
         }
-        private bool _isPanelInverted = false;
+
+        private bool isPanelInverted = false;
 
         /// <summary>
         /// SplitContainer.Orientation プロパティの設定に応じて、スプリッタが移動する方向の幅を返す。
@@ -87,13 +83,13 @@ namespace OpenTween
         /// IsPanelInverted プロパティの設定に応じて、SplitContainer.Panel1 または SplitContainer.Panel2 を返す。
         /// </summary>
         public new SplitterPanel Panel1
-            => IsPanelInverted ? base.Panel2 : base.Panel1;
+            => this.IsPanelInverted ? base.Panel2 : base.Panel1;
 
         /// <summary>
         /// IsPanelInverted プロパティの設定に応じて、SplitContainer.Panel1 または SplitContainer.Panel2 を返す。
         /// </summary>
         public new SplitterPanel Panel2
-            => IsPanelInverted ? base.Panel1 : base.Panel2;
+            => this.IsPanelInverted ? base.Panel1 : base.Panel2;
 
         /// <summary>
         /// IsPanelInverted プロパティの設定に応じて、SplitContainer.FixedPanel を返す。
@@ -102,14 +98,15 @@ namespace OpenTween
         {
             get
             {
-                if (base.FixedPanel != FixedPanel.None && IsPanelInverted)
+                if (base.FixedPanel != FixedPanel.None && this.IsPanelInverted)
                     return (base.FixedPanel == FixedPanel.Panel1) ? FixedPanel.Panel2 : FixedPanel.Panel1;
                 else
                     return base.FixedPanel;
             }
+
             set
             {
-                if (value != FixedPanel.None && IsPanelInverted)
+                if (value != FixedPanel.None && this.IsPanelInverted)
                     base.FixedPanel = (value == FixedPanel.Panel1) ? FixedPanel.Panel2 : FixedPanel.Panel1;
                 else
                     base.FixedPanel = value;
@@ -123,15 +120,16 @@ namespace OpenTween
         {
             get
             {
-                if (IsPanelInverted)
-                    return SplitterTotalWidth - (base.SplitterDistance + SplitterWidth);
+                if (this.IsPanelInverted)
+                    return this.SplitterTotalWidth - (base.SplitterDistance + this.SplitterWidth);
                 else
                     return base.SplitterDistance;
             }
+
             set
             {
-                if (IsPanelInverted)
-                    base.SplitterDistance = SplitterTotalWidth - (value + SplitterWidth);
+                if (this.IsPanelInverted)
+                    base.SplitterDistance = this.SplitterTotalWidth - (value + this.SplitterWidth);
                 else
                     base.SplitterDistance = value;
             }
@@ -142,10 +140,10 @@ namespace OpenTween
         /// </summary>
         public new int Panel1MinSize
         {
-            get => IsPanelInverted ? base.Panel2MinSize : base.Panel1MinSize;
+            get => this.IsPanelInverted ? base.Panel2MinSize : base.Panel1MinSize;
             set
             {
-                if (IsPanelInverted)
+                if (this.IsPanelInverted)
                     base.Panel2MinSize = value;
                 else
                     base.Panel1MinSize = value;
@@ -157,10 +155,10 @@ namespace OpenTween
         /// </summary>
         public new int Panel2MinSize
         {
-            get => IsPanelInverted ? base.Panel1MinSize : base.Panel2MinSize;
+            get => this.IsPanelInverted ? base.Panel1MinSize : base.Panel2MinSize;
             set
             {
-                if (IsPanelInverted)
+                if (this.IsPanelInverted)
                     base.Panel1MinSize = value;
                 else
                     base.Panel2MinSize = value;
@@ -172,10 +170,10 @@ namespace OpenTween
         /// </summary>
         public new bool Panel1Collapsed
         {
-            get => IsPanelInverted ? base.Panel2Collapsed : base.Panel1Collapsed;
+            get => this.IsPanelInverted ? base.Panel2Collapsed : base.Panel1Collapsed;
             set
             {
-                if (IsPanelInverted)
+                if (this.IsPanelInverted)
                     base.Panel2Collapsed = value;
                 else
                     base.Panel1Collapsed = value;
@@ -187,10 +185,10 @@ namespace OpenTween
         /// </summary>
         public new bool Panel2Collapsed
         {
-            get => IsPanelInverted ? base.Panel1Collapsed : base.Panel2Collapsed;
+            get => this.IsPanelInverted ? base.Panel1Collapsed : base.Panel2Collapsed;
             set
             {
-                if (IsPanelInverted)
+                if (this.IsPanelInverted)
                     base.Panel1Collapsed = value;
                 else
                     base.Panel2Collapsed = value;

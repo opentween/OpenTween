@@ -150,7 +150,8 @@ namespace OpenTween
             var invoked = false;
 
             var shortcut = ShortcutCommand.Create(Keys.F5)
-                .Do(async () => {
+                .Do(async () =>
+                {
                     await Task.Delay(100).ConfigureAwait(false);
                     invoked = true;
                 });

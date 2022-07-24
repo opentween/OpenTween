@@ -75,7 +75,7 @@
             // 
             resources.ApplyResources(this.buttonSearchTimeline, "buttonSearchTimeline");
             this.buttonSearchTimeline.Name = "buttonSearchTimeline";
-            this.buttonSearchTimeline.Click += new System.EventHandler(this.buttonSearchTimeline_Click);
+            this.buttonSearchTimeline.Click += new System.EventHandler(this.ButtonSearchTimeline_Click);
             // 
             // tableLayoutPanel1
             // 
@@ -88,7 +88,7 @@
             // 
             resources.ApplyResources(this.buttonSearchTimelineNew, "buttonSearchTimelineNew");
             this.buttonSearchTimelineNew.Name = "buttonSearchTimelineNew";
-            this.buttonSearchTimelineNew.Click += new System.EventHandler(this.buttonSearchTimelineNew_Click);
+            this.buttonSearchTimelineNew.Click += new System.EventHandler(this.ButtonSearchTimelineNew_Click);
             // 
             // tabControl
             // 
@@ -98,7 +98,7 @@
             this.tabControl.HotTrack = true;
             this.tabControl.Name = "tabControl";
             this.tabControl.SelectedIndex = 0;
-            this.tabControl.SelectedIndexChanged += new System.EventHandler(this.tabControl_SelectedIndexChanged);
+            this.tabControl.SelectedIndexChanged += new System.EventHandler(this.TabControl_SelectedIndexChanged);
             // 
             // tabPageTimeline
             // 
@@ -128,7 +128,7 @@
             resources.ApplyResources(this.linkLabelSearchHelp, "linkLabelSearchHelp");
             this.linkLabelSearchHelp.Name = "linkLabelSearchHelp";
             this.linkLabelSearchHelp.TabStop = true;
-            this.linkLabelSearchHelp.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabelSearchHelp_LinkClicked);
+            this.linkLabelSearchHelp.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.LinkLabelSearchHelp_LinkClicked);
             // 
             // tableLayoutPanel2
             // 
@@ -140,7 +140,7 @@
             // 
             resources.ApplyResources(this.buttonSearchPublic, "buttonSearchPublic");
             this.buttonSearchPublic.Name = "buttonSearchPublic";
-            this.buttonSearchPublic.Click += new System.EventHandler(this.buttonSearchPublic_Click);
+            this.buttonSearchPublic.Click += new System.EventHandler(this.ButtonSearchPublic_Click);
             // 
             // label2
             // 

@@ -52,8 +52,12 @@ namespace OpenTween.Connection
         {
             // GET http://example.com/hoge?aaa=foo に対する署名を生成
             // 実際の param は oauth_consumer_key などのパラメーターが加わった状態で渡される
-            var oauthSignature = OAuthUtility.CreateSignature(ApiKey.Create("ConsumerSecret"), "TokenSecret",
-                "GET", new Uri("http://example.com/hoge"), new Dictionary<string, string> { ["aaa"] = "foo" });
+            var oauthSignature = OAuthUtility.CreateSignature(
+                ApiKey.Create("ConsumerSecret"),
+                "TokenSecret",
+                "GET",
+                new Uri("http://example.com/hoge"),
+                new Dictionary<string, string> { ["aaa"] = "foo" });
 
             var expectSignatureBase = "GET&http%3A%2F%2Fexample.com%2Fhoge&aaa%3Dfoo";
             var expectSignatureKey = "ConsumerSecret&TokenSecret";
@@ -68,8 +72,13 @@ namespace OpenTween.Connection
         {
             // GET http://example.com/hoge?aaa=foo&bbb=bar に対する署名を生成
             // 複数のパラメータが渡される場合は name 順でソートされる
-            var oauthSignature = OAuthUtility.CreateSignature(ApiKey.Create("ConsumerSecret"), "TokenSecret",
-                "GET", new Uri("http://example.com/hoge"), new Dictionary<string, string> {
+            var oauthSignature = OAuthUtility.CreateSignature(
+                ApiKey.Create("ConsumerSecret"),
+                "TokenSecret",
+                "GET",
+                new Uri("http://example.com/hoge"),
+                new Dictionary<string, string>
+                {
                     ["bbb"] = "bar",
                     ["aaa"] = "foo",
                 });
@@ -87,8 +96,12 @@ namespace OpenTween.Connection
         {
             // GET http://example.com/hoge?aaa=foo に対する署名を生成
             // リクエストトークンの発行時は tokenSecret が空の状態で署名を生成することになる
-            var oauthSignature = OAuthUtility.CreateSignature(ApiKey.Create("ConsumerSecret"), null,
-                "GET", new Uri("http://example.com/hoge"), new Dictionary<string, string> { ["aaa"] = "foo" });
+            var oauthSignature = OAuthUtility.CreateSignature(
+                ApiKey.Create("ConsumerSecret"),
+                null,
+                "GET",
+                new Uri("http://example.com/hoge"),
+                new Dictionary<string, string> { ["aaa"] = "foo" });
 
             var expectSignatureBase = "GET&http%3A%2F%2Fexample.com%2Fhoge&aaa%3Dfoo";
             var expectSignatureKey = "ConsumerSecret&"; // 末尾の & は除去されない
@@ -102,8 +115,14 @@ namespace OpenTween.Connection
         public void CreateAuthorization_Test()
         {
             var authorization = OAuthUtility.CreateAuthorization(
-                "GET", new Uri("http://example.com/hoge"), new Dictionary<string, string> { ["aaa"] = "hoge" },
-                ApiKey.Create("ConsumerKey"), ApiKey.Create("ConsumerSecret"), "AccessToken", "AccessSecret", "Realm");
+                "GET",
+                new Uri("http://example.com/hoge"),
+                new Dictionary<string, string> { ["aaa"] = "hoge" },
+                ApiKey.Create("ConsumerKey"),
+                ApiKey.Create("ConsumerSecret"),
+                "AccessToken",
+                "AccessSecret",
+                "Realm");
 
             Assert.StartsWith("OAuth ", authorization, StringComparison.Ordinal);
 
@@ -112,8 +131,17 @@ namespace OpenTween.Connection
                 .Select(x => x.Split(new[] { '=' }, 2))
                 .ToDictionary(x => x[0], x => x[1].Substring(1, x[1].Length - 2)); // x[1] は前後の「"」を除去する
 
-            var expectAuthzParamKeys = new[] { "realm", "oauth_consumer_key", "oauth_nonce", "oauth_signature_method",
-                "oauth_timestamp", "oauth_token", "oauth_version", "oauth_signature" };
+            var expectAuthzParamKeys = new[]
+            {
+                "realm",
+                "oauth_consumer_key",
+                "oauth_nonce",
+                "oauth_signature_method",
+                "oauth_timestamp",
+                "oauth_token",
+                "oauth_version",
+                "oauth_signature",
+            };
             Assert.Equal(expectAuthzParamKeys, parsedParams.Keys, AnyOrderComparer<string>.Instance);
 
             Assert.Equal("Realm", parsedParams["realm"]);

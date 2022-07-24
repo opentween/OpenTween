@@ -34,19 +34,19 @@ namespace OpenTween.Models
     /// </summary>
     public static class TabUsageTypeExt
     {
-        const MyCommon.TabUsageType DefaultTabTypeMask =
+        private const MyCommon.TabUsageType DefaultTabTypeMask =
             MyCommon.TabUsageType.Home |
             MyCommon.TabUsageType.Mentions |
             MyCommon.TabUsageType.DirectMessage |
             MyCommon.TabUsageType.Favorites |
             MyCommon.TabUsageType.Mute;
 
-        const MyCommon.TabUsageType DistributableTabTypeMask =
+        private const MyCommon.TabUsageType DistributableTabTypeMask =
             MyCommon.TabUsageType.Mentions |
             MyCommon.TabUsageType.UserDefined |
             MyCommon.TabUsageType.Mute;
 
-        const MyCommon.TabUsageType InnerStorageTabTypeMask =
+        private const MyCommon.TabUsageType InnerStorageTabTypeMask =
             MyCommon.TabUsageType.DirectMessage |
             MyCommon.TabUsageType.PublicSearch |
             MyCommon.TabUsageType.Lists |

@@ -40,86 +40,93 @@ namespace OpenTween.Models
 {
     public class PostClass : ICloneable
     {
-        public readonly struct StatusGeo : IEquatable<StatusGeo>
-        {
-            public double Longitude { get; }
-            public double Latitude { get; }
-
-            public StatusGeo(double longitude, double latitude)
-            {
-                this.Longitude = longitude;
-                this.Latitude = latitude;
-            }
-
-            public override int GetHashCode()
-                => this.Longitude.GetHashCode() ^ this.Latitude.GetHashCode();
-
-            public override bool Equals(object obj)
-                => obj is StatusGeo && this.Equals((StatusGeo)obj);
-
-            public bool Equals(StatusGeo other)
-                => this.Longitude == other.Longitude && this.Latitude == other.Longitude;
-
-            public static bool operator ==(StatusGeo left, StatusGeo right)
-                => left.Equals(right);
-
-            public static bool operator !=(StatusGeo left, StatusGeo right)
-                => !left.Equals(right);
-        }
+        public readonly record struct StatusGeo(
+            double Longitude,
+            double Latitude
+        );
 
         public string Nickname { get; set; } = "";
+
         public string TextFromApi { get; set; } = "";
 
         /// <summary>スクリーンリーダーでの読み上げを考慮したテキスト</summary>
         public string AccessibleText { get; set; } = "";
 
         public string ImageUrl { get; set; } = "";
+
         public string ScreenName { get; set; } = "";
+
         public DateTimeUtc CreatedAt { get; set; }
+
         public long StatusId { get; set; }
-        private bool _IsFav;
+
+        private bool isFav;
 
         public string Text
         {
             get
             {
                 if (this.expandComplatedAll)
-                    return this._text;
+                    return this.text;
 
-                var expandedHtml = this.ReplaceToExpandedUrl(this._text, out this.expandComplatedAll);
+                var expandedHtml = this.ReplaceToExpandedUrl(this.text, out this.expandComplatedAll);
                 if (this.expandComplatedAll)
-                    this._text = expandedHtml;
+                    this.text = expandedHtml;
 
                 return expandedHtml;
             }
-            set => this._text = value;
+            set => this.text = value;
         }
-        private string _text = "";
+
+        private string text = "";
 
         public bool IsRead { get; set; }
+
         public bool IsReply { get; set; }
+
         public bool IsExcludeReply { get; set; }
-        private bool _IsProtect;
+
+        private bool isProtect;
+
         public bool IsOwl { get; set; }
-        private bool _IsMark;
+
+        private bool isMark;
+
         public string? InReplyToUser { get; set; }
-        private long? _InReplyToStatusId;
+
+        private long? inReplyToStatusId;
+
         public string Source { get; set; } = "";
+
         public Uri? SourceUri { get; set; }
+
         public List<(long UserId, string ScreenName)> ReplyToList { get; set; }
+
         public bool IsMe { get; set; }
+
         public bool IsDm { get; set; }
+
         public long UserId { get; set; }
+
         public bool FilterHit { get; set; }
+
         public string? RetweetedBy { get; set; }
+
         public long? RetweetedId { get; set; }
-        private bool _IsDeleted = false;
-        private StatusGeo? _postGeo = null;
+
+        private bool isDeleted = false;
+        private StatusGeo? postGeo = null;
+
         public int RetweetedCount { get; set; }
+
         public long? RetweetedByUserId { get; set; }
+
         public long? InReplyToUserId { get; set; }
+
         public List<MediaInfo> Media { get; set; }
+
         public long[] QuoteStatusIds { get; set; }
+
         public ExpandedUrlInfo[] ExpandedUrls { get; set; }
 
         /// <summary>
@@ -127,6 +134,8 @@ namespace OpenTween.Models
         /// </summary>
         public class ExpandedUrlInfo : ICloneable
         {
+            public static bool AutoExpand { get; set; } = true;
+
             /// <summary>展開前の t.co ドメインの URL</summary>
             public string Url { get; }
 
@@ -134,7 +143,7 @@ namespace OpenTween.Models
             /// <remarks>
             /// <see cref="ShortUrl"/> による展開が完了するまでは Entity に含まれる expanded_url の値を返します
             /// </remarks>
-            public string ExpandedUrl => this._expandedUrl;
+            public string ExpandedUrl => this.expandedUrl;
 
             /// <summary><see cref="ShortUrl"/> による展開を行うタスク</summary>
             public Task ExpandTask { get; private set; }
@@ -142,7 +151,7 @@ namespace OpenTween.Models
             /// <summary><see cref="DeepExpandAsync"/> による展開が完了したか否か</summary>
             public bool ExpandedCompleted => this.ExpandTask.IsCompleted;
 
-            protected string _expandedUrl;
+            protected string expandedUrl;
 
             public ExpandedUrlInfo(string url, string expandedUrl)
                 : this(url, expandedUrl, deepExpand: true)
@@ -152,9 +161,9 @@ namespace OpenTween.Models
             public ExpandedUrlInfo(string url, string expandedUrl, bool deepExpand)
             {
                 this.Url = url;
-                this._expandedUrl = expandedUrl;
+                this.expandedUrl = expandedUrl;
 
-                if (deepExpand)
+                if (AutoExpand && deepExpand)
                     this.ExpandTask = this.DeepExpandAsync();
                 else
                     this.ExpandTask = Task.CompletedTask;
@@ -162,15 +171,15 @@ namespace OpenTween.Models
 
             protected virtual async Task DeepExpandAsync()
             {
-                var origUrl = this._expandedUrl;
+                var origUrl = this.expandedUrl;
                 var newUrl = await ShortUrl.Instance.ExpandUrlAsync(origUrl)
                     .ConfigureAwait(false);
 
-                Interlocked.CompareExchange(ref this._expandedUrl, newUrl, origUrl);
+                Interlocked.CompareExchange(ref this.expandedUrl, newUrl, origUrl);
             }
 
             public ExpandedUrlInfo Clone()
-                => new ExpandedUrlInfo(this.Url, this.ExpandedUrl, deepExpand: false);
+                => new(this.Url, this.ExpandedUrl, deepExpand: false);
 
             object ICloneable.Clone()
                 => this.Clone();
@@ -178,7 +187,7 @@ namespace OpenTween.Models
 
         public int FavoritedCount { get; set; }
 
-        private States _states = States.None;
+        private States states = States.None;
         private bool expandComplatedAll = false;
 
         [Flags]
@@ -193,10 +202,10 @@ namespace OpenTween.Models
 
         public PostClass()
         {
-            Media = new List<MediaInfo>();
-            ReplyToList = new List<(long, string)>();
-            QuoteStatusIds = Array.Empty<long>();
-            ExpandedUrls = Array.Empty<ExpandedUrlInfo>();
+            this.Media = new List<MediaInfo>();
+            this.ReplyToList = new List<(long, string)>();
+            this.QuoteStatusIds = Array.Empty<long>();
+            this.ExpandedUrls = Array.Empty<ExpandedUrlInfo>();
         }
 
         public string TextSingleLine
@@ -215,11 +224,12 @@ namespace OpenTween.Models
                     }
                 }
 
-                return _IsFav;
+                return this.isFav;
             }
+
             set
             {
-                _IsFav = value;
+                this.isFav = value;
                 if (this.RetweetedId != null)
                 {
                     var post = this.RetweetSource;
@@ -233,47 +243,49 @@ namespace OpenTween.Models
 
         public bool IsProtect
         {
-            get => this._IsProtect;
+            get => this.isProtect;
             set
             {
                 if (value)
-                    _states |= States.Protect;
+                    this.states |= States.Protect;
                 else
-                    _states &= ~States.Protect;
+                    this.states &= ~States.Protect;
 
-                _IsProtect = value;
+                this.isProtect = value;
             }
         }
+
         public bool IsMark
         {
-            get => this._IsMark;
+            get => this.isMark;
             set
             {
                 if (value)
-                    _states |= States.Mark;
+                    this.states |= States.Mark;
                 else
-                    _states &= ~States.Mark;
+                    this.states &= ~States.Mark;
 
-                _IsMark = value;
+                this.isMark = value;
             }
         }
+
         public long? InReplyToStatusId
         {
-            get => this._InReplyToStatusId;
+            get => this.inReplyToStatusId;
             set
             {
                 if (value != null)
-                    _states |= States.Reply;
+                    this.states |= States.Reply;
                 else
-                    _states &= ~States.Reply;
+                    this.states &= ~States.Reply;
 
-                _InReplyToStatusId = value;
+                this.inReplyToStatusId = value;
             }
         }
 
         public bool IsDeleted
         {
-            get => this._IsDeleted;
+            get => this.isDeleted;
             set
             {
                 if (value)
@@ -283,9 +295,9 @@ namespace OpenTween.Models
                     this.InReplyToUserId = null;
                     this.IsReply = false;
                     this.ReplyToList = new List<(long, string)>();
-                    this._states = States.None;
+                    this.states = States.None;
                 }
-                _IsDeleted = value;
+                this.isDeleted = value;
             }
         }
 
@@ -294,23 +306,23 @@ namespace OpenTween.Models
 
         public StatusGeo? PostGeo
         {
-            get => this._postGeo;
+            get => this.postGeo;
             set
             {
                 if (value != null)
                 {
-                    _states |= States.Geo;
+                    this.states |= States.Geo;
                 }
                 else
                 {
-                    _states &= ~States.Geo;
+                    this.states &= ~States.Geo;
                 }
-                _postGeo = value;
+                this.postGeo = value;
             }
         }
 
         public int StateIndex
-            => (int)_states - 1;
+            => (int)this.states - 1;
 
         // 互換性のために用意
         public string SourceHtml
@@ -320,8 +332,10 @@ namespace OpenTween.Models
                 if (this.SourceUri == null)
                     return WebUtility.HtmlEncode(this.Source);
 
-                return string.Format("<a href=\"{0}\" rel=\"nofollow\">{1}</a>",
-                    WebUtility.HtmlEncode(this.SourceUri.AbsoluteUri), WebUtility.HtmlEncode(this.Source));
+                return string.Format(
+                    "<a href=\"{0}\" rel=\"nofollow\">{1}</a>",
+                    WebUtility.HtmlEncode(this.SourceUri.AbsoluteUri),
+                    WebUtility.HtmlEncode(this.Source));
             }
         }
 
@@ -463,7 +477,7 @@ namespace OpenTween.Models
                     (this.InReplyToStatusId == other.InReplyToStatusId) &&
                     (this.Source == other.Source) &&
                     (this.SourceUri == other.SourceUri) &&
-                    (this.ReplyToList.SequenceEqual(other.ReplyToList)) &&
+                    this.ReplyToList.SequenceEqual(other.ReplyToList) &&
                     (this.IsMe == other.IsMe) &&
                     (this.IsDm == other.IsDm) &&
                     (this.UserId == other.UserId) &&
@@ -472,7 +486,6 @@ namespace OpenTween.Models
                     (this.RetweetedId == other.RetweetedId) &&
                     (this.IsDeleted == other.IsDeleted) &&
                     (this.InReplyToUserId == other.InReplyToUserId);
-
         }
 
         public override int GetHashCode()

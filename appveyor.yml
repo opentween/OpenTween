@@ -1,6 +1,6 @@
-version: 2.4.3.{build}
+version: 2.5.0.{build}
 
-os: Visual Studio 2019
+os: Visual Studio 2022
 
 environment:
   matrix:
@@ -17,6 +17,11 @@ matrix:
       configuration: Release
     - RELEASE_TAG: 'true'
       configuration: Debug
+
+branches:
+  only:
+    - develop
+    - release
 
 for:
   - # for dev build
@@ -45,24 +50,31 @@ build:
   verbosity: minimal
 
 cache:
-  - ./packages/
+  - '%UserProfile%\.nuget\packages -> OpenTween\OpenTween.csproj, OpenTween.Tests\OpenTween.Tests.csproj'
 
 init:
   - git config --global core.autocrlf true
 
 before_build:
   - nuget restore
-  - choco install opencover.portable
 
 test_script:
-  - OpenCover.Console.exe -register -target:"%xunit20%\xunit.console.exe" -targetargs:".\OpenTween.Tests\bin\%CONFIGURATION%\net472\OpenTween.Tests.dll -noshadow -appveyor" -filter:"+[OpenTween*]* -[OpenTween.Tests]*" -excludebyfile:"*.Designer.cs" -skipautoprops -hideskipped:All -returntargetcode -output:coverage.xml
+  - cmd: |
+      set altCoverVersion=8.2.837
+      set xunitVersion=2.4.1
+      set targetFramework=net472
+      set nugetPackages=%UserProfile%\.nuget\packages
+
+      %nugetPackages%\altcover\%altCoverVersion%\tools\%targetFramework%\AltCover.exe --inputDirectory .\OpenTween.Tests\bin\Debug\%targetFramework%\ --outputDirectory .\__Instrumented\ --assemblyFilter "?^OpenTween(?!\.Tests)" --typeFilter "?^OpenTween\." --fileFilter "\.Designer\.cs" --visibleBranches
+
+      %nugetPackages%\altcover\%altCoverVersion%\tools\%targetFramework%\AltCover.exe runner --recorderDirectory .\__Instrumented\ --executable %nugetPackages%\xunit.runner.console\%xunitVersion%\tools\%targetFramework%\xunit.console.exe -- .\__Instrumented\OpenTween.Tests.dll
 
 after_test:
-  - npm install codecov --save
-  - ./node_modules/.bin/codecov -f coverage.xml
-
   - ps: |
-      $env:PATH = $env:PATH + ';C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\MSBuild\Current\bin\Roslyn\;C:\Program Files (x86)\Microsoft SDKs\Windows\v10.0A\bin\NETFX 4.8 Tools\'
+      Invoke-WebRequest -Uri https://uploader.codecov.io/latest/windows/codecov.exe -Outfile codecov.exe
+      .\codecov.exe -f coverage.xml
+  - ps: |
+      $env:PATH = $env:PATH + ';C:\Program Files\Microsoft Visual Studio\2022\Community\Msbuild\Current\Bin\Roslyn\;C:\Program Files (x86)\Microsoft SDKs\Windows\v10.0A\bin\NETFX 4.8 Tools\'
       $binDir = '.\OpenTween\bin\' + $env:CONFIGURATION + '\'
       $objDir = '.\OpenTween\obj\' + $env:CONFIGURATION + '\'
       $assemblyInfo = '.\OpenTween\Properties\AssemblyInfo.cs'

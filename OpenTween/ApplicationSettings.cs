@@ -1,19 +1,19 @@
 ﻿// OpenTween - Client of Twitter
 // Copyright (c) 2012      kim_upsilon (@kim_upsilon) <https://upsilo.net/~upsilon/>
 // All rights reserved.
-// 
+//
 // This file is part of OpenTween.
-// 
+//
 // This program is free software; you can redistribute it and/or modify it
 // under the terms of the GNU General public License as published by the Free
 // Software Foundation; either version 3 of the License, or (at your option)
 // any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful, but
 // WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
 // or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General public License
 // for more details.
-// 
+//
 // You should have received a copy of the GNU General public License along
 // with this program. If not, see <http://www.gnu.org/licenses/>, or write to
 // the Free Software Foundation, Inc., 51 Franklin Street - Fifth Floor,
@@ -38,7 +38,7 @@ namespace OpenTween
     /// </remarks>
     internal static class ApplicationSettings
     {
-        //=====================================================================
+        // =====================================================================
         // アプリケーション情報
 
         /// <summary>
@@ -55,10 +55,10 @@ namespace OpenTween
         /// </summary>
         public static string AssemblyName => MyCommon.GetAssemblyName();
 
-        //=====================================================================
+        // =====================================================================
         // フィードバック送信先
         // 異常終了時などにエラーログ等とともに表示されます。
-        
+
         /// <summary>
         /// フィードバック送信先 (メール)
         /// </summary>
@@ -77,7 +77,7 @@ namespace OpenTween
         /// </remarks>
         public static readonly bool AllowSendErrorReportByDM = true;
 
-        //=====================================================================
+        // =====================================================================
         // Web サイト
 
         /// <summary>
@@ -93,7 +93,7 @@ namespace OpenTween
         /// </remarks>
         public const string ShortcutKeyUrl = "https://ja.osdn.net/projects/tween/wiki/%E3%82%B7%E3%83%A7%E3%83%BC%E3%83%88%E3%82%AB%E3%83%83%E3%83%88%E3%82%AD%E3%83%BC";
 
-        //=====================================================================
+        // =====================================================================
         // アップデートチェック関連
 
         /// <summary>
@@ -105,7 +105,7 @@ namespace OpenTween
         /// </remarks>
         public static readonly string VersionInfoUrl = "https://www.opentween.org/status/version.txt";
 
-        //=====================================================================
+        // =====================================================================
         // 暗号化キー
 
         /// <summary>
@@ -113,7 +113,7 @@ namespace OpenTween
         /// </summary>
         public static readonly string EncryptionPassword = ApplicationName;
 
-        //=====================================================================
+        // =====================================================================
         // Twitter
         // https://developer.twitter.com/ から取得できます。
 
@@ -127,7 +127,7 @@ namespace OpenTween
         /// </summary>
         public static readonly ApiKey TwitterConsumerSecret = ApiKey.Create("%e%ocBkKu4aZI5PsbboE7+Ajg==%4IlCFjqusmFPQHbcDutms/1bTOSwgxd3ah1NPCj23WUu66nGjUb5oAEMiNSv41Pb6n5utbFQrgqwJRdl3jVnfQ==%jpx+NlcN1w8UQ8kda1LgyHEmiVwl/PLGCVPotrp6pd8=");
 
-        //=====================================================================
+        // =====================================================================
         // Foursquare
         // https://developer.foursquare.com/ から取得できます。
 
@@ -141,7 +141,7 @@ namespace OpenTween
         /// </summary>
         public static readonly ApiKey FoursquareClientSecret = ApiKey.Create("%e%YZeT/G9cZ0Lub68LFU15bw==%x9LQxogt6ejhWOAV1toXn0zeDeBpV0lMEmJGRCpsIrizJNl3kDcDKWGu1CYSOXgk2hAoqm5IOBq4RAExE0Z2Qw==%yMdCK6WJo7WmvAYBIJ+qZrxAKVIPOR3nftfoXzyzlgY=");
 
-        //=====================================================================
+        // =====================================================================
         // bit.ly
         // https://bitly.com/a/oauth_apps から取得できます。
 
@@ -155,7 +155,7 @@ namespace OpenTween
         /// </summary>
         public static readonly ApiKey BitlyClientSecret = ApiKey.Create("%e%NOCzRjTNRC64Hx0d6e4spA==%XJjn/yAsTsmtgLMdFpjptss66DFh15nvV+Ff2omHxYk0tKyc5Wn5qFxVquAQ4Yg3%yJnMWwcs/FfTYJZ1Wg3r7m0TMogAPj85ViUXImom890=");
 
-        //=====================================================================
+        // =====================================================================
         // TINAMI
         // http://www.tinami.com/api/ から取得できます。
 
@@ -164,7 +164,7 @@ namespace OpenTween
         /// </summary>
         public static readonly ApiKey TINAMIApiKey = ApiKey.Create("%e%5wz/IYAfWvY9y731F3yCIQ==%7y8i0qD9AF4DqFWjY1zn1w==%eVU155W/1sr3ZPDcuRMGTpSQyGXF4egWFto/HzBdGJ4=");
 
-        //=====================================================================
+        // =====================================================================
         // Microsoft Translator API (Cognitive Service)
         // https://www.microsoft.com/ja-jp/translator/getstarted.aspx から取得できます。
 
@@ -173,7 +173,7 @@ namespace OpenTween
         /// </summary>
         public static readonly ApiKey TranslatorSubscriptionKey = ApiKey.Create("%e%N0EPwqCbM0qiNX4h7VsrXQ==%uOf/IdH2RO6fTgrhrvXuJJ7IT+R44aS7ROY3aQFCqqrLHru4fZh2hJAEoAI239BY%p26g6G/ANsAf+1Xq/iLE2zuTwA4ok/zZ61SQkvqqTZ8=");
 
-        //=====================================================================
+        // =====================================================================
         // Imgur
         // https://api.imgur.com/oauth2/addclient から取得できます
 
@@ -187,7 +187,7 @@ namespace OpenTween
         /// </summary>
         public static readonly ApiKey ImgurClientSecret = ApiKey.Create("%e%nLVIw/raU3ozrGmkfIk3Ig==%2iKGe1reB5p6VHkvrMkH1w==%lwwvuejEuy0eZZ9nS4BT1Jw7S7pkLktGPKzsfQErttw=");
 
-        //=====================================================================
+        // =====================================================================
         // Mobypicture
         // http://www.mobypicture.com/apps/my から取得できます
 
@@ -196,7 +196,7 @@ namespace OpenTween
         /// </summary>
         public static readonly ApiKey MobypictureKey = ApiKey.Create("%e%G9elTyjHy18MCbUvVqHKIw==%TDUSyoO4HS5SX+t50cUlRQ5tIFDib0xjsnCKX+K/+DI=%s2qPqrxXrmi8oeQWoeigqNDbecUAqcYuv2LPRFDLwJk=");
 
-        //=====================================================================
+        // =====================================================================
         // Tumblr
         // https://www.tumblr.com/oauth/apps から取得できます
 

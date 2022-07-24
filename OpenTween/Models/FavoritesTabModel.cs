@@ -41,21 +41,23 @@ namespace OpenTween.Models
         public override MyCommon.TabUsageType TabType
             => MyCommon.TabUsageType.Favorites;
 
-        public FavoritesTabModel() : this(MyCommon.DEFAULTTAB.FAV)
+        public FavoritesTabModel()
+            : this(MyCommon.DEFAULTTAB.FAV)
         {
         }
 
-        public FavoritesTabModel(string tabName) : base(tabName)
+        public FavoritesTabModel(string tabName)
+            : base(tabName)
         {
         }
 
         public override async Task RefreshAsync(Twitter tw, bool backward, bool startup, IProgress<string> progress)
         {
             bool read;
-            if (!SettingManager.Common.UnreadManage)
+            if (!SettingManager.Instance.Common.UnreadManage)
                 read = true;
             else
-                read = startup && SettingManager.Common.Read;
+                read = startup && SettingManager.Instance.Common.Read;
 
             progress.Report(Properties.Resources.GetTimelineWorker_RunWorkerCompletedText19);
 

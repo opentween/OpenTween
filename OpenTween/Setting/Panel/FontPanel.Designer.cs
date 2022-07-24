@@ -7,19 +7,6 @@
         /// </summary>
         private System.ComponentModel.IContainer components = null;
 
-        /// <summary> 
-        /// 使用中のリソースをすべてクリーンアップします。
-        /// </summary>
-        /// <param name="disposing">マネージ リソースが破棄される場合 true、破棄されない場合は false です。</param>
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing && (components != null))
-            {
-                components.Dispose();
-            }
-            base.Dispose(disposing);
-        }
-
         #region コンポーネント デザイナーで生成されたコード
 
         /// <summary> 
@@ -96,7 +83,7 @@
             resources.ApplyResources(this.btnRetweet, "btnRetweet");
             this.btnRetweet.Name = "btnRetweet";
             this.btnRetweet.UseVisualStyleBackColor = true;
-            this.btnRetweet.Click += new System.EventHandler(this.btnRetweet_Click);
+            this.btnRetweet.Click += new System.EventHandler(this.BtnRetweet_Click);
             // 
             // lblRetweet
             // 
@@ -121,7 +108,7 @@
             resources.ApplyResources(this.btnDetailLink, "btnDetailLink");
             this.btnDetailLink.Name = "btnDetailLink";
             this.btnDetailLink.UseVisualStyleBackColor = true;
-            this.btnDetailLink.Click += new System.EventHandler(this.btnDetailLink_Click);
+            this.btnDetailLink.Click += new System.EventHandler(this.BtnDetailLink_Click);
             // 
             // lblDetailLink
             // 
@@ -139,7 +126,7 @@
             resources.ApplyResources(this.btnUnread, "btnUnread");
             this.btnUnread.Name = "btnUnread";
             this.btnUnread.UseVisualStyleBackColor = true;
-            this.btnUnread.Click += new System.EventHandler(this.btnUnread_Click);
+            this.btnUnread.Click += new System.EventHandler(this.BtnUnread_Click);
             // 
             // lblUnread
             // 
@@ -157,7 +144,7 @@
             resources.ApplyResources(this.btnDetailBack, "btnDetailBack");
             this.btnDetailBack.Name = "btnDetailBack";
             this.btnDetailBack.UseVisualStyleBackColor = true;
-            this.btnDetailBack.Click += new System.EventHandler(this.btnDetailBack_Click);
+            this.btnDetailBack.Click += new System.EventHandler(this.BtnDetailBack_Click);
             // 
             // lblDetailBackcolor
             // 
@@ -175,7 +162,7 @@
             resources.ApplyResources(this.btnDetail, "btnDetail");
             this.btnDetail.Name = "btnDetail";
             this.btnDetail.UseVisualStyleBackColor = true;
-            this.btnDetail.Click += new System.EventHandler(this.btnDetail_Click);
+            this.btnDetail.Click += new System.EventHandler(this.BtnDetail_Click);
             // 
             // lblDetail
             // 
@@ -201,7 +188,7 @@
             resources.ApplyResources(this.btnOWL, "btnOWL");
             this.btnOWL.Name = "btnOWL";
             this.btnOWL.UseVisualStyleBackColor = true;
-            this.btnOWL.Click += new System.EventHandler(this.btnOWL_Click);
+            this.btnOWL.Click += new System.EventHandler(this.BtnOWL_Click);
             // 
             // lblOWL
             // 
@@ -219,7 +206,7 @@
             resources.ApplyResources(this.btnFav, "btnFav");
             this.btnFav.Name = "btnFav";
             this.btnFav.UseVisualStyleBackColor = true;
-            this.btnFav.Click += new System.EventHandler(this.btnFav_Click);
+            this.btnFav.Click += new System.EventHandler(this.BtnFav_Click);
             // 
             // lblFav
             // 
@@ -237,7 +224,7 @@
             resources.ApplyResources(this.btnListFont, "btnListFont");
             this.btnListFont.Name = "btnListFont";
             this.btnListFont.UseVisualStyleBackColor = true;
-            this.btnListFont.Click += new System.EventHandler(this.btnListFont_Click);
+            this.btnListFont.Click += new System.EventHandler(this.BtnListFont_Click);
             // 
             // lblListFont
             // 

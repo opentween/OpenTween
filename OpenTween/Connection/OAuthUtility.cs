@@ -42,7 +42,7 @@ namespace OpenTween.Connection
         /// <summary>
         /// OAuth署名のoauth_nonce算出用乱数クラス
         /// </summary>
-        private static readonly Random NonceRandom = new Random();
+        private static readonly Random NonceRandom = new();
 
         /// <summary>
         /// HTTPリクエストに追加するAuthorizationヘッダの値を生成します
@@ -55,16 +55,24 @@ namespace OpenTween.Connection
         /// <param name="token">アクセストークン、もしくはリクエストトークン。未取得なら空文字列</param>
         /// <param name="tokenSecret">アクセストークンシークレット。認証処理では空文字列</param>
         /// <param name="realm">realm (必要な場合のみ)</param>
-        public static string CreateAuthorization(string httpMethod, Uri requestUri, IEnumerable<KeyValuePair<string, string>>? query,
-            ApiKey consumerKey, ApiKey consumerSecret, string token, string tokenSecret,
+        public static string CreateAuthorization(
+            string httpMethod,
+            Uri requestUri,
+            IEnumerable<KeyValuePair<string, string>>? query,
+            ApiKey consumerKey,
+            ApiKey consumerSecret,
+            string token,
+            string tokenSecret,
             string? realm = null)
         {
             // OAuth共通情報取得
             var parameter = GetOAuthParameter(consumerKey, token);
             // OAuth共通情報にquery情報を追加
             if (query != null)
+            {
                 foreach (var (key, value) in query)
                     parameter.Add(key, value);
+            }
             // 署名の作成・追加
             parameter.Add("oauth_signature", CreateSignature(consumerSecret, tokenSecret, httpMethod, requestUri, parameter));
             // HTTPリクエストのヘッダに追加

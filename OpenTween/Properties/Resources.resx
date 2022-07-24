@@ -27,7 +27,7 @@
 	<data name="AuthorizeButton_Click4"><value>未認証</value></data>
 	<data name="AuthorizeButton_Click6"><value>認証サーバーに接続できませんでした。</value></data>
 	<data name="BitlyAuthorize_ErrorText"><value>認証に失敗しました ({0})</value></data>
-	<data name="BrowserStartFailed"><value>ブラウザの起動に失敗しました。エラーコード: {0}</value></data>
+	<data name="BrowserStartFailed"><value>ブラウザの起動に失敗しました: {0}</value></data>
 	<data name="Button3_ClickText1"><value>実行形式ファイル(*.exe)|*.exe|すべてのファイル(*.*)|*.*</value></data>
 	<data name="Button3_ClickText2"><value>ブラウザを指定してください</value></data>
 	<data name="ButtonBlock_ClickText1"><value> をブロックします。よろしいですか？</value></data>
@@ -91,8 +91,6 @@
 	<data name="Description" type="System.Resources.ResXFileRef, System.Windows.Forms"><value>..\Resources\Description.txt;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value></data>
 	<data name="DisableButtonCaption"><value>無効化</value></data>
 	<data name="Disabled"><value>無効</value></data>
-	<data name="DMPeriod_ValidatingText1"><value>更新間隔には数値（0または15～6000）を指定してください。</value></data>
-	<data name="DMPeriod_ValidatingText2"><value>更新間隔には数値（0または15～6000）を指定してください。</value></data>
 	<data name="doShowUserStatusText1"><value>プロフィール取得中・・・</value></data>
 	<data name="DoTabSearchText1"><value>正規表現パターンが間違っています。</value></data>
 	<data name="DoTabSearchText2"><value>検索条件に一致するデータは見つかりません。</value></data>
@@ -211,10 +209,23 @@
 ファイル名: {2}
 使用可能な投稿先: {1}</value></data>
 	<data name="PostPictureWarn6"><value>なし</value></data>
+	<data name="PostState00" type="System.Resources.ResXFileRef, System.Windows.Forms"><value>..\Resources\S0.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value></data>
+	<data name="PostState01" type="System.Resources.ResXFileRef, System.Windows.Forms"><value>..\Resources\S1.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value></data>
+	<data name="PostState02" type="System.Resources.ResXFileRef, System.Windows.Forms"><value>..\Resources\S2.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value></data>
+	<data name="PostState03" type="System.Resources.ResXFileRef, System.Windows.Forms"><value>..\Resources\S3.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value></data>
+	<data name="PostState04" type="System.Resources.ResXFileRef, System.Windows.Forms"><value>..\Resources\S4.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value></data>
+	<data name="PostState05" type="System.Resources.ResXFileRef, System.Windows.Forms"><value>..\Resources\S5.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value></data>
+	<data name="PostState06" type="System.Resources.ResXFileRef, System.Windows.Forms"><value>..\Resources\S6.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value></data>
+	<data name="PostState07" type="System.Resources.ResXFileRef, System.Windows.Forms"><value>..\Resources\S7.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value></data>
+	<data name="PostState08" type="System.Resources.ResXFileRef, System.Windows.Forms"><value>..\Resources\S8.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value></data>
+	<data name="PostState09" type="System.Resources.ResXFileRef, System.Windows.Forms"><value>..\Resources\S9.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value></data>
+	<data name="PostState10" type="System.Resources.ResXFileRef, System.Windows.Forms"><value>..\Resources\S10.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value></data>
+	<data name="PostState11" type="System.Resources.ResXFileRef, System.Windows.Forms"><value>..\Resources\S11.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value></data>
+	<data name="PostState12" type="System.Resources.ResXFileRef, System.Windows.Forms"><value>..\Resources\S12.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value></data>
+	<data name="PostState13" type="System.Resources.ResXFileRef, System.Windows.Forms"><value>..\Resources\S13.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value></data>
+	<data name="PostState14" type="System.Resources.ResXFileRef, System.Windows.Forms"><value>..\Resources\S14.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value></data>
 	<data name="PostWorker_RunWorkerCompletedText4"><value>POST完了</value></data>
 	<data name="PostWorker_RunWorkerCompletedText5"><value>Recent更新中...</value></data>
-	<data name="PubSearchPeriod_ValidatingText1"><value>更新間隔には数値（0または30～6000）を指定してください。</value></data>
-	<data name="PubSearchPeriod_ValidatingText2"><value>更新間隔には数値（0または30～6000）を指定してください。</value></data>
 	<data name="QuoteStatus_AccessibleText"><value>[引用 @{0}: {1}]</value></data>
 	<data name="ReAuthorizeText"><value>Direct Messageの送受信をするため、もう一度認証処理をして下さい。</value></data>
 	<data name="Refresh" type="System.Resources.ResXFileRef, System.Windows.Forms"><value>..\Resources\re.ico;System.Drawing.Icon, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value></data>
@@ -323,8 +334,7 @@
 	<data name="TextProxyPort_ValidatingText1"><value>ポート番号には整数値を指定してください。</value></data>
 	<data name="TextProxyPort_ValidatingText2"><value>ポート番号には0～65535を指定してください。</value></data>
 	<data name="TextSearchCountApi_Validating1"><value>取得発言数は20～100件を指定してください。</value></data>
-	<data name="TimelinePeriod_ValidatingText1"><value>更新間隔には数値（0または15～6000）を指定してください。</value></data>
-	<data name="TimelinePeriod_ValidatingText2"><value>更新間隔には数値（0または15～6000）を指定してください。</value></data>
+	<data name="TimelinePeriod_ValidatingText1"><value>更新間隔には 0 以上の数値を指定してください。</value></data>
 	<data name="TimerDM_TickText1"><value>DMRcv更新中...</value></data>
 	<data name="TimerTimeline_TickText1"><value>Recent更新中...</value></data>
 	<data name="TraceOutText1"><value>このファイルの内容を {0} まで送っていただけると助かります。</value></data>

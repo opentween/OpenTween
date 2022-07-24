@@ -65,7 +65,7 @@ namespace OpenTween
         /// <returns>
         /// 成功した場合は true、暗号化された API キーの復号に失敗した場合は false を返します
         /// </returns>
-        public bool TryGetValue([NotNullWhen(true)]out string output)
+        public bool TryGetValue([NotNullWhen(true)]out string? output)
         {
             try
             {
@@ -74,7 +74,7 @@ namespace OpenTween
             }
             catch (ApiKeyDecryptException)
             {
-                output = null!;
+                output = null;
                 return false;
             }
         }
@@ -89,7 +89,7 @@ namespace OpenTween
         /// <see cref="ApiKey"/> インスタンスを作成します
         /// </summary>
         public static ApiKey Create(string password, string rawKey)
-            => new ApiKey(password, rawKey);
+            => new(password, rawKey);
 
         /// <summary>
         /// 指定された文字列を暗号化して返します
@@ -187,7 +187,7 @@ namespace OpenTween
             return salt;
         }
 
-        private static (byte[], byte[], byte[]) GenerateKeyAndIV(string password, byte[] salt)
+        private static (byte[] EncryptionKey, byte[] IV, byte[] MacKey) GenerateKeyAndIV(string password, byte[] salt)
         {
             using var generator = new Rfc2898DeriveBytes(password, salt, IterationCount, HashAlgorithm);
             var encryptionKey = generator.GetBytes(KeySize);
@@ -215,7 +215,9 @@ namespace OpenTween
 
     public static class ApiKeyExtensions
     {
+#pragma warning disable SA1141
         public static bool TryGetValue(this ValueTuple<ApiKey, ApiKey> apiKeys, out ValueTuple<string, string> decryptedKeys)
+#pragma warning restore SA1141
         {
             var (apiKey1, apiKey2) = apiKeys;
             if (apiKey1.TryGetValue(out var decrypted1) && apiKey2.TryGetValue(out var decrypted2))
@@ -232,9 +234,23 @@ namespace OpenTween
     [Serializable]
     public class ApiKeyDecryptException : Exception
     {
-        public ApiKeyDecryptException() { }
-        public ApiKeyDecryptException(string message) : base(message) { }
-        public ApiKeyDecryptException(string message, Exception innerException) : base(message, innerException) { }
-        protected ApiKeyDecryptException(SerializationInfo info, StreamingContext context) : base(info, context) { }
+        public ApiKeyDecryptException()
+        {
+        }
+
+        public ApiKeyDecryptException(string message)
+            : base(message)
+        {
+        }
+
+        public ApiKeyDecryptException(string message, Exception innerException)
+            : base(message, innerException)
+        {
+        }
+
+        protected ApiKeyDecryptException(SerializationInfo info, StreamingContext context)
+            : base(info, context)
+        {
+        }
     }
 }

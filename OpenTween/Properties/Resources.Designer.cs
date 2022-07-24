@@ -263,7 +263,7 @@ namespace OpenTween.Properties {
         }
         
         /// <summary>
-        ///   ブラウザの起動に失敗しました。エラーコード: {0} に類似しているローカライズされた文字列を検索します。
+        ///   ブラウザの起動に失敗しました: {0} に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string BrowserStartFailed {
             get {
@@ -571,19 +571,17 @@ namespace OpenTween.Properties {
         /// <summary>
         ///   更新履歴
         ///
-        ///==== Ver 2.5.0(2022/02/05)
-        /// * NEW: アカウント追加時の認可URLを右クリックでコピー可能にしました
-        /// * NEW: Twemoji 13.1 に対応しました
-        ///  - Unicode 13.0 で追加された絵文字が表示されるようになります
-        /// * CHG: pic.twitter.com の画像URLのフォーマット変更に対応
-        /// * CHG: Instagramのサムネイルを表示するURLのパターンを追加
-        /// * CHG: YouTubeのサムネイルを表示するURLのパターンを追加 (thx @Hawklaver!)
-        /// * CHG: UserStreams関係の機能を削除
-        /// * CHG: 設定画面にある通知関係の項目の配置を移動
-        /// * CHG: タブ別の新着通知表示のデフォルト設定を変更
-        ///   * Reply, DM タブ以外は新着通知表示がデフォルトでオフになります（従来はタブの種別に関わらずデフォルトでオン）
-        /// * CHG: 「Listの発言取得に公式RTを含める」のデフォルト設定をオンに変更
-        /// * CHG: POSTキーのデフォルト設定を [残りの文字列は切り詰められました]&quot;; に類似しているローカライズされた文字列を検索します。
+        ///==== Ver 2.6.0(2022/07/24)
+        /// * NEW: Recentタブの発言の取得に Twitter API v2 を使用
+        ///   - 従来の API v1.1 と比べて、15分間に取得できる回数の制限が15→180回に緩和、一度に取得できる件数が200→100件になります
+        /// * NEW: RTしたユーザーのプロフィール・タイムラインを表示する機能をメニューに追加 (thx @kzlogos!)
+        /// * NEW: 発言詳細欄の名前やアイコンのクリックによるプロフィール表示に対応
+        /// * NEW: クリップボード経由での複数枚の画像ファイル添付に対応
+        /// * NEW: 画面上に表示する解像度に応じたプロフィール画像の取得に対応
+        ///   - 高DPI環境で表示した場合により高解像度のプロフィール画像が取得されるようになります
+        ///   - リストのアイコンサイズを none に設定した場合、発言が選択されるまでプロフィール画像のダウンロードを行わなくなります
+        /// * NEW: 発言のダブルクリック時の動作に「Reply All」(@返信ALL)を追加
+        /// * NEW: 関連発言表 [残りの文字列は切り詰められました]&quot;; に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string ChangeLog {
             get {
@@ -852,24 +850,6 @@ namespace OpenTween.Properties {
         internal static string Disabled {
             get {
                 return ResourceManager.GetString("Disabled", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   更新間隔には数値（0または15～6000）を指定してください。 に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        internal static string DMPeriod_ValidatingText1 {
-            get {
-                return ResourceManager.GetString("DMPeriod_ValidatingText1", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   更新間隔には数値（0または15～6000）を指定してください。 に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        internal static string DMPeriod_ValidatingText2 {
-            get {
-                return ResourceManager.GetString("DMPeriod_ValidatingText2", resourceCulture);
             }
         }
         
@@ -1861,6 +1841,156 @@ namespace OpenTween.Properties {
         }
         
         /// <summary>
+        ///   (アイコン) に類似した型 System.Drawing.Icon のローカライズされたリソースを検索します。
+        /// </summary>
+        internal static System.Drawing.Icon PostState00 {
+            get {
+                object obj = ResourceManager.GetObject("PostState00", resourceCulture);
+                return ((System.Drawing.Icon)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   (アイコン) に類似した型 System.Drawing.Icon のローカライズされたリソースを検索します。
+        /// </summary>
+        internal static System.Drawing.Icon PostState01 {
+            get {
+                object obj = ResourceManager.GetObject("PostState01", resourceCulture);
+                return ((System.Drawing.Icon)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   (アイコン) に類似した型 System.Drawing.Icon のローカライズされたリソースを検索します。
+        /// </summary>
+        internal static System.Drawing.Icon PostState02 {
+            get {
+                object obj = ResourceManager.GetObject("PostState02", resourceCulture);
+                return ((System.Drawing.Icon)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   (アイコン) に類似した型 System.Drawing.Icon のローカライズされたリソースを検索します。
+        /// </summary>
+        internal static System.Drawing.Icon PostState03 {
+            get {
+                object obj = ResourceManager.GetObject("PostState03", resourceCulture);
+                return ((System.Drawing.Icon)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   (アイコン) に類似した型 System.Drawing.Icon のローカライズされたリソースを検索します。
+        /// </summary>
+        internal static System.Drawing.Icon PostState04 {
+            get {
+                object obj = ResourceManager.GetObject("PostState04", resourceCulture);
+                return ((System.Drawing.Icon)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   (アイコン) に類似した型 System.Drawing.Icon のローカライズされたリソースを検索します。
+        /// </summary>
+        internal static System.Drawing.Icon PostState05 {
+            get {
+                object obj = ResourceManager.GetObject("PostState05", resourceCulture);
+                return ((System.Drawing.Icon)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   (アイコン) に類似した型 System.Drawing.Icon のローカライズされたリソースを検索します。
+        /// </summary>
+        internal static System.Drawing.Icon PostState06 {
+            get {
+                object obj = ResourceManager.GetObject("PostState06", resourceCulture);
+                return ((System.Drawing.Icon)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   (アイコン) に類似した型 System.Drawing.Icon のローカライズされたリソースを検索します。
+        /// </summary>
+        internal static System.Drawing.Icon PostState07 {
+            get {
+                object obj = ResourceManager.GetObject("PostState07", resourceCulture);
+                return ((System.Drawing.Icon)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   (アイコン) に類似した型 System.Drawing.Icon のローカライズされたリソースを検索します。
+        /// </summary>
+        internal static System.Drawing.Icon PostState08 {
+            get {
+                object obj = ResourceManager.GetObject("PostState08", resourceCulture);
+                return ((System.Drawing.Icon)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   (アイコン) に類似した型 System.Drawing.Icon のローカライズされたリソースを検索します。
+        /// </summary>
+        internal static System.Drawing.Icon PostState09 {
+            get {
+                object obj = ResourceManager.GetObject("PostState09", resourceCulture);
+                return ((System.Drawing.Icon)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   (アイコン) に類似した型 System.Drawing.Icon のローカライズされたリソースを検索します。
+        /// </summary>
+        internal static System.Drawing.Icon PostState10 {
+            get {
+                object obj = ResourceManager.GetObject("PostState10", resourceCulture);
+                return ((System.Drawing.Icon)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   (アイコン) に類似した型 System.Drawing.Icon のローカライズされたリソースを検索します。
+        /// </summary>
+        internal static System.Drawing.Icon PostState11 {
+            get {
+                object obj = ResourceManager.GetObject("PostState11", resourceCulture);
+                return ((System.Drawing.Icon)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   (アイコン) に類似した型 System.Drawing.Icon のローカライズされたリソースを検索します。
+        /// </summary>
+        internal static System.Drawing.Icon PostState12 {
+            get {
+                object obj = ResourceManager.GetObject("PostState12", resourceCulture);
+                return ((System.Drawing.Icon)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   (アイコン) に類似した型 System.Drawing.Icon のローカライズされたリソースを検索します。
+        /// </summary>
+        internal static System.Drawing.Icon PostState13 {
+            get {
+                object obj = ResourceManager.GetObject("PostState13", resourceCulture);
+                return ((System.Drawing.Icon)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   (アイコン) に類似した型 System.Drawing.Icon のローカライズされたリソースを検索します。
+        /// </summary>
+        internal static System.Drawing.Icon PostState14 {
+            get {
+                object obj = ResourceManager.GetObject("PostState14", resourceCulture);
+                return ((System.Drawing.Icon)(obj));
+            }
+        }
+        
+        /// <summary>
         ///   POST完了 に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string PostWorker_RunWorkerCompletedText4 {
@@ -1875,24 +2005,6 @@ namespace OpenTween.Properties {
         internal static string PostWorker_RunWorkerCompletedText5 {
             get {
                 return ResourceManager.GetString("PostWorker_RunWorkerCompletedText5", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   更新間隔には数値（0または30～6000）を指定してください。 に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        internal static string PubSearchPeriod_ValidatingText1 {
-            get {
-                return ResourceManager.GetString("PubSearchPeriod_ValidatingText1", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   更新間隔には数値（0または30～6000）を指定してください。 に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        internal static string PubSearchPeriod_ValidatingText2 {
-            get {
-                return ResourceManager.GetString("PubSearchPeriod_ValidatingText2", resourceCulture);
             }
         }
         
@@ -2788,20 +2900,11 @@ namespace OpenTween.Properties {
         }
         
         /// <summary>
-        ///   更新間隔には数値（0または15～6000）を指定してください。 に類似しているローカライズされた文字列を検索します。
+        ///   更新間隔には 0 以上の数値を指定してください。 に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string TimelinePeriod_ValidatingText1 {
             get {
                 return ResourceManager.GetString("TimelinePeriod_ValidatingText1", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   更新間隔には数値（0または15～6000）を指定してください。 に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        internal static string TimelinePeriod_ValidatingText2 {
-            get {
-                return ResourceManager.GetString("TimelinePeriod_ValidatingText2", resourceCulture);
             }
         }
         

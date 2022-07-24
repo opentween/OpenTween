@@ -36,11 +36,11 @@ namespace OpenTween.Thumbnail.Services
     /// <summary>
     /// 正規表現によるURLの単純な置換でサムネイルURLを生成する
     /// </summary>
-    class SimpleThumbnailService : IThumbnailService
+    public class SimpleThumbnailService : IThumbnailService
     {
         protected Regex regex;
-        protected string thumb_replacement;
-        protected string? fullsize_replacement;
+        protected string thumbReplacement;
+        protected string? fullsizeReplacement;
 
         public SimpleThumbnailService(string pattern, string replacement)
             : this(pattern, replacement, null)
@@ -55,8 +55,8 @@ namespace OpenTween.Thumbnail.Services
         public SimpleThumbnailService(Regex regex, string replacement, string? file_replacement)
         {
             this.regex = regex;
-            this.thumb_replacement = replacement;
-            this.fullsize_replacement = file_replacement;
+            this.thumbReplacement = replacement;
+            this.fullsizeReplacement = file_replacement;
         }
 
         public override Task<ThumbnailInfo?> GetThumbnailInfoAsync(string url, PostClass post, CancellationToken token)
@@ -71,13 +71,14 @@ namespace OpenTween.Thumbnail.Services
                     MediaPageUrl = url,
                     ThumbnailImageUrl = thumbnailUrl,
                     TooltipText = null,
-                    FullSizeImageUrl = ReplaceUrl(url, this.fullsize_replacement)
+                    FullSizeImageUrl = this.ReplaceUrl(url, this.fullsizeReplacement),
                 };
-            }, token);
+            },
+            token);
         }
 
         protected string? ReplaceUrl(string url)
-            => this.ReplaceUrl(url, this.thumb_replacement);
+            => this.ReplaceUrl(url, this.thumbReplacement);
 
         protected string? ReplaceUrl(string url, string? replacement)
         {

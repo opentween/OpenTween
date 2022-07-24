@@ -20,6 +20,7 @@
 // Boston, MA 02110-1301, USA.
 
 #nullable enable annotations
+#pragma warning disable SA1649
 
 using System.Runtime.Serialization;
 
@@ -37,7 +38,7 @@ namespace OpenTween.Api.DataModel
             => this.Status = status;
 
         public static StreamMessageStatus ParseJson(string json)
-            => new StreamMessageStatus(TwitterStatusCompat.ParseJson(json));
+            => new(TwitterStatusCompat.ParseJson(json));
     }
 
     public class StreamMessageKeepAlive : ITwitterStreamMessage

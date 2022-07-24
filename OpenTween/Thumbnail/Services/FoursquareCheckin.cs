@@ -38,17 +38,17 @@ using OpenTween.Models;
 
 namespace OpenTween.Thumbnail.Services
 {
-    class FoursquareCheckin : IThumbnailService
+    public class FoursquareCheckin : IThumbnailService
     {
         public static readonly Regex UrlPatternRegex =
-            new Regex(@"^https?://www\.swarmapp\.com/c/(?<checkin_id>[0-9a-zA-Z]+)");
+            new(@"^https?://www\.swarmapp\.com/c/(?<checkin_id>[0-9a-zA-Z]+)");
 
         public static readonly Regex LegacyUrlPatternRegex =
-            new Regex(@"^https?://(?:foursquare\.com|www\.swarmapp\.com)/.+?/checkin/(?<checkin_id>[0-9a-z]+)(?:\?s=(?<signature>[^&]+))?");
+            new(@"^https?://(?:foursquare\.com|www\.swarmapp\.com)/.+?/checkin/(?<checkin_id>[0-9a-z]+)(?:\?s=(?<signature>[^&]+))?");
 
         public static readonly string ApiBase = "https://api.foursquare.com/v2";
 
-        protected HttpClient http
+        protected HttpClient Http
             => this.localHttpClient ?? Networking.Http;
 
         private readonly HttpClient? localHttpClient;
@@ -124,7 +124,7 @@ namespace OpenTween.Thumbnail.Services
 
                 var apiUrl = new Uri(ApiBase + "/checkins/resolve?" + MyCommon.BuildQueryString(query));
 
-                using var response = await this.http.GetAsync(apiUrl, token)
+                using var response = await this.Http.GetAsync(apiUrl, token)
                     .ConfigureAwait(false);
 
                 response.EnsureSuccessStatusCode();
@@ -174,7 +174,7 @@ namespace OpenTween.Thumbnail.Services
 
                 var apiUrl = new Uri(ApiBase + "/checkins/" + checkinIdGroup.Value + "?" + MyCommon.BuildQueryString(query));
 
-                using var response = await this.http.GetAsync(apiUrl, token)
+                using var response = await this.Http.GetAsync(apiUrl, token)
                     .ConfigureAwait(false);
 
                 response.EnsureSuccessStatusCode();
@@ -206,11 +206,10 @@ namespace OpenTween.Thumbnail.Services
             if (planetElm != null && planetElm.Value != "earth")
                 return null;
 
-            return new GlobalLocation
-            {
-                Latitude = double.Parse(locationElm.Element("lat").Value, CultureInfo.InvariantCulture),
-                Longitude = double.Parse(locationElm.Element("lng").Value, CultureInfo.InvariantCulture),
-            };
+            return new GlobalLocation(
+                Latitude: double.Parse(locationElm.Element("lat").Value, CultureInfo.InvariantCulture),
+                Longitude: double.Parse(locationElm.Element("lng").Value, CultureInfo.InvariantCulture)
+            );
         }
     }
 }

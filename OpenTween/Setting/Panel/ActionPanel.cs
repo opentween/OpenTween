@@ -29,8 +29,8 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Drawing;
 using System.Data;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
@@ -53,10 +53,10 @@ namespace OpenTween.Setting.Panel
             this.CheckReadOldPosts.Checked = settingCommon.ReadOldPosts;
 
             this.HotkeyCheck.Checked = settingCommon.HotkeyEnabled;
-            this.HotkeyAlt.Checked = ((settingCommon.HotkeyModifier & Keys.Alt) == Keys.Alt);
-            this.HotkeyCtrl.Checked = ((settingCommon.HotkeyModifier & Keys.Control) == Keys.Control);
-            this.HotkeyShift.Checked = ((settingCommon.HotkeyModifier & Keys.Shift) == Keys.Shift);
-            this.HotkeyWin.Checked = ((settingCommon.HotkeyModifier & Keys.LWin) == Keys.LWin);
+            this.HotkeyAlt.Checked = (settingCommon.HotkeyModifier & Keys.Alt) == Keys.Alt;
+            this.HotkeyCtrl.Checked = (settingCommon.HotkeyModifier & Keys.Control) == Keys.Control;
+            this.HotkeyShift.Checked = (settingCommon.HotkeyModifier & Keys.Shift) == Keys.Shift;
+            this.HotkeyWin.Checked = (settingCommon.HotkeyModifier & Keys.LWin) == Keys.LWin;
             this.HotkeyCode.Text = settingCommon.HotkeyValue.ToString();
             this.HotkeyText.Text = settingCommon.HotkeyKey.ToString();
             this.HotkeyText.Tag = settingCommon.HotkeyKey;
@@ -68,7 +68,19 @@ namespace OpenTween.Setting.Panel
             this.HotkeyCode.Enabled = settingCommon.HotkeyEnabled;
 
             this.CheckOpenUserTimeline.Checked = settingCommon.OpenUserTimeline;
-            this.ListDoubleClickActionComboBox.SelectedIndex = settingCommon.ListDoubleClickAction;
+            this.ListDoubleClickActionComboBox.SelectedIndex = settingCommon.ListDoubleClickAction switch
+            {
+                MyCommon.ListItemDoubleClickActionType.None => 0,
+                MyCommon.ListItemDoubleClickActionType.Reply => 1,
+                MyCommon.ListItemDoubleClickActionType.ReplyAll => 2,
+                MyCommon.ListItemDoubleClickActionType.Favorite => 3,
+                MyCommon.ListItemDoubleClickActionType.ShowProfile => 4,
+                MyCommon.ListItemDoubleClickActionType.ShowTimeline => 5,
+                MyCommon.ListItemDoubleClickActionType.ShowRelated => 6,
+                MyCommon.ListItemDoubleClickActionType.OpenHomeInBrowser => 7,
+                MyCommon.ListItemDoubleClickActionType.OpenStatusInBrowser => 8,
+                _ => 1,
+            };
             this.TabMouseLockCheck.Checked = settingCommon.TabMouseLock;
         }
 
@@ -96,7 +108,19 @@ namespace OpenTween.Setting.Panel
             settingCommon.HotkeyKey = (Keys)this.HotkeyText.Tag;
 
             settingCommon.OpenUserTimeline = this.CheckOpenUserTimeline.Checked;
-            settingCommon.ListDoubleClickAction = this.ListDoubleClickActionComboBox.SelectedIndex;
+            settingCommon.ListDoubleClickAction = this.ListDoubleClickActionComboBox.SelectedIndex switch
+            {
+                0 => MyCommon.ListItemDoubleClickActionType.None,
+                1 => MyCommon.ListItemDoubleClickActionType.Reply,
+                2 => MyCommon.ListItemDoubleClickActionType.ReplyAll,
+                3 => MyCommon.ListItemDoubleClickActionType.Favorite,
+                4 => MyCommon.ListItemDoubleClickActionType.ShowProfile,
+                5 => MyCommon.ListItemDoubleClickActionType.ShowTimeline,
+                6 => MyCommon.ListItemDoubleClickActionType.ShowRelated,
+                7 => MyCommon.ListItemDoubleClickActionType.OpenHomeInBrowser,
+                8 => MyCommon.ListItemDoubleClickActionType.OpenStatusInBrowser,
+                _ => MyCommon.ListItemDoubleClickActionType.Reply,
+            };
             settingCommon.TabMouseLock = this.TabMouseLockCheck.Checked;
         }
 
@@ -111,29 +135,29 @@ namespace OpenTween.Setting.Panel
 
             if (filedlg.ShowDialog() == DialogResult.OK)
             {
-                BrowserPathText.Text = filedlg.FileName;
+                this.BrowserPathText.Text = filedlg.FileName;
             }
         }
 
         private void HotkeyText_KeyDown(object sender, KeyEventArgs e)
         {
-            //KeyValueで判定する。
-            //表示文字とのテーブルを用意すること
-            HotkeyText.Text = e.KeyCode.ToString();
-            HotkeyCode.Text = e.KeyValue.ToString();
-            HotkeyText.Tag = e.KeyCode;
+            // KeyValueで判定する。
+            // 表示文字とのテーブルを用意すること
+            this.HotkeyText.Text = e.KeyCode.ToString();
+            this.HotkeyCode.Text = e.KeyValue.ToString();
+            this.HotkeyText.Tag = e.KeyCode;
             e.Handled = true;
             e.SuppressKeyPress = true;
         }
 
         private void HotkeyCheck_CheckedChanged(object sender, EventArgs e)
         {
-            HotkeyCtrl.Enabled = HotkeyCheck.Checked;
-            HotkeyAlt.Enabled = HotkeyCheck.Checked;
-            HotkeyShift.Enabled = HotkeyCheck.Checked;
-            HotkeyWin.Enabled = HotkeyCheck.Checked;
-            HotkeyText.Enabled = HotkeyCheck.Checked;
-            HotkeyCode.Enabled = HotkeyCheck.Checked;
+            this.HotkeyCtrl.Enabled = this.HotkeyCheck.Checked;
+            this.HotkeyAlt.Enabled = this.HotkeyCheck.Checked;
+            this.HotkeyShift.Enabled = this.HotkeyCheck.Checked;
+            this.HotkeyWin.Enabled = this.HotkeyCheck.Checked;
+            this.HotkeyText.Enabled = this.HotkeyCheck.Checked;
+            this.HotkeyCode.Enabled = this.HotkeyCheck.Checked;
         }
     }
 }

@@ -29,8 +29,8 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Drawing;
 using System.Data;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
@@ -39,86 +39,105 @@ namespace OpenTween.Setting.Panel
 {
     public partial class FontPanel : SettingPanelBase
     {
+        private readonly ThemeManager defaultTheme = new(new());
+        private ThemeManager currentTheme = new(new());
+
         public FontPanel()
             => this.InitializeComponent();
 
         public void LoadConfig(SettingLocal settingLocal)
         {
-            this.lblListFont.Font = settingLocal.FontRead;
-            this.lblUnread.Font = settingLocal.FontUnread;
-            this.lblUnread.ForeColor = settingLocal.ColorUnread;
-            this.lblListFont.ForeColor = settingLocal.ColorRead;
-            this.lblFav.ForeColor = settingLocal.ColorFav;
-            this.lblOWL.ForeColor = settingLocal.ColorOWL;
-            this.lblRetweet.ForeColor = settingLocal.ColorRetweet;
-            this.lblDetail.Font = settingLocal.FontDetail;
-            this.lblDetailBackcolor.BackColor = settingLocal.ColorDetailBackcolor;
-            this.lblDetail.ForeColor = settingLocal.ColorDetail;
-            this.lblDetailLink.ForeColor = settingLocal.ColorDetailLink;
+            this.UpdateTheme(settingLocal);
+
+            this.lblListFont.Font = this.currentTheme.FontReaded;
+            this.lblUnread.Font = this.currentTheme.FontUnread;
+            this.lblUnread.ForeColor = this.currentTheme.ColorUnread;
+            this.lblListFont.ForeColor = this.currentTheme.ColorRead;
+            this.lblFav.ForeColor = this.currentTheme.ColorFav;
+            this.lblOWL.ForeColor = this.currentTheme.ColorOWL;
+            this.lblRetweet.ForeColor = this.currentTheme.ColorRetweet;
+            this.lblDetail.Font = this.currentTheme.FontDetail;
+            this.lblDetailBackcolor.BackColor = this.currentTheme.ColorDetailBackcolor;
+            this.lblDetail.ForeColor = this.currentTheme.ColorDetail;
+            this.lblDetailLink.ForeColor = this.currentTheme.ColorDetailLink;
             this.checkBoxUseTwemoji.Checked = settingLocal.UseTwemoji;
         }
 
         public void SaveConfig(SettingLocal settingLocal)
         {
-            settingLocal.FontUnread = this.lblUnread.Font; // 未使用
-            settingLocal.ColorUnread = this.lblUnread.ForeColor;
-            settingLocal.FontRead = this.lblListFont.Font; // リストフォントとして使用
-            settingLocal.ColorRead = this.lblListFont.ForeColor;
-            settingLocal.ColorFav = this.lblFav.ForeColor;
-            settingLocal.ColorOWL = this.lblOWL.ForeColor;
-            settingLocal.ColorRetweet = this.lblRetweet.ForeColor;
-            settingLocal.FontDetail = this.lblDetail.Font;
-            settingLocal.ColorDetailBackcolor = this.lblDetailBackcolor.BackColor;
-            settingLocal.ColorDetail = this.lblDetail.ForeColor;
-            settingLocal.ColorDetailLink = this.lblDetailLink.ForeColor;
+            var fontConverter = new FontConverter();
+            var colorConverter = new ColorConverter();
+
+            settingLocal.FontUnreadStr = ThemeManager.ConvertFontToString(fontConverter, this.lblUnread.Font, this.defaultTheme.FontUnread); // 未使用
+            settingLocal.ColorUnreadStr = ThemeManager.ConvertColorToString(colorConverter, this.lblUnread.ForeColor, this.defaultTheme.ColorUnread);
+            settingLocal.FontReadStr = ThemeManager.ConvertFontToString(fontConverter, this.lblListFont.Font, this.defaultTheme.FontReaded); // リストフォントとして使用
+            settingLocal.ColorReadStr = ThemeManager.ConvertColorToString(colorConverter, this.lblListFont.ForeColor, this.defaultTheme.ColorRead);
+            settingLocal.ColorFavStr = ThemeManager.ConvertColorToString(colorConverter, this.lblFav.ForeColor, this.defaultTheme.ColorFav);
+            settingLocal.ColorOWLStr = ThemeManager.ConvertColorToString(colorConverter, this.lblOWL.ForeColor, this.defaultTheme.ColorOWL);
+            settingLocal.ColorRetweetStr = ThemeManager.ConvertColorToString(colorConverter, this.lblRetweet.ForeColor, this.defaultTheme.ColorRetweet);
+            settingLocal.FontDetailStr = ThemeManager.ConvertFontToString(fontConverter, this.lblDetail.Font, this.defaultTheme.FontDetail);
+            settingLocal.ColorDetailBackcolorStr = ThemeManager.ConvertColorToString(colorConverter, this.lblDetailBackcolor.BackColor, this.defaultTheme.ColorDetailBackcolor);
+            settingLocal.ColorDetailStr = ThemeManager.ConvertColorToString(colorConverter, this.lblDetail.ForeColor, this.defaultTheme.ColorDetail);
+            settingLocal.ColorDetailLinkStr = ThemeManager.ConvertColorToString(colorConverter, this.lblDetailLink.ForeColor, this.defaultTheme.ColorDetailLink);
             settingLocal.UseTwemoji = this.checkBoxUseTwemoji.Checked;
+        }
+
+        private void UpdateTheme(SettingLocal settingLocal)
+        {
+            var newTheme = new ThemeManager(settingLocal);
+            (var oldTheme, this.currentTheme) = (this.currentTheme, newTheme);
+            oldTheme.Dispose();
         }
 
         private void ButtonBackToDefaultFontColor_Click(object sender, EventArgs e)
         {
-            lblUnread.ForeColor = SystemColors.ControlText;
-            lblUnread.Font = new Font(SystemFonts.DefaultFont, FontStyle.Bold | FontStyle.Underline);
-
-            lblListFont.ForeColor = System.Drawing.SystemColors.ControlText;
-            lblListFont.Font = System.Drawing.SystemFonts.DefaultFont;
-
-            lblDetail.ForeColor = Color.FromKnownColor(System.Drawing.KnownColor.ControlText);
-            lblDetail.Font = System.Drawing.SystemFonts.DefaultFont;
-            checkBoxUseTwemoji.Checked = true;
-
-            lblFav.ForeColor = Color.FromKnownColor(System.Drawing.KnownColor.Red);
-
-            lblOWL.ForeColor = Color.FromKnownColor(System.Drawing.KnownColor.Blue);
-
-            lblDetailBackcolor.BackColor = Color.FromKnownColor(System.Drawing.KnownColor.Window);
-
-            lblDetailLink.ForeColor = Color.FromKnownColor(System.Drawing.KnownColor.Blue);
-
-            lblRetweet.ForeColor = Color.FromKnownColor(System.Drawing.KnownColor.Green);
+            this.lblUnread.ForeColor = this.defaultTheme.ColorUnread;
+            this.lblUnread.Font = this.defaultTheme.FontUnread;
+            this.lblListFont.ForeColor = this.defaultTheme.ColorRead;
+            this.lblListFont.Font = this.defaultTheme.FontReaded;
+            this.lblDetail.ForeColor = this.defaultTheme.ColorDetail;
+            this.lblDetail.Font = this.defaultTheme.FontDetail;
+            this.checkBoxUseTwemoji.Checked = true;
+            this.lblFav.ForeColor = this.defaultTheme.ColorFav;
+            this.lblOWL.ForeColor = this.defaultTheme.ColorOWL;
+            this.lblDetailBackcolor.BackColor = this.defaultTheme.ColorDetailBackcolor;
+            this.lblDetailLink.ForeColor = this.defaultTheme.ColorDetailLink;
+            this.lblRetweet.ForeColor = this.defaultTheme.ColorRetweet;
         }
 
-        private void btnListFont_Click(object sender, EventArgs e)
+        private void BtnListFont_Click(object sender, EventArgs e)
             => this.ShowFontDialog(this.lblListFont);
 
-        private void btnUnread_Click(object sender, EventArgs e)
+        private void BtnUnread_Click(object sender, EventArgs e)
             => this.ShowFontDialog(this.lblUnread);
 
-        private void btnFav_Click(object sender, EventArgs e)
+        private void BtnFav_Click(object sender, EventArgs e)
             => this.ShowForeColorDialog(this.lblFav);
 
-        private void btnOWL_Click(object sender, EventArgs e)
+        private void BtnOWL_Click(object sender, EventArgs e)
             => this.ShowForeColorDialog(this.lblOWL);
 
-        private void btnRetweet_Click(object sender, EventArgs e)
+        private void BtnRetweet_Click(object sender, EventArgs e)
             => this.ShowForeColorDialog(this.lblRetweet);
 
-        private void btnDetail_Click(object sender, EventArgs e)
+        private void BtnDetail_Click(object sender, EventArgs e)
             => this.ShowFontDialog(this.lblDetail);
 
-        private void btnDetailLink_Click(object sender, EventArgs e)
+        private void BtnDetailLink_Click(object sender, EventArgs e)
             => this.ShowForeColorDialog(this.lblDetailLink);
 
-        private void btnDetailBack_Click(object sender, EventArgs e)
+        private void BtnDetailBack_Click(object sender, EventArgs e)
             => this.ShowBackColorDialog(this.lblDetailBackcolor);
+
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                this.components?.Dispose();
+                this.defaultTheme.Dispose();
+                this.currentTheme.Dispose();
+            }
+            base.Dispose(disposing);
+        }
     }
 }

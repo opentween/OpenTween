@@ -109,340 +109,22 @@ namespace OpenTween
         }
 
         [Fact]
-        public void CreateAccessibleText_MediaAltTest()
-        {
-            var text = "https://t.co/hoge";
-            var entities = new TwitterEntities
-            {
-                Media = new[]
-                {
-                    new TwitterEntityMedia
-                    {
-                        Indices = new[] { 0, 17 },
-                        Url = "https://t.co/hoge",
-                        DisplayUrl = "pic.twitter.com/hoge",
-                        ExpandedUrl = "https://twitter.com/hoge/status/1234567890/photo/1",
-                        AltText = "代替テキスト",
-                    },
-                },
-            };
-
-            var expectedText = string.Format(Properties.Resources.ImageAltText, "代替テキスト");
-
-            Assert.Equal(expectedText, Twitter.CreateAccessibleText(text, entities, quotedStatus: null, quotedStatusLink: null));
-        }
-
-        [Fact]
-        public void CreateAccessibleText_MediaNoAltTest()
-        {
-            var text = "https://t.co/hoge";
-            var entities = new TwitterEntities
-            {
-                Media = new[]
-                {
-                    new TwitterEntityMedia
-                    {
-                        Indices = new[] { 0, 17 },
-                        Url = "https://t.co/hoge",
-                        DisplayUrl = "pic.twitter.com/hoge",
-                        ExpandedUrl = "https://twitter.com/hoge/status/1234567890/photo/1",
-                        AltText = null,
-                    },
-                },
-            };
-
-            var expectedText = "pic.twitter.com/hoge";
-
-            Assert.Equal(expectedText, Twitter.CreateAccessibleText(text, entities, quotedStatus: null, quotedStatusLink: null));
-        }
-
-        [Fact]
-        public void CreateAccessibleText_QuotedUrlTest()
-        {
-            var text = "https://t.co/hoge";
-            var entities = new TwitterEntities
-            {
-                Urls = new[]
-                {
-                    new TwitterEntityUrl
-                    {
-                        Indices = new[] { 0, 17 },
-                        Url = "https://t.co/hoge",
-                        DisplayUrl = "twitter.com/hoge/status/1…",
-                        ExpandedUrl = "https://twitter.com/hoge/status/1234567890",
-                    },
-                },
-            };
-            var quotedStatus = new TwitterStatus
-            {
-                Id = 1234567890L,
-                IdStr = "1234567890",
-                User = new TwitterUser
-                {
-                    Id = 1111,
-                    IdStr = "1111",
-                    ScreenName = "foo",
-                },
-                FullText = "test",
-            };
-
-            var expectedText = string.Format(Properties.Resources.QuoteStatus_AccessibleText, "foo", "test");
-
-            Assert.Equal(expectedText, Twitter.CreateAccessibleText(text, entities, quotedStatus, quotedStatusLink: null));
-        }
-
-        [Fact]
-        public void CreateAccessibleText_QuotedUrlWithPermelinkTest()
-        {
-            var text = "hoge";
-            var entities = new TwitterEntities();
-            var quotedStatus = new TwitterStatus
-            {
-                Id = 1234567890L,
-                IdStr = "1234567890",
-                User = new TwitterUser
-                {
-                    Id = 1111,
-                    IdStr = "1111",
-                    ScreenName = "foo",
-                },
-                FullText = "test",
-            };
-            var quotedStatusLink = new TwitterQuotedStatusPermalink
-            {
-                Url = "https://t.co/hoge",
-                Display = "twitter.com/hoge/status/1…",
-                Expanded = "https://twitter.com/hoge/status/1234567890",
-            };
-
-            var expectedText = "hoge " + string.Format(Properties.Resources.QuoteStatus_AccessibleText, "foo", "test");
-
-            Assert.Equal(expectedText, Twitter.CreateAccessibleText(text, entities, quotedStatus, quotedStatusLink));
-        }
-
-        [Fact]
-        public void CreateAccessibleText_QuotedUrlNoReferenceTest()
-        {
-            var text = "https://t.co/hoge";
-            var entities = new TwitterEntities
-            {
-                Urls = new[]
-                {
-                    new TwitterEntityUrl
-                    {
-                        Indices = new[] { 0, 17 },
-                        Url = "https://t.co/hoge",
-                        DisplayUrl = "twitter.com/hoge/status/1…",
-                        ExpandedUrl = "https://twitter.com/hoge/status/1234567890",
-                    },
-                },
-            };
-            var quotedStatus = (TwitterStatus?)null;
-
-            var expectedText = "twitter.com/hoge/status/1…";
-
-            Assert.Equal(expectedText, Twitter.CreateAccessibleText(text, entities, quotedStatus, quotedStatusLink: null));
-        }
-
-        [Fact]
-        public void CreateHtmlAnchor_Test()
-        {
-            var text = "@twitterapi #BreakingMyTwitter https://t.co/mIJcSoVSK3";
-            var entities = new TwitterEntities
-            {
-                UserMentions = new[]
-                {
-                    new TwitterEntityMention { Indices = new[] { 0, 11 }, ScreenName = "twitterapi" },
-                },
-                Hashtags = new[]
-                {
-                    new TwitterEntityHashtag { Indices = new[] { 12, 30 }, Text = "BreakingMyTwitter" },
-                },
-                Urls = new[]
-                {
-                    new TwitterEntityUrl
-                    {
-                        Indices = new[] { 31, 54 },
-                        Url ="https://t.co/mIJcSoVSK3",
-                        DisplayUrl = "apps-of-a-feather.com",
-                        ExpandedUrl = "http://apps-of-a-feather.com/",
-                    },
-                },
-            };
-
-            var expectedHtml = @"<a class=""mention"" href=""https://twitter.com/twitterapi"">@twitterapi</a>"
-                + @" <a class=""hashtag"" href=""https://twitter.com/search?q=%23BreakingMyTwitter"">#BreakingMyTwitter</a>"
-                + @" <a href=""https://t.co/mIJcSoVSK3"" title=""https://t.co/mIJcSoVSK3"">apps-of-a-feather.com</a>";
-
-            Assert.Equal(expectedHtml, Twitter.CreateHtmlAnchor(text, entities, quotedStatusLink: null));
-        }
-
-        [Fact]
-        public void CreateHtmlAnchor_NicovideoTest()
-        {
-            var text = "sm9";
-            var entities = new TwitterEntities();
-
-            var expectedHtml = @"<a href=""https://www.nicovideo.jp/watch/sm9"">sm9</a>";
-
-            Assert.Equal(expectedHtml, Twitter.CreateHtmlAnchor(text, entities, quotedStatusLink: null));
-        }
-
-        [Fact]
-        public void CreateHtmlAnchor_QuotedUrlWithPermelinkTest()
-        {
-            var text = "hoge";
-            var entities = new TwitterEntities();
-            var quotedStatusLink = new TwitterQuotedStatusPermalink
-            {
-                Url = "https://t.co/hoge",
-                Display = "twitter.com/hoge/status/1…",
-                Expanded = "https://twitter.com/hoge/status/1234567890",
-            };
-
-            var expectedHtml = @"hoge"
-                + @" <a href=""https://t.co/hoge"" title=""https://t.co/hoge"">twitter.com/hoge/status/1…</a>";
-
-            Assert.Equal(expectedHtml, Twitter.CreateHtmlAnchor(text, entities, quotedStatusLink));
-        }
-
-        [Fact]
-        public void ParseSource_Test()
-        {
-            var sourceHtml = "<a href=\"http://twitter.com\" rel=\"nofollow\">Twitter Web Client</a>";
-
-            var expected = ("Twitter Web Client", new Uri("http://twitter.com/"));
-            Assert.Equal(expected, Twitter.ParseSource(sourceHtml));
-        }
-
-        [Fact]
-        public void ParseSource_PlainTextTest()
-        {
-            var sourceHtml = "web";
-
-            var expected = ("web", (Uri?)null);
-            Assert.Equal(expected, Twitter.ParseSource(sourceHtml));
-        }
-
-        [Fact]
-        public void ParseSource_RelativeUriTest()
-        {
-            // 参照: https://twitter.com/kim_upsilon/status/477796052049752064
-            var sourceHtml = "<a href=\"erased_45416\" rel=\"nofollow\">erased_45416</a>";
-
-            var expected = ("erased_45416", new Uri("https://twitter.com/erased_45416"));
-            Assert.Equal(expected, Twitter.ParseSource(sourceHtml));
-        }
-
-        [Fact]
-        public void ParseSource_EmptyTest()
-        {
-            // 参照: https://twitter.com/kim_upsilon/status/595156014032244738
-            var sourceHtml = "";
-
-            var expected = ("", (Uri?)null);
-            Assert.Equal(expected, Twitter.ParseSource(sourceHtml));
-        }
-
-        [Fact]
-        public void ParseSource_NullTest()
-        {
-            string? sourceHtml = null;
-
-            var expected = ("", (Uri?)null);
-            Assert.Equal(expected, Twitter.ParseSource(sourceHtml));
-        }
-
-        [Fact]
-        public void ParseSource_UnescapeTest()
-        {
-            var sourceHtml = "<a href=\"http://example.com/?aaa=123&amp;bbb=456\" rel=\"nofollow\">&lt;&lt;hogehoge&gt;&gt;</a>";
-
-            var expected = ("<<hogehoge>>", new Uri("http://example.com/?aaa=123&bbb=456"));
-            Assert.Equal(expected, Twitter.ParseSource(sourceHtml));
-        }
-
-        [Fact]
-        public void ParseSource_UnescapeNoUriTest()
-        {
-            var sourceHtml = "&lt;&lt;hogehoge&gt;&gt;";
-
-            var expected = ("<<hogehoge>>", (Uri?)null);
-            Assert.Equal(expected, Twitter.ParseSource(sourceHtml));
-        }
-
-        [Fact]
-        public void GetQuoteTweetStatusIds_EntityTest()
-        {
-            var entities = new[]
-            {
-                new TwitterEntityUrl
-                {
-                    Url = "https://t.co/3HXq0LrbJb",
-                    ExpandedUrl = "https://twitter.com/kim_upsilon/status/599261132361072640",
-                },
-            };
-
-            var statusIds = Twitter.GetQuoteTweetStatusIds(entities, quotedStatusLink: null);
-            Assert.Equal(new[] { 599261132361072640L }, statusIds);
-        }
-
-        [Fact]
-        public void GetQuoteTweetStatusIds_QuotedStatusLinkTest()
-        {
-            var entities = new TwitterEntities();
-            var quotedStatusLink = new TwitterQuotedStatusPermalink
-            {
-                Url = "https://t.co/3HXq0LrbJb",
-                Expanded = "https://twitter.com/kim_upsilon/status/599261132361072640",
-            };
-
-            var statusIds = Twitter.GetQuoteTweetStatusIds(entities, quotedStatusLink);
-            Assert.Equal(new[] { 599261132361072640L }, statusIds);
-        }
-
-        [Fact]
-        public void GetQuoteTweetStatusIds_UrlStringTest()
-        {
-            var urls = new[]
-            {
-                "https://twitter.com/kim_upsilon/status/599261132361072640",
-            };
-
-            var statusIds = Twitter.GetQuoteTweetStatusIds(urls);
-            Assert.Equal(new[] { 599261132361072640L }, statusIds);
-        }
-
-        [Fact]
-        public void GetQuoteTweetStatusIds_OverflowTest()
-        {
-            var urls = new[]
-            {
-                // 符号付き 64 ビット整数の範囲を超える値
-                "https://twitter.com/kim_upsilon/status/9999999999999999999",
-            };
-
-            var statusIds = Twitter.GetQuoteTweetStatusIds(urls);
-            Assert.Empty(statusIds);
-        }
-
-        [Fact]
         public void GetApiResultCount_DefaultTest()
         {
             var oldInstance = SettingManagerTest.Common;
             SettingManagerTest.Common = new SettingCommon();
 
-            var timeline = SettingManager.Common.CountApi;
-            var reply = SettingManager.Common.CountApiReply;
-            var more = SettingManager.Common.MoreCountApi;
-            var startup = SettingManager.Common.FirstCountApi;
-            var favorite = SettingManager.Common.FavoritesCountApi;
-            var list = SettingManager.Common.ListCountApi;
-            var search = SettingManager.Common.SearchCountApi;
-            var usertl = SettingManager.Common.UserTimelineCountApi;
+            var timeline = SettingManager.Instance.Common.CountApi;
+            var reply = SettingManager.Instance.Common.CountApiReply;
+            var more = SettingManager.Instance.Common.MoreCountApi;
+            var startup = SettingManager.Instance.Common.FirstCountApi;
+            var favorite = SettingManager.Instance.Common.FavoritesCountApi;
+            var list = SettingManager.Instance.Common.ListCountApi;
+            var search = SettingManager.Instance.Common.SearchCountApi;
+            var usertl = SettingManager.Instance.Common.UserTimelineCountApi;
 
             // デフォルト値チェック
-            Assert.False(SettingManager.Common.UseAdditionalCount);
+            Assert.False(SettingManager.Instance.Common.UseAdditionalCount);
             Assert.Equal(60, timeline);
             Assert.Equal(40, reply);
             Assert.Equal(200, more);
@@ -471,33 +153,33 @@ namespace OpenTween
             var oldInstance = SettingManagerTest.Common;
             SettingManagerTest.Common = new SettingCommon();
 
-            var timeline = SettingManager.Common.CountApi;
-            var reply = SettingManager.Common.CountApiReply;
-            var more = SettingManager.Common.MoreCountApi;
-            var startup = SettingManager.Common.FirstCountApi;
-            var favorite = SettingManager.Common.FavoritesCountApi;
-            var list = SettingManager.Common.ListCountApi;
-            var search = SettingManager.Common.SearchCountApi;
-            var usertl = SettingManager.Common.UserTimelineCountApi;
+            var timeline = SettingManager.Instance.Common.CountApi;
+            var reply = SettingManager.Instance.Common.CountApiReply;
+            var more = SettingManager.Instance.Common.MoreCountApi;
+            var startup = SettingManager.Instance.Common.FirstCountApi;
+            var favorite = SettingManager.Instance.Common.FavoritesCountApi;
+            var list = SettingManager.Instance.Common.ListCountApi;
+            var search = SettingManager.Instance.Common.SearchCountApi;
+            var usertl = SettingManager.Instance.Common.UserTimelineCountApi;
 
-            SettingManager.Common.UseAdditionalCount = true;
+            SettingManager.Instance.Common.UseAdditionalCount = true;
 
             // Timeline
             Assert.Equal(timeline, Twitter.GetApiResultCount(MyCommon.WORKERTYPE.Timeline, false, false));
-            Assert.Equal(more, Twitter.GetApiResultCount(MyCommon.WORKERTYPE.Timeline, true, false));
+            Assert.Equal(100, Twitter.GetApiResultCount(MyCommon.WORKERTYPE.Timeline, true, false)); // 100 件が上限
             Assert.Equal(startup, Twitter.GetApiResultCount(MyCommon.WORKERTYPE.Timeline, false, true));
 
             // Reply
             Assert.Equal(reply, Twitter.GetApiResultCount(MyCommon.WORKERTYPE.Reply, false, false));
             Assert.Equal(more, Twitter.GetApiResultCount(MyCommon.WORKERTYPE.Reply, true, false));
-            Assert.Equal(reply, Twitter.GetApiResultCount(MyCommon.WORKERTYPE.Reply, false, true));  //Replyの値が使われる
+            Assert.Equal(reply, Twitter.GetApiResultCount(MyCommon.WORKERTYPE.Reply, false, true));  // Replyの値が使われる
 
             // Favorites
             Assert.Equal(favorite, Twitter.GetApiResultCount(MyCommon.WORKERTYPE.Favorites, false, false));
             Assert.Equal(favorite, Twitter.GetApiResultCount(MyCommon.WORKERTYPE.Favorites, true, false));
             Assert.Equal(favorite, Twitter.GetApiResultCount(MyCommon.WORKERTYPE.Favorites, false, true));
 
-            SettingManager.Common.FavoritesCountApi = 0;
+            SettingManager.Instance.Common.FavoritesCountApi = 0;
 
             Assert.Equal(timeline, Twitter.GetApiResultCount(MyCommon.WORKERTYPE.Favorites, false, false));
             Assert.Equal(more, Twitter.GetApiResultCount(MyCommon.WORKERTYPE.Favorites, true, false));
@@ -508,7 +190,7 @@ namespace OpenTween
             Assert.Equal(list, Twitter.GetApiResultCount(MyCommon.WORKERTYPE.List, true, false));
             Assert.Equal(list, Twitter.GetApiResultCount(MyCommon.WORKERTYPE.List, false, true));
 
-            SettingManager.Common.ListCountApi = 0;
+            SettingManager.Instance.Common.ListCountApi = 0;
 
             Assert.Equal(timeline, Twitter.GetApiResultCount(MyCommon.WORKERTYPE.List, false, false));
             Assert.Equal(more, Twitter.GetApiResultCount(MyCommon.WORKERTYPE.List, true, false));
@@ -519,10 +201,10 @@ namespace OpenTween
             Assert.Equal(search, Twitter.GetApiResultCount(MyCommon.WORKERTYPE.PublicSearch, true, false));
             Assert.Equal(search, Twitter.GetApiResultCount(MyCommon.WORKERTYPE.PublicSearch, false, true));
 
-            SettingManager.Common.SearchCountApi = 0;
+            SettingManager.Instance.Common.SearchCountApi = 0;
 
             Assert.Equal(timeline, Twitter.GetApiResultCount(MyCommon.WORKERTYPE.PublicSearch, false, false));
-            Assert.Equal(search, Twitter.GetApiResultCount(MyCommon.WORKERTYPE.PublicSearch, true, false));  //MoreCountApiの値がPublicSearchの最大値に制限される
+            Assert.Equal(search, Twitter.GetApiResultCount(MyCommon.WORKERTYPE.PublicSearch, true, false));  // MoreCountApiの値がPublicSearchの最大値に制限される
             Assert.Equal(startup, Twitter.GetApiResultCount(MyCommon.WORKERTYPE.PublicSearch, false, true));
 
             // UserTimeline
@@ -530,7 +212,7 @@ namespace OpenTween
             Assert.Equal(usertl, Twitter.GetApiResultCount(MyCommon.WORKERTYPE.UserTimeline, true, false));
             Assert.Equal(usertl, Twitter.GetApiResultCount(MyCommon.WORKERTYPE.UserTimeline, false, true));
 
-            SettingManager.Common.UserTimelineCountApi = 0;
+            SettingManager.Instance.Common.UserTimelineCountApi = 0;
 
             Assert.Equal(timeline, Twitter.GetApiResultCount(MyCommon.WORKERTYPE.UserTimeline, false, false));
             Assert.Equal(more, Twitter.GetApiResultCount(MyCommon.WORKERTYPE.UserTimeline, true, false));
@@ -645,5 +327,28 @@ namespace OpenTween
             Assert.Equal(278, twitter.GetTextLengthRemain("\ud83d"));
             Assert.Equal(9999, twitter.GetTextLengthRemain("D twitter \ud83d"));
         }
+
+        [Theory]
+        [InlineData("https://pbs.twimg.com/profile_images/00000/foo_normal.jpg", "normal", "https://pbs.twimg.com/profile_images/00000/foo_normal.jpg")]
+        [InlineData("https://pbs.twimg.com/profile_images/00000/foo_normal.jpg", "bigger", "https://pbs.twimg.com/profile_images/00000/foo_bigger.jpg")]
+        [InlineData("https://pbs.twimg.com/profile_images/00000/foo_normal.jpg", "mini", "https://pbs.twimg.com/profile_images/00000/foo_mini.jpg")]
+        [InlineData("https://pbs.twimg.com/profile_images/00000/foo_normal.jpg", "original", "https://pbs.twimg.com/profile_images/00000/foo.jpg")]
+        [InlineData("https://pbs.twimg.com/profile_images/00000/foo_normal_bar_normal.jpg", "original", "https://pbs.twimg.com/profile_images/00000/foo_normal_bar.jpg")]
+        public void CreateProfileImageUrl_Test(string normalUrl, string size, string expected)
+            => Assert.Equal(expected, Twitter.CreateProfileImageUrl(normalUrl, size));
+
+        [Fact]
+        public void CreateProfileImageUrl_InvalidSizeTest()
+            => Assert.Throws<ArgumentException>(() => Twitter.CreateProfileImageUrl("https://pbs.twimg.com/profile_images/00000/foo_normal.jpg", "INVALID"));
+
+        [Theory]
+        [InlineData(24, "mini")]
+        [InlineData(25, "normal")]
+        [InlineData(48, "normal")]
+        [InlineData(49, "bigger")]
+        [InlineData(73, "bigger")]
+        [InlineData(74, "original")]
+        public void DecideProfileImageSize_Test(int sizePx, string expected)
+            => Assert.Equal(expected, Twitter.DecideProfileImageSize(sizePx));
     }
 }

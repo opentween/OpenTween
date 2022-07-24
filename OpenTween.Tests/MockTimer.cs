@@ -31,7 +31,9 @@ namespace OpenTween
     public class MockTimer : ITimer
     {
         public bool IsTimerRunning { get; private set; } = false;
+
         public TimeSpan DueTime { get; private set; } = Timeout.InfiniteTimeSpan;
+
         public TimeSpan Period { get; private set; } = Timeout.InfiniteTimeSpan;
 
         private readonly Func<Task> callback;

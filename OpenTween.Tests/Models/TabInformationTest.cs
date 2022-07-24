@@ -38,7 +38,7 @@ namespace OpenTween.Models
             this.tabinfo = this.CreateInstance();
 
             // TabInformation.GetInstance() で取得できるようにする
-            var field = typeof(TabInformations).GetField("_instance",
+            var field = typeof(TabInformations).GetField("Instance",
                 BindingFlags.NonPublic | BindingFlags.Static | BindingFlags.SetField);
             field.SetValue(null, this.tabinfo);
 
@@ -107,6 +107,67 @@ namespace OpenTween.Models
         [Fact]
         public void SelectTab_NotExistTest()
             => Assert.Throws<ArgumentException>(() => this.tabinfo.SelectTab("INVALID"));
+
+        [Theory]
+        [InlineData(MyCommon.TabUsageType.Home, typeof(HomeTabModel))]
+        [InlineData(MyCommon.TabUsageType.Mentions, typeof(MentionsTabModel))]
+        [InlineData(MyCommon.TabUsageType.DirectMessage, typeof(DirectMessagesTabModel))]
+        [InlineData(MyCommon.TabUsageType.Favorites, typeof(FavoritesTabModel))]
+        [InlineData(MyCommon.TabUsageType.UserDefined, typeof(FilterTabModel))]
+        [InlineData(MyCommon.TabUsageType.UserTimeline, typeof(UserTimelineTabModel))]
+        [InlineData(MyCommon.TabUsageType.PublicSearch, typeof(PublicSearchTabModel))]
+        [InlineData(MyCommon.TabUsageType.Lists, typeof(ListTimelineTabModel))]
+        [InlineData(MyCommon.TabUsageType.Mute, typeof(MuteTabModel))]
+        public void CreateTabFromSettings_TabTypeTest(MyCommon.TabUsageType tabType, Type expected)
+        {
+            var tabSetting = new SettingTabs.SettingTabItem
+            {
+                TabName = "tab",
+                TabType = tabType,
+            };
+            var tabinfo = this.CreateInstance();
+            var tab = tabinfo.CreateTabFromSettings(tabSetting);
+            Assert.IsType(expected, tab);
+        }
+
+        [Fact]
+        public void CreateTabFromSettings_FilterTabTest()
+        {
+            var tabSetting = new SettingTabs.SettingTabItem
+            {
+                TabName = "tab",
+                TabType = MyCommon.TabUsageType.UserDefined,
+                FilterArray = new PostFilterRule[]
+                {
+                    new() { FilterName = "foo" },
+                },
+            };
+            var tabinfo = this.CreateInstance();
+            var tab = tabinfo.CreateTabFromSettings(tabSetting);
+            Assert.IsType<FilterTabModel>(tab);
+
+            var filterTab = (FilterTabModel)tab!;
+            Assert.Equal("foo", filterTab.FilterArray.First().FilterName);
+        }
+
+        [Fact]
+        public void CreateTabFromSettings_PublicSearchTabTest()
+        {
+            var tabSetting = new SettingTabs.SettingTabItem
+            {
+                TabName = "tab",
+                TabType = MyCommon.TabUsageType.PublicSearch,
+                SearchWords = "foo",
+                SearchLang = "ja",
+            };
+            var tabinfo = this.CreateInstance();
+            var tab = tabinfo.CreateTabFromSettings(tabSetting);
+            Assert.IsType<PublicSearchTabModel>(tab);
+
+            var searchTab = (PublicSearchTabModel)tab!;
+            Assert.Equal("foo", searchTab.SearchWords);
+            Assert.Equal("ja", searchTab.SearchLang);
+        }
 
         [Fact]
         public void AddDefaultTabs_Test()
@@ -830,13 +891,76 @@ namespace OpenTween.Models
             Assert.True(this.tabinfo[200L]!.IsExcludeReply);
         }
 
-        class TestPostFilterRule : PostFilterRule
+        [Fact]
+        public void RefreshOwl_HomeTabTest()
+        {
+            var post = new PostClass
+            {
+                StatusId = 100L,
+                ScreenName = "aaa",
+                UserId = 123L,
+                IsOwl = true,
+            };
+            this.tabinfo.AddPost(post);
+            this.tabinfo.DistributePosts();
+            this.tabinfo.SubmitUpdate();
+
+            var followerIds = new HashSet<long> { 123L };
+            this.tabinfo.RefreshOwl(followerIds);
+
+            Assert.False(post.IsOwl);
+        }
+
+        [Fact]
+        public void RefreshOwl_InnerStoregeTabTest()
+        {
+            var tab = new PublicSearchTabModel("search");
+            this.tabinfo.AddTab(tab);
+
+            var post = new PostClass
+            {
+                StatusId = 100L,
+                ScreenName = "aaa",
+                UserId = 123L,
+                IsOwl = true,
+            };
+            tab.AddPostQueue(post);
+            this.tabinfo.DistributePosts();
+            this.tabinfo.SubmitUpdate();
+
+            var followerIds = new HashSet<long> { 123L };
+            this.tabinfo.RefreshOwl(followerIds);
+
+            Assert.False(post.IsOwl);
+        }
+
+        [Fact]
+        public void RefreshOwl_UnfollowedTest()
+        {
+            var post = new PostClass
+            {
+                StatusId = 100L,
+                ScreenName = "aaa",
+                UserId = 123L,
+                IsOwl = false,
+            };
+            this.tabinfo.AddPost(post);
+            this.tabinfo.DistributePosts();
+            this.tabinfo.SubmitUpdate();
+
+            var followerIds = new HashSet<long> { 456L };
+            this.tabinfo.RefreshOwl(followerIds);
+
+            Assert.True(post.IsOwl);
+        }
+
+        private class TestPostFilterRule : PostFilterRule
         {
             public static PostFilterRule Create(Func<PostClass, MyCommon.HITRESULT> filterDelegate)
             {
                 return new TestPostFilterRule
                 {
-                    FilterDelegate = filterDelegate,
+                    filterDelegate = filterDelegate,
                     IsDirty = false,
                 };
             }

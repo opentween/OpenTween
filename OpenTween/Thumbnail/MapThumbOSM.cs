@@ -34,12 +34,12 @@ using OpenTween.Setting;
 
 namespace OpenTween.Thumbnail
 {
-    class MapThumbOSM : MapThumb
+    public class MapThumbOSM : MapThumb
     {
         public override Task<ThumbnailInfo> GetThumbnailInfoAsync(PostClass.StatusGeo geo)
         {
-            var size = new Size(SettingManager.Common.MapThumbnailWidth, SettingManager.Common.MapThumbnailHeight);
-            var zoom = SettingManager.Common.MapThumbnailZoom;
+            var size = new Size(SettingManager.Instance.Common.MapThumbnailWidth, SettingManager.Instance.Common.MapThumbnailHeight);
+            var zoom = SettingManager.Instance.Common.MapThumbnailZoom;
 
             var thumb = new OSMThumbnailInfo(geo.Latitude, geo.Longitude, zoom, size)
             {
@@ -51,7 +51,7 @@ namespace OpenTween.Thumbnail
 
         public string CreateMapLinkUrl(double latitude, double longitude)
         {
-            var zoom = SettingManager.Common.MapThumbnailZoom;
+            var zoom = SettingManager.Instance.Common.MapThumbnailZoom;
 
             return $"https://www.openstreetmap.org/?mlat={latitude}&mlon={longitude}#map={zoom}/{latitude}/{longitude}";
         }
@@ -63,7 +63,7 @@ namespace OpenTween.Thumbnail
         public static readonly string TileServerBase = "https://a.tile.openstreetmap.org";
 
         /// <summary>タイル画像一枚当たりの大きさ (ピクセル単位)</summary>
-        public static readonly Size TileSize = new Size(256, 256);
+        public static readonly Size TileSize = new(256, 256);
 
         /// <summary>画像の中心点の緯度</summary>
         public double Latitude { get; }
@@ -143,7 +143,11 @@ namespace OpenTween.Thumbnail
                 result = MemoryImage.CopyFromImage(bitmap);
                 return result;
             }
-            catch { result?.Dispose(); throw; }
+            catch
+            {
+                result?.Dispose();
+                throw;
+            }
         }
 
         /// <summary>指定されたタイル番号のタイル画像を読み込むメソッド</summary>
@@ -160,7 +164,11 @@ namespace OpenTween.Thumbnail
                 result = await MemoryImage.CopyFromStreamAsync(stream).ConfigureAwait(false);
                 return result;
             }
-            catch { result?.Dispose(); throw; }
+            catch
+            {
+                result?.Dispose();
+                throw;
+            }
         }
 
         /// <summary>経度・緯度からタイル番号を算出するメソッド</summary>

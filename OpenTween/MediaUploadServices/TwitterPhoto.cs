@@ -153,7 +153,7 @@ namespace OpenTween.MediaUploadServices
 
             using var origImage = mediaItem.CreateImage();
 
-            if (SettingManager.Common.AlphaPNGWorkaround && this.AddAlphaChannelIfNeeded(origImage.Image, out var newImage))
+            if (SettingManager.Instance.Common.AlphaPNGWorkaround && this.AddAlphaChannelIfNeeded(origImage.Image, out var newImage))
             {
                 using var newMediaItem = new MemoryImageMediaItem(newImage!);
                 newMediaItem.AltText = mediaItem.AltText;

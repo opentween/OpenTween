@@ -35,6 +35,7 @@ namespace OpenTween.Connection
     public class OAuthEchoHandler : DelegatingHandler
     {
         public Uri AuthServiceProvider { get; }
+
         public string VerifyCredentialsAuthorization { get; }
 
         public OAuthEchoHandler(HttpMessageHandler innerHandler, Uri authServiceProvider, string authorizationValue)
@@ -52,11 +53,24 @@ namespace OpenTween.Connection
             return base.SendAsync(request, cancellationToken);
         }
 
-        public static OAuthEchoHandler CreateHandler(HttpMessageHandler innerHandler, Uri authServiceProvider,
-            ApiKey consumerKey, ApiKey consumerSecret, string accessToken, string accessSecret, Uri? realm = null)
+        public static OAuthEchoHandler CreateHandler(
+            HttpMessageHandler innerHandler,
+            Uri authServiceProvider,
+            ApiKey consumerKey,
+            ApiKey consumerSecret,
+            string accessToken,
+            string accessSecret,
+            Uri? realm = null)
         {
-            var credential = OAuthUtility.CreateAuthorization("GET", authServiceProvider, null,
-                consumerKey, consumerSecret, accessToken, accessSecret, realm?.AbsoluteUri);
+            var credential = OAuthUtility.CreateAuthorization(
+                "GET",
+                authServiceProvider,
+                null,
+                consumerKey,
+                consumerSecret,
+                accessToken,
+                accessSecret,
+                realm?.AbsoluteUri);
 
             return new OAuthEchoHandler(innerHandler, authServiceProvider, credential);
         }

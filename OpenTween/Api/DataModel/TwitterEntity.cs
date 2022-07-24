@@ -34,50 +34,6 @@ namespace OpenTween.Api.DataModel
     // 参照: https://developer.twitter.com/en/docs/tweets/data-dictionary/overview/entities-object
 
     [DataContract]
-    public class TwitterEntities : IEnumerable<TwitterEntity>
-    {
-        [DataMember(Name = "hashtags", IsRequired = false)]
-        public TwitterEntityHashtag[]? Hashtags { get; set; }
-
-        [DataMember(Name = "media", IsRequired = false)]
-        public TwitterEntityMedia[]? Media { get; set; }
-
-        [DataMember(Name = "symbols", IsRequired = false)]
-        public TwitterEntitySymbol[]? Symbols { get; set; }
-
-        [DataMember(Name = "urls", IsRequired = false)]
-        public TwitterEntityUrl[]? Urls { get; set; }
-
-        [DataMember(Name = "user_mentions", IsRequired = false)]
-        public TwitterEntityMention[]? UserMentions { get; set; }
-
-        public IEnumerator<TwitterEntity> GetEnumerator()
-        {
-            var entities = Enumerable.Empty<TwitterEntity>();
-
-            if (this.Hashtags != null)
-                entities = entities.Concat(this.Hashtags);
-
-            if (this.Media != null)
-                entities = entities.Concat(this.Media);
-
-            if (this.Symbols != null)
-                entities = entities.Concat(this.Symbols);
-
-            if (this.Urls != null)
-                entities = entities.Concat(this.Urls);
-
-            if (this.UserMentions != null)
-                entities = entities.Concat(this.UserMentions);
-
-            return entities.GetEnumerator();
-        }
-
-        IEnumerator IEnumerable.GetEnumerator()
-            => this.GetEnumerator();
-    }
-
-    [DataContract]
     public abstract class TwitterEntity
     {
         [DataMember(Name = "indices")]

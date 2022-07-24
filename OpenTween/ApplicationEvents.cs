@@ -7,19 +7,19 @@
 //           (c) 2012      Egtra (@egtra) <http://dev.activebasic.com/egtra/>
 //           (c) 2012      kim_upsilon (@kim_upsilon) <https://upsilo.net/~upsilon/>
 // All rights reserved.
-// 
+//
 // This file is part of OpenTween.
-// 
+//
 // This program is free software; you can redistribute it and/or modify it
 // under the terms of the GNU General public License as published by the Free
 // Software Foundation; either version 3 of the License, or (at your option)
 // any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful, but
 // WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
 // or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General public License
 // for more details.
-// 
+//
 // You should have received a copy of the GNU General public License along
 // with this program. If not, see <http://www.gnu.org/licenses/>, or write to
 // the Free Software Foundation, Inc., 51 Franklin Street - Fifth Floor,
@@ -28,358 +28,112 @@
 #nullable enable
 
 using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Diagnostics;
 using System.Windows.Forms;
-using System.Text.RegularExpressions;
-using System.Threading;
-using System.Threading.Tasks;
-using System.Globalization;
-using System.Reflection;
-using Microsoft.Win32;
+using OpenTween.Connection;
 using OpenTween.Setting;
-using System.Security.Principal;
 
 namespace OpenTween
 {
-    internal class MyApplication
+    internal class ApplicationEvents
     {
-        public static readonly CultureInfo[] SupportedUICulture = new[]
-        {
-            new CultureInfo("en"), // 先頭のカルチャはフォールバック先として使用される
-            new CultureInfo("ja"),
-        };
-
         /// <summary>
         /// 起動時に指定されたオプションを取得します
         /// </summary>
-        public static IDictionary<string, string> StartupOptions { get; private set; } = null!;
+        public static CommandLineArgs StartupOptions { get; private set; } = null!;
 
         /// <summary>
         /// アプリケーションのメイン エントリ ポイントです。
         /// </summary>
         [STAThread]
-        static int Main(string[] args)
+        public static int Main(string[] args)
         {
-            WarnIfApiKeyError();
-            WarnIfRunAsAdministrator();
+            Application.EnableVisualStyles();
+            Application.SetCompatibleTextRenderingDefault(false);
 
-            if (!CheckRuntimeVersion())
+            using var errorReportHandler = new ErrorReportHandler();
+
+            StartupOptions = new(args);
+            InitializeTraceFrag();
+
+            if (!ApplicationPreconditions.CheckAll())
+                return 1;
+
+            var settingsPath = SettingManager.DetermineSettingsPath(StartupOptions);
+            if (MyCommon.IsNullOrEmpty(settingsPath))
+                return 1;
+
+            var settings = new SettingManager(settingsPath);
+            settings.LoadAll();
+
+            using var container = new ApplicationContainer(settings);
+
+            settings.Common.Validate();
+
+            ThemeManager.ApplyGlobalUIFont(settings.Local);
+            container.CultureService.Initialize();
+
+            Networking.Initialize();
+            settings.ApplySettings();
+
+            // 同じ設定ファイルを使用する OpenTween プロセスの二重起動を防止する
+            using var mutex = new ApplicationInstanceMutex(ApplicationSettings.AssemblyName, settings.SettingsPath);
+
+            if (mutex.InstanceExists)
             {
-                var message = string.Format(Properties.Resources.CheckRuntimeVersion_Error, ".NET Framework 4.7.2");
-                MessageBox.Show(message, ApplicationSettings.ApplicationName, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                var text = string.Format(MyCommon.ReplaceAppName(Properties.Resources.StartupText1), ApplicationSettings.AssemblyName);
+                MessageBox.Show(text, MyCommon.ReplaceAppName(Properties.Resources.StartupText2), MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                mutex.TryActivatePreviousInstance();
                 return 1;
             }
 
-            StartupOptions = ParseArguments(args);
-
-            if (!SetConfigDirectoryPath())
-                return 1;
-
-            SettingManager.LoadAll();
-
-            InitCulture();
-
+            if (settings.IsIncomplete)
             {
-                // 同じ設定ファイルを使用する OpenTween プロセスの二重起動を防止する
-                var pt = MyCommon.settingPath.Replace("\\", "/") + "/" + ApplicationSettings.AssemblyName;
-                using var mt = new Mutex(false, pt);
-
-                if (!mt.WaitOne(0, false))
-                {
-                    var text = string.Format(MyCommon.ReplaceAppName(Properties.Resources.StartupText1), ApplicationSettings.AssemblyName);
-                    MessageBox.Show(text, MyCommon.ReplaceAppName(Properties.Resources.StartupText2), MessageBoxButtons.OK, MessageBoxIcon.Information);
-
-                    TryActivatePreviousWindow();
-                    return 1;
-                }
-
-                TaskScheduler.UnobservedTaskException += (s, e) =>
-                {
-                    e.SetObserved();
-                    OnUnhandledException(e.Exception.Flatten());
-                };
-                Application.ThreadException += (s, e) => OnUnhandledException(e.Exception);
-                AppDomain.CurrentDomain.UnhandledException += (s, e) => OnUnhandledException((Exception)e.ExceptionObject);
-                AsyncTimer.UnhandledException += (s, e) => OnUnhandledException(e.Exception);
-
-                Application.EnableVisualStyles();
-                Application.SetCompatibleTextRenderingDefault(false);
-                Application.Run(new TweenMain());
-
-                mt.ReleaseMutex();
+                var completed = ShowSettingsDialog(settings, container.IconAssetsManager);
+                if (!completed)
+                    return 1; // 設定が完了しなかったため終了
             }
+
+            Application.Run(container.MainForm);
 
             return 0;
         }
 
-        private static void WarnIfApiKeyError()
+        private static void InitializeTraceFrag()
         {
-            var canDecrypt = ApplicationSettings.TwitterConsumerKey.TryGetValue(out _);
-            if (!canDecrypt)
-            {
-                var message = Properties.Resources.WarnIfApiKeyError_Message;
-                MessageBox.Show(message, ApplicationSettings.ApplicationName, MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                Environment.Exit(-1);
-            }
-        }
+            var traceFlag = false;
 
-        /// <summary>
-        /// OpenTween が管理者権限で実行されている場合に警告を表示します
-        /// </summary>
-        private static void WarnIfRunAsAdministrator()
-        {
-            // UAC が無効なシステムでは警告を表示しない
-            using var lmKey = RegistryKey.OpenBaseKey(RegistryHive.LocalMachine, RegistryView.Registry32);
-            using var systemKey = lmKey.OpenSubKey(@"SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System\");
-
-            var enableLUA = (int?)systemKey?.GetValue("EnableLUA");
-            if (enableLUA != 1)
-                return;
-
-            using var currentIdentity = WindowsIdentity.GetCurrent();
-            var principal = new WindowsPrincipal(currentIdentity);
-            if (principal.IsInRole(WindowsBuiltInRole.Administrator))
-            {
-                var message = string.Format(Properties.Resources.WarnIfRunAsAdministrator_Message, ApplicationSettings.ApplicationName);
-                MessageBox.Show(message, ApplicationSettings.ApplicationName, MessageBoxButtons.OK, MessageBoxIcon.Warning);
-            }
-        }
-
-        /// <summary>
-        /// 動作中の .NET Framework のバージョンが適切かチェックします
-        /// </summary>
-        private static bool CheckRuntimeVersion()
-        {
-            // Mono 上で動作している場合はバージョンチェックを無視します
-            if (Type.GetType("Mono.Runtime", false) != null)
-                return true;
-
-            // .NET Framework 4.7.2 以降で動作しているかチェックする
-            // 参照: https://docs.microsoft.com/en-us/dotnet/framework/migration-guide/how-to-determine-which-versions-are-installed
-
-            using var lmKey = RegistryKey.OpenBaseKey(RegistryHive.LocalMachine, RegistryView.Registry32);
-            using var ndpKey = lmKey.OpenSubKey(@"SOFTWARE\Microsoft\NET Framework Setup\NDP\v4\Full\");
-
-            var releaseKey = (int)ndpKey.GetValue("Release");
-            return releaseKey >= 461808;
-        }
-
-        /// <summary>
-        /// “/key:value”形式の起動オプションを解釈し IDictionary に変換する
-        /// </summary>
-        /// <remarks>
-        /// 不正な形式のオプションは除外されます。
-        /// また、重複したキーのオプションが入力された場合は末尾に書かれたオプションが採用されます。
-        /// </remarks>
-        internal static IDictionary<string, string> ParseArguments(IEnumerable<string> arguments)
-        {
-            var optionPattern = new Regex(@"^/(.+?)(?::(.*))?$");
-
-            return arguments.Select(x => optionPattern.Match(x))
-                .Where(x => x.Success)
-                .GroupBy(x => x.Groups[1].Value)
-                .ToDictionary(x => x.Key, x => x.Last().Groups[2].Value);
-        }
-
-        private static void TryActivatePreviousWindow()
-        {
-            // 実行中の同じアプリケーションのウィンドウ・ハンドルの取得
-            var prevProcess = GetPreviousProcess();
-            if (prevProcess == null)
-            {
-                return;
-            }
-
-            var windowHandle = NativeMethods.GetWindowHandle((uint)prevProcess.Id, ApplicationSettings.ApplicationName);
-            if (windowHandle != IntPtr.Zero)
-            {
-                NativeMethods.SetActiveWindow(windowHandle);
-            }
-        }
-
-        private static Process? GetPreviousProcess()
-        {
-            var currentProcess = Process.GetCurrentProcess();
-            try
-            {
-                return Process.GetProcessesByName(currentProcess.ProcessName)
-                    .Where(p => p.Id != currentProcess.Id)
-                    .FirstOrDefault(p => p.MainModule.FileName.Equals(currentProcess.MainModule.FileName, StringComparison.OrdinalIgnoreCase));
-            }
-            catch
-            {
-                return null;
-            }
-        }
-
-        private static void OnUnhandledException(Exception ex)
-        {
-            if (CheckIgnorableError(ex))
-                return;
-
-            if (MyCommon.ExceptionOut(ex))
-            {
-                Application.Exit();
-            }
-        }
-
-        /// <summary>
-        /// 無視しても問題のない既知の例外であれば true を返す
-        /// </summary>
-        private static bool CheckIgnorableError(Exception ex)
-        {
 #if DEBUG
-            return false;
-#else
-            if (ex is AggregateException aggregated)
-            {
-                if (aggregated.InnerExceptions.Count != 1)
-                    return false;
-
-                ex = aggregated.InnerExceptions.Single();
-            }
-
-            switch (ex)
-            {
-                case System.Net.WebException webEx:
-                    // SSL/TLS のネゴシエーションに失敗した場合に発生する。なぜかキャッチできない例外
-                    // https://osdn.net/ticket/browse.php?group_id=6526&tid=37432
-                    if (webEx.Status == System.Net.WebExceptionStatus.SecureChannelFailure)
-                        return true;
-                    break;
-                case System.Threading.Tasks.TaskCanceledException cancelEx:
-                    // ton.twitter.com の画像でタイムアウトした場合、try-catch で例外がキャッチできない
-                    // https://osdn.net/ticket/browse.php?group_id=6526&tid=37433
-                    var stackTrace = new System.Diagnostics.StackTrace(cancelEx);
-                    var lastFrameMethod = stackTrace.GetFrame(stackTrace.FrameCount - 1).GetMethod();
-                    if (lastFrameMethod.ReflectedType == typeof(Connection.TwitterApiConnection) &&
-                        lastFrameMethod.Name == nameof(Connection.TwitterApiConnection.GetStreamAsync))
-                        return true;
-                    break;
-            }
-
-            return false;
+            traceFlag = true;
 #endif
+
+            if (StartupOptions.ContainsKey("d"))
+                traceFlag = true;
+
+            var version = Version.Parse(MyCommon.FileVersion);
+            if (version.Build != 0)
+                traceFlag = true;
+
+            MyCommon.TraceFlag = traceFlag;
         }
 
-        public static void InitCulture()
+        private static bool ShowSettingsDialog(SettingManager settings, IconAssetsManager iconAssets)
         {
-            var currentCulture = CultureInfo.CurrentUICulture;
+            using var settingDialog = new AppendSettingDialog();
+            settingDialog.Icon = iconAssets.IconMain;
+            settingDialog.ShowInTaskbar = true; // この時点では TweenMain が表示されていないため代わりに表示する
+            settingDialog.LoadConfig(settings.Common, settings.Local);
 
-            var settingCultureStr = SettingManager.Common.Language;
-            if (settingCultureStr != "OS")
-            {
-                try
-                {
-                    currentCulture = new CultureInfo(settingCultureStr);
-                }
-                catch (CultureNotFoundException) { }
-            }
+            var ret = settingDialog.ShowDialog();
+            if (ret != DialogResult.OK)
+                return false;
 
-            var preferredCulture = GetPreferredCulture(currentCulture);
-            CultureInfo.DefaultThreadCurrentUICulture = preferredCulture;
-            Thread.CurrentThread.CurrentUICulture = preferredCulture;
-        }
+            settingDialog.SaveConfig(settings.Common, settings.Local);
 
-        /// <summary>
-        /// サポートしているカルチャの中から、指定されたカルチャに対して適切なカルチャを選択して返します
-        /// </summary>
-        public static CultureInfo GetPreferredCulture(CultureInfo culture)
-        {
-            if (SupportedUICulture.Any(x => x.Contains(culture)))
-                return culture;
+            if (settings.IsIncomplete)
+                return false;
 
-            return SupportedUICulture[0];
-        }
-
-        private static bool SetConfigDirectoryPath()
-        {
-            if (StartupOptions.TryGetValue("configDir", out var configDir) && !MyCommon.IsNullOrEmpty(configDir))
-            {
-                // 起動オプション /configDir で設定ファイルの参照先を変更できます
-                if (!Directory.Exists(configDir))
-                {
-                    var text = string.Format(Properties.Resources.ConfigDirectoryNotExist, configDir);
-                    MessageBox.Show(text, ApplicationSettings.ApplicationName, MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    return false;
-                }
-
-                MyCommon.settingPath = Path.GetFullPath(configDir);
-            }
-            else
-            {
-                // OpenTween.exe と同じディレクトリに設定ファイルを配置する
-                MyCommon.settingPath = Application.StartupPath;
-
-                SettingManager.LoadAll();
-
-                try
-                {
-                    // 設定ファイルが書き込み可能な状態であるかテストする
-                    SettingManager.SaveAll();
-                }
-                catch (UnauthorizedAccessException)
-                {
-                    // 書き込みに失敗した場合 (Program Files 以下に配置されている場合など)
-
-                    // 通常は C:\Users\ユーザー名\AppData\Roaming\OpenTween\ となる
-                    var roamingDir = Path.Combine(new[]
-                    {
-                        Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
-                        ApplicationSettings.ApplicationName,
-                    });
-                    Directory.CreateDirectory(roamingDir);
-
-                    MyCommon.settingPath = roamingDir;
-
-                    /*
-                     * 書き込みが制限されたディレクトリ内で起動された場合の設定ファイルの扱い
-                     *
-                     *  (A) StartupPath に存在する設定ファイル
-                     *  (B) Roaming に存在する設定ファイル
-                     *
-                     *  1. A も B も存在しない場合
-                     *    => B を新規に作成する
-                     *
-                     *  2. A が存在し、B が存在しない場合
-                     *    => A の内容を B にコピーする (警告を表示)
-                     *
-                     *  3. A が存在せず、B が存在する場合
-                     *    => B を使用する
-                     *
-                     *  4. A も B も存在するが、A の方が更新日時が新しい場合
-                     *    => A の内容を B にコピーする (警告を表示)
-                     *
-                     *  5. A も B も存在するが、B の方が更新日時が新しい場合
-                     *    => B を使用する
-                     */
-                    var startupDirFile = new FileInfo(Path.Combine(Application.StartupPath, "SettingCommon.xml"));
-                    var roamingDirFile = new FileInfo(Path.Combine(roamingDir, "SettingCommon.xml"));
-
-                    if (roamingDirFile.Exists && (!startupDirFile.Exists || startupDirFile.LastWriteTime <= roamingDirFile.LastWriteTime))
-                    {
-                        // 既に Roaming に設定ファイルが存在し、Roaming 内のファイルの方が新しい場合は
-                        // StartupPath に設定ファイルが存在しても無視する
-                        SettingManager.LoadAll();
-                    }
-                    else
-                    {
-                        if (startupDirFile.Exists)
-                        {
-                            // StartupPath に設定ファイルが存在し、Roaming 内のファイルよりも新しい場合のみ警告を表示する
-                            var message = string.Format(Properties.Resources.SettingPath_Relocation, Application.StartupPath, MyCommon.settingPath);
-                            MessageBox.Show(message, ApplicationSettings.ApplicationName, MessageBoxButtons.OK, MessageBoxIcon.Information);
-                        }
-
-                        // Roaming に設定ファイルを作成 (StartupPath に読み込みに成功した設定ファイルがあれば内容がコピーされる)
-                        SettingManager.SaveAll();
-                    }
-                }
-            }
-
+            settings.SaveAll();
             return true;
         }
     }

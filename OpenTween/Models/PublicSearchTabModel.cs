@@ -43,28 +43,29 @@ namespace OpenTween.Models
 
         public string SearchWords
         {
-            get => this._searchWords;
+            get => this.searchWords;
             set
             {
-                this._searchWords = value;
+                this.searchWords = value;
                 this.ResetFetchIds();
             }
         }
 
         public string SearchLang
         {
-            get => this._searchLang;
+            get => this.searchLang;
             set
             {
-                this._searchLang = value;
+                this.searchLang = value;
                 this.ResetFetchIds();
             }
         }
 
-        private string _searchWords = "";
-        private string _searchLang = "";
+        private string searchWords = "";
+        private string searchLang = "";
 
-        public PublicSearchTabModel(string tabName) : base(tabName)
+        public PublicSearchTabModel(string tabName)
+            : base(tabName)
         {
         }
 
@@ -74,10 +75,10 @@ namespace OpenTween.Models
                 return;
 
             bool read;
-            if (!SettingManager.Common.UnreadManage)
+            if (!SettingManager.Instance.Common.UnreadManage)
                 read = true;
             else
-                read = startup && SettingManager.Common.Read;
+                read = startup && SettingManager.Instance.Common.Read;
 
             progress.Report("Search refreshing...");
 

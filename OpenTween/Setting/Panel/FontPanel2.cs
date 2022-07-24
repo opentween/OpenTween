@@ -29,8 +29,8 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Drawing;
 using System.Data;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
@@ -39,84 +39,102 @@ namespace OpenTween.Setting.Panel
 {
     public partial class FontPanel2 : SettingPanelBase
     {
+        private readonly ThemeManager defaultTheme = new(new());
+        private ThemeManager currentTheme = new(new());
+
         public FontPanel2()
             => this.InitializeComponent();
 
         public void LoadConfig(SettingLocal settingLocal)
         {
-            this.lblSelf.BackColor = settingLocal.ColorSelf;
-            this.lblAtSelf.BackColor = settingLocal.ColorAtSelf;
-            this.lblTarget.BackColor = settingLocal.ColorTarget;
-            this.lblAtTarget.BackColor = settingLocal.ColorAtTarget;
-            this.lblAtFromTarget.BackColor = settingLocal.ColorAtFromTarget;
-            this.lblAtTo.BackColor = settingLocal.ColorAtTo;
-            this.lblInputBackcolor.BackColor = settingLocal.ColorInputBackcolor;
-            this.lblInputFont.ForeColor = settingLocal.ColorInputFont;
-            this.lblInputFont.Font = settingLocal.FontInputFont;
-            this.lblListBackcolor.BackColor = settingLocal.ColorListBackcolor;
+            this.UpdateTheme(settingLocal);
+
+            this.lblSelf.BackColor = this.currentTheme.ColorSelf;
+            this.lblAtSelf.BackColor = this.currentTheme.ColorAtSelf;
+            this.lblTarget.BackColor = this.currentTheme.ColorTarget;
+            this.lblAtTarget.BackColor = this.currentTheme.ColorAtTarget;
+            this.lblAtFromTarget.BackColor = this.currentTheme.ColorAtFromTarget;
+            this.lblAtTo.BackColor = this.currentTheme.ColorAtTo;
+            this.lblInputBackcolor.BackColor = this.currentTheme.ColorInputBackcolor;
+            this.lblInputFont.ForeColor = this.currentTheme.ColorInputFont;
+            this.lblInputFont.Font = this.currentTheme.FontInputFont;
+            this.lblListBackcolor.BackColor = this.currentTheme.ColorListBackcolor;
         }
 
         public void SaveConfig(SettingLocal settingLocal)
         {
-            settingLocal.ColorSelf = this.lblSelf.BackColor;
-            settingLocal.ColorAtSelf = this.lblAtSelf.BackColor;
-            settingLocal.ColorTarget = this.lblTarget.BackColor;
-            settingLocal.ColorAtTarget = this.lblAtTarget.BackColor;
-            settingLocal.ColorAtFromTarget = this.lblAtFromTarget.BackColor;
-            settingLocal.ColorAtTo = this.lblAtTo.BackColor;
-            settingLocal.ColorInputBackcolor = this.lblInputBackcolor.BackColor;
-            settingLocal.ColorInputFont = this.lblInputFont.ForeColor;
-            settingLocal.ColorListBackcolor = this.lblListBackcolor.BackColor;
-            settingLocal.FontInputFont = this.lblInputFont.Font;
+            var fontConverter = new FontConverter();
+            var colorConverter = new ColorConverter();
+
+            settingLocal.ColorSelfStr = ThemeManager.ConvertColorToString(colorConverter, this.lblSelf.BackColor, this.defaultTheme.ColorSelf);
+            settingLocal.ColorAtSelfStr = ThemeManager.ConvertColorToString(colorConverter, this.lblAtSelf.BackColor, this.defaultTheme.ColorAtSelf);
+            settingLocal.ColorTargetStr = ThemeManager.ConvertColorToString(colorConverter, this.lblTarget.BackColor, this.defaultTheme.ColorTarget);
+            settingLocal.ColorAtTargetStr = ThemeManager.ConvertColorToString(colorConverter, this.lblAtTarget.BackColor, this.defaultTheme.ColorAtTarget);
+            settingLocal.ColorAtFromTargetStr = ThemeManager.ConvertColorToString(colorConverter, this.lblAtFromTarget.BackColor, this.defaultTheme.ColorAtFromTarget);
+            settingLocal.ColorAtToStr = ThemeManager.ConvertColorToString(colorConverter, this.lblAtTo.BackColor, this.defaultTheme.ColorAtTo);
+            settingLocal.ColorInputBackcolorStr = ThemeManager.ConvertColorToString(colorConverter, this.lblInputBackcolor.BackColor, this.defaultTheme.ColorInputBackcolor);
+            settingLocal.ColorInputFontStr = ThemeManager.ConvertColorToString(colorConverter, this.lblInputFont.ForeColor, this.defaultTheme.ColorInputFont);
+            settingLocal.ColorListBackcolorStr = ThemeManager.ConvertColorToString(colorConverter, this.lblListBackcolor.BackColor, this.defaultTheme.ColorListBackcolor);
+            settingLocal.FontInputFontStr = ThemeManager.ConvertFontToString(fontConverter, this.lblInputFont.Font, this.defaultTheme.FontInputFont);
+        }
+
+        private void UpdateTheme(SettingLocal settingLocal)
+        {
+            var newTheme = new ThemeManager(settingLocal);
+            (var oldTheme, this.currentTheme) = (this.currentTheme, newTheme);
+            oldTheme.Dispose();
         }
 
         private void ButtonBackToDefaultFontColor2_Click(object sender, EventArgs e)
         {
-            lblInputFont.ForeColor = Color.FromKnownColor(System.Drawing.KnownColor.ControlText);
-            lblInputFont.Font = System.Drawing.SystemFonts.DefaultFont;
-
-            lblSelf.BackColor = Color.FromKnownColor(System.Drawing.KnownColor.AliceBlue);
-
-            lblAtSelf.BackColor = Color.FromKnownColor(System.Drawing.KnownColor.AntiqueWhite);
-
-            lblTarget.BackColor = Color.FromKnownColor(System.Drawing.KnownColor.LemonChiffon);
-
-            lblAtTarget.BackColor = Color.FromKnownColor(System.Drawing.KnownColor.LavenderBlush);
-
-            lblAtFromTarget.BackColor = Color.FromKnownColor(System.Drawing.KnownColor.Honeydew);
-
-            lblInputBackcolor.BackColor = Color.FromKnownColor(System.Drawing.KnownColor.LemonChiffon);
-
-            lblAtTo.BackColor = Color.FromKnownColor(System.Drawing.KnownColor.Pink);
-
-            lblListBackcolor.BackColor = Color.FromKnownColor(System.Drawing.KnownColor.Window);
+            this.lblInputFont.ForeColor = this.defaultTheme.ColorInputFont;
+            this.lblInputFont.Font = this.defaultTheme.FontInputFont;
+            this.lblSelf.BackColor = this.defaultTheme.ColorSelf;
+            this.lblAtSelf.BackColor = this.defaultTheme.ColorAtSelf;
+            this.lblTarget.BackColor = this.defaultTheme.ColorTarget;
+            this.lblAtTarget.BackColor = this.defaultTheme.ColorAtTarget;
+            this.lblAtFromTarget.BackColor = this.defaultTheme.ColorAtFromTarget;
+            this.lblInputBackcolor.BackColor = this.defaultTheme.ColorInputBackcolor;
+            this.lblAtTo.BackColor = this.defaultTheme.ColorAtTo;
+            this.lblListBackcolor.BackColor = this.defaultTheme.ColorListBackcolor;
         }
 
-        private void btnSelf_Click(object sender, EventArgs e)
+        private void BtnSelf_Click(object sender, EventArgs e)
             => this.ShowBackColorDialog(this.lblSelf);
 
-        private void btnAtSelf_Click(object sender, EventArgs e)
+        private void BtnAtSelf_Click(object sender, EventArgs e)
             => this.ShowBackColorDialog(this.lblAtSelf);
 
-        private void btnTarget_Click(object sender, EventArgs e)
+        private void BtnTarget_Click(object sender, EventArgs e)
             => this.ShowBackColorDialog(this.lblTarget);
 
-        private void btnAtTarget_Click(object sender, EventArgs e)
+        private void BtnAtTarget_Click(object sender, EventArgs e)
             => this.ShowBackColorDialog(this.lblAtTarget);
 
-        private void btnAtFromTarget_Click(object sender, EventArgs e)
+        private void BtnAtFromTarget_Click(object sender, EventArgs e)
             => this.ShowBackColorDialog(this.lblAtFromTarget);
 
-        private void btnAtTo_Click(object sender, EventArgs e)
+        private void BtnAtTo_Click(object sender, EventArgs e)
             => this.ShowBackColorDialog(this.lblAtTo);
 
-        private void btnListBack_Click(object sender, EventArgs e)
+        private void BtnListBack_Click(object sender, EventArgs e)
             => this.ShowBackColorDialog(this.lblListBackcolor);
 
-        private void btnInputBackcolor_Click(object sender, EventArgs e)
+        private void BtnInputBackcolor_Click(object sender, EventArgs e)
             => this.ShowBackColorDialog(this.lblInputBackcolor);
 
-        private void btnInputFont_Click(object sender, EventArgs e)
+        private void BtnInputFont_Click(object sender, EventArgs e)
             => this.ShowFontDialog(this.lblInputFont);
+
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                this.components?.Dispose();
+                this.defaultTheme.Dispose();
+                this.currentTheme.Dispose();
+            }
+            base.Dispose(disposing);
+        }
     }
 }

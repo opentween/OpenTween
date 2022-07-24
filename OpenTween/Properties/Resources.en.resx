@@ -22,7 +22,7 @@
 	<data name="AuthorizeButton_Click4"><value>Not authenticated</value></data>
 	<data name="AuthorizeButton_Click6"><value>Failed to connect auth server.</value></data>
 	<data name="BitlyAuthorize_ErrorText"><value>Failed to authorize. ({0})</value></data>
-	<data name="BrowserStartFailed"><value>Failed to start browser. Error code: {0}</value></data>
+	<data name="BrowserStartFailed"><value>Failed to start browser: {0}</value></data>
 	<data name="Button3_ClickText1"><value>Executable (*.exe)|*.exe|All files (*.*)|*.*</value></data>
 	<data name="Button3_ClickText2"><value>Choose the web browser</value></data>
 	<data name="ButtonBlock_ClickText1"><value> : Block this user?</value></data>
@@ -84,8 +84,6 @@
 	<data name="DeleteStripMenuItem_ClickText4"><value>Remove succeeded</value></data>
 	<data name="DisableButtonCaption"><value>Disable</value></data>
 	<data name="Disabled"><value>Disabled</value></data>
-	<data name="DMPeriod_ValidatingText1"><value>Fetching interval must a value in 0 or 15 to 6000.</value></data>
-	<data name="DMPeriod_ValidatingText2"><value>Fetching interval must a value in 0 or 15 to 6000.</value></data>
 	<data name="doShowUserStatusText1"><value>Now getting the profile...</value></data>
 	<data name="DoTabSearchText1"><value>Invalid regular expression pattern.</value></data>
 	<data name="DoTabSearchText2"><value>No matches found.</value></data>
@@ -201,8 +199,6 @@ Available service: {1}</value></data>
 	<data name="PostPictureWarn6"><value>none</value></data>
 	<data name="PostWorker_RunWorkerCompletedText4"><value>POST completed</value></data>
 	<data name="PostWorker_RunWorkerCompletedText5"><value>Recent refreshing...</value></data>
-	<data name="PubSearchPeriod_ValidatingText1"><value>Fetching interval must a value in 0 or 30 to 6000.</value></data>
-	<data name="PubSearchPeriod_ValidatingText2"><value>Fetching interval must a value in 0 or 30 to 6000.</value></data>
 	<data name="QuoteStatus_AccessibleText"><value>[Quote @{0}: {1}]</value></data>
 	<data name="ReAuthorizeText"><value>Please do Authentication processing to get/send Direct Messages again.</value></data>
 	<data name="RefreshStripMenuItem_ClickText1"><value>Recent refreshing...</value></data>
@@ -303,8 +299,7 @@ Do you retry to update status?</value></data>
 	<data name="TextProxyPort_ValidatingText1"><value>Port number must be integer number.</value></data>
 	<data name="TextProxyPort_ValidatingText2"><value>Port number must be number 0 to 65535.</value></data>
 	<data name="TextSearchCountApi_Validating1"><value>Getting number of tweet in Api-mode must be 20 to 100.</value></data>
-	<data name="TimelinePeriod_ValidatingText1"><value>Refresh interval must be number 0 or 15 to 6000</value></data>
-	<data name="TimelinePeriod_ValidatingText2"><value>Refresh interval must be number 0 or 15 to 6000</value></data>
+	<data name="TimelinePeriod_ValidatingText1"><value>Refresh interval must be number greater than or equal to 0.</value></data>
 	<data name="TimerDM_TickText1"><value>DMRcv refreshing...</value></data>
 	<data name="TimerTimeline_TickText1"><value>Recent refreshing...</value></data>
 	<data name="TraceOutText1"><value>Please send this file to {0}.</value></data>

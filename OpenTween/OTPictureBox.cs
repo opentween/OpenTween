@@ -23,17 +23,17 @@
 
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.InteropServices;
-using System.Text;
-using System.Windows.Forms;
 using System.ComponentModel;
 using System.Drawing;
-using System.Threading.Tasks;
-using System.Threading;
+using System.IO;
+using System.Linq;
 using System.Net;
 using System.Net.Http;
-using System.IO;
+using System.Runtime.InteropServices;
+using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
+using System.Windows.Forms;
 using OpenTween.Thumbnail;
 
 namespace OpenTween
@@ -53,6 +53,7 @@ namespace OpenTween
                 this.RestoreSizeMode();
             }
         }
+
         private MemoryImage? memoryImage;
 
         [Localizable(true)]
@@ -102,13 +103,14 @@ namespace OpenTween
         /// </summary>
         private int currentImageTaskId = 0;
 
-        public async Task SetImageFromTask(Func<Task<MemoryImage>> imageTask)
+        public async Task SetImageFromTask(Func<Task<MemoryImage>> imageTask, bool useStatusImage = true)
         {
             var id = Interlocked.Increment(ref this.currentImageTaskId);
 
             try
             {
-                this.ShowInitialImage();
+                if (useStatusImage)
+                    this.ShowInitialImage();
 
                 var image = await imageTask();
 
@@ -117,18 +119,30 @@ namespace OpenTween
             }
             catch (Exception)
             {
-                if (id == this.currentImageTaskId)
+                if (id == this.currentImageTaskId && useStatusImage)
                     this.ShowErrorImage();
                 try
                 {
                     throw;
                 }
-                catch (HttpRequestException) { }
-                catch (InvalidImageException) { }
-                catch (OperationCanceledException) { }
-                catch (ObjectDisposedException) { }
-                catch (WebException) { }
-                catch (IOException) { }
+                catch (HttpRequestException)
+                {
+                }
+                catch (InvalidImageException)
+                {
+                }
+                catch (OperationCanceledException)
+                {
+                }
+                catch (ObjectDisposedException)
+                {
+                }
+                catch (WebException)
+                {
+                }
+                catch (IOException)
+                {
+                }
             }
         }
 
@@ -139,7 +153,7 @@ namespace OpenTween
                 base.OnPaint(pe);
 
                 // 動画なら再生ボタンを上から描画
-                DrawPlayableMark(pe);
+                this.DrawPlayableMark(pe);
             }
             catch (ExternalException)
             {

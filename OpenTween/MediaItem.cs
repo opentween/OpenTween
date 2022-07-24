@@ -1,25 +1,26 @@
 // OpenTween - Client of Twitter
 // Copyright (c) 2015 spx (@5px)
 // All rights reserved.
-// 
+//
 // This file is part of OpenTween.
-// 
+//
 // This program is free software; you can redistribute it and/or modify it
 // under the terms of the GNU General Public License as published by the Free
 // Software Foundation; either version 3 of the License, or (at your option)
 // any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful, but
 // WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
 // or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License
-// for more details. 
-// 
+// for more details.
+//
 // You should have received a copy of the GNU General Public License along
 // with this program. If not, see <http://www.gnu.org/licenses/>, or write to
 // the Free Software Foundation, Inc., 51 Franklin Street - Fifth Floor,
 // Boston, MA 02110-1301, USA.
 
 #nullable enable
+#pragma warning disable SA1649
 
 using System;
 using System.Drawing;
@@ -94,6 +95,7 @@ namespace OpenTween
     public class FileMediaItem : IMediaItem
     {
         public FileInfo FileInfo { get; }
+
         public string? AltText { get; set; }
 
         public FileMediaItem(string path)
@@ -128,7 +130,9 @@ namespace OpenTween
                     try
                     {
                         // MemoryImage が生成できるかを検証する
-                        using (var image = this.CreateImage()) { }
+                        using (var image = this.CreateImage())
+                        {
+                        }
 
                         this.isImage = true;
                     }
@@ -170,39 +174,40 @@ namespace OpenTween
     public class MemoryImageMediaItem : IMediaItem, IDisposable
     {
         public const string PathPrefix = "<>MemoryImage://";
-        private static int _fileNumber = 0;
-        private readonly MemoryImage _image;
+        private static int fileNumber = 0;
+        private readonly MemoryImage image;
 
         public bool IsDisposed { get; private set; } = false;
 
         public MemoryImageMediaItem(MemoryImage image)
         {
-            this._image = image ?? throw new ArgumentNullException(nameof(image));
+            this.image = image ?? throw new ArgumentNullException(nameof(image));
 
-            var num = Interlocked.Increment(ref _fileNumber);
-            this.Path = PathPrefix + num + this._image.ImageFormatExt;
+            var num = Interlocked.Increment(ref fileNumber);
+            this.Path = PathPrefix + num + this.image.ImageFormatExt;
         }
 
         public string Path { get; }
+
         public string? AltText { get; set; }
 
         public string Name
             => this.Path.Substring(PathPrefix.Length);
 
         public string Extension
-            => this._image.ImageFormatExt;
+            => this.image.ImageFormatExt;
 
         public bool Exists
-            => this._image != null;
+            => this.image != null;
 
         public long Size
-            => this._image.Stream.Length;
+            => this.image.Stream.Length;
 
         public bool IsImage
             => true;
 
         public MemoryImage CreateImage()
-            => this._image.Clone();
+            => this.image.Clone();
 
         public Stream OpenRead()
         {
@@ -212,7 +217,7 @@ namespace OpenTween
                 // コピーを作成する
                 memstream = new MemoryStream();
 
-                this._image.Stream.WriteTo(memstream);
+                this.image.Stream.WriteTo(memstream);
                 memstream.Seek(0, SeekOrigin.Begin);
 
                 return memstream;
@@ -225,7 +230,7 @@ namespace OpenTween
         }
 
         public void CopyTo(Stream stream)
-            => this._image.Stream.WriteTo(stream);
+            => this.image.Stream.WriteTo(stream);
 
         protected virtual void Dispose(bool disposing)
         {
@@ -233,7 +238,7 @@ namespace OpenTween
 
             if (disposing)
             {
-                this._image.Dispose();
+                this.image.Dispose();
             }
 
             this.IsDisposed = true;

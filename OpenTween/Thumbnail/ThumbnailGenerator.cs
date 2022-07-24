@@ -34,25 +34,22 @@ using OpenTween.Thumbnail.Services;
 
 namespace OpenTween.Thumbnail
 {
-    class ThumbnailGenerator
+    public sealed class ThumbnailGenerator
     {
-        public static readonly Regex InstagramPattern = new Regex(
+        public static readonly Regex InstagramPattern = new(
             @"^https?://(?:instagram.com|instagr\.am|i\.instagram\.com|www\.instagram\.com)/([^/]+/)?p/(?<mediaId>[^/]+)/(\?.*)?$",
             RegexOptions.IgnoreCase
         );
 
-        public static List<IThumbnailService> Services { get; protected set; }
+        public List<IThumbnailService> Services { get; }
 
-        internal static ImgAzyobuziNet ImgAzyobuziNetInstance { get; private set; } = null!;
+        public ImgAzyobuziNet ImgAzyobuziNet { get; }
 
-        static ThumbnailGenerator()
-            => ThumbnailGenerator.Services = new List<IThumbnailService>();
-
-        public static void InitializeGenerator()
+        public ThumbnailGenerator(ImgAzyobuziNet imgAzyobuziNet)
         {
-            ImgAzyobuziNetInstance = new ImgAzyobuziNet(autoupdate: true);
+            this.ImgAzyobuziNet = imgAzyobuziNet;
 
-            ThumbnailGenerator.Services = new List<IThumbnailService>
+            this.Services = new List<IThumbnailService>
             {
                 // ton.twitter.com
                 new TonTwitterCom(),
@@ -76,7 +73,7 @@ namespace OpenTween.Thumbnail
                 new SimpleThumbnailService(@"^https?://.*(\.jpg|\.jpeg|\.gif|\.png|\.bmp)$", "${0}"),
 
                 // img.azyobuzi.net
-                ImgAzyobuziNetInstance,
+                this.ImgAzyobuziNet,
 
                 // ImgUr
                 new SimpleThumbnailService(
@@ -161,7 +158,7 @@ namespace OpenTween.Thumbnail
             };
         }
 
-        public static async Task<IEnumerable<ThumbnailInfo>> GetThumbnailsAsync(PostClass post, CancellationToken token)
+        public async Task<IEnumerable<ThumbnailInfo>> GetThumbnailsAsync(PostClass post, CancellationToken token)
         {
             var thumbnails = new List<ThumbnailInfo>();
 
@@ -170,7 +167,7 @@ namespace OpenTween.Thumbnail
 
             foreach (var expandedUrl in expandedUrls)
             {
-                var thumbInfo = await ThumbnailGenerator.GetThumbnailInfoAsync(expandedUrl, post, token)
+                var thumbInfo = await this.GetThumbnailInfoAsync(expandedUrl, post, token)
                     .ConfigureAwait(false);
 
                 if (thumbInfo != null)
@@ -190,9 +187,9 @@ namespace OpenTween.Thumbnail
             return thumbnails;
         }
 
-        public static async Task<ThumbnailInfo?> GetThumbnailInfoAsync(string url, PostClass post, CancellationToken token)
+        public async Task<ThumbnailInfo?> GetThumbnailInfoAsync(string url, PostClass post, CancellationToken token)
         {
-            foreach (var generator in ThumbnailGenerator.Services)
+            foreach (var generator in this.Services)
             {
                 var result = await generator.GetThumbnailInfoAsync(url, post, token)
                     .ConfigureAwait(false);

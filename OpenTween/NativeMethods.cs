@@ -7,19 +7,19 @@
 //           (c) 2011      Egtra (@egtra) <http://dev.activebasic.com/egtra/>
 //           (c) 2014      kim_upsilon (@kim_upsilon) <https://upsilo.net/~upsilon/>
 // All rights reserved.
-// 
+//
 // This file is part of OpenTween.
-// 
+//
 // This program is free software; you can redistribute it and/or modify it
 // under the terms of the GNU General public License as published by the Free
 // Software Foundation; either version 3 of the License, or (at your option)
 // any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful, but
 // WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
 // or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General public License
-// for more details. 
-// 
+// for more details.
+//
 // You should have received a copy of the GNU General public License along
 // with this program. if not, see <http://www.gnu.org/licenses/>, or write to
 // the Free Software Foundation, Inc., 51 Franklin Street - Fifth Floor,
@@ -33,9 +33,9 @@ using System.Diagnostics;
 using System.Linq;
 using System.Net;
 using System.Runtime.InteropServices;
+using System.Text;
 using System.Threading;
 using System.Windows.Forms;
-using System.Text;
 using OpenTween.Connection;
 
 namespace OpenTween
@@ -44,14 +44,14 @@ namespace OpenTween
     {
         // 指定されたウィンドウへ、指定されたメッセージを送信します
         [DllImport("user32.dll")]
-        private extern static IntPtr SendMessage(
+        private static extern IntPtr SendMessage(
             IntPtr hwnd,
             SendMessageType wMsg,
             IntPtr wParam,
             IntPtr lParam);
 
         [DllImport("user32.dll")]
-        private extern static IntPtr SendMessage(
+        private static extern IntPtr SendMessage(
             IntPtr hwnd,
             SendMessageType wMsg,
             IntPtr wParam,
@@ -60,16 +60,16 @@ namespace OpenTween
         // SendMessageで送信するメッセージ
         private enum SendMessageType : uint
         {
-            WM_SETREDRAW = 0x000B,               //再描画を許可するかを設定
-            WM_USER = 0x400,                     //ユーザー定義メッセージ
+            WM_SETREDRAW = 0x000B,               // 再描画を許可するかを設定
+            WM_USER = 0x400,                     // ユーザー定義メッセージ
 
-            TCM_FIRST = 0x1300,                  //タブコントロールメッセージ
-            TCM_SETMINTABWIDTH = TCM_FIRST + 49, //タブアイテムの最小幅を設定
+            TCM_FIRST = 0x1300,                  // タブコントロールメッセージ
+            TCM_SETMINTABWIDTH = TCM_FIRST + 49, // タブアイテムの最小幅を設定
 
-            LVM_FIRST = 0x1000,                    //リストビューメッセージ
-            LVM_SETITEMSTATE = LVM_FIRST + 43,     //アイテムの状態を設定
-            LVM_GETSELECTIONMARK = LVM_FIRST + 66, //複数選択時の起点になるアイテムの位置を取得
-            LVM_SETSELECTIONMARK = LVM_FIRST + 67, //複数選択時の起点になるアイテムを設定
+            LVM_FIRST = 0x1000,                    // リストビューメッセージ
+            LVM_SETITEMSTATE = LVM_FIRST + 43,     // アイテムの状態を設定
+            LVM_GETSELECTIONMARK = LVM_FIRST + 66, // 複数選択時の起点になるアイテムの位置を取得
+            LVM_SETSELECTIONMARK = LVM_FIRST + 67, // 複数選択時の起点になるアイテムを設定
         }
 
         /// <summary>
@@ -174,12 +174,12 @@ namespace OpenTween
             FlashTimer = FLASHW_TIMER,
             FlashTimerNoForeground = FLASHW_TIMERNOFG,
         }
-        /// http://www.atmarkit.co.jp/fdotnet/dotnettips/723flashwindow/flashwindow.html
+
+        // http://www.atmarkit.co.jp/fdotnet/dotnettips/723flashwindow/flashwindow.html
         [DllImport("user32.dll")]
         [return: MarshalAs(UnmanagedType.Bool)]
         private static extern bool FlashWindowEx(
             ref FLASHWINFO FWInfo);
-
 
         private struct FLASHWINFO
         {
@@ -230,7 +230,7 @@ namespace OpenTween
                     int intWinIniFlag);
         // returns non-zero value if function succeeds
 
-        //スクリーンセーバーが起動中かを取得する定数
+        // スクリーンセーバーが起動中かを取得する定数
         private const int SPI_GETSCREENSAVERRUNNING = 0x0072;
 
         public static bool IsScreenSaverRunning()
@@ -243,16 +243,19 @@ namespace OpenTween
 
         #region "グローバルフック"
         [DllImport("user32")]
-        private static extern int RegisterHotKey(IntPtr hwnd, int id,
-            int fsModifiers, int vk);
+        private static extern int RegisterHotKey(IntPtr hwnd, int id, int fsModifiers, int vk);
+
         [DllImport("user32")]
         private static extern int UnregisterHotKey(IntPtr hwnd, int id);
+
         [DllImport("kernel32", CharSet = CharSet.Auto, BestFitMapping = false, ThrowOnUnmappableChar = true)]
         private static extern ushort GlobalAddAtom([MarshalAs(UnmanagedType.LPTStr)] string lpString);
+
         [DllImport("kernel32")]
         private static extern ushort GlobalDeleteAtom(ushort nAtom);
 
         private static int registerCount = 0;
+
         // register a global hot key
         public static int RegisterGlobalHotKey(int hotkeyValue, int modifiers, Form targetForm)
         {
@@ -342,7 +345,7 @@ namespace OpenTween
             }
             else if (strProxy == null)
             {
-                //IE Default
+                // IE Default
                 var p = WebRequest.GetSystemWebProxy();
                 if (p.IsBypassed(new Uri("http://www.google.com/")))
                 {
@@ -417,7 +420,7 @@ namespace OpenTween
             SIF_POS = 0x4,
             SIF_DISABLENOSCROLL = 0x8,
             SIF_TRACKPOS = 0x10,
-            SIF_ALL = (SIF_RANGE | SIF_PAGE | SIF_POS | SIF_TRACKPOS),
+            SIF_ALL = SIF_RANGE | SIF_PAGE | SIF_POS | SIF_TRACKPOS,
         }
 
         [DllImport("user32.dll")]
@@ -441,7 +444,7 @@ namespace OpenTween
 
         [DllImport("user32.dll")]
         private static extern uint GetWindowThreadProcessId(IntPtr hWnd, out uint procId);
-        
+
         [return: MarshalAs(UnmanagedType.Bool)]
         private delegate bool EnumWindowCallback(IntPtr hWnd, int lParam);
 
@@ -465,29 +468,31 @@ namespace OpenTween
         {
             var foundHwnd = IntPtr.Zero;
 
-            EnumWindows((hWnd, lParam) =>
-            {
-                GetWindowThreadProcessId(hWnd, out var procId);
-
-                if (procId == pid)
+            EnumWindows(
+                (hWnd, lParam) =>
                 {
-                    var windowTitleLen = GetWindowTextLength(hWnd);
+                    GetWindowThreadProcessId(hWnd, out var procId);
 
-                    if (windowTitleLen > 0)
+                    if (procId == pid)
                     {
-                        var windowTitle = new StringBuilder(windowTitleLen + 1);
-                        GetWindowText(hWnd, windowTitle, windowTitle.Capacity);
+                        var windowTitleLen = GetWindowTextLength(hWnd);
 
-                        if (windowTitle.ToString().Contains(searchWindowTitle))
+                        if (windowTitleLen > 0)
                         {
-                            foundHwnd = hWnd;
-                            return false;
+                            var windowTitle = new StringBuilder(windowTitleLen + 1);
+                            GetWindowText(hWnd, windowTitle, windowTitle.Capacity);
+
+                            if (windowTitle.ToString().Contains(searchWindowTitle))
+                            {
+                                foundHwnd = hWnd;
+                                return false;
+                            }
                         }
                     }
-                }
 
-                return true;
-            }, IntPtr.Zero);
+                    return true;
+                },
+                IntPtr.Zero);
 
             return foundHwnd;
         }

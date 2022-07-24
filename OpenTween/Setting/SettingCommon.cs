@@ -6,19 +6,19 @@
 //           (c) 2010-2011 fantasticswallow (@f_swallow) <http://twitter.com/f_swallow>
 //           (c) 2011      kim_upsilon (@kim_upsilon) <https://upsilo.net/~upsilon/>
 // All rights reserved.
-// 
+//
 // This file is part of OpenTween.
-// 
+//
 // This program is free software; you can redistribute it and/or modify it
 // under the terms of the GNU General Public License as published by the Free
 // Software Foundation; either version 3 of the License, or (at your option)
 // any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful, but
 // WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
 // or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License
-// for more details. 
-// 
+// for more details.
+//
 // You should have received a copy of the GNU General Public License along
 // with this program. If not, see <http://www.gnu.org/licenses/>, or write to
 // the Free Software Foundation, Inc., 51 Franklin Street - Fifth Floor,
@@ -27,9 +27,9 @@
 #nullable enable
 
 using System;
-using System.Xml.Serialization;
 using System.Collections.Generic;
 using System.Windows.Forms;
+using System.Xml.Serialization;
 using OpenTween.Thumbnail;
 
 namespace OpenTween
@@ -37,31 +37,33 @@ namespace OpenTween
     public class SettingCommon : SettingBase<SettingCommon>
     {
         #region "Settingクラス基本"
-        public static SettingCommon Load()
-            => LoadSettings();
+        public static SettingCommon Load(string settingsPath)
+            => LoadSettings(settingsPath);
 
-        public void Save()
-            => SaveSettings(this);
+        public void Save(string settingsPath)
+            => SaveSettings(this, settingsPath);
         #endregion
 
-        public List<UserAccount> UserAccounts = new List<UserAccount>();
+        public List<UserAccount> UserAccounts = new();
         public string UserName = "";
 
         [XmlIgnore]
         public string Password = "";
+
         public string EncryptPassword
         {
-            get => Encrypt(Password);
-            set => Password = Decrypt(value);
+            get => this.Encrypt(this.Password);
+            set => this.Password = this.Decrypt(value);
         }
 
         public string Token = "";
         [XmlIgnore]
         public string TokenSecret = "";
+
         public string EncryptTokenSecret
         {
-            get => Encrypt(TokenSecret);
-            set => TokenSecret = Decrypt(value);
+            get => this.Encrypt(this.TokenSecret);
+            set => this.TokenSecret = this.Decrypt(value);
         }
 
         private string Encrypt(string password)
@@ -83,6 +85,7 @@ namespace OpenTween
                 return "";
             }
         }
+
         private string Decrypt(string password)
         {
             if (MyCommon.IsNullOrEmpty(password)) password = "";
@@ -101,7 +104,7 @@ namespace OpenTween
         }
 
         public long UserId = 0;
-        public List<string> TabList = new List<string>();
+        public List<string> TabList = new();
         public int TimelinePeriod = 90;
         public int ReplyPeriod = 180;
         public int DMPeriod = 600;
@@ -163,7 +166,7 @@ namespace OpenTween
         public bool ReadOldPosts = false;
         public string Language = "OS";
         public bool Nicoms = false;
-        public List<string> HashTags = new List<string>();
+        public List<string> HashTags = new();
         public string HashSelected = "";
         public bool HashIsPermanent = false;
         public bool HashIsHead = false;
@@ -216,7 +219,17 @@ namespace OpenTween
         public int ListCountApi = 100;
         public int UseImageService = 0;
         public string UseImageServiceName = "";
-        public int ListDoubleClickAction = 0;
+
+        [XmlIgnore]
+        public MyCommon.ListItemDoubleClickActionType ListDoubleClickAction { get; set; } = MyCommon.ListItemDoubleClickActionType.Reply;
+
+        [XmlElement(ElementName = nameof(ListDoubleClickAction))]
+        public int ListDoubleClickActionNumeric
+        {
+            get => (int)this.ListDoubleClickAction;
+            set => this.ListDoubleClickAction = (MyCommon.ListItemDoubleClickActionType)value;
+        }
+
         public string UserAppointUrl = "";
         public bool HideDuplicatedRetweets = false;
         public bool EnableImgAzyobuziNet = true;
@@ -247,6 +260,64 @@ namespace OpenTween
 
         [XmlElement(ElementName = nameof(SkipUpdateVersion))]
         public string SkipUpdateVersionStr { get; set; } = "";
+
+        public void Validate()
+        {
+            if (this.TimelinePeriod < 0)
+                this.TimelinePeriod = 15;
+
+            if (this.ReplyPeriod < 0)
+                this.ReplyPeriod = 15;
+
+            if (this.DMPeriod < 0)
+                this.DMPeriod = 15;
+
+            if (this.PubSearchPeriod < 0)
+                this.PubSearchPeriod = 30;
+
+            if (this.UserTimelinePeriod < 0)
+                this.UserTimelinePeriod = 15;
+
+            if (this.ListsPeriod < 0)
+                this.ListsPeriod = 15;
+
+            if (!Twitter.VerifyApiResultCount(MyCommon.WORKERTYPE.Timeline, this.CountApi))
+                this.CountApi = 60;
+
+            if (!Twitter.VerifyApiResultCount(MyCommon.WORKERTYPE.Reply, this.CountApiReply))
+                this.CountApiReply = 40;
+
+            if (this.MoreCountApi != 0 && !Twitter.VerifyMoreApiResultCount(this.MoreCountApi))
+                this.MoreCountApi = 200;
+
+            if (this.FirstCountApi != 0 && !Twitter.VerifyFirstApiResultCount(this.FirstCountApi))
+                this.FirstCountApi = 100;
+
+            if (this.FavoritesCountApi != 0 && !Twitter.VerifyApiResultCount(MyCommon.WORKERTYPE.Favorites, this.FavoritesCountApi))
+                this.FavoritesCountApi = 40;
+
+            if (this.ListCountApi != 0 && !Twitter.VerifyApiResultCount(MyCommon.WORKERTYPE.List, this.ListCountApi))
+                this.ListCountApi = 100;
+
+            if (this.SearchCountApi != 0 && !Twitter.VerifyApiResultCount(MyCommon.WORKERTYPE.PublicSearch, this.SearchCountApi))
+                this.SearchCountApi = 100;
+
+            if (this.UserTimelineCountApi != 0 && !Twitter.VerifyApiResultCount(MyCommon.WORKERTYPE.UserTimeline, this.UserTimelineCountApi))
+                this.UserTimelineCountApi = 20;
+
+            // 廃止サービスが選択されていた場合ux.nuへ読み替え
+            if (this.AutoShortUrlFirst < 0)
+                this.AutoShortUrlFirst = MyCommon.UrlConverter.Uxnu;
+
+            var selectedAccount = this.UserAccounts.Find(
+                x => string.Equals(x.Username, this.UserName, StringComparison.InvariantCultureIgnoreCase)
+            );
+            if (selectedAccount?.UserId == 0)
+                selectedAccount.UserId = this.UserId;
+
+            if (MyCommon.IsNullOrEmpty(this.Token))
+                this.UserName = "";
+        }
     }
 
     public class UserAccount
@@ -256,11 +327,13 @@ namespace OpenTween
         public string Token = "";
         [XmlIgnore]
         public string TokenSecret = "";
+
         public string EncryptTokenSecret
         {
-            get => Encrypt(TokenSecret);
-            set => TokenSecret = Decrypt(value);
+            get => this.Encrypt(this.TokenSecret);
+            set => this.TokenSecret = this.Decrypt(value);
         }
+
         private string Encrypt(string password)
         {
             if (MyCommon.IsNullOrEmpty(password)) password = "";
@@ -280,6 +353,7 @@ namespace OpenTween
                 return "";
             }
         }
+
         private string Decrypt(string password)
         {
             if (MyCommon.IsNullOrEmpty(password)) password = "";

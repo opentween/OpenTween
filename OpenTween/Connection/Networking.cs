@@ -37,6 +37,7 @@ namespace OpenTween.Connection
     public static class Networking
     {
         public static TimeSpan DefaultTimeout { get; set; }
+
         public static TimeSpan UploadImageTimeout { get; set; }
 
         /// <summary>
@@ -113,8 +114,12 @@ namespace OpenTween.Connection
                 ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls11 | SecurityProtocolType.Tls12;
         }
 
-        public static void SetWebProxy(ProxyType proxyType, string proxyAddress, int proxyPort,
-            string proxyUser, string proxyPassword)
+        public static void SetWebProxy(
+            ProxyType proxyType,
+            string proxyAddress,
+            int proxyPort,
+            string proxyUser,
+            string proxyPassword)
         {
             IWebProxy? proxy;
             switch (proxyType)
@@ -222,8 +227,10 @@ namespace OpenTween.Connection
                 : base(innerHandler)
             {
                 foreach (var address in Dns.GetHostAddresses("pbs.twimg.com"))
+                {
                     if (address.AddressFamily == System.Net.Sockets.AddressFamily.InterNetwork)
                         this.ipv4Address = address;
+                }
             }
 
             protected override Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)

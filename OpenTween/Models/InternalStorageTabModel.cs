@@ -38,12 +38,13 @@ namespace OpenTween.Models
 {
     public abstract class InternalStorageTabModel : TabModel
     {
-        protected readonly ConcurrentDictionary<long, PostClass> internalPosts = new ConcurrentDictionary<long, PostClass>();
+        protected readonly ConcurrentDictionary<long, PostClass> internalPosts = new();
 
         public override ConcurrentDictionary<long, PostClass> Posts
             => this.internalPosts;
 
-        protected InternalStorageTabModel(string tabName) : base(tabName)
+        protected InternalStorageTabModel(string tabName)
+            : base(tabName)
         {
         }
 

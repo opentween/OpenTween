@@ -22,6 +22,26 @@
 	<data name="&gt;&gt;AddTabMenuItem.Type"><value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
 	<data name="&gt;&gt;ApiUsageInfoMenuItem.Name"><value>ApiUsageInfoMenuItem</value></data>
 	<data name="&gt;&gt;ApiUsageInfoMenuItem.Type"><value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
+	<data name="&gt;&gt;AuthorContextMenuItem.Name"><value>AuthorContextMenuItem</value></data>
+	<data name="&gt;&gt;AuthorContextMenuItem.Type"><value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
+	<data name="&gt;&gt;AuthorListManageContextMenuItem.Name"><value>AuthorListManageContextMenuItem</value></data>
+	<data name="&gt;&gt;AuthorListManageContextMenuItem.Type"><value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
+	<data name="&gt;&gt;AuthorListManageMenuItem.Name"><value>AuthorListManageMenuItem</value></data>
+	<data name="&gt;&gt;AuthorListManageMenuItem.Type"><value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
+	<data name="&gt;&gt;AuthorMenuItem.Name"><value>AuthorMenuItem</value></data>
+	<data name="&gt;&gt;AuthorMenuItem.Type"><value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
+	<data name="&gt;&gt;AuthorOpenInBrowserContextMenuItem.Name"><value>AuthorOpenInBrowserContextMenuItem</value></data>
+	<data name="&gt;&gt;AuthorOpenInBrowserContextMenuItem.Type"><value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
+	<data name="&gt;&gt;AuthorOpenInBrowserMenuItem.Name"><value>AuthorOpenInBrowserMenuItem</value></data>
+	<data name="&gt;&gt;AuthorOpenInBrowserMenuItem.Type"><value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
+	<data name="&gt;&gt;AuthorShowProfileContextMenuItem.Name"><value>AuthorShowProfileContextMenuItem</value></data>
+	<data name="&gt;&gt;AuthorShowProfileContextMenuItem.Type"><value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
+	<data name="&gt;&gt;AuthorShowProfileMenuItem.Name"><value>AuthorShowProfileMenuItem</value></data>
+	<data name="&gt;&gt;AuthorShowProfileMenuItem.Type"><value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
+	<data name="&gt;&gt;AuthorShowUserTimelineContextMenuItem.Name"><value>AuthorShowUserTimelineContextMenuItem</value></data>
+	<data name="&gt;&gt;AuthorShowUserTimelineContextMenuItem.Type"><value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
+	<data name="&gt;&gt;AuthorShowUserTimelineMenuItem.Name"><value>AuthorShowUserTimelineMenuItem</value></data>
+	<data name="&gt;&gt;AuthorShowUserTimelineMenuItem.Type"><value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
 	<data name="&gt;&gt;BitlyToolStripMenuItem.Name"><value>BitlyToolStripMenuItem</value></data>
 	<data name="&gt;&gt;BitlyToolStripMenuItem.Type"><value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
 	<data name="&gt;&gt;CacheInfoMenuItem.Name"><value>CacheInfoMenuItem</value></data>
@@ -154,12 +174,8 @@
 	<data name="&gt;&gt;lblLen.ZOrder"><value>2</value></data>
 	<data name="&gt;&gt;ListLockMenuItem.Name"><value>ListLockMenuItem</value></data>
 	<data name="&gt;&gt;ListLockMenuItem.Type"><value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
-	<data name="&gt;&gt;ListManageMenuItem.Name"><value>ListManageMenuItem</value></data>
-	<data name="&gt;&gt;ListManageMenuItem.Type"><value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
 	<data name="&gt;&gt;ListManageToolStripMenuItem.Name"><value>ListManageToolStripMenuItem</value></data>
 	<data name="&gt;&gt;ListManageToolStripMenuItem.Type"><value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
-	<data name="&gt;&gt;ListManageUserContextToolStripMenuItem2.Name"><value>ListManageUserContextToolStripMenuItem2</value></data>
-	<data name="&gt;&gt;ListManageUserContextToolStripMenuItem2.Type"><value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
 	<data name="&gt;&gt;ListTab.Name"><value>ListTab</value></data>
 	<data name="&gt;&gt;ListTab.Parent"><value>TimelinePanel</value></data>
 	<data name="&gt;&gt;ListTab.Type"><value>System.Windows.Forms.TabControl, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
@@ -192,12 +208,6 @@
 	<data name="&gt;&gt;MenuStrip1.Parent"><value>ToolStripContainer1.TopToolStripPanel</value></data>
 	<data name="&gt;&gt;MenuStrip1.Type"><value>System.Windows.Forms.MenuStrip, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
 	<data name="&gt;&gt;MenuStrip1.ZOrder"><value>0</value></data>
-	<data name="&gt;&gt;MoveToFavToolStripMenuItem.Name"><value>MoveToFavToolStripMenuItem</value></data>
-	<data name="&gt;&gt;MoveToFavToolStripMenuItem.Type"><value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
-	<data name="&gt;&gt;MoveToHomeToolStripMenuItem.Name"><value>MoveToHomeToolStripMenuItem</value></data>
-	<data name="&gt;&gt;MoveToHomeToolStripMenuItem.Type"><value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
-	<data name="&gt;&gt;MoveToRTHomeMenuItem.Name"><value>MoveToRTHomeMenuItem</value></data>
-	<data name="&gt;&gt;MoveToRTHomeMenuItem.Type"><value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
 	<data name="&gt;&gt;MultiLineMenuItem.Name"><value>MultiLineMenuItem</value></data>
 	<data name="&gt;&gt;MultiLineMenuItem.Type"><value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
 	<data name="&gt;&gt;MultiLinePullDownMenuItem.Name"><value>MultiLinePullDownMenuItem</value></data>
@@ -212,20 +222,14 @@
 	<data name="&gt;&gt;NotifyIcon1.Type"><value>System.Windows.Forms.NotifyIcon, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
 	<data name="&gt;&gt;NotifyTbMenuItem.Name"><value>NotifyTbMenuItem</value></data>
 	<data name="&gt;&gt;NotifyTbMenuItem.Type"><value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
-	<data name="&gt;&gt;OpenFavOpMenuItem.Name"><value>OpenFavOpMenuItem</value></data>
-	<data name="&gt;&gt;OpenFavOpMenuItem.Type"><value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
 	<data name="&gt;&gt;OpenFileDialog1.Name"><value>OpenFileDialog1</value></data>
 	<data name="&gt;&gt;OpenFileDialog1.Type"><value>System.Windows.Forms.OpenFileDialog, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
-	<data name="&gt;&gt;OpenHomeOpMenuItem.Name"><value>OpenHomeOpMenuItem</value></data>
-	<data name="&gt;&gt;OpenHomeOpMenuItem.Type"><value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
 	<data name="&gt;&gt;OpenOpMenuItem.Name"><value>OpenOpMenuItem</value></data>
 	<data name="&gt;&gt;OpenOpMenuItem.Type"><value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
 	<data name="&gt;&gt;OpenOwnHomeMenuItem.Name"><value>OpenOwnHomeMenuItem</value></data>
 	<data name="&gt;&gt;OpenOwnHomeMenuItem.Type"><value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
 	<data name="&gt;&gt;OpenRepSourceOpMenuItem.Name"><value>OpenRepSourceOpMenuItem</value></data>
 	<data name="&gt;&gt;OpenRepSourceOpMenuItem.Type"><value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
-	<data name="&gt;&gt;OpenRterHomeMenuItem.Name"><value>OpenRterHomeMenuItem</value></data>
-	<data name="&gt;&gt;OpenRterHomeMenuItem.Type"><value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
 	<data name="&gt;&gt;OpenStatusOpMenuItem.Name"><value>OpenStatusOpMenuItem</value></data>
 	<data name="&gt;&gt;OpenStatusOpMenuItem.Type"><value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
 	<data name="&gt;&gt;OpenURLFileMenuItem.Name"><value>OpenURLFileMenuItem</value></data>
@@ -250,8 +254,6 @@
 	<data name="&gt;&gt;PostButton.ZOrder"><value>1</value></data>
 	<data name="&gt;&gt;PostModeMenuItem.Name"><value>PostModeMenuItem</value></data>
 	<data name="&gt;&gt;PostModeMenuItem.Type"><value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
-	<data name="&gt;&gt;PostStateImageList.Name"><value>PostStateImageList</value></data>
-	<data name="&gt;&gt;PostStateImageList.Type"><value>System.Windows.Forms.ImageList, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
 	<data name="&gt;&gt;PreventSmsCommandMenuItem.Name"><value>PreventSmsCommandMenuItem</value></data>
 	<data name="&gt;&gt;PreventSmsCommandMenuItem.Type"><value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
 	<data name="&gt;&gt;PreventSmsCommandPullDownMenuItem.Name"><value>PreventSmsCommandPullDownMenuItem</value></data>
@@ -296,6 +298,26 @@
 	<data name="&gt;&gt;ReplyOpMenuItem.Type"><value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
 	<data name="&gt;&gt;ReplyStripMenuItem.Name"><value>ReplyStripMenuItem</value></data>
 	<data name="&gt;&gt;ReplyStripMenuItem.Type"><value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
+	<data name="&gt;&gt;RetweetedByContextMenuItem.Name"><value>RetweetedByContextMenuItem</value></data>
+	<data name="&gt;&gt;RetweetedByContextMenuItem.Type"><value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
+	<data name="&gt;&gt;RetweetedByListManageContextMenuItem.Name"><value>RetweetedByListManageContextMenuItem</value></data>
+	<data name="&gt;&gt;RetweetedByListManageContextMenuItem.Type"><value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
+	<data name="&gt;&gt;RetweetedByListManageMenuItem.Name"><value>RetweetedByListManageMenuItem</value></data>
+	<data name="&gt;&gt;RetweetedByListManageMenuItem.Type"><value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
+	<data name="&gt;&gt;RetweetedByMenuItem.Name"><value>RetweetedByMenuItem</value></data>
+	<data name="&gt;&gt;RetweetedByMenuItem.Type"><value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
+	<data name="&gt;&gt;RetweetedByOpenInBrowserContextMenuItem.Name"><value>RetweetedByOpenInBrowserContextMenuItem</value></data>
+	<data name="&gt;&gt;RetweetedByOpenInBrowserContextMenuItem.Type"><value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
+	<data name="&gt;&gt;RetweetedByOpenInBrowserMenuItem.Name"><value>RetweetedByOpenInBrowserMenuItem</value></data>
+	<data name="&gt;&gt;RetweetedByOpenInBrowserMenuItem.Type"><value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
+	<data name="&gt;&gt;RetweetedByShowProfileContextMenuItem.Name"><value>RetweetedByShowProfileContextMenuItem</value></data>
+	<data name="&gt;&gt;RetweetedByShowProfileContextMenuItem.Type"><value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
+	<data name="&gt;&gt;RetweetedByShowProfileMenuItem.Name"><value>RetweetedByShowProfileMenuItem</value></data>
+	<data name="&gt;&gt;RetweetedByShowProfileMenuItem.Type"><value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
+	<data name="&gt;&gt;RetweetedByShowUserTimelineContextMenuItem.Name"><value>RetweetedByShowUserTimelineContextMenuItem</value></data>
+	<data name="&gt;&gt;RetweetedByShowUserTimelineContextMenuItem.Type"><value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
+	<data name="&gt;&gt;RetweetedByShowUserTimelineMenuItem.Name"><value>RetweetedByShowUserTimelineMenuItem</value></data>
+	<data name="&gt;&gt;RetweetedByShowUserTimelineMenuItem.Type"><value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
 	<data name="&gt;&gt;ReTweetStripMenuItem.Name"><value>ReTweetStripMenuItem</value></data>
 	<data name="&gt;&gt;ReTweetStripMenuItem.Type"><value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
 	<data name="&gt;&gt;ReTweetUnofficialStripMenuItem.Name"><value>ReTweetUnofficialStripMenuItem</value></data>
@@ -322,18 +344,18 @@
 	<data name="&gt;&gt;SettingStripMenuItem.Type"><value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
 	<data name="&gt;&gt;ShortcutKeyListMenuItem.Name"><value>ShortcutKeyListMenuItem</value></data>
 	<data name="&gt;&gt;ShortcutKeyListMenuItem.Type"><value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
+	<data name="&gt;&gt;ShowProfileContextMenuItem.Name"><value>ShowProfileContextMenuItem</value></data>
+	<data name="&gt;&gt;ShowProfileContextMenuItem.Type"><value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
 	<data name="&gt;&gt;ShowProfileMenuItem.Name"><value>ShowProfileMenuItem</value></data>
 	<data name="&gt;&gt;ShowProfileMenuItem.Type"><value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
-	<data name="&gt;&gt;ShowProfMenuItem.Name"><value>ShowProfMenuItem</value></data>
-	<data name="&gt;&gt;ShowProfMenuItem.Type"><value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
 	<data name="&gt;&gt;ShowRelatedStatusesMenuItem.Name"><value>ShowRelatedStatusesMenuItem</value></data>
 	<data name="&gt;&gt;ShowRelatedStatusesMenuItem.Type"><value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
 	<data name="&gt;&gt;ShowRelatedStatusesMenuItem2.Name"><value>ShowRelatedStatusesMenuItem2</value></data>
 	<data name="&gt;&gt;ShowRelatedStatusesMenuItem2.Type"><value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
 	<data name="&gt;&gt;ShowUserTimelineContextMenuItem.Name"><value>ShowUserTimelineContextMenuItem</value></data>
 	<data name="&gt;&gt;ShowUserTimelineContextMenuItem.Type"><value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
-	<data name="&gt;&gt;ShowUserTimelineToolStripMenuItem.Name"><value>ShowUserTimelineToolStripMenuItem</value></data>
-	<data name="&gt;&gt;ShowUserTimelineToolStripMenuItem.Type"><value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
+	<data name="&gt;&gt;ShowUserTimelineMenuItem.Name"><value>ShowUserTimelineMenuItem</value></data>
+	<data name="&gt;&gt;ShowUserTimelineMenuItem.Type"><value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
 	<data name="&gt;&gt;SoundFileComboBox.Name"><value>SoundFileComboBox</value></data>
 	<data name="&gt;&gt;SoundFileComboBox.Type"><value>System.Windows.Forms.ToolStripComboBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
 	<data name="&gt;&gt;SoundFileTbComboBox.Name"><value>SoundFileTbComboBox</value></data>
@@ -578,6 +600,30 @@
 	<data name="AddTabMenuItem.Text"><value>タブ作成(&amp;N)...</value></data>
 	<data name="ApiUsageInfoMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>251, 22</value></data>
 	<data name="ApiUsageInfoMenuItem.Text"><value>Twitter API 使用情報</value></data>
+	<data name="AuthorContextMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>224, 22</value></data>
+	<data name="AuthorContextMenuItem.Text"><value>%Author%</value></data>
+	<data name="AuthorListManageContextMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>206, 22</value></data>
+	<data name="AuthorListManageContextMenuItem.Text"><value>リスト管理(&amp;L)</value></data>
+	<data name="AuthorListManageMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>247, 22</value></data>
+	<data name="AuthorListManageMenuItem.Text"><value>リスト管理(&amp;L)</value></data>
+	<data name="AuthorMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>244, 22</value></data>
+	<data name="AuthorMenuItem.Text"><value>%Author%</value></data>
+	<data name="AuthorOpenInBrowserContextMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>206, 22</value></data>
+	<data name="AuthorOpenInBrowserContextMenuItem.Text"><value>ブラウザで開く(&amp;H)</value></data>
+	<data name="AuthorOpenInBrowserMenuItem.ShortcutKeys" type="System.Windows.Forms.Keys, System.Windows.Forms"><value>Ctrl+H</value></data>
+	<data name="AuthorOpenInBrowserMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>247, 22</value></data>
+	<data name="AuthorOpenInBrowserMenuItem.Text"><value>ブラウザで開く(&amp;H)</value></data>
+	<data name="AuthorShowProfileContextMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>206, 22</value></data>
+	<data name="AuthorShowProfileContextMenuItem.Text"><value>プロフィール表示</value></data>
+	<data name="AuthorShowProfileMenuItem.ShortcutKeyDisplayString"><value /></data>
+	<data name="AuthorShowProfileMenuItem.ShortcutKeys" type="System.Windows.Forms.Keys, System.Windows.Forms"><value>Alt+P</value></data>
+	<data name="AuthorShowProfileMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>247, 22</value></data>
+	<data name="AuthorShowProfileMenuItem.Text"><value>プロフィール表示</value></data>
+	<data name="AuthorShowUserTimelineContextMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>206, 22</value></data>
+	<data name="AuthorShowUserTimelineContextMenuItem.Text"><value>ユーザーのタイムラインを表示</value></data>
+	<data name="AuthorShowUserTimelineMenuItem.ShortcutKeys" type="System.Windows.Forms.Keys, System.Windows.Forms"><value>Ctrl+U</value></data>
+	<data name="AuthorShowUserTimelineMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>247, 22</value></data>
+	<data name="AuthorShowUserTimelineMenuItem.Text"><value>ユーザーのタイムラインを表示</value></data>
 	<data name="BitlyToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>228, 22</value></data>
 	<data name="BitlyToolStripMenuItem.Text"><value>bit.ly</value></data>
 	<data name="CacheInfoMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>200, 22</value></data>
@@ -728,12 +774,8 @@
 	<data name="lblLen.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing"><value>MiddleCenter</value></data>
 	<data name="ListLockMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>175, 22</value></data>
 	<data name="ListLockMenuItem.Text"><value>新着時リスト固定(&amp;L)</value></data>
-	<data name="ListManageMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>313, 22</value></data>
-	<data name="ListManageMenuItem.Text"><value>リスト管理(&amp;L)</value></data>
 	<data name="ListManageToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>257, 22</value></data>
 	<data name="ListManageToolStripMenuItem.Text"><value>リスト編集</value></data>
-	<data name="ListManageUserContextToolStripMenuItem2.Size" type="System.Drawing.Size, System.Drawing"><value>241, 22</value></data>
-	<data name="ListManageUserContextToolStripMenuItem2.Text"><value>リスト管理(&amp;L)</value></data>
 	<data name="ListTab.Alignment" type="System.Windows.Forms.TabAlignment, System.Windows.Forms"><value>Bottom</value></data>
 	<data name="ListTab.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms"><value>Fill</value></data>
 	<data name="ListTab.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms"><value>Disable</value></data>
@@ -775,12 +817,6 @@
 	<data name="MenuStrip1.TabIndex" type="System.Int32, mscorlib"><value>0</value></data>
 	<data name="MenuStrip1.Text"><value>MenuStrip1</value></data>
 	<metadata name="MenuStrip1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a"><value>531, 17</value></metadata>
-	<data name="MoveToFavToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>205, 22</value></data>
-	<data name="MoveToFavToolStripMenuItem.Text"><value>Favを開く(&amp;G)</value></data>
-	<data name="MoveToHomeToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>205, 22</value></data>
-	<data name="MoveToHomeToolStripMenuItem.Text"><value>ホームを開く(&amp;H)</value></data>
-	<data name="MoveToRTHomeMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>205, 22</value></data>
-	<data name="MoveToRTHomeMenuItem.Text"><value>RTした人のホームを開く(&amp;R)</value></data>
 	<data name="MultiLineMenuItem.ShortcutKeys" type="System.Windows.Forms.Keys, System.Windows.Forms"><value>Ctrl+Y</value></data>
 	<data name="MultiLineMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>246, 22</value></data>
 	<data name="MultiLineMenuItem.Text"><value>発言欄複数行入力(&amp;M)</value></data>
@@ -797,13 +833,7 @@
 	<metadata name="NotifyIcon1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a"><value>395, 55</value></metadata>
 	<data name="NotifyTbMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>199, 22</value></data>
 	<data name="NotifyTbMenuItem.Text"><value>新着通知表示(&amp;Q)</value></data>
-	<data name="OpenFavOpMenuItem.ShortcutKeys" type="System.Windows.Forms.Keys, System.Windows.Forms"><value>Ctrl+G</value></data>
-	<data name="OpenFavOpMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>289, 22</value></data>
-	<data name="OpenFavOpMenuItem.Text"><value>Favを開く(&amp;G)</value></data>
 	<metadata name="OpenFileDialog1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a"><value>681, 93</value></metadata>
-	<data name="OpenHomeOpMenuItem.ShortcutKeys" type="System.Windows.Forms.Keys, System.Windows.Forms"><value>Ctrl+H</value></data>
-	<data name="OpenHomeOpMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>289, 22</value></data>
-	<data name="OpenHomeOpMenuItem.Text"><value>ホームを開く(&amp;H)</value></data>
 	<data name="OpenOpMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>313, 22</value></data>
 	<data name="OpenOpMenuItem.Text"><value>開く(&amp;O)</value></data>
 	<data name="OpenOwnHomeMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>257, 22</value></data>
@@ -811,9 +841,6 @@
 	<data name="OpenRepSourceOpMenuItem.ShortcutKeys" type="System.Windows.Forms.Keys, System.Windows.Forms"><value>Ctrl+I</value></data>
 	<data name="OpenRepSourceOpMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>289, 22</value></data>
 	<data name="OpenRepSourceOpMenuItem.Text"><value>返信元ステータスを開く(&amp;I)</value></data>
-	<data name="OpenRterHomeMenuItem.ShortcutKeys" type="System.Windows.Forms.Keys, System.Windows.Forms"><value>Ctrl+Shift+H</value></data>
-	<data name="OpenRterHomeMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>289, 22</value></data>
-	<data name="OpenRterHomeMenuItem.Text"><value>RTした人のホームを開く(&amp;R)</value></data>
 	<data name="OpenStatusOpMenuItem.ShortcutKeys" type="System.Windows.Forms.Keys, System.Windows.Forms"><value>Ctrl+O</value></data>
 	<data name="OpenStatusOpMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>289, 22</value></data>
 	<data name="OpenStatusOpMenuItem.Text"><value>ステータスを開く(&amp;O)</value></data>
@@ -843,139 +870,6 @@
 	<data name="PostButton.Text"><value>Post</value></data>
 	<data name="PostModeMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>225, 22</value></data>
 	<data name="PostModeMenuItem.Text"><value>投稿設定</value></data>
-	<data name="PostStateImageList.ImageStream" mimetype="application/x-microsoft.net.object.binary.base64"><value>
-        AAEAAAD/////AQAAAAAAAAAMAgAAAFdTeXN0ZW0uV2luZG93cy5Gb3JtcywgVmVyc2lvbj00LjAuMC4w
-        LCBDdWx0dXJlPW5ldXRyYWwsIFB1YmxpY0tleVRva2VuPWI3N2E1YzU2MTkzNGUwODkFAQAAACZTeXN0
-        ZW0uV2luZG93cy5Gb3Jtcy5JbWFnZUxpc3RTdHJlYW1lcgEAAAAERGF0YQcCAgAAAAkDAAAADwMAAACW
-        HQAAAk1TRnQBSQFMAgEBDwEAAZABAQGQAQEBEAEAARABAAT/ASEBAAj/AUIBTQE2BwABNgMAASgDAAFA
-        AwABQAMAAQEBAAEgBgABQP8AIwADwAH/A8AB/xAAA8AB/yQAA8AB/wPAAf8QAAPAAf8kAAPAAf8DwAH/
-        EAADwAH/YAABTgGZAv8BTgGZAv8QAAFDAZkBQwH/A8AB/yAAAU4BmQL/AU4BmQL/EAABQwGZAUMB/wPA
-        Af8gAAFOAZkC/wFOAZkC/xAAAUMBmQFDAf8DwAH/WAADwAH/AU4BmQL/AU4BmQL/A8AB/wPAAf8DwAH/
-        CAABQwGZAUMB/wPAAf8DwAH/FAADwAH/AU4BmQL/AU4BmQL/A8AB/wPAAf8DwAH/CAABQwGZAUMB/wPA
-        Af8DwAH/FAADwAH/AU4BmQL/AU4BmQL/A8AB/wPAAf8DwAH/CAABQwGZAUMB/wPAAf8DwAH/UAABTgGZ
-        Av8BTgGZAv8BTgGZAv8BTgGZAv8BTgGZAv8BTgGZAv8DwAH/BAABQwGZAUMB/wFDAZkBQwH/AUMBmQFD
-        Af8DwAH/A8AB/wwAAU4BmQL/AU4BmQL/AU4BmQL/AU4BmQL/AU4BmQL/AU4BmQL/A8AB/wQAAUMBmQFD
-        Af8BQwGZAUMB/wFDAZkBQwH/A8AB/wPAAf8MAAFOAZkC/wFOAZkC/wFOAZkC/wFOAZkC/wFOAZkC/wFO
-        AZkC/wPAAf8EAAFDAZkBQwH/AUMBmQFDAf8BQwGZAUMB/wPAAf8DwAH/TAABTgGZAv8BTgGZAv8BTgGZ
-        Av8BTgGZAv8BTgGZAv8BTgGZAv8DwAH/AUMBmQFDAf8BQwGZAUMB/wFDAZkBQwH/AUMBmQFDAf8BQwGZ
-        AUMB/wPAAf8MAAFOAZkC/wFOAZkC/wFOAZkC/wFOAZkC/wFOAZkC/wFOAZkC/wPAAf8BQwGZAUMB/wFD
-        AZkBQwH/AUMBmQFDAf8BQwGZAUMB/wFDAZkBQwH/A8AB/wwAAU4BmQL/AU4BmQL/AU4BmQL/AU4BmQL/
-        AU4BmQL/AU4BmQL/A8AB/wFDAZkBQwH/AUMBmQFDAf8BQwGZAUMB/wFDAZkBQwH/AUMBmQFDAf8DwAH/
-        TAABTgGZAv8BTgGZAv8BTgGZAv8BTgGZAv8BTgGZAv8BTgGZAv8DwAH/AUMBmQFDAf8BQwGZAUMB/wQA
-        AUMBmQFDAf8BQwGZAUMB/wPAAf8MAAFOAZkC/wFOAZkC/wFOAZkC/wFOAZkC/wFOAZkC/wFOAZkC/wPA
-        Af8BQwGZAUMB/wFDAZkBQwH/BAABQwGZAUMB/wFDAZkBQwH/A8AB/wwAAU4BmQL/AU4BmQL/AU4BmQL/
-        AU4BmQL/AU4BmQL/AU4BmQL/A8AB/wFDAZkBQwH/AUMBmQFDAf8EAAFDAZkBQwH/AUMBmQFDAf8DwAH/
-        TAABTgGZAv8BTgGZAv8BTgGZAv8BTgGZAv8BTgGZAv8BTgGZAv8EAAFDAZkBQwH/AUMBmQFDAf8BQwGZ
-        AUMB/wFDAZkBQwH/AUMBmQFDAf8QAAFOAZkC/wFOAZkC/wFOAZkC/wFOAZkC/wFOAZkC/wFOAZkC/wQA
-        AUMBmQFDAf8BQwGZAUMB/wFDAZkBQwH/AUMBmQFDAf8BQwGZAUMB/xAAAU4BmQL/AU4BmQL/AU4BmQL/
-        AU4BmQL/AU4BmQL/AU4BmQL/BAABQwGZAUMB/wFDAZkBQwH/AUMBmQFDAf8BQwGZAUMB/wFDAZkBQwH/
-        cAABQwGZAUMB/wFDAZkBQwH/AUMBmQFDAf80AAFDAZkBQwH/AUMBmQFDAf8BQwGZAUMB/zQAAUMBmQFD
-        Af8BQwGZAUMB/wFDAZkBQwH/WAADwAH/A8AB/wPAAf8DwAH/A8AB/wPAAf9MAAPAAf8DwAH/FAADwAH/
-        A8AB/wPAAf8DwAH/A8AB/wPAAf8MAAPAAf8DwAH/UAABmQKBAf8BmQKBAf8BmQKBAf8BmQKBAf8BmQKB
-        Af8BmQKBAf8DwAH/SAAB/wGZAUMC/wGZAUMB/wPAAf8DwAH/DAABmQKBAf8BmQKBAf8BmQKBAf8BmQKB
-        Af8BmQKBAf8BmQKBAf8DwAH/CAAB/wGZAUMC/wGZAUMB/wPAAf8DwAH/TAABmQKBAf8BmQKBAf8BmQKB
-        Af8BmQKBAf8BmQKBAf8BmQKBAf8DwAH/RAAB/wGZAUMC/wGZAUMC/wGZAUMC/wGZAUMB/wPAAf8DwAH/
-        CAABmQKBAf8BmQKBAf8BmQKBAf8BmQKBAf8BmQKBAf8BmQKBAf8DwAH/BAAB/wGZAUMC/wGZAUMC/wGZ
-        AUMC/wGZAUMB/wPAAf8DwAH/SAABmQKBAf8BmQKBAf8BmQKBAf8BmQKBAf8BmQKBAf8BmQKBAf8DwAH/
-        QAAB/wGZAUMC/wGZAUMB/wQAAf8BmQFDAv8BmQFDAv8BmQFDAf8DwAH/CAABmQKBAf8BmQKBAf8BmQKB
-        Af8BmQKBAf8BmQKBAf8BmQKBAf8DwAL/AZkBQwL/AZkBQwH/BAAB/wGZAUMC/wGZAUMC/wGZAUMB/wPA
-        Af9IAAGZAoEB/wGZAoEB/wGZAoEB/wGZAoEB/wGZAoEB/wGZAoEB/0QAAf8BmQFDAf8MAAH/AZkBQwL/
-        AZkBQwH/A8AB/wPAAf8EAAGZAoEB/wGZAoEB/wGZAoEB/wGZAoEB/wGZAoEB/wGZAoEB/wQAAf8BmQFD
-        Af8MAAH/AZkBQwL/AZkBQwH/A8AB/wPAAf9IAAGZAoEB/wQAA8AB/wGZAoEB/1wAAf8BmQFDAv8BmQFD
-        Af8DwAH/CAABmQKBAf8EAAPAAf8BmQKBAf8cAAH/AZkBQwL/AZkBQwH/A8AB/0wAAZkCgQH/AZkCgQH/
-        ZAAB/wGZAUMB/xAAAZkCgQH/AZkCgQH/JAAB/wGZAUMB//8AcQADwAH/PAADwAH/PAADwAH/JAADwAH/
-        A8AB/xAAA8AB/zgAAUMBmQFDAf8DwAH/OAABQwGZAUMB/wPAAf84AAFDAZkBQwH/A8AB/yAAAU4BmQL/
-        AU4BmQL/EAABQwGZAUMB/wPAAf84AAFDAZkBQwH/A8AB/wPAAf80AAFDAZkBQwH/A8AB/wPAAf80AAFD
-        AZkBQwH/A8AB/wPAAf8UAAPAAf8BTgGZAv8BTgGZAv8DwAH/A8AB/wPAAf8IAAFDAZkBQwH/A8AB/wPA
-        Af8wAAFDAZkBQwH/AUMBmQFDAf8BQwGZAUMB/wPAAf8DwAH/LAABQwGZAUMB/wFDAZkBQwH/AUMBmQFD
-        Af8DwAH/A8AB/ywAAUMBmQFDAf8BQwGZAUMB/wFDAZkBQwH/A8AB/wPAAf8MAAFOAZkC/wFOAZkC/wFO
-        AZkC/wFOAZkC/wFOAZkC/wFOAZkC/wPAAf8EAAFDAZkBQwH/AUMBmQFDAf8BQwGZAUMB/wPAAf8DwAH/
-        KAABQwGZAUMB/wFDAZkBQwH/AUMBmQFDAf8BQwGZAUMB/wFDAZkBQwH/A8AB/ygAAUMBmQFDAf8BQwGZ
-        AUMB/wFDAZkBQwH/AUMBmQFDAf8BQwGZAUMB/wPAAf8oAAFDAZkBQwH/AUMBmQFDAf8BQwGZAUMB/wFD
-        AZkBQwH/AUMBmQFDAf8DwAH/DAABTgGZAv8BTgGZAv8BTgGZAv8BTgGZAv8BTgGZAv8BTgGZAv8DwAH/
-        AUMBmQFDAf8BQwGZAUMB/wFDAZkBQwH/AUMBmQFDAf8BQwGZAUMB/wPAAf8oAAFDAZkBQwH/AUMBmQFD
-        Af8EAAFDAZkBQwH/AUMBmQFDAf8DwAH/KAABQwGZAUMB/wFDAZkBQwH/BAABQwGZAUMB/wFDAZkBQwH/
-        A8AB/ygAAUMBmQFDAf8BQwGZAUMB/wQAAUMBmQFDAf8BQwGZAUMB/wPAAf8MAAFOAZkC/wFOAZkC/wFO
-        AZkC/wFOAZkC/wFOAZkC/wFOAZkC/wPAAf8BQwGZAUMB/wFDAZkBQwH/BAABQwGZAUMB/wFDAZkBQwH/
-        A8AB/ygAAUMBmQFDAf8BQwGZAUMB/wFDAZkBQwH/AUMBmQFDAf8BQwGZAUMB/ywAAUMBmQFDAf8BQwGZ
-        AUMB/wFDAZkBQwH/AUMBmQFDAf8BQwGZAUMB/ywAAUMBmQFDAf8BQwGZAUMB/wFDAZkBQwH/AUMBmQFD
-        Af8BQwGZAUMB/xAAAU4BmQL/AU4BmQL/AU4BmQL/AU4BmQL/AU4BmQL/AU4BmQL/BAABQwGZAUMB/wFD
-        AZkBQwH/AUMBmQFDAf8BQwGZAUMB/wFDAZkBQwH/MAABQwGZAUMB/wFDAZkBQwH/AUMBmQFDAf80AAFD
-        AZkBQwH/AUMBmQFDAf8BQwGZAUMB/zQAAUMBmQFDAf8BQwGZAUMB/wFDAZkBQwH/NAABQwGZAUMB/wFD
-        AZkBQwH/AUMBmQFDAf8YAAPAAf8DwAH/A8AB/wPAAf8DwAH/A8AB/0wAA8AB/wPAAf8UAAPAAf8DwAH/
-        A8AB/wPAAf8DwAH/A8AB/wwAA8AB/wPAAf9QAAGZAoEB/wGZAoEB/wGZAoEB/wGZAoEB/wGZAoEB/wGZ
-        AoEB/wPAAf9IAAH/AZkBQwL/AZkBQwH/A8AB/wPAAf8MAAGZAoEB/wGZAoEB/wGZAoEB/wGZAoEB/wGZ
-        AoEB/wGZAoEB/wPAAf8IAAH/AZkBQwL/AZkBQwH/A8AB/wPAAf9MAAGZAoEB/wGZAoEB/wGZAoEB/wGZ
-        AoEB/wGZAoEB/wGZAoEB/wPAAf9EAAH/AZkBQwL/AZkBQwL/AZkBQwL/AZkBQwH/A8AB/wPAAf8IAAGZ
-        AoEB/wGZAoEB/wGZAoEB/wGZAoEB/wGZAoEB/wGZAoEB/wPAAf8EAAH/AZkBQwL/AZkBQwL/AZkBQwL/
-        AZkBQwH/A8AB/wPAAf9IAAGZAoEB/wGZAoEB/wGZAoEB/wGZAoEB/wGZAoEB/wGZAoEB/wPAAf9AAAH/
-        AZkBQwL/AZkBQwH/BAAB/wGZAUMC/wGZAUMC/wGZAUMB/wPAAf8IAAGZAoEB/wGZAoEB/wGZAoEB/wGZ
-        AoEB/wGZAoEB/wGZAoEB/wPAAv8BmQFDAv8BmQFDAf8EAAH/AZkBQwL/AZkBQwL/AZkBQwH/A8AB/0gA
-        AZkCgQH/AZkCgQH/AZkCgQH/AZkCgQH/AZkCgQH/AZkCgQH/RAAB/wGZAUMB/wwAAf8BmQFDAv8BmQFD
-        Af8DwAH/A8AB/wQAAZkCgQH/AZkCgQH/AZkCgQH/AZkCgQH/AZkCgQH/AZkCgQH/BAAB/wGZAUMB/wwA
-        Af8BmQFDAv8BmQFDAf8DwAH/A8AB/0gAAZkCgQH/BAADwAH/AZkCgQH/XAAB/wGZAUMC/wGZAUMB/wPA
-        Af8IAAGZAoEB/wQAA8AB/wGZAoEB/xwAAf8BmQFDAv8BmQFDAf8DwAH/TAABmQKBAf8BmQKBAf9kAAH/
-        AZkBQwH/EAABmQKBAf8BmQKBAf8kAAH/AZkBQwH//wBZAAPAAf8DwAH/OAADwAH/A8AB/zgAA8AB/wPA
-        Af9QAAPAAf8gAAFOAZkC/wFOAZkC/zgAAU4BmQL/AU4BmQL/OAABTgGZAv8BTgGZAv9QAAFDAZkBQwH/
-        A8AB/xgAA8AB/wFOAZkC/wFOAZkC/wPAAf8DwAH/A8AB/ygAA8AB/wFOAZkC/wFOAZkC/wPAAf8DwAH/
-        A8AB/ygAA8AB/wFOAZkC/wFOAZkC/wPAAf8DwAH/A8AB/0gAAUMBmQFDAf8DwAH/A8AB/xAAAU4BmQL/
-        AU4BmQL/AU4BmQL/AU4BmQL/AU4BmQL/AU4BmQL/A8AB/yQAAU4BmQL/AU4BmQL/AU4BmQL/AU4BmQL/
-        AU4BmQL/AU4BmQL/A8AB/yQAAU4BmQL/AU4BmQL/AU4BmQL/AU4BmQL/AU4BmQL/AU4BmQL/A8AB/0QA
-        AUMBmQFDAf8BQwGZAUMB/wFDAZkBQwH/A8AB/wPAAf8MAAFOAZkC/wFOAZkC/wFOAZkC/wFOAZkC/wFO
-        AZkC/wFOAZkC/wPAAf8kAAFOAZkC/wFOAZkC/wFOAZkC/wFOAZkC/wFOAZkC/wFOAZkC/wPAAf8kAAFO
-        AZkC/wFOAZkC/wFOAZkC/wFOAZkC/wFOAZkC/wFOAZkC/wPAAf9AAAFDAZkBQwH/AUMBmQFDAf8BQwGZ
-        AUMB/wFDAZkBQwH/AUMBmQFDAf8DwAH/DAABTgGZAv8BTgGZAv8BTgGZAv8BTgGZAv8BTgGZAv8BTgGZ
-        Av8DwAH/JAABTgGZAv8BTgGZAv8BTgGZAv8BTgGZAv8BTgGZAv8BTgGZAv8DwAH/JAABTgGZAv8BTgGZ
-        Av8BTgGZAv8BTgGZAv8BTgGZAv8BTgGZAv8DwAH/QAABQwGZAUMB/wFDAZkBQwH/BAABQwGZAUMB/wFD
-        AZkBQwH/A8AB/wwAAU4BmQL/AU4BmQL/AU4BmQL/AU4BmQL/AU4BmQL/AU4BmQL/KAABTgGZAv8BTgGZ
-        Av8BTgGZAv8BTgGZAv8BTgGZAv8BTgGZAv8oAAFOAZkC/wFOAZkC/wFOAZkC/wFOAZkC/wFOAZkC/wFO
-        AZkC/0QAAUMBmQFDAf8BQwGZAUMB/wFDAZkBQwH/AUMBmQFDAf8BQwGZAUMB//AAAUMBmQFDAf8BQwGZ
-        AUMB/wFDAZkBQwH/GAADwAH/A8AB/wPAAf8DwAH/A8AB/wPAAf9MAAPAAf8DwAH/FAADwAH/A8AB/wPA
-        Af8DwAH/A8AB/wPAAf8MAAPAAf8DwAH/UAABmQKBAf8BmQKBAf8BmQKBAf8BmQKBAf8BmQKBAf8BmQKB
-        Af8DwAH/SAAB/wGZAUMC/wGZAUMB/wPAAf8DwAH/DAABmQKBAf8BmQKBAf8BmQKBAf8BmQKBAf8BmQKB
-        Af8BmQKBAf8DwAH/CAAB/wGZAUMC/wGZAUMB/wPAAf8DwAH/TAABmQKBAf8BmQKBAf8BmQKBAf8BmQKB
-        Af8BmQKBAf8BmQKBAf8DwAH/RAAB/wGZAUMC/wGZAUMC/wGZAUMC/wGZAUMB/wPAAf8DwAH/CAABmQKB
-        Af8BmQKBAf8BmQKBAf8BmQKBAf8BmQKBAf8BmQKBAf8DwAH/BAAB/wGZAUMC/wGZAUMC/wGZAUMC/wGZ
-        AUMB/wPAAf8DwAH/SAABmQKBAf8BmQKBAf8BmQKBAf8BmQKBAf8BmQKBAf8BmQKBAf8DwAH/QAAB/wGZ
-        AUMC/wGZAUMB/wQAAf8BmQFDAv8BmQFDAv8BmQFDAf8DwAH/CAABmQKBAf8BmQKBAf8BmQKBAf8BmQKB
-        Af8BmQKBAf8BmQKBAf8DwAL/AZkBQwL/AZkBQwH/BAAB/wGZAUMC/wGZAUMC/wGZAUMB/wPAAf9IAAGZ
-        AoEB/wGZAoEB/wGZAoEB/wGZAoEB/wGZAoEB/wGZAoEB/0QAAf8BmQFDAf8MAAH/AZkBQwL/AZkBQwH/
-        A8AB/wPAAf8EAAGZAoEB/wGZAoEB/wGZAoEB/wGZAoEB/wGZAoEB/wGZAoEB/wQAAf8BmQFDAf8MAAH/
-        AZkBQwL/AZkBQwH/A8AB/wPAAf9IAAGZAoEB/wQAA8AB/wGZAoEB/1wAAf8BmQFDAv8BmQFDAf8DwAH/
-        CAABmQKBAf8EAAPAAf8BmQKBAf8cAAH/AZkBQwL/AZkBQwH/A8AB/0wAAZkCgQH/AZkCgQH/ZAAB/wGZ
-        AUMB/xAAAZkCgQH/AZkCgQH/JAAB/wGZAUMB//8A/wAaAAPAAf8DwAH/9AABTgGZAv8BTgGZAv/wAAPA
-        Af8BTgGZAv8BTgGZAv8DwAH/A8AB/wPAAf/kAAFOAZkC/wFOAZkC/wFOAZkC/wFOAZkC/wFOAZkC/wFO
-        AZkC/wPAAf/kAAFOAZkC/wFOAZkC/wFOAZkC/wFOAZkC/wFOAZkC/wFOAZkC/wPAAf/kAAFOAZkC/wFO
-        AZkC/wFOAZkC/wFOAZkC/wFOAZkC/wFOAZkC/wPAAf/kAAFOAZkC/wFOAZkC/wFOAZkC/wFOAZkC/wFO
-        AZkC/wFOAZkC//8ALQADwAH/A8AB/wPAAf8DwAH/A8AB/wPAAf9MAAPAAf8DwAH/FAADwAH/A8AB/wPA
-        Af8DwAH/A8AB/wPAAf8MAAPAAf8DwAH/UAABmQKBAf8BmQKBAf8BmQKBAf8BmQKBAf8BmQKBAf8BmQKB
-        Af8DwAH/SAAB/wGZAUMC/wGZAUMB/wPAAf8DwAH/DAABmQKBAf8BmQKBAf8BmQKBAf8BmQKBAf8BmQKB
-        Af8BmQKBAf8DwAH/CAAB/wGZAUMC/wGZAUMB/wPAAf8DwAH/TAABmQKBAf8BmQKBAf8BmQKBAf8BmQKB
-        Af8BmQKBAf8BmQKBAf8DwAH/RAAB/wGZAUMC/wGZAUMC/wGZAUMC/wGZAUMB/wPAAf8DwAH/CAABmQKB
-        Af8BmQKBAf8BmQKBAf8BmQKBAf8BmQKBAf8BmQKBAf8DwAH/BAAB/wGZAUMC/wGZAUMC/wGZAUMC/wGZ
-        AUMB/wPAAf8DwAH/SAABmQKBAf8BmQKBAf8BmQKBAf8BmQKBAf8BmQKBAf8BmQKBAf8DwAH/QAAB/wGZ
-        AUMC/wGZAUMB/wQAAf8BmQFDAv8BmQFDAv8BmQFDAf8DwAH/CAABmQKBAf8BmQKBAf8BmQKBAf8BmQKB
-        Af8BmQKBAf8BmQKBAf8DwAL/AZkBQwL/AZkBQwH/BAAB/wGZAUMC/wGZAUMC/wGZAUMB/wPAAf9IAAGZ
-        AoEB/wGZAoEB/wGZAoEB/wGZAoEB/wGZAoEB/wGZAoEB/0QAAf8BmQFDAf8MAAH/AZkBQwL/AZkBQwH/
-        A8AB/wPAAf8EAAGZAoEB/wGZAoEB/wGZAoEB/wGZAoEB/wGZAoEB/wGZAoEB/wQAAf8BmQFDAf8MAAH/
-        AZkBQwL/AZkBQwH/A8AB/wPAAf9IAAGZAoEB/wQAA8AB/wGZAoEB/1wAAf8BmQFDAv8BmQFDAf8DwAH/
-        CAABmQKBAf8EAAPAAf8BmQKBAf8cAAH/AZkBQwL/AZkBQwH/A8AB/0wAAZkCgQH/AZkCgQH/ZAAB/wGZ
-        AUMB/xAAAZkCgQH/AZkCgQH/JAAB/wGZAUMB/0gAAUIBTQE+BwABPgMAASgDAAFAAwABQAMAAQEBAAEB
-        BgABAhYAA/8BAAb/AgAB8wHfAfMB3wHzAd8CAAHnAZ8B5wGfAecBnwIAAYEBjwGBAY8BgQGPAgABAQEH
-        AQEBBwEBAQcDAAEHAQABBwEAAQcDAAFHAQABRwEAAUcCAAECAQ8BAgEPAQIBDwIAAf8BHwH/AR8B/wEf
-        AgABgQL/Ac8BgQHPAgABAQL/AYcBAQGHAgABAQL/AQMBAQEDAgABAQH/Af4BQwEAAUMCAAEDAf8B/gHh
-        AQIB4QIAAacC/wHxAacB8QIAAc8C/wH7Ac8B+wIACf8B3wH/Ad8B/wHfAfMB3wH/AZ8B/wGfAf8BnwHn
-        AZ8B/wGPAf8BjwH/AY8BgQGPAf8BBwH/AQcB/wEHAQEBBwH+AQcB/gEHAf4BBwEAAQcB/gFHAf4BRwH+
-        AUcBAAFHAf4BDwH+AQ8B/gEPAQIBDwH/AR8B/wEfAf8BHwH/AR8BgQL/Ac8BgQHPAv8BAQL/AYcBAQGH
-        Av8BAQL/AQMBAQEDAv8BAQH/Af4BQwEAAUMC/wEDAf8B/gHhAQIB4QL/AacC/wHxAacB8QL/Ac8C/wH7
-        Ac8B+wr/AfMB/wHzAf8B8wL/Ad8B5wH/AecB/wHnAv8BnwGBAf8BgQH/AYEC/wGPAQEB/wEBAf8BAQL/
-        AQcBAQH/AQEB/wEBAf8B/gEHAQEB/wEBAf8BAQH/Af4BRwEDAf8BAwH/AQMB/wH+AQ8H/wEfAYEC/wHP
-        AYEBzwL/AQEC/wGHAQEBhwL/AQEC/wEDAQEBAwL/AQEB/wH+AUMBAAFDAv8BAwH/Af4B4QECAeEC/wGn
-        Av8B8QGnAfEC/wHPAv8B+wHPAfsQ/wHzB/8B5wf/AYEH/wEBB/8BAQf/AQEH/wEDCf8BgQL/Ac8BgQHP
-        Av8BAQL/AYcBAQGHAv8BAQL/AQMBAQEDAv8BAQH/Af4BQwEAAUMC/wEDAf8B/gHhAQIB4QL/AacC/wHx
-        AacB8QL/Ac8C/wH7Ac8B+wL/Cw==
-</value></data>
-	<metadata name="PostStateImageList.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a"><value>363, 17</value></metadata>
 	<data name="PreventSmsCommandMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>246, 22</value></data>
 	<data name="PreventSmsCommandMenuItem.Text"><value>SMSコマンドを回避する</value></data>
 	<data name="PreventSmsCommandPullDownMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>257, 22</value></data>
@@ -1028,6 +922,27 @@
 	<data name="ReplyOpMenuItem.Text"><value>＠返信(&amp;R)</value></data>
 	<data name="ReplyStripMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>241, 22</value></data>
 	<data name="ReplyStripMenuItem.Text"><value>@返信(&amp;R)</value></data>
+	<data name="RetweetedByContextMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>224, 22</value></data>
+	<data name="RetweetedByContextMenuItem.Text"><value>%RetweetedBy%</value></data>
+	<data name="RetweetedByListManageContextMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>206, 22</value></data>
+	<data name="RetweetedByListManageContextMenuItem.Text"><value>リスト管理(&amp;L)</value></data>
+	<data name="RetweetedByListManageMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>230, 22</value></data>
+	<data name="RetweetedByListManageMenuItem.Text"><value>リスト管理(&amp;L)</value></data>
+	<data name="RetweetedByMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>244, 22</value></data>
+	<data name="RetweetedByMenuItem.Text"><value>%RetweetedBy%</value></data>
+	<data name="RetweetedByOpenInBrowserContextMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>206, 22</value></data>
+	<data name="RetweetedByOpenInBrowserContextMenuItem.Text"><value>ブラウザで開く(&amp;H)</value></data>
+	<data name="RetweetedByOpenInBrowserMenuItem.ShortcutKeys" type="System.Windows.Forms.Keys, System.Windows.Forms"><value>Ctrl+Shift+H</value></data>
+	<data name="RetweetedByOpenInBrowserMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>230, 22</value></data>
+	<data name="RetweetedByOpenInBrowserMenuItem.Text"><value>ブラウザで開く(&amp;H)</value></data>
+	<data name="RetweetedByShowProfileContextMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>206, 22</value></data>
+	<data name="RetweetedByShowProfileContextMenuItem.Text"><value>プロフィール表示</value></data>
+	<data name="RetweetedByShowProfileMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>230, 22</value></data>
+	<data name="RetweetedByShowProfileMenuItem.Text"><value>プロフィール表示</value></data>
+	<data name="RetweetedByShowUserTimelineContextMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>206, 22</value></data>
+	<data name="RetweetedByShowUserTimelineContextMenuItem.Text"><value>ユーザーのタイムラインを表示</value></data>
+	<data name="RetweetedByShowUserTimelineMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>230, 22</value></data>
+	<data name="RetweetedByShowUserTimelineMenuItem.Text"><value>ユーザーのタイムラインを表示</value></data>
 	<data name="ReTweetStripMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>241, 22</value></data>
 	<data name="ReTweetStripMenuItem.Text"><value>Re&amp;tweet</value></data>
 	<data name="ReTweetUnofficialStripMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>241, 22</value></data>
@@ -1056,21 +971,18 @@
 	<data name="SettingStripMenuItem.Text"><value>設定(&amp;O)...</value></data>
 	<data name="ShortcutKeyListMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>251, 22</value></data>
 	<data name="ShortcutKeyListMenuItem.Text"><value>ショートカットキー一覧</value></data>
-	<data name="ShowProfileMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>241, 22</value></data>
+	<data name="ShowProfileContextMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>223, 22</value></data>
+	<data name="ShowProfileContextMenuItem.Text"><value>プロフィール表示</value></data>
+	<data name="ShowProfileMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>243, 22</value></data>
 	<data name="ShowProfileMenuItem.Text"><value>プロフィール表示</value></data>
-	<data name="ShowProfMenuItem.ShortcutKeyDisplayString"><value /></data>
-	<data name="ShowProfMenuItem.ShortcutKeys" type="System.Windows.Forms.Keys, System.Windows.Forms"><value>Alt+P</value></data>
-	<data name="ShowProfMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>313, 22</value></data>
-	<data name="ShowProfMenuItem.Text"><value>プロフィール表示</value></data>
 	<data name="ShowRelatedStatusesMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>241, 22</value></data>
 	<data name="ShowRelatedStatusesMenuItem.Text"><value>関連発言表示(&amp;G)</value></data>
 	<data name="ShowRelatedStatusesMenuItem2.Size" type="System.Drawing.Size, System.Drawing"><value>313, 22</value></data>
 	<data name="ShowRelatedStatusesMenuItem2.Text"><value>関連発言表示(&amp;G)</value></data>
-	<data name="ShowUserTimelineContextMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>241, 22</value></data>
+	<data name="ShowUserTimelineContextMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>223, 22</value></data>
 	<data name="ShowUserTimelineContextMenuItem.Text"><value>ユーザーのタイムラインを表示</value></data>
-	<data name="ShowUserTimelineToolStripMenuItem.ShortcutKeys" type="System.Windows.Forms.Keys, System.Windows.Forms"><value>Ctrl+U</value></data>
-	<data name="ShowUserTimelineToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>313, 22</value></data>
-	<data name="ShowUserTimelineToolStripMenuItem.Text"><value>ユーザーのタイムラインを表示</value></data>
+	<data name="ShowUserTimelineMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>243, 22</value></data>
+	<data name="ShowUserTimelineMenuItem.Text"><value>ユーザーのタイムラインを表示</value></data>
 	<data name="SoundFileComboBox.Size" type="System.Drawing.Size, System.Drawing"><value>121, 23</value></data>
 	<data name="SoundFileComboBox.ToolTipText"><value>再生するwavファイルを指定してください</value></data>
 	<data name="SoundFileTbComboBox.Size" type="System.Drawing.Size, System.Drawing"><value>121, 23</value></data>

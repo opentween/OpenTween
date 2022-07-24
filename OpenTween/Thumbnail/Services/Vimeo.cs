@@ -39,12 +39,12 @@ using OpenTween.Models;
 
 namespace OpenTween.Thumbnail.Services
 {
-    class Vimeo : IThumbnailService
+    public class Vimeo : IThumbnailService
     {
         public static readonly Regex UrlPatternRegex =
-            new Regex(@"https?://vimeo\.com/(?<postID>[0-9]+)");
+            new(@"https?://vimeo\.com/(?<postID>[0-9]+)");
 
-        protected HttpClient http
+        protected HttpClient Http
             => this.localHttpClient ?? Networking.Http;
 
         private readonly HttpClient? localHttpClient;
@@ -67,7 +67,7 @@ namespace OpenTween.Thumbnail.Services
             {
                 var apiUrl = "https://vimeo.com/api/oembed.xml?url=" + Uri.EscapeDataString(url);
 
-                var xmlStr = await this.http.GetStringAsync(apiUrl)
+                var xmlStr = await this.Http.GetStringAsync(apiUrl)
                     .ConfigureAwait(false);
 
                 var xdoc = XDocument.Parse(xmlStr);
@@ -96,7 +96,9 @@ namespace OpenTween.Thumbnail.Services
                     IsPlayable = true,
                 };
             }
-            catch (HttpRequestException) { }
+            catch (HttpRequestException)
+            {
+            }
 
             return null;
         }

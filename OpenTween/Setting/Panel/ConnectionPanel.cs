@@ -29,8 +29,8 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Drawing;
 using System.Data;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
@@ -40,7 +40,7 @@ namespace OpenTween.Setting.Panel
     public partial class ConnectionPanel : SettingPanelBase
     {
         public ConnectionPanel()
-            => InitializeComponent();
+            => this.InitializeComponent();
 
         public void LoadConfig(SettingCommon settingCommon)
         {
@@ -63,7 +63,7 @@ namespace OpenTween.Setting.Panel
             int tm;
             try
             {
-                tm = int.Parse(ConnectionTimeOut.Text);
+                tm = int.Parse(this.ConnectionTimeOut.Text);
             }
             catch (Exception)
             {

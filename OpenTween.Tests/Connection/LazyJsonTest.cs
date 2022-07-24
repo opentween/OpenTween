@@ -92,14 +92,18 @@ namespace OpenTween.Connection
             Assert.True(bodyStream.IsDisposed);
         }
 
-        class InvalidStream : Stream
+        private class InvalidStream : Stream
         {
             public bool IsDisposed { get; private set; } = false;
 
             public override bool CanRead => true;
+
             public override bool CanSeek => false;
+
             public override bool CanWrite => false;
+
             public override long Length => 100L;
+
             public override long Position
             {
                 get => 0L;

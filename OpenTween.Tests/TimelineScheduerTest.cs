@@ -32,7 +32,7 @@ namespace OpenTween
     {
         private class TestTimelineScheduler : TimelineScheduler
         {
-            public MockTimer mockTimer = new MockTimer(() => Task.CompletedTask);
+            public MockTimer MockTimer = new(() => Task.CompletedTask);
 
             public TestTimelineScheduler()
                 : base()
@@ -40,7 +40,7 @@ namespace OpenTween
             }
 
             protected override ITimer CreateTimer(Func<Task> callback)
-                => this.mockTimer = new MockTimer(callback);
+                => this.MockTimer = new MockTimer(callback);
         }
 
         [Fact]
@@ -49,7 +49,7 @@ namespace OpenTween
             using (TestUtils.FreezeTime(new DateTimeUtc(2022, 1, 1, 0, 0, 0)))
             {
                 using var scheduler = new TestTimelineScheduler();
-                var mockTimer = scheduler.mockTimer;
+                var mockTimer = scheduler.MockTimer;
 
                 Assert.False(mockTimer.IsTimerRunning);
 
@@ -80,7 +80,7 @@ namespace OpenTween
             using (TestUtils.FreezeTime(new DateTimeUtc(2022, 1, 1, 0, 0, 0)))
             {
                 using var scheduler = new TestTimelineScheduler();
-                var mockTimer = scheduler.mockTimer;
+                var mockTimer = scheduler.MockTimer;
 
                 Assert.False(mockTimer.IsTimerRunning);
 
@@ -125,7 +125,7 @@ namespace OpenTween
             using (TestUtils.FreezeTime(new DateTimeUtc(2022, 1, 1, 0, 0, 0)))
             {
                 using var scheduler = new TestTimelineScheduler();
-                var mockTimer = scheduler.mockTimer;
+                var mockTimer = scheduler.MockTimer;
 
                 scheduler.Enabled = true;
                 Assert.False(mockTimer.IsTimerRunning);
@@ -145,7 +145,7 @@ namespace OpenTween
             using (TestUtils.FreezeTime(new DateTimeUtc(2022, 1, 1, 0, 0, 0)))
             {
                 using var scheduler = new TestTimelineScheduler();
-                var mockTimer = scheduler.mockTimer;
+                var mockTimer = scheduler.MockTimer;
 
                 scheduler.Enabled = true;
                 Assert.False(mockTimer.IsTimerRunning);
@@ -161,7 +161,7 @@ namespace OpenTween
             using (TestUtils.FreezeTime(new DateTimeUtc(2022, 1, 1, 0, 0, 0)))
             {
                 using var scheduler = new TestTimelineScheduler();
-                var mockTimer = scheduler.mockTimer;
+                var mockTimer = scheduler.MockTimer;
 
                 scheduler.Enabled = true;
                 Assert.False(mockTimer.IsTimerRunning);

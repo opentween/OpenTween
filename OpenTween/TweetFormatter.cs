@@ -68,26 +68,24 @@ namespace OpenTween
                     continue; // 区間が文字列長を越えている不正なエンティティを無視する
 
                 if (curIndex != startIndex)
-                    yield return t(e(text.Substring(curIndex, startIndex - curIndex)));
+                    yield return T(E(text.Substring(curIndex, startIndex - curIndex)));
 
                 var targetText = text.Substring(startIndex, endIndex - startIndex);
 
-                if (entity is TwitterEntityUrl urlEntity)
-                    yield return FormatUrlEntity(targetText, urlEntity, keepTco);
-                else if (entity is TwitterEntityHashtag hashtagEntity)
-                    yield return FormatHashtagEntity(targetText, hashtagEntity);
-                else if (entity is TwitterEntityMention mentionEntity)
-                    yield return FormatMentionEntity(targetText, mentionEntity);
-                else if (entity is TwitterEntityEmoji emojiEntity)
-                    yield return FormatEmojiEntity(targetText, emojiEntity);
-                else
-                    yield return t(e(targetText));
+                yield return entity switch
+                {
+                    TwitterEntityUrl urlEntity => FormatUrlEntity(targetText, urlEntity, keepTco),
+                    TwitterEntityHashtag hashtagEntity => FormatHashtagEntity(targetText, hashtagEntity),
+                    TwitterEntityMention mentionEntity => FormatMentionEntity(targetText, mentionEntity),
+                    TwitterEntityEmoji emojiEntity => FormatEmojiEntity(targetText, emojiEntity),
+                    _ => T(E(targetText)),
+                };
 
                 curIndex = endIndex;
             }
 
             if (curIndex != text.Length)
-                yield return t(e(text.Substring(curIndex)));
+                yield return T(E(text.Substring(curIndex)));
         }
 
         /// <summary>
@@ -104,15 +102,19 @@ namespace OpenTween
                 var endIndex = entity.Indices[1];
 
                 for (var i = curIndex; i < (startIndex + indexOffset); i++)
+                {
                     if (i + 1 < text.Length && char.IsSurrogatePair(text[i], text[i + 1]))
                         indexOffset++;
+                }
 
                 startIndex += indexOffset;
                 curIndex = startIndex;
 
                 for (var i = curIndex; i < (endIndex + indexOffset); i++)
+                {
                     if (i + 1 < text.Length && char.IsSurrogatePair(text[i], text[i + 1]))
                         indexOffset++;
+                }
 
                 endIndex += indexOffset;
                 curIndex = endIndex;
@@ -133,7 +135,7 @@ namespace OpenTween
             if (entity.DisplayUrl == null)
             {
                 expandedUrl = MyCommon.ConvertToReadableUrl(targetText);
-                return "<a href=\"" + e(entity.Url) + "\" title=\"" + e(expandedUrl) + "\">" + t(e(targetText)) + "</a>";
+                return "<a href=\"" + E(entity.Url) + "\" title=\"" + E(expandedUrl) + "\">" + T(E(targetText)) + "</a>";
             }
 
             var linkUrl = entity.Url;
@@ -154,30 +156,30 @@ namespace OpenTween
                 }
             }
 
-            return "<a href=\"" + e(linkUrl) + "\" title=\"" + e(titleText) + "\">" + t(e(entity.DisplayUrl)) + "</a>";
+            return "<a href=\"" + E(linkUrl) + "\" title=\"" + E(titleText) + "\">" + T(E(entity.DisplayUrl)) + "</a>";
         }
 
         private static string FormatHashtagEntity(string targetText, TwitterEntityHashtag entity)
-            => "<a class=\"hashtag\" href=\"https://twitter.com/search?q=%23" + eu(entity.Text) + "\">" + t(e(targetText)) + "</a>";
+            => "<a class=\"hashtag\" href=\"https://twitter.com/search?q=%23" + EU(entity.Text) + "\">" + T(E(targetText)) + "</a>";
 
         private static string FormatMentionEntity(string targetText, TwitterEntityMention entity)
-            => "<a class=\"mention\" href=\"https://twitter.com/" + eu(entity.ScreenName) + "\">" + t(e(targetText)) + "</a>";
+            => "<a class=\"mention\" href=\"https://twitter.com/" + EU(entity.ScreenName) + "\">" + T(E(targetText)) + "</a>";
 
         private static string FormatEmojiEntity(string targetText, TwitterEntityEmoji entity)
         {
-            if (!SettingManager.Local.UseTwemoji)
-                return t(e(targetText));
+            if (!SettingManager.Instance.Local.UseTwemoji)
+                return T(E(targetText));
 
             if (MyCommon.IsNullOrEmpty(entity.Url))
                 return "";
 
-            return "<img class=\"emoji\" src=\"" + e(entity.Url) + "\" alt=\"" + e(entity.Text) + "\" />";
+            return "<img class=\"emoji\" src=\"" + E(entity.Url) + "\" alt=\"" + E(entity.Text) + "\" />";
         }
 
         // 長いのでエイリアスとして e(...), eu(...), t(...) でエスケープできるようにする
-        private static readonly Func<string, string> e = EscapeHtml;
-        private static readonly Func<string, string> eu = Uri.EscapeDataString;
-        private static readonly Func<string, string> t = FilterText;
+        private static readonly Func<string, string> E = EscapeHtml;
+        private static readonly Func<string, string> EU = Uri.EscapeDataString;
+        private static readonly Func<string, string> T = FilterText;
 
         private static string EscapeHtml(string text)
         {
@@ -190,27 +192,15 @@ namespace OpenTween
             {
                 // 「<」「>」「&」「"」「'」についてエスケープ処理を施す
                 // 参照: http://d.hatena.ne.jp/ockeghem/20070510/1178813849
-                switch (c)
+                result.Append(c switch
                 {
-                    case '<':
-                        result.Append("&lt;");
-                        break;
-                    case '>':
-                        result.Append("&gt;");
-                        break;
-                    case '&':
-                        result.Append("&amp;");
-                        break;
-                    case '"':
-                        result.Append("&quot;");
-                        break;
-                    case '\'':
-                        result.Append("&#39;");
-                        break;
-                    default:
-                        result.Append(c);
-                        break;
-                }
+                    '<' => "&lt;",
+                    '>' => "&gt;",
+                    '&' => "&amp;",
+                    '"' => "&quot;",
+                    '\'' => "&#39;",
+                    _ => c,
+                });
             }
 
             return result.ToString();

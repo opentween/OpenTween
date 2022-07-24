@@ -47,13 +47,15 @@ namespace OpenTween.Models
 
         // 流速計測用
         private int tweetsPerHour = 0;
-        private readonly ConcurrentDictionary<DateTimeUtc, int> tweetsTimestamps = new ConcurrentDictionary<DateTimeUtc, int>();
+        private readonly ConcurrentDictionary<DateTimeUtc, int> tweetsTimestamps = new();
 
-        public HomeTabModel() : this(MyCommon.DEFAULTTAB.RECENT)
+        public HomeTabModel()
+            : this(MyCommon.DEFAULTTAB.RECENT)
         {
         }
 
-        public HomeTabModel(string tabName) : base(tabName)
+        public HomeTabModel(string tabName)
+            : base(tabName)
         {
         }
 
@@ -66,10 +68,10 @@ namespace OpenTween.Models
         public override async Task RefreshAsync(Twitter tw, bool backward, bool startup, IProgress<string> progress)
         {
             bool read;
-            if (!SettingManager.Common.UnreadManage)
+            if (!SettingManager.Instance.Common.UnreadManage)
                 read = true;
             else
-                read = startup && SettingManager.Common.Read;
+                read = startup && SettingManager.Instance.Common.Read;
 
             progress.Report(string.Format(Properties.Resources.GetTimelineWorker_RunWorkerCompletedText5, backward ? -1 : 1));
 
@@ -77,7 +79,7 @@ namespace OpenTween.Models
                 .ConfigureAwait(false);
 
             // 新着時未読クリア
-            if (SettingManager.Common.ReadOldPosts)
+            if (SettingManager.Instance.Common.ReadOldPosts)
                 TabInformations.GetInstance().SetReadHomeTab();
 
             TabInformations.GetInstance().DistributePosts();

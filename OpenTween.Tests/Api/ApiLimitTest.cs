@@ -30,7 +30,7 @@ namespace OpenTween.Api
 {
     public class ApiLimitTest
     {
-        public static readonly TheoryData<object?, bool> Equals_TestCase = new TheoryData<object?, bool>
+        public static readonly TheoryData<object?, bool> EqualsTestCase = new()
         {
             { new ApiLimit(150, 100, new DateTimeUtc(2013, 1, 1, 0, 0, 0)), true },
             { new ApiLimit(350, 100, new DateTimeUtc(2013, 1, 1, 0, 0, 0)), false },
@@ -41,7 +41,7 @@ namespace OpenTween.Api
         };
 
         [Theory]
-        [MemberData(nameof(Equals_TestCase))]
+        [MemberData(nameof(EqualsTestCase))]
         public void EqualsTest(object? obj2, bool expected)
         {
             var obj1 = new ApiLimit(150, 100, new DateTimeUtc(2013, 1, 1, 0, 0, 0));

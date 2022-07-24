@@ -36,7 +36,7 @@ namespace OpenTween.Thumbnail.Services
     /// <summary>
     /// サムネイル用URLと動画用URLを用意する
     /// </summary>
-    class TwitterComVideo : MetaThumbnailService
+    public class TwitterComVideo : MetaThumbnailService
     {
         public static readonly string UrlPattern = @"^https?://amp\.twimg\.com/v/.*$";
 

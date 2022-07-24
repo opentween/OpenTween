@@ -41,7 +41,7 @@ namespace OpenTween
 {
     public class TweetThumbnailTest
     {
-        class TestThumbnailService : IThumbnailService
+        private class TestThumbnailService : IThumbnailService
         {
             private readonly Regex regex;
             private readonly string replaceUrl;
@@ -71,7 +71,7 @@ namespace OpenTween
                 };
             }
 
-            class MockThumbnailInfo : ThumbnailInfo
+            private class MockThumbnailInfo : ThumbnailInfo
             {
                 public override Task<MemoryImage> LoadThumbnailImageAsync(HttpClient http, CancellationToken cancellationToken)
                     => Task.FromResult(TestUtils.CreateDummyImage());
@@ -79,20 +79,21 @@ namespace OpenTween
         }
 
         public TweetThumbnailTest()
-        {
-            this.ThumbnailGeneratorSetup();
-            this.MyCommonSetup();
-        }
+            => this.MyCommonSetup();
 
-        private void ThumbnailGeneratorSetup()
+        private ThumbnailGenerator CreateThumbnailGenerator()
         {
-            ThumbnailGenerator.Services.Clear();
-            ThumbnailGenerator.Services.AddRange(new[]
+            var imgAzyobuziNet = new ImgAzyobuziNet(autoupdate: false);
+            var thumbGenerator = new ThumbnailGenerator(imgAzyobuziNet);
+            thumbGenerator.Services.Clear();
+            thumbGenerator.Services.AddRange(new[]
             {
                 new TestThumbnailService(@"^https?://foo.example.com/(.+)$", @"http://img.example.com/${1}.png", null),
                 new TestThumbnailService(@"^https?://bar.example.com/(.+)$", @"http://img.example.com/${1}.png", @"${1}"),
                 new TestThumbnailService(@"^https?://slow.example.com/(.+)$", @"http://img.example.com/${1}.png", null),
             });
+
+            return thumbGenerator;
         }
 
         private void MyCommonSetup()
@@ -106,19 +107,18 @@ namespace OpenTween
         [Fact]
         public void CreatePictureBoxTest()
         {
-            using (var thumbBox = new TweetThumbnail())
-            {
-                var method = typeof(TweetThumbnail).GetMethod("CreatePictureBox", BindingFlags.Instance | BindingFlags.NonPublic);
-                var picbox = method.Invoke(thumbBox, new[] { "pictureBox1" }) as PictureBox;
+            using var thumbBox = new TweetThumbnail();
 
-                Assert.NotNull(picbox);
-                Assert.Equal("pictureBox1", picbox!.Name);
-                Assert.Equal(PictureBoxSizeMode.Zoom, picbox.SizeMode);
-                Assert.False(picbox.WaitOnLoad);
-                Assert.Equal(DockStyle.Fill, picbox.Dock);
+            var method = typeof(TweetThumbnail).GetMethod("CreatePictureBox", BindingFlags.Instance | BindingFlags.NonPublic);
+            var picbox = method.Invoke(thumbBox, new[] { "pictureBox1" }) as PictureBox;
 
-                picbox.Dispose();
-            }
+            Assert.NotNull(picbox);
+            Assert.Equal("pictureBox1", picbox!.Name);
+            Assert.Equal(PictureBoxSizeMode.Zoom, picbox.SizeMode);
+            Assert.False(picbox.WaitOnLoad);
+            Assert.Equal(DockStyle.Fill, picbox.Dock);
+
+            picbox.Dispose();
         }
 
         [Fact]
@@ -133,17 +133,18 @@ namespace OpenTween
                 },
             };
 
-            using (var thumbbox = new TweetThumbnail())
-            using (var tokenSource = new CancellationTokenSource())
-            {
-                SynchronizationContext.SetSynchronizationContext(new SynchronizationContext());
-                var task = thumbbox.ShowThumbnailAsync(post, tokenSource.Token);
+            using var thumbbox = new TweetThumbnail();
+            thumbbox.Initialize(this.CreateThumbnailGenerator());
 
-                tokenSource.Cancel();
+            using var tokenSource = new CancellationTokenSource();
 
-                await Assert.ThrowsAnyAsync<OperationCanceledException>(async () => await task);
-                Assert.True(task.IsCanceled);
-            }
+            SynchronizationContext.SetSynchronizationContext(new SynchronizationContext());
+            var task = thumbbox.ShowThumbnailAsync(post, tokenSource.Token);
+
+            tokenSource.Cancel();
+
+            await Assert.ThrowsAnyAsync<OperationCanceledException>(async () => await task);
+            Assert.True(task.IsCanceled);
         }
 
         [Theory]
@@ -152,29 +153,29 @@ namespace OpenTween
         [InlineData(2)]
         public void SetThumbnailCountTest(int count)
         {
-            using (var thumbbox = new TweetThumbnail())
+            using var thumbbox = new TweetThumbnail();
+            thumbbox.Initialize(this.CreateThumbnailGenerator());
+
+            var method = typeof(TweetThumbnail).GetMethod("SetThumbnailCount", BindingFlags.Instance | BindingFlags.NonPublic);
+            method.Invoke(thumbbox, new[] { (object)count });
+
+            Assert.Equal(count, thumbbox.PictureBox.Count);
+
+            var num = 0;
+            foreach (var picbox in thumbbox.PictureBox)
             {
-                var method = typeof(TweetThumbnail).GetMethod("SetThumbnailCount", BindingFlags.Instance | BindingFlags.NonPublic);
-                method.Invoke(thumbbox, new[] { (object)count });
-
-                Assert.Equal(count, thumbbox.pictureBox.Count);
-
-                var num = 0;
-                foreach (var picbox in thumbbox.pictureBox)
-                {
-                    Assert.Equal("pictureBox" + num, picbox.Name);
-                    num++;
-                }
-
-                Assert.Equal(thumbbox.pictureBox, thumbbox.panelPictureBox.Controls.Cast<OTPictureBox>());
-
-                Assert.Equal(0, thumbbox.scrollBar.Minimum);
-
-                if (count == 0)
-                    Assert.Equal(0, thumbbox.scrollBar.Maximum);
-                else
-                    Assert.Equal(count - 1, thumbbox.scrollBar.Maximum);
+                Assert.Equal("pictureBox" + num, picbox.Name);
+                num++;
             }
+
+            Assert.Equal(thumbbox.PictureBox, thumbbox.panelPictureBox.Controls.Cast<OTPictureBox>());
+
+            Assert.Equal(0, thumbbox.scrollBar.Minimum);
+
+            if (count == 0)
+                Assert.Equal(0, thumbbox.scrollBar.Maximum);
+            else
+                Assert.Equal(count - 1, thumbbox.scrollBar.Maximum);
         }
 
         [Fact]
@@ -189,25 +190,25 @@ namespace OpenTween
                 },
             };
 
-            using (var thumbbox = new TweetThumbnail())
-            {
-                SynchronizationContext.SetSynchronizationContext(new SynchronizationContext());
-                await thumbbox.ShowThumbnailAsync(post);
+            using var thumbbox = new TweetThumbnail();
+            thumbbox.Initialize(this.CreateThumbnailGenerator());
 
-                Assert.Equal(0, thumbbox.scrollBar.Maximum);
-                Assert.False(thumbbox.scrollBar.Enabled);
+            SynchronizationContext.SetSynchronizationContext(new SynchronizationContext());
+            await thumbbox.ShowThumbnailAsync(post);
 
-                Assert.Single(thumbbox.pictureBox);
-                Assert.NotNull(thumbbox.pictureBox[0].Image);
+            Assert.Equal(0, thumbbox.scrollBar.Maximum);
+            Assert.False(thumbbox.scrollBar.Enabled);
 
-                Assert.IsAssignableFrom<ThumbnailInfo>(thumbbox.pictureBox[0].Tag);
-                var thumbinfo = (ThumbnailInfo)thumbbox.pictureBox[0].Tag;
+            Assert.Single(thumbbox.PictureBox);
+            Assert.NotNull(thumbbox.PictureBox[0].Image);
 
-                Assert.Equal("http://foo.example.com/abcd", thumbinfo.MediaPageUrl);
-                Assert.Equal("http://img.example.com/abcd.png", thumbinfo.ThumbnailImageUrl);
+            Assert.IsAssignableFrom<ThumbnailInfo>(thumbbox.PictureBox[0].Tag);
+            var thumbinfo = (ThumbnailInfo)thumbbox.PictureBox[0].Tag;
 
-                Assert.Equal("", thumbbox.toolTip.GetToolTip(thumbbox.pictureBox[0]));
-            }
+            Assert.Equal("http://foo.example.com/abcd", thumbinfo.MediaPageUrl);
+            Assert.Equal("http://img.example.com/abcd.png", thumbinfo.ThumbnailImageUrl);
+
+            Assert.Equal("", thumbbox.toolTip.GetToolTip(thumbbox.PictureBox[0]));
         }
 
         [Fact]
@@ -223,72 +224,72 @@ namespace OpenTween
                 },
             };
 
-            using (var thumbbox = new TweetThumbnail())
-            {
-                SynchronizationContext.SetSynchronizationContext(new SynchronizationContext());
-                await thumbbox.ShowThumbnailAsync(post);
+            using var thumbbox = new TweetThumbnail();
+            thumbbox.Initialize(this.CreateThumbnailGenerator());
 
-                Assert.Equal(1, thumbbox.scrollBar.Maximum);
-                Assert.True(thumbbox.scrollBar.Enabled);
+            SynchronizationContext.SetSynchronizationContext(new SynchronizationContext());
+            await thumbbox.ShowThumbnailAsync(post);
 
-                Assert.Equal(2, thumbbox.pictureBox.Count);
-                Assert.NotNull(thumbbox.pictureBox[0].Image);
-                Assert.NotNull(thumbbox.pictureBox[1].Image);
+            Assert.Equal(1, thumbbox.scrollBar.Maximum);
+            Assert.True(thumbbox.scrollBar.Enabled);
 
-                Assert.IsAssignableFrom<ThumbnailInfo>(thumbbox.pictureBox[0].Tag);
-                var thumbinfo = (ThumbnailInfo)thumbbox.pictureBox[0].Tag;
+            Assert.Equal(2, thumbbox.PictureBox.Count);
+            Assert.NotNull(thumbbox.PictureBox[0].Image);
+            Assert.NotNull(thumbbox.PictureBox[1].Image);
 
-                Assert.Equal("http://foo.example.com/abcd", thumbinfo.MediaPageUrl);
-                Assert.Equal("http://img.example.com/abcd.png", thumbinfo.ThumbnailImageUrl);
+            Assert.IsAssignableFrom<ThumbnailInfo>(thumbbox.PictureBox[0].Tag);
+            var thumbinfo = (ThumbnailInfo)thumbbox.PictureBox[0].Tag;
 
-                Assert.IsAssignableFrom<ThumbnailInfo>(thumbbox.pictureBox[1].Tag);
-                thumbinfo = (ThumbnailInfo)thumbbox.pictureBox[1].Tag;
+            Assert.Equal("http://foo.example.com/abcd", thumbinfo.MediaPageUrl);
+            Assert.Equal("http://img.example.com/abcd.png", thumbinfo.ThumbnailImageUrl);
 
-                Assert.Equal("http://bar.example.com/efgh", thumbinfo.MediaPageUrl);
-                Assert.Equal("http://img.example.com/efgh.png", thumbinfo.ThumbnailImageUrl);
+            Assert.IsAssignableFrom<ThumbnailInfo>(thumbbox.PictureBox[1].Tag);
+            thumbinfo = (ThumbnailInfo)thumbbox.PictureBox[1].Tag;
 
-                Assert.Equal("", thumbbox.toolTip.GetToolTip(thumbbox.pictureBox[0]));
-                Assert.Equal("efgh", thumbbox.toolTip.GetToolTip(thumbbox.pictureBox[1]));
-            }
+            Assert.Equal("http://bar.example.com/efgh", thumbinfo.MediaPageUrl);
+            Assert.Equal("http://img.example.com/efgh.png", thumbinfo.ThumbnailImageUrl);
+
+            Assert.Equal("", thumbbox.toolTip.GetToolTip(thumbbox.PictureBox[0]));
+            Assert.Equal("efgh", thumbbox.toolTip.GetToolTip(thumbbox.PictureBox[1]));
         }
 
         [Fact]
         public async Task ThumbnailLoadingEventTest()
         {
-            using (var thumbbox = new TweetThumbnail())
+            using var thumbbox = new TweetThumbnail();
+            thumbbox.Initialize(this.CreateThumbnailGenerator());
+
+            SynchronizationContext.SetSynchronizationContext(new SynchronizationContext());
+
+            var post = new PostClass
             {
-                SynchronizationContext.SetSynchronizationContext(new SynchronizationContext());
-
-                var post = new PostClass
+                TextFromApi = "てすと",
+                Media = new List<MediaInfo>
                 {
-                    TextFromApi = "てすと",
-                    Media = new List<MediaInfo>
-                    {
-                    },
-                };
-                await TestUtils.NotRaisesAsync<EventArgs>(
-                    x => thumbbox.ThumbnailLoading += x,
-                    x => thumbbox.ThumbnailLoading -= x,
-                    () => thumbbox.ShowThumbnailAsync(post)
-                );
+                },
+            };
+            await TestUtils.NotRaisesAsync<EventArgs>(
+                x => thumbbox.ThumbnailLoading += x,
+                x => thumbbox.ThumbnailLoading -= x,
+                () => thumbbox.ShowThumbnailAsync(post)
+            );
 
-                SynchronizationContext.SetSynchronizationContext(new SynchronizationContext());
+            SynchronizationContext.SetSynchronizationContext(new SynchronizationContext());
 
-                var post2 = new PostClass
-                {
-                    TextFromApi = "てすと http://foo.example.com/abcd",
-                    Media = new List<MediaInfo>
+            var post2 = new PostClass
+            {
+                TextFromApi = "てすと http://foo.example.com/abcd",
+                Media = new List<MediaInfo>
                     {
                         new MediaInfo("http://foo.example.com/abcd"),
                     },
-                };
+            };
 
-                await Assert.RaisesAsync<EventArgs>(
-                    x => thumbbox.ThumbnailLoading += x,
-                    x => thumbbox.ThumbnailLoading -= x,
-                    () => thumbbox.ShowThumbnailAsync(post2)
-                );
-            }
+            await Assert.RaisesAsync<EventArgs>(
+                x => thumbbox.ThumbnailLoading += x,
+                x => thumbbox.ThumbnailLoading -= x,
+                () => thumbbox.ShowThumbnailAsync(post2)
+            );
         }
 
         [Fact]
@@ -304,36 +305,36 @@ namespace OpenTween
                 },
             };
 
-            using (var thumbbox = new TweetThumbnail())
-            {
-                SynchronizationContext.SetSynchronizationContext(new SynchronizationContext());
-                await thumbbox.ShowThumbnailAsync(post);
+            using var thumbbox = new TweetThumbnail();
+            thumbbox.Initialize(this.CreateThumbnailGenerator());
 
-                Assert.Equal(0, thumbbox.scrollBar.Minimum);
-                Assert.Equal(1, thumbbox.scrollBar.Maximum);
+            SynchronizationContext.SetSynchronizationContext(new SynchronizationContext());
+            await thumbbox.ShowThumbnailAsync(post);
 
-                thumbbox.scrollBar.Value = 0;
+            Assert.Equal(0, thumbbox.scrollBar.Minimum);
+            Assert.Equal(1, thumbbox.scrollBar.Maximum);
 
-                thumbbox.ScrollDown();
-                Assert.Equal(1, thumbbox.scrollBar.Value);
-                Assert.False(thumbbox.pictureBox[0].Visible);
-                Assert.True(thumbbox.pictureBox[1].Visible);
+            thumbbox.scrollBar.Value = 0;
 
-                thumbbox.ScrollDown();
-                Assert.Equal(1, thumbbox.scrollBar.Value);
-                Assert.False(thumbbox.pictureBox[0].Visible);
-                Assert.True(thumbbox.pictureBox[1].Visible);
+            thumbbox.ScrollDown();
+            Assert.Equal(1, thumbbox.scrollBar.Value);
+            Assert.False(thumbbox.PictureBox[0].Visible);
+            Assert.True(thumbbox.PictureBox[1].Visible);
 
-                thumbbox.ScrollUp();
-                Assert.Equal(0, thumbbox.scrollBar.Value);
-                Assert.True(thumbbox.pictureBox[0].Visible);
-                Assert.False(thumbbox.pictureBox[1].Visible);
+            thumbbox.ScrollDown();
+            Assert.Equal(1, thumbbox.scrollBar.Value);
+            Assert.False(thumbbox.PictureBox[0].Visible);
+            Assert.True(thumbbox.PictureBox[1].Visible);
 
-                thumbbox.ScrollUp();
-                Assert.Equal(0, thumbbox.scrollBar.Value);
-                Assert.True(thumbbox.pictureBox[0].Visible);
-                Assert.False(thumbbox.pictureBox[1].Visible);
-            }
+            thumbbox.ScrollUp();
+            Assert.Equal(0, thumbbox.scrollBar.Value);
+            Assert.True(thumbbox.PictureBox[0].Visible);
+            Assert.False(thumbbox.PictureBox[1].Visible);
+
+            thumbbox.ScrollUp();
+            Assert.Equal(0, thumbbox.scrollBar.Value);
+            Assert.True(thumbbox.PictureBox[0].Visible);
+            Assert.False(thumbbox.PictureBox[1].Visible);
         }
     }
 }

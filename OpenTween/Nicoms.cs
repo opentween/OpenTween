@@ -30,9 +30,9 @@ using System;
 
 namespace OpenTween
 {
-    public static class nicoms
+    public static class Nicoms
     {
-        private static readonly string[] _nicovideo =
+        private static readonly string[] Nicovideo =
         {
             "www.nicovideo.jp/watch/",
             "live.nicovideo.jp/watch/",
@@ -50,7 +50,7 @@ namespace OpenTween
 
         public static string Shorten(string url)
         {
-            //整形（http(s)://を削除）
+            // 整形（http(s)://を削除）
             if (url.StartsWith("http://", StringComparison.OrdinalIgnoreCase))
             {
                 url = url.Substring(7);
@@ -64,7 +64,7 @@ namespace OpenTween
                 return url;
             }
 
-            foreach (var nv in _nicovideo)
+            foreach (var nv in Nicovideo)
             {
                 if (url.StartsWith(nv, StringComparison.Ordinal))
                     return string.Format("{0}{1}", "https://nico.ms/", url.Substring(nv.Length));

@@ -32,29 +32,49 @@ namespace OpenTween.Models
 {
     public class PostClassTest
     {
-        class TestPostClass : PostClass
+        private class PostClassGroup
         {
+            private readonly Dictionary<long, PostClass> testCases;
+
+            public PostClassGroup(params TestPostClass[] postClasses)
+            {
+                this.testCases = new Dictionary<long, PostClass>();
+                foreach (var p in postClasses)
+                {
+                    p.Group = this;
+                    this.testCases.Add(p.StatusId, p);
+                }
+            }
+
+            public PostClass this[long id] => this.testCases[id];
+        }
+
+        private class TestPostClass : PostClass
+        {
+            public PostClassGroup? Group;
+
             protected override PostClass RetweetSource
             {
                 get
                 {
                     var retweetedId = this.RetweetedId!.Value;
+                    var group = this.Group;
+                    if (group == null)
+                        throw new InvalidOperationException("TestPostClass needs group");
 
-                    return PostClassTest.TestCases[retweetedId];
+                    return group[retweetedId];
                 }
             }
         }
 
-        private static Dictionary<long, PostClass> TestCases;
+        private readonly PostClassGroup postGroup;
 
-        static PostClassTest()
+        public PostClassTest()
         {
-            PostClassTest.TestCases = new Dictionary<long, PostClass>
-            {
-                [1L] = new TestPostClass { StatusId = 1L },
-                [2L] = new TestPostClass { StatusId = 2L, IsFav = true },
-                [3L] = new TestPostClass { StatusId = 3L, IsFav = false, RetweetedId = 2L },
-            };
+            this.postGroup = new PostClassGroup(
+                new TestPostClass { StatusId = 1L },
+                new TestPostClass { StatusId = 2L, IsFav = true },
+                new TestPostClass { StatusId = 3L, IsFav = false, RetweetedId = 2L });
         }
 
         [Fact]
@@ -81,7 +101,7 @@ namespace OpenTween.Models
         [InlineData(2L, true)]
         [InlineData(3L, true)]
         public void GetIsFavTest(long statusId, bool expected)
-            => Assert.Equal(expected, PostClassTest.TestCases[statusId].IsFav);
+            => Assert.Equal(expected, this.postGroup[statusId].IsFav);
 
         [Theory]
         [InlineData(2L, true)]
@@ -90,15 +110,16 @@ namespace OpenTween.Models
         [InlineData(3L, false)]
         public void SetIsFavTest(long statusId, bool isFav)
         {
-            var post = PostClassTest.TestCases[statusId];
+            var post = this.postGroup[statusId];
 
             post.IsFav = isFav;
             Assert.Equal(isFav, post.IsFav);
 
             if (post.RetweetedId != null)
-                Assert.Equal(isFav, PostClassTest.TestCases[post.RetweetedId.Value].IsFav);
+                Assert.Equal(isFav, this.postGroup[post.RetweetedId.Value].IsFav);
         }
 
+#pragma warning disable SA1008 // Opening parenthesis should be spaced correctly
         [Theory]
         [InlineData(false, false, false, false, -0x01)]
         [InlineData( true, false, false, false, 0x00)]
@@ -116,6 +137,7 @@ namespace OpenTween.Models
         [InlineData( true, false,  true,  true, 0x0C)]
         [InlineData(false,  true,  true,  true, 0x0D)]
         [InlineData( true,  true,  true,  true, 0x0E)]
+#pragma warning restore SA1008
         public void StateIndexTest(bool protect, bool mark, bool reply, bool geo, int expected)
         {
             var post = new TestPostClass
@@ -379,9 +401,9 @@ namespace OpenTween.Models
             Assert.Throws<InvalidOperationException>(() => post.ConvertToOriginalPost());
         }
 
-        class FakeExpandedUrlInfo : PostClass.ExpandedUrlInfo
+        private class FakeExpandedUrlInfo : PostClass.ExpandedUrlInfo
         {
-            public TaskCompletionSource<string> fakeResult = new TaskCompletionSource<string>();
+            public TaskCompletionSource<string> FakeResult = new();
 
             public FakeExpandedUrlInfo(string url, string expandedUrl, bool deepExpand)
                 : base(url, expandedUrl, deepExpand)
@@ -389,12 +411,14 @@ namespace OpenTween.Models
             }
 
             protected override async Task DeepExpandAsync()
-                => this._expandedUrl = await this.fakeResult.Task;
+                => this.expandedUrl = await this.FakeResult.Task;
         }
 
         [Fact]
         public async Task ExpandedUrls_BasicScenario()
         {
+            PostClass.ExpandedUrlInfo.AutoExpand = true;
+
             var post = new PostClass
             {
                 Text = "<a href=\"http://t.co/aaaaaaa\" title=\"http://t.co/aaaaaaa\">bit.ly/abcde</a>",
@@ -402,7 +426,7 @@ namespace OpenTween.Models
                 {
                     new FakeExpandedUrlInfo(
                         // 展開前の t.co ドメインの URL
-                        url:  "http://t.co/aaaaaaa",
+                        url: "http://t.co/aaaaaaa",
 
                         // Entity の expanded_url に含まれる URL
                         expandedUrl: "http://bit.ly/abcde",
@@ -424,7 +448,7 @@ namespace OpenTween.Models
             Assert.Equal("<a href=\"http://t.co/aaaaaaa\" title=\"http://bit.ly/abcde\">bit.ly/abcde</a>", post.Text);
 
             // bit.ly 展開後の URL は「http://example.com/abcde」
-            urlInfo.fakeResult.SetResult("http://example.com/abcde");
+            urlInfo.FakeResult.SetResult("http://example.com/abcde");
             await urlInfo.ExpandTask;
 
             // ExpandedUrlInfo による展開が完了した後の状態

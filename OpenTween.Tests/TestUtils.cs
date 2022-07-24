@@ -59,12 +59,12 @@ namespace OpenTween
         {
             T? raisedEvent = null;
 
-            void handler(object s, T e)
+            void Handler(object s, T e)
                 => raisedEvent = e;
 
             try
             {
-                attach(handler);
+                attach(Handler);
                 await testCode().ConfigureAwait(false);
 
                 if (raisedEvent != null)
@@ -72,13 +72,13 @@ namespace OpenTween
             }
             finally
             {
-                detach(handler);
+                detach(Handler);
             }
         }
 
         public static void NotPropertyChanged(INotifyPropertyChanged @object, string propertyName, Action testCode)
         {
-            void handler(object s, PropertyChangedEventArgs e)
+            void Handler(object s, PropertyChangedEventArgs e)
             {
                 if (s == @object && e.PropertyName == propertyName)
                     throw new Xunit.Sdk.PropertyChangedException(propertyName);
@@ -86,34 +86,34 @@ namespace OpenTween
 
             try
             {
-                @object.PropertyChanged += handler;
+                @object.PropertyChanged += Handler;
                 testCode();
             }
             finally
             {
-                @object.PropertyChanged -= handler;
+                @object.PropertyChanged -= Handler;
             }
         }
 
         public static MemoryImage CreateDummyImage()
         {
-            using (var bitmap = new Bitmap(100, 100))
-            using (var stream = new MemoryStream())
-            {
-                bitmap.Save(stream, ImageFormat.Png);
-                stream.Position = 0;
+            using var bitmap = new Bitmap(100, 100);
+            using var stream = new MemoryStream();
+            bitmap.Save(stream, ImageFormat.Png);
+            stream.Position = 0;
 
-                return MemoryImage.CopyFromStream(stream);
-            }
+            return MemoryImage.CopyFromStream(stream);
         }
 
         public static MemoryImageMediaItem CreateDummyMediaItem()
-            => new MemoryImageMediaItem(CreateDummyImage());
+            => new(CreateDummyImage());
 
-        public static void FireEvent<T>(T control, string eventName) where T : Control
+        public static void FireEvent<T>(T control, string eventName)
+            where T : Control
             => TestUtils.FireEvent(control, eventName, EventArgs.Empty);
 
-        public static void FireEvent<T>(T control, string eventName, EventArgs e) where T : Control
+        public static void FireEvent<T>(T control, string eventName, EventArgs e)
+            where T : Control
         {
             var methodName = "On" + eventName;
             var method = typeof(T).GetMethod(methodName, BindingFlags.Instance | BindingFlags.NonPublic);
@@ -121,7 +121,8 @@ namespace OpenTween
             method.Invoke(control, new[] { e });
         }
 
-        public static void Validate<T>(T control) where T : Control
+        public static void Validate<T>(T control)
+            where T : Control
         {
             var cancelEventArgs = new CancelEventArgs();
             TestUtils.FireEvent(control, "Validating", cancelEventArgs);
@@ -148,8 +149,13 @@ namespace OpenTween
             public void Dispose()
                 => DateTimeUtc.UseFakeNow = false;
         }
+
+        public static DateTimeUtc LocalTime(int year, int month, int day, int hour, int minute, int second)
+            => new(new DateTimeOffset(year, month, day, hour, minute, second, TimeZoneInfo.Local.BaseUtcOffset));
     }
 }
+
+#pragma warning disable SA1403
 
 namespace OpenTween.Setting
 {
@@ -157,26 +163,26 @@ namespace OpenTween.Setting
     {
         public static SettingCommon Common
         {
-            get => SettingManager.Common;
-            set => SettingManager.Common = value;
+            get => SettingManager.Instance.Common;
+            set => SettingManager.Instance.Common = value;
         }
 
         public static SettingLocal Local
         {
-            get => SettingManager.Local;
-            set => SettingManager.Local = value;
+            get => SettingManager.Instance.Local;
+            set => SettingManager.Instance.Local = value;
         }
 
         public static SettingTabs Tabs
         {
-            get => SettingManager.Tabs;
-            set => SettingManager.Tabs = value;
+            get => SettingManager.Instance.Tabs;
+            set => SettingManager.Instance.Tabs = value;
         }
 
         public static SettingAtIdList AtIdList
         {
-            get => SettingManager.AtIdList;
-            set => SettingManager.AtIdList = value;
+            get => SettingManager.Instance.AtIdList;
+            set => SettingManager.Instance.AtIdList = value;
         }
     }
 }

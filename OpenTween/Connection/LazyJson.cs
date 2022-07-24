@@ -83,7 +83,7 @@ namespace OpenTween.Connection
     public static class LazyJson
     {
         public static LazyJson<T> Create<T>(T instance)
-            => new LazyJson<T>(instance);
+            => new(instance);
     }
 
     public static class LazyJsonTaskExtension
