@@ -5799,6 +5799,17 @@ namespace OpenTween
 
         private async void OpenURLFileMenuItem_Click(object sender, EventArgs e)
         {
+            static void ShowFormatErrorDialog(IWin32Window owner)
+            {
+                MessageBox.Show(
+                    owner,
+                    Properties.Resources.OpenURL_InvalidFormat,
+                    Properties.Resources.OpenURL_Caption,
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error
+                );
+            }
+
             var ret = InputDialog.Show(this, Properties.Resources.OpenURL_InputText, Properties.Resources.OpenURL_Caption, out var inputText);
             if (ret != DialogResult.OK)
                 return;
@@ -5806,12 +5817,7 @@ namespace OpenTween
             var match = Twitter.StatusUrlRegex.Match(inputText);
             if (!match.Success)
             {
-                MessageBox.Show(
-                    this,
-                    Properties.Resources.OpenURL_InvalidFormat,
-                    Properties.Resources.OpenURL_Caption,
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Error);
+                ShowFormatErrorDialog(this);
                 return;
             }
 
@@ -5819,6 +5825,10 @@ namespace OpenTween
             {
                 var statusId = long.Parse(match.Groups["StatusId"].Value);
                 await this.OpenRelatedTab(statusId);
+            }
+            catch (OverflowException)
+            {
+                ShowFormatErrorDialog(this);
             }
             catch (TabException ex)
             {
