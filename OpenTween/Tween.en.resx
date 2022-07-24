@@ -427,10 +427,18 @@
 	<data name="SettingStripMenuItem.Text"><value>Settings (&amp;O)...</value></data>
 	<data name="ShortcutKeyListMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>278, 24</value></data>
 	<data name="ShortcutKeyListMenuItem.Text"><value>Shortcut keys</value></data>
+	<data name="ShowProfileContextMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>199, 22</value></data>
+	<data name="ShowProfileContextMenuItem.Text"><value>User &amp;Profile</value></data>
+	<data name="ShowProfileMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>259, 22</value></data>
+	<data name="ShowProfileMenuItem.Text"><value>User &amp;Profile</value></data>
 	<data name="ShowRelatedStatusesMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>258, 24</value></data>
 	<data name="ShowRelatedStatusesMenuItem.Text"><value>Related Posts (&amp;G)</value></data>
 	<data name="ShowRelatedStatusesMenuItem2.Size" type="System.Drawing.Size, System.Drawing"><value>347, 24</value></data>
 	<data name="ShowRelatedStatusesMenuItem2.Text"><value>Related Posts (&amp;G)</value></data>
+	<data name="ShowUserTimelineContextMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>199, 22</value></data>
+	<data name="ShowUserTimelineContextMenuItem.Text"><value>User's updates</value></data>
+	<data name="ShowUserTimelineMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>259, 22</value></data>
+	<data name="ShowUserTimelineMenuItem.Text"><value>User's updates</value></data>
 	<data name="SoundFileComboBox.ToolTipText"><value>Select a wav file.</value></data>
 	<data name="SourceRuleMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>122, 22</value></data>
 	<data name="SourceRuleMenuItem.Text"><value>&amp;Source</value></data>

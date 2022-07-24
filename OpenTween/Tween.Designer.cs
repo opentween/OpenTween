@@ -104,7 +104,9 @@
             this.FavoriteRetweetUnofficialMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.UnFavOpMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ToolStripSeparator38 = new System.Windows.Forms.ToolStripSeparator();
+            this.ShowProfileMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ShowRelatedStatusesMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
+            this.ShowUserTimelineMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.AuthorMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.AuthorShowProfileMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.AuthorShowUserTimelineMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -241,7 +243,9 @@
             this.FavoriteRetweetUnofficialContextMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.FavRemoveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ToolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
+            this.ShowProfileContextMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ShowRelatedStatusesMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.ShowUserTimelineContextMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.AuthorContextMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.AuthorShowProfileContextMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.AuthorShowUserTimelineContextMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -919,7 +923,9 @@
             this.FavoriteRetweetUnofficialMenuItem,
             this.UnFavOpMenuItem,
             this.ToolStripSeparator38,
+            this.ShowProfileMenuItem,
             this.ShowRelatedStatusesMenuItem2,
+            this.ShowUserTimelineMenuItem,
             this.AuthorMenuItem,
             this.RetweetedByMenuItem,
             this.OpenOpMenuItem,
@@ -1006,11 +1012,23 @@
             this.ToolStripSeparator38.Name = "ToolStripSeparator38";
             resources.ApplyResources(this.ToolStripSeparator38, "ToolStripSeparator38");
             // 
+            // ShowProfileMenuItem
+            // 
+            this.ShowProfileMenuItem.Name = "ShowProfileMenuItem";
+            resources.ApplyResources(this.ShowProfileMenuItem, "ShowProfileMenuItem");
+            this.ShowProfileMenuItem.Click += new System.EventHandler(this.AuthorShowProfileMenuItem_Click);
+            // 
             // ShowRelatedStatusesMenuItem2
             // 
             this.ShowRelatedStatusesMenuItem2.Name = "ShowRelatedStatusesMenuItem2";
             resources.ApplyResources(this.ShowRelatedStatusesMenuItem2, "ShowRelatedStatusesMenuItem2");
             this.ShowRelatedStatusesMenuItem2.Click += new System.EventHandler(this.ShowRelatedStatusesMenuItem_Click);
+            // 
+            // ShowUserTimelineMenuItem
+            // 
+            this.ShowUserTimelineMenuItem.Name = "ShowUserTimelineMenuItem";
+            resources.ApplyResources(this.ShowUserTimelineMenuItem, "ShowUserTimelineMenuItem");
+            this.ShowUserTimelineMenuItem.Click += new System.EventHandler(this.AuthorShowUserTimelineMenuItem_Click);
             // 
             // AuthorMenuItem
             // 
@@ -1857,7 +1875,9 @@
             this.FavoriteRetweetUnofficialContextMenu,
             this.FavRemoveToolStripMenuItem,
             this.ToolStripSeparator2,
+            this.ShowProfileContextMenuItem,
             this.ShowRelatedStatusesMenuItem,
+            this.ShowUserTimelineContextMenuItem,
             this.AuthorContextMenuItem,
             this.RetweetedByContextMenuItem,
             this.ToolStripMenuItem6,
@@ -1945,11 +1965,23 @@
             this.ToolStripSeparator2.Name = "ToolStripSeparator2";
             resources.ApplyResources(this.ToolStripSeparator2, "ToolStripSeparator2");
             // 
+            // ShowProfileContextMenuItem
+            // 
+            this.ShowProfileContextMenuItem.Name = "ShowProfileContextMenuItem";
+            resources.ApplyResources(this.ShowProfileContextMenuItem, "ShowProfileContextMenuItem");
+            this.ShowProfileContextMenuItem.Click += new System.EventHandler(this.AuthorShowProfileMenuItem_Click);
+            // 
             // ShowRelatedStatusesMenuItem
             // 
             this.ShowRelatedStatusesMenuItem.Name = "ShowRelatedStatusesMenuItem";
             resources.ApplyResources(this.ShowRelatedStatusesMenuItem, "ShowRelatedStatusesMenuItem");
             this.ShowRelatedStatusesMenuItem.Click += new System.EventHandler(this.ShowRelatedStatusesMenuItem_Click);
+            // 
+            // ShowUserTimelineContextMenuItem
+            // 
+            this.ShowUserTimelineContextMenuItem.Name = "ShowUserTimelineContextMenuItem";
+            resources.ApplyResources(this.ShowUserTimelineContextMenuItem, "ShowUserTimelineContextMenuItem");
+            this.ShowUserTimelineContextMenuItem.Click += new System.EventHandler(this.AuthorShowUserTimelineMenuItem_Click);
             // 
             // AuthorContextMenuItem
             // 
@@ -2397,5 +2429,9 @@
         private System.Windows.Forms.ToolStripMenuItem RetweetedByShowUserTimelineContextMenuItem;
         private System.Windows.Forms.ToolStripMenuItem RetweetedByListManageContextMenuItem;
         private System.Windows.Forms.ToolStripMenuItem RetweetedByOpenInBrowserContextMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem ShowProfileMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem ShowUserTimelineMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem ShowProfileContextMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem ShowUserTimelineContextMenuItem;
     }
 }
