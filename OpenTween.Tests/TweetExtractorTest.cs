@@ -305,6 +305,18 @@ namespace OpenTween
         }
 
         [Fact]
+        public void ExtractEmojiEntities_Unicode14Test()
+        {
+            // Unicode 14.0 で追加された絵文字
+            var origText = "🫠"; // U+1FAE0 (MELTING FACE)
+            var entity = TweetExtractor.ExtractEmojiEntities(origText).Single();
+
+            Assert.Equal(new[] { 0, 1 }, entity.Indices);
+            Assert.Equal("🫠", entity.Text);
+            Assert.Equal("https://twemoji.maxcdn.com/2/72x72/1fae0.png", entity.Url);
+        }
+
+        [Fact]
         public void ExtractEmojiEntities_EmojiModifiers_CombiningTest()
         {
             // Emoji modifiers を使用した合字 (リガチャー)
