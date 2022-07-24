@@ -28,6 +28,7 @@
 
 using System;
 using System.Drawing;
+using System.Net.Http;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using OpenTween.Models;
@@ -183,8 +184,23 @@ namespace OpenTween
             // キャッシュにない画像の場合は読み込みが完了してから再描画する
             _ = Task.Run(async () =>
             {
-                var imageUrl = Twitter.CreateProfileImageUrl(normalImageUrl, sizeName);
-                var image = await this.iconCache.DownloadImageAsync(imageUrl);
+                try
+                {
+                    var imageUrl = Twitter.CreateProfileImageUrl(normalImageUrl, sizeName);
+                    await this.iconCache.DownloadImageAsync(imageUrl);
+                }
+                catch (InvalidImageException)
+                {
+                    return;
+                }
+                catch (HttpRequestException)
+                {
+                    return;
+                }
+                catch (OperationCanceledException)
+                {
+                    return;
+                }
 
                 await this.listView.InvokeAsync(() =>
                 {
