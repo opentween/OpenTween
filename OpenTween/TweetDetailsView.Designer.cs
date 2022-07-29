@@ -75,7 +75,7 @@
             this.UseHashtagMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.SelectionTranslationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.TranslationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.DateTimeLabel = new System.Windows.Forms.Label();
+            this.DateTimeLabel = new System.Windows.Forms.LinkLabel();
             this.SourceLinkLabel = new System.Windows.Forms.LinkLabel();
             this.ContextMenuSource = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.SourceCopyMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -422,9 +422,14 @@
             // 
             // DateTimeLabel
             // 
+            this.DateTimeLabel.ActiveLinkColor = System.Drawing.SystemColors.ControlText;
             resources.ApplyResources(this.DateTimeLabel, "DateTimeLabel");
             this.DateTimeLabel.AutoEllipsis = true;
+            this.DateTimeLabel.LinkBehavior = System.Windows.Forms.LinkBehavior.NeverUnderline;
+            this.DateTimeLabel.LinkColor = System.Drawing.SystemColors.ControlText;
             this.DateTimeLabel.Name = "DateTimeLabel";
+            this.DateTimeLabel.TabStop = true;
+            this.DateTimeLabel.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.DateTimeLabel_LinkClicked);
             // 
             // SourceLinkLabel
             // 
@@ -485,7 +490,6 @@
         private System.Windows.Forms.LinkLabel AuthorNameLinkLabel;
         private System.Windows.Forms.LinkLabel RetweetedByLinkLabel;
         internal System.Windows.Forms.WebBrowser PostBrowser;
-        internal System.Windows.Forms.Label DateTimeLabel;
         internal System.Windows.Forms.LinkLabel SourceLinkLabel;
         internal System.Windows.Forms.ContextMenuStrip ContextMenuPostBrowser;
         internal System.Windows.Forms.ToolStripMenuItem SelectionSearchContextMenuItem;
@@ -529,5 +533,6 @@
         internal System.Windows.Forms.ContextMenuStrip ContextMenuSource;
         internal System.Windows.Forms.ToolStripMenuItem SourceCopyMenuItem;
         internal System.Windows.Forms.ToolStripMenuItem SourceUrlCopyMenuItem;
+        private System.Windows.Forms.LinkLabel DateTimeLabel;
     }
 }

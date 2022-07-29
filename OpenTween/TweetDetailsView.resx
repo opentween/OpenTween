@@ -26,7 +26,7 @@
 	<data name="&gt;&gt;CurrentTabToolStripMenuItem.Type"><value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
 	<data name="&gt;&gt;DateTimeLabel.Name"><value>DateTimeLabel</value></data>
 	<data name="&gt;&gt;DateTimeLabel.Parent"><value>TableLayoutPanel1</value></data>
-	<data name="&gt;&gt;DateTimeLabel.Type"><value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
+	<data name="&gt;&gt;DateTimeLabel.Type"><value>System.Windows.Forms.LinkLabel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
 	<data name="&gt;&gt;DateTimeLabel.ZOrder"><value>3</value></data>
 	<data name="&gt;&gt;flowLayoutPanel1.Name"><value>flowLayoutPanel1</value></data>
 	<data name="&gt;&gt;flowLayoutPanel1.Parent"><value>TableLayoutPanel1</value></data>
@@ -147,7 +147,6 @@
 	<data name="CurrentTabToolStripMenuItem.Text"><value>現在のタブ(&amp;L)</value></data>
 	<data name="DateTimeLabel.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms"><value>Top, Bottom, Right</value></data>
 	<data name="DateTimeLabel.AutoSize" type="System.Boolean, mscorlib"><value>True</value></data>
-	<data name="DateTimeLabel.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms"><value>Off</value></data>
 	<data name="DateTimeLabel.Location" type="System.Drawing.Point, System.Drawing"><value>405, 3</value></data>
 	<data name="DateTimeLabel.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms"><value>3, 3, 3, 0</value></data>
 	<data name="DateTimeLabel.Size" type="System.Drawing.Size, System.Drawing"><value>38, 12</value></data>

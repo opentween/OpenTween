@@ -1124,6 +1124,15 @@ namespace OpenTween
             if (screenName != null)
                 await this.Owner.ShowUserStatus(screenName, showInputDialog: false);
         }
+
+        private async void DateTimeLabel_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            if (this.CurrentPost == null)
+                return;
+
+            var statusUrl = MyCommon.GetStatusUrl(this.CurrentPost);
+            await MyCommon.OpenInBrowserAsync(this, statusUrl);
+        }
     }
 
     public class TweetDetailsViewStatusChengedEventArgs : EventArgs
