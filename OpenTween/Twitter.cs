@@ -519,6 +519,9 @@ namespace OpenTween
             var response = await request.Send(this.Api.Connection)
                 .ConfigureAwait(false);
 
+            if (response.Data == null || response.Data.Length == 0)
+                return;
+
             var tweetIds = response.Data.Select(x => x.Id).ToList();
 
             var statuses = await this.Api.StatusesLookup(tweetIds)
