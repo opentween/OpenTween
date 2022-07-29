@@ -156,6 +156,12 @@ namespace OpenTween
         public bool TinyUrlResolve = true;
         public bool StartupVersion = true;
         public bool StartupFollowers = true;
+
+        /// <summary>
+        /// Twitter API v2 の使用を有効にする
+        /// </summary>
+        public bool EnableTwitterV2Api { get; set; } = true;
+
         public bool RestrictFavCheck = false;
         public bool AlwaysTop = false;
         public string CultureCode = "";

@@ -8,6 +8,8 @@
 	<data name="Button3.Text"><value>Open...</value></data>
 	<data name="CheckCloseToExit.Size" type="System.Drawing.Size, System.Drawing"><value>150, 16</value></data>
 	<data name="CheckCloseToExit.Text"><value>Close to Exit application</value></data>
+	<data name="CheckEnableTwitterV2Api.Size" type="System.Drawing.Size, System.Drawing"><value>172, 16</value></data>
+	<data name="CheckEnableTwitterV2Api.Text"><value>Enable use of Twitter API v2</value></data>
 	<data name="CheckFavRestrict.Size" type="System.Drawing.Size, System.Drawing"><value>149, 16</value></data>
 	<data name="CheckFavRestrict.Text"><value>Check fav result strictly</value></data>
 	<data name="CheckMinimizeToTray.Size" type="System.Drawing.Size, System.Drawing"><value>106, 16</value></data>
