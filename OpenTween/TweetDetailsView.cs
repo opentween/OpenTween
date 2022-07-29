@@ -94,8 +94,7 @@ namespace OpenTween
             this.TabStop = false;
 
             // 発言詳細部の初期化
-            this.AuthorNameLinkLabel.Text = "";
-            this.RetweetedByLinkLabel.Text = "";
+            this.NameLinkLabel.Text = "";
             this.DateTimeLabel.Text = "";
             this.SourceLinkLabel.Text = "";
 
@@ -140,18 +139,10 @@ namespace OpenTween
                     nameText = "";
                 }
                 nameText += post.ScreenName + "/" + post.Nickname;
-                this.AuthorNameLinkLabel.Text = nameText;
-
                 if (post.RetweetedId != null)
-                {
-                    this.RetweetedByLinkLabel.Visible = true;
-                    this.RetweetedByLinkLabel.Text = $"(RT:{post.RetweetedBy})";
-                }
-                else
-                {
-                    this.RetweetedByLinkLabel.Visible = false;
-                    this.RetweetedByLinkLabel.Text = "";
-                }
+                    nameText += $" (RT:{post.RetweetedBy})";
+
+                this.NameLinkLabel.Text = nameText;
 
                 var nameForeColor = SystemColors.ControlText;
                 if (post.IsOwl && (SettingManager.Instance.Common.OneWayLove || post.IsDm))
@@ -161,10 +152,8 @@ namespace OpenTween
                 if (post.IsFav)
                     nameForeColor = this.Theme.ColorFav;
 
-                this.AuthorNameLinkLabel.LinkColor = nameForeColor;
-                this.AuthorNameLinkLabel.ActiveLinkColor = nameForeColor;
-                this.RetweetedByLinkLabel.LinkColor = nameForeColor;
-                this.RetweetedByLinkLabel.ActiveLinkColor = nameForeColor;
+                this.NameLinkLabel.LinkColor = nameForeColor;
+                this.NameLinkLabel.ActiveLinkColor = nameForeColor;
 
                 loadTasks.Add(this.SetUserPictureAsync(post.ImageUrl));
 
@@ -479,9 +468,8 @@ namespace OpenTween
         private void TweetDetailsView_FontChanged(object sender, EventArgs e)
         {
             // OTBaseForm.GlobalFont による UI フォントの変更に対応
-            var origFont = this.AuthorNameLinkLabel.Font;
-            this.AuthorNameLinkLabel.Font = new Font(this.Font.Name, origFont.Size, origFont.Style);
-            this.RetweetedByLinkLabel.Font = new Font(this.Font.Name, origFont.Size, origFont.Style);
+            var origFont = this.NameLinkLabel.Font;
+            this.NameLinkLabel.Font = new Font(this.Font.Name, origFont.Size, origFont.Style);
         }
 
         #region TableLayoutPanel1
@@ -1111,16 +1099,9 @@ namespace OpenTween
 
         #endregion
 
-        private async void AuthorNameLinkLabel_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        private async void NameLinkLabel_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             var screenName = this.CurrentPost?.ScreenName;
-            if (screenName != null)
-                await this.Owner.ShowUserStatus(screenName, showInputDialog: false);
-        }
-
-        private async void RetweetedByLinkLabel_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
-        {
-            var screenName = this.CurrentPost?.RetweetedBy;
             if (screenName != null)
                 await this.Owner.ShowUserStatus(screenName, showInputDialog: false);
         }

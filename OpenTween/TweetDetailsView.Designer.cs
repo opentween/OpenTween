@@ -45,9 +45,7 @@
             this.IconNameToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ReloadIconToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.SaveIconPictureToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
-            this.AuthorNameLinkLabel = new System.Windows.Forms.LinkLabel();
-            this.RetweetedByLinkLabel = new System.Windows.Forms.LinkLabel();
+            this.NameLinkLabel = new System.Windows.Forms.LinkLabel();
             this.PostBrowser = new System.Windows.Forms.WebBrowser();
             this.ContextMenuPostBrowser = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.SelectionSearchContextMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -83,7 +81,6 @@
             this.TableLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.UserPicture)).BeginInit();
             this.ContextMenuUserPicture.SuspendLayout();
-            this.flowLayoutPanel1.SuspendLayout();
             this.ContextMenuPostBrowser.SuspendLayout();
             this.ContextMenuSource.SuspendLayout();
             this.SuspendLayout();
@@ -92,7 +89,7 @@
             // 
             resources.ApplyResources(this.TableLayoutPanel1, "TableLayoutPanel1");
             this.TableLayoutPanel1.Controls.Add(this.UserPicture, 0, 0);
-            this.TableLayoutPanel1.Controls.Add(this.flowLayoutPanel1, 1, 0);
+            this.TableLayoutPanel1.Controls.Add(this.NameLinkLabel, 1, 0);
             this.TableLayoutPanel1.Controls.Add(this.PostBrowser, 1, 1);
             this.TableLayoutPanel1.Controls.Add(this.DateTimeLabel, 2, 0);
             this.TableLayoutPanel1.Controls.Add(this.SourceLinkLabel, 3, 0);
@@ -201,34 +198,16 @@
             resources.ApplyResources(this.SaveIconPictureToolStripMenuItem, "SaveIconPictureToolStripMenuItem");
             this.SaveIconPictureToolStripMenuItem.Click += new System.EventHandler(this.SaveIconPictureToolStripMenuItem_Click);
             // 
-            // flowLayoutPanel1
+            // NameLinkLabel
             // 
-            resources.ApplyResources(this.flowLayoutPanel1, "flowLayoutPanel1");
-            this.flowLayoutPanel1.Controls.Add(this.AuthorNameLinkLabel);
-            this.flowLayoutPanel1.Controls.Add(this.RetweetedByLinkLabel);
-            this.flowLayoutPanel1.Name = "flowLayoutPanel1";
-            // 
-            // AuthorNameLinkLabel
-            // 
-            this.AuthorNameLinkLabel.ActiveLinkColor = System.Drawing.SystemColors.ControlText;
-            resources.ApplyResources(this.AuthorNameLinkLabel, "AuthorNameLinkLabel");
-            this.AuthorNameLinkLabel.AutoEllipsis = true;
-            this.AuthorNameLinkLabel.LinkBehavior = System.Windows.Forms.LinkBehavior.NeverUnderline;
-            this.AuthorNameLinkLabel.LinkColor = System.Drawing.SystemColors.ControlText;
-            this.AuthorNameLinkLabel.Name = "AuthorNameLinkLabel";
-            this.AuthorNameLinkLabel.TabStop = true;
-            this.AuthorNameLinkLabel.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.AuthorNameLinkLabel_LinkClicked);
-            // 
-            // RetweetedByLinkLabel
-            // 
-            this.RetweetedByLinkLabel.ActiveLinkColor = System.Drawing.SystemColors.ControlText;
-            resources.ApplyResources(this.RetweetedByLinkLabel, "RetweetedByLinkLabel");
-            this.RetweetedByLinkLabel.AutoEllipsis = true;
-            this.RetweetedByLinkLabel.LinkBehavior = System.Windows.Forms.LinkBehavior.NeverUnderline;
-            this.RetweetedByLinkLabel.LinkColor = System.Drawing.SystemColors.ControlText;
-            this.RetweetedByLinkLabel.Name = "RetweetedByLinkLabel";
-            this.RetweetedByLinkLabel.TabStop = true;
-            this.RetweetedByLinkLabel.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.RetweetedByLinkLabel_LinkClicked);
+            this.NameLinkLabel.ActiveLinkColor = System.Drawing.SystemColors.ControlText;
+            resources.ApplyResources(this.NameLinkLabel, "NameLinkLabel");
+            this.NameLinkLabel.AutoEllipsis = true;
+            this.NameLinkLabel.LinkBehavior = System.Windows.Forms.LinkBehavior.NeverUnderline;
+            this.NameLinkLabel.LinkColor = System.Drawing.SystemColors.ControlText;
+            this.NameLinkLabel.Name = "NameLinkLabel";
+            this.NameLinkLabel.TabStop = true;
+            this.NameLinkLabel.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.NameLinkLabel_LinkClicked);
             // 
             // PostBrowser
             // 
@@ -474,8 +453,6 @@
             this.TableLayoutPanel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.UserPicture)).EndInit();
             this.ContextMenuUserPicture.ResumeLayout(false);
-            this.flowLayoutPanel1.ResumeLayout(false);
-            this.flowLayoutPanel1.PerformLayout();
             this.ContextMenuPostBrowser.ResumeLayout(false);
             this.ContextMenuSource.ResumeLayout(false);
             this.ResumeLayout(false);
@@ -486,9 +463,6 @@
 
         internal System.Windows.Forms.TableLayoutPanel TableLayoutPanel1;
         internal OTPictureBox UserPicture;
-        private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
-        private System.Windows.Forms.LinkLabel AuthorNameLinkLabel;
-        private System.Windows.Forms.LinkLabel RetweetedByLinkLabel;
         internal System.Windows.Forms.WebBrowser PostBrowser;
         internal System.Windows.Forms.LinkLabel SourceLinkLabel;
         internal System.Windows.Forms.ContextMenuStrip ContextMenuPostBrowser;
@@ -534,5 +508,6 @@
         internal System.Windows.Forms.ToolStripMenuItem SourceCopyMenuItem;
         internal System.Windows.Forms.ToolStripMenuItem SourceUrlCopyMenuItem;
         private System.Windows.Forms.LinkLabel DateTimeLabel;
+        private System.Windows.Forms.LinkLabel NameLinkLabel;
     }
 }

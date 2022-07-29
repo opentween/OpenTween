@@ -12,10 +12,6 @@
 	<data name="$this.Size" type="System.Drawing.Size, System.Drawing"><value>511, 85</value></data>
 	<data name="&gt;&gt;$this.Name"><value>TweetDetailsView</value></data>
 	<data name="&gt;&gt;$this.Type"><value>System.Windows.Forms.UserControl, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
-	<data name="&gt;&gt;AuthorNameLinkLabel.Name"><value>AuthorNameLinkLabel</value></data>
-	<data name="&gt;&gt;AuthorNameLinkLabel.Parent"><value>flowLayoutPanel1</value></data>
-	<data name="&gt;&gt;AuthorNameLinkLabel.Type"><value>System.Windows.Forms.LinkLabel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
-	<data name="&gt;&gt;AuthorNameLinkLabel.ZOrder"><value>0</value></data>
 	<data name="&gt;&gt;ContextMenuPostBrowser.Name"><value>ContextMenuPostBrowser</value></data>
 	<data name="&gt;&gt;ContextMenuPostBrowser.Type"><value>System.Windows.Forms.ContextMenuStrip, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
 	<data name="&gt;&gt;ContextMenuSource.Name"><value>ContextMenuSource</value></data>
@@ -28,10 +24,6 @@
 	<data name="&gt;&gt;DateTimeLabel.Parent"><value>TableLayoutPanel1</value></data>
 	<data name="&gt;&gt;DateTimeLabel.Type"><value>System.Windows.Forms.LinkLabel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
 	<data name="&gt;&gt;DateTimeLabel.ZOrder"><value>3</value></data>
-	<data name="&gt;&gt;flowLayoutPanel1.Name"><value>flowLayoutPanel1</value></data>
-	<data name="&gt;&gt;flowLayoutPanel1.Parent"><value>TableLayoutPanel1</value></data>
-	<data name="&gt;&gt;flowLayoutPanel1.Type"><value>System.Windows.Forms.FlowLayoutPanel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
-	<data name="&gt;&gt;flowLayoutPanel1.ZOrder"><value>4</value></data>
 	<data name="&gt;&gt;FollowContextMenuItem.Name"><value>FollowContextMenuItem</value></data>
 	<data name="&gt;&gt;FollowContextMenuItem.Type"><value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
 	<data name="&gt;&gt;FollowToolStripMenuItem.Name"><value>FollowToolStripMenuItem</value></data>
@@ -48,6 +40,10 @@
 	<data name="&gt;&gt;ListManageUserContextToolStripMenuItem.Type"><value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
 	<data name="&gt;&gt;ListManageUserContextToolStripMenuItem3.Name"><value>ListManageUserContextToolStripMenuItem3</value></data>
 	<data name="&gt;&gt;ListManageUserContextToolStripMenuItem3.Type"><value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
+	<data name="&gt;&gt;NameLinkLabel.Name"><value>NameLinkLabel</value></data>
+	<data name="&gt;&gt;NameLinkLabel.Parent"><value>TableLayoutPanel1</value></data>
+	<data name="&gt;&gt;NameLinkLabel.Type"><value>System.Windows.Forms.LinkLabel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
+	<data name="&gt;&gt;NameLinkLabel.ZOrder"><value>1</value></data>
 	<data name="&gt;&gt;PostBrowser.Name"><value>PostBrowser</value></data>
 	<data name="&gt;&gt;PostBrowser.Parent"><value>TableLayoutPanel1</value></data>
 	<data name="&gt;&gt;PostBrowser.Type"><value>System.Windows.Forms.WebBrowser, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
@@ -56,10 +52,6 @@
 	<data name="&gt;&gt;ReloadIconToolStripMenuItem.Type"><value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
 	<data name="&gt;&gt;RemoveContextMenuItem.Name"><value>RemoveContextMenuItem</value></data>
 	<data name="&gt;&gt;RemoveContextMenuItem.Type"><value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
-	<data name="&gt;&gt;RetweetedByLinkLabel.Name"><value>RetweetedByLinkLabel</value></data>
-	<data name="&gt;&gt;RetweetedByLinkLabel.Parent"><value>flowLayoutPanel1</value></data>
-	<data name="&gt;&gt;RetweetedByLinkLabel.Type"><value>System.Windows.Forms.LinkLabel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
-	<data name="&gt;&gt;RetweetedByLinkLabel.ZOrder"><value>1</value></data>
 	<data name="&gt;&gt;SaveIconPictureToolStripMenuItem.Name"><value>SaveIconPictureToolStripMenuItem</value></data>
 	<data name="&gt;&gt;SaveIconPictureToolStripMenuItem.Type"><value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
 	<data name="&gt;&gt;SearchAtPostsDetailNameToolStripMenuItem.Name"><value>SearchAtPostsDetailNameToolStripMenuItem</value></data>
@@ -128,15 +120,6 @@
 	<data name="&gt;&gt;UserPicture.Parent"><value>TableLayoutPanel1</value></data>
 	<data name="&gt;&gt;UserPicture.Type"><value>OpenTween.OTPictureBox, OpenTween, Version=0.1.0.0, Culture=neutral, PublicKeyToken=null</value></data>
 	<data name="&gt;&gt;UserPicture.ZOrder"><value>0</value></data>
-	<data name="AuthorNameLinkLabel.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms"><value>Bottom</value></data>
-	<data name="AuthorNameLinkLabel.AutoSize" type="System.Boolean, mscorlib"><value>True</value></data>
-	<data name="AuthorNameLinkLabel.Font" type="System.Drawing.Font, System.Drawing"><value>MS UI Gothic, 9pt, style=Bold</value></data>
-	<data name="AuthorNameLinkLabel.Location" type="System.Drawing.Point, System.Drawing"><value>3, 3</value></data>
-	<data name="AuthorNameLinkLabel.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms"><value>3, 3, 0, 0</value></data>
-	<data name="AuthorNameLinkLabel.Size" type="System.Drawing.Size, System.Drawing"><value>135, 12</value></data>
-	<data name="AuthorNameLinkLabel.TabIndex" type="System.Int32, mscorlib"><value>0</value></data>
-	<data name="AuthorNameLinkLabel.Text"><value>AuthorNameLinkLabel</value></data>
-	<data name="AuthorNameLinkLabel.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing"><value>MiddleLeft</value></data>
 	<data name="ContextMenuPostBrowser.Size" type="System.Drawing.Size, System.Drawing"><value>232, 386</value></data>
 	<metadata name="ContextMenuPostBrowser.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a"><value>17, 17</value></metadata>
 	<data name="ContextMenuSource.Size" type="System.Drawing.Size, System.Drawing"><value>168, 48</value></data>
@@ -153,14 +136,6 @@
 	<data name="DateTimeLabel.TabIndex" type="System.Int32, mscorlib"><value>1</value></data>
 	<data name="DateTimeLabel.Text"><value>Label1</value></data>
 	<data name="DateTimeLabel.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing"><value>MiddleRight</value></data>
-	<data name="flowLayoutPanel1.AutoSize" type="System.Boolean, mscorlib"><value>True</value></data>
-	<data name="flowLayoutPanel1.AutoSizeMode" type="System.Windows.Forms.AutoSizeMode, System.Windows.Forms"><value>GrowAndShrink</value></data>
-	<data name="flowLayoutPanel1.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms"><value>Fill</value></data>
-	<data name="flowLayoutPanel1.Location" type="System.Drawing.Point, System.Drawing"><value>56, 0</value></data>
-	<data name="flowLayoutPanel1.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms"><value>0, 0, 0, 0</value></data>
-	<data name="flowLayoutPanel1.Size" type="System.Drawing.Size, System.Drawing"><value>346, 15</value></data>
-	<data name="flowLayoutPanel1.TabIndex" type="System.Int32, mscorlib"><value>0</value></data>
-	<data name="flowLayoutPanel1.WrapContents" type="System.Boolean, mscorlib"><value>False</value></data>
 	<data name="FollowContextMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>231, 22</value></data>
 	<data name="FollowContextMenuItem.Text"><value>フォローする(&amp;F)</value></data>
 	<data name="FollowToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>231, 22</value></data>
@@ -177,6 +152,14 @@
 	<data name="ListManageUserContextToolStripMenuItem.Text"><value>リスト管理(&amp;L)</value></data>
 	<data name="ListManageUserContextToolStripMenuItem3.Size" type="System.Drawing.Size, System.Drawing"><value>231, 22</value></data>
 	<data name="ListManageUserContextToolStripMenuItem3.Text"><value>リスト管理(&amp;L)</value></data>
+	<data name="NameLinkLabel.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms"><value>Fill</value></data>
+	<data name="NameLinkLabel.Font" type="System.Drawing.Font, System.Drawing"><value>MS UI Gothic, 9pt, style=Bold</value></data>
+	<data name="NameLinkLabel.Location" type="System.Drawing.Point, System.Drawing"><value>59, 3</value></data>
+	<data name="NameLinkLabel.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms"><value>3, 3, 3, 0</value></data>
+	<data name="NameLinkLabel.Size" type="System.Drawing.Size, System.Drawing"><value>340, 12</value></data>
+	<data name="NameLinkLabel.TabIndex" type="System.Int32, mscorlib"><value>0</value></data>
+	<data name="NameLinkLabel.Text"><value>NameLinkLabel</value></data>
+	<data name="NameLinkLabel.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing"><value>MiddleLeft</value></data>
 	<data name="PostBrowser.AccessibleName"><value>発言本文</value></data>
 	<data name="PostBrowser.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms"><value>Fill</value></data>
 	<data name="PostBrowser.Location" type="System.Drawing.Point, System.Drawing"><value>59, 20</value></data>
@@ -186,16 +169,6 @@
 	<data name="ReloadIconToolStripMenuItem.Text"><value>再読み込み(&amp;R)</value></data>
 	<data name="RemoveContextMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>231, 22</value></data>
 	<data name="RemoveContextMenuItem.Text"><value>フォロー解除(&amp;N)</value></data>
-	<data name="RetweetedByLinkLabel.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms"><value>Bottom</value></data>
-	<data name="RetweetedByLinkLabel.AutoSize" type="System.Boolean, mscorlib"><value>True</value></data>
-	<data name="RetweetedByLinkLabel.Font" type="System.Drawing.Font, System.Drawing"><value>MS UI Gothic, 9pt, style=Bold</value></data>
-	<data name="RetweetedByLinkLabel.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms"><value>NoControl</value></data>
-	<data name="RetweetedByLinkLabel.Location" type="System.Drawing.Point, System.Drawing"><value>141, 3</value></data>
-	<data name="RetweetedByLinkLabel.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms"><value>3, 3, 0, 0</value></data>
-	<data name="RetweetedByLinkLabel.Size" type="System.Drawing.Size, System.Drawing"><value>141, 12</value></data>
-	<data name="RetweetedByLinkLabel.TabIndex" type="System.Int32, mscorlib"><value>1</value></data>
-	<data name="RetweetedByLinkLabel.Text"><value>RetweetedByLinkLabel</value></data>
-	<data name="RetweetedByLinkLabel.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing"><value>MiddleLeft</value></data>
 	<data name="SaveIconPictureToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>231, 22</value></data>
 	<data name="SaveIconPictureToolStripMenuItem.Text"><value>保存(&amp;I)...</value></data>
 	<data name="SearchAtPostsDetailNameToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>231, 22</value></data>
@@ -243,7 +216,7 @@
 	<data name="TableLayoutPanel1.AccessibleName"><value /></data>
 	<data name="TableLayoutPanel1.ColumnCount" type="System.Int32, mscorlib"><value>4</value></data>
 	<data name="TableLayoutPanel1.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms"><value>Fill</value></data>
-	<data name="TableLayoutPanel1.LayoutSettings" type="System.Windows.Forms.TableLayoutSettings, System.Windows.Forms"><value>&lt;?xml version="1.0" encoding="utf-16"?&gt;&lt;TableLayoutSettings&gt;&lt;Controls&gt;&lt;Control Name="UserPicture" Row="0" RowSpan="2" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="flowLayoutPanel1" Row="0" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="PostBrowser" Row="1" RowSpan="1" Column="1" ColumnSpan="3" /&gt;&lt;Control Name="DateTimeLabel" Row="0" RowSpan="1" Column="2" ColumnSpan="1" /&gt;&lt;Control Name="SourceLinkLabel" Row="0" RowSpan="1" Column="3" ColumnSpan="1" /&gt;&lt;/Controls&gt;&lt;Columns Styles="Absolute,56,Percent,100,AutoSize,0,AutoSize,0" /&gt;&lt;Rows Styles="AutoSize,0,Percent,100" /&gt;&lt;/TableLayoutSettings&gt;</value></data>
+	<data name="TableLayoutPanel1.LayoutSettings" type="System.Windows.Forms.TableLayoutSettings, System.Windows.Forms"><value>&lt;?xml version="1.0" encoding="utf-16"?&gt;&lt;TableLayoutSettings&gt;&lt;Controls&gt;&lt;Control Name="UserPicture" Row="0" RowSpan="2" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="NameLinkLabel" Row="0" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="PostBrowser" Row="1" RowSpan="1" Column="1" ColumnSpan="3" /&gt;&lt;Control Name="DateTimeLabel" Row="0" RowSpan="1" Column="2" ColumnSpan="1" /&gt;&lt;Control Name="SourceLinkLabel" Row="0" RowSpan="1" Column="3" ColumnSpan="1" /&gt;&lt;/Controls&gt;&lt;Columns Styles="Absolute,56,Percent,100,AutoSize,0,AutoSize,0" /&gt;&lt;Rows Styles="AutoSize,0,Percent,100,Absolute,20" /&gt;&lt;/TableLayoutSettings&gt;</value></data>
 	<data name="TableLayoutPanel1.Location" type="System.Drawing.Point, System.Drawing"><value>0, 0</value></data>
 	<data name="TableLayoutPanel1.RowCount" type="System.Int32, mscorlib"><value>2</value></data>
 	<data name="TableLayoutPanel1.Size" type="System.Drawing.Size, System.Drawing"><value>511, 85</value></data>
