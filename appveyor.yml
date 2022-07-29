@@ -21,7 +21,6 @@ matrix:
 branches:
   only:
     - develop
-    - release
     - /^OpenTween.+/ # release tag
 
 for:
