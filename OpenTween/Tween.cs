@@ -5929,6 +5929,10 @@ namespace OpenTween
 
                 this.statuses.RenameTab(origTabName, newTabName);
 
+                var state = this.listViewState[origTabName];
+                this.listViewState.Remove(origTabName);
+                this.listViewState[newTabName] = state;
+
                 this.SaveConfigsCommon();
                 this.SaveConfigsTabs();
                 this.rclickTabName = newTabName;
@@ -6038,6 +6042,11 @@ namespace OpenTween
 
             using (ControlTransaction.Layout(this.ListTab))
             {
+                // 選択中のタブを Remove メソッドで取り外すと選択状態が変化して Selecting イベントが発生するが、
+                // この時 TabInformations と TabControl の並び順が不一致なままで ListTabSelect メソッドが呼ばれてしまう。
+                // これを防ぐために、Remove メソッドを呼ぶ前に選択中のタブを切り替えておく必要がある
+                this.ListTab.SelectedIndex = targetIndex == 0 ? 1 : 0;
+
                 var tab = this.statuses.Tabs[targetIndex];
                 var tabPage = this.ListTab.TabPages[targetIndex];
 

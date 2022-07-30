@@ -29,6 +29,6 @@ namespace OpenTween.Api.DataModel
     public class TwitterV2TweetIds
     {
         [DataMember(Name = "data")]
-        public TwitterV2TweetId[] Data { get; set; }
+        public TwitterV2TweetId[]? Data { get; set; }
     }
 }

@@ -69,6 +69,7 @@ namespace OpenTween
             };
 
         private readonly DetailsListView listView;
+        private readonly OTBaseForm parentForm;
         private readonly TabModel tab;
         private readonly TimelineListViewCache listViewCache;
         private readonly ImageCache iconCache;
@@ -84,6 +85,7 @@ namespace OpenTween
         )
         {
             this.listView = listView;
+            this.parentForm = (OTBaseForm)listView.FindForm();
             this.tab = tab;
             this.listViewCache = listViewCache;
             this.iconCache = iconCache;
@@ -202,7 +204,7 @@ namespace OpenTween
                     return;
                 }
 
-                await this.listView.InvokeAsync(() =>
+                await this.parentForm.InvokeAsync(() =>
                 {
                     if (this.listView.IsDisposed)
                         return;

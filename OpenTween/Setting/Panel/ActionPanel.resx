@@ -24,6 +24,10 @@
 	<data name="&gt;&gt;CheckCloseToExit.Parent"><value>$this</value></data>
 	<data name="&gt;&gt;CheckCloseToExit.Type"><value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
 	<data name="&gt;&gt;CheckCloseToExit.ZOrder"><value>12</value></data>
+	<data name="&gt;&gt;CheckEnableTwitterV2Api.Name"><value>CheckEnableTwitterV2Api</value></data>
+	<data name="&gt;&gt;CheckEnableTwitterV2Api.Parent"><value>$this</value></data>
+	<data name="&gt;&gt;CheckEnableTwitterV2Api.Type"><value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
+	<data name="&gt;&gt;CheckEnableTwitterV2Api.ZOrder"><value>15</value></data>
 	<data name="&gt;&gt;CheckFavRestrict.Name"><value>CheckFavRestrict</value></data>
 	<data name="&gt;&gt;CheckFavRestrict.Parent"><value>$this</value></data>
 	<data name="&gt;&gt;CheckFavRestrict.Type"><value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
@@ -100,53 +104,59 @@
 	<data name="&gt;&gt;UReadMng.Parent"><value>$this</value></data>
 	<data name="&gt;&gt;UReadMng.Type"><value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
 	<data name="&gt;&gt;UReadMng.ZOrder"><value>10</value></data>
-	<data name="BrowserPathText.Location" type="System.Drawing.Point, System.Drawing"><value>185, 101</value></data>
+	<data name="BrowserPathText.Location" type="System.Drawing.Point, System.Drawing"><value>180, 113</value></data>
 	<data name="BrowserPathText.Size" type="System.Drawing.Size, System.Drawing"><value>228, 19</value></data>
-	<data name="BrowserPathText.TabIndex" type="System.Int32, mscorlib"><value>24</value></data>
+	<data name="BrowserPathText.TabIndex" type="System.Int32, mscorlib"><value>5</value></data>
 	<data name="Button3.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms"><value>NoControl</value></data>
-	<data name="Button3.Location" type="System.Drawing.Point, System.Drawing"><value>419, 100</value></data>
+	<data name="Button3.Location" type="System.Drawing.Point, System.Drawing"><value>414, 112</value></data>
 	<data name="Button3.Size" type="System.Drawing.Size, System.Drawing"><value>75, 21</value></data>
-	<data name="Button3.TabIndex" type="System.Int32, mscorlib"><value>25</value></data>
+	<data name="Button3.TabIndex" type="System.Int32, mscorlib"><value>6</value></data>
 	<data name="Button3.Text"><value>参照</value></data>
 	<data name="CheckCloseToExit.AutoSize" type="System.Boolean, mscorlib"><value>True</value></data>
 	<data name="CheckCloseToExit.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms"><value>NoControl</value></data>
-	<data name="CheckCloseToExit.Location" type="System.Drawing.Point, System.Drawing"><value>23, 57</value></data>
+	<data name="CheckCloseToExit.Location" type="System.Drawing.Point, System.Drawing"><value>23, 63</value></data>
 	<data name="CheckCloseToExit.Size" type="System.Drawing.Size, System.Drawing"><value>171, 16</value></data>
-	<data name="CheckCloseToExit.TabIndex" type="System.Int32, mscorlib"><value>21</value></data>
+	<data name="CheckCloseToExit.TabIndex" type="System.Int32, mscorlib"><value>2</value></data>
 	<data name="CheckCloseToExit.Text"><value>×ボタンを押したときに終了する</value></data>
+	<data name="CheckEnableTwitterV2Api.AutoSize" type="System.Boolean, mscorlib"><value>True</value></data>
+	<data name="CheckEnableTwitterV2Api.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms"><value>NoControl</value></data>
+	<data name="CheckEnableTwitterV2Api.Location" type="System.Drawing.Point, System.Drawing"><value>21, 142</value></data>
+	<data name="CheckEnableTwitterV2Api.Size" type="System.Drawing.Size, System.Drawing"><value>197, 16</value></data>
+	<data name="CheckEnableTwitterV2Api.TabIndex" type="System.Int32, mscorlib"><value>7</value></data>
+	<data name="CheckEnableTwitterV2Api.Text"><value>Twitter API v2 の使用を有効にする</value></data>
 	<data name="CheckFavRestrict.AutoSize" type="System.Boolean, mscorlib"><value>True</value></data>
 	<data name="CheckFavRestrict.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms"><value>NoControl</value></data>
-	<data name="CheckFavRestrict.Location" type="System.Drawing.Point, System.Drawing"><value>23, 126</value></data>
+	<data name="CheckFavRestrict.Location" type="System.Drawing.Point, System.Drawing"><value>21, 167</value></data>
 	<data name="CheckFavRestrict.Size" type="System.Drawing.Size, System.Drawing"><value>183, 16</value></data>
-	<data name="CheckFavRestrict.TabIndex" type="System.Int32, mscorlib"><value>26</value></data>
+	<data name="CheckFavRestrict.TabIndex" type="System.Int32, mscorlib"><value>8</value></data>
 	<data name="CheckFavRestrict.Text"><value>Fav操作結果を厳密にチェックする</value></data>
 	<data name="CheckMinimizeToTray.AutoSize" type="System.Boolean, mscorlib"><value>True</value></data>
 	<data name="CheckMinimizeToTray.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms"><value>NoControl</value></data>
-	<data name="CheckMinimizeToTray.Location" type="System.Drawing.Point, System.Drawing"><value>23, 79</value></data>
+	<data name="CheckMinimizeToTray.Location" type="System.Drawing.Point, System.Drawing"><value>21, 88</value></data>
 	<data name="CheckMinimizeToTray.Size" type="System.Drawing.Size, System.Drawing"><value>170, 16</value></data>
-	<data name="CheckMinimizeToTray.TabIndex" type="System.Int32, mscorlib"><value>22</value></data>
+	<data name="CheckMinimizeToTray.TabIndex" type="System.Int32, mscorlib"><value>3</value></data>
 	<data name="CheckMinimizeToTray.Text"><value>最小化したときにアイコン化する</value></data>
 	<data name="CheckOpenUserTimeline.AutoSize" type="System.Boolean, mscorlib"><value>True</value></data>
 	<data name="CheckOpenUserTimeline.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms"><value>NoControl</value></data>
-	<data name="CheckOpenUserTimeline.Location" type="System.Drawing.Point, System.Drawing"><value>23, 165</value></data>
+	<data name="CheckOpenUserTimeline.Location" type="System.Drawing.Point, System.Drawing"><value>21, 212</value></data>
 	<data name="CheckOpenUserTimeline.Size" type="System.Drawing.Size, System.Drawing"><value>180, 16</value></data>
-	<data name="CheckOpenUserTimeline.TabIndex" type="System.Int32, mscorlib"><value>28</value></data>
+	<data name="CheckOpenUserTimeline.TabIndex" type="System.Int32, mscorlib"><value>10</value></data>
 	<data name="CheckOpenUserTimeline.Text"><value>ユーザーのホームURLをタブで開く</value></data>
 	<data name="CheckReadOldPosts.AutoSize" type="System.Boolean, mscorlib"><value>True</value></data>
 	<data name="CheckReadOldPosts.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms"><value>NoControl</value></data>
-	<data name="CheckReadOldPosts.Location" type="System.Drawing.Point, System.Drawing"><value>23, 35</value></data>
+	<data name="CheckReadOldPosts.Location" type="System.Drawing.Point, System.Drawing"><value>23, 38</value></data>
 	<data name="CheckReadOldPosts.Size" type="System.Drawing.Size, System.Drawing"><value>145, 16</value></data>
-	<data name="CheckReadOldPosts.TabIndex" type="System.Int32, mscorlib"><value>20</value></data>
+	<data name="CheckReadOldPosts.TabIndex" type="System.Int32, mscorlib"><value>1</value></data>
 	<data name="CheckReadOldPosts.Text"><value>新着時に未読をクリアする</value></data>
 	<data name="chkReadOwnPost.AutoSize" type="System.Boolean, mscorlib"><value>True</value></data>
 	<data name="chkReadOwnPost.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms"><value>NoControl</value></data>
-	<data name="chkReadOwnPost.Location" type="System.Drawing.Point, System.Drawing"><value>23, 187</value></data>
+	<data name="chkReadOwnPost.Location" type="System.Drawing.Point, System.Drawing"><value>21, 237</value></data>
 	<data name="chkReadOwnPost.Size" type="System.Drawing.Size, System.Drawing"><value>143, 16</value></data>
-	<data name="chkReadOwnPost.TabIndex" type="System.Int32, mscorlib"><value>29</value></data>
+	<data name="chkReadOwnPost.TabIndex" type="System.Int32, mscorlib"><value>11</value></data>
 	<data name="chkReadOwnPost.Text"><value>自分の発言を既読にする</value></data>
-	<data name="GroupBox3.Location" type="System.Drawing.Point, System.Drawing"><value>24, 257</value></data>
+	<data name="GroupBox3.Location" type="System.Drawing.Point, System.Drawing"><value>23, 316</value></data>
 	<data name="GroupBox3.Size" type="System.Drawing.Size, System.Drawing"><value>473, 43</value></data>
-	<data name="GroupBox3.TabIndex" type="System.Int32, mscorlib"><value>33</value></data>
+	<data name="GroupBox3.TabIndex" type="System.Int32, mscorlib"><value>15</value></data>
 	<data name="GroupBox3.Text"><value>ホットキー</value></data>
 	<data name="HotkeyAlt.AutoSize" type="System.Boolean, mscorlib"><value>True</value></data>
 	<data name="HotkeyAlt.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms"><value>NoControl</value></data>
@@ -190,22 +200,22 @@
 	<data name="HotkeyWin.Text"><value>Win</value></data>
 	<data name="Label38.AutoSize" type="System.Boolean, mscorlib"><value>True</value></data>
 	<data name="Label38.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms"><value>NoControl</value></data>
-	<data name="Label38.Location" type="System.Drawing.Point, System.Drawing"><value>24, 212</value></data>
+	<data name="Label38.Location" type="System.Drawing.Point, System.Drawing"><value>18, 265</value></data>
 	<data name="Label38.Size" type="System.Drawing.Size, System.Drawing"><value>142, 12</value></data>
-	<data name="Label38.TabIndex" type="System.Int32, mscorlib"><value>30</value></data>
+	<data name="Label38.TabIndex" type="System.Int32, mscorlib"><value>12</value></data>
 	<data name="Label38.Text"><value>発言をダブルクリック時の動作</value></data>
 	<data name="Label44.AutoSize" type="System.Boolean, mscorlib"><value>True</value></data>
 	<data name="Label44.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms"><value>NoControl</value></data>
-	<data name="Label44.Location" type="System.Drawing.Point, System.Drawing"><value>23, 104</value></data>
+	<data name="Label44.Location" type="System.Drawing.Point, System.Drawing"><value>18, 116</value></data>
 	<data name="Label44.Size" type="System.Drawing.Size, System.Drawing"><value>60, 12</value></data>
-	<data name="Label44.TabIndex" type="System.Int32, mscorlib"><value>23</value></data>
+	<data name="Label44.TabIndex" type="System.Int32, mscorlib"><value>4</value></data>
 	<data name="Label44.Text"><value>ブラウザパス</value></data>
 	<data name="Label57.AutoSize" type="System.Boolean, mscorlib"><value>True</value></data>
 	<data name="Label57.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms"><value>NoControl</value></data>
-	<data name="Label57.Location" type="System.Drawing.Point, System.Drawing"><value>23, 145</value></data>
+	<data name="Label57.Location" type="System.Drawing.Point, System.Drawing"><value>23, 189</value></data>
 	<data name="Label57.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms"><value>3, 0, 3, 5</value></data>
 	<data name="Label57.Size" type="System.Drawing.Size, System.Drawing"><value>340, 12</value></data>
-	<data name="Label57.TabIndex" type="System.Int32, mscorlib"><value>27</value></data>
+	<data name="Label57.TabIndex" type="System.Int32, mscorlib"><value>9</value></data>
 	<data name="Label57.Text"><value>発言を再取得してFav結果を検証します。通信量が増えるのでOff推奨</value></data>
 	<data name="ListDoubleClickActionComboBox.Items"><value>なし</value></data>
 	<data name="ListDoubleClickActionComboBox.Items1"><value>Reply</value></data>
@@ -216,19 +226,19 @@
 	<data name="ListDoubleClickActionComboBox.Items6"><value>関連発言表示</value></data>
 	<data name="ListDoubleClickActionComboBox.Items7"><value>ユーザーのHomeを開く</value></data>
 	<data name="ListDoubleClickActionComboBox.Items8"><value>ステータスをWebで開く</value></data>
-	<data name="ListDoubleClickActionComboBox.Location" type="System.Drawing.Point, System.Drawing"><value>263, 209</value></data>
+	<data name="ListDoubleClickActionComboBox.Location" type="System.Drawing.Point, System.Drawing"><value>257, 262</value></data>
 	<data name="ListDoubleClickActionComboBox.Size" type="System.Drawing.Size, System.Drawing"><value>232, 20</value></data>
-	<data name="ListDoubleClickActionComboBox.TabIndex" type="System.Int32, mscorlib"><value>31</value></data>
+	<data name="ListDoubleClickActionComboBox.TabIndex" type="System.Int32, mscorlib"><value>13</value></data>
 	<data name="TabMouseLockCheck.AutoSize" type="System.Boolean, mscorlib"><value>True</value></data>
 	<data name="TabMouseLockCheck.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms"><value>NoControl</value></data>
-	<data name="TabMouseLockCheck.Location" type="System.Drawing.Point, System.Drawing"><value>23, 235</value></data>
+	<data name="TabMouseLockCheck.Location" type="System.Drawing.Point, System.Drawing"><value>21, 291</value></data>
 	<data name="TabMouseLockCheck.Size" type="System.Drawing.Size, System.Drawing"><value>164, 16</value></data>
-	<data name="TabMouseLockCheck.TabIndex" type="System.Int32, mscorlib"><value>32</value></data>
+	<data name="TabMouseLockCheck.TabIndex" type="System.Int32, mscorlib"><value>14</value></data>
 	<data name="TabMouseLockCheck.Text"><value>マウスでのタブ移動を禁止する</value></data>
 	<data name="UReadMng.AutoSize" type="System.Boolean, mscorlib"><value>True</value></data>
 	<data name="UReadMng.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms"><value>NoControl</value></data>
 	<data name="UReadMng.Location" type="System.Drawing.Point, System.Drawing"><value>23, 13</value></data>
 	<data name="UReadMng.Size" type="System.Drawing.Size, System.Drawing"><value>100, 16</value></data>
-	<data name="UReadMng.TabIndex" type="System.Int32, mscorlib"><value>19</value></data>
+	<data name="UReadMng.TabIndex" type="System.Int32, mscorlib"><value>0</value></data>
 	<data name="UReadMng.Text"><value>未読管理を行う</value></data>
 </root>

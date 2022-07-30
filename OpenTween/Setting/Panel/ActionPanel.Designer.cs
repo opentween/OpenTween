@@ -51,6 +51,7 @@
             this.CheckCloseToExit = new System.Windows.Forms.CheckBox();
             this.CheckMinimizeToTray = new System.Windows.Forms.CheckBox();
             this.CheckReadOldPosts = new System.Windows.Forms.CheckBox();
+            this.CheckEnableTwitterV2Api = new System.Windows.Forms.CheckBox();
             this.GroupBox3.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -205,6 +206,12 @@
             this.CheckReadOldPosts.Name = "CheckReadOldPosts";
             this.CheckReadOldPosts.UseVisualStyleBackColor = true;
             // 
+            // CheckEnableTwitterV2Api
+            // 
+            resources.ApplyResources(this.CheckEnableTwitterV2Api, "CheckEnableTwitterV2Api");
+            this.CheckEnableTwitterV2Api.Name = "CheckEnableTwitterV2Api";
+            this.CheckEnableTwitterV2Api.UseVisualStyleBackColor = true;
+            // 
             // ActionPanel
             // 
             resources.ApplyResources(this, "$this");
@@ -224,6 +231,7 @@
             this.Controls.Add(this.CheckCloseToExit);
             this.Controls.Add(this.CheckMinimizeToTray);
             this.Controls.Add(this.CheckReadOldPosts);
+            this.Controls.Add(this.CheckEnableTwitterV2Api);
             this.Name = "ActionPanel";
             this.GroupBox3.ResumeLayout(false);
             this.GroupBox3.PerformLayout();
@@ -256,5 +264,6 @@
         internal System.Windows.Forms.CheckBox CheckCloseToExit;
         internal System.Windows.Forms.CheckBox CheckMinimizeToTray;
         internal System.Windows.Forms.CheckBox CheckReadOldPosts;
+        private System.Windows.Forms.CheckBox CheckEnableTwitterV2Api;
     }
 }

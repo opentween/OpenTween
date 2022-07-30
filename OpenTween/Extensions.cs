@@ -46,43 +46,6 @@ namespace OpenTween
             return selectedText;
         }
 
-        public static Task InvokeAsync(this Control control, Action x)
-        {
-            return control.InvokeAsync(new Func<int>(() =>
-            {
-                x();
-                return 0;
-            }));
-        }
-
-        public static Task InvokeAsync(this Control control, Func<Task> x)
-            => control.InvokeAsync<Task>(x).Unwrap();
-
-        public static Task<T> InvokeAsync<T>(this Control control, Func<Task<T>> x)
-            => control.InvokeAsync<Task<T>>(x).Unwrap();
-
-        /// <summary>
-        /// <see cref="Control.Invoke"/> メソッドのTask版みたいなやつ
-        /// </summary>
-        public static Task<T> InvokeAsync<T>(this Control control, Func<T> x)
-        {
-            var tcs = new TaskCompletionSource<T>();
-            control.BeginInvoke(() =>
-            {
-                try
-                {
-                    var ret = x();
-                    tcs.SetResult(ret);
-                }
-                catch (Exception ex)
-                {
-                    tcs.SetException(ex);
-                }
-            });
-
-            return tcs.Task;
-        }
-
         public static ReadLockTransaction BeginReadTransaction(this ReaderWriterLockSlim lockObj)
             => new(lockObj);
 

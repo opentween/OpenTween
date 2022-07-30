@@ -510,19 +510,33 @@ namespace OpenTween
 
             var count = GetApiResultCount(MyCommon.WORKERTYPE.Timeline, more, startup);
 
-            var request = new GetTimelineRequest(this.UserId)
+            TwitterStatus[] statuses;
+            if (SettingManager.Instance.Common.EnableTwitterV2Api)
             {
-                MaxResults = count,
-                UntilId = more ? tab.OldestId.ToString() : null,
-            };
+                var request = new GetTimelineRequest(this.UserId)
+                {
+                    MaxResults = count,
+                    UntilId = more ? tab.OldestId.ToString() : null,
+                };
 
-            var response = await request.Send(this.Api.Connection)
-                .ConfigureAwait(false);
+                var response = await request.Send(this.Api.Connection)
+                    .ConfigureAwait(false);
 
-            var tweetIds = response.Data.Select(x => x.Id).ToList();
+                if (response.Data == null || response.Data.Length == 0)
+                    return;
 
-            var statuses = await this.Api.StatusesLookup(tweetIds)
-                .ConfigureAwait(false);
+                var tweetIds = response.Data.Select(x => x.Id).ToList();
+
+                statuses = await this.Api.StatusesLookup(tweetIds)
+                    .ConfigureAwait(false);
+            }
+            else
+            {
+                var maxId = more ? tab.OldestId : (long?)null;
+
+                statuses = await this.Api.StatusesHomeTimeline(count, maxId)
+                    .ConfigureAwait(false);
+            }
 
             var minimumId = this.CreatePostsFromJson(statuses, MyCommon.WORKERTYPE.Timeline, tab, read);
             if (minimumId != null)
