@@ -5929,6 +5929,10 @@ namespace OpenTween
 
                 this.statuses.RenameTab(origTabName, newTabName);
 
+                var state = this.listViewState[origTabName];
+                this.listViewState.Remove(origTabName);
+                this.listViewState[newTabName] = state;
+
                 this.SaveConfigsCommon();
                 this.SaveConfigsTabs();
                 this.rclickTabName = newTabName;
