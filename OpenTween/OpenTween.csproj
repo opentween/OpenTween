@@ -1,41 +1,26 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{3D8995C7-BDF3-4273-9F9D-DDD902F6A101}</ProjectGuid>
     <OutputType>WinExe</OutputType>
-    <RootNamespace>OpenTween</RootNamespace>
-    <AssemblyName>OpenTween</AssemblyName>
-    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <TargetFramework>net472</TargetFramework>
     <LangVersion>10.0</LangVersion>
-    <FileAlignment>512</FileAlignment>
+    <Product>OpenTween (dev)</Product>
+    <Version>2.7.1.1</Version>
+    <Description>Client of Twitter. Free software(GPLv3)</Description>
+    <Copyright>(C) 2011 OpenTween contributors</Copyright>
+    <OutputPath>bin\$(Configuration)\</OutputPath>
     <Deterministic>true</Deterministic>
+	<DisableImplicitFrameworkReferences>true</DisableImplicitFrameworkReferences>
     <PathMap>$(MSBuildProjectDirectory)=.</PathMap>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
     <DebugType>portable</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>TRACE;DEBUG</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
     <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
-    <Prefer32Bit>false</Prefer32Bit>
     <CodeAnalysisRuleSet>OpenTween.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>portable</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
     <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
     <UseVSHostingProcess>false</UseVSHostingProcess>
-    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup>
     <StartupObject>OpenTween.ApplicationEvents</StartupObject>
@@ -62,667 +47,526 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ApiInfoDialog.cs">
+    <Compile Update="ApiInfoDialog.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="ApiInfoDialog.Designer.cs">
+    <Compile Update="ApiInfoDialog.Designer.cs">
       <DependentUpon>ApiInfoDialog.cs</DependentUpon>
     </Compile>
-    <Compile Include="ApiKey.cs" />
-    <Compile Include="Api\ApiLimit.cs" />
-    <Compile Include="Api\BitlyApi.cs" />
-    <Compile Include="Api\DataModel\GeoJson.cs" />
-    <Compile Include="Api\DataModel\TwitterConfiguration.cs" />
-    <Compile Include="Api\DataModel\TwitterEntities.cs" />
-    <Compile Include="Api\DataModel\TwitterEntity.cs" />
-    <Compile Include="Api\DataModel\TwitterError.cs" />
-    <Compile Include="Api\DataModel\TwitterFriendship.cs" />
-    <Compile Include="Api\DataModel\TwitterList.cs" />
-    <Compile Include="Api\DataModel\TwitterMessageEvent.cs" />
-    <Compile Include="Api\DataModel\TwitterMessageEventList.cs" />
-    <Compile Include="Api\DataModel\TwitterPageable.cs">
+    <Compile Update="Api\DataModel\TwitterPageable.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Api\DataModel\TwitterPlace.cs" />
-    <Compile Include="Api\DataModel\TwitterRateLimits.cs" />
-    <Compile Include="Api\DataModel\TwitterSearchResult.cs" />
-    <Compile Include="Api\DataModel\TwitterStatus.cs" />
-    <Compile Include="Api\DataModel\TwitterStreamMessage.cs" />
-    <Compile Include="Api\DataModel\TwitterTextConfiguration.cs" />
-    <Compile Include="Api\DataModel\TwitterUploadMediaResult.cs" />
-    <Compile Include="Api\DataModel\TwitterUser.cs" />
-    <Compile Include="Api\DataModel\TwitterApiAccessLevel.cs" />
-    <Compile Include="Api\DataModel\TwitterV2TweetId.cs" />
-    <Compile Include="Api\ImgurApi.cs" />
-    <Compile Include="Api\JsonUtils.cs" />
-    <Compile Include="Api\MicrosoftTranslatorApi.cs" />
-    <Compile Include="Api\MobypictureApi.cs" />
-    <Compile Include="Api\TwitterApi.cs" />
-    <Compile Include="Api\TwitterApiException.cs" />
-    <Compile Include="Api\TwitterApiStatus.cs" />
-    <Compile Include="Api\TwitterStreamObservable.cs" />
-    <Compile Include="Api\DataModel\TwitterV2TweetIds.cs" />
-    <Compile Include="Api\TwitterV2\GetTimelineRequest.cs" />
-    <Compile Include="ApplicationContainer.cs" />
-    <Compile Include="ApplicationEvents.cs">
+    <Compile Update="ApplicationEvents.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="ApplicationInstanceMutex.cs" />
-    <Compile Include="ApplicationPreconditions.cs" />
-    <Compile Include="ApplicationSettings.cs" />
-    <Compile Include="Models\TwitterPostFactory.cs" />
-    <Compile Include="ThemeManager.cs" />
-    <Compile Include="IconAssetsManager.cs" />
-    <Compile Include="AsyncTimer.cs" />
-    <Compile Include="AtIdSupplement.cs">
+    <Compile Update="AtIdSupplement.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="AtIdSupplement.Designer.cs">
+    <Compile Update="AtIdSupplement.Designer.cs">
       <DependentUpon>AtIdSupplement.cs</DependentUpon>
     </Compile>
-    <Compile Include="AppendSettingDialog.cs">
+    <Compile Update="AppendSettingDialog.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="AppendSettingDialog.Designer.cs">
+    <Compile Update="AppendSettingDialog.Designer.cs">
       <DependentUpon>AppendSettingDialog.cs</DependentUpon>
     </Compile>
-    <Compile Include="AuthDialog.cs">
+    <Compile Update="AuthDialog.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="AuthDialog.Designer.cs">
+    <Compile Update="AuthDialog.Designer.cs">
       <DependentUpon>AuthDialog.cs</DependentUpon>
     </Compile>
-    <Compile Include="Bing.cs" />
-    <Compile Include="CommandLineArgs.cs" />
-    <Compile Include="Connection\IApiConnection.cs" />
-    <Compile Include="CultureService.cs" />
-    <Compile Include="DebounceTimer.cs" />
-    <Compile Include="DisposableLazy.cs" />
-    <Compile Include="ErrorReportHandler.cs" />
-    <Compile Include="IsExternalInit.cs" />
-    <Compile Include="MediaUploadServices\IMediaUploadService.cs" />
-    <Compile Include="MediaUploadServices\Imgur.cs" />
-    <Compile Include="Connection\LazyJson.cs" />
-    <Compile Include="MediaUploadServices\Mobypicture.cs" />
-    <Compile Include="Connection\Networking.cs" />
-    <Compile Include="Connection\OAuthEchoHandler.cs" />
-    <Compile Include="Connection\OAuthHandler.cs" />
-    <Compile Include="Connection\OAuthUtility.cs" />
-    <Compile Include="Connection\TwitterApiConnection.cs" />
-    <Compile Include="DateTimeUtc.cs" />
-    <Compile Include="EncryptApiKeyDialog.cs">
+    <Compile Update="EncryptApiKeyDialog.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="EncryptApiKeyDialog.Designer.cs">
+    <Compile Update="EncryptApiKeyDialog.Designer.cs">
       <DependentUpon>EncryptApiKeyDialog.cs</DependentUpon>
     </Compile>
-    <Compile Include="Extensions.cs" />
-    <Compile Include="FilterDialog.cs">
+    <Compile Update="FilterDialog.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FilterDialog.Designer.cs">
+    <Compile Update="FilterDialog.Designer.cs">
       <DependentUpon>FilterDialog.cs</DependentUpon>
     </Compile>
-    <Compile Include="IndexedSortedSet.cs" />
-    <Compile Include="LoginDialog.cs">
+    <Compile Update="LoginDialog.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="LoginDialog.Designer.cs">
+    <Compile Update="LoginDialog.Designer.cs">
       <DependentUpon>LoginDialog.cs</DependentUpon>
     </Compile>
-    <Compile Include="MediaItem.cs" />
-    <Compile Include="Models\ComparerMode.cs" />
-    <Compile Include="Models\DirectMessagesTabModel.cs" />
-    <Compile Include="Models\FavoritesTabModel.cs" />
-    <Compile Include="Models\FilterTabModel.cs" />
-    <Compile Include="Models\HomeTabModel.cs" />
-    <Compile Include="Models\InternalStorageTabModel.cs" />
-    <Compile Include="Models\IReadOnlyTabCollection.cs" />
-    <Compile Include="Models\ListTimelineTabModel.cs" />
-    <Compile Include="Models\LocalSearchTabModel.cs" />
-    <Compile Include="Models\MediaInfo.cs" />
-    <Compile Include="Models\MentionsTabModel.cs" />
-    <Compile Include="Models\MuteTabModel.cs" />
-    <Compile Include="Models\PostClass.cs" />
-    <Compile Include="Models\PublicSearchTabModel.cs" />
-    <Compile Include="Models\RelatedPostsTabModel.cs" />
-    <Compile Include="Models\TabCollection.cs" />
-    <Compile Include="Models\TabModel.cs" />
-    <Compile Include="Models\TabInformations.cs" />
-    <Compile Include="Models\TabUsageTypeExt.cs" />
-    <Compile Include="Models\UserTimelineTabModel.cs" />
-    <Compile Include="MouseWheelMessageFilter.cs" />
-    <Compile Include="NotifyPropertyChangedBase.cs" />
-    <Compile Include="NullableAttributes.cs" />
-    <Compile Include="PostStatusParams.cs" />
-    <Compile Include="ReaderWriterLockTransaction.cs" />
-    <Compile Include="SendErrorReportForm.cs">
+    <Compile Update="SendErrorReportForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="SendErrorReportForm.Designer.cs">
+    <Compile Update="SendErrorReportForm.Designer.cs">
       <DependentUpon>SendErrorReportForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Setting\SettingManager.cs" />
-    <Compile Include="ShortcutCommand.cs" />
-    <Compile Include="ThrottleTimer.cs" />
-    <Compile Include="Thumbnail\Services\PbsTwimgCom.cs" />
-    <Compile Include="TimelineListViewCache.cs" />
-    <Compile Include="TimelineListViewDrawer.cs" />
-    <Compile Include="TimelineListViewState.cs" />
-    <Compile Include="TimelineScheduler.cs" />
-    <Compile Include="TweetDetailsView.cs">
+    <Compile Update="TweetDetailsView.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="TweetDetailsView.Designer.cs">
+    <Compile Update="TweetDetailsView.Designer.cs">
       <DependentUpon>TweetDetailsView.cs</DependentUpon>
     </Compile>
-    <Compile Include="TweetExtractor.cs" />
-    <Compile Include="WaitingDialog.cs">
+    <Compile Update="WaitingDialog.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="WaitingDialog.Designer.cs">
+    <Compile Update="WaitingDialog.Designer.cs">
       <DependentUpon>WaitingDialog.cs</DependentUpon>
     </Compile>
-    <Compile Include="InputDialog.cs">
+    <Compile Update="InputDialog.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="InputDialog.Designer.cs">
+    <Compile Update="InputDialog.Designer.cs">
       <DependentUpon>InputDialog.cs</DependentUpon>
     </Compile>
-    <Compile Include="MediaSelector.cs">
+    <Compile Update="MediaSelector.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="MediaSelector.Designer.cs">
+    <Compile Update="MediaSelector.Designer.cs">
       <DependentUpon>MediaSelector.cs</DependentUpon>
     </Compile>
-    <Compile Include="NativeMethods.cs">
+    <Compile Update="NativeMethods.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="OTBaseForm.cs">
+    <Compile Update="OTBaseForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="OTSplitContainer.cs">
+    <Compile Update="OTSplitContainer.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Models\PostFilterRule.cs" />
-    <Compile Include="HashtagManage.cs">
+    <Compile Update="HashtagManage.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="HashtagManage.Designer.cs">
+    <Compile Update="HashtagManage.Designer.cs">
       <DependentUpon>HashtagManage.cs</DependentUpon>
     </Compile>
-    <Compile Include="ImageCache.cs" />
-    <Compile Include="ListAvailable.cs">
+    <Compile Update="ListAvailable.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="ListAvailable.Designer.cs">
+    <Compile Update="ListAvailable.Designer.cs">
       <DependentUpon>ListAvailable.cs</DependentUpon>
     </Compile>
-    <Compile Include="ListManage.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="ListManage.Designer.cs">
+    <Compile Update="ListManage.cs" />
+    <Compile Update="ListManage.Designer.cs">
       <DependentUpon>ListManage.cs</DependentUpon>
     </Compile>
-    <Compile Include="MediaUploadServices\TwitterPhoto.cs" />
-    <Compile Include="DetailsListView.cs">
+    <Compile Update="DetailsListView.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="LRUCacheDictionary.cs" />
-    <Compile Include="MemoryImage.cs" />
-    <Compile Include="OTPictureBox.cs">
+    <Compile Update="OTPictureBox.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="RegexAsync.cs" />
-    <Compile Include="Setting\Panel\ActionPanel.cs">
+    <Compile Update="Setting\Panel\ActionPanel.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Setting\Panel\ActionPanel.Designer.cs">
+    <Compile Update="Setting\Panel\ActionPanel.Designer.cs">
       <DependentUpon>ActionPanel.cs</DependentUpon>
     </Compile>
-    <Compile Include="Setting\Panel\BasedPanel.cs">
+    <Compile Update="Setting\Panel\BasedPanel.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Setting\Panel\BasedPanel.Designer.cs">
+    <Compile Update="Setting\Panel\BasedPanel.Designer.cs">
       <DependentUpon>BasedPanel.cs</DependentUpon>
     </Compile>
-    <Compile Include="Setting\Panel\ConnectionPanel.cs">
+    <Compile Update="Setting\Panel\ConnectionPanel.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Setting\Panel\ConnectionPanel.Designer.cs">
+    <Compile Update="Setting\Panel\ConnectionPanel.Designer.cs">
       <DependentUpon>ConnectionPanel.cs</DependentUpon>
     </Compile>
-    <Compile Include="Setting\Panel\CooperatePanel.cs">
+    <Compile Update="Setting\Panel\CooperatePanel.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Setting\Panel\CooperatePanel.Designer.cs">
+    <Compile Update="Setting\Panel\CooperatePanel.Designer.cs">
       <DependentUpon>CooperatePanel.cs</DependentUpon>
     </Compile>
-    <Compile Include="Setting\Panel\FontPanel.cs">
+    <Compile Update="Setting\Panel\FontPanel.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Setting\Panel\FontPanel.Designer.cs">
+    <Compile Update="Setting\Panel\FontPanel.Designer.cs">
       <DependentUpon>FontPanel.cs</DependentUpon>
     </Compile>
-    <Compile Include="Setting\Panel\FontPanel2.cs">
+    <Compile Update="Setting\Panel\FontPanel2.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Setting\Panel\FontPanel2.Designer.cs">
+    <Compile Update="Setting\Panel\FontPanel2.Designer.cs">
       <DependentUpon>FontPanel2.cs</DependentUpon>
     </Compile>
-    <Compile Include="Setting\Panel\GetCountPanel.cs">
+    <Compile Update="Setting\Panel\GetCountPanel.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Setting\Panel\GetCountPanel.Designer.cs">
+    <Compile Update="Setting\Panel\GetCountPanel.Designer.cs">
       <DependentUpon>GetCountPanel.cs</DependentUpon>
     </Compile>
-    <Compile Include="Setting\Panel\GetPeriodPanel.cs">
+    <Compile Update="Setting\Panel\GetPeriodPanel.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Setting\Panel\GetPeriodPanel.Designer.cs">
+    <Compile Update="Setting\Panel\GetPeriodPanel.Designer.cs">
       <DependentUpon>GetPeriodPanel.cs</DependentUpon>
     </Compile>
-    <Compile Include="Setting\Panel\NotifyPanel.cs">
+    <Compile Update="Setting\Panel\NotifyPanel.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Setting\Panel\NotifyPanel.Designer.cs">
+    <Compile Update="Setting\Panel\NotifyPanel.Designer.cs">
       <DependentUpon>NotifyPanel.cs</DependentUpon>
     </Compile>
-    <Compile Include="Setting\Panel\PreviewPanel.cs">
+    <Compile Update="Setting\Panel\PreviewPanel.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Setting\Panel\PreviewPanel.Designer.cs">
+    <Compile Update="Setting\Panel\PreviewPanel.Designer.cs">
       <DependentUpon>PreviewPanel.cs</DependentUpon>
     </Compile>
-    <Compile Include="Setting\Panel\ProxyPanel.cs">
+    <Compile Update="Setting\Panel\ProxyPanel.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Setting\Panel\ProxyPanel.Designer.cs">
+    <Compile Update="Setting\Panel\ProxyPanel.Designer.cs">
       <DependentUpon>ProxyPanel.cs</DependentUpon>
     </Compile>
-    <Compile Include="Setting\Panel\SettingPanelBase.cs">
+    <Compile Update="Setting\Panel\SettingPanelBase.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Setting\Panel\SettingPanelBase.Designer.cs">
+    <Compile Update="Setting\Panel\SettingPanelBase.Designer.cs">
       <DependentUpon>SettingPanelBase.cs</DependentUpon>
     </Compile>
-    <Compile Include="Setting\Panel\ShortUrlPanel.cs">
+    <Compile Update="Setting\Panel\ShortUrlPanel.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Setting\Panel\ShortUrlPanel.Designer.cs">
+    <Compile Update="Setting\Panel\ShortUrlPanel.Designer.cs">
       <DependentUpon>ShortUrlPanel.cs</DependentUpon>
     </Compile>
-    <Compile Include="Setting\Panel\StartupPanel.cs">
+    <Compile Update="Setting\Panel\StartupPanel.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Setting\Panel\StartupPanel.Designer.cs">
+    <Compile Update="Setting\Panel\StartupPanel.Designer.cs">
       <DependentUpon>StartupPanel.cs</DependentUpon>
     </Compile>
-    <Compile Include="Setting\Panel\TweetActPanel.cs">
+    <Compile Update="Setting\Panel\TweetActPanel.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Setting\Panel\TweetActPanel.Designer.cs">
+    <Compile Update="Setting\Panel\TweetActPanel.Designer.cs">
       <DependentUpon>TweetActPanel.cs</DependentUpon>
     </Compile>
-    <Compile Include="Setting\Panel\TweetPrvPanel.cs">
+    <Compile Update="Setting\Panel\TweetPrvPanel.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Setting\Panel\TweetPrvPanel.Designer.cs">
+    <Compile Update="Setting\Panel\TweetPrvPanel.Designer.cs">
       <DependentUpon>TweetPrvPanel.cs</DependentUpon>
     </Compile>
-    <Compile Include="TabException.cs" />
-    <Compile Include="TabsDialog.cs">
+    <Compile Update="TabsDialog.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="TabsDialog.Designer.cs">
+    <Compile Update="TabsDialog.Designer.cs">
       <DependentUpon>TabsDialog.cs</DependentUpon>
     </Compile>
-    <Compile Include="Thumbnail\Services\FoursquareCheckin.cs" />
-    <Compile Include="Thumbnail\Services\ImgAzyobuziNet.cs" />
-    <Compile Include="Thumbnail\Services\IThumbnailService.cs" />
-    <Compile Include="Thumbnail\Services\MetaThumbnailService.cs" />
-    <Compile Include="Thumbnail\Services\Nicovideo.cs" />
-    <Compile Include="Thumbnail\Services\Pixiv.cs" />
-    <Compile Include="Thumbnail\Services\SimpleThumbnailService.cs" />
-    <Compile Include="Thumbnail\Services\Tinami.cs" />
-    <Compile Include="Thumbnail\Services\TonTwitterCom.cs" />
-    <Compile Include="Thumbnail\Services\Tumblr.cs" />
-    <Compile Include="Thumbnail\Services\TwitterComVideo.cs" />
-    <Compile Include="Thumbnail\Services\Vimeo.cs" />
-    <Compile Include="Thumbnail\Services\Youtube.cs" />
-    <Compile Include="Thumbnail\ThumbnailGenerator.cs" />
-    <Compile Include="Thumbnail\ThumbnailInfo.cs" />
-    <Compile Include="TweetFormatter.cs" />
-    <Compile Include="TweetThumbnail.cs">
+    <Compile Update="TweetThumbnail.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="TweetThumbnail.Designer.cs">
+    <Compile Update="TweetThumbnail.Designer.cs">
       <DependentUpon>TweetThumbnail.cs</DependentUpon>
     </Compile>
-    <Compile Include="UpdateDialog.cs">
+    <Compile Update="UpdateDialog.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="UpdateDialog.Designer.cs">
+    <Compile Update="UpdateDialog.Designer.cs">
       <DependentUpon>UpdateDialog.cs</DependentUpon>
     </Compile>
-    <Compile Include="GrowlHelper.cs" />
-    <Compile Include="HookGlobalHotkey.cs" />
-    <Compile Include="InputTabName.cs">
+    <Compile Update="InputTabName.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="InputTabName.Designer.cs">
+    <Compile Update="InputTabName.Designer.cs">
       <DependentUpon>InputTabName.cs</DependentUpon>
     </Compile>
-    <Compile Include="Thumbnail\MapThumbGoogle.cs" />
-    <Compile Include="Thumbnail\MapThumb.cs" />
-    <Compile Include="Thumbnail\MapThumbOSM.cs" />
-    <Compile Include="ListElement.cs" />
-    <Compile Include="MyCommon.cs" />
-    <Compile Include="MyLists.cs">
+    <Compile Update="MyLists.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="MyLists.Designer.cs">
+    <Compile Update="MyLists.Designer.cs">
       <DependentUpon>MyLists.cs</DependentUpon>
     </Compile>
-    <Compile Include="Nicoms.cs" />
-    <Compile Include="OpenURL.cs">
+    <Compile Update="OpenURL.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="OpenURL.Designer.cs">
+    <Compile Update="OpenURL.Designer.cs">
       <DependentUpon>OpenURL.cs</DependentUpon>
     </Compile>
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Properties\Resources.Designer.cs">
+    <Compile Update="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="SearchWordDialog.cs">
+    <Compile Update="SearchWordDialog.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="SearchWordDialog.Designer.cs">
+    <Compile Update="SearchWordDialog.Designer.cs">
       <DependentUpon>SearchWordDialog.cs</DependentUpon>
     </Compile>
-    <Compile Include="Setting\SettingAtIdList.cs" />
-    <Compile Include="Setting\SettingBase.cs" />
-    <Compile Include="Setting\SettingCommon.cs" />
-    <Compile Include="Setting\SettingTabs.cs" />
-    <Compile Include="Setting\SettingLocal.cs" />
-    <Compile Include="ShortUrl.cs" />
-    <Compile Include="UserInfoDialog.cs">
+    <Compile Update="UserInfoDialog.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="UserInfoDialog.Designer.cs">
+    <Compile Update="UserInfoDialog.Designer.cs">
       <DependentUpon>UserInfoDialog.cs</DependentUpon>
     </Compile>
-    <Compile Include="ToolStripAPIGauge.cs">
+    <Compile Update="ToolStripAPIGauge.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Tween.cs">
+    <Compile Update="Tween.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Tween.Designer.cs">
+    <Compile Update="Tween.Designer.cs">
       <DependentUpon>Tween.cs</DependentUpon>
     </Compile>
-    <Compile Include="TweenAboutBox.cs">
+    <Compile Update="TweenAboutBox.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="TweenAboutBox.Designer.cs">
+    <Compile Update="TweenAboutBox.Designer.cs">
       <DependentUpon>TweenAboutBox.cs</DependentUpon>
     </Compile>
-    <Compile Include="ToolStripLabelHistory.cs">
+    <Compile Update="ToolStripLabelHistory.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Twitter.cs" />
-    <Compile Include="UserInfo.cs" />
-    <Compile Include="WebApiException.cs" />
-    <Compile Include="InternetSecurityManager.cs" />
-    <Compile Include="ControlTransaction.cs" />
-    <Compile Include="XmlSerializerContract.cs" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="ApiInfoDialog.resx">
+    <EmbeddedResource Update="ApiInfoDialog.resx">
       <DependentUpon>ApiInfoDialog.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="AuthDialog.en.resx">
+    <EmbeddedResource Update="AuthDialog.en.resx">
       <DependentUpon>AuthDialog.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="AuthDialog.resx">
+    <EmbeddedResource Update="AuthDialog.resx">
       <DependentUpon>AuthDialog.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="EncryptApiKeyDialog.resx">
+    <EmbeddedResource Update="EncryptApiKeyDialog.resx">
       <DependentUpon>EncryptApiKeyDialog.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="FilterDialog.en.resx">
+    <EmbeddedResource Update="FilterDialog.en.resx">
       <DependentUpon>FilterDialog.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="FilterDialog.resx">
+    <EmbeddedResource Update="FilterDialog.resx">
       <DependentUpon>FilterDialog.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="HashtagManage.en.resx">
+    <EmbeddedResource Update="HashtagManage.en.resx">
       <DependentUpon>HashtagManage.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="HashtagManage.resx">
+    <EmbeddedResource Update="HashtagManage.resx">
       <DependentUpon>HashtagManage.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="InputDialog.en.resx">
+    <EmbeddedResource Update="InputDialog.en.resx">
       <DependentUpon>InputDialog.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="InputDialog.resx">
+    <EmbeddedResource Update="InputDialog.resx">
       <DependentUpon>InputDialog.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="ListAvailable.resx">
+    <EmbeddedResource Update="ListAvailable.resx">
       <DependentUpon>ListAvailable.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="ListAvailable.en.resx">
+    <EmbeddedResource Update="ListAvailable.en.resx">
       <DependentUpon>ListAvailable.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="ListManage.en.resx">
+    <EmbeddedResource Update="ListManage.en.resx">
       <DependentUpon>ListManage.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="ListManage.resx">
+    <EmbeddedResource Update="ListManage.resx">
       <DependentUpon>ListManage.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="AtIdSupplement.en.resx">
+    <EmbeddedResource Update="AtIdSupplement.en.resx">
       <DependentUpon>AtIdSupplement.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="AtIdSupplement.resx">
+    <EmbeddedResource Update="AtIdSupplement.resx">
       <DependentUpon>AtIdSupplement.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="AppendSettingDialog.en.resx">
+    <EmbeddedResource Update="AppendSettingDialog.en.resx">
       <DependentUpon>AppendSettingDialog.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="AppendSettingDialog.resx">
+    <EmbeddedResource Update="AppendSettingDialog.resx">
       <DependentUpon>AppendSettingDialog.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="LoginDialog.en.resx">
+    <EmbeddedResource Update="LoginDialog.en.resx">
       <DependentUpon>LoginDialog.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="LoginDialog.resx">
+    <EmbeddedResource Update="LoginDialog.resx">
       <DependentUpon>LoginDialog.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="MediaSelector.en.resx">
+    <EmbeddedResource Update="MediaSelector.en.resx">
       <DependentUpon>MediaSelector.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="MediaSelector.resx">
+    <EmbeddedResource Update="MediaSelector.resx">
       <DependentUpon>MediaSelector.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="SendErrorReportForm.en.resx">
+    <EmbeddedResource Update="SendErrorReportForm.en.resx">
       <DependentUpon>SendErrorReportForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="SendErrorReportForm.resx">
+    <EmbeddedResource Update="SendErrorReportForm.resx">
       <DependentUpon>SendErrorReportForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="TweetDetailsView.en.resx">
+    <EmbeddedResource Update="TweetDetailsView.en.resx">
       <DependentUpon>TweetDetailsView.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="TweetDetailsView.resx">
+    <EmbeddedResource Update="TweetDetailsView.resx">
       <DependentUpon>TweetDetailsView.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="WaitingDialog.resx">
+    <EmbeddedResource Update="WaitingDialog.resx">
       <DependentUpon>WaitingDialog.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Setting\Panel\ActionPanel.en.resx">
+    <EmbeddedResource Update="Setting\Panel\ActionPanel.en.resx">
       <DependentUpon>ActionPanel.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Setting\Panel\ActionPanel.resx">
+    <EmbeddedResource Update="Setting\Panel\ActionPanel.resx">
       <DependentUpon>ActionPanel.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Setting\Panel\BasedPanel.en.resx">
+    <EmbeddedResource Update="Setting\Panel\BasedPanel.en.resx">
       <DependentUpon>BasedPanel.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Setting\Panel\BasedPanel.resx">
+    <EmbeddedResource Update="Setting\Panel\BasedPanel.resx">
       <DependentUpon>BasedPanel.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Setting\Panel\ConnectionPanel.en.resx">
+    <EmbeddedResource Update="Setting\Panel\ConnectionPanel.en.resx">
       <DependentUpon>ConnectionPanel.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Setting\Panel\ConnectionPanel.resx">
+    <EmbeddedResource Update="Setting\Panel\ConnectionPanel.resx">
       <DependentUpon>ConnectionPanel.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Setting\Panel\CooperatePanel.en.resx">
+    <EmbeddedResource Update="Setting\Panel\CooperatePanel.en.resx">
       <DependentUpon>CooperatePanel.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Setting\Panel\CooperatePanel.resx">
+    <EmbeddedResource Update="Setting\Panel\CooperatePanel.resx">
       <DependentUpon>CooperatePanel.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Setting\Panel\FontPanel.en.resx">
+    <EmbeddedResource Update="Setting\Panel\FontPanel.en.resx">
       <DependentUpon>FontPanel.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Setting\Panel\FontPanel.resx">
+    <EmbeddedResource Update="Setting\Panel\FontPanel.resx">
       <DependentUpon>FontPanel.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Setting\Panel\FontPanel2.en.resx">
+    <EmbeddedResource Update="Setting\Panel\FontPanel2.en.resx">
       <DependentUpon>FontPanel2.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Setting\Panel\FontPanel2.resx">
+    <EmbeddedResource Update="Setting\Panel\FontPanel2.resx">
       <DependentUpon>FontPanel2.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Setting\Panel\GetCountPanel.en.resx">
+    <EmbeddedResource Update="Setting\Panel\GetCountPanel.en.resx">
       <DependentUpon>GetCountPanel.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Setting\Panel\GetCountPanel.resx">
+    <EmbeddedResource Update="Setting\Panel\GetCountPanel.resx">
       <DependentUpon>GetCountPanel.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Setting\Panel\GetPeriodPanel.en.resx">
+    <EmbeddedResource Update="Setting\Panel\GetPeriodPanel.en.resx">
       <DependentUpon>GetPeriodPanel.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Setting\Panel\GetPeriodPanel.resx">
+    <EmbeddedResource Update="Setting\Panel\GetPeriodPanel.resx">
       <DependentUpon>GetPeriodPanel.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Setting\Panel\NotifyPanel.en.resx">
+    <EmbeddedResource Update="Setting\Panel\NotifyPanel.en.resx">
       <DependentUpon>NotifyPanel.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Setting\Panel\NotifyPanel.resx">
+    <EmbeddedResource Update="Setting\Panel\NotifyPanel.resx">
       <DependentUpon>NotifyPanel.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Setting\Panel\PreviewPanel.en.resx">
+    <EmbeddedResource Update="Setting\Panel\PreviewPanel.en.resx">
       <DependentUpon>PreviewPanel.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Setting\Panel\PreviewPanel.resx">
+    <EmbeddedResource Update="Setting\Panel\PreviewPanel.resx">
       <DependentUpon>PreviewPanel.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Setting\Panel\ProxyPanel.en.resx">
+    <EmbeddedResource Update="Setting\Panel\ProxyPanel.en.resx">
       <DependentUpon>ProxyPanel.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Setting\Panel\ProxyPanel.resx">
+    <EmbeddedResource Update="Setting\Panel\ProxyPanel.resx">
       <DependentUpon>ProxyPanel.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Setting\Panel\ShortUrlPanel.en.resx">
+    <EmbeddedResource Update="Setting\Panel\ShortUrlPanel.en.resx">
       <DependentUpon>ShortUrlPanel.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Setting\Panel\ShortUrlPanel.resx">
+    <EmbeddedResource Update="Setting\Panel\ShortUrlPanel.resx">
       <DependentUpon>ShortUrlPanel.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Setting\Panel\StartupPanel.en.resx">
+    <EmbeddedResource Update="Setting\Panel\StartupPanel.en.resx">
       <DependentUpon>StartupPanel.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Setting\Panel\StartupPanel.resx">
+    <EmbeddedResource Update="Setting\Panel\StartupPanel.resx">
       <DependentUpon>StartupPanel.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Setting\Panel\TweetActPanel.en.resx">
+    <EmbeddedResource Update="Setting\Panel\TweetActPanel.en.resx">
       <DependentUpon>TweetActPanel.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Setting\Panel\TweetActPanel.resx">
+    <EmbeddedResource Update="Setting\Panel\TweetActPanel.resx">
       <DependentUpon>TweetActPanel.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Setting\Panel\TweetPrvPanel.en.resx">
+    <EmbeddedResource Update="Setting\Panel\TweetPrvPanel.en.resx">
       <DependentUpon>TweetPrvPanel.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Setting\Panel\TweetPrvPanel.resx">
+    <EmbeddedResource Update="Setting\Panel\TweetPrvPanel.resx">
       <DependentUpon>TweetPrvPanel.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="TabsDialog.en.resx">
+    <EmbeddedResource Update="TabsDialog.en.resx">
       <DependentUpon>TabsDialog.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="TabsDialog.resx">
+    <EmbeddedResource Update="TabsDialog.resx">
       <DependentUpon>TabsDialog.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="TweetThumbnail.en.resx">
+    <EmbeddedResource Update="TweetThumbnail.en.resx">
       <DependentUpon>TweetThumbnail.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="TweetThumbnail.resx">
+    <EmbeddedResource Update="TweetThumbnail.resx">
       <DependentUpon>TweetThumbnail.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UpdateDialog.en.resx">
+    <EmbeddedResource Update="UpdateDialog.en.resx">
       <DependentUpon>UpdateDialog.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UpdateDialog.resx">
+    <EmbeddedResource Update="UpdateDialog.resx">
       <DependentUpon>UpdateDialog.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="InputTabName.en.resx">
+    <EmbeddedResource Update="InputTabName.en.resx">
       <DependentUpon>InputTabName.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="InputTabName.resx">
+    <EmbeddedResource Update="InputTabName.resx">
       <DependentUpon>InputTabName.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="MyLists.en.resx">
+    <EmbeddedResource Update="MyLists.en.resx">
       <DependentUpon>MyLists.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="MyLists.resx">
+    <EmbeddedResource Update="MyLists.resx">
       <DependentUpon>MyLists.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="OpenURL.en.resx">
+    <EmbeddedResource Update="OpenURL.en.resx">
       <DependentUpon>OpenURL.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="OpenURL.resx">
+    <EmbeddedResource Update="OpenURL.resx">
       <DependentUpon>OpenURL.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Properties\Resources.resx">
+    <EmbeddedResource Update="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Properties\Resources.en.resx">
+    <EmbeddedResource Update="Properties\Resources.en.resx">
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="SearchWordDialog.en.resx">
+    <EmbeddedResource Update="SearchWordDialog.en.resx">
       <DependentUpon>SearchWordDialog.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="SearchWordDialog.resx">
+    <EmbeddedResource Update="SearchWordDialog.resx">
       <DependentUpon>SearchWordDialog.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UserInfoDialog.en.resx">
+    <EmbeddedResource Update="UserInfoDialog.en.resx">
       <DependentUpon>UserInfoDialog.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UserInfoDialog.resx">
+    <EmbeddedResource Update="UserInfoDialog.resx">
       <DependentUpon>UserInfoDialog.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Tween.en.resx">
+    <EmbeddedResource Update="Tween.en.resx">
       <DependentUpon>Tween.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Tween.resx">
+    <EmbeddedResource Update="Tween.resx">
       <DependentUpon>Tween.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="TweenAboutBox.en.resx">
+    <EmbeddedResource Update="TweenAboutBox.en.resx">
       <DependentUpon>TweenAboutBox.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="TweenAboutBox.resx">
+    <EmbeddedResource Update="TweenAboutBox.resx">
       <DependentUpon>TweenAboutBox.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
@@ -800,14 +644,10 @@
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
   </ItemGroup>
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
-       Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
-  </Target>
-  <Target Name="AfterBuild">
-  </Target>
-  -->
+  <ItemGroup>
+    <InternalsVisibleTo Include="OpenTween.Tests" />
+    <InternalsVisibleTo Include="DynamicProxyGenAssembly2" />
+  </ItemGroup>
   <Target Name="ResXcue" BeforeTargets="Build">
     <ResXcueTask Files="@(ResXFiles)" Indent="false" RemoveSchema="true" />
   </Target>

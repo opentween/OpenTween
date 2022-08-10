@@ -79,8 +79,8 @@ after_test:
       .\codecov.exe -f coverage.xml
   - ps: |
       $env:PATH = $env:PATH + ';C:\Program Files\Microsoft Visual Studio\2022\Community\Msbuild\Current\Bin\Roslyn\;C:\Program Files (x86)\Microsoft SDKs\Windows\v10.0A\bin\NETFX 4.8 Tools\'
-      $binDir = '.\OpenTween\bin\' + $env:CONFIGURATION + '\'
-      $objDir = '.\OpenTween\obj\' + $env:CONFIGURATION + '\'
+      $binDir = '.\OpenTween\bin\' + $env:CONFIGURATION + '\net472\'
+      $objDir = '.\OpenTween\obj\' + $env:CONFIGURATION + '\net472\'
       $assemblyInfo = '.\OpenTween\Properties\AssemblyInfo.cs'
       if ($env:RELEASE_TAG -eq 'true') {
         $destPath = $env:APPVEYOR_REPO_TAG_NAME + '.zip'

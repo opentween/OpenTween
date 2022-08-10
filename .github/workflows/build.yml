@@ -157,8 +157,8 @@ jobs:
         shell: powershell # runtime-versionを取得するため従来のPowershellを使用する
         run: |
           $env:PATH = $env:PATH + ';C:\Program Files\Microsoft Visual Studio\2022\Enterprise\Msbuild\Current\Bin\Roslyn\'
-          $binDir = '.\OpenTween\bin\' + $env:CONFIGURATION + '\'
-          $objDir = '.\OpenTween\obj\' + $env:CONFIGURATION + '\'
+          $binDir = '.\OpenTween\bin\' + $env:CONFIGURATION + '\net472\'
+          $objDir = '.\OpenTween\obj\' + $env:CONFIGURATION + '\net472\'
           $assemblyInfo = '.\OpenTween\Properties\AssemblyInfo.cs'
           $destPath = 'OpenTween.zip'
           $headCommit = '${{ github.event.pull_request.head.sha }}'
