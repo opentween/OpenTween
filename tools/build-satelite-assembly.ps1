@@ -29,7 +29,6 @@
 Param(
   [Parameter(Mandatory = $true)][String] $ObjDir,
   [Parameter(Mandatory = $true)][String] $Culture,
-  [Parameter(Mandatory = $true)][String] $AssemblyInfo,
   [Parameter(Mandatory = $true)][String] $DestPath
 )
 
@@ -40,7 +39,7 @@ $ErrorActionPreference = 'Stop'
 
 Function Generate-AssemblyInfo() {
   $tmpFile = New-TemporaryFile
-  $content = (Get-Content $AssemblyInfo) -replace "^\[assembly: AssemblyCulture.+$", "[assembly: AssemblyCulture(`"${Culture}`")]"
+  $content = "[assembly: System.Reflection.AssemblyCulture(`"${Culture}`")]"
   $content > $tmpFile.FullName
   return $tmpFile.FullName
 }

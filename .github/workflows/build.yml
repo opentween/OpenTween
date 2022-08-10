@@ -159,10 +159,9 @@ jobs:
           $env:PATH = $env:PATH + ';C:\Program Files\Microsoft Visual Studio\2022\Enterprise\Msbuild\Current\Bin\Roslyn\'
           $binDir = '.\OpenTween\bin\' + $env:CONFIGURATION + '\net472\'
           $objDir = '.\OpenTween\obj\' + $env:CONFIGURATION + '\net472\'
-          $assemblyInfo = '.\OpenTween\Properties\AssemblyInfo.cs'
           $destPath = 'OpenTween.zip'
           $headCommit = '${{ github.event.pull_request.head.sha }}'
-          .\tools\build-zip-archive.ps1 -BinDir $binDir -ObjDir $objDir -AssemblyInfo $assemblyInfo -DestPath $destPath -HeadCommit $headCommit
+          .\tools\build-zip-archive.ps1 -BinDir $binDir -ObjDir $objDir -DestPath $destPath -HeadCommit $headCommit
           Copy-Item ($binDir + 'OpenTween.pdb') -Destination '.\'
 
       - name: Upload build result
