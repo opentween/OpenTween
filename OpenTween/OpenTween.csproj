@@ -8,8 +8,7 @@
     <Description>Client of Twitter. Free software(GPLv3)</Description>
     <Copyright>(C) 2011 OpenTween contributors</Copyright>
     <OutputPath>bin\$(Configuration)\</OutputPath>
-    <Deterministic>true</Deterministic>
-	<DisableImplicitFrameworkReferences>true</DisableImplicitFrameworkReferences>
+    <DisableImplicitFrameworkReferences>true</DisableImplicitFrameworkReferences>
     <PathMap>$(MSBuildProjectDirectory)=.</PathMap>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
