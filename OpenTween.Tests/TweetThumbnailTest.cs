@@ -104,7 +104,7 @@ namespace OpenTween
             MyCommon.EntryAssembly = mockAssembly.Object;
         }
 
-        [Fact]
+        [WinFormsFact]
         public void CreatePictureBoxTest()
         {
             using var thumbBox = new TweetThumbnail();
@@ -121,7 +121,7 @@ namespace OpenTween
             picbox.Dispose();
         }
 
-        [Fact]
+        [WinFormsFact]
         public async Task CancelAsyncTest()
         {
             var post = new PostClass
@@ -138,7 +138,6 @@ namespace OpenTween
 
             using var tokenSource = new CancellationTokenSource();
 
-            SynchronizationContext.SetSynchronizationContext(new SynchronizationContext());
             var task = thumbbox.ShowThumbnailAsync(post, tokenSource.Token);
 
             tokenSource.Cancel();
@@ -147,7 +146,7 @@ namespace OpenTween
             Assert.True(task.IsCanceled);
         }
 
-        [Theory]
+        [WinFormsTheory]
         [InlineData(0)]
         [InlineData(1)]
         [InlineData(2)]
@@ -178,7 +177,7 @@ namespace OpenTween
                 Assert.Equal(count - 1, thumbbox.scrollBar.Maximum);
         }
 
-        [Fact]
+        [WinFormsFact]
         public async Task ShowThumbnailAsyncTest()
         {
             var post = new PostClass
@@ -193,7 +192,6 @@ namespace OpenTween
             using var thumbbox = new TweetThumbnail();
             thumbbox.Initialize(this.CreateThumbnailGenerator());
 
-            SynchronizationContext.SetSynchronizationContext(new SynchronizationContext());
             await thumbbox.ShowThumbnailAsync(post);
 
             Assert.Equal(0, thumbbox.scrollBar.Maximum);
@@ -211,7 +209,7 @@ namespace OpenTween
             Assert.Equal("", thumbbox.toolTip.GetToolTip(thumbbox.PictureBox[0]));
         }
 
-        [Fact]
+        [WinFormsFact]
         public async Task ShowThumbnailAsyncTest2()
         {
             var post = new PostClass
@@ -227,7 +225,6 @@ namespace OpenTween
             using var thumbbox = new TweetThumbnail();
             thumbbox.Initialize(this.CreateThumbnailGenerator());
 
-            SynchronizationContext.SetSynchronizationContext(new SynchronizationContext());
             await thumbbox.ShowThumbnailAsync(post);
 
             Assert.Equal(1, thumbbox.scrollBar.Maximum);
@@ -253,13 +250,11 @@ namespace OpenTween
             Assert.Equal("efgh", thumbbox.toolTip.GetToolTip(thumbbox.PictureBox[1]));
         }
 
-        [Fact]
+        [WinFormsFact]
         public async Task ThumbnailLoadingEventTest()
         {
             using var thumbbox = new TweetThumbnail();
             thumbbox.Initialize(this.CreateThumbnailGenerator());
-
-            SynchronizationContext.SetSynchronizationContext(new SynchronizationContext());
 
             var post = new PostClass
             {
@@ -273,8 +268,6 @@ namespace OpenTween
                 x => thumbbox.ThumbnailLoading -= x,
                 () => thumbbox.ShowThumbnailAsync(post)
             );
-
-            SynchronizationContext.SetSynchronizationContext(new SynchronizationContext());
 
             var post2 = new PostClass
             {
@@ -292,7 +285,7 @@ namespace OpenTween
             );
         }
 
-        [Fact]
+        [WinFormsFact]
         public async Task ScrollTest()
         {
             var post = new PostClass
@@ -308,7 +301,6 @@ namespace OpenTween
             using var thumbbox = new TweetThumbnail();
             thumbbox.Initialize(this.CreateThumbnailGenerator());
 
-            SynchronizationContext.SetSynchronizationContext(new SynchronizationContext());
             await thumbbox.ShowThumbnailAsync(post);
 
             Assert.Equal(0, thumbbox.scrollBar.Minimum);

@@ -91,25 +91,21 @@ namespace OpenTween
 
             return Task.Run(() =>
             {
+                Task<MemoryImage>? cachedImageTask;
                 lock (this.lockObject)
-                {
-                    this.InnerDictionary.TryGetValue(address, out var cachedImageTask);
+                    this.InnerDictionary.TryGetValue(address, out cachedImageTask);
 
-                    if (cachedImageTask != null)
-                    {
-                        if (force)
-                            this.InnerDictionary.Remove(address);
-                        else
-                            return cachedImageTask;
-                    }
+                if (cachedImageTask != null && !force)
+                    return cachedImageTask;
 
-                    cancelToken.ThrowIfCancellationRequested();
+                cancelToken.ThrowIfCancellationRequested();
 
-                    var imageTask = this.FetchImageAsync(address, cancelToken);
+                var imageTask = this.FetchImageAsync(address, cancelToken);
+
+                lock (this.lockObject)
                     this.InnerDictionary[address] = imageTask;
 
-                    return imageTask;
-                }
+                return imageTask;
             },
             cancelToken);
         }

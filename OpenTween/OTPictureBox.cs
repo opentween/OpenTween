@@ -112,7 +112,7 @@ namespace OpenTween
                 if (useStatusImage)
                     this.ShowInitialImage();
 
-                var image = await imageTask();
+                var image = await Task.Run(imageTask);
 
                 if (id == this.currentImageTaskId)
                     this.Image = image;
