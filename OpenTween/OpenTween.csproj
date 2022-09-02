@@ -1,6 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
+    <UseWindowsForms>true</UseWindowsForms>
     <TargetFramework>net472</TargetFramework>
     <LangVersion>10.0</LangVersion>
     <Product>OpenTween (dev)</Product>
