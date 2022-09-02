@@ -131,8 +131,8 @@ namespace OpenTween
         private string GetImageSearchUriSauceNao(string imageUri)
             => @"https://saucenao.com/search.php?url=" + Uri.EscapeDataString(imageUri);
 
-        protected virtual Task<IEnumerable<ThumbnailInfo>> GetThumbailInfoAsync(PostClass post, CancellationToken token)
-            => this.ThumbGenerator.GetThumbnailsAsync(post, token);
+        protected async virtual Task<IEnumerable<ThumbnailInfo>> GetThumbailInfoAsync(PostClass post, CancellationToken token)
+            => await Task.Run(() => this.ThumbGenerator.GetThumbnailsAsync(post, token));
 
         /// <summary>
         /// 表示するサムネイルの数を設定する
