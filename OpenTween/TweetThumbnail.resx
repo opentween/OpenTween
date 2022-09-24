@@ -16,6 +16,8 @@
 	<data name="&gt;&gt;contextMenuStrip.Type"><value>System.Windows.Forms.ContextMenuStrip, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
 	<data name="&gt;&gt;copyUrlMenuItem.Name"><value>copyUrlMenuItem</value></data>
 	<data name="&gt;&gt;copyUrlMenuItem.Type"><value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
+	<data name="&gt;&gt;copyToClipboardMenuItem.Name"><value>copyToClipboardMenuItem</value></data>
+	<data name="&gt;&gt;copyToClipboardMenuItem.Type"><value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
 	<data name="&gt;&gt;openMenuItem.Name"><value>openMenuItem</value></data>
 	<data name="&gt;&gt;openMenuItem.Type"><value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
 	<data name="&gt;&gt;panelPictureBox.Name"><value>panelPictureBox</value></data>
@@ -39,6 +41,8 @@
 	<metadata name="contextMenuStrip.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a"><value>110, 17</value></metadata>
 	<data name="copyUrlMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>223, 22</value></data>
 	<data name="copyUrlMenuItem.Text"><value>URLをコピー(&amp;C)</value></data>
+	<data name="copyToClipboardMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>223, 22</value></data>
+	<data name="copyToClipboardMenuItem.Text"><value>画像をクリップボードにコピー</value></data>
 	<data name="openMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>223, 22</value></data>
 	<data name="openMenuItem.Text"><value>開く(&amp;O)</value></data>
 	<data name="panelPictureBox.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms"><value>Fill</value></data>

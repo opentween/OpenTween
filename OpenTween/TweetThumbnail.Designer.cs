@@ -39,6 +39,7 @@
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.searchImageGoogleMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.searchImageSauceNaoMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.copyToClipboardMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.contextMenuStrip.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -63,6 +64,7 @@
             this.contextMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.openMenuItem,
             this.copyUrlMenuItem,
+            this.copyToClipboardMenuItem,
             this.toolStripSeparator1,
             this.searchImageGoogleMenuItem,
             this.searchImageSauceNaoMenuItem});
@@ -99,6 +101,12 @@
             this.searchImageSauceNaoMenuItem.Name = "searchImageSauceNaoMenuItem";
             this.searchImageSauceNaoMenuItem.Click += new System.EventHandler(this.SearchImageSauceNaoMenuItem_Click);
             // 
+            // copyToClipboardMenuItem
+            // 
+            resources.ApplyResources(this.copyToClipboardMenuItem, "copyToClipboardMenuItem");
+            this.copyToClipboardMenuItem.Name = "copyToClipboardMenuItem";
+            this.copyToClipboardMenuItem.Click += new System.EventHandler(this.CopyToClipboardMenuItem_Click);
+            // 
             // TweetThumbnail
             // 
             resources.ApplyResources(this, "$this");
@@ -122,6 +130,7 @@
         private System.Windows.Forms.ToolStripMenuItem searchImageSauceNaoMenuItem;
         private System.Windows.Forms.ToolStripMenuItem openMenuItem;
         private System.Windows.Forms.ToolStripMenuItem copyUrlMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem copyToClipboardMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
     }
 }
