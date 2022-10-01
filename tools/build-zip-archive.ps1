@@ -84,6 +84,10 @@ Function Build-Package([String[]] $Path, [String] $DestPath) {
   Compress-Archive -Force -Path $Path -DestinationPath $DestPath
 }
 
+Function Get-CommandVersion([String] $Name) {
+  Get-Command -Name $Name | Select -Property Name, @{Name='ProductVersion'; Expression={$_.FileVersionInfo.ProductVersion}}
+}
+
 Generate-Serializer
 Build-SateliteAssembly -Culture en
 
@@ -95,4 +99,13 @@ Build-Package -Path $includePaths -DestPath $DestPath
 
 Write-Host
 Write-Host "Build success!"
-Get-FileHash -Algorithm SHA256 $destPath | Format-List
+@(
+  Get-CommandVersion 'msbuild.exe'
+  Get-CommandVersion 'csc.exe'
+  Get-CommandVersion 'sgen.exe'
+  [PSCustomObject]@{
+    Name = 'SOURCE_DATE_EPOCH'
+    Value = $timestamp
+  }
+  Get-FileHash -Algorithm SHA256 $destPath
+) | Format-List
