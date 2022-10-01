@@ -83,6 +83,11 @@ after_test:
       } else {
         $destPath = 'OpenTween_dev-' + $env:APPVEYOR_BUILD_NUMBER + '.zip'
       }
-      .\tools\build-zip-archive.ps1 -BinDir $binDir -ObjDir $objDir -AssemblyInfo $assemblyInfo -DestPath $destPath
+      if ($env:APPVEYOR_PULL_REQUEST_HEAD_COMMIT -ne $null) {
+        $headCommit = $env:APPVEYOR_PULL_REQUEST_HEAD_COMMIT
+      } else {
+        $headCommit = 'HEAD'
+      }
+      .\tools\build-zip-archive.ps1 -BinDir $binDir -ObjDir $objDir -AssemblyInfo $assemblyInfo -DestPath $destPath -HeadCommit $headCommit
 
 # vim: et fenc=utf-8 sts=2 sw=2 ts=2

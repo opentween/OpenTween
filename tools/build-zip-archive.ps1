@@ -30,7 +30,8 @@ Param(
   [Parameter(Mandatory = $true)][String] $BinDir,
   [Parameter(Mandatory = $true)][String] $ObjDir,
   [Parameter(Mandatory = $true)][String] $AssemblyInfo,
-  [Parameter(Mandatory = $true)][String] $DestPath
+  [Parameter(Mandatory = $true)][String] $DestPath,
+  [String] $HeadCommit = 'HEAD'
 )
 
 Set-StrictMode -Version 3.0
@@ -70,7 +71,7 @@ Function Get-SourceDateEpoch() {
   # ローカルのタイムゾーンの日時でタイムスタンプが記録されるため、わざとタイムゾーンを指定していない。
   # これにより、生成される ZIP アーカイブには UTC での $sourceDateEpoch に相当する日時が記録されるようになる
   $unixEpoch = Get-Date "1970/01/01 00:00:00"
-  $sourceDateUnixtime = [int](Invoke-NativeCommand "git log -1 --pretty=%ct")
+  $sourceDateUnixtime = [int](Invoke-NativeCommand "git log -1 --pretty=%ct ${HeadCommit}")
   $sourceDateEpoch = $unixEpoch.AddSeconds($sourceDateUnixtime)
   return $sourceDateEpoch
 }
