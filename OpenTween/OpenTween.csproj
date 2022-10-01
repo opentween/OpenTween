@@ -10,6 +10,7 @@
     <Copyright>(C) 2011 OpenTween contributors</Copyright>
     <OutputPath>bin\$(Configuration)\</OutputPath>
     <DisableImplicitFrameworkReferences>true</DisableImplicitFrameworkReferences>
+    <GenerateSatelliteAssembliesForCore>true</GenerateSatelliteAssembliesForCore>
     <PathMap>$(MSBuildProjectDirectory)=.</PathMap>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
