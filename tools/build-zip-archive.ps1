@@ -40,7 +40,6 @@ $ErrorActionPreference = 'Stop'
 $assemblyName = "OpenTween"
 
 $exePath = Join-Path $BinDir "${assemblyName}.exe"
-$sgenOpts = "/type:${assemblyName}.SettingAtIdList /type:${assemblyName}.SettingCommon /type:${assemblyName}.SettingLocal /type:${assemblyName}.SettingTabs"
 $includeFiles = @(
   "en\",
   "Icons\",
@@ -49,16 +48,10 @@ $includeFiles = @(
   "LICENSE.ja",
   "LICENSE.LGPL-3",
   "${assemblyName}.exe",
-  "${assemblyName}.exe.config",
-  "${assemblyName}.XmlSerializers.dll"
+  "${assemblyName}.exe.config"
 )
 
 . .\tools\functions.ps1
-
-Function Generate-Serializer() {
-  # OpenTween.XmlSerializers.dll の生成
-  .\tools\generate-serializer.ps1 -ExePath $exePath -SgenOpts $sgenOpts
-}
 
 Function Build-SateliteAssembly([String] $Culture) {
   # OpenTween.resources.dll の生成（カルチャ別）
@@ -89,7 +82,6 @@ Function Get-CommandVersion([String] $Name) {
   Get-Command -Name $Name | Select -Property Name, @{Name='ProductVersion'; Expression={$_.FileVersionInfo.ProductVersion}}
 }
 
-Generate-Serializer
 Build-SateliteAssembly -Culture en
 
 $includePaths = $includeFiles | % { Join-Path $BinDir $_ }
@@ -103,7 +95,6 @@ Write-Host "Build success!"
 @(
   Get-CommandVersion 'msbuild.exe'
   Get-CommandVersion 'csc.exe'
-  Get-CommandVersion 'sgen.exe'
   [PSCustomObject]@{
     Name = 'SOURCE_DATE_EPOCH'
     Value = $timestamp

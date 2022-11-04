@@ -34,6 +34,7 @@ using OpenTween.Thumbnail;
 
 namespace OpenTween
 {
+    [XmlSerializerAssembly(null, null)] // OpenTween アセンブリ内の XmlSerializerContract を使用させる
     public class SettingCommon : SettingBase<SettingCommon>
     {
         #region "Settingクラス基本"
