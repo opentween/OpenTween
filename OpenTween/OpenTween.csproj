@@ -22,7 +22,7 @@
     <DefineConstants>TRACE;DEBUG</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <GenerateSerializationAssemblies>Auto</GenerateSerializationAssemblies>
+    <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
     <Prefer32Bit>false</Prefer32Bit>
     <CodeAnalysisRuleSet>OpenTween.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
@@ -33,7 +33,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <GenerateSerializationAssemblies>On</GenerateSerializationAssemblies>
+    <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
     <UseVSHostingProcess>false</UseVSHostingProcess>
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
@@ -478,6 +478,7 @@
     <Compile Include="WebApiException.cs" />
     <Compile Include="InternetSecurityManager.cs" />
     <Compile Include="ControlTransaction.cs" />
+    <Compile Include="XmlSerializerContract.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="ApiInfoDialog.resx">
@@ -809,14 +810,5 @@
   -->
   <Target Name="ResXcue" BeforeTargets="Build">
     <ResXcueTask Files="@(ResXFiles)" Indent="false" RemoveSchema="true" />
-  </Target>
-  <Target Name="AfterBuild">
-    <ItemGroup>
-      <SGenTypes Include="OpenTween.SettingAtIdList" />
-      <SGenTypes Include="OpenTween.SettingCommon" />
-      <SGenTypes Include="OpenTween.SettingLocal" />
-      <SGenTypes Include="OpenTween.SettingTabs" />
-    </ItemGroup>
-    <SGen BuildAssemblyName="$(TargetFileName)" BuildAssemblyPath="$(TargetDir)" ShouldGenerateSerializer="true" UseProxyTypes="false" Types="@(SGenTypes)" LogStandardErrorAsError="true" Condition="'$(OS)' == 'Windows_NT'" />
   </Target>
 </Project>

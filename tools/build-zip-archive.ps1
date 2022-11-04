@@ -30,7 +30,8 @@ Param(
   [Parameter(Mandatory = $true)][String] $BinDir,
   [Parameter(Mandatory = $true)][String] $ObjDir,
   [Parameter(Mandatory = $true)][String] $AssemblyInfo,
-  [Parameter(Mandatory = $true)][String] $DestPath
+  [Parameter(Mandatory = $true)][String] $DestPath,
+  [String] $HeadCommit = 'HEAD'
 )
 
 Set-StrictMode -Version 3.0
@@ -39,7 +40,6 @@ $ErrorActionPreference = 'Stop'
 $assemblyName = "OpenTween"
 
 $exePath = Join-Path $BinDir "${assemblyName}.exe"
-$sgenOpts = "/type:${assemblyName}.SettingAtIdList /type:${assemblyName}.SettingCommon /type:${assemblyName}.SettingLocal /type:${assemblyName}.SettingTabs"
 $includeFiles = @(
   "en\",
   "Icons\",
@@ -48,16 +48,10 @@ $includeFiles = @(
   "LICENSE.ja",
   "LICENSE.LGPL-3",
   "${assemblyName}.exe",
-  "${assemblyName}.exe.config",
-  "${assemblyName}.XmlSerializers.dll"
+  "${assemblyName}.exe.config"
 )
 
 . .\tools\functions.ps1
-
-Function Generate-Serializer() {
-  # OpenTween.XmlSerializers.dll の生成
-  .\tools\generate-serializer.ps1 -ExePath $exePath -SgenOpts $sgenOpts
-}
 
 Function Build-SateliteAssembly([String] $Culture) {
   # OpenTween.resources.dll の生成（カルチャ別）
@@ -70,7 +64,7 @@ Function Get-SourceDateEpoch() {
   # ローカルのタイムゾーンの日時でタイムスタンプが記録されるため、わざとタイムゾーンを指定していない。
   # これにより、生成される ZIP アーカイブには UTC での $sourceDateEpoch に相当する日時が記録されるようになる
   $unixEpoch = Get-Date "1970/01/01 00:00:00"
-  $sourceDateUnixtime = [int](Invoke-NativeCommand "git log -1 --pretty=%ct")
+  $sourceDateUnixtime = [int](Invoke-NativeCommand "git log -1 --pretty=%ct ${HeadCommit}")
   $sourceDateEpoch = $unixEpoch.AddSeconds($sourceDateUnixtime)
   return $sourceDateEpoch
 }
@@ -84,7 +78,10 @@ Function Build-Package([String[]] $Path, [String] $DestPath) {
   Compress-Archive -Force -Path $Path -DestinationPath $DestPath
 }
 
-Generate-Serializer
+Function Get-CommandVersion([String] $Name) {
+  Get-Command -Name $Name | Select -Property Name, @{Name='ProductVersion'; Expression={$_.FileVersionInfo.ProductVersion}}
+}
+
 Build-SateliteAssembly -Culture en
 
 $includePaths = $includeFiles | % { Join-Path $BinDir $_ }
@@ -95,4 +92,12 @@ Build-Package -Path $includePaths -DestPath $DestPath
 
 Write-Host
 Write-Host "Build success!"
-Get-FileHash -Algorithm SHA256 $destPath | Format-List
+@(
+  Get-CommandVersion 'msbuild.exe'
+  Get-CommandVersion 'csc.exe'
+  [PSCustomObject]@{
+    Name = 'SOURCE_DATE_EPOCH'
+    Value = $timestamp
+  }
+  Get-FileHash -Algorithm SHA256 $destPath
+) | Format-List

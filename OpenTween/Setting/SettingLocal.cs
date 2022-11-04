@@ -36,6 +36,7 @@ using OpenTween.Connection;
 
 namespace OpenTween
 {
+    [XmlSerializerAssembly(null, null)] // OpenTween アセンブリ内の XmlSerializerContract を使用させる
     public class SettingLocal : SettingBase<SettingLocal>
     {
         #region Settingクラス基本
