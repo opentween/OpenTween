@@ -40,6 +40,7 @@ $ErrorActionPreference = 'Stop'
 $assemblyName = "OpenTween"
 
 $exePath = Join-Path $BinDir "${assemblyName}.exe"
+$pdbPath = Join-Path $BinDir "${assemblyName}.pdb"
 $includeFiles = @(
   "en\",
   "Icons\",
@@ -111,4 +112,5 @@ Write-Host "Build success!"
     Value = $timestamp
   }
   Get-FileHash -Algorithm SHA256 $destPath
+  Get-FileHash -Algorithm SHA256 $pdbPath
 ) | Format-List

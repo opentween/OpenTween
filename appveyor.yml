@@ -36,6 +36,8 @@ for:
     artifacts:
       - name: OpenTween.zip
         path: OpenTween_dev-$(APPVEYOR_BUILD_NUMBER).zip
+      - name: OpenTween.pdb
+        path: OpenTween.pdb
   - # for release build
     matrix:
       only:
@@ -44,6 +46,8 @@ for:
     artifacts:
       - name: OpenTween.zip
         path: $(APPVEYOR_REPO_TAG_NAME).zip
+      - name: OpenTween.pdb
+        path: OpenTween.pdb
 
 build:
   project: OpenTween.sln
@@ -89,5 +93,6 @@ after_test:
         $headCommit = 'HEAD'
       }
       .\tools\build-zip-archive.ps1 -BinDir $binDir -ObjDir $objDir -AssemblyInfo $assemblyInfo -DestPath $destPath -HeadCommit $headCommit
+      Copy-Item ($binDir + 'OpenTween.pdb') -Destination '.\'
 
 # vim: et fenc=utf-8 sts=2 sw=2 ts=2
