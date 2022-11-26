@@ -19,12 +19,8 @@
 	<data name="&gt;&gt;AddListButton.Type"><value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
 	<data name="&gt;&gt;AddListButton.ZOrder"><value>7</value></data>
 	<data name="&gt;&gt;CancelEditButton.Name"><value>CancelEditButton</value></data>
-	<data name="&gt;&gt;CancelEditButton.Name"><value>CancelEditButton</value></data>
-	<data name="&gt;&gt;CancelEditButton.Parent"><value>ListGroup</value></data>
 	<data name="&gt;&gt;CancelEditButton.Parent"><value>ListGroup</value></data>
 	<data name="&gt;&gt;CancelEditButton.Type"><value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
-	<data name="&gt;&gt;CancelEditButton.Type"><value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
-	<data name="&gt;&gt;CancelEditButton.ZOrder"><value>1</value></data>
 	<data name="&gt;&gt;CancelEditButton.ZOrder"><value>1</value></data>
 	<data name="&gt;&gt;CloseButton.Name"><value>CloseButton</value></data>
 	<data name="&gt;&gt;CloseButton.Parent"><value>$this</value></data>
@@ -39,52 +35,32 @@
 	<data name="&gt;&gt;DeleteUserButton.Type"><value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
 	<data name="&gt;&gt;DeleteUserButton.ZOrder"><value>4</value></data>
 	<data name="&gt;&gt;DescriptionText.Name"><value>DescriptionText</value></data>
-	<data name="&gt;&gt;DescriptionText.Name"><value>DescriptionText</value></data>
-	<data name="&gt;&gt;DescriptionText.Parent"><value>ListGroup</value></data>
 	<data name="&gt;&gt;DescriptionText.Parent"><value>ListGroup</value></data>
 	<data name="&gt;&gt;DescriptionText.Type"><value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
-	<data name="&gt;&gt;DescriptionText.Type"><value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
-	<data name="&gt;&gt;DescriptionText.ZOrder"><value>11</value></data>
 	<data name="&gt;&gt;DescriptionText.ZOrder"><value>11</value></data>
 	<data name="&gt;&gt;EditCheckBox.Name"><value>EditCheckBox</value></data>
 	<data name="&gt;&gt;EditCheckBox.Parent"><value>$this</value></data>
 	<data name="&gt;&gt;EditCheckBox.Type"><value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
 	<data name="&gt;&gt;EditCheckBox.ZOrder"><value>1</value></data>
 	<data name="&gt;&gt;GetMoreUsersButton.Name"><value>GetMoreUsersButton</value></data>
-	<data name="&gt;&gt;GetMoreUsersButton.Name"><value>GetMoreUsersButton</value></data>
-	<data name="&gt;&gt;GetMoreUsersButton.Parent"><value>MemberGroup</value></data>
 	<data name="&gt;&gt;GetMoreUsersButton.Parent"><value>MemberGroup</value></data>
 	<data name="&gt;&gt;GetMoreUsersButton.Type"><value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
-	<data name="&gt;&gt;GetMoreUsersButton.Type"><value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
-	<data name="&gt;&gt;GetMoreUsersButton.ZOrder"><value>1</value></data>
 	<data name="&gt;&gt;GetMoreUsersButton.ZOrder"><value>1</value></data>
 	<data name="&gt;&gt;GroupBox2.Name"><value>GroupBox2</value></data>
 	<data name="&gt;&gt;GroupBox2.Parent"><value>ListGroup</value></data>
 	<data name="&gt;&gt;GroupBox2.Type"><value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
 	<data name="&gt;&gt;GroupBox2.ZOrder"><value>2</value></data>
 	<data name="&gt;&gt;Label1.Name"><value>Label1</value></data>
-	<data name="&gt;&gt;Label1.Name"><value>Label1</value></data>
-	<data name="&gt;&gt;Label1.Parent"><value>ListGroup</value></data>
 	<data name="&gt;&gt;Label1.Parent"><value>ListGroup</value></data>
 	<data name="&gt;&gt;Label1.Type"><value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
-	<data name="&gt;&gt;Label1.Type"><value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
-	<data name="&gt;&gt;Label1.ZOrder"><value>0</value></data>
 	<data name="&gt;&gt;Label1.ZOrder"><value>0</value></data>
 	<data name="&gt;&gt;Label10.Name"><value>Label10</value></data>
-	<data name="&gt;&gt;Label10.Name"><value>Label10</value></data>
-	<data name="&gt;&gt;Label10.Parent"><value>ListGroup</value></data>
 	<data name="&gt;&gt;Label10.Parent"><value>ListGroup</value></data>
 	<data name="&gt;&gt;Label10.Type"><value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
-	<data name="&gt;&gt;Label10.Type"><value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
-	<data name="&gt;&gt;Label10.ZOrder"><value>10</value></data>
 	<data name="&gt;&gt;Label10.ZOrder"><value>10</value></data>
 	<data name="&gt;&gt;Label12.Name"><value>Label12</value></data>
-	<data name="&gt;&gt;Label12.Name"><value>Label12</value></data>
-	<data name="&gt;&gt;Label12.Parent"><value>ListGroup</value></data>
 	<data name="&gt;&gt;Label12.Parent"><value>ListGroup</value></data>
 	<data name="&gt;&gt;Label12.Type"><value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
-	<data name="&gt;&gt;Label12.Type"><value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
-	<data name="&gt;&gt;Label12.ZOrder"><value>12</value></data>
 	<data name="&gt;&gt;Label12.ZOrder"><value>12</value></data>
 	<data name="&gt;&gt;Label13.Name"><value>Label13</value></data>
 	<data name="&gt;&gt;Label13.Parent"><value>UserGroup</value></data>
@@ -107,28 +83,16 @@
 	<data name="&gt;&gt;Label3.Type"><value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
 	<data name="&gt;&gt;Label3.ZOrder"><value>3</value></data>
 	<data name="&gt;&gt;Label4.Name"><value>Label4</value></data>
-	<data name="&gt;&gt;Label4.Name"><value>Label4</value></data>
-	<data name="&gt;&gt;Label4.Parent"><value>ListGroup</value></data>
 	<data name="&gt;&gt;Label4.Parent"><value>ListGroup</value></data>
 	<data name="&gt;&gt;Label4.Type"><value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
-	<data name="&gt;&gt;Label4.Type"><value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
-	<data name="&gt;&gt;Label4.ZOrder"><value>8</value></data>
 	<data name="&gt;&gt;Label4.ZOrder"><value>8</value></data>
 	<data name="&gt;&gt;Label5.Name"><value>Label5</value></data>
-	<data name="&gt;&gt;Label5.Name"><value>Label5</value></data>
-	<data name="&gt;&gt;Label5.Parent"><value>UserGroup</value></data>
 	<data name="&gt;&gt;Label5.Parent"><value>UserGroup</value></data>
 	<data name="&gt;&gt;Label5.Type"><value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
-	<data name="&gt;&gt;Label5.Type"><value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
-	<data name="&gt;&gt;Label5.ZOrder"><value>16</value></data>
 	<data name="&gt;&gt;Label5.ZOrder"><value>16</value></data>
 	<data name="&gt;&gt;Label6.Name"><value>Label6</value></data>
-	<data name="&gt;&gt;Label6.Name"><value>Label6</value></data>
-	<data name="&gt;&gt;Label6.Parent"><value>ListGroup</value></data>
 	<data name="&gt;&gt;Label6.Parent"><value>ListGroup</value></data>
 	<data name="&gt;&gt;Label6.Type"><value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
-	<data name="&gt;&gt;Label6.Type"><value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
-	<data name="&gt;&gt;Label6.ZOrder"><value>9</value></data>
 	<data name="&gt;&gt;Label6.ZOrder"><value>9</value></data>
 	<data name="&gt;&gt;Label8.Name"><value>Label8</value></data>
 	<data name="&gt;&gt;Label8.Parent"><value>UserGroup</value></data>
@@ -155,32 +119,20 @@
 	<data name="&gt;&gt;MemberGroup.Type"><value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
 	<data name="&gt;&gt;MemberGroup.ZOrder"><value>6</value></data>
 	<data name="&gt;&gt;NameTextBox.Name"><value>NameTextBox</value></data>
-	<data name="&gt;&gt;NameTextBox.Name"><value>NameTextBox</value></data>
-	<data name="&gt;&gt;NameTextBox.Parent"><value>ListGroup</value></data>
 	<data name="&gt;&gt;NameTextBox.Parent"><value>ListGroup</value></data>
 	<data name="&gt;&gt;NameTextBox.Type"><value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
-	<data name="&gt;&gt;NameTextBox.Type"><value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
-	<data name="&gt;&gt;NameTextBox.ZOrder"><value>7</value></data>
 	<data name="&gt;&gt;NameTextBox.ZOrder"><value>7</value></data>
 	<data name="&gt;&gt;OKEditButton.Name"><value>OKEditButton</value></data>
-	<data name="&gt;&gt;OKEditButton.Name"><value>OKEditButton</value></data>
-	<data name="&gt;&gt;OKEditButton.Parent"><value>ListGroup</value></data>
 	<data name="&gt;&gt;OKEditButton.Parent"><value>ListGroup</value></data>
 	<data name="&gt;&gt;OKEditButton.Type"><value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
-	<data name="&gt;&gt;OKEditButton.Type"><value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
-	<data name="&gt;&gt;OKEditButton.ZOrder"><value>3</value></data>
 	<data name="&gt;&gt;OKEditButton.ZOrder"><value>3</value></data>
 	<data name="&gt;&gt;PrivateRadioButton.Name"><value>PrivateRadioButton</value></data>
 	<data name="&gt;&gt;PrivateRadioButton.Parent"><value>GroupBox2</value></data>
 	<data name="&gt;&gt;PrivateRadioButton.Type"><value>System.Windows.Forms.RadioButton, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
 	<data name="&gt;&gt;PrivateRadioButton.ZOrder"><value>0</value></data>
 	<data name="&gt;&gt;PublicRadioButton.Name"><value>PublicRadioButton</value></data>
-	<data name="&gt;&gt;PublicRadioButton.Name"><value>PublicRadioButton</value></data>
-	<data name="&gt;&gt;PublicRadioButton.Parent"><value>GroupBox2</value></data>
 	<data name="&gt;&gt;PublicRadioButton.Parent"><value>GroupBox2</value></data>
 	<data name="&gt;&gt;PublicRadioButton.Type"><value>System.Windows.Forms.RadioButton, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
-	<data name="&gt;&gt;PublicRadioButton.Type"><value>System.Windows.Forms.RadioButton, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
-	<data name="&gt;&gt;PublicRadioButton.ZOrder"><value>1</value></data>
 	<data name="&gt;&gt;PublicRadioButton.ZOrder"><value>1</value></data>
 	<data name="&gt;&gt;RefreshListsButton.Name"><value>RefreshListsButton</value></data>
 	<data name="&gt;&gt;RefreshListsButton.Parent"><value>$this</value></data>
@@ -211,12 +163,8 @@
 	<data name="&gt;&gt;UserIcon.Type"><value>OpenTween.OTPictureBox, OpenTween, Version=0.1.0.0, Culture=neutral, PublicKeyToken=null</value></data>
 	<data name="&gt;&gt;UserIcon.ZOrder"><value>1</value></data>
 	<data name="&gt;&gt;UserList.Name"><value>UserList</value></data>
-	<data name="&gt;&gt;UserList.Name"><value>UserList</value></data>
-	<data name="&gt;&gt;UserList.Parent"><value>MemberGroup</value></data>
 	<data name="&gt;&gt;UserList.Parent"><value>MemberGroup</value></data>
 	<data name="&gt;&gt;UserList.Type"><value>System.Windows.Forms.ListBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
-	<data name="&gt;&gt;UserList.Type"><value>System.Windows.Forms.ListBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
-	<data name="&gt;&gt;UserList.ZOrder"><value>0</value></data>
 	<data name="&gt;&gt;UserList.ZOrder"><value>0</value></data>
 	<data name="&gt;&gt;UserLocation.Name"><value>UserLocation</value></data>
 	<data name="&gt;&gt;UserLocation.Parent"><value>UserGroup</value></data>
