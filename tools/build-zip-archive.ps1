@@ -82,6 +82,16 @@ Function Get-CommandVersion([String] $Name) {
   Get-Command -Name $Name | Select -Property Name, @{Name='ProductVersion'; Expression={$_.FileVersionInfo.ProductVersion}}
 }
 
+Function Get-RuntimeVersion() {
+  return [PSCustomObject]@{
+    Name = 'RuntimeVersion'
+    Value = [Attribute]::GetCustomAttribute(
+      [Object].Assembly,
+      [System.Reflection.AssemblyInformationalVersionAttribute]
+    ).InformationalVersion
+  }
+}
+
 Build-SateliteAssembly -Culture en
 
 $includePaths = $includeFiles | % { Join-Path $BinDir $_ }
@@ -95,6 +105,7 @@ Write-Host "Build success!"
 @(
   Get-CommandVersion 'msbuild.exe'
   Get-CommandVersion 'csc.exe'
+  Get-RuntimeVersion
   [PSCustomObject]@{
     Name = 'SOURCE_DATE_EPOCH'
     Value = $timestamp
