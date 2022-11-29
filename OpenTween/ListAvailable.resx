@@ -15,12 +15,8 @@
 	<data name="&gt;&gt;$this.Name"><value>ListAvailable</value></data>
 	<data name="&gt;&gt;$this.Type"><value>OpenTween.OTBaseForm, OpenTween, Version=0.1.0.0, Culture=neutral, PublicKeyToken=null</value></data>
 	<data name="&gt;&gt;Cancel_Button.Name"><value>Cancel_Button</value></data>
-	<data name="&gt;&gt;Cancel_Button.Name"><value>Cancel_Button</value></data>
-	<data name="&gt;&gt;Cancel_Button.Parent"><value>TableLayoutPanel1</value></data>
 	<data name="&gt;&gt;Cancel_Button.Parent"><value>TableLayoutPanel1</value></data>
 	<data name="&gt;&gt;Cancel_Button.Type"><value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
-	<data name="&gt;&gt;Cancel_Button.Type"><value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
-	<data name="&gt;&gt;Cancel_Button.ZOrder"><value>1</value></data>
 	<data name="&gt;&gt;Cancel_Button.ZOrder"><value>1</value></data>
 	<data name="&gt;&gt;DescriptionText.Name"><value>DescriptionText</value></data>
 	<data name="&gt;&gt;DescriptionText.Parent"><value>$this</value></data>
@@ -63,12 +59,8 @@
 	<data name="&gt;&gt;NameLabel.Type"><value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
 	<data name="&gt;&gt;NameLabel.ZOrder"><value>10</value></data>
 	<data name="&gt;&gt;OK_Button.Name"><value>OK_Button</value></data>
-	<data name="&gt;&gt;OK_Button.Name"><value>OK_Button</value></data>
-	<data name="&gt;&gt;OK_Button.Parent"><value>TableLayoutPanel1</value></data>
 	<data name="&gt;&gt;OK_Button.Parent"><value>TableLayoutPanel1</value></data>
 	<data name="&gt;&gt;OK_Button.Type"><value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
-	<data name="&gt;&gt;OK_Button.Type"><value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
-	<data name="&gt;&gt;OK_Button.ZOrder"><value>0</value></data>
 	<data name="&gt;&gt;OK_Button.ZOrder"><value>0</value></data>
 	<data name="&gt;&gt;RefreshButton.Name"><value>RefreshButton</value></data>
 	<data name="&gt;&gt;RefreshButton.Parent"><value>$this</value></data>
