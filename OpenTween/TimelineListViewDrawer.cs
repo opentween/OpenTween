@@ -147,65 +147,54 @@ namespace OpenTween
             iconRect.Offset(0, Math.Max(0, (itemRect.Height - scaledIconSize.Height) / 2));
 
             var post = this.tab[item.Index];
-            var img = this.LoadListViewIconLazy(post, scaledIconSize.Width);
-            if (img != null)
+            this.DrawListViewItemProfileImage(e.Graphics, post, scaledIconSize, iconRect);
+
+            var stateRect = Rectangle.Intersect(new Rectangle(new Point(iconRect.X + scaledIconSize.Width + 2, iconRect.Y), scaledStateSize), itemRect);
+            this.DrawListViewItemStateIcon(e.Graphics, post, stateRect);
+        }
+
+        private void DrawListViewItemStateIcon(Graphics g, PostClass post, Rectangle stateRect)
+        {
+            if (post.StateIndex == -1)
+                return;
+
+            if (stateRect.Width <= 0)
+                return;
+
+            g.DrawIcon(this.GetPostStateIcon(post.StateIndex), stateRect);
+        }
+
+        private void DrawListViewItemProfileImage(Graphics g, PostClass post, Size scaledIconSize, Rectangle iconRect)
+        {
+            if (scaledIconSize.Width <= 0)
+                return;
+
+            var normalImageUrl = post.ImageUrl;
+            if (MyCommon.IsNullOrEmpty(normalImageUrl))
+                return;
+
+            var sizeName = Twitter.DecideProfileImageSize(scaledIconSize.Width);
+            var cachedImage = this.iconCache.TryGetLargerOrSameSizeFromCache(normalImageUrl, sizeName);
+
+            if (cachedImage != null)
             {
-                e.Graphics.FillRectangle(Brushes.White, iconRect);
-                e.Graphics.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.High;
+                g.FillRectangle(Brushes.White, iconRect);
+                g.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.High;
                 try
                 {
-                    e.Graphics.DrawImage(img.Image, iconRect);
+                    g.DrawImage(cachedImage.Image, iconRect);
                 }
                 catch (ArgumentException)
                 {
                 }
             }
-
-            if (post.StateIndex > -1)
+            else
             {
-                var stateRect = Rectangle.Intersect(new Rectangle(new Point(iconRect.X + scaledIconSize.Width + 2, iconRect.Y), scaledStateSize), itemRect);
-                if (stateRect.Width > 0)
-                    e.Graphics.DrawIcon(this.GetPostStateIcon(post.StateIndex), stateRect);
-            }
-        }
-
-        private MemoryImage? LoadListViewIconLazy(PostClass post, int scaledIconSize)
-        {
-            if (scaledIconSize <= 0)
-                return null;
-
-            var normalImageUrl = post.ImageUrl;
-            if (MyCommon.IsNullOrEmpty(normalImageUrl))
-                return null;
-
-            var sizeName = Twitter.DecideProfileImageSize(scaledIconSize);
-            var cachedImage = this.iconCache.TryGetLargerOrSameSizeFromCache(normalImageUrl, sizeName);
-            if (cachedImage != null)
-                return cachedImage;
-
-            // キャッシュにない画像の場合は読み込みが完了してから再描画する
-            _ = Task.Run(async () =>
-            {
-                try
+                // キャッシュにない画像の場合は読み込みが完了してから再描画する
+                async Task RefreshProfileImageLazy()
                 {
-                    var imageUrl = Twitter.CreateProfileImageUrl(normalImageUrl, sizeName);
-                    await this.iconCache.DownloadImageAsync(imageUrl);
-                }
-                catch (InvalidImageException)
-                {
-                    return;
-                }
-                catch (HttpRequestException)
-                {
-                    return;
-                }
-                catch (OperationCanceledException)
-                {
-                    return;
-                }
+                    await this.LoadProfileImage(normalImageUrl, sizeName);
 
-                await this.parentForm.InvokeAsync(() =>
-                {
                     if (this.listView.IsDisposed)
                         return;
 
@@ -216,10 +205,31 @@ namespace OpenTween
                     var newIndex = this.tab.IndexOf(post.StatusId);
                     if (newIndex != -1)
                         this.listView.RedrawItems(newIndex, newIndex, true);
-                });
-            });
+                }
 
-            return null;
+                _ = RefreshProfileImageLazy();
+            }
+        }
+
+        private async Task LoadProfileImage(string normalImageUrl, string sizeName)
+        {
+            try
+            {
+                var imageUrl = Twitter.CreateProfileImageUrl(normalImageUrl, sizeName);
+                await this.iconCache.DownloadImageAsync(imageUrl);
+            }
+            catch (InvalidImageException)
+            {
+                return;
+            }
+            catch (HttpRequestException)
+            {
+                return;
+            }
+            catch (OperationCanceledException)
+            {
+                return;
+            }
         }
 
         private Icon GetPostStateIcon(int stateIndex)

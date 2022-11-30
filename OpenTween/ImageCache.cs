@@ -47,11 +47,6 @@ namespace OpenTween
         private CancellationTokenSource cancelTokenSource;
 
         /// <summary>
-        /// innerDictionary の排他制御のためのロックオブジェクト
-        /// </summary>
-        private readonly object lockObject = new();
-
-        /// <summary>
         /// オブジェクトが破棄された否か
         /// </summary>
         private bool disposed = false;
@@ -89,25 +84,17 @@ namespace OpenTween
         {
             var cancelToken = this.cancelTokenSource.Token;
 
-            return Task.Run(() =>
-            {
-                Task<MemoryImage>? cachedImageTask;
-                lock (this.lockObject)
-                    this.InnerDictionary.TryGetValue(address, out cachedImageTask);
+            this.InnerDictionary.TryGetValue(address, out var cachedImageTask);
 
-                if (cachedImageTask != null && !force)
-                    return cachedImageTask;
+            if (cachedImageTask != null && !force)
+                return cachedImageTask;
 
-                cancelToken.ThrowIfCancellationRequested();
+            cancelToken.ThrowIfCancellationRequested();
 
-                var imageTask = this.FetchImageAsync(address, cancelToken);
+            var imageTask = Task.Run(() => this.FetchImageAsync(address, cancelToken));
+            this.InnerDictionary[address] = imageTask;
 
-                lock (this.lockObject)
-                    this.InnerDictionary[address] = imageTask;
-
-                return imageTask;
-            },
-            cancelToken);
+            return imageTask;
         }
 
         private async Task<MemoryImage> FetchImageAsync(string uri, CancellationToken cancelToken)
@@ -126,14 +113,11 @@ namespace OpenTween
 
         public MemoryImage? TryGetFromCache(string address)
         {
-            lock (this.lockObject)
-            {
-                if (!this.InnerDictionary.TryGetValue(address, out var imageTask) ||
-                    imageTask.Status != TaskStatus.RanToCompletion)
-                    return null;
+            if (!this.InnerDictionary.TryGetValue(address, out var imageTask) ||
+                imageTask.Status != TaskStatus.RanToCompletion)
+                return null;
 
-                return imageTask.Result;
-            }
+            return imageTask.Result;
         }
 
         public MemoryImage? TryGetLargerOrSameSizeFromCache(string normalUrl, string size)
@@ -154,14 +138,11 @@ namespace OpenTween
 
         public void CancelAsync()
         {
-            lock (this.lockObject)
-            {
-                var oldTokenSource = this.cancelTokenSource;
-                this.cancelTokenSource = new CancellationTokenSource();
+            var oldTokenSource = this.cancelTokenSource;
+            this.cancelTokenSource = new CancellationTokenSource();
 
-                oldTokenSource.Cancel();
-                oldTokenSource.Dispose();
-            }
+            oldTokenSource.Cancel();
+            oldTokenSource.Dispose();
         }
 
         protected virtual void Dispose(bool disposing)
@@ -172,17 +153,14 @@ namespace OpenTween
             {
                 this.CancelAsync();
 
-                lock (this.lockObject)
+                foreach (var (_, task) in this.InnerDictionary)
                 {
-                    foreach (var (_, task) in this.InnerDictionary)
-                    {
-                        if (task.Status == TaskStatus.RanToCompletion)
-                            task.Result?.Dispose();
-                    }
-
-                    this.InnerDictionary.Clear();
-                    this.cancelTokenSource.Dispose();
+                    if (task.Status == TaskStatus.RanToCompletion)
+                        task.Result?.Dispose();
                 }
+
+                this.InnerDictionary.Clear();
+                this.cancelTokenSource.Dispose();
             }
 
             this.disposed = true;
