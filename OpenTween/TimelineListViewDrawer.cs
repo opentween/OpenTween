@@ -147,19 +147,7 @@ namespace OpenTween
             iconRect.Offset(0, Math.Max(0, (itemRect.Height - scaledIconSize.Height) / 2));
 
             var post = this.tab[item.Index];
-            var img = this.LoadListViewIconLazy(post, scaledIconSize.Width);
-            if (img != null)
-            {
-                e.Graphics.FillRectangle(Brushes.White, iconRect);
-                e.Graphics.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.High;
-                try
-                {
-                    e.Graphics.DrawImage(img.Image, iconRect);
-                }
-                catch (ArgumentException)
-                {
-                }
-            }
+            this.DrawListViewItemProfileImage(e.Graphics, post, scaledIconSize, iconRect);
 
             if (post.StateIndex > -1)
             {
@@ -167,39 +155,57 @@ namespace OpenTween
                 if (stateRect.Width > 0)
                     e.Graphics.DrawIcon(this.GetPostStateIcon(post.StateIndex), stateRect);
             }
-
-            // キャッシュにない画像の場合は読み込みが完了してから再描画する
-            _ = this.LoadProfileImage(post, scaledIconSize.Width);
         }
 
-        private MemoryImage? LoadListViewIconLazy(PostClass post, int scaledIconSize)
+        private void DrawListViewItemProfileImage(Graphics g, PostClass post, Size scaledIconSize, Rectangle iconRect)
         {
-            if (scaledIconSize <= 0)
-                return null;
+            if (scaledIconSize.Width <= 0)
+                return;
 
             var normalImageUrl = post.ImageUrl;
             if (MyCommon.IsNullOrEmpty(normalImageUrl))
-                return null;
+                return;
 
-            var sizeName = Twitter.DecideProfileImageSize(scaledIconSize);
+            var sizeName = Twitter.DecideProfileImageSize(scaledIconSize.Width);
             var cachedImage = this.iconCache.TryGetLargerOrSameSizeFromCache(normalImageUrl, sizeName);
-            if (cachedImage != null)
-                return cachedImage;
 
-            return null;
+            if (cachedImage != null)
+            {
+                g.FillRectangle(Brushes.White, iconRect);
+                g.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.High;
+                try
+                {
+                    g.DrawImage(cachedImage.Image, iconRect);
+                }
+                catch (ArgumentException)
+                {
+                }
+            }
+            else
+            {
+                // キャッシュにない画像の場合は読み込みが完了してから再描画する
+                async Task RefreshProfileImageLazy()
+                {
+                    await this.LoadProfileImage(normalImageUrl, sizeName);
+
+                    if (this.listView.IsDisposed)
+                        return;
+
+                    if (this.listView.VirtualListSize == 0)
+                        return;
+
+                    // ロード中に index の指す行が変化している可能性がある
+                    var newIndex = this.tab.IndexOf(post.StatusId);
+                    if (newIndex != -1)
+                        this.listView.RedrawItems(newIndex, newIndex, true);
+                }
+
+                _ = RefreshProfileImageLazy();
+            }
         }
 
-        private async Task LoadProfileImage(PostClass post, int scaledIconSize)
+        private async Task LoadProfileImage(string normalImageUrl, string sizeName)
         {
-            if (scaledIconSize <= 0)
-                return;
-
-            var normalImageUrl = post.ImageUrl;
-            if (MyCommon.IsNullOrEmpty(normalImageUrl))
-                return;
-
-            var sizeName = Twitter.DecideProfileImageSize(scaledIconSize);
-
             try
             {
                 var imageUrl = Twitter.CreateProfileImageUrl(normalImageUrl, sizeName);
@@ -217,17 +223,6 @@ namespace OpenTween
             {
                 return;
             }
-
-            if (this.listView.IsDisposed)
-                return;
-
-            if (this.listView.VirtualListSize == 0)
-                return;
-
-            // ロード中に index の指す行が変化している可能性がある
-            var newIndex = this.tab.IndexOf(post.StatusId);
-            if (newIndex != -1)
-                this.listView.RedrawItems(newIndex, newIndex, true);
         }
 
         private Icon GetPostStateIcon(int stateIndex)
