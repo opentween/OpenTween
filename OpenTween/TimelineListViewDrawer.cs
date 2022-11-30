@@ -149,12 +149,19 @@ namespace OpenTween
             var post = this.tab[item.Index];
             this.DrawListViewItemProfileImage(e.Graphics, post, scaledIconSize, iconRect);
 
-            if (post.StateIndex > -1)
-            {
-                var stateRect = Rectangle.Intersect(new Rectangle(new Point(iconRect.X + scaledIconSize.Width + 2, iconRect.Y), scaledStateSize), itemRect);
-                if (stateRect.Width > 0)
-                    e.Graphics.DrawIcon(this.GetPostStateIcon(post.StateIndex), stateRect);
-            }
+            var stateRect = Rectangle.Intersect(new Rectangle(new Point(iconRect.X + scaledIconSize.Width + 2, iconRect.Y), scaledStateSize), itemRect);
+            this.DrawListViewItemStateIcon(e.Graphics, post, stateRect);
+        }
+
+        private void DrawListViewItemStateIcon(Graphics g, PostClass post, Rectangle stateRect)
+        {
+            if (post.StateIndex == -1)
+                return;
+
+            if (stateRect.Width <= 0)
+                return;
+
+            g.DrawIcon(this.GetPostStateIcon(post.StateIndex), stateRect);
         }
 
         private void DrawListViewItemProfileImage(Graphics g, PostClass post, Size scaledIconSize, Rectangle iconRect)
