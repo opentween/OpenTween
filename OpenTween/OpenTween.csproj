@@ -4,12 +4,9 @@
     <UseWindowsForms>true</UseWindowsForms>
     <TargetFramework>net472</TargetFramework>
     <LangVersion>10.0</LangVersion>
-    <Product>OpenTween (dev)</Product>
-    <Version>2.7.1.1</Version>
-    <Description>Client of Twitter. Free software(GPLv3)</Description>
-    <Copyright>(C) 2011 OpenTween contributors</Copyright>
     <OutputPath>bin\$(Configuration)\</OutputPath>
     <DisableImplicitFrameworkReferences>true</DisableImplicitFrameworkReferences>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
     <GenerateSatelliteAssembliesForCore>true</GenerateSatelliteAssembliesForCore>
     <PathMap>$(MSBuildProjectDirectory)=.</PathMap>
   </PropertyGroup>
