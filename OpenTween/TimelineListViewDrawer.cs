@@ -167,6 +167,9 @@ namespace OpenTween
                 if (stateRect.Width > 0)
                     e.Graphics.DrawIcon(this.GetPostStateIcon(post.StateIndex), stateRect);
             }
+
+            // キャッシュにない画像の場合は読み込みが完了してから再描画する
+            _ = this.LoadProfileImage(post, scaledIconSize.Width);
         }
 
         private MemoryImage? LoadListViewIconLazy(PostClass post, int scaledIconSize)
@@ -183,43 +186,48 @@ namespace OpenTween
             if (cachedImage != null)
                 return cachedImage;
 
-            // キャッシュにない画像の場合は読み込みが完了してから再描画する
-            _ = Task.Run(async () =>
-            {
-                try
-                {
-                    var imageUrl = Twitter.CreateProfileImageUrl(normalImageUrl, sizeName);
-                    await this.iconCache.DownloadImageAsync(imageUrl);
-                }
-                catch (InvalidImageException)
-                {
-                    return;
-                }
-                catch (HttpRequestException)
-                {
-                    return;
-                }
-                catch (OperationCanceledException)
-                {
-                    return;
-                }
-
-                await this.parentForm.InvokeAsync(() =>
-                {
-                    if (this.listView.IsDisposed)
-                        return;
-
-                    if (this.listView.VirtualListSize == 0)
-                        return;
-
-                    // ロード中に index の指す行が変化している可能性がある
-                    var newIndex = this.tab.IndexOf(post.StatusId);
-                    if (newIndex != -1)
-                        this.listView.RedrawItems(newIndex, newIndex, true);
-                });
-            });
-
             return null;
+        }
+
+        private async Task LoadProfileImage(PostClass post, int scaledIconSize)
+        {
+            if (scaledIconSize <= 0)
+                return;
+
+            var normalImageUrl = post.ImageUrl;
+            if (MyCommon.IsNullOrEmpty(normalImageUrl))
+                return;
+
+            var sizeName = Twitter.DecideProfileImageSize(scaledIconSize);
+
+            try
+            {
+                var imageUrl = Twitter.CreateProfileImageUrl(normalImageUrl, sizeName);
+                await this.iconCache.DownloadImageAsync(imageUrl);
+            }
+            catch (InvalidImageException)
+            {
+                return;
+            }
+            catch (HttpRequestException)
+            {
+                return;
+            }
+            catch (OperationCanceledException)
+            {
+                return;
+            }
+
+            if (this.listView.IsDisposed)
+                return;
+
+            if (this.listView.VirtualListSize == 0)
+                return;
+
+            // ロード中に index の指す行が変化している可能性がある
+            var newIndex = this.tab.IndexOf(post.StatusId);
+            if (newIndex != -1)
+                this.listView.RedrawItems(newIndex, newIndex, true);
         }
 
         private Icon GetPostStateIcon(int stateIndex)
