@@ -35,11 +35,11 @@
             this.panelPictureBox = new System.Windows.Forms.Panel();
             this.contextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.openMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.copyToClipboardMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.copyUrlMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.searchImageGoogleMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.searchImageSauceNaoMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.copyToClipboardMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.contextMenuStrip.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -63,8 +63,8 @@
             resources.ApplyResources(this.contextMenuStrip, "contextMenuStrip");
             this.contextMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.openMenuItem,
-            this.copyUrlMenuItem,
             this.copyToClipboardMenuItem,
+            this.copyUrlMenuItem,
             this.toolStripSeparator1,
             this.searchImageGoogleMenuItem,
             this.searchImageSauceNaoMenuItem});
@@ -77,6 +77,12 @@
             resources.ApplyResources(this.openMenuItem, "openMenuItem");
             this.openMenuItem.Name = "openMenuItem";
             this.openMenuItem.Click += new System.EventHandler(this.OpenMenuItem_Click);
+            // 
+            // copyToClipboardMenuItem
+            // 
+            resources.ApplyResources(this.copyToClipboardMenuItem, "copyToClipboardMenuItem");
+            this.copyToClipboardMenuItem.Name = "copyToClipboardMenuItem";
+            this.copyToClipboardMenuItem.Click += new System.EventHandler(this.CopyToClipboardMenuItem_Click);
             // 
             // copyUrlMenuItem
             // 
@@ -100,12 +106,6 @@
             resources.ApplyResources(this.searchImageSauceNaoMenuItem, "searchImageSauceNaoMenuItem");
             this.searchImageSauceNaoMenuItem.Name = "searchImageSauceNaoMenuItem";
             this.searchImageSauceNaoMenuItem.Click += new System.EventHandler(this.SearchImageSauceNaoMenuItem_Click);
-            // 
-            // copyToClipboardMenuItem
-            // 
-            resources.ApplyResources(this.copyToClipboardMenuItem, "copyToClipboardMenuItem");
-            this.copyToClipboardMenuItem.Name = "copyToClipboardMenuItem";
-            this.copyToClipboardMenuItem.Click += new System.EventHandler(this.CopyToClipboardMenuItem_Click);
             // 
             // TweetThumbnail
             // 
