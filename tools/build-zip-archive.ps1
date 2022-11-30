@@ -23,13 +23,11 @@
 # Reproducible Build に対応した ZIP アーカイブのビルドを行うスクリプト
 #
 # 使い方:
-#   .\tools\build-zip-archive.ps1 -BinDir .\OpenTween\bin\Debug\ -ObjDir .\OpenTween\obj\Debug\ -AssemblyInfo .\OpenTween\Properties\AssemblyInfo.cs -DestPath OpenTween.zip
+#   .\tools\build-zip-archive.ps1 -BinDir .\OpenTween\bin\Debug\ -DestPath OpenTween.zip
 #
 
 Param(
   [Parameter(Mandatory = $true)][String] $BinDir,
-  [Parameter(Mandatory = $true)][String] $ObjDir,
-  [Parameter(Mandatory = $true)][String] $AssemblyInfo,
   [Parameter(Mandatory = $true)][String] $DestPath,
   [String] $HeadCommit = 'HEAD'
 )
@@ -53,12 +51,6 @@ $includeFiles = @(
 )
 
 . .\tools\functions.ps1
-
-Function Build-SateliteAssembly([String] $Culture) {
-  # OpenTween.resources.dll の生成（カルチャ別）
-  $sateliteAssemblyPath = Join-Path $BinDir "${Culture}\${assemblyName}.resources.dll"
-  .\tools\build-satelite-assembly.ps1 -ObjDir $ObjDir -Culture $Culture -DestPath $sateliteAssemblyPath -AssemblyInfo $AssemblyInfo
-}
 
 Function Get-SourceDateEpoch() {
   # 本来 $unixEpoch は UTC で表さなければならないが、ZIP アーカイブには
@@ -92,8 +84,6 @@ Function Get-RuntimeVersion() {
     ).InformationalVersion
   }
 }
-
-Build-SateliteAssembly -Culture en
 
 $includePaths = $includeFiles | % { Join-Path $BinDir $_ }
 $timestamp = Get-SourceDateEpoch
