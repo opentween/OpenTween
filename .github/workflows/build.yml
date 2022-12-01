@@ -89,7 +89,7 @@ jobs:
           $altCoverPath = "$($env:NUGET_PACKAGES)\altcover\$($altCoverVersion)\tools\$($targetFramework)\AltCover.exe"
           $xunitPath = "$($env:NUGET_PACKAGES)\xunit.runner.console\$($xunitVersion)\tools\$($targetFramework)\xunit.console.exe"
 
-          Start-Process `
+          $p = Start-Process `
             -FilePath $altCoverPath `
             -ArgumentList (
               '--inputDirectory',
@@ -105,9 +105,14 @@ jobs:
               '--visibleBranches'
             ) `
             -NoNewWindow `
+            -PassThru `
             -Wait
 
-          Start-Process `
+          if ($p.ExitCode -ne 0) {
+            exit $p.ExitCode
+          }
+
+          $p = Start-Process `
             -FilePath $altCoverPath `
             -ArgumentList (
               'runner',
@@ -119,7 +124,12 @@ jobs:
               '.\__Instrumented\OpenTween.Tests.dll'
             ) `
             -NoNewWindow `
+            -PassThru `
             -Wait
+
+          if ($p.ExitCode -ne 0) {
+            exit $p.ExitCode
+          }
 
       - name: Upload test results to codecov
         shell: pwsh
