@@ -1355,24 +1355,8 @@ namespace OpenTween
             this.BringToFront();
         }
 
-        private static int errorCount = 0;
-
         private static bool CheckAccountValid()
-        {
-            if (Twitter.AccountState != MyCommon.ACCOUNT_STATE.Valid)
-            {
-                errorCount += 1;
-                if (errorCount > 5)
-                {
-                    errorCount = 0;
-                    Twitter.AccountState = MyCommon.ACCOUNT_STATE.Valid;
-                    return true;
-                }
-                return false;
-            }
-            errorCount = 0;
-            return true;
-        }
+            => true;
 
         /// <summary>指定された型 <typeparamref name="T"/> に合致する全てのタブを更新します</summary>
         private Task RefreshTabAsync<T>()
