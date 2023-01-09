@@ -191,7 +191,7 @@ namespace OpenTween
 
             Assert.Equal(new[] { 5, 6 }, entity.Indices);
             Assert.Equal("✨", entity.Text);
-            Assert.Equal("https://twemoji.maxcdn.com/2/72x72/2728.png", entity.Url);
+            Assert.Equal("https://cdnjs.cloudflare.com/ajax/libs/twemoji/14.0.2/72x72/2728.png", entity.Url);
         }
 
         [Fact]
@@ -202,7 +202,7 @@ namespace OpenTween
             // 「𠮷」「🍚」は UTF-16 でそれぞれ 2byte になるがインデックスはコードポイント単位で数えなければならない
             Assert.Equal(new[] { 4, 5 }, entity.Indices);
             Assert.Equal("🍚", entity.Text);
-            Assert.Equal("https://twemoji.maxcdn.com/2/72x72/1f35a.png", entity.Url);
+            Assert.Equal("https://cdnjs.cloudflare.com/ajax/libs/twemoji/14.0.2/72x72/1f35a.png", entity.Url);
         }
 
         [Fact]
@@ -224,7 +224,7 @@ namespace OpenTween
 
             Assert.Equal(new[] { 0, 2 }, entity.Indices);
             Assert.Equal("©", entity.Text);
-            Assert.Equal("https://twemoji.maxcdn.com/2/72x72/a9.png", entity.Url);
+            Assert.Equal("https://cdnjs.cloudflare.com/ajax/libs/twemoji/14.0.2/72x72/a9.png", entity.Url);
         }
 
         [Fact]
@@ -238,7 +238,7 @@ namespace OpenTween
 
             Assert.Equal(new[] { 0, 1 }, entities[0].Indices);
             Assert.Equal("🍣", entities[0].Text);
-            Assert.Equal("https://twemoji.maxcdn.com/2/72x72/1f363.png", entities[0].Url);
+            Assert.Equal("https://cdnjs.cloudflare.com/ajax/libs/twemoji/14.0.2/72x72/1f363.png", entities[0].Url);
 
             Assert.Equal(new[] { 1, 2 }, entities[1].Indices);
             Assert.Equal("", entities[1].Text);
@@ -253,7 +253,7 @@ namespace OpenTween
 
             Assert.Equal(new[] { 0, 2 }, entity.Indices);
             Assert.Equal("#⃣", entity.Text);
-            Assert.Equal("https://twemoji.maxcdn.com/2/72x72/23-20e3.png", entity.Url);
+            Assert.Equal("https://cdnjs.cloudflare.com/ajax/libs/twemoji/14.0.2/72x72/23-20e3.png", entity.Url);
         }
 
         [Fact]
@@ -265,7 +265,7 @@ namespace OpenTween
 
             Assert.Equal(new[] { 0, 1 }, entity.Indices);
             Assert.Equal("🦒", entity.Text);
-            Assert.Equal("https://twemoji.maxcdn.com/2/72x72/1f992.png", entity.Url);
+            Assert.Equal("https://cdnjs.cloudflare.com/ajax/libs/twemoji/14.0.2/72x72/1f992.png", entity.Url);
         }
 
         [Fact]
@@ -277,7 +277,7 @@ namespace OpenTween
 
             Assert.Equal(new[] { 0, 1 }, entity.Indices);
             Assert.Equal("🦸", entity.Text);
-            Assert.Equal("https://twemoji.maxcdn.com/2/72x72/1f9b8.png", entity.Url);
+            Assert.Equal("https://cdnjs.cloudflare.com/ajax/libs/twemoji/14.0.2/72x72/1f9b8.png", entity.Url);
         }
 
         [Fact]
@@ -289,7 +289,7 @@ namespace OpenTween
 
             Assert.Equal(new[] { 0, 1 }, entity.Indices);
             Assert.Equal("🧅", entity.Text);
-            Assert.Equal("https://twemoji.maxcdn.com/2/72x72/1f9c5.png", entity.Url);
+            Assert.Equal("https://cdnjs.cloudflare.com/ajax/libs/twemoji/14.0.2/72x72/1f9c5.png", entity.Url);
         }
 
         [Fact]
@@ -301,7 +301,7 @@ namespace OpenTween
 
             Assert.Equal(new[] { 0, 1 }, entity.Indices);
             Assert.Equal("🥷", entity.Text);
-            Assert.Equal("https://twemoji.maxcdn.com/2/72x72/1f977.png", entity.Url);
+            Assert.Equal("https://cdnjs.cloudflare.com/ajax/libs/twemoji/14.0.2/72x72/1f977.png", entity.Url);
         }
 
         [Fact]
@@ -313,7 +313,7 @@ namespace OpenTween
 
             Assert.Equal(new[] { 0, 1 }, entity.Indices);
             Assert.Equal("🫠", entity.Text);
-            Assert.Equal("https://twemoji.maxcdn.com/2/72x72/1fae0.png", entity.Url);
+            Assert.Equal("https://cdnjs.cloudflare.com/ajax/libs/twemoji/14.0.2/72x72/1fae0.png", entity.Url);
         }
 
         [Fact]
@@ -325,7 +325,7 @@ namespace OpenTween
 
             Assert.Equal(new[] { 0, 2 }, entity.Indices);
             Assert.Equal("👦\U0001F3FF", entity.Text);
-            Assert.Equal("https://twemoji.maxcdn.com/2/72x72/1f466-1f3ff.png", entity.Url);
+            Assert.Equal("https://cdnjs.cloudflare.com/ajax/libs/twemoji/14.0.2/72x72/1f466-1f3ff.png", entity.Url);
         }
 
         [Fact]
@@ -337,7 +337,7 @@ namespace OpenTween
 
             Assert.Equal(new[] { 0, 1 }, entity.Indices);
             Assert.Equal("\U0001F3FF", entity.Text);
-            Assert.Equal("https://twemoji.maxcdn.com/2/72x72/1f3ff.png", entity.Url);
+            Assert.Equal("https://cdnjs.cloudflare.com/ajax/libs/twemoji/14.0.2/72x72/1f3ff.png", entity.Url);
         }
 
         [Fact]
@@ -349,7 +349,7 @@ namespace OpenTween
 
             Assert.Equal(new[] { 0, 3 }, entity.Indices);
             Assert.Equal("👨\u200D🎨", entity.Text);
-            Assert.Equal("https://twemoji.maxcdn.com/2/72x72/1f468-200d-1f3a8.png", entity.Url);
+            Assert.Equal("https://cdnjs.cloudflare.com/ajax/libs/twemoji/14.0.2/72x72/1f468-200d-1f3a8.png", entity.Url);
         }
 
         [Fact]
@@ -362,7 +362,7 @@ namespace OpenTween
 
             Assert.Equal(new[] { 0, 4 }, entity.Indices);
             Assert.Equal("🏃\u200D♀\uFE0F", entity.Text);
-            Assert.Equal("https://twemoji.maxcdn.com/2/72x72/1f3c3-200d-2640-fe0f.png", entity.Url);
+            Assert.Equal("https://cdnjs.cloudflare.com/ajax/libs/twemoji/14.0.2/72x72/1f3c3-200d-2640-fe0f.png", entity.Url);
         }
     }
 }

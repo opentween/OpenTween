@@ -175,11 +175,11 @@ namespace OpenTween
                 {
                     Indices = new[] { 0, 1 },
                     Text = "🍣",
-                    Url = "https://twemoji.maxcdn.com/2/72x72/1f363.png",
+                    Url = "https://cdnjs.cloudflare.com/ajax/libs/twemoji/14.0.2/72x72/1f363.png",
                 },
             };
 
-            var expected = "<img class=\"emoji\" src=\"https://twemoji.maxcdn.com/2/72x72/1f363.png\" alt=\"🍣\" />";
+            var expected = "<img class=\"emoji\" src=\"https://cdnjs.cloudflare.com/ajax/libs/twemoji/14.0.2/72x72/1f363.png\" alt=\"🍣\" />";
             Assert.Equal(expected, TweetFormatter.AutoLinkHtml(text, entities));
         }
 
