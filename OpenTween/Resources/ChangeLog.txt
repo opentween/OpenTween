@@ -1,5 +1,7 @@
 ﻿更新履歴
 
+==== Unreleased
+
 ==== Ver 3.0.0(2023/01/11)
  * OpenTween v3.0.0 からは .NET Framework 4.8 以上が必須になります
   - .NET Framework 4.8 ランタイムは https://dotnet.microsoft.com/ja-jp/download/dotnet-framework/net48 から入手できます

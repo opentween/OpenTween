@@ -571,6 +571,8 @@ namespace OpenTween.Properties {
         /// <summary>
         ///   更新履歴
         ///
+        ///==== Unreleased
+        ///
         ///==== Ver 3.0.0(2023/01/11)
         /// * OpenTween v3.0.0 からは .NET Framework 4.8 以上が必須になります
         ///  - .NET Framework 4.8 ランタイムは https://dotnet.microsoft.com/ja-jp/download/dotnet-framework/net48 から入手できます
@@ -581,8 +583,7 @@ namespace OpenTween.Properties {
         ///
         ///==== Ver 2.8.0(2023/01/11)
         /// * NEW: サムネイル画像のコンテキストメニューに「画像をコピー」を追加 (thx @kzlogos!)
-        /// * NEW: Segoe UI Emoji によるカラー絵文字の描画に対応（発言詳細欄のみ）
-        /// * CH [残りの文字列は切り詰められました]&quot;; に類似しているローカライズされた文字列を検索します。
+        /// * NEW: Segoe UI Emoji によるカラー絵文字の描画 [残りの文字列は切り詰められました]&quot;; に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string ChangeLog {
             get {
