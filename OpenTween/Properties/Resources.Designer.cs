@@ -571,6 +571,8 @@ namespace OpenTween.Properties {
         /// <summary>
         ///   更新履歴
         ///
+        ///==== Unreleased
+        ///
         ///==== Ver 2.8.0(2023/01/11)
         /// * NEW: サムネイル画像のコンテキストメニューに「画像をコピー」を追加 (thx @kzlogos!)
         /// * NEW: Segoe UI Emoji によるカラー絵文字の描画に対応（発言詳細欄のみ）
@@ -583,7 +585,7 @@ namespace OpenTween.Properties {
         ///==== Ver 2.7.0(2022/07/30)
         /// * NEW: 発言詳細部の日時ラベルをクリックするとWebブラウザを起動してツイートを表示する機能を追加
         /// * NEW: 設定画面に「Twitter API v2 の使用を有効にする」のチェックボックスを追加
-        ///   - デフォルトで API v2 が有効となり、 [残りの文字列は切り詰められました]&quot;; に類似しているローカライズされた文字列を検索します。
+        ///   - デフ [残りの文字列は切り詰められました]&quot;; に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string ChangeLog {
             get {
