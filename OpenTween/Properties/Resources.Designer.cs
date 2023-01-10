@@ -571,19 +571,18 @@ namespace OpenTween.Properties {
         /// <summary>
         ///   更新履歴
         ///
+        ///==== Ver 3.0.0(2023/01/11)
+        /// * OpenTween v3.0.0 からは .NET Framework 4.8 以上が必須になります
+        ///  - .NET Framework 4.8 ランタイムは https://dotnet.microsoft.com/ja-jp/download/dotnet-framework/net48 から入手できます
+        ///  - Windows 10 21H1 以降には標準で .NET Framework 4.8 が含まれているため追加のインストールは不要です
+        /// * このバージョン以降の OpenTween では Windows 8.1 以下向けの対応は行いません
+        ///
+        /// * CHG: ターゲットフレームワークを .NET Framework 4.8 に変更
+        ///
         ///==== Ver 2.8.0(2023/01/11)
         /// * NEW: サムネイル画像のコンテキストメニューに「画像をコピー」を追加 (thx @kzlogos!)
         /// * NEW: Segoe UI Emoji によるカラー絵文字の描画に対応（発言詳細欄のみ）
-        /// * CHG: Twemojiの画像の取得元をMaxCDNからCloudflareに移行 (thx @sou_niyari!)
-        ///
-        ///==== Ver 2.7.1(2022/09/03)
-        /// * FIX: 発言一覧の選択位置を移動した際にデッドロックが発生する場合がある不具合を修正 (thx @Kazuki_Ashiya!)
-        /// * FIX: 発言本文の翻訳時に発生したエラーが適切に処理されない不具合を修正
-        ///
-        ///==== Ver 2.7.0(2022/07/30)
-        /// * NEW: 発言詳細部の日時ラベルをクリックするとWebブラウザを起動してツイートを表示する機能を追加
-        /// * NEW: 設定画面に「Twitter API v2 の使用を有効にする」のチェックボックスを追加
-        ///   - デフォルトで API v2 が有効となり、 [残りの文字列は切り詰められました]&quot;; に類似しているローカライズされた文字列を検索します。
+        /// * CH [残りの文字列は切り詰められました]&quot;; に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string ChangeLog {
             get {

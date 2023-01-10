@@ -35,8 +35,8 @@ namespace OpenTween
     {
         // .NET Framework ランタイムの最小要件
         // 参照: https://docs.microsoft.com/en-us/dotnet/framework/migration-guide/how-to-determine-which-versions-are-installed
-        private const string RuntimeMinimumVersionName = ".NET Framework 4.7.2";
-        private const int RuntimeMinimumVersion = 461808;
+        private const string RuntimeMinimumVersionName = ".NET Framework 4.8";
+        private const int RuntimeMinimumVersion = 528040;
 
         /// <summary>
         /// 全ての起動要件を満たしているか確認する

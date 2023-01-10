@@ -1,5 +1,13 @@
 ﻿更新履歴
 
+==== Ver 3.0.0(2023/01/11)
+ * OpenTween v3.0.0 からは .NET Framework 4.8 以上が必須になります
+  - .NET Framework 4.8 ランタイムは https://dotnet.microsoft.com/ja-jp/download/dotnet-framework/net48 から入手できます
+  - Windows 10 21H1 以降には標準で .NET Framework 4.8 が含まれているため追加のインストールは不要です
+ * このバージョン以降の OpenTween では Windows 8.1 以下向けの対応は行いません
+
+ * CHG: ターゲットフレームワークを .NET Framework 4.8 に変更
+
 ==== Ver 2.8.0(2023/01/11)
  * NEW: サムネイル画像のコンテキストメニューに「画像をコピー」を追加 (thx @kzlogos!)
  * NEW: Segoe UI Emoji によるカラー絵文字の描画に対応（発言詳細欄のみ）

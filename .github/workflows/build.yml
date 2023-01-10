@@ -85,9 +85,9 @@ jobs:
         run: |
           $altCoverVersion = '8.2.837'
           $xunitVersion = '2.4.1'
-          $targetFramework = 'net472'
-          $altCoverPath = "$($env:NUGET_PACKAGES)\altcover\$($altCoverVersion)\tools\$($targetFramework)\AltCover.exe"
-          $xunitPath = "$($env:NUGET_PACKAGES)\xunit.runner.console\$($xunitVersion)\tools\$($targetFramework)\xunit.console.exe"
+          $targetFramework = 'net48'
+          $altCoverPath = "$($env:NUGET_PACKAGES)\altcover\$($altCoverVersion)\tools\net472\AltCover.exe"
+          $xunitPath = "$($env:NUGET_PACKAGES)\xunit.runner.console\$($xunitVersion)\tools\net472\xunit.console.exe"
 
           $p = Start-Process `
             -FilePath $altCoverPath `
@@ -167,7 +167,7 @@ jobs:
         shell: powershell # runtime-versionを取得するため従来のPowershellを使用する
         run: |
           $env:PATH = $env:PATH + ';C:\Program Files\Microsoft Visual Studio\2022\Enterprise\Msbuild\Current\Bin\Roslyn\'
-          $binDir = '.\OpenTween\bin\' + $env:CONFIGURATION + '\net472\'
+          $binDir = '.\OpenTween\bin\' + $env:CONFIGURATION + '\net48\'
           $destPath = 'OpenTween.zip'
           $headCommit = '${{ github.event.pull_request.head.sha }}'
           .\tools\build-zip-archive.ps1 -BinDir $binDir -DestPath $destPath -HeadCommit $headCommit
