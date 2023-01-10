@@ -3,7 +3,7 @@
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
     <UseWindowsForms>true</UseWindowsForms>
-    <TargetFramework>net472</TargetFramework>
+    <TargetFramework>net48</TargetFramework>
     <LangVersion>10.0</LangVersion>
     <OutputPath>bin\$(Configuration)\</OutputPath>
     <DisableImplicitFrameworkReferences>true</DisableImplicitFrameworkReferences>
