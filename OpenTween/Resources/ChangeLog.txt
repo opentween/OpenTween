@@ -2,6 +2,7 @@
 
 ==== Unreleased
  * NEW: サムネイル画像のコンテキストメニューに「画像をコピー」を追加 (thx @kzlogos!)
+ * CHG: Twemojiの画像の取得元をMaxCDNからCloudflareに移行 (thx @sou_niyari!)
 
 ==== Ver 2.7.1(2022/09/03)
  * FIX: 発言一覧の選択位置を移動した際にデッドロックが発生する場合がある不具合を修正 (thx @Kazuki_Ashiya!)
