@@ -1,0 +1,182 @@
+name: Build
+
+on:
+  push:
+    branches: ['develop', 'release']
+  pull_request:
+
+env:
+  NUGET_PACKAGES: ${{ github.workspace }}/.nuget/packages
+
+jobs:
+  build:
+    runs-on: windows-2022
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Add msbuild to PATH
+        uses: microsoft/setup-msbuild@v1.1
+
+      - name: Set configuration env
+        shell: pwsh
+        run: |
+          if ($env:GITHUB_REF -eq 'refs/heads/release') {
+            echo 'CONFIGURATION=Release' >> $env:GITHUB_ENV
+          } else {
+            echo 'CONFIGURATION=Debug' >> $env:GITHUB_ENV
+          }
+
+      - uses: actions/cache@v3
+        with:
+          path: ${{ github.workspace }}/.nuget/packages
+          key: nuget-${{ hashFiles('*/*.csproj') }}
+          restore-keys: |
+            nuget-
+
+      - name: Build
+        shell: pwsh
+        run: |
+          msbuild /target:restore,build "/p:Configuration=$($env:CONFIGURATION)" /verbosity:minimal
+
+      - name: Upload build result
+        uses: actions/upload-artifact@v3
+        with:
+          name: build
+          path: |
+            ./OpenTween/bin/
+            ./OpenTween/obj/
+            ./OpenTween.Tests/bin/
+          retention-days: 1
+
+  test:
+    runs-on: windows-2022
+    needs: [build]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Add msbuild to PATH
+        uses: microsoft/setup-msbuild@v1.1
+
+      - name: Set configuration env
+        shell: pwsh
+        run: |
+          if ($env:GITHUB_REF -eq 'refs/heads/release') {
+            echo 'CONFIGURATION=Release' >> $env:GITHUB_ENV
+          } else {
+            echo 'CONFIGURATION=Debug' >> $env:GITHUB_ENV
+          }
+
+      - uses: actions/cache@v3
+        with:
+          path: ${{ github.workspace }}/.nuget/packages
+          key: nuget-${{ hashFiles('*/*.csproj') }}
+          restore-keys: |
+            nuget-
+
+      - name: Restore build result
+        uses: actions/download-artifact@v3
+        with:
+          name: build
+
+      - name: Run tests
+        shell: pwsh
+        run: |
+          $altCoverVersion = '8.2.837'
+          $xunitVersion = '2.4.1'
+          $targetFramework = 'net472'
+          $altCoverPath = "$($env:NUGET_PACKAGES)\altcover\$($altCoverVersion)\tools\$($targetFramework)\AltCover.exe"
+          $xunitPath = "$($env:NUGET_PACKAGES)\xunit.runner.console\$($xunitVersion)\tools\$($targetFramework)\xunit.console.exe"
+
+          $p = Start-Process `
+            -FilePath $altCoverPath `
+            -ArgumentList (
+              '--inputDirectory',
+              ".\OpenTween.Tests\bin\$($env:CONFIGURATION)\$($targetFramework)",
+              '--outputDirectory',
+              '.\__Instrumented\',
+              '--assemblyFilter',
+              '?^OpenTween(?!\.Tests)',
+              '--typeFilter',
+              '?^OpenTween\.',
+              '--fileFilter',
+              '\.Designer\.cs',
+              '--visibleBranches'
+            ) `
+            -NoNewWindow `
+            -PassThru `
+            -Wait
+
+          if ($p.ExitCode -ne 0) {
+            exit $p.ExitCode
+          }
+
+          $p = Start-Process `
+            -FilePath $altCoverPath `
+            -ArgumentList (
+              'runner',
+              '--recorderDirectory',
+              '.\__Instrumented\',
+              '--executable',
+              $xunitPath,
+              '--',
+              '.\__Instrumented\OpenTween.Tests.dll'
+            ) `
+            -NoNewWindow `
+            -PassThru `
+            -Wait
+
+          if ($p.ExitCode -ne 0) {
+            exit $p.ExitCode
+          }
+
+      - name: Upload test results to codecov
+        shell: pwsh
+        run: |
+          Invoke-WebRequest -Uri https://uploader.codecov.io/latest/windows/codecov.exe -Outfile codecov.exe
+          .\codecov.exe -f coverage.xml
+
+  package:
+    runs-on: windows-2022
+    needs: [build]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          ref: '${{ github.event.pull_request.head.sha }}'
+
+      - name: Add msbuild to PATH
+        uses: microsoft/setup-msbuild@v1.1
+
+      - name: Set configuration env
+        shell: pwsh
+        run: |
+          if ($env:GITHUB_REF -eq 'refs/heads/release') {
+            echo 'CONFIGURATION=Release' >> $env:GITHUB_ENV
+          } else {
+            echo 'CONFIGURATION=Debug' >> $env:GITHUB_ENV
+          }
+
+      - name: Restore build result
+        uses: actions/download-artifact@v3
+        with:
+          name: build
+
+      - name: Build package
+        shell: powershell # runtime-versionを取得するため従来のPowershellを使用する
+        run: |
+          $env:PATH = $env:PATH + ';C:\Program Files\Microsoft Visual Studio\2022\Enterprise\Msbuild\Current\Bin\Roslyn\'
+          $binDir = '.\OpenTween\bin\' + $env:CONFIGURATION + '\net472\'
+          $destPath = 'OpenTween.zip'
+          $headCommit = '${{ github.event.pull_request.head.sha }}'
+          .\tools\build-zip-archive.ps1 -BinDir $binDir -DestPath $destPath -HeadCommit $headCommit
+          Copy-Item ($binDir + 'OpenTween.pdb') -Destination '.\'
+
+      - name: Upload build result
+        uses: actions/upload-artifact@v3
+        with:
+          name: package
+          path: |
+            ./OpenTween.zip
+            ./OpenTween.pdb

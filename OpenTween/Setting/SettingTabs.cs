@@ -35,6 +35,7 @@ using OpenTween.Models;
 
 namespace OpenTween
 {
+    [XmlSerializerAssembly(null, null)] // OpenTween アセンブリ内の XmlSerializerContract を使用させる
     public class SettingTabs : SettingBase<SettingTabs>
     {
 #region Settingクラス基本

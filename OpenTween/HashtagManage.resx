@@ -19,24 +19,16 @@
 	<data name="&gt;&gt;AddButton.Type"><value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
 	<data name="&gt;&gt;AddButton.ZOrder"><value>7</value></data>
 	<data name="&gt;&gt;Cancel_Button.Name"><value>Cancel_Button</value></data>
-	<data name="&gt;&gt;Cancel_Button.Name"><value>Cancel_Button</value></data>
-	<data name="&gt;&gt;Cancel_Button.Parent"><value>TableLayoutButtons</value></data>
 	<data name="&gt;&gt;Cancel_Button.Parent"><value>TableLayoutButtons</value></data>
 	<data name="&gt;&gt;Cancel_Button.Type"><value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
-	<data name="&gt;&gt;Cancel_Button.Type"><value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
-	<data name="&gt;&gt;Cancel_Button.ZOrder"><value>0</value></data>
 	<data name="&gt;&gt;Cancel_Button.ZOrder"><value>0</value></data>
 	<data name="&gt;&gt;CheckNotAddToAtReply.Name"><value>CheckNotAddToAtReply</value></data>
 	<data name="&gt;&gt;CheckNotAddToAtReply.Parent"><value>$this</value></data>
 	<data name="&gt;&gt;CheckNotAddToAtReply.Type"><value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
 	<data name="&gt;&gt;CheckNotAddToAtReply.ZOrder"><value>2</value></data>
 	<data name="&gt;&gt;CheckPermanent.Name"><value>CheckPermanent</value></data>
-	<data name="&gt;&gt;CheckPermanent.Name"><value>CheckPermanent</value></data>
-	<data name="&gt;&gt;CheckPermanent.Parent"><value>GroupHashtag</value></data>
 	<data name="&gt;&gt;CheckPermanent.Parent"><value>GroupHashtag</value></data>
 	<data name="&gt;&gt;CheckPermanent.Type"><value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
-	<data name="&gt;&gt;CheckPermanent.Type"><value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
-	<data name="&gt;&gt;CheckPermanent.ZOrder"><value>8</value></data>
 	<data name="&gt;&gt;CheckPermanent.ZOrder"><value>8</value></data>
 	<data name="&gt;&gt;DeleteButton.Name"><value>DeleteButton</value></data>
 	<data name="&gt;&gt;DeleteButton.Parent"><value>GroupHashtag</value></data>
@@ -59,24 +51,16 @@
 	<data name="&gt;&gt;HistoryHashList.Type"><value>System.Windows.Forms.ListBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
 	<data name="&gt;&gt;HistoryHashList.ZOrder"><value>0</value></data>
 	<data name="&gt;&gt;Label1.Name"><value>Label1</value></data>
-	<data name="&gt;&gt;Label1.Name"><value>Label1</value></data>
-	<data name="&gt;&gt;Label1.Parent"><value>GroupDetail</value></data>
 	<data name="&gt;&gt;Label1.Parent"><value>GroupDetail</value></data>
 	<data name="&gt;&gt;Label1.Type"><value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
-	<data name="&gt;&gt;Label1.Type"><value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
-	<data name="&gt;&gt;Label1.ZOrder"><value>2</value></data>
 	<data name="&gt;&gt;Label1.ZOrder"><value>2</value></data>
 	<data name="&gt;&gt;Label3.Name"><value>Label3</value></data>
 	<data name="&gt;&gt;Label3.Parent"><value>GroupHashtag</value></data>
 	<data name="&gt;&gt;Label3.Type"><value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
 	<data name="&gt;&gt;Label3.ZOrder"><value>1</value></data>
 	<data name="&gt;&gt;OK_Button.Name"><value>OK_Button</value></data>
-	<data name="&gt;&gt;OK_Button.Name"><value>OK_Button</value></data>
-	<data name="&gt;&gt;OK_Button.Parent"><value>TableLayoutButtons</value></data>
 	<data name="&gt;&gt;OK_Button.Parent"><value>TableLayoutButtons</value></data>
 	<data name="&gt;&gt;OK_Button.Type"><value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
-	<data name="&gt;&gt;OK_Button.Type"><value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
-	<data name="&gt;&gt;OK_Button.ZOrder"><value>1</value></data>
 	<data name="&gt;&gt;OK_Button.ZOrder"><value>1</value></data>
 	<data name="&gt;&gt;PermCancel_Button.Name"><value>PermCancel_Button</value></data>
 	<data name="&gt;&gt;PermCancel_Button.Parent"><value>TableLayoutPanel2</value></data>
@@ -107,12 +91,8 @@
 	<data name="&gt;&gt;UnSelectButton.Type"><value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
 	<data name="&gt;&gt;UnSelectButton.ZOrder"><value>2</value></data>
 	<data name="&gt;&gt;UseHashText.Name"><value>UseHashText</value></data>
-	<data name="&gt;&gt;UseHashText.Name"><value>UseHashText</value></data>
-	<data name="&gt;&gt;UseHashText.Parent"><value>GroupDetail</value></data>
 	<data name="&gt;&gt;UseHashText.Parent"><value>GroupDetail</value></data>
 	<data name="&gt;&gt;UseHashText.Type"><value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
-	<data name="&gt;&gt;UseHashText.Type"><value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
-	<data name="&gt;&gt;UseHashText.ZOrder"><value>1</value></data>
 	<data name="&gt;&gt;UseHashText.ZOrder"><value>1</value></data>
 	<data name="AddButton.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms"><value>NoControl</value></data>
 	<data name="AddButton.Location" type="System.Drawing.Point, System.Drawing"><value>240, 18</value></data>

@@ -299,6 +299,19 @@ namespace OpenTween
                 MessageBox.Show(ex.Message);
             }
         }
+
+        private void CopyToClipboardMenuItem_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (this.PictureBox[this.scrollBar.Value].Image is { } memoryImage)
+                    Clipboard.SetImage(memoryImage.Image);
+            }
+            catch (ExternalException ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
     }
 
     public class ThumbnailDoubleClickEventArgs : EventArgs

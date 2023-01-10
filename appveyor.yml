@@ -1,4 +1,4 @@
-version: 2.7.0.{build}
+version: 2.7.1.{build}
 
 os: Visual Studio 2022
 
@@ -36,6 +36,8 @@ for:
     artifacts:
       - name: OpenTween.zip
         path: OpenTween_dev-$(APPVEYOR_BUILD_NUMBER).zip
+      - name: OpenTween.pdb
+        path: OpenTween.pdb
   - # for release build
     matrix:
       only:
@@ -44,6 +46,8 @@ for:
     artifacts:
       - name: OpenTween.zip
         path: $(APPVEYOR_REPO_TAG_NAME).zip
+      - name: OpenTween.pdb
+        path: OpenTween.pdb
 
 build:
   project: OpenTween.sln
@@ -75,14 +79,18 @@ after_test:
       .\codecov.exe -f coverage.xml
   - ps: |
       $env:PATH = $env:PATH + ';C:\Program Files\Microsoft Visual Studio\2022\Community\Msbuild\Current\Bin\Roslyn\;C:\Program Files (x86)\Microsoft SDKs\Windows\v10.0A\bin\NETFX 4.8 Tools\'
-      $binDir = '.\OpenTween\bin\' + $env:CONFIGURATION + '\'
-      $objDir = '.\OpenTween\obj\' + $env:CONFIGURATION + '\'
-      $assemblyInfo = '.\OpenTween\Properties\AssemblyInfo.cs'
+      $binDir = '.\OpenTween\bin\' + $env:CONFIGURATION + '\net472\'
       if ($env:RELEASE_TAG -eq 'true') {
         $destPath = $env:APPVEYOR_REPO_TAG_NAME + '.zip'
       } else {
         $destPath = 'OpenTween_dev-' + $env:APPVEYOR_BUILD_NUMBER + '.zip'
       }
-      .\tools\build-zip-archive.ps1 -BinDir $binDir -ObjDir $objDir -AssemblyInfo $assemblyInfo -DestPath $destPath
+      if ($env:APPVEYOR_PULL_REQUEST_HEAD_COMMIT -ne $null) {
+        $headCommit = $env:APPVEYOR_PULL_REQUEST_HEAD_COMMIT
+      } else {
+        $headCommit = 'HEAD'
+      }
+      .\tools\build-zip-archive.ps1 -BinDir $binDir -DestPath $destPath -HeadCommit $headCommit
+      Copy-Item ($binDir + 'OpenTween.pdb') -Destination '.\'
 
 # vim: et fenc=utf-8 sts=2 sw=2 ts=2

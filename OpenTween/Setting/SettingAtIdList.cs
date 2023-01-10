@@ -30,9 +30,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Xml.Serialization;
 
 namespace OpenTween
 {
+    [XmlSerializerAssembly(null, null)] // OpenTween アセンブリ内の XmlSerializerContract を使用させる
     public class SettingAtIdList : SettingBase<SettingAtIdList>
     {
 #region Settingクラス基本

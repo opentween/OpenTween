@@ -35,6 +35,7 @@
             this.panelPictureBox = new System.Windows.Forms.Panel();
             this.contextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.openMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.copyToClipboardMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.copyUrlMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.searchImageGoogleMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -62,6 +63,7 @@
             resources.ApplyResources(this.contextMenuStrip, "contextMenuStrip");
             this.contextMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.openMenuItem,
+            this.copyToClipboardMenuItem,
             this.copyUrlMenuItem,
             this.toolStripSeparator1,
             this.searchImageGoogleMenuItem,
@@ -75,6 +77,12 @@
             resources.ApplyResources(this.openMenuItem, "openMenuItem");
             this.openMenuItem.Name = "openMenuItem";
             this.openMenuItem.Click += new System.EventHandler(this.OpenMenuItem_Click);
+            // 
+            // copyToClipboardMenuItem
+            // 
+            resources.ApplyResources(this.copyToClipboardMenuItem, "copyToClipboardMenuItem");
+            this.copyToClipboardMenuItem.Name = "copyToClipboardMenuItem";
+            this.copyToClipboardMenuItem.Click += new System.EventHandler(this.CopyToClipboardMenuItem_Click);
             // 
             // copyUrlMenuItem
             // 
@@ -122,6 +130,7 @@
         private System.Windows.Forms.ToolStripMenuItem searchImageSauceNaoMenuItem;
         private System.Windows.Forms.ToolStripMenuItem openMenuItem;
         private System.Windows.Forms.ToolStripMenuItem copyUrlMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem copyToClipboardMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
     }
 }
