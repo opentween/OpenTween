@@ -8,8 +8,10 @@
 	<data name="$this.ToolTip"><value /></data>
 	<data name="contextMenuStrip.Size" type="System.Drawing.Size, System.Drawing"><value>255, 98</value></data>
 	<data name="contextMenuStrip.ToolTip"><value /></data>
+	<data name="copyToClipboardMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>254, 22</value></data>
+	<data name="copyToClipboardMenuItem.Text"><value>Copy image</value></data>
 	<data name="copyUrlMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>254, 22</value></data>
-	<data name="copyUrlMenuItem.Text"><value>&amp;Copy URL</value></data>
+	<data name="copyUrlMenuItem.Text"><value>&amp;Copy image URL</value></data>
 	<data name="openMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>254, 22</value></data>
 	<data name="openMenuItem.Text"><value>&amp;Open</value></data>
 	<data name="panelPictureBox.ToolTip"><value /></data>
