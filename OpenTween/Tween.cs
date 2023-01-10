@@ -101,7 +101,7 @@ namespace OpenTween
             "<head><meta http-equiv=\"X-UA-Compatible\" content=\"IE=8\">"
             + "<style type=\"text/css\"><!-- "
             + "body, p, pre {margin: 0;} "
-            + "body {font-family: \"%FONT_FAMILY%\", sans-serif; font-size: %FONT_SIZE%pt; background-color:rgb(%BG_COLOR%); word-wrap: break-word; color:rgb(%FONT_COLOR%);} "
+            + "body {font-family: \"%FONT_FAMILY%\", \"Segoe UI Emoji\", sans-serif; font-size: %FONT_SIZE%pt; background-color:rgb(%BG_COLOR%); word-wrap: break-word; color:rgb(%FONT_COLOR%);} "
             + "pre {font-family: inherit;} "
             + "a:link, a:visited, a:active, a:hover {color:rgb(%LINK_COLOR%); } "
             + "img.emoji {width: 1em; height: 1em; margin: 0 .05em 0 .1em; vertical-align: -0.1em; border: none;} "

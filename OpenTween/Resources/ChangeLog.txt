@@ -2,6 +2,7 @@
 
 ==== Unreleased
  * NEW: サムネイル画像のコンテキストメニューに「画像をコピー」を追加 (thx @kzlogos!)
+ * NEW: Segoe UI Emoji によるカラー絵文字の描画に対応（発言詳細欄のみ）
  * CHG: Twemojiの画像の取得元をMaxCDNからCloudflareに移行 (thx @sou_niyari!)
 
 ==== Ver 2.7.1(2022/09/03)
