@@ -82,14 +82,14 @@ namespace OpenTween
             this.savedSelectionState = this.SaveListViewSelection();
         }
 
-        public void Restore()
+        public void Restore(bool forceScroll = false)
         {
-            this.RestoreScroll();
+            this.RestoreScroll(forceScroll);
             this.RestoreSelection();
         }
 
-        public void RestoreScroll()
-            => this.RestoreListViewScroll(this.savedScrollState);
+        public void RestoreScroll(bool forceScroll = false)
+            => this.RestoreListViewScroll(this.savedScrollState, forceScroll);
 
         public void RestoreSelection()
             => this.RestoreListViewSelection(this.savedSelectionState);
@@ -102,8 +102,9 @@ namespace OpenTween
             var lockMode = this.GetScrollLockMode(lockScroll);
             long? topItemStatusId = null;
 
-            if (lockMode == ScrollLockMode.FixedToItem)
+            if (lockMode == ScrollLockMode.FixedToItem || lockMode == ScrollLockMode.None)
             {
+                // ScrollLockMode.None の場合も forceScroll = true の時に topItemStatusId を使用するため保存する
                 var topItemIndex = this.listView.TopItem?.Index ?? -1;
                 if (topItemIndex != -1 && topItemIndex < this.tab.AllCount)
                     topItemStatusId = this.tab.GetStatusIdAt(topItemIndex);
@@ -195,12 +196,16 @@ namespace OpenTween
         /// <summary>
         /// <see cref="SaveListViewScroll"/> によって保存されたスクロール位置を復元します
         /// </summary>
-        private void RestoreListViewScroll(ListViewScroll listScroll)
+        private void RestoreListViewScroll(ListViewScroll listScroll, bool forceScroll)
         {
             if (this.listView.VirtualListSize == 0)
                 return;
 
-            switch (listScroll.ScrollLockMode)
+            var scrollLockMode = listScroll.ScrollLockMode;
+            if (forceScroll && scrollLockMode == ScrollLockMode.None)
+                scrollLockMode = ScrollLockMode.FixedToItem;
+
+            switch (scrollLockMode)
             {
                 case ScrollLockMode.FixedToTop:
                     this.listView.EnsureVisible(0);

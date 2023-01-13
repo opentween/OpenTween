@@ -2783,7 +2783,7 @@ namespace OpenTween
 
             this.ListTab.Alignment = newAlignment;
 
-            currentListViewState.Restore();
+            currentListViewState.Restore(forceScroll: true);
         }
 
         private void ApplyListViewIconSize(MyCommon.IconSizes iconSz)
@@ -7909,7 +7909,7 @@ namespace OpenTween
             var listView = this.CurrentListView;
 
             var currentListViewState = this.listViewState[tab.TabName];
-            currentListViewState.Restore();
+            currentListViewState.Restore(forceScroll: true);
 
             if (this.Use2ColumnsMode)
             {
