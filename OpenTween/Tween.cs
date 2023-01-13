@@ -4684,6 +4684,9 @@ namespace OpenTween
                     .OnlyWhen(() => this.CurrentTab.TabType == MyCommon.TabUsageType.PublicSearch)
                     .Do(() => this.CurrentTabPage.Controls["panelSearch"].Controls["comboSearch"].Focus()),
 
+                ShortcutCommand.Create(Keys.Control | Keys.Shift | Keys.L)
+                    .Do(() => this.DoQuoteOfficial()),
+
                 ShortcutCommand.Create(Keys.Control | Keys.Shift | Keys.S)
                     .Do(() => this.FavoriteChange(favAdd: false)),
 
