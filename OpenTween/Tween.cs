@@ -2790,7 +2790,10 @@ namespace OpenTween
         {
             // アイコンサイズの再設定
             if (this.listDrawer != null)
+            {
                 this.listDrawer.IconSize = iconSz;
+                this.listDrawer.UpdateItemHeight();
+            }
 
             this.listCache?.PurgeCache();
         }
@@ -7933,12 +7936,12 @@ namespace OpenTween
             (this.listCache, var oldCache) = (newCache, this.listCache);
             oldCache?.Dispose();
 
-            var newDrawer = new TimelineListViewDrawer(listView, tab, this.listCache, this.iconCache, this.themeManager)
-            {
-                IconSize = this.settings.Common.IconSize,
-            };
+            var newDrawer = new TimelineListViewDrawer(listView, tab, this.listCache, this.iconCache, this.themeManager);
             (this.listDrawer, var oldDrawer) = (newDrawer, this.listDrawer);
             oldDrawer?.Dispose();
+
+            newDrawer.IconSize = this.settings.Common.IconSize;
+            newDrawer.UpdateItemHeight();
         }
 
         private void ListTab_Selecting(object sender, TabControlCancelEventArgs e)
