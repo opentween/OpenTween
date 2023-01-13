@@ -1,6 +1,7 @@
 ﻿更新履歴
 
 ==== Unreleased
+ * NEW: 引用ツイートを Ctrl+Shift+L で実行するショートカットを追加 (thx @WizardOfPSG!)
 
 ==== Ver 3.0.0(2023/01/11)
  * OpenTween v3.0.0 からは .NET Framework 4.8 以上が必須になります
