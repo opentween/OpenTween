@@ -571,6 +571,8 @@ namespace OpenTween.Properties {
         /// <summary>
         ///   更新履歴
         ///
+        ///==== Unreleased
+        ///
         ///==== Ver 3.1.0(2023/01/14)
         /// * NEW: 引用ツイートを Ctrl+Shift+L で実行するショートカットを追加 (thx @WizardOfPSG!)
         /// * CHG: 発言一覧のフォントサイズがアイコンより大きい場合は項目の高さをフォントサイズに合わせるように変更
@@ -580,7 +582,7 @@ namespace OpenTween.Properties {
         ///==== Ver 3.0.0(2023/01/11)
         /// * OpenTween v3.0.0 からは .NET Framework 4.8 以上が必須になります
         ///  - .NET Framework 4.8 ランタイムは https://dotnet.microsoft.com/ja-jp/download/dotnet-framework/net48 から入手できます
-        ///  - Windows 10 21H1 以降には標準で .NET Framework 4.8 が含まれているため追加 [残りの文字列は切り詰められました]&quot;; に類似しているローカライズされた文字列を検索します。
+        ///  - Windows 10 21H1 以降には標準で .NET Framew [残りの文字列は切り詰められました]&quot;; に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string ChangeLog {
             get {
