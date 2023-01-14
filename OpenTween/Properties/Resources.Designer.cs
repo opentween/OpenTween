@@ -571,18 +571,16 @@ namespace OpenTween.Properties {
         /// <summary>
         ///   更新履歴
         ///
+        ///==== Ver 3.1.0(2023/01/14)
+        /// * NEW: 引用ツイートを Ctrl+Shift+L で実行するショートカットを追加 (thx @WizardOfPSG!)
+        /// * CHG: 発言一覧のフォントサイズがアイコンより大きい場合は項目の高さをフォントサイズに合わせるように変更
+        /// * CHG: クリップボードからの画像添付時に表示していた確認ダイアログを廃止
+        /// * FIX: 発言一覧のソート順が日付の昇順となっている場合にタブ切替時にスクロール位置が保持されない不具合を修正
+        ///
         ///==== Ver 3.0.0(2023/01/11)
         /// * OpenTween v3.0.0 からは .NET Framework 4.8 以上が必須になります
         ///  - .NET Framework 4.8 ランタイムは https://dotnet.microsoft.com/ja-jp/download/dotnet-framework/net48 から入手できます
-        ///  - Windows 10 21H1 以降には標準で .NET Framework 4.8 が含まれているため追加のインストールは不要です
-        /// * このバージョン以降の OpenTween では Windows 8.1 以下向けの対応は行いません
-        ///
-        /// * CHG: ターゲットフレームワークを .NET Framework 4.8 に変更
-        ///
-        ///==== Ver 2.8.0(2023/01/11)
-        /// * NEW: サムネイル画像のコンテキストメニューに「画像をコピー」を追加 (thx @kzlogos!)
-        /// * NEW: Segoe UI Emoji によるカラー絵文字の描画に対応（発言詳細欄のみ）
-        /// * CH [残りの文字列は切り詰められました]&quot;; に類似しているローカライズされた文字列を検索します。
+        ///  - Windows 10 21H1 以降には標準で .NET Framework 4.8 が含まれているため追加 [残りの文字列は切り詰められました]&quot;; に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string ChangeLog {
             get {
@@ -1767,15 +1765,6 @@ namespace OpenTween.Properties {
         internal static string PostPictureConfirm2 {
             get {
                 return ResourceManager.GetString("PostPictureConfirm2", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   クリップボードから画像を貼り付けようとしています。よろしいですか？ に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        internal static string PostPictureConfirm3 {
-            get {
-                return ResourceManager.GetString("PostPictureConfirm3", resourceCulture);
             }
         }
         

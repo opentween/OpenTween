@@ -42,18 +42,7 @@ namespace OpenTween
 
         public ThemeManager Theme { get; set; }
 
-        public MyCommon.IconSizes IconSize
-        {
-            get => this.iconSize;
-            set
-            {
-                if (this.iconSize == value)
-                    return;
-
-                this.iconSize = value;
-                this.ApplyIconSize();
-            }
-        }
+        public MyCommon.IconSizes IconSize { get; set; }
 
         private bool Use2ColumnsMode
             => this.IconSize == MyCommon.IconSizes.Icon48_2;
@@ -74,7 +63,6 @@ namespace OpenTween
         private readonly TimelineListViewCache listViewCache;
         private readonly ImageCache iconCache;
         private readonly ImageList listViewImageList = new(); // ListViewItemの高さ変更用
-        private MyCommon.IconSizes iconSize;
 
         public TimelineListViewDrawer(
             DetailsListView listView,
@@ -108,14 +96,18 @@ namespace OpenTween
             this.listView.DrawSubItem -= this.ListView_DrawSubItem;
         }
 
-        private void ApplyIconSize()
+        public void UpdateItemHeight()
         {
             // ディスプレイの DPI 設定を考慮したサイズを設定する
             var scaledIconHeight = this.IconSize != MyCommon.IconSizes.IconNone
                 ? this.listView.LogicalToDeviceUnits(this.IconSizeNumeric)
                 : 1;
 
-            this.listViewImageList.ImageSize = new(1, scaledIconHeight);
+            // アイコンサイズと発言一覧のフォントサイズのどちらか大きい方を一件分の高さとする
+            var fontHeight = this.Theme.FontReaded.Height;
+            var itemHeight = Math.Max(scaledIconHeight, fontHeight);
+
+            this.listViewImageList.ImageSize = new(1, itemHeight);
         }
 
         private void DrawListViewItemIcon(DrawListViewItemEventArgs e)

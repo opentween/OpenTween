@@ -2783,14 +2783,17 @@ namespace OpenTween
 
             this.ListTab.Alignment = newAlignment;
 
-            currentListViewState.Restore();
+            currentListViewState.Restore(forceScroll: true);
         }
 
         private void ApplyListViewIconSize(MyCommon.IconSizes iconSz)
         {
             // アイコンサイズの再設定
             if (this.listDrawer != null)
+            {
                 this.listDrawer.IconSize = iconSz;
+                this.listDrawer.UpdateItemHeight();
+            }
 
             this.listCache?.PurgeCache();
         }
@@ -4683,6 +4686,9 @@ namespace OpenTween
                 ShortcutCommand.Create(Keys.Control | Keys.Shift | Keys.F)
                     .OnlyWhen(() => this.CurrentTab.TabType == MyCommon.TabUsageType.PublicSearch)
                     .Do(() => this.CurrentTabPage.Controls["panelSearch"].Controls["comboSearch"].Focus()),
+
+                ShortcutCommand.Create(Keys.Control | Keys.Shift | Keys.L)
+                    .Do(() => this.DoQuoteOfficial()),
 
                 ShortcutCommand.Create(Keys.Control | Keys.Shift | Keys.S)
                     .Do(() => this.FavoriteChange(favAdd: false)),
@@ -7906,7 +7912,7 @@ namespace OpenTween
             var listView = this.CurrentListView;
 
             var currentListViewState = this.listViewState[tab.TabName];
-            currentListViewState.Restore();
+            currentListViewState.Restore(forceScroll: true);
 
             if (this.Use2ColumnsMode)
             {
@@ -7930,12 +7936,12 @@ namespace OpenTween
             (this.listCache, var oldCache) = (newCache, this.listCache);
             oldCache?.Dispose();
 
-            var newDrawer = new TimelineListViewDrawer(listView, tab, this.listCache, this.iconCache, this.themeManager)
-            {
-                IconSize = this.settings.Common.IconSize,
-            };
+            var newDrawer = new TimelineListViewDrawer(listView, tab, this.listCache, this.iconCache, this.themeManager);
             (this.listDrawer, var oldDrawer) = (newDrawer, this.listDrawer);
             oldDrawer?.Dispose();
+
+            newDrawer.IconSize = this.settings.Common.IconSize;
+            newDrawer.UpdateItemHeight();
         }
 
         private void ListTab_Selecting(object sender, TabControlCancelEventArgs e)
@@ -9223,18 +9229,9 @@ namespace OpenTween
                 }
                 else if (Clipboard.ContainsImage())
                 {
-                    // 画像があるので投稿処理を行う
-                    if (MessageBox.Show(Properties.Resources.PostPictureConfirm3,
-                                       Properties.Resources.PostPictureWarn4,
-                                       MessageBoxButtons.OKCancel,
-                                       MessageBoxIcon.Question,
-                                       MessageBoxDefaultButton.Button2)
-                                   == DialogResult.OK)
-                    {
-                        // clipboardから画像を取得
-                        using var image = Clipboard.GetImage();
-                        this.ImageSelector.BeginSelection(image);
-                    }
+                    // clipboardから画像を取得
+                    using var image = Clipboard.GetImage();
+                    this.ImageSelector.BeginSelection(image);
                 }
                 else if (Clipboard.ContainsFileDropList())
                 {
