@@ -194,7 +194,6 @@
 	<data name="PostPictureConfirm1"><value>[投稿先: {0}]
 {1} 枚の画像を投稿します。よろしいですか？</value></data>
 	<data name="PostPictureConfirm2"><value>画像投稿確認</value></data>
-	<data name="PostPictureConfirm3"><value>クリップボードから画像を貼り付けようとしています。よろしいですか？</value></data>
 	<data name="PostPictureWarn1"><value>投稿する画像または投稿先サービスが選択されていません。</value></data>
 	<data name="PostPictureWarn2"><value>画像投稿</value></data>
 	<data name="PostPictureWarn3"><value>[投稿先: {0}]

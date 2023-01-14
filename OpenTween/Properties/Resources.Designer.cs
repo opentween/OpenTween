@@ -1772,15 +1772,6 @@ namespace OpenTween.Properties {
         }
         
         /// <summary>
-        ///   クリップボードから画像を貼り付けようとしています。よろしいですか？ に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        internal static string PostPictureConfirm3 {
-            get {
-                return ResourceManager.GetString("PostPictureConfirm3", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   投稿する画像または投稿先サービスが選択されていません。 に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string PostPictureWarn1 {
