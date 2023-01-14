@@ -1,6 +1,6 @@
 ﻿namespace OpenTween
 {
-    partial class MediaSelector
+    partial class MediaSelectorPanel
     {
         /// <summary> 
         /// 必要なデザイナー変数です。
@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MediaSelector));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MediaSelectorPanel));
             this.ImagePathPanel = new System.Windows.Forms.Panel();
             this.ImagefilePathText = new System.Windows.Forms.TextBox();
             this.ImagePageCombo = new System.Windows.Forms.ComboBox();
@@ -135,14 +135,14 @@
             this.ImageSelectedPicture.Name = "ImageSelectedPicture";
             this.ImageSelectedPicture.TabStop = false;
             // 
-            // MediaSelector
+            // MediaSelectorPanel
             // 
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.Controls.Add(this.ImageSelectedPicture);
             this.Controls.Add(this.AlternativeTextPanel);
             this.Controls.Add(this.ImagePathPanel);
-            this.Name = "MediaSelector";
+            this.Name = "MediaSelectorPanel";
             this.ImagePathPanel.ResumeLayout(false);
             this.ImagePathPanel.PerformLayout();
             this.AlternativeTextPanel.ResumeLayout(false);

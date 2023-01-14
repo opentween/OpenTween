@@ -37,7 +37,7 @@ using OpenTween.MediaUploadServices;
 
 namespace OpenTween
 {
-    public partial class MediaSelector : UserControl
+    public partial class MediaSelectorPanel : UserControl
     {
         public event EventHandler<EventArgs>? BeginSelecting;
 
@@ -148,7 +148,7 @@ namespace OpenTween
             };
         }
 
-        public MediaSelector()
+        public MediaSelectorPanel()
         {
             this.InitializeComponent();
 

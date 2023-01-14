@@ -118,11 +118,11 @@
     <Compile Update="InputDialog.Designer.cs">
       <DependentUpon>InputDialog.cs</DependentUpon>
     </Compile>
-    <Compile Update="MediaSelector.cs">
+    <Compile Update="MediaSelectorPanel.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Update="MediaSelector.Designer.cs">
-      <DependentUpon>MediaSelector.cs</DependentUpon>
+    <Compile Update="MediaSelectorPanel.Designer.cs">
+      <DependentUpon>MediaSelectorPanel.cs</DependentUpon>
     </Compile>
     <Compile Update="NativeMethods.cs">
       <SubType>Code</SubType>
@@ -386,11 +386,11 @@
     <EmbeddedResource Update="LoginDialog.resx">
       <DependentUpon>LoginDialog.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Update="MediaSelector.en.resx">
-      <DependentUpon>MediaSelector.cs</DependentUpon>
+    <EmbeddedResource Update="MediaSelectorPanel.en.resx">
+      <DependentUpon>MediaSelectorPanel.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Update="MediaSelector.resx">
-      <DependentUpon>MediaSelector.cs</DependentUpon>
+    <EmbeddedResource Update="MediaSelectorPanel.resx">
+      <DependentUpon>MediaSelectorPanel.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Update="SendErrorReportForm.en.resx">
       <DependentUpon>SendErrorReportForm.cs</DependentUpon>

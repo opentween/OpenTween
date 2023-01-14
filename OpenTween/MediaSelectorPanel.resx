@@ -10,7 +10,7 @@
 	<data name="$this.AutoScaleDimensions" type="System.Drawing.SizeF, System.Drawing"><value>96, 96</value></data>
 	<metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"><value>True</value></metadata>
 	<data name="$this.Size" type="System.Drawing.Size, System.Drawing"><value>608, 280</value></data>
-	<data name="&gt;&gt;$this.Name"><value>MediaSelector</value></data>
+	<data name="&gt;&gt;$this.Name"><value>MediaSelectorPanel</value></data>
 	<data name="&gt;&gt;$this.Type"><value>System.Windows.Forms.UserControl, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
 	<data name="&gt;&gt;AlternativeTextBox.Name"><value>AlternativeTextBox</value></data>
 	<data name="&gt;&gt;AlternativeTextBox.Parent"><value>AlternativeTextPanel</value></data>
