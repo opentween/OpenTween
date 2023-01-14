@@ -39,6 +39,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using OpenTween.Api;
 using OpenTween.Connection;
 using OpenTween.Setting.Panel;
 using OpenTween.Thumbnail;
@@ -208,9 +209,11 @@ namespace OpenTween
                         "Authenticate",
                         MessageBoxButtons.OK);
                 }
-                catch (WebApiException ex)
+                catch (TwitterApiException ex)
                 {
-                    var message = Properties.Resources.AuthorizeButton_Click2 + Environment.NewLine + ex.Message;
+                    var message = Properties.Resources.AuthorizeButton_Click2 + Environment.NewLine +
+                        string.Join(Environment.NewLine, ex.LongMessages);
+
                     MessageBox.Show(this, message, "Authenticate", MessageBoxButtons.OK);
                 }
             }
