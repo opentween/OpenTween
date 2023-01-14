@@ -107,7 +107,7 @@ namespace OpenTween.Connection
                 if (endpointName != null)
                     MyCommon.TwitterApiInfo.UpdateFromHeader(response.Headers, endpointName);
 
-                await this.CheckStatusCode(response)
+                await TwitterApiConnection.CheckStatusCode(response)
                     .ConfigureAwait(false);
 
                 using var content = response.Content;
@@ -190,7 +190,7 @@ namespace OpenTween.Connection
                 var response = await this.HttpStreaming.SendAsync(request, HttpCompletionOption.ResponseHeadersRead)
                     .ConfigureAwait(false);
 
-                await this.CheckStatusCode(response)
+                await TwitterApiConnection.CheckStatusCode(response)
                     .ConfigureAwait(false);
 
                 return await response.Content.ReadAsStreamAsync()
@@ -220,7 +220,7 @@ namespace OpenTween.Connection
                 response = await this.Http.SendAsync(request, HttpCompletionOption.ResponseHeadersRead)
                     .ConfigureAwait(false);
 
-                await this.CheckStatusCode(response)
+                await TwitterApiConnection.CheckStatusCode(response)
                     .ConfigureAwait(false);
 
                 var result = new LazyJson<T>(response);
@@ -267,7 +267,7 @@ namespace OpenTween.Connection
                 response = await this.HttpUpload.SendAsync(request, HttpCompletionOption.ResponseHeadersRead)
                     .ConfigureAwait(false);
 
-                await this.CheckStatusCode(response)
+                await TwitterApiConnection.CheckStatusCode(response)
                     .ConfigureAwait(false);
 
                 var result = new LazyJson<T>(response);
@@ -313,7 +313,7 @@ namespace OpenTween.Connection
                 using var response = await this.HttpUpload.SendAsync(request, HttpCompletionOption.ResponseHeadersRead)
                     .ConfigureAwait(false);
 
-                await this.CheckStatusCode(response)
+                await TwitterApiConnection.CheckStatusCode(response)
                     .ConfigureAwait(false);
             }
             catch (HttpRequestException ex)
@@ -345,7 +345,7 @@ namespace OpenTween.Connection
                 response = await this.Http.SendAsync(request, HttpCompletionOption.ResponseHeadersRead)
                     .ConfigureAwait(false);
 
-                await this.CheckStatusCode(response)
+                await TwitterApiConnection.CheckStatusCode(response)
                     .ConfigureAwait(false);
 
                 var result = new LazyJson<T>(response);
@@ -377,7 +377,7 @@ namespace OpenTween.Connection
                 using var response = await this.Http.SendAsync(request, HttpCompletionOption.ResponseHeadersRead)
                     .ConfigureAwait(false);
 
-                await this.CheckStatusCode(response)
+                await TwitterApiConnection.CheckStatusCode(response)
                     .ConfigureAwait(false);
             }
             catch (HttpRequestException ex)
@@ -390,7 +390,7 @@ namespace OpenTween.Connection
             }
         }
 
-        protected async Task CheckStatusCode(HttpResponseMessage response)
+        protected static async Task CheckStatusCode(HttpResponseMessage response)
         {
             var statusCode = response.StatusCode;
 
@@ -546,8 +546,8 @@ namespace OpenTween.Connection
                 var responseText = await content.ReadAsStringAsync()
                     .ConfigureAwait(false);
 
-                if (!response.IsSuccessStatusCode)
-                    throw new TwitterApiException(response.StatusCode, responseText);
+                await TwitterApiConnection.CheckStatusCode(response)
+                    .ConfigureAwait(false);
 
                 var responseParams = HttpUtility.ParseQueryString(responseText);
 
