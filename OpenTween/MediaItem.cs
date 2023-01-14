@@ -33,6 +33,11 @@ namespace OpenTween
     public interface IMediaItem
     {
         /// <summary>
+        /// メディアのID
+        /// </summary>
+        Guid Id { get; }
+
+        /// <summary>
         /// メディアへの絶対パス
         /// </summary>
         string Path { get; }
@@ -105,6 +110,8 @@ namespace OpenTween
             : this(fileInfo.FullName)
         {
         }
+
+        public Guid Id { get; } = Guid.NewGuid();
 
         public string Path
             => this.FileInfo.FullName;
@@ -186,6 +193,8 @@ namespace OpenTween
             var num = Interlocked.Increment(ref fileNumber);
             this.Path = PathPrefix + num + this.image.ImageFormatExt;
         }
+
+        public Guid Id { get; } = Guid.NewGuid();
 
         public string Path { get; }
 

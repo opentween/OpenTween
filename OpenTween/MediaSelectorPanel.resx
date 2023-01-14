@@ -12,6 +12,10 @@
 	<data name="$this.Size" type="System.Drawing.Size, System.Drawing"><value>608, 280</value></data>
 	<data name="&gt;&gt;$this.Name"><value>MediaSelectorPanel</value></data>
 	<data name="&gt;&gt;$this.Type"><value>System.Windows.Forms.UserControl, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
+	<data name="&gt;&gt;AddMediaButton.Name"><value>AddMediaButton</value></data>
+	<data name="&gt;&gt;AddMediaButton.Parent"><value>panel1</value></data>
+	<data name="&gt;&gt;AddMediaButton.Type"><value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
+	<data name="&gt;&gt;AddMediaButton.ZOrder"><value>1</value></data>
 	<data name="&gt;&gt;AlternativeTextBox.Name"><value>AlternativeTextBox</value></data>
 	<data name="&gt;&gt;AlternativeTextBox.Parent"><value>AlternativeTextPanel</value></data>
 	<data name="&gt;&gt;AlternativeTextBox.Type"><value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
@@ -24,96 +28,107 @@
 	<data name="&gt;&gt;AlternativeTextPanel.Parent"><value>$this</value></data>
 	<data name="&gt;&gt;AlternativeTextPanel.Type"><value>System.Windows.Forms.Panel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
 	<data name="&gt;&gt;AlternativeTextPanel.ZOrder"><value>1</value></data>
-	<data name="&gt;&gt;FilePickButton.Name"><value>FilePickButton</value></data>
-	<data name="&gt;&gt;FilePickButton.Parent"><value>ImagePathPanel</value></data>
-	<data name="&gt;&gt;FilePickButton.Type"><value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
-	<data name="&gt;&gt;FilePickButton.ZOrder"><value>2</value></data>
 	<data name="&gt;&gt;ImageCancelButton.Name"><value>ImageCancelButton</value></data>
-	<data name="&gt;&gt;ImageCancelButton.Parent"><value>ImagePathPanel</value></data>
+	<data name="&gt;&gt;ImageCancelButton.Parent"><value>panel1</value></data>
 	<data name="&gt;&gt;ImageCancelButton.Type"><value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
-	<data name="&gt;&gt;ImageCancelButton.ZOrder"><value>5</value></data>
-	<data name="&gt;&gt;ImagefilePathText.Name"><value>ImagefilePathText</value></data>
-	<data name="&gt;&gt;ImagefilePathText.Parent"><value>ImagePathPanel</value></data>
-	<data name="&gt;&gt;ImagefilePathText.Type"><value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
-	<data name="&gt;&gt;ImagefilePathText.ZOrder"><value>0</value></data>
-	<data name="&gt;&gt;ImagePageCombo.Name"><value>ImagePageCombo</value></data>
-	<data name="&gt;&gt;ImagePageCombo.Parent"><value>ImagePathPanel</value></data>
-	<data name="&gt;&gt;ImagePageCombo.Type"><value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
-	<data name="&gt;&gt;ImagePageCombo.ZOrder"><value>1</value></data>
-	<data name="&gt;&gt;ImagePathPanel.Name"><value>ImagePathPanel</value></data>
-	<data name="&gt;&gt;ImagePathPanel.Parent"><value>$this</value></data>
-	<data name="&gt;&gt;ImagePathPanel.Type"><value>System.Windows.Forms.Panel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
-	<data name="&gt;&gt;ImagePathPanel.ZOrder"><value>2</value></data>
+	<data name="&gt;&gt;ImageCancelButton.ZOrder"><value>0</value></data>
 	<data name="&gt;&gt;ImageSelectedPicture.Name"><value>ImageSelectedPicture</value></data>
 	<data name="&gt;&gt;ImageSelectedPicture.Parent"><value>$this</value></data>
-	<data name="&gt;&gt;ImageSelectedPicture.Type"><value>OpenTween.OTPictureBox, OpenTween, Version=0.1.0.0, Culture=neutral, PublicKeyToken=null</value></data>
+	<data name="&gt;&gt;ImageSelectedPicture.Type"><value>OpenTween.OTPictureBox, OpenTween, Version=3.1.0.1, Culture=neutral, PublicKeyToken=null</value></data>
 	<data name="&gt;&gt;ImageSelectedPicture.ZOrder"><value>0</value></data>
 	<data name="&gt;&gt;ImageServiceCombo.Name"><value>ImageServiceCombo</value></data>
-	<data name="&gt;&gt;ImageServiceCombo.Parent"><value>ImagePathPanel</value></data>
+	<data name="&gt;&gt;ImageServiceCombo.Parent"><value>ServiceSelectPanel</value></data>
 	<data name="&gt;&gt;ImageServiceCombo.Type"><value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
-	<data name="&gt;&gt;ImageServiceCombo.ZOrder"><value>4</value></data>
+	<data name="&gt;&gt;ImageServiceCombo.ZOrder"><value>0</value></data>
 	<data name="&gt;&gt;Label2.Name"><value>Label2</value></data>
-	<data name="&gt;&gt;Label2.Parent"><value>ImagePathPanel</value></data>
+	<data name="&gt;&gt;Label2.Parent"><value>ServiceSelectPanel</value></data>
 	<data name="&gt;&gt;Label2.Type"><value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
-	<data name="&gt;&gt;Label2.ZOrder"><value>3</value></data>
+	<data name="&gt;&gt;Label2.ZOrder"><value>1</value></data>
+	<data name="&gt;&gt;MediaListView.Name"><value>MediaListView</value></data>
+	<data name="&gt;&gt;MediaListView.Parent"><value>tableLayoutPanel1</value></data>
+	<data name="&gt;&gt;MediaListView.Type"><value>System.Windows.Forms.ListView, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
+	<data name="&gt;&gt;MediaListView.ZOrder"><value>0</value></data>
+	<data name="&gt;&gt;panel1.Name"><value>panel1</value></data>
+	<data name="&gt;&gt;panel1.Parent"><value>tableLayoutPanel1</value></data>
+	<data name="&gt;&gt;panel1.Type"><value>System.Windows.Forms.Panel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
+	<data name="&gt;&gt;panel1.ZOrder"><value>1</value></data>
+	<data name="&gt;&gt;ServiceSelectPanel.Name"><value>ServiceSelectPanel</value></data>
+	<data name="&gt;&gt;ServiceSelectPanel.Parent"><value>panel1</value></data>
+	<data name="&gt;&gt;ServiceSelectPanel.Type"><value>System.Windows.Forms.Panel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
+	<data name="&gt;&gt;ServiceSelectPanel.ZOrder"><value>2</value></data>
+	<data name="&gt;&gt;tableLayoutPanel1.Name"><value>tableLayoutPanel1</value></data>
+	<data name="&gt;&gt;tableLayoutPanel1.Parent"><value>$this</value></data>
+	<data name="&gt;&gt;tableLayoutPanel1.Type"><value>System.Windows.Forms.TableLayoutPanel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
+	<data name="&gt;&gt;tableLayoutPanel1.ZOrder"><value>2</value></data>
+	<data name="AddMediaButton.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms"><value>Top, Left, Right</value></data>
+	<data name="AddMediaButton.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms"><value>NoControl</value></data>
+	<data name="AddMediaButton.Location" type="System.Drawing.Point, System.Drawing"><value>0, 23</value></data>
+	<data name="AddMediaButton.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms"><value>0, 3, 0, 0</value></data>
+	<data name="AddMediaButton.Size" type="System.Drawing.Size, System.Drawing"><value>167, 23</value></data>
+	<data name="AddMediaButton.TabIndex" type="System.Int32, mscorlib"><value>1</value></data>
+	<data name="AddMediaButton.Text"><value>画像を追加...</value></data>
 	<data name="AlternativeTextBox.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms"><value>Top, Left, Right</value></data>
 	<data name="AlternativeTextBox.Location" type="System.Drawing.Point, System.Drawing"><value>109, 3</value></data>
-	<data name="AlternativeTextBox.Size" type="System.Drawing.Size, System.Drawing"><value>496, 19</value></data>
+	<data name="AlternativeTextBox.Multiline" type="System.Boolean, mscorlib"><value>True</value></data>
+	<data name="AlternativeTextBox.ScrollBars" type="System.Windows.Forms.ScrollBars, System.Windows.Forms"><value>Vertical</value></data>
+	<data name="AlternativeTextBox.Size" type="System.Drawing.Size, System.Drawing"><value>496, 40</value></data>
 	<data name="AlternativeTextBox.TabIndex" type="System.Int32, mscorlib"><value>1</value></data>
 	<data name="AlternativeTextLabel.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms"><value>Top, Bottom, Left</value></data>
 	<data name="AlternativeTextLabel.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms"><value>NoControl</value></data>
 	<data name="AlternativeTextLabel.Location" type="System.Drawing.Point, System.Drawing"><value>3, 3</value></data>
-	<data name="AlternativeTextLabel.Size" type="System.Drawing.Size, System.Drawing"><value>100, 19</value></data>
+	<data name="AlternativeTextLabel.Size" type="System.Drawing.Size, System.Drawing"><value>100, 40</value></data>
 	<data name="AlternativeTextLabel.TabIndex" type="System.Int32, mscorlib"><value>0</value></data>
 	<data name="AlternativeTextLabel.Text"><value>代替テキスト(&amp;A):</value></data>
 	<data name="AlternativeTextLabel.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing"><value>MiddleRight</value></data>
 	<data name="AlternativeTextPanel.AutoSize" type="System.Boolean, mscorlib"><value>True</value></data>
 	<data name="AlternativeTextPanel.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms"><value>Bottom</value></data>
-	<data name="AlternativeTextPanel.Location" type="System.Drawing.Point, System.Drawing"><value>0, 227</value></data>
-	<data name="AlternativeTextPanel.Size" type="System.Drawing.Size, System.Drawing"><value>608, 25</value></data>
-	<data name="AlternativeTextPanel.TabIndex" type="System.Int32, mscorlib"><value>2</value></data>
-	<data name="AlternativeTextPanel.Visible" type="System.Boolean, mscorlib"><value>False</value></data>
-	<data name="FilePickButton.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms"><value>Right</value></data>
-	<data name="FilePickButton.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms"><value>NoControl</value></data>
-	<data name="FilePickButton.Location" type="System.Drawing.Point, System.Drawing"><value>358, 3</value></data>
-	<data name="FilePickButton.Size" type="System.Drawing.Size, System.Drawing"><value>23, 22</value></data>
-	<data name="FilePickButton.TabIndex" type="System.Int32, mscorlib"><value>2</value></data>
-	<data name="FilePickButton.Text"><value>...</value></data>
-	<data name="ImageCancelButton.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms"><value>Right</value></data>
+	<data name="AlternativeTextPanel.Location" type="System.Drawing.Point, System.Drawing"><value>0, 128</value></data>
+	<data name="AlternativeTextPanel.Size" type="System.Drawing.Size, System.Drawing"><value>608, 46</value></data>
+	<data name="AlternativeTextPanel.TabIndex" type="System.Int32, mscorlib"><value>0</value></data>
+	<data name="ImageCancelButton.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms"><value>Top, Left, Right</value></data>
 	<data name="ImageCancelButton.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms"><value>NoControl</value></data>
-	<data name="ImageCancelButton.Location" type="System.Drawing.Point, System.Drawing"><value>545, 3</value></data>
-	<data name="ImageCancelButton.Size" type="System.Drawing.Size, System.Drawing"><value>60, 22</value></data>
-	<data name="ImageCancelButton.TabIndex" type="System.Int32, mscorlib"><value>5</value></data>
-	<data name="ImageCancelButton.Text"><value>Cancel</value></data>
-	<data name="ImagefilePathText.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms"><value>Fill</value></data>
-	<data name="ImagefilePathText.Location" type="System.Drawing.Point, System.Drawing"><value>61, 3</value></data>
-	<data name="ImagefilePathText.Size" type="System.Drawing.Size, System.Drawing"><value>297, 19</value></data>
-	<data name="ImagefilePathText.TabIndex" type="System.Int32, mscorlib"><value>1</value></data>
-	<data name="ImagePageCombo.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms"><value>Left</value></data>
-	<data name="ImagePageCombo.Location" type="System.Drawing.Point, System.Drawing"><value>3, 3</value></data>
-	<data name="ImagePageCombo.Size" type="System.Drawing.Size, System.Drawing"><value>58, 20</value></data>
-	<data name="ImagePageCombo.TabIndex" type="System.Int32, mscorlib"><value>0</value></data>
-	<data name="ImagePathPanel.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms"><value>Bottom</value></data>
-	<data name="ImagePathPanel.Location" type="System.Drawing.Point, System.Drawing"><value>0, 252</value></data>
-	<data name="ImagePathPanel.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms"><value>3, 3, 3, 3</value></data>
-	<data name="ImagePathPanel.Size" type="System.Drawing.Size, System.Drawing"><value>608, 28</value></data>
-	<data name="ImagePathPanel.TabIndex" type="System.Int32, mscorlib"><value>0</value></data>
+	<data name="ImageCancelButton.Location" type="System.Drawing.Point, System.Drawing"><value>0, 49</value></data>
+	<data name="ImageCancelButton.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms"><value>0, 3, 0, 0</value></data>
+	<data name="ImageCancelButton.Size" type="System.Drawing.Size, System.Drawing"><value>167, 22</value></data>
+	<data name="ImageCancelButton.TabIndex" type="System.Int32, mscorlib"><value>2</value></data>
+	<data name="ImageCancelButton.Text"><value>閉じる</value></data>
 	<data name="ImageSelectedPicture.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms"><value>Fill</value></data>
 	<data name="ImageSelectedPicture.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms"><value>NoControl</value></data>
 	<data name="ImageSelectedPicture.Location" type="System.Drawing.Point, System.Drawing"><value>0, 0</value></data>
-	<data name="ImageSelectedPicture.Size" type="System.Drawing.Size, System.Drawing"><value>608, 227</value></data>
+	<data name="ImageSelectedPicture.Size" type="System.Drawing.Size, System.Drawing"><value>608, 128</value></data>
 	<data name="ImageSelectedPicture.SizeMode" type="System.Windows.Forms.PictureBoxSizeMode, System.Windows.Forms"><value>Zoom</value></data>
 	<data name="ImageSelectedPicture.TabIndex" type="System.Int32, mscorlib"><value>0</value></data>
-	<data name="ImageServiceCombo.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms"><value>Right</value></data>
+	<data name="ImageServiceCombo.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms"><value>Fill</value></data>
 	<data name="ImageServiceCombo.Items"><value>Twitter</value></data>
-	<data name="ImageServiceCombo.Location" type="System.Drawing.Point, System.Drawing"><value>442, 3</value></data>
-	<data name="ImageServiceCombo.Size" type="System.Drawing.Size, System.Drawing"><value>103, 20</value></data>
-	<data name="ImageServiceCombo.TabIndex" type="System.Int32, mscorlib"><value>4</value></data>
-	<data name="Label2.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms"><value>Right</value></data>
+	<data name="ImageServiceCombo.Location" type="System.Drawing.Point, System.Drawing"><value>61, 0</value></data>
+	<data name="ImageServiceCombo.Size" type="System.Drawing.Size, System.Drawing"><value>106, 20</value></data>
+	<data name="ImageServiceCombo.TabIndex" type="System.Int32, mscorlib"><value>1</value></data>
+	<data name="Label2.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms"><value>Left</value></data>
 	<data name="Label2.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms"><value>NoControl</value></data>
-	<data name="Label2.Location" type="System.Drawing.Point, System.Drawing"><value>381, 3</value></data>
-	<data name="Label2.Size" type="System.Drawing.Size, System.Drawing"><value>61, 22</value></data>
-	<data name="Label2.TabIndex" type="System.Int32, mscorlib"><value>3</value></data>
+	<data name="Label2.Location" type="System.Drawing.Point, System.Drawing"><value>0, 0</value></data>
+	<data name="Label2.Size" type="System.Drawing.Size, System.Drawing"><value>61, 20</value></data>
+	<data name="Label2.TabIndex" type="System.Int32, mscorlib"><value>0</value></data>
 	<data name="Label2.Text"><value>投稿先</value></data>
-	<data name="Label2.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing"><value>MiddleRight</value></data>
+	<data name="Label2.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing"><value>MiddleLeft</value></data>
+	<data name="MediaListView.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms"><value>Fill</value></data>
+	<data name="MediaListView.Location" type="System.Drawing.Point, System.Drawing"><value>3, 3</value></data>
+	<data name="MediaListView.Size" type="System.Drawing.Size, System.Drawing"><value>429, 100</value></data>
+	<data name="MediaListView.TabIndex" type="System.Int32, mscorlib"><value>0</value></data>
+	<data name="panel1.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms"><value>Fill</value></data>
+	<data name="panel1.Location" type="System.Drawing.Point, System.Drawing"><value>438, 3</value></data>
+	<data name="panel1.Size" type="System.Drawing.Size, System.Drawing"><value>167, 100</value></data>
+	<data name="panel1.TabIndex" type="System.Int32, mscorlib"><value>1</value></data>
+	<data name="ServiceSelectPanel.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms"><value>Top, Left, Right</value></data>
+	<data name="ServiceSelectPanel.AutoSize" type="System.Boolean, mscorlib"><value>True</value></data>
+	<data name="ServiceSelectPanel.Location" type="System.Drawing.Point, System.Drawing"><value>0, 0</value></data>
+	<data name="ServiceSelectPanel.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms"><value>0, 0, 0, 0</value></data>
+	<data name="ServiceSelectPanel.Size" type="System.Drawing.Size, System.Drawing"><value>167, 20</value></data>
+	<data name="ServiceSelectPanel.TabIndex" type="System.Int32, mscorlib"><value>0</value></data>
+	<data name="tableLayoutPanel1.ColumnCount" type="System.Int32, mscorlib"><value>2</value></data>
+	<data name="tableLayoutPanel1.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms"><value>Bottom</value></data>
+	<data name="tableLayoutPanel1.LayoutSettings" type="System.Windows.Forms.TableLayoutSettings, System.Windows.Forms"><value>&lt;?xml version="1.0" encoding="utf-16"?&gt;&lt;TableLayoutSettings&gt;&lt;Controls&gt;&lt;Control Name="MediaListView" Row="0" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="panel1" Row="0" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;/Controls&gt;&lt;Columns Styles="Percent,100,Absolute,173" /&gt;&lt;Rows Styles="Percent,100" /&gt;&lt;/TableLayoutSettings&gt;</value></data>
+	<data name="tableLayoutPanel1.Location" type="System.Drawing.Point, System.Drawing"><value>0, 174</value></data>
+	<data name="tableLayoutPanel1.RowCount" type="System.Int32, mscorlib"><value>1</value></data>
+	<data name="tableLayoutPanel1.Size" type="System.Drawing.Size, System.Drawing"><value>608, 106</value></data>
+	<data name="tableLayoutPanel1.TabIndex" type="System.Int32, mscorlib"><value>1</value></data>
 </root>

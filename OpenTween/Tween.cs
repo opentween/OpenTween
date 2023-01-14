@@ -9180,7 +9180,10 @@ namespace OpenTween
         {
             this.Activate();
             this.BringToFront();
-            this.ImageSelector.BeginSelection((string[])e.Data.GetData(DataFormats.FileDrop, false));
+
+            var filePathArray = (string[])e.Data.GetData(DataFormats.FileDrop, false);
+            this.ImageSelector.BeginSelection();
+            this.ImageSelector.AddMediaItemFromFilePath(filePathArray);
             this.StatusText.Focus();
         }
 
@@ -9231,12 +9234,14 @@ namespace OpenTween
                 {
                     // clipboardから画像を取得
                     using var image = Clipboard.GetImage();
-                    this.ImageSelector.BeginSelection(image);
+                    this.ImageSelector.BeginSelection();
+                    this.ImageSelector.AddMediaItemFromImage(image);
                 }
                 else if (Clipboard.ContainsFileDropList())
                 {
                     var files = Clipboard.GetFileDropList().Cast<string>().ToArray();
-                    this.ImageSelector.BeginSelection(files);
+                    this.ImageSelector.BeginSelection();
+                    this.ImageSelector.AddMediaItemFromFilePath(files);
                 }
             }
             catch (ExternalException ex)

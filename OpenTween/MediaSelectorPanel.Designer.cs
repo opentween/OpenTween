@@ -7,19 +7,6 @@
         /// </summary>
         private System.ComponentModel.IContainer components = null;
 
-        /// <summary> 
-        /// 使用中のリソースをすべてクリーンアップします。
-        /// </summary>
-        /// <param name="disposing">マネージ リソースが破棄される場合 true、破棄されない場合は false です。</param>
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing && (components != null))
-            {
-                components.Dispose();
-            }
-            base.Dispose(disposing);
-        }
-
         #region コンポーネント デザイナーで生成されたコード
 
         /// <summary> 
@@ -29,62 +16,24 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MediaSelectorPanel));
-            this.ImagePathPanel = new System.Windows.Forms.Panel();
-            this.ImagefilePathText = new System.Windows.Forms.TextBox();
-            this.ImagePageCombo = new System.Windows.Forms.ComboBox();
-            this.FilePickButton = new System.Windows.Forms.Button();
             this.Label2 = new System.Windows.Forms.Label();
             this.ImageServiceCombo = new System.Windows.Forms.ComboBox();
             this.ImageCancelButton = new System.Windows.Forms.Button();
             this.AlternativeTextPanel = new System.Windows.Forms.Panel();
             this.AlternativeTextBox = new System.Windows.Forms.TextBox();
             this.AlternativeTextLabel = new System.Windows.Forms.Label();
+            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+            this.MediaListView = new System.Windows.Forms.ListView();
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.AddMediaButton = new System.Windows.Forms.Button();
+            this.ServiceSelectPanel = new System.Windows.Forms.Panel();
             this.ImageSelectedPicture = new OpenTween.OTPictureBox();
-            this.ImagePathPanel.SuspendLayout();
             this.AlternativeTextPanel.SuspendLayout();
+            this.tableLayoutPanel1.SuspendLayout();
+            this.panel1.SuspendLayout();
+            this.ServiceSelectPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.ImageSelectedPicture)).BeginInit();
             this.SuspendLayout();
-            // 
-            // ImagePathPanel
-            // 
-            this.ImagePathPanel.Controls.Add(this.ImagefilePathText);
-            this.ImagePathPanel.Controls.Add(this.ImagePageCombo);
-            this.ImagePathPanel.Controls.Add(this.FilePickButton);
-            this.ImagePathPanel.Controls.Add(this.Label2);
-            this.ImagePathPanel.Controls.Add(this.ImageServiceCombo);
-            this.ImagePathPanel.Controls.Add(this.ImageCancelButton);
-            resources.ApplyResources(this.ImagePathPanel, "ImagePathPanel");
-            this.ImagePathPanel.Name = "ImagePathPanel";
-            // 
-            // ImagefilePathText
-            // 
-            resources.ApplyResources(this.ImagefilePathText, "ImagefilePathText");
-            this.ImagefilePathText.Name = "ImagefilePathText";
-            this.ImagefilePathText.KeyDown += new System.Windows.Forms.KeyEventHandler(this.ImageSelection_KeyDown);
-            this.ImagefilePathText.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.ImageSelection_KeyPress);
-            this.ImagefilePathText.PreviewKeyDown += new System.Windows.Forms.PreviewKeyDownEventHandler(this.ImageSelection_PreviewKeyDown);
-            this.ImagefilePathText.Validating += new System.ComponentModel.CancelEventHandler(this.ImagefilePathText_Validating);
-            // 
-            // ImagePageCombo
-            // 
-            resources.ApplyResources(this.ImagePageCombo, "ImagePageCombo");
-            this.ImagePageCombo.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.ImagePageCombo.FormattingEnabled = true;
-            this.ImagePageCombo.Name = "ImagePageCombo";
-            this.ImagePageCombo.SelectedIndexChanged += new System.EventHandler(this.ImagePageCombo_SelectedIndexChanged);
-            this.ImagePageCombo.KeyDown += new System.Windows.Forms.KeyEventHandler(this.ImageSelection_KeyDown);
-            this.ImagePageCombo.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.ImageSelection_KeyPress);
-            this.ImagePageCombo.PreviewKeyDown += new System.Windows.Forms.PreviewKeyDownEventHandler(this.ImageSelection_PreviewKeyDown);
-            // 
-            // FilePickButton
-            // 
-            resources.ApplyResources(this.FilePickButton, "FilePickButton");
-            this.FilePickButton.Name = "FilePickButton";
-            this.FilePickButton.UseVisualStyleBackColor = true;
-            this.FilePickButton.Click += new System.EventHandler(this.FilePickButton_Click);
-            this.FilePickButton.KeyDown += new System.Windows.Forms.KeyEventHandler(this.ImageSelection_KeyDown);
-            this.FilePickButton.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.ImageSelection_KeyPress);
-            this.FilePickButton.PreviewKeyDown += new System.Windows.Forms.PreviewKeyDownEventHandler(this.ImageSelection_PreviewKeyDown);
             // 
             // Label2
             // 
@@ -100,9 +49,6 @@
             resources.GetString("ImageServiceCombo.Items")});
             this.ImageServiceCombo.Name = "ImageServiceCombo";
             this.ImageServiceCombo.SelectedIndexChanged += new System.EventHandler(this.ImageServiceCombo_SelectedIndexChanged);
-            this.ImageServiceCombo.KeyDown += new System.Windows.Forms.KeyEventHandler(this.ImageSelection_KeyDown);
-            this.ImageServiceCombo.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.ImageSelection_KeyPress);
-            this.ImageServiceCombo.PreviewKeyDown += new System.Windows.Forms.PreviewKeyDownEventHandler(this.ImageSelection_PreviewKeyDown);
             // 
             // ImageCancelButton
             // 
@@ -122,12 +68,52 @@
             // 
             resources.ApplyResources(this.AlternativeTextBox, "AlternativeTextBox");
             this.AlternativeTextBox.Name = "AlternativeTextBox";
-            this.AlternativeTextBox.Validating += new System.ComponentModel.CancelEventHandler(this.AlternativeTextBox_Validating);
+            this.AlternativeTextBox.Validated += new System.EventHandler(this.AlternativeTextBox_Validated);
             // 
             // AlternativeTextLabel
             // 
             resources.ApplyResources(this.AlternativeTextLabel, "AlternativeTextLabel");
             this.AlternativeTextLabel.Name = "AlternativeTextLabel";
+            // 
+            // tableLayoutPanel1
+            // 
+            resources.ApplyResources(this.tableLayoutPanel1, "tableLayoutPanel1");
+            this.tableLayoutPanel1.Controls.Add(this.MediaListView, 0, 0);
+            this.tableLayoutPanel1.Controls.Add(this.panel1, 1, 0);
+            this.tableLayoutPanel1.Name = "tableLayoutPanel1";
+            // 
+            // MediaListView
+            // 
+            resources.ApplyResources(this.MediaListView, "MediaListView");
+            this.MediaListView.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.None;
+            this.MediaListView.HideSelection = false;
+            this.MediaListView.MultiSelect = false;
+            this.MediaListView.Name = "MediaListView";
+            this.MediaListView.ShowGroups = false;
+            this.MediaListView.UseCompatibleStateImageBehavior = false;
+            this.MediaListView.SelectedIndexChanged += new System.EventHandler(this.MediaListView_SelectedIndexChanged);
+            // 
+            // panel1
+            // 
+            this.panel1.Controls.Add(this.ImageCancelButton);
+            this.panel1.Controls.Add(this.AddMediaButton);
+            this.panel1.Controls.Add(this.ServiceSelectPanel);
+            resources.ApplyResources(this.panel1, "panel1");
+            this.panel1.Name = "panel1";
+            // 
+            // AddMediaButton
+            // 
+            resources.ApplyResources(this.AddMediaButton, "AddMediaButton");
+            this.AddMediaButton.Name = "AddMediaButton";
+            this.AddMediaButton.UseVisualStyleBackColor = true;
+            this.AddMediaButton.Click += new System.EventHandler(this.AddMediaButton_Click);
+            // 
+            // ServiceSelectPanel
+            // 
+            resources.ApplyResources(this.ServiceSelectPanel, "ServiceSelectPanel");
+            this.ServiceSelectPanel.Controls.Add(this.ImageServiceCombo);
+            this.ServiceSelectPanel.Controls.Add(this.Label2);
+            this.ServiceSelectPanel.Name = "ServiceSelectPanel";
             // 
             // ImageSelectedPicture
             // 
@@ -141,12 +127,14 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.Controls.Add(this.ImageSelectedPicture);
             this.Controls.Add(this.AlternativeTextPanel);
-            this.Controls.Add(this.ImagePathPanel);
+            this.Controls.Add(this.tableLayoutPanel1);
             this.Name = "MediaSelectorPanel";
-            this.ImagePathPanel.ResumeLayout(false);
-            this.ImagePathPanel.PerformLayout();
             this.AlternativeTextPanel.ResumeLayout(false);
             this.AlternativeTextPanel.PerformLayout();
+            this.tableLayoutPanel1.ResumeLayout(false);
+            this.panel1.ResumeLayout(false);
+            this.panel1.PerformLayout();
+            this.ServiceSelectPanel.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.ImageSelectedPicture)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -156,15 +144,16 @@
         #endregion
 
         internal OTPictureBox ImageSelectedPicture;
-        internal System.Windows.Forms.Panel ImagePathPanel;
-        internal System.Windows.Forms.TextBox ImagefilePathText;
-        internal System.Windows.Forms.ComboBox ImagePageCombo;
-        internal System.Windows.Forms.Button FilePickButton;
         internal System.Windows.Forms.Label Label2;
         internal System.Windows.Forms.ComboBox ImageServiceCombo;
         internal System.Windows.Forms.Button ImageCancelButton;
         internal System.Windows.Forms.Panel AlternativeTextPanel;
         internal System.Windows.Forms.TextBox AlternativeTextBox;
         internal System.Windows.Forms.Label AlternativeTextLabel;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
+        private System.Windows.Forms.ListView MediaListView;
+        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.Button AddMediaButton;
+        private System.Windows.Forms.Panel ServiceSelectPanel;
     }
 }
