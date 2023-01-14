@@ -43,6 +43,9 @@ namespace OpenTween.Api
         public TwitterErrorItem[] Errors
             => this.ErrorResponse != null ? this.ErrorResponse.Errors : Array.Empty<TwitterErrorItem>();
 
+        public string[] LongMessages
+            => this.Errors.Select(x => x.Message).ToArray();
+
         public TwitterApiException()
         {
         }
