@@ -247,6 +247,30 @@ namespace OpenTween
         }
 
         [Fact]
+        public void SelectedMediaItemChange_DisposeTest()
+        {
+            using var twitterApi = new TwitterApi(ApiKey.Create(""), ApiKey.Create(""));
+            using var twitter = new Twitter(twitterApi);
+            using var mediaSelector = new MediaSelector();
+            twitter.Initialize("", "", "", 0L);
+            mediaSelector.InitializeServices(twitter, TwitterConfiguration.DefaultConfiguration());
+            mediaSelector.SelectMediaService("Twitter");
+
+            var images = new[] { "Resources/re.gif", "Resources/re1.png" };
+            mediaSelector.AddMediaItemFromFilePath(images);
+
+            // 1 枚目
+            mediaSelector.SelectedMediaItemIndex = 0;
+            var firstImage = mediaSelector.SelectedMediaItemImage;
+
+            // 2 枚目
+            mediaSelector.SelectedMediaItemIndex = 1;
+            var secondImage = mediaSelector.SelectedMediaItemImage;
+
+            Assert.True(firstImage!.IsDisposed);
+        }
+
+        [Fact]
         public void SetSelectedMediaAltText_Test()
         {
             using var twitterApi = new TwitterApi(ApiKey.Create(""), ApiKey.Create(""));

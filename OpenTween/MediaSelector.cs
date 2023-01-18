@@ -41,6 +41,7 @@ namespace OpenTween
         private readonly BindingList<IMediaItem> mediaItems = new();
         private string selectedMediaServiceName = "";
         private Guid? selectedMediaItemId = null;
+        private MemoryImage? selectedMediaItemImage = null;
 
         public bool IsDisposed { get; private set; } = false;
 
@@ -82,7 +83,14 @@ namespace OpenTween
         public Guid? SelectedMediaItemId
         {
             get => this.selectedMediaItemId;
-            set => this.SetProperty(ref this.selectedMediaItemId, value);
+            set
+            {
+                if (this.selectedMediaItemId == value)
+                    return;
+
+                this.SetProperty(ref this.selectedMediaItemId, value);
+                this.LoadSelectedMediaItemImage();
+            }
         }
 
         public IMediaItem? SelectedMediaItem
@@ -92,6 +100,12 @@ namespace OpenTween
         {
             get => this.MediaItems.FindIndex(x => x.Id == this.SelectedMediaItemId);
             set => this.SelectedMediaItemId = value != -1 ? this.MediaItems[value].Id : null;
+        }
+
+        public MemoryImage? SelectedMediaItemImage
+        {
+            get => this.selectedMediaItemImage;
+            set => this.SetProperty(ref this.selectedMediaItemImage, value);
         }
 
         /// <summary>
@@ -264,6 +278,33 @@ namespace OpenTween
             catch
             {
                 return null;
+            }
+        }
+
+        private void LoadSelectedMediaItemImage()
+        {
+            var previousImage = this.selectedMediaItemImage;
+
+            if (this.SelectedMediaItem == null)
+            {
+                this.SelectedMediaItemImage = null;
+                previousImage?.Dispose();
+                return;
+            }
+
+            this.SelectedMediaItemImage = this.CreateMediaItemImage(this.SelectedMediaItem);
+            previousImage?.Dispose();
+        }
+
+        private MemoryImage CreateMediaItemImage(IMediaItem media)
+        {
+            try
+            {
+                return media.CreateImage();
+            }
+            catch (InvalidImageException)
+            {
+                return MemoryImage.CopyFromImage(Properties.Resources.MultiMediaImage);
             }
         }
 

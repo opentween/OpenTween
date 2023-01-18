@@ -161,6 +161,9 @@ namespace OpenTween
                 case nameof(MediaSelector.SelectedMediaItemId):
                     this.UpdateSelectedMedia();
                     break;
+                case nameof(MediaSelector.SelectedMediaItemImage):
+                    this.UpdateSelectedMediaImage();
+                    break;
                 default:
                     break;
             }
@@ -254,16 +257,17 @@ namespace OpenTween
                 {
                     this.AlternativeTextBox.Text = "";
                     this.AlternativeTextPanel.Enabled = false;
-                    this.ImageSelectedPicture.ShowInitialImage();
                 }
                 else
                 {
                     this.AlternativeTextBox.Text = selectedMedia.AltText;
                     this.AlternativeTextPanel.Enabled = true;
-                    this.ImageSelectedPicture.Image = selectedMedia.CreateImage();
                 }
             }
         }
+
+        private void UpdateSelectedMediaImage()
+            => this.ImageSelectedPicture.Image = this.Model.SelectedMediaItemImage;
 
         private void ImageServiceCombo_SelectedIndexChanged(object sender, EventArgs e)
             => this.Model.SelectedMediaServiceName = this.ImageServiceCombo.Text;
