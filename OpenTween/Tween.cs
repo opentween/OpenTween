@@ -555,7 +555,8 @@ namespace OpenTween
             Thumbnail.Services.TonTwitterCom.GetApiConnection = () => this.tw.Api.Connection;
 
             // 画像投稿サービス
-            this.ImageSelector.Initialize(this.tw, this.tw.Configuration, this.settings.Common.UseImageServiceName, this.settings.Common.UseImageService);
+            this.ImageSelector.Model.InitializeServices(this.tw, this.tw.Configuration);
+            this.ImageSelector.Model.SelectMediaService(this.settings.Common.UseImageServiceName, this.settings.Common.UseImageService);
 
             this.tweetThumbnail1.Initialize(this.thumbGenerator);
 
@@ -1282,7 +1283,8 @@ namespace OpenTween
                 if (!this.ImageSelector.TryGetSelectedMedia(out var serviceName, out uploadItems))
                     return;
 
-                uploadService = this.ImageSelector.GetService(serviceName);
+                this.ImageSelector.EndSelection();
+                uploadService = this.ImageSelector.Model.GetService(serviceName);
             }
 
             this.inReplyTo = null;
@@ -1950,7 +1952,7 @@ namespace OpenTween
 
                 if (this.tw.Configuration.PhotoSizeLimit != 0)
                 {
-                    foreach (var service in this.ImageSelector.GetServices())
+                    foreach (var (_, service) in this.ImageSelector.Model.MediaServices)
                     {
                         service.UpdateTwitterConfiguration(this.tw.Configuration);
                     }
@@ -2583,7 +2585,7 @@ namespace OpenTween
                     this.tw.RestrictFavCheck = this.settings.Common.RestrictFavCheck;
                     this.tw.ReadOwnPost = this.settings.Common.ReadOwnPost;
 
-                    this.ImageSelector.Reset(this.tw, this.tw.Configuration);
+                    this.ImageSelector.Model.InitializeServices(this.tw, this.tw.Configuration);
 
                     try
                     {
@@ -3518,7 +3520,7 @@ namespace OpenTween
             attachmentUrl = null;
 
             // attachment_url は media_id と同時に使用できない
-            if (this.ImageSelector.Visible && this.ImageSelector.SelectedService is TwitterPhoto)
+            if (this.ImageSelector.Visible && this.ImageSelector.Model.SelectedMediaService is TwitterPhoto)
                 return statusText;
 
             var match = Twitter.AttachmentUrlRegex.Match(statusText);
@@ -3661,7 +3663,7 @@ namespace OpenTween
         }
 
         private IMediaUploadService? GetSelectedImageService()
-            => this.ImageSelector.Visible ? this.ImageSelector.SelectedService : null;
+            => this.ImageSelector.Visible ? this.ImageSelector.Model.SelectedMediaService : null;
 
         /// <summary>
         /// 全てのタブの振り分けルールを反映し直します
@@ -5732,8 +5734,8 @@ namespace OpenTween
                 this.settings.Common.HashIsHead = this.HashMgr.IsHead;
                 this.settings.Common.HashIsPermanent = this.HashMgr.IsPermanent;
                 this.settings.Common.HashIsNotAddToAtReply = this.HashMgr.IsNotAddToAtReply;
-                this.settings.Common.UseImageService = this.ImageSelector.ServiceIndex;
-                this.settings.Common.UseImageServiceName = this.ImageSelector.ServiceName;
+                this.settings.Common.UseImageService = this.ImageSelector.Model.SelectedMediaServiceIndex;
+                this.settings.Common.UseImageServiceName = this.ImageSelector.Model.SelectedMediaServiceName;
 
                 this.settings.SaveCommon();
             }
@@ -9168,7 +9170,7 @@ namespace OpenTween
 
         private void SelectMedia_DragEnter(DragEventArgs e)
         {
-            if (this.ImageSelector.HasUploadableService(((string[])e.Data.GetData(DataFormats.FileDrop, false))[0], true))
+            if (this.ImageSelector.Model.HasUploadableService(((string[])e.Data.GetData(DataFormats.FileDrop, false))[0], true))
             {
                 e.Effect = DragDropEffects.Copy;
                 return;
@@ -9183,7 +9185,7 @@ namespace OpenTween
 
             var filePathArray = (string[])e.Data.GetData(DataFormats.FileDrop, false);
             this.ImageSelector.BeginSelection();
-            this.ImageSelector.AddMediaItemFromFilePath(filePathArray);
+            this.ImageSelector.Model.AddMediaItemFromFilePath(filePathArray);
             this.StatusText.Focus();
         }
 
@@ -9235,13 +9237,13 @@ namespace OpenTween
                     // clipboardから画像を取得
                     using var image = Clipboard.GetImage();
                     this.ImageSelector.BeginSelection();
-                    this.ImageSelector.AddMediaItemFromImage(image);
+                    this.ImageSelector.Model.AddMediaItemFromImage(image);
                 }
                 else if (Clipboard.ContainsFileDropList())
                 {
                     var files = Clipboard.GetFileDropList().Cast<string>().ToArray();
                     this.ImageSelector.BeginSelection();
-                    this.ImageSelector.AddMediaItemFromFilePath(files);
+                    this.ImageSelector.Model.AddMediaItemFromFilePath(files);
                 }
             }
             catch (ExternalException ex)

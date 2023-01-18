@@ -1,13 +1,33 @@
-﻿using System;
+﻿// OpenTween - Client of Twitter
+// Copyright (c) 2014 spx (@5px)
+// Copyright (c) 2023 kim_upsilon (@kim_upsilon) <https://upsilo.net/~upsilon/>
+// All rights reserved.
+//
+// This file is part of OpenTween.
+//
+// This program is free software; you can redistribute it and/or modify it
+// under the terms of the GNU General Public License as published by the Free
+// Software Foundation; either version 3 of the License, or (at your option)
+// any later version.
+//
+// This program is distributed in the hope that it will be useful, but
+// WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
+// or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License
+// for more details.
+//
+// You should have received a copy of the GNU General Public License along
+// with this program. If not, see <http://www.gnu.org/licenses/>, or write to
+// the Free Software Foundation, Inc., 51 Franklin Street - Fifth Floor,
+// Boston, MA 02110-1301, USA.
+
+using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Text;
-using System.Text.RegularExpressions;
 using Moq;
 using OpenTween.Api;
 using OpenTween.Api.DataModel;
@@ -29,438 +49,224 @@ namespace OpenTween
         }
 
         [Fact]
-        public void Initialize_TwitterTest()
+        public void SelectMediaService_TwitterTest()
         {
             using var twitterApi = new TwitterApi(ApiKey.Create(""), ApiKey.Create(""));
             using var twitter = new Twitter(twitterApi);
-            using var mediaSelector = new MediaSelectorPanel();
+            using var mediaSelector = new MediaSelector();
             twitter.Initialize("", "", "", 0L);
-            mediaSelector.Initialize(twitter, TwitterConfiguration.DefaultConfiguration(), "Twitter");
+            mediaSelector.InitializeServices(twitter, TwitterConfiguration.DefaultConfiguration());
+            mediaSelector.SelectMediaService("Twitter");
 
-            Assert.NotEqual(-1, mediaSelector.ImageServiceCombo.Items.IndexOf("Twitter"));
+            Assert.Contains(mediaSelector.MediaServices, x => x.Key == "Twitter");
 
             // 投稿先に Twitter が選択されている
-            Assert.Equal("Twitter", mediaSelector.ImageServiceCombo.Text);
+            Assert.Equal("Twitter", mediaSelector.SelectedMediaServiceName);
 
-            // ページ番号が初期化された状態
-            var pages = mediaSelector.ImagePageCombo.Items;
-            Assert.Equal(new[] { "1" }, pages.Cast<object>().Select(x => x.ToString()));
-
-            // 代替テキストの入力欄が表示された状態
-            Assert.True(mediaSelector.AlternativeTextPanel.Visible);
+            // 代替テキストが入力可能な状態
+            Assert.True(mediaSelector.CanUseAltText);
         }
 
         [Fact]
-        public void Initialize_ImgurTest()
+        public void SelectMediaService_ImgurTest()
         {
             using var twitterApi = new TwitterApi(ApiKey.Create(""), ApiKey.Create(""));
             using var twitter = new Twitter(twitterApi);
-            using var mediaSelector = new MediaSelectorPanel();
+            using var mediaSelector = new MediaSelector();
             twitter.Initialize("", "", "", 0L);
-            mediaSelector.Initialize(twitter, TwitterConfiguration.DefaultConfiguration(), "Imgur");
+            mediaSelector.InitializeServices(twitter, TwitterConfiguration.DefaultConfiguration());
+            mediaSelector.SelectMediaService("Imgur");
 
             // 投稿先に Imgur が選択されている
-            Assert.Equal("Imgur", mediaSelector.ImageServiceCombo.Text);
+            Assert.Equal("Imgur", mediaSelector.SelectedMediaServiceName);
 
-            // ページ番号が初期化された状態
-            var pages = mediaSelector.ImagePageCombo.Items;
-            Assert.Equal(new[] { "1" }, pages.Cast<object>().Select(x => x.ToString()));
-
-            // 代替テキストの入力欄が非表示の状態
-            Assert.False(mediaSelector.AlternativeTextPanel.Visible);
+            // 代替テキストが入力できない状態
+            Assert.False(mediaSelector.CanUseAltText);
         }
 
         [Fact]
-        public void BeginSelection_BlankTest()
+        public void AddMediaItem_FilePath_SingleTest()
         {
             using var twitterApi = new TwitterApi(ApiKey.Create(""), ApiKey.Create(""));
             using var twitter = new Twitter(twitterApi);
-            using var mediaSelector = new MediaSelectorPanel { Visible = false, Enabled = false };
+            using var mediaSelector = new MediaSelector();
             twitter.Initialize("", "", "", 0L);
-            mediaSelector.Initialize(twitter, TwitterConfiguration.DefaultConfiguration(), "Twitter");
-
-            Assert.Raises<EventArgs>(
-                x => mediaSelector.BeginSelecting += x,
-                x => mediaSelector.BeginSelecting -= x,
-                () => mediaSelector.BeginSelection()
-            );
-
-            Assert.True(mediaSelector.Visible);
-            Assert.True(mediaSelector.Enabled);
-
-            // 1 ページ目のみ選択可能な状態
-            var pages = mediaSelector.ImagePageCombo.Items;
-            Assert.Equal(new[] { "1" }, pages.Cast<object>().Select(x => x.ToString()));
-
-            // 1 ページ目が表示されている
-            Assert.Equal("1", mediaSelector.ImagePageCombo.Text);
-            Assert.Equal("", mediaSelector.ImagefilePathText.Text);
-            Assert.Null(mediaSelector.ImageSelectedPicture.Image);
-        }
-
-        [Fact]
-        public void BeginSelection_FilePathTest()
-        {
-            using var twitterApi = new TwitterApi(ApiKey.Create(""), ApiKey.Create(""));
-            using var twitter = new Twitter(twitterApi);
-            using var mediaSelector = new MediaSelectorPanel { Visible = false, Enabled = false };
-            twitter.Initialize("", "", "", 0L);
-            mediaSelector.Initialize(twitter, TwitterConfiguration.DefaultConfiguration(), "Twitter");
+            mediaSelector.InitializeServices(twitter, TwitterConfiguration.DefaultConfiguration());
+            mediaSelector.SelectMediaService("Twitter");
 
             var images = new[] { "Resources/re.gif" };
+            mediaSelector.AddMediaItemFromFilePath(images);
 
-            Assert.Raises<EventArgs>(
-                x => mediaSelector.BeginSelecting += x,
-                x => mediaSelector.BeginSelecting -= x,
-                () => mediaSelector.BeginSelection(images)
-            );
+            // 画像が 1 つ追加された状態
+            Assert.Single(mediaSelector.MediaItems);
 
-            Assert.True(mediaSelector.Visible);
-            Assert.True(mediaSelector.Enabled);
-
-            // 2 ページ目まで選択可能な状態
-            var pages = mediaSelector.ImagePageCombo.Items;
-            Assert.Equal(new[] { "1", "2" }, pages.Cast<object>().Select(x => x.ToString()));
-
-            // 1 ページ目が表示されている
-            Assert.Equal("1", mediaSelector.ImagePageCombo.Text);
-            Assert.Equal(Path.GetFullPath("Resources/re.gif"), mediaSelector.ImagefilePathText.Text);
+            // 1 枚目の画像が表示されている
+            Assert.Equal(0, mediaSelector.SelectedMediaItemIndex);
+            Assert.Equal(Path.GetFullPath("Resources/re.gif"), mediaSelector.SelectedMediaItem!.Path);
 
             using var imageStream = File.OpenRead("Resources/re.gif");
-            using var image = MemoryImage.CopyFromStream(imageStream);
-            Assert.Equal(image, mediaSelector.ImageSelectedPicture.Image);
+            using var expectedImage = MemoryImage.CopyFromStream(imageStream);
+            using var actualImage = mediaSelector.SelectedMediaItem.CreateImage();
+            Assert.Equal(expectedImage, actualImage);
         }
 
         [Fact]
-        public void BeginSelection_MemoryImageTest()
+        public void AddMediaItem_MemoryImageTest()
         {
             using var twitterApi = new TwitterApi(ApiKey.Create(""), ApiKey.Create(""));
             using var twitter = new Twitter(twitterApi);
-            using var mediaSelector = new MediaSelectorPanel { Visible = false, Enabled = false };
+            using var mediaSelector = new MediaSelector();
             twitter.Initialize("", "", "", 0L);
-            mediaSelector.Initialize(twitter, TwitterConfiguration.DefaultConfiguration(), "Twitter");
+            mediaSelector.InitializeServices(twitter, TwitterConfiguration.DefaultConfiguration());
+            mediaSelector.SelectMediaService("Twitter");
+
+            using (var bitmap = new Bitmap(width: 200, height: 200))
+                mediaSelector.AddMediaItemFromImage(bitmap);
+
+            // 画像が 1 つ追加された状態
+            Assert.Single(mediaSelector.MediaItems);
+
+            // 1 枚目の画像が表示されている
+            Assert.Equal(0, mediaSelector.SelectedMediaItemIndex);
+            Assert.Matches(@"^<>MemoryImage://\d+.png$", mediaSelector.SelectedMediaItem!.Path);
 
             using (var bitmap = new Bitmap(width: 200, height: 200))
             {
-                Assert.Raises<EventArgs>(
-                    x => mediaSelector.BeginSelecting += x,
-                    x => mediaSelector.BeginSelecting -= x,
-                    () => mediaSelector.BeginSelection(bitmap)
-                );
-            }
-
-            Assert.True(mediaSelector.Visible);
-            Assert.True(mediaSelector.Enabled);
-
-            // 2 ページ目まで選択可能な状態
-            var pages = mediaSelector.ImagePageCombo.Items;
-            Assert.Equal(new[] { "1", "2" }, pages.Cast<object>().Select(x => x.ToString()));
-
-            // 1 ページ目が表示されている
-            Assert.Equal("1", mediaSelector.ImagePageCombo.Text);
-            Assert.Matches(@"^<>MemoryImage://\d+.png$", mediaSelector.ImagefilePathText.Text);
-
-            using (var bitmap = new Bitmap(width: 200, height: 200))
-            {
-                using var image = MemoryImage.CopyFromImage(bitmap);
-                Assert.Equal(image, mediaSelector.ImageSelectedPicture.Image);
+                using var expectedImage = MemoryImage.CopyFromImage(bitmap);
+                using var actualImage = mediaSelector.SelectedMediaItem.CreateImage();
+                Assert.Equal(expectedImage, actualImage);
             }
         }
 
         [Fact]
-        public void BeginSelection_MultiImageTest()
+        public void AddMediaItem_FilePath_MultipleTest()
         {
             using var twitterApi = new TwitterApi(ApiKey.Create(""), ApiKey.Create(""));
             using var twitter = new Twitter(twitterApi);
-            using var mediaSelector = new MediaSelectorPanel { Visible = false, Enabled = false };
+            using var mediaSelector = new MediaSelector();
             twitter.Initialize("", "", "", 0L);
-            mediaSelector.Initialize(twitter, TwitterConfiguration.DefaultConfiguration(), "Twitter");
+            mediaSelector.InitializeServices(twitter, TwitterConfiguration.DefaultConfiguration());
+            mediaSelector.SelectMediaService("Twitter");
 
             var images = new[] { "Resources/re.gif", "Resources/re1.png" };
-            mediaSelector.BeginSelection(images);
+            mediaSelector.AddMediaItemFromFilePath(images);
 
-            // 3 ページ目まで選択可能な状態
-            var pages = mediaSelector.ImagePageCombo.Items;
-            Assert.Equal(new[] { "1", "2", "3" }, pages.Cast<object>().Select(x => x.ToString()));
+            // 画像が 2 つ追加された状態
+            Assert.Equal(2, mediaSelector.MediaItems.Count);
 
-            // 1 ページ目が表示されている
-            Assert.Equal("1", mediaSelector.ImagePageCombo.Text);
-            Assert.Equal(Path.GetFullPath("Resources/re.gif"), mediaSelector.ImagefilePathText.Text);
+            // 最後の画像（2 枚目）が表示されている
+            Assert.Equal(1, mediaSelector.SelectedMediaItemIndex);
+            Assert.Equal(Path.GetFullPath("Resources/re1.png"), mediaSelector.SelectedMediaItem!.Path);
 
-            using var imageStream = File.OpenRead("Resources/re.gif");
-            using var image = MemoryImage.CopyFromStream(imageStream);
-            Assert.Equal(image, mediaSelector.ImageSelectedPicture.Image);
+            using var imageStream = File.OpenRead("Resources/re1.png");
+            using var expectedImage = MemoryImage.CopyFromStream(imageStream);
+            using var actualImage = mediaSelector.SelectedMediaItem.CreateImage();
+            Assert.Equal(expectedImage, actualImage);
         }
 
         [Fact]
-        public void EndSelection_Test()
+        public void ClearMediaItems_Test()
         {
             using var twitterApi = new TwitterApi(ApiKey.Create(""), ApiKey.Create(""));
             using var twitter = new Twitter(twitterApi);
-            using var mediaSelector = new MediaSelectorPanel { Visible = false, Enabled = false };
+            using var mediaSelector = new MediaSelector();
             twitter.Initialize("", "", "", 0L);
-            mediaSelector.Initialize(twitter, TwitterConfiguration.DefaultConfiguration(), "Twitter");
-            mediaSelector.BeginSelection(new[] { "Resources/re.gif" });
+            mediaSelector.InitializeServices(twitter, TwitterConfiguration.DefaultConfiguration());
+            mediaSelector.SelectMediaService("Twitter");
 
-            var displayImage = mediaSelector.ImageSelectedPicture.Image; // 表示中の画像
+            mediaSelector.AddMediaItemFromFilePath(new[] { "Resources/re.gif" });
 
-            Assert.Raises<EventArgs>(
-                x => mediaSelector.EndSelecting += x,
-                x => mediaSelector.EndSelecting -= x,
-                () => mediaSelector.EndSelection()
-            );
+            var thumbnailImages = mediaSelector.ThumbnailList.ToArray(); // 表示中の画像
 
-            Assert.False(mediaSelector.Visible);
-            Assert.False(mediaSelector.Enabled);
+            mediaSelector.ClearMediaItems();
 
-            Assert.True(displayImage!.IsDisposed);
+            Assert.True(thumbnailImages.All(x => x.IsDisposed));
         }
 
         [Fact]
-        public void PageChange_Test()
+        public void DetachMediaItems_Test()
         {
             using var twitterApi = new TwitterApi(ApiKey.Create(""), ApiKey.Create(""));
             using var twitter = new Twitter(twitterApi);
-            using var mediaSelector = new MediaSelectorPanel { Visible = false, Enabled = false };
+            using var mediaSelector = new MediaSelector();
             twitter.Initialize("", "", "", 0L);
-            mediaSelector.Initialize(twitter, TwitterConfiguration.DefaultConfiguration(), "Twitter");
+            mediaSelector.InitializeServices(twitter, TwitterConfiguration.DefaultConfiguration());
+            mediaSelector.SelectMediaService("Twitter");
+
+            mediaSelector.AddMediaItemFromFilePath(new[] { "Resources/re.gif" });
+
+            var thumbnailImages = mediaSelector.ThumbnailList.ToArray();
+
+            var detachedMediaItems = mediaSelector.DetachMediaItems();
+
+            Assert.Empty(mediaSelector.MediaItems);
+            Assert.True(thumbnailImages.All(x => x.IsDisposed));
+
+            // DetachMediaItems で切り離された MediaItem は破棄しない
+            Assert.True(detachedMediaItems.All(x => !x.IsDisposed));
+        }
+
+        [Fact]
+        public void SelectedMediaItemChange_Test()
+        {
+            using var twitterApi = new TwitterApi(ApiKey.Create(""), ApiKey.Create(""));
+            using var twitter = new Twitter(twitterApi);
+            using var mediaSelector = new MediaSelector();
+            twitter.Initialize("", "", "", 0L);
+            mediaSelector.InitializeServices(twitter, TwitterConfiguration.DefaultConfiguration());
+            mediaSelector.SelectMediaService("Twitter");
 
             var images = new[] { "Resources/re.gif", "Resources/re1.png" };
-            mediaSelector.BeginSelection(images);
+            mediaSelector.AddMediaItemFromFilePath(images);
 
-            mediaSelector.ImagePageCombo.SelectedIndex = 0;
+            mediaSelector.SelectedMediaItemIndex = 0;
 
             // 1 ページ目
-            Assert.Equal("1", mediaSelector.ImagePageCombo.Text);
-            Assert.Equal(Path.GetFullPath("Resources/re.gif"), mediaSelector.ImagefilePathText.Text);
+            Assert.Equal(Path.GetFullPath("Resources/re.gif"), mediaSelector.SelectedMediaItem!.Path);
 
             using (var imageStream = File.OpenRead("Resources/re.gif"))
             {
-                using var image = MemoryImage.CopyFromStream(imageStream);
-                Assert.Equal(image, mediaSelector.ImageSelectedPicture.Image);
+                using var expectedImage = MemoryImage.CopyFromStream(imageStream);
+                using var actualImage = mediaSelector.SelectedMediaItem.CreateImage();
+                Assert.Equal(expectedImage, actualImage);
             }
 
-            mediaSelector.ImagePageCombo.SelectedIndex = 1;
+            mediaSelector.SelectedMediaItemIndex = 1;
 
             // 2 ページ目
-            Assert.Equal("2", mediaSelector.ImagePageCombo.Text);
-            Assert.Equal(Path.GetFullPath("Resources/re1.png"), mediaSelector.ImagefilePathText.Text);
+            Assert.Equal(Path.GetFullPath("Resources/re1.png"), mediaSelector.SelectedMediaItem!.Path);
 
             using (var imageStream = File.OpenRead("Resources/re1.png"))
             {
-                using var image = MemoryImage.CopyFromStream(imageStream);
-                Assert.Equal(image, mediaSelector.ImageSelectedPicture.Image);
+                using var expectedImage = MemoryImage.CopyFromStream(imageStream);
+                using var actualImage = mediaSelector.SelectedMediaItem.CreateImage();
+                Assert.Equal(expectedImage, actualImage);
             }
-
-            mediaSelector.ImagePageCombo.SelectedIndex = 2;
-
-            // 3 ページ目 (新規ページ)
-            Assert.Equal("3", mediaSelector.ImagePageCombo.Text);
-            Assert.Equal("", mediaSelector.ImagefilePathText.Text);
-            Assert.Null(mediaSelector.ImageSelectedPicture.Image);
         }
 
         [Fact]
-        public void PageChange_AlternativeTextTest()
+        public void SetSelectedMediaAltText_Test()
         {
             using var twitterApi = new TwitterApi(ApiKey.Create(""), ApiKey.Create(""));
             using var twitter = new Twitter(twitterApi);
-            using var mediaSelector = new MediaSelectorPanel { Visible = false, Enabled = false };
+            using var mediaSelector = new MediaSelector();
             twitter.Initialize("", "", "", 0L);
-            mediaSelector.Initialize(twitter, TwitterConfiguration.DefaultConfiguration(), "Twitter");
+            mediaSelector.InitializeServices(twitter, TwitterConfiguration.DefaultConfiguration());
+            mediaSelector.SelectMediaService("Twitter");
 
             var images = new[] { "Resources/re.gif", "Resources/re1.png" };
-            mediaSelector.BeginSelection(images);
+            mediaSelector.AddMediaItemFromFilePath(images);
 
             // 1 ページ目
-            mediaSelector.ImagePageCombo.SelectedIndex = 0;
-            mediaSelector.AlternativeTextBox.Text = "Page 1";
-            mediaSelector.ValidateChildren();
+            mediaSelector.SelectedMediaItemIndex = 0;
+            mediaSelector.SetSelectedMediaAltText("Page 1");
 
             // 2 ページ目
-            mediaSelector.ImagePageCombo.SelectedIndex = 1;
-            mediaSelector.AlternativeTextBox.Text = "Page 2";
-            mediaSelector.ValidateChildren();
+            mediaSelector.SelectedMediaItemIndex = 1;
+            mediaSelector.SetSelectedMediaAltText("Page 2");
 
-            // 3 ページ目 (新規ページ)
-            mediaSelector.ImagePageCombo.SelectedIndex = 2;
-            mediaSelector.AlternativeTextBox.Text = "Page 3";
-            mediaSelector.ValidateChildren();
-
-            mediaSelector.ImagePageCombo.SelectedIndex = 0;
-            Assert.Equal("Page 1", mediaSelector.AlternativeTextBox.Text);
-
-            mediaSelector.ImagePageCombo.SelectedIndex = 1;
-            Assert.Equal("Page 2", mediaSelector.AlternativeTextBox.Text);
-
-            // 画像が指定されていないページは入力した代替テキストも保持されない
-            mediaSelector.ImagePageCombo.SelectedIndex = 2;
-            Assert.Equal("", mediaSelector.AlternativeTextBox.Text);
-        }
-
-        [Fact]
-        public void PageChange_ImageDisposeTest()
-        {
-            using var twitterApi = new TwitterApi(ApiKey.Create(""), ApiKey.Create(""));
-            using var twitter = new Twitter(twitterApi);
-            using var mediaSelector = new MediaSelectorPanel { Visible = false, Enabled = false };
-            twitter.Initialize("", "", "", 0L);
-            mediaSelector.Initialize(twitter, TwitterConfiguration.DefaultConfiguration(), "Twitter");
-
-            var images = new[] { "Resources/re.gif", "Resources/re1.png" };
-            mediaSelector.BeginSelection(images);
-
-            mediaSelector.ImagePageCombo.SelectedIndex = 0;
-
-            // 1 ページ目
-            var page1Image = mediaSelector.ImageSelectedPicture.Image;
-
-            mediaSelector.ImagePageCombo.SelectedIndex = 1;
-
-            // 2 ページ目
-            var page2Image = mediaSelector.ImageSelectedPicture.Image;
-            Assert.True(page1Image!.IsDisposed); // 前ページの画像が破棄されているか
-
-            mediaSelector.ImagePageCombo.SelectedIndex = 2;
-
-            // 3 ページ目 (新規ページ)
-            Assert.True(page2Image!.IsDisposed); // 前ページの画像が破棄されているか
-        }
-
-        [Fact]
-        public void ImagePathInput_Test()
-        {
-            using var twitterApi = new TwitterApi(ApiKey.Create(""), ApiKey.Create(""));
-            using var twitter = new Twitter(twitterApi);
-            using var mediaSelector = new MediaSelectorPanel { Visible = false, Enabled = false };
-            twitter.Initialize("", "", "", 0L);
-            mediaSelector.Initialize(twitter, TwitterConfiguration.DefaultConfiguration(), "Twitter");
-            mediaSelector.BeginSelection();
-
-            // 画像のファイルパスを入力
-            mediaSelector.ImagefilePathText.Text = Path.GetFullPath("Resources/re1.png");
-            TestUtils.Validate(mediaSelector.ImagefilePathText);
-
-            // 入力したパスの画像が表示される
-            using (var imageStream = File.OpenRead("Resources/re1.png"))
-            {
-                using var image = MemoryImage.CopyFromStream(imageStream);
-                Assert.Equal(image, mediaSelector.ImageSelectedPicture.Image);
-            }
-
-            // 2 ページ目まで選択可能な状態
-            var pages = mediaSelector.ImagePageCombo.Items;
-            Assert.Equal(new[] { "1", "2" }, pages.Cast<object>().Select(x => x.ToString()));
-        }
-
-        [Fact]
-        public void ImagePathInput_ReplaceFileMediaItemTest()
-        {
-            using var twitterApi = new TwitterApi(ApiKey.Create(""), ApiKey.Create(""));
-            using var twitter = new Twitter(twitterApi);
-            using var mediaSelector = new MediaSelectorPanel { Visible = false, Enabled = false };
-            twitter.Initialize("", "", "", 0L);
-            mediaSelector.Initialize(twitter, TwitterConfiguration.DefaultConfiguration(), "Twitter");
-
-            mediaSelector.BeginSelection(new[] { "Resources/re.gif" });
-
-            // 既に入力されているファイルパスの画像
-            var image1 = mediaSelector.ImageSelectedPicture.Image;
-
-            // 別の画像のファイルパスを入力
-            mediaSelector.ImagefilePathText.Text = Path.GetFullPath("Resources/re1.png");
-            TestUtils.Validate(mediaSelector.ImagefilePathText);
-
-            // 入力したパスの画像が表示される
-            using (var imageStream = File.OpenRead("Resources/re1.png"))
-            {
-                using var image2 = MemoryImage.CopyFromStream(imageStream);
-                Assert.Equal(image2, mediaSelector.ImageSelectedPicture.Image);
-            }
-
-            // 最初に入力されていたファイルパスの表示用の MemoryImage は破棄される
-            Assert.True(image1!.IsDisposed);
-        }
-
-        [Fact]
-        public void ImagePathInput_ReplaceMemoryImageMediaItemTest()
-        {
-            using var twitterApi = new TwitterApi(ApiKey.Create(""), ApiKey.Create(""));
-            using var twitter = new Twitter(twitterApi);
-            using var mediaSelector = new MediaSelectorPanel { Visible = false, Enabled = false };
-            twitter.Initialize("", "", "", 0L);
-            mediaSelector.Initialize(twitter, TwitterConfiguration.DefaultConfiguration(), "Twitter");
-
-            using (var bitmap = new Bitmap(width: 200, height: 200))
-            {
-                mediaSelector.BeginSelection(bitmap);
-            }
-
-            // 既に入力されているファイルパスの画像
-            var image1 = mediaSelector.ImageSelectedPicture.Image;
-
-            // 内部で保持されている MemoryImageMediaItem を取り出す
-            var selectedMedia = mediaSelector.ImagePageCombo.SelectedItem;
-            var mediaProperty = selectedMedia.GetType().GetProperty("Item");
-            var mediaItem = (MemoryImageMediaItem)mediaProperty.GetValue(selectedMedia);
-
-            // 別の画像のファイルパスを入力
-            mediaSelector.ImagefilePathText.Text = Path.GetFullPath("Resources/re1.png");
-            TestUtils.Validate(mediaSelector.ImagefilePathText);
-
-            // 入力したパスの画像が表示される
-            using (var imageStream = File.OpenRead("Resources/re1.png"))
-            {
-                using var image2 = MemoryImage.CopyFromStream(imageStream);
-                Assert.Equal(image2, mediaSelector.ImageSelectedPicture.Image);
-            }
-
-            // 最初に入力されていたファイルパスの表示用の MemoryImage は破棄される
-            Assert.True(image1!.IsDisposed);
-
-            // 参照されなくなった MemoryImageMediaItem も破棄される
-            Assert.True(mediaItem.IsDisposed);
-        }
-
-        [Fact]
-        public void ImageServiceChange_Test()
-        {
-            using var twitterApi = new TwitterApi(ApiKey.Create(""), ApiKey.Create(""));
-            using var twitter = new Twitter(twitterApi);
-            using var mediaSelector = new MediaSelectorPanel { Visible = false, Enabled = false };
-            twitter.Initialize("", "", "", 0L);
-            mediaSelector.Initialize(twitter, TwitterConfiguration.DefaultConfiguration(), "Twitter");
-
-            Assert.Equal("Twitter", mediaSelector.ServiceName);
-
-            mediaSelector.BeginSelection(new[] { "Resources/re.gif", "Resources/re1.png" });
-
-            // 3 ページ目まで選択可能な状態
-            var pages = mediaSelector.ImagePageCombo.Items;
-            Assert.Equal(new[] { "1", "2", "3" }, pages.Cast<object>().Select(x => x.ToString()));
-            Assert.True(mediaSelector.ImagePageCombo.Enabled);
-
-            // 投稿先を Imgur に変更
-            var imgurIndex = mediaSelector.ImageServiceCombo.Items.IndexOf("Imgur");
-            Assert.Raises<EventArgs>(
-                x => mediaSelector.SelectedServiceChanged += x,
-                x => mediaSelector.SelectedServiceChanged -= x,
-                () => mediaSelector.ImageServiceCombo.SelectedIndex = imgurIndex
-            );
-
-            // 1 ページ目のみ選択可能な状態 (Disabled)
-            pages = mediaSelector.ImagePageCombo.Items;
-            Assert.Equal(new[] { "1" }, pages.Cast<object>().Select(x => x.ToString()));
-            Assert.False(mediaSelector.ImagePageCombo.Enabled);
-
-            // 投稿先を Twitter に変更
-            mediaSelector.ImageServiceCombo.SelectedIndex =
-                mediaSelector.ImageServiceCombo.Items.IndexOf("Twitter");
-
-            // 2 ページ目まで選択可能な状態
-            pages = mediaSelector.ImagePageCombo.Items;
-            Assert.Equal(new[] { "1", "2" }, pages.Cast<object>().Select(x => x.ToString()));
-            Assert.True(mediaSelector.ImagePageCombo.Enabled);
+            Assert.Equal("Page 1", mediaSelector.MediaItems[0].AltText);
+            Assert.Equal("Page 2", mediaSelector.MediaItems[1].AltText);
         }
     }
 }

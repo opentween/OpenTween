@@ -1,5 +1,6 @@
 ﻿// OpenTween - Client of Twitter
 // Copyright (c) 2014 spx (@5px)
+// Copyright (c) 2023 kim_upsilon (@kim_upsilon) <https://upsilo.net/~upsilon/>
 // All rights reserved.
 //
 // This file is part of OpenTween.
@@ -26,14 +27,10 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Diagnostics.CodeAnalysis;
-using System.Drawing;
-using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using OpenTween.Api.DataModel;
-using OpenTween.MediaUploadServices;
 
 namespace OpenTween
 {
@@ -51,237 +48,30 @@ namespace OpenTween
 
         [Browsable(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        public MediaSelector Model { get; } = new();
+
+        [Browsable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public OpenFileDialog? FilePickDialog { get; set; }
-
-        /// <summary>
-        /// 選択されている投稿先名を取得する。
-        /// </summary>
-        [Browsable(false)]
-        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public string ServiceName
-            => this.ImageServiceCombo.Text;
-
-        /// <summary>
-        /// 選択されている投稿先を示すインデックスを取得する。
-        /// </summary>
-        [Browsable(false)]
-        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public int ServiceIndex
-            => this.ImageServiceCombo.SelectedIndex;
-
-        /// <summary>
-        /// 選択されている投稿先の IMediaUploadService を取得する。
-        /// </summary>
-        [Browsable(false)]
-        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public IMediaUploadService? SelectedService
-        {
-            get
-            {
-                var serviceName = this.ServiceName;
-                if (MyCommon.IsNullOrEmpty(serviceName))
-                    return null;
-
-                return this.pictureService.TryGetValue(serviceName, out var service)
-                    ? service : null;
-            }
-        }
-
-        /// <summary>
-        /// 指定された投稿先名から、作成済みの IMediaUploadService インスタンスを取得する。
-        /// </summary>
-        public IMediaUploadService GetService(string serviceName)
-        {
-            this.pictureService.TryGetValue(serviceName, out var service);
-            return service;
-        }
-
-        /// <summary>
-        /// 利用可能な全ての IMediaUploadService インスタンスを取得する。
-        /// </summary>
-        public ICollection<IMediaUploadService> GetServices()
-            => this.pictureService.Values;
-
-        private Dictionary<string, IMediaUploadService> pictureService = new();
-
-        private readonly List<IMediaItem> mediaItems = new();
-        private readonly MemoryImageList thumbnailList = new();
-        private Guid? selectedMediaItemId = null;
-
-        private void CreateServices(Twitter tw, TwitterConfiguration twitterConfig)
-        {
-            this.pictureService?.Clear();
-
-            this.pictureService = new Dictionary<string, IMediaUploadService>
-            {
-                ["Twitter"] = new TwitterPhoto(tw, twitterConfig),
-                ["Imgur"] = new Imgur(twitterConfig),
-                ["Mobypicture"] = new Mobypicture(tw, twitterConfig),
-            };
-        }
 
         public MediaSelectorPanel()
         {
             this.InitializeComponent();
 
             this.ImageSelectedPicture.InitialImage = Properties.Resources.InitialImage;
-            this.MediaListView.LargeImageList = this.thumbnailList.ImageList;
+
+            this.MediaListView.LargeImageList = this.Model.ThumbnailList.ImageList;
 
             var thumbnailWidth = 75 * this.DeviceDpi / 96;
-            this.thumbnailList.ImageList.ImageSize = new(thumbnailWidth, thumbnailWidth);
+            this.Model.ThumbnailList.ImageList.ImageSize = new(thumbnailWidth, thumbnailWidth);
+
+            this.Model.PropertyChanged +=
+                (s, e) => this.TryInvoke(() => this.Model_PropertyChanged(s, e));
+            this.Model.MediaItems.ListChanged +=
+                (s, e) => this.TryInvoke(() => this.Model_MediaItems_ListChanged(s, e));
 
             this.UpdateSelectedMedia();
             this.UpdateAltTextPanelVisible();
-        }
-
-        /// <summary>
-        /// 投稿先サービスなどを初期化する。
-        /// </summary>
-        public void Initialize(Twitter tw, TwitterConfiguration twitterConfig, string svc, int? index = null)
-        {
-            this.CreateServices(tw, twitterConfig);
-
-            this.SetImageServiceCombo();
-            this.SelectImageServiceComboItem(svc, index);
-        }
-
-        /// <summary>
-        /// 投稿先サービスを再作成する。
-        /// </summary>
-        public void Reset(Twitter tw, TwitterConfiguration twitterConfig)
-        {
-            this.CreateServices(tw, twitterConfig);
-
-            this.SetImageServiceCombo();
-        }
-
-        /// <summary>
-        /// 指定されたファイルの投稿に対応した投稿先があるかどうかを示す値を取得する。
-        /// </summary>
-        public bool HasUploadableService(string fileName, bool ignoreSize)
-        {
-            var fl = new FileInfo(fileName);
-            var ext = fl.Extension;
-            var size = ignoreSize ? (long?)null : fl.Length;
-
-            if (this.IsUploadable(this.ServiceName, ext, size))
-                return true;
-
-            foreach (string svc in this.ImageServiceCombo.Items)
-            {
-                if (this.IsUploadable(svc, ext, size))
-                    return true;
-            }
-
-            return false;
-        }
-
-        /// <summary>
-        /// 指定された投稿先に投稿可能かどうかを示す値を取得する。
-        /// ファイルサイズの指定がなければ拡張子だけで判定する。
-        /// </summary>
-        private bool IsUploadable(string serviceName, string ext, long? size)
-        {
-            if (!MyCommon.IsNullOrEmpty(serviceName))
-            {
-                var imageService = this.pictureService[serviceName];
-                if (imageService.CheckFileExtension(ext))
-                {
-                    if (!size.HasValue)
-                        return true;
-
-                    if (imageService.CheckFileSize(ext, size.Value))
-                        return true;
-                }
-            }
-            return false;
-        }
-
-        private void ClearMediaItems()
-        {
-            this.selectedMediaItemId = null;
-            this.UpdateSelectedMedia();
-
-            this.MediaListView.Items.Clear();
-
-            var mediaItems = this.mediaItems.ToList();
-            this.mediaItems.Clear();
-
-            foreach (var mediaItem in mediaItems)
-                this.DisposeMediaItem(mediaItem);
-
-            var thumbnailImages = this.thumbnailList.ToList();
-            this.thumbnailList.Clear();
-
-            foreach (var image in thumbnailImages)
-                image.Dispose();
-        }
-
-        public void AddMediaItemFromImage(Image image)
-        {
-            var mediaItem = this.CreateMemoryImageMediaItem(image, noMsgBox: false);
-            if (mediaItem == null)
-                return;
-
-            this.AddMediaItem(mediaItem);
-            this.SelectMediaItem(mediaItem.Id);
-        }
-
-        public void AddMediaItemFromFilePath(string[] filePathArray)
-        {
-            if (filePathArray.Length == 0)
-                return;
-
-            var mediaItems = new IMediaItem[filePathArray.Length];
-
-            // 連番のファイル名を一括でアップロードする場合の利便性のためソートする
-            var sortedFilePath = filePathArray.OrderBy(x => x);
-
-            foreach (var (path, index) in sortedFilePath.WithIndex())
-            {
-                var mediaItem = this.CreateFileMediaItem(path, noMsgBox: false);
-                if (mediaItem == null)
-                    return;
-
-                mediaItems[index] = mediaItem;
-            }
-
-            // 全ての IMediaItem の生成に成功した場合のみ追加する
-            foreach (var mediaItem in mediaItems)
-                this.AddMediaItem(mediaItem);
-
-            this.SelectMediaItem(mediaItems.Last().Id);
-        }
-
-        public void AddMediaItem(IMediaItem item)
-        {
-            this.mediaItems.Add(item);
-
-            MemoryImage thumbnailImage;
-            try
-            {
-                thumbnailImage = item.CreateImage();
-            }
-            catch (InvalidImageException)
-            {
-                thumbnailImage = MemoryImage.CopyFromImage(Properties.Resources.MultiMediaImage);
-            }
-
-            var id = item.Id.ToString();
-            this.thumbnailList.Add(id, thumbnailImage);
-
-            this.MediaListView.Items.Add(item.Name, id);
-        }
-
-        public void SelectMediaItem(Guid id)
-        {
-            var index = this.mediaItems.FindIndex(x => x.Id == id);
-            if (index == -1)
-                return;
-
-            // selectedMediaItemId は ImageListView のイベントハンドラ内でセットされる
-            this.MediaListView.SelectedIndices.Clear();
-            this.MediaListView.SelectedIndices.Add(index);
         }
 
         /// <summary>
@@ -302,7 +92,7 @@ namespace OpenTween
             this.EndSelecting?.Invoke(this, EventArgs.Empty);
             this.Visible = false;
             this.Enabled = false;
-            this.ClearMediaItems();
+            this.Model.ClearMediaItems();
         }
 
         /// <summary>
@@ -310,76 +100,113 @@ namespace OpenTween
         /// </summary>
         public bool TryGetSelectedMedia([NotNullWhen(true)] out string? imageService, [NotNullWhen(true)] out IMediaItem[]? mediaItems)
         {
-            imageService = null;
-            mediaItems = null;
+            var selectedServiceName = this.Model.SelectedMediaServiceName;
 
-            var uploadService = this.SelectedService;
-            if (uploadService == null || this.mediaItems.Count == 0)
+            var error = this.Model.Validate(out var rejectedMedia);
+            if (error != MediaSelectorErrorType.None)
             {
-                MessageBox.Show(Properties.Resources.PostPictureWarn1, Properties.Resources.PostPictureWarn2);
+                var message = error switch
+                {
+                    MediaSelectorErrorType.MediaItemNotSet
+                        => Properties.Resources.PostPictureWarn1,
+                    MediaSelectorErrorType.ServiceNotSelected
+                        => Properties.Resources.PostPictureWarn1,
+                    MediaSelectorErrorType.UnsupportedFileExtension
+                        => string.Format(
+                            Properties.Resources.PostPictureWarn3,
+                            selectedServiceName,
+                            this.MakeAvailableServiceText(rejectedMedia!),
+                            rejectedMedia!.Extension,
+                            rejectedMedia!.Name
+                        ),
+                    MediaSelectorErrorType.FileSizeExceeded
+                        => string.Format(
+                            Properties.Resources.PostPictureWarn5,
+                            selectedServiceName,
+                            this.MakeAvailableServiceText(rejectedMedia!),
+                            rejectedMedia!.Name
+                        ),
+                    _ => throw new NotImplementedException(),
+                };
+
+                MessageBox.Show(
+                    message,
+                    Properties.Resources.PostPictureWarn2,
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning
+                );
+
+                imageService = null;
+                mediaItems = null;
                 return false;
             }
 
-            foreach (var mediaItem in this.mediaItems)
-            {
-                if (!this.ValidateMediaItem(uploadService, mediaItem))
-                    return false;
-            }
-
-            // 収集した MediaItem が破棄されないように、ClearMediaItems を呼ぶ前に mediaItems を空にしておく
-            this.mediaItems.Clear();
-
-            imageService = this.ServiceName;
-            mediaItems = this.mediaItems.ToArray();
-            this.EndSelection();
+            imageService = selectedServiceName;
+            mediaItems = this.Model.DetachMediaItems();
             return true;
         }
 
-        private MemoryImageMediaItem? CreateMemoryImageMediaItem(Image image, bool noMsgBox)
+        private void Model_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            if (image == null) return null;
-
-            MemoryImage? memoryImage = null;
-            try
+            switch (e.PropertyName)
             {
-                // image から png 形式の MemoryImage を生成
-                memoryImage = MemoryImage.CopyFromImage(image);
-
-                return new MemoryImageMediaItem(memoryImage);
-            }
-            catch
-            {
-                memoryImage?.Dispose();
-
-                if (!noMsgBox) MessageBox.Show("Unable to create MemoryImage.");
-                return null;
+                case nameof(MediaSelector.MediaServices):
+                    this.UpdateImageServiceComboItems();
+                    break;
+                case nameof(MediaSelector.SelectedMediaServiceName):
+                    this.UpdateImageServiceComboSelection();
+                    this.UpdateAltTextPanelVisible();
+                    this.SelectedServiceChanged?.Invoke(this, EventArgs.Empty);
+                    break;
+                case nameof(MediaSelector.SelectedMediaItemId):
+                    this.UpdateSelectedMedia();
+                    break;
+                default:
+                    break;
             }
         }
 
-        private IMediaItem? CreateFileMediaItem(string path, bool noMsgBox)
+        private void Model_MediaItems_ListChanged(object sender, ListChangedEventArgs e)
         {
-            if (MyCommon.IsNullOrEmpty(path)) return null;
+            void AddMediaListViewItem(IMediaItem media, int index)
+                => this.MediaListView.Items.Insert(index, media.Name, media.Id.ToString());
 
-            try
+            switch (e.ListChangedType)
             {
-                return new FileMediaItem(path);
-            }
-            catch
-            {
-                if (!noMsgBox) MessageBox.Show("Invalid file path: " + path);
-                return null;
+                case ListChangedType.ItemAdded:
+                    var addedMedia = this.Model.MediaItems[e.NewIndex];
+                    AddMediaListViewItem(addedMedia, e.NewIndex);
+                    break;
+                case ListChangedType.Reset:
+                    this.MediaListView.Items.Clear();
+                    foreach (var (media, index) in this.Model.MediaItems.WithIndex())
+                        AddMediaListViewItem(media, index);
+                    break;
+                default:
+                    throw new NotImplementedException();
             }
         }
 
-        private void DisposeMediaItem(IMediaItem? item)
+        private void UpdateImageServiceComboItems()
         {
-            var disposableItem = item as IDisposable;
-            disposableItem?.Dispose();
+            using (ControlTransaction.Update(this.ImageServiceCombo))
+            {
+                this.ImageServiceCombo.Items.Clear();
+
+                // Add service names to combobox
+                var serviceNames = this.Model.MediaServices.Select(x => x.Key).ToArray();
+                this.ImageServiceCombo.Items.AddRange(serviceNames);
+
+                this.UpdateImageServiceComboSelection();
+            }
         }
+
+        private void UpdateImageServiceComboSelection()
+            => this.ImageServiceCombo.SelectedIndex = this.Model.SelectedMediaServiceIndex;
 
         private void AddMediaButton_Click(object sender, EventArgs e)
         {
-            var service = this.SelectedService;
+            var service = this.Model.SelectedMediaService;
 
             if (this.FilePickDialog == null || service == null) return;
             this.FilePickDialog.Filter = service.SupportedFormatsStrForDialog;
@@ -397,117 +224,33 @@ namespace OpenTween
                 this.FilePickDialogClosed?.Invoke(this, EventArgs.Empty);
             }
 
-            this.AddMediaItemFromFilePath(this.FilePickDialog.FileNames);
+            this.Model.AddMediaItemFromFilePath(this.FilePickDialog.FileNames);
         }
 
-        private bool ValidateMediaItem(IMediaUploadService imageService, IMediaItem item)
+        private string MakeAvailableServiceText(IMediaItem media)
         {
-            var ext = item.Extension;
-            var size = item.Size;
+            var ext = media.Extension;
+            var fileSize = media.Size;
 
-            if (!imageService.CheckFileExtension(ext))
-            {
-                // 画像以外の形式
-                MessageBox.Show(
-                    string.Format(Properties.Resources.PostPictureWarn3, this.ServiceName, this.MakeAvailableServiceText(ext, size), ext, item.Name),
-                    Properties.Resources.PostPictureWarn4,
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Warning
-                );
-                return false;
-            }
-
-            if (!imageService.CheckFileSize(ext, size))
-            {
-                // ファイルサイズが大きすぎる
-                MessageBox.Show(
-                    string.Format(Properties.Resources.PostPictureWarn5, this.ServiceName, this.MakeAvailableServiceText(ext, size), item.Name),
-                    Properties.Resources.PostPictureWarn4,
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Warning
-                );
-                return false;
-            }
-
-            return true;
-        }
-
-        private string MakeAvailableServiceText(string ext, long fileSize)
-        {
-            var text = string.Join(", ",
-                this.ImageServiceCombo.Items.Cast<string>()
-                    .Where(serviceName =>
-                        !MyCommon.IsNullOrEmpty(serviceName) &&
-                        this.pictureService[serviceName].CheckFileExtension(ext) &&
-                        this.pictureService[serviceName].CheckFileSize(ext, fileSize)));
-
-            if (MyCommon.IsNullOrEmpty(text))
+            var availableServiceNames = this.Model.GetAvailableServiceNames(ext, fileSize);
+            if (availableServiceNames.Length == 0)
                 return Properties.Resources.PostPictureWarn6;
 
-            return text;
+            return string.Join(", ", availableServiceNames);
         }
 
         private void ImageCancelButton_Click(object sender, EventArgs e)
             => this.EndSelection();
 
-        private void SetImageServiceCombo()
-        {
-            using (ControlTransaction.Update(this.ImageServiceCombo))
-            {
-                var svc = "";
-                if (this.ImageServiceCombo.SelectedIndex > -1) svc = this.ImageServiceCombo.Text;
-                this.ImageServiceCombo.Items.Clear();
-
-                // Add service names to combobox
-                foreach (var key in this.pictureService.Keys)
-                {
-                    this.ImageServiceCombo.Items.Add(key);
-                }
-
-                this.SelectImageServiceComboItem(svc);
-            }
-        }
-
-        private void SelectImageServiceComboItem(string svc, int? index = null)
-        {
-            int idx;
-            if (MyCommon.IsNullOrEmpty(svc))
-            {
-                idx = index ?? 0;
-            }
-            else
-            {
-                idx = this.ImageServiceCombo.Items.IndexOf(svc);
-
-                // svc が空白以外かつ存在しないサービス名の場合は Twitter を選択させる
-                // (廃止されたサービスを選択していた場合の対応)
-                if (idx == -1) idx = 0;
-            }
-
-            try
-            {
-                this.ImageServiceCombo.SelectedIndex = idx;
-            }
-            catch (ArgumentOutOfRangeException)
-            {
-                this.ImageServiceCombo.SelectedIndex = 0;
-            }
-
-            this.UpdateAltTextPanelVisible();
-        }
-
         private void UpdateAltTextPanelVisible()
-            => this.AlternativeTextPanel.Visible = this.SelectedService switch
-            {
-                null => false,
-                var service => service.CanUseAltText,
-            };
+            => this.AlternativeTextPanel.Visible = this.Model.CanUseAltText;
 
         private void UpdateSelectedMedia()
         {
             using (ControlTransaction.Update(this))
             {
-                if (this.selectedMediaItemId == null)
+                var selectedMedia = this.Model.SelectedMediaItem;
+                if (selectedMedia == null)
                 {
                     this.AlternativeTextBox.Text = "";
                     this.AlternativeTextPanel.Enabled = false;
@@ -515,53 +258,34 @@ namespace OpenTween
                 }
                 else
                 {
-                    var media = this.mediaItems.First(x => x.Id == this.selectedMediaItemId);
-
-                    this.AlternativeTextBox.Text = media.AltText;
+                    this.AlternativeTextBox.Text = selectedMedia.AltText;
                     this.AlternativeTextPanel.Enabled = true;
-                    this.ImageSelectedPicture.Image = media.CreateImage();
+                    this.ImageSelectedPicture.Image = selectedMedia.CreateImage();
                 }
             }
         }
 
         private void ImageServiceCombo_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            this.UpdateAltTextPanelVisible();
-            this.SelectedServiceChanged?.Invoke(this, EventArgs.Empty);
-        }
+            => this.Model.SelectedMediaServiceName = this.ImageServiceCombo.Text;
 
         private void MediaListView_SelectedIndexChanged(object sender, EventArgs e)
         {
             var indices = this.MediaListView.SelectedIndices;
             if (indices.Count == 0)
-            {
-                this.selectedMediaItemId = null;
-            }
-            else
-            {
-                var media = this.mediaItems[indices[0]];
-                this.selectedMediaItemId = media.Id;
-            }
+                return;
 
-            this.UpdateSelectedMedia();
+            this.Model.SelectedMediaItemIndex = indices[0];
         }
 
         private void AlternativeTextBox_Validated(object sender, EventArgs e)
-        {
-            if (this.selectedMediaItemId == null)
-                return;
-
-            var media = this.mediaItems.First(x => x.Id == this.selectedMediaItemId);
-            media.AltText = this.AlternativeTextBox.Text.Trim();
-        }
+            => this.Model.SetSelectedMediaAltText(this.AlternativeTextBox.Text);
 
         protected override void Dispose(bool disposing)
         {
             if (disposing)
             {
-                this.ClearMediaItems();
-                this.thumbnailList.Dispose();
                 this.components?.Dispose();
+                this.Model.Dispose();
             }
 
             base.Dispose(disposing);
