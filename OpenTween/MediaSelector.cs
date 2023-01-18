@@ -213,7 +213,7 @@ namespace OpenTween
             this.MediaItems.Clear();
 
             foreach (var mediaItem in mediaItems)
-                this.DisposeMediaItem(mediaItem);
+                mediaItem.Dispose();
 
             var thumbnailImages = this.ThumbnailList.ToList();
             this.ThumbnailList.Clear();
@@ -265,12 +265,6 @@ namespace OpenTween
             {
                 return null;
             }
-        }
-
-        private void DisposeMediaItem(IMediaItem? item)
-        {
-            var disposableItem = item as IDisposable;
-            disposableItem?.Dispose();
         }
 
         public void SetSelectedMediaAltText(string altText)

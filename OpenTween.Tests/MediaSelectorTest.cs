@@ -176,10 +176,12 @@ namespace OpenTween
 
             mediaSelector.AddMediaItemFromFilePath(new[] { "Resources/re.gif" });
 
+            var mediaItems = mediaSelector.MediaItems.ToArray();
             var thumbnailImages = mediaSelector.ThumbnailList.ToArray(); // 表示中の画像
 
             mediaSelector.ClearMediaItems();
 
+            Assert.True(mediaItems.All(x => x.IsDisposed));
             Assert.True(thumbnailImages.All(x => x.IsDisposed));
         }
 
