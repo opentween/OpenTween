@@ -204,19 +204,36 @@ namespace OpenTween
 
         public void AddMediaItem(IMediaItem item)
         {
-            MemoryImage thumbnailImage;
-            try
-            {
-                thumbnailImage = item.CreateImage();
-            }
-            catch (InvalidImageException)
-            {
-                thumbnailImage = MemoryImage.CopyFromImage(Properties.Resources.MultiMediaImage);
-            }
-
             var id = item.Id.ToString();
+            var thumbnailImage = this.GenerateThumbnailImage(item);
             this.ThumbnailList.Add(id, thumbnailImage);
             this.MediaItems.Add(item);
+        }
+
+        private MemoryImage GenerateThumbnailImage(IMediaItem item)
+        {
+            using var origImage = this.CreateMediaItemImage(item);
+            var origSize = origImage.Image.Size;
+            var thumbSize = this.ThumbnailList.ImageList.ImageSize;
+
+            using var bitmap = new Bitmap(thumbSize.Width, thumbSize.Height);
+
+            // 縦横比を維持したまま thumbSize に収まるサイズに縮小する
+            using (var g = Graphics.FromImage(bitmap))
+            {
+                var scale = Math.Min(
+                    (float)thumbSize.Width / origSize.Width,
+                    (float)thumbSize.Height / origSize.Height
+                );
+                var fitSize = new SizeF(origSize.Width * scale, origSize.Height * scale);
+                var pos = new PointF(
+                    x: (thumbSize.Width - fitSize.Width) / 2.0f,
+                    y: (thumbSize.Height - fitSize.Height) / 2.0f
+                );
+                g.DrawImage(origImage.Image, new RectangleF(pos, fitSize));
+            }
+
+            return MemoryImage.CopyFromImage(bitmap);
         }
 
         public void ClearMediaItems()

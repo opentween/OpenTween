@@ -63,6 +63,7 @@ namespace OpenTween
             this.MediaListView.LargeImageList = this.Model.ThumbnailList.ImageList;
 
             var thumbnailWidth = 75 * this.DeviceDpi / 96;
+            this.Model.ThumbnailList.ImageList.ColorDepth = ColorDepth.Depth24Bit;
             this.Model.ThumbnailList.ImageList.ImageSize = new(thumbnailWidth, thumbnailWidth);
 
             this.Model.PropertyChanged +=
