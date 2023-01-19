@@ -156,7 +156,7 @@
 	<data name="&gt;&gt;ImageSelectMenuItem.Type"><value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
 	<data name="&gt;&gt;ImageSelector.Name"><value>ImageSelector</value></data>
 	<data name="&gt;&gt;ImageSelector.Parent"><value>SplitContainer1.Panel1</value></data>
-	<data name="&gt;&gt;ImageSelector.Type"><value>OpenTween.MediaSelector, OpenTween, Version=0.1.0.0, Culture=neutral, PublicKeyToken=null</value></data>
+	<data name="&gt;&gt;ImageSelector.Type"><value>OpenTween.MediaSelectorPanel, OpenTween, Version=0.1.0.0, Culture=neutral, PublicKeyToken=null</value></data>
 	<data name="&gt;&gt;ImageSelector.ZOrder"><value>1</value></data>
 	<data name="&gt;&gt;ImageSelectPullDownMenuItem.Name"><value>ImageSelectPullDownMenuItem</value></data>
 	<data name="&gt;&gt;ImageSelectPullDownMenuItem.Type"><value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
