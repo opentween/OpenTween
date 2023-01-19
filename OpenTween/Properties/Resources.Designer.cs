@@ -571,6 +571,8 @@ namespace OpenTween.Properties {
         /// <summary>
         ///   更新履歴
         ///
+        ///==== Unreleased
+        ///
         ///==== Ver 3.2.0(2023/01/20)
         /// * NEW: 複数枚の画像を添付する際にリスト上で画像を確認できるようになりました
         /// * CHG: アカウント追加時の認可関連のエラーメッセージがより詳細になるように変更
@@ -583,7 +585,7 @@ namespace OpenTween.Properties {
         ///
         ///==== Ver 3.0.0(2023/01/11)
         /// * OpenTween v3.0.0 からは .NET Framework 4.8 以上が必須になります
-        ///  - .NET Framework 4.8 ランタイムは https://dotnet.m [残りの文字列は切り詰められました]&quot;; に類似しているローカライズされた文字列を検索します。
+        ///  - .NET Framework 4.8 ランタイ [残りの文字列は切り詰められました]&quot;; に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string ChangeLog {
             get {
