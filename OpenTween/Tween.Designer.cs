@@ -53,7 +53,7 @@
             this.ToolStripSeparator11 = new System.Windows.Forms.ToolStripSeparator();
             this.DeleteTabMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.TabImage = new System.Windows.Forms.ImageList(this.components);
-            this.ImageSelector = new OpenTween.MediaSelector();
+            this.ImageSelector = new OpenTween.MediaSelectorPanel();
             this.ProfilePanel = new System.Windows.Forms.Panel();
             this.SplitContainer3 = new System.Windows.Forms.SplitContainer();
             this.SplitContainer2 = new System.Windows.Forms.SplitContainer();
@@ -2217,7 +2217,7 @@
         internal System.Windows.Forms.ToolStripSeparator ToolStripSeparator11;
         internal System.Windows.Forms.ToolStripMenuItem DeleteTabMenuItem;
         internal System.Windows.Forms.ImageList TabImage;
-        internal MediaSelector ImageSelector;
+        internal MediaSelectorPanel ImageSelector;
         internal System.Windows.Forms.Panel ProfilePanel;
         internal System.Windows.Forms.SplitContainer SplitContainer3;
         internal System.Windows.Forms.SplitContainer SplitContainer2;

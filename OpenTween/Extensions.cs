@@ -158,6 +158,19 @@ namespace OpenTween
             return count;
         }
 
+        public static bool TryInvoke(this Control control, Action action)
+        {
+            if (control.IsDisposed)
+                return false;
+
+            if (control.InvokeRequired)
+                control.Invoke(action);
+            else
+                action();
+
+            return true;
+        }
+
         public static Task ForEachAsync<T>(this IObservable<T> observable, Action<T> subscriber)
         {
             return ForEachAsync(observable, value =>

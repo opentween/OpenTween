@@ -30,8 +30,18 @@ using System.Threading;
 
 namespace OpenTween
 {
-    public interface IMediaItem
+    public interface IMediaItem : IDisposable
     {
+        /// <summary>
+        /// メディアのID
+        /// </summary>
+        Guid Id { get; }
+
+        /// <summary>
+        /// メディアが既に破棄されているかを示す真偽値
+        /// </summary>
+        bool IsDisposed { get; }
+
         /// <summary>
         /// メディアへの絶対パス
         /// </summary>
@@ -56,11 +66,6 @@ namespace OpenTween
         /// メディアのサイズ（バイト単位）
         /// </summary>
         long Size { get; }
-
-        /// <summary>
-        /// メディアが画像であるかどうかを示す真偽値
-        /// </summary>
-        bool IsImage { get; }
 
         /// <summary>
         /// 代替テキスト (アップロード先が対応している必要がある)
@@ -106,6 +111,10 @@ namespace OpenTween
         {
         }
 
+        public Guid Id { get; } = Guid.NewGuid();
+
+        public bool IsDisposed { get; private set; } = false;
+
         public string Path
             => this.FileInfo.FullName;
 
@@ -121,34 +130,6 @@ namespace OpenTween
         public long Size
             => this.FileInfo.Length;
 
-        public bool IsImage
-        {
-            get
-            {
-                if (this.isImage == null)
-                {
-                    try
-                    {
-                        // MemoryImage が生成できるかを検証する
-                        using (var image = this.CreateImage())
-                        {
-                        }
-
-                        this.isImage = true;
-                    }
-                    catch (InvalidImageException)
-                    {
-                        this.isImage = false;
-                    }
-                }
-
-                return this.isImage.Value;
-            }
-        }
-
-        /// <summary>IsImage の検証結果をキャッシュする。未検証なら null</summary>
-        private bool? isImage = null;
-
         public MemoryImage CreateImage()
         {
             using var fs = this.FileInfo.OpenRead();
@@ -163,6 +144,14 @@ namespace OpenTween
             using var fs = this.FileInfo.OpenRead();
             fs.CopyTo(stream);
         }
+
+        public void Dispose()
+        {
+            if (this.IsDisposed)
+                return;
+
+            this.IsDisposed = true;
+        }
     }
 
     /// <summary>
@@ -171,7 +160,7 @@ namespace OpenTween
     /// <remarks>
     /// 用途の関係上、メモリ使用量が大きくなるため、不要になればできるだけ破棄すること
     /// </remarks>
-    public class MemoryImageMediaItem : IMediaItem, IDisposable
+    public class MemoryImageMediaItem : IMediaItem
     {
         public const string PathPrefix = "<>MemoryImage://";
         private static int fileNumber = 0;
@@ -186,6 +175,8 @@ namespace OpenTween
             var num = Interlocked.Increment(ref fileNumber);
             this.Path = PathPrefix + num + this.image.ImageFormatExt;
         }
+
+        public Guid Id { get; } = Guid.NewGuid();
 
         public string Path { get; }
 
@@ -202,9 +193,6 @@ namespace OpenTween
 
         public long Size
             => this.image.Stream.Length;
-
-        public bool IsImage
-            => true;
 
         public MemoryImage CreateImage()
             => this.image.Clone();
