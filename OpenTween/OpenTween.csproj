@@ -634,6 +634,9 @@
     <Content Include="Resources\re4.ico" />
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="Microsoft.Windows.SDK.Contracts" Version="10.0.19041.2">
+      <IncludeAssets>compile; build</IncludeAssets>
+    </PackageReference>
     <PackageReference Include="ResXcue">
       <Version>1.0.1</Version>
     </PackageReference>

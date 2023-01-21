@@ -1010,11 +1010,22 @@ namespace OpenTween
 
             try
             {
-                await Task.Run(() =>
+                if (MyCommon.IsNullOrEmpty(browserPath))
                 {
-                    var startInfo = MyCommon.CreateBrowserProcessStartInfo(browserPath, url);
-                    Process.Start(startInfo);
-                });
+                    var options = new Windows.System.LauncherOptions
+                    {
+                        IgnoreAppUriHandlers = true,
+                    };
+                    await Windows.System.Launcher.LaunchUriAsync(uri, options);
+                }
+                else
+                {
+                    await Task.Run(() =>
+                    {
+                        var startInfo = MyCommon.CreateBrowserProcessStartInfo(browserPath, uri.AbsoluteUri);
+                        Process.Start(startInfo);
+                    });
+                }
             }
             catch (Win32Exception ex)
             {
@@ -1023,17 +1034,8 @@ namespace OpenTween
             }
         }
 
-        public static ProcessStartInfo CreateBrowserProcessStartInfo(string? browserPathWithArgs, string url)
+        public static ProcessStartInfo CreateBrowserProcessStartInfo(string browserPathWithArgs, string url)
         {
-            if (MyCommon.IsNullOrEmpty(browserPathWithArgs))
-            {
-                return new ProcessStartInfo
-                {
-                    FileName = url,
-                    UseShellExecute = true,
-                };
-            }
-
             var quoteEnd = -1;
             if (browserPathWithArgs.StartsWith("\"", StringComparison.Ordinal))
                 quoteEnd = browserPathWithArgs.IndexOf("\"", 1, StringComparison.Ordinal);
