@@ -27,15 +27,17 @@
 	<data name="&gt;&gt;AlternativeTextPanel.Name"><value>AlternativeTextPanel</value></data>
 	<data name="&gt;&gt;AlternativeTextPanel.Parent"><value>$this</value></data>
 	<data name="&gt;&gt;AlternativeTextPanel.Type"><value>System.Windows.Forms.Panel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
-	<data name="&gt;&gt;AlternativeTextPanel.ZOrder"><value>1</value></data>
+	<data name="&gt;&gt;AlternativeTextPanel.ZOrder"><value>2</value></data>
+	<data name="&gt;&gt;DeleteMediaMenuItem.Name"><value>DeleteMediaMenuItem</value></data>
+	<data name="&gt;&gt;DeleteMediaMenuItem.Type"><value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
 	<data name="&gt;&gt;ImageCancelButton.Name"><value>ImageCancelButton</value></data>
 	<data name="&gt;&gt;ImageCancelButton.Parent"><value>panel1</value></data>
 	<data name="&gt;&gt;ImageCancelButton.Type"><value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
 	<data name="&gt;&gt;ImageCancelButton.ZOrder"><value>0</value></data>
 	<data name="&gt;&gt;ImageSelectedPicture.Name"><value>ImageSelectedPicture</value></data>
 	<data name="&gt;&gt;ImageSelectedPicture.Parent"><value>$this</value></data>
-	<data name="&gt;&gt;ImageSelectedPicture.Type"><value>OpenTween.OTPictureBox, OpenTween, Version=3.1.0.1, Culture=neutral, PublicKeyToken=null</value></data>
-	<data name="&gt;&gt;ImageSelectedPicture.ZOrder"><value>0</value></data>
+	<data name="&gt;&gt;ImageSelectedPicture.Type"><value>OpenTween.OTPictureBox, OpenTween, Version=3.2.0.1, Culture=neutral, PublicKeyToken=null</value></data>
+	<data name="&gt;&gt;ImageSelectedPicture.ZOrder"><value>1</value></data>
 	<data name="&gt;&gt;ImageServiceCombo.Name"><value>ImageServiceCombo</value></data>
 	<data name="&gt;&gt;ImageServiceCombo.Parent"><value>ServiceSelectPanel</value></data>
 	<data name="&gt;&gt;ImageServiceCombo.Type"><value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
@@ -44,10 +46,16 @@
 	<data name="&gt;&gt;Label2.Parent"><value>ServiceSelectPanel</value></data>
 	<data name="&gt;&gt;Label2.Type"><value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
 	<data name="&gt;&gt;Label2.ZOrder"><value>1</value></data>
+	<data name="&gt;&gt;MediaListContextMenu.Name"><value>MediaListContextMenu</value></data>
+	<data name="&gt;&gt;MediaListContextMenu.Type"><value>System.Windows.Forms.ContextMenuStrip, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
 	<data name="&gt;&gt;MediaListView.Name"><value>MediaListView</value></data>
 	<data name="&gt;&gt;MediaListView.Parent"><value>tableLayoutPanel1</value></data>
 	<data name="&gt;&gt;MediaListView.Type"><value>System.Windows.Forms.ListView, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
 	<data name="&gt;&gt;MediaListView.ZOrder"><value>0</value></data>
+	<data name="&gt;&gt;MoveToBackMenuItem.Name"><value>MoveToBackMenuItem</value></data>
+	<data name="&gt;&gt;MoveToBackMenuItem.Type"><value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
+	<data name="&gt;&gt;MoveToNextMenuItem.Name"><value>MoveToNextMenuItem</value></data>
+	<data name="&gt;&gt;MoveToNextMenuItem.Type"><value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
 	<data name="&gt;&gt;panel1.Name"><value>panel1</value></data>
 	<data name="&gt;&gt;panel1.Parent"><value>tableLayoutPanel1</value></data>
 	<data name="&gt;&gt;panel1.Type"><value>System.Windows.Forms.Panel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
@@ -59,7 +67,7 @@
 	<data name="&gt;&gt;tableLayoutPanel1.Name"><value>tableLayoutPanel1</value></data>
 	<data name="&gt;&gt;tableLayoutPanel1.Parent"><value>$this</value></data>
 	<data name="&gt;&gt;tableLayoutPanel1.Type"><value>System.Windows.Forms.TableLayoutPanel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
-	<data name="&gt;&gt;tableLayoutPanel1.ZOrder"><value>2</value></data>
+	<data name="&gt;&gt;tableLayoutPanel1.ZOrder"><value>3</value></data>
 	<data name="AddMediaButton.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms"><value>Top, Left, Right</value></data>
 	<data name="AddMediaButton.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms"><value>NoControl</value></data>
 	<data name="AddMediaButton.Location" type="System.Drawing.Point, System.Drawing"><value>0, 23</value></data>
@@ -85,6 +93,8 @@
 	<data name="AlternativeTextPanel.Location" type="System.Drawing.Point, System.Drawing"><value>0, 128</value></data>
 	<data name="AlternativeTextPanel.Size" type="System.Drawing.Size, System.Drawing"><value>608, 46</value></data>
 	<data name="AlternativeTextPanel.TabIndex" type="System.Int32, mscorlib"><value>0</value></data>
+	<data name="DeleteMediaMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>137, 22</value></data>
+	<data name="DeleteMediaMenuItem.Text"><value>削除(&amp;D)</value></data>
 	<data name="ImageCancelButton.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms"><value>Top, Left, Right</value></data>
 	<data name="ImageCancelButton.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms"><value>NoControl</value></data>
 	<data name="ImageCancelButton.Location" type="System.Drawing.Point, System.Drawing"><value>0, 49</value></data>
@@ -110,10 +120,16 @@
 	<data name="Label2.TabIndex" type="System.Int32, mscorlib"><value>0</value></data>
 	<data name="Label2.Text"><value>投稿先</value></data>
 	<data name="Label2.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing"><value>MiddleLeft</value></data>
+	<data name="MediaListContextMenu.Size" type="System.Drawing.Size, System.Drawing"><value>138, 70</value></data>
+	<metadata name="MediaListContextMenu.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a"><value>17, 17</value></metadata>
 	<data name="MediaListView.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms"><value>Fill</value></data>
 	<data name="MediaListView.Location" type="System.Drawing.Point, System.Drawing"><value>3, 3</value></data>
 	<data name="MediaListView.Size" type="System.Drawing.Size, System.Drawing"><value>429, 100</value></data>
 	<data name="MediaListView.TabIndex" type="System.Int32, mscorlib"><value>0</value></data>
+	<data name="MoveToBackMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>137, 22</value></data>
+	<data name="MoveToBackMenuItem.Text"><value>前へ移動(&amp;P)</value></data>
+	<data name="MoveToNextMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>137, 22</value></data>
+	<data name="MoveToNextMenuItem.Text"><value>後へ移動(&amp;N)</value></data>
 	<data name="panel1.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms"><value>Fill</value></data>
 	<data name="panel1.Location" type="System.Drawing.Point, System.Drawing"><value>438, 3</value></data>
 	<data name="panel1.Size" type="System.Drawing.Size, System.Drawing"><value>167, 100</value></data>
