@@ -984,11 +984,30 @@ namespace OpenTween
         public static bool IsNullOrEmpty([NotNullWhen(false)] string? value)
             => string.IsNullOrEmpty(value);
 
-        public static Task OpenInBrowserAsync(IWin32Window? owner, string url)
-            => MyCommon.OpenInBrowserAsync(owner, SettingManager.Instance.Local.BrowserPath, url);
+        public static Task OpenInBrowserAsync(IWin32Window? owner, string urlStr)
+            => MyCommon.OpenInBrowserAsync(owner, SettingManager.Instance.Local.BrowserPath, urlStr);
 
-        public static async Task OpenInBrowserAsync(IWin32Window? owner, string? browserPath, string url)
+        public static Task OpenInBrowserAsync(IWin32Window? owner, Uri uri)
+            => MyCommon.OpenInBrowserAsync(owner, SettingManager.Instance.Local.BrowserPath, uri);
+
+        public static async Task OpenInBrowserAsync(IWin32Window? owner, string? browserPath, string urlStr)
         {
+            if (!Uri.TryCreate(urlStr, UriKind.Absolute, out var uri))
+            {
+                var message = string.Format(Properties.Resources.CannotOpenUriText, urlStr);
+                MessageBox.Show(owner, message, ApplicationSettings.ApplicationName, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+            await MyCommon.OpenInBrowserAsync(owner, browserPath, uri);
+        }
+
+        public static async Task OpenInBrowserAsync(IWin32Window? owner, string? browserPath, Uri uri)
+        {
+            if (uri.Scheme != "http" && uri.Scheme != "https")
+            {
+                var message = string.Format(Properties.Resources.CannotOpenUriText, uri.OriginalString);
+                MessageBox.Show(owner, message, ApplicationSettings.ApplicationName, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+
             try
             {
                 await Task.Run(() =>

@@ -506,6 +506,15 @@ namespace OpenTween.Properties {
         }
         
         /// <summary>
+        ///   URLを開くことができません: {0} に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string CannotOpenUriText {
+            get {
+                return ResourceManager.GetString("CannotOpenUriText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   画像ファイル(*.gif;*.jpg;*.jpeg;*.png)|*.gif;*.jpg;*.jpeg;*.png に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string ChangeIconToolStripMenuItem_ClickText1 {

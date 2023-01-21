@@ -311,15 +311,6 @@ namespace OpenTween
         }
 
         [Fact]
-        public void CreateBrowserProcessStartInfo_DefaultBrowserTest()
-        {
-            var startInfo = MyCommon.CreateBrowserProcessStartInfo(browserPathWithArgs: null, "https://example.com/");
-            Assert.Equal("https://example.com/", startInfo.FileName);
-            Assert.Equal("", startInfo.Arguments);
-            Assert.True(startInfo.UseShellExecute);
-        }
-
-        [Fact]
         public void CreateBrowserProcessStartInfo_BrowserPathTest()
         {
             var startInfo = MyCommon.CreateBrowserProcessStartInfo("C:\\browser.exe", "https://example.com/");

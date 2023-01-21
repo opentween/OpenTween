@@ -49,6 +49,7 @@
 	<data name="ButtonUnFollow_ClickText1"><value> : Unfollow this user?</value></data>
 	<data name="ButtonUnFollow_ClickText2"><value>Confirm unfollowing</value></data>
 	<data name="CalcApiUsingText1"><value>Now getting API informations...</value></data>
+	<data name="CannotOpenUriText"><value>Cannot open URL: {0}</value></data>
 	<data name="ChangeIconToolStripMenuItem_ClickText1"><value>Images(*.gif;*.jpg;*.jpeg;*.png)|*.gif;*.jpg;*.jpeg;*.png</value></data>
 	<data name="ChangeIconToolStripMenuItem_ClickText2"><value>The icon file size is limited under 700kb.</value></data>
 	<data name="ChangeIconToolStripMenuItem_ClickText3"><value>Now changing icon...</value></data>

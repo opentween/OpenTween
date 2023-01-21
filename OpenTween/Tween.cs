@@ -4124,7 +4124,7 @@ namespace OpenTween
 
                 if (dialog.ShowDialog(this) == DialogResult.Yes)
                 {
-                    await MyCommon.OpenInBrowserAsync(this, versionInfo.DownloadUri.OriginalString);
+                    await MyCommon.OpenInBrowserAsync(this, versionInfo.DownloadUri);
                 }
                 else if (dialog.SkipButtonPressed)
                 {

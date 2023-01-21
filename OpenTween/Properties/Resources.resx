@@ -54,6 +54,7 @@
 	<data name="ButtonUnFollow_ClickText1"><value> をフォロー解除します。よろしいですか？</value></data>
 	<data name="ButtonUnFollow_ClickText2"><value>フォロー解除確認</value></data>
 	<data name="CalcApiUsingText1"><value>API情報取得中・・・</value></data>
+	<data name="CannotOpenUriText"><value>URLを開くことができません: {0}</value></data>
 	<data name="ChangeIconToolStripMenuItem_ClickText1"><value>画像ファイル(*.gif;*.jpg;*.jpeg;*.png)|*.gif;*.jpg;*.jpeg;*.png</value></data>
 	<data name="ChangeIconToolStripMenuItem_ClickText2"><value>サイズ700KBまでのアイコン画像ファイルを選択してください</value></data>
 	<data name="ChangeIconToolStripMenuItem_ClickText3"><value>アイコン設定中・・・</value></data>
