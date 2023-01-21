@@ -264,6 +264,15 @@ namespace OpenTween
                     this.AlternativeTextBox.Text = selectedMedia.AltText;
                     this.AlternativeTextPanel.Enabled = true;
                 }
+
+                var index = this.Model.SelectedMediaItemIndex;
+                var listViewSelectedIndex = this.MediaListView.SelectedIndices.Cast<int>().DefaultIfEmpty(-1).Single();
+                if (listViewSelectedIndex != index)
+                {
+                    this.MediaListView.SelectedIndices.Clear();
+                    if (index != -1)
+                        this.MediaListView.SelectedIndices.Add(index);
+                }
             }
         }
 
