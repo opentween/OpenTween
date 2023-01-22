@@ -366,6 +366,15 @@ namespace OpenTween
             set => this.TwitterOAuth1ConsumerSecret = this.Decrypt(value);
         }
 
+        [XmlIgnore]
+        public string TwitterComCookie { get; set; } = "";
+
+        public string TwitterComCookieEncrypted
+        {
+            get => this.Encrypt(this.TwitterComCookie);
+            set => this.TwitterComCookie = this.Decrypt(value);
+        }
+
         public string Token = "";
 
         [XmlIgnore]
@@ -384,6 +393,7 @@ namespace OpenTween
                 AuthType = this.TwitterAuthType,
                 OAuth1ConsumerKey = ApiKey.Create(this.TwitterOAuth1ConsumerKey),
                 OAuth1ConsumerSecret = ApiKey.Create(this.TwitterOAuth1ConsumerSecret),
+                TwitterComCookie = this.TwitterComCookie,
             };
         }
 
@@ -431,5 +441,6 @@ namespace OpenTween
     public enum APIAuthType
     {
         OAuth1,
+        TwitterComCookie,
     }
 }

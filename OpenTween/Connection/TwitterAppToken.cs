@@ -38,6 +38,8 @@ namespace OpenTween.Connection
 
         public ApiKey OAuth1ConsumerSecret { get; set; } = ApiKey.Create("");
 
+        public string TwitterComCookie { get; set; } = "";
+
         public static TwitterAppToken GetDefault()
         {
             return new()

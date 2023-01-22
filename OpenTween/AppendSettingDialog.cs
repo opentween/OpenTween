@@ -185,9 +185,28 @@ namespace OpenTween
                     if (appToken == null)
                         return;
 
-                    var newAccount = await this.PinAuth(appToken);
-                    if (newAccount == null)
-                        return;
+                    UserAccount newAccount;
+                    if (appToken.AuthType == APIAuthType.TwitterComCookie)
+                    {
+                        newAccount = new()
+                        {
+                            TwitterAuthType = appToken.AuthType,
+                            TwitterComCookie = appToken.TwitterComCookie,
+                        };
+
+                        using var twitterApi = new TwitterApi();
+                        twitterApi.Initialize(appToken, "", "", 0L, "");
+                        var twitterUser = await twitterApi.AccountVerifyCredentials();
+                        newAccount.UserId = twitterUser.Id;
+                        newAccount.Username = twitterUser.ScreenName;
+                    }
+                    else
+                    {
+                        var account = await this.PinAuth(appToken);
+                        if (account == null)
+                            return;
+                        newAccount = account;
+                    }
 
                     var authUserCombo = this.BasedPanel.AuthUserCombo;
 

@@ -53,6 +53,14 @@ namespace OpenTween
                     OAuth1ConsumerSecret = ApiKey.Create(this.OAuth1ConsumerSecretTextBox.Text),
                 };
             }
+            else if (this.UseTwitterComCookieRadioButton.Checked)
+            {
+                result = new()
+                {
+                    AuthType = APIAuthType.TwitterComCookie,
+                    TwitterComCookie = this.TwitterComCookieTextBox.Text,
+                };
+            }
             else
             {
                 return;

@@ -141,6 +141,7 @@ namespace OpenTween.Connection
         {
             var handler = new WebRequestHandler
             {
+                UseCookies = false,
                 AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate,
             };
 

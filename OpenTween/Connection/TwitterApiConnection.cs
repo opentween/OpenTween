@@ -594,6 +594,8 @@ namespace OpenTween.Connection
             {
                 APIAuthType.OAuth1
                     => new OAuthHandler(innerHandler, appToken.OAuth1ConsumerKey, appToken.OAuth1ConsumerSecret, accessToken, accessSecret),
+                APIAuthType.TwitterComCookie
+                    => new TwitterComCookieHandler(innerHandler, appToken.TwitterComCookie),
                 _ => throw new NotImplementedException(),
             };
 
