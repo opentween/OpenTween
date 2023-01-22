@@ -181,7 +181,11 @@ namespace OpenTween
                 {
                     this.ApplyNetworkSettings();
 
-                    var newAccount = await this.PinAuth();
+                    var appToken = this.SelectAuthType();
+                    if (appToken == null)
+                        return;
+
+                    var newAccount = await this.PinAuth(appToken);
                     if (newAccount == null)
                         return;
 
@@ -249,9 +253,20 @@ namespace OpenTween
             TwitterApiConnection.RestApiHost = this.ConnectionPanel.TwitterAPIText.Text.Trim();
         }
 
-        private async Task<UserAccount?> PinAuth()
+        private TwitterAppToken? SelectAuthType()
         {
-            var requestToken = await TwitterApiConnection.GetRequestTokenAsync();
+            using var dialog = new AuthTypeSelectDialog();
+
+            var ret = dialog.ShowDialog(this);
+            if (ret != DialogResult.OK)
+                return null;
+
+            return dialog.Result;
+        }
+
+        private async Task<UserAccount?> PinAuth(TwitterAppToken appToken)
+        {
+            var requestToken = await TwitterApiConnection.GetRequestTokenAsync(appToken);
 
             var pinPageUrl = TwitterApiConnection.GetAuthorizeUri(requestToken);
 
@@ -260,10 +275,13 @@ namespace OpenTween
             if (MyCommon.IsNullOrEmpty(pin))
                 return null; // キャンセルされた場合
 
-            var accessTokenResponse = await TwitterApiConnection.GetAccessTokenAsync(requestToken, pin);
+            var accessTokenResponse = await TwitterApiConnection.GetAccessTokenAsync(appToken, requestToken, pin);
 
             return new UserAccount
             {
+                TwitterAuthType = appToken.AuthType,
+                TwitterOAuth1ConsumerKey = appToken.OAuth1ConsumerKey.Value,
+                TwitterOAuth1ConsumerSecret = appToken.OAuth1ConsumerSecret.Value,
                 Username = accessTokenResponse["screen_name"],
                 UserId = long.Parse(accessTokenResponse["user_id"]),
                 Token = accessTokenResponse["oauth_token"],

@@ -23,42 +23,29 @@
 
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Windows.Forms;
-using OpenTween.Connection;
+using System.Xml.Serialization;
 
-namespace OpenTween
+namespace OpenTween.Connection
 {
-    public partial class AuthTypeSelectDialog : OTBaseForm
+    public class TwitterAppToken
     {
-        public TwitterAppToken? Result { get; private set; }
+        public APIAuthType AuthType { get; set; }
 
-        public AuthTypeSelectDialog()
-            => this.InitializeComponent();
+        public ApiKey OAuth1ConsumerKey { get; set; } = ApiKey.Create("");
 
-        private void OKButton_Click(object sender, EventArgs e)
+        public ApiKey OAuth1ConsumerSecret { get; set; } = ApiKey.Create("");
+
+        public static TwitterAppToken GetDefault()
         {
-            TwitterAppToken result;
-            if (this.AuthByOAuth1RadioButton.Checked)
+            return new()
             {
-                result = new()
-                {
-                    AuthType = APIAuthType.OAuth1,
-                    OAuth1ConsumerKey = ApiKey.Create(this.OAuth1ConsumerKeyTextBox.Text),
-                    OAuth1ConsumerSecret = ApiKey.Create(this.OAuth1ConsumerSecretTextBox.Text),
-                };
-            }
-            else
-            {
-                return;
-            }
-            this.DialogResult = DialogResult.OK;
-            this.Result = result;
+                AuthType = APIAuthType.OAuth1,
+                OAuth1ConsumerKey = ApplicationSettings.TwitterConsumerKey,
+                OAuth1ConsumerSecret = ApplicationSettings.TwitterConsumerSecret,
+            };
         }
     }
 }

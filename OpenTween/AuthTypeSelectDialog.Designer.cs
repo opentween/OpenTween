@@ -97,6 +97,7 @@
             resources.ApplyResources(this.OKButton, "OKButton");
             this.OKButton.Name = "OKButton";
             this.OKButton.UseVisualStyleBackColor = true;
+            this.OKButton.Click += new System.EventHandler(this.OKButton_Click);
             // 
             // AuthTypeSelectDialog
             // 

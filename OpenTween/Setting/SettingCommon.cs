@@ -30,6 +30,7 @@ using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
 using System.Xml.Serialization;
+using OpenTween.Connection;
 using OpenTween.Thumbnail;
 
 namespace OpenTween
@@ -351,7 +352,22 @@ namespace OpenTween
 
         public string Username = "";
         public long UserId = 0;
+
+        public APIAuthType TwitterAuthType { get; set; }
+
+        public string TwitterOAuth1ConsumerKey { get; set; } = "";
+
+        [XmlIgnore]
+        public string TwitterOAuth1ConsumerSecret { get; set; } = "";
+
+        public string TwitterOAuth1ConsumerSecretEncrypted
+        {
+            get => this.Encrypt(this.TwitterOAuth1ConsumerSecret);
+            set => this.TwitterOAuth1ConsumerSecret = this.Decrypt(value);
+        }
+
         public string Token = "";
+
         [XmlIgnore]
         public string TokenSecret = "";
 
@@ -359,6 +375,16 @@ namespace OpenTween
         {
             get => this.Encrypt(this.TokenSecret);
             set => this.TokenSecret = this.Decrypt(value);
+        }
+
+        public TwitterAppToken GetTwitterAppToken()
+        {
+            return new()
+            {
+                AuthType = this.TwitterAuthType,
+                OAuth1ConsumerKey = ApiKey.Create(this.TwitterOAuth1ConsumerKey),
+                OAuth1ConsumerSecret = ApiKey.Create(this.TwitterOAuth1ConsumerSecret),
+            };
         }
 
         private string Encrypt(string password)
@@ -400,5 +426,10 @@ namespace OpenTween
 
         public override string ToString()
             => this.Username;
+    }
+
+    public enum APIAuthType
+    {
+        OAuth1,
     }
 }

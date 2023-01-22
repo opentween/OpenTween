@@ -174,7 +174,6 @@ namespace OpenTween.Connection
                 client = new HttpClient(handler);
 
             client.Timeout = Networking.DefaultTimeout;
-            client.DefaultRequestHeaders.Add("User-Agent", Networking.GetUserAgentString());
 
             return client;
         }
