@@ -130,7 +130,7 @@ namespace OpenTween
         /// <summary>
         /// <see cref="OpenTween.Connection.TwitterComCookieHandler"/> で使用する Bearer token
         /// </summary>
-        public static readonly ApiKey TwitterComBearerToken = ApiKey.Create("%e%D2/mWPJwkdhuxnXCCnPiAw==%mAH3yTqmvpdf7Zukmlan0yXhUoAuVTo0fBjOsI3RXwP3/NpS2V4/UmcwGy6aZPEl05wDrL9e1BCKdfbB4+cvQUasEGWU1RRW4KsLyzFMX+nqnvP6cgl2Oa7ek0KDT5xShl+gnOCq03dWBPY0uKrLZA==%5+REZK8MSrAzlMM4C6oph/rIJje8YqSDPOiHFiSOyh4=");
+        public static readonly ApiKey TwitterComBearerToken = ApiKey.Create("%e%TiiUF51SI3ricw1z8hc51Q==%kclv/kvEIZVK8DYQrEF+3PBRfzEnYwMm1fpRIcH8p4XNJR+QeFUMV/5a14BcApxtqqOgnLb4AOgvkzrL/DnjhHo1QboAzhMSlWCCjrmjJH5Os37i7uMZjuNRVCYiLV7Zab4dOCi/j0cOts34pnnHww==%rqZeh9FuJ1jiWLSK2vXmnfewgQCdpilVOaKWzPCk0dU=");
 
         // =====================================================================
         // Foursquare
