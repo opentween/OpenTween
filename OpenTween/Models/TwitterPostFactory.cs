@@ -52,13 +52,14 @@ namespace OpenTween.Models
         }
 
         public PostClass CreateFromStatus(
+            Twitter twitter,
             TwitterStatus status,
             long selfUserId,
             ISet<long> followerIds,
             bool favTweet = false
         )
         {
-            var post = new PostClass();
+            var post = new TwitterStatusPost(twitter);
             TwitterEntities entities;
             string sourceHtml;
 
@@ -76,9 +77,12 @@ namespace OpenTween.Models
                 entities = retweeted.MergedEntities;
                 sourceHtml = retweeted.Source;
                 // Reply先
-                post.InReplyToStatusId = retweeted.InReplyToStatusId;
-                post.InReplyToUser = retweeted.InReplyToScreenName;
-                post.InReplyToUserId = status.InReplyToUserId;
+                if (retweeted.InReplyToStatusId != null)
+                {
+                    post.InReplyToStatusId = retweeted.InReplyToStatusId.Value;
+                    post.InReplyToUser = retweeted.InReplyToScreenName!;
+                    post.InReplyToUserId = retweeted.InReplyToUserId!.Value;
+                }
 
                 if (favTweet)
                 {
@@ -131,9 +135,13 @@ namespace OpenTween.Models
                 post.TextFromApi = status.FullText;
                 entities = status.MergedEntities;
                 sourceHtml = status.Source;
-                post.InReplyToStatusId = status.InReplyToStatusId;
-                post.InReplyToUser = status.InReplyToScreenName;
-                post.InReplyToUserId = status.InReplyToUserId;
+
+                if (status.InReplyToStatusId != null)
+                {
+                    post.InReplyToStatusId = status.InReplyToStatusId.Value;
+                    post.InReplyToUser = status.InReplyToScreenName!;
+                    post.InReplyToUserId = status.InReplyToUserId!.Value;
+                }
 
                 if (favTweet)
                 {
@@ -187,7 +195,7 @@ namespace OpenTween.Models
             this.ExtractEntities(entities, post.ReplyToList, post.Media);
 
             post.QuoteStatusIds = GetQuoteTweetStatusIds(entities, quotedStatusLink)
-                .Where(x => x != post.StatusId && x != post.RetweetedId)
+                .Where(x => x != post.StatusId && !(post.IsRetweet && x == post.RetweetedId))
                 .Distinct().ToArray();
 
             post.ExpandedUrls = entities.OfType<TwitterEntityUrl>()
@@ -204,14 +212,15 @@ namespace OpenTween.Models
             post.ScreenName = string.Intern(post.ScreenName);
             post.Nickname = string.Intern(post.Nickname);
             post.ImageUrl = string.Intern(post.ImageUrl);
-            post.RetweetedBy = post.RetweetedBy != null ? string.Intern(post.RetweetedBy) : null;
+            if (post.IsRetweet)
+                post.RetweetedBy = string.Intern(post.RetweetedBy);
 
             // Source整形
             var (sourceText, sourceUri) = ParseSource(sourceHtml);
             post.Source = string.Intern(sourceText);
             post.SourceUri = sourceUri;
 
-            post.IsReply = post.RetweetedId == null && post.ReplyToList.Any(x => x.UserId == selfUserId);
+            post.IsReply = !post.IsRetweet && post.ReplyToList.Any(x => x.UserId == selfUserId);
             post.IsExcludeReply = false;
 
             if (post.IsMe)
@@ -229,13 +238,14 @@ namespace OpenTween.Models
         }
 
         public PostClass CreateFromDirectMessageEvent(
+            Twitter twitter,
             TwitterMessageEvent eventItem,
             IReadOnlyDictionary<string, TwitterUser> users,
             IReadOnlyDictionary<string, TwitterMessageEventList.App> apps,
             long selfUserId
         )
         {
-            var post = new PostClass();
+            var post = new TwitterDmPost(twitter);
             post.StatusId = long.Parse(eventItem.Id);
 
             var timestamp = long.Parse(eventItem.CreatedTimestamp);

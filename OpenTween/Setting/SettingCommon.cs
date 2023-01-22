@@ -28,6 +28,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Windows.Forms;
 using System.Xml.Serialization;
 using OpenTween.Thumbnail;
@@ -39,72 +40,57 @@ namespace OpenTween
     {
         #region "Settingクラス基本"
         public static SettingCommon Load(string settingsPath)
-            => LoadSettings(settingsPath);
-
-        public void Save(string settingsPath)
-            => SaveSettings(this, settingsPath);
-        #endregion
-
-        public List<UserAccount> UserAccounts = new();
-        public string UserName = "";
-
-        [XmlIgnore]
-        public string Password = "";
-
-        public string EncryptPassword
         {
-            get => this.Encrypt(this.Password);
-            set => this.Password = this.Decrypt(value);
+            var settings = LoadSettings(settingsPath);
+
+            // UserAccount.Primary が追加される前との互換性を保つ
+            var accounts = settings.UserAccounts;
+            if (accounts.Count != 0 && settings.PrimaryAccount == null)
+            {
+                var primaryAccount = accounts.FirstOrDefault(x => x.UserId == settings.UserId) ?? accounts.First();
+                primaryAccount.Primary = true;
+            }
+
+            return settings;
         }
 
+        public void Save(string settingsPath)
+        {
+            var primaryAccount = this.PrimaryAccount;
+
+            // UserAccount.Primary が追加される前との互換性を保つ
+            this.UserId = primaryAccount?.UserId ?? 0;
+            this.UserName = primaryAccount?.Username ?? "";
+            this.Token = primaryAccount?.AccessToken ?? "";
+            this.TokenSecret = primaryAccount?.AccessSecretPlain ?? "";
+
+            SaveSettings(this, settingsPath);
+        }
+        #endregion
+
+        public List<UserAccount> UserAccounts { get; set; } = new();
+
+        [XmlIgnore]
+        public UserAccount PrimaryAccount => this.UserAccounts.FirstOrDefault(x => x.Primary);
+
+        public MastodonCredential[] MastodonAccounts { get; set; } = new MastodonCredential[0];
+
+        [XmlIgnore]
+        public MastodonCredential MastodonPrimaryAccount => this.MastodonAccounts.FirstOrDefault(x => x.Primary);
+
+        public long UserId = 0;
+        public string UserName = "";
         public string Token = "";
+
         [XmlIgnore]
         public string TokenSecret = "";
 
         public string EncryptTokenSecret
         {
-            get => this.Encrypt(this.TokenSecret);
-            set => this.TokenSecret = this.Decrypt(value);
+            get => string.IsNullOrEmpty(this.TokenSecret) ? "" : MyCommon.EncryptString(this.TokenSecret);
+            set => this.TokenSecret = string.IsNullOrEmpty(value) ? "" : MyCommon.DecryptString(value);
         }
 
-        private string Encrypt(string password)
-        {
-            if (MyCommon.IsNullOrEmpty(password)) password = "";
-            if (password.Length > 0)
-            {
-                try
-                {
-                    return MyCommon.EncryptString(password);
-                }
-                catch (Exception)
-                {
-                    return "";
-                }
-            }
-            else
-            {
-                return "";
-            }
-        }
-
-        private string Decrypt(string password)
-        {
-            if (MyCommon.IsNullOrEmpty(password)) password = "";
-            if (password.Length > 0)
-            {
-                try
-                {
-                    password = MyCommon.DecryptString(password);
-                }
-                catch (Exception)
-                {
-                    password = "";
-                }
-            }
-            return password;
-        }
-
-        public long UserId = 0;
         public List<string> TabList = new();
         public int TimelinePeriod = 90;
         public int ReplyPeriod = 180;
@@ -329,56 +315,46 @@ namespace OpenTween
 
     public class UserAccount
     {
-        public string Username = "";
-        public long UserId = 0;
-        public string Token = "";
+        public bool Primary { get; set; }
+
+        public string Username { get; set; } = "";
+
+        public long UserId { get; set; } = 0;
+
+        [XmlElement("Token")]
+        public string AccessToken { get; set; } = "";
+
+        [XmlElement("EncryptTokenSecret")]
+        public string AccessSecretEncrypted { get; set; } = "";
+
         [XmlIgnore]
-        public string TokenSecret = "";
-
-        public string EncryptTokenSecret
+        public string AccessSecretPlain
         {
-            get => this.Encrypt(this.TokenSecret);
-            set => this.TokenSecret = this.Decrypt(value);
-        }
-
-        private string Encrypt(string password)
-        {
-            if (MyCommon.IsNullOrEmpty(password)) password = "";
-            if (password.Length > 0)
-            {
-                try
-                {
-                    return MyCommon.EncryptString(password);
-                }
-                catch (Exception)
-                {
-                    return "";
-                }
-            }
-            else
-            {
-                return "";
-            }
-        }
-
-        private string Decrypt(string password)
-        {
-            if (MyCommon.IsNullOrEmpty(password)) password = "";
-            if (password.Length > 0)
-            {
-                try
-                {
-                    password = MyCommon.DecryptString(password);
-                }
-                catch (Exception)
-                {
-                    password = "";
-                }
-            }
-            return password;
+            get => MyCommon.IsNullOrEmpty(this.AccessSecretEncrypted) ? "" : MyCommon.DecryptString(this.AccessSecretEncrypted);
+            set => this.AccessSecretEncrypted = MyCommon.IsNullOrEmpty(value) ? "" : MyCommon.EncryptString(value);
         }
 
         public override string ToString()
             => this.Username;
+    }
+
+    public class MastodonCredential
+    {
+        public bool Primary { get; set; }
+
+        public string InstanceUri { get; set; } = "";
+
+        public string Username { get; set; } = "";
+
+        public long UserId { get; set; }
+
+        public string AccessTokenEncrypted { get; set; } = "";
+
+        [XmlIgnore]
+        public string AccessTokenPlain
+        {
+            get => MyCommon.IsNullOrEmpty(this.AccessTokenEncrypted) ? "" : MyCommon.DecryptString(this.AccessTokenEncrypted);
+            set => this.AccessTokenEncrypted = MyCommon.IsNullOrEmpty(value) ? "" : MyCommon.EncryptString(value);
+        }
     }
 }

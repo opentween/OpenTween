@@ -171,10 +171,10 @@ namespace OpenTween.Models
             Assert.Equal(MyCommon.HITRESULT.None, filter.ExecFilter(post));
 
             // FilterName は RetweetedBy にもマッチする
-            post = new PostClass { ScreenName = "foo", RetweetedBy = "hogehoge" };
+            post = new PostClass { ScreenName = "foo", RetweetedBy = "hogehoge", RetweetedId = 100L };
             Assert.Equal(MyCommon.HITRESULT.CopyAndMark, filter.ExecFilter(post));
 
-            post = new PostClass { ScreenName = "foo", RetweetedBy = "bar" };
+            post = new PostClass { ScreenName = "foo", RetweetedBy = "bar", RetweetedId = 100L };
             Assert.Equal(MyCommon.HITRESULT.None, filter.ExecFilter(post));
 
             // FilterName は完全一致 (UseRegex = false の場合)
@@ -209,10 +209,10 @@ namespace OpenTween.Models
             Assert.Equal(MyCommon.HITRESULT.None, filter.ExecFilter(post));
 
             // ExFilterName は RetweetedBy にもマッチする
-            post = new PostClass { ScreenName = "foo", RetweetedBy = "hogehoge" };
+            post = new PostClass { ScreenName = "foo", RetweetedBy = "hogehoge", RetweetedId = 100L };
             Assert.Equal(MyCommon.HITRESULT.Exclude, filter.ExecFilter(post));
 
-            post = new PostClass { ScreenName = "foo", RetweetedBy = "bar" };
+            post = new PostClass { ScreenName = "foo", RetweetedBy = "bar", RetweetedId = 100L };
             Assert.Equal(MyCommon.HITRESULT.None, filter.ExecFilter(post));
 
             // ExFilterName は完全一致 (ExUseRegex = false の場合)
@@ -248,10 +248,10 @@ namespace OpenTween.Models
             Assert.Equal(MyCommon.HITRESULT.None, filter.ExecFilter(post));
 
             // FilterName は RetweetedBy にもマッチする
-            post = new PostClass { ScreenName = "foo", RetweetedBy = "hogehoge" };
+            post = new PostClass { ScreenName = "foo", RetweetedBy = "hogehoge", RetweetedId = 100L };
             Assert.Equal(MyCommon.HITRESULT.CopyAndMark, filter.ExecFilter(post));
 
-            post = new PostClass { ScreenName = "foo", RetweetedBy = "bar" };
+            post = new PostClass { ScreenName = "foo", RetweetedBy = "bar", RetweetedId = 100L };
             Assert.Equal(MyCommon.HITRESULT.None, filter.ExecFilter(post));
 
             // FilterName は部分一致 (UseRegex = true の場合)
@@ -287,10 +287,10 @@ namespace OpenTween.Models
             Assert.Equal(MyCommon.HITRESULT.None, filter.ExecFilter(post));
 
             // ExFilterName は RetweetedBy にもマッチする
-            post = new PostClass { ScreenName = "foo", RetweetedBy = "hogehoge" };
+            post = new PostClass { ScreenName = "foo", RetweetedBy = "hogehoge", RetweetedId = 100L };
             Assert.Equal(MyCommon.HITRESULT.Exclude, filter.ExecFilter(post));
 
-            post = new PostClass { ScreenName = "foo", RetweetedBy = "bar" };
+            post = new PostClass { ScreenName = "foo", RetweetedBy = "bar", RetweetedId = 100L };
             Assert.Equal(MyCommon.HITRESULT.None, filter.ExecFilter(post));
 
             // ExFilterName は部分一致 (ExUseRegex = true の場合)
@@ -645,11 +645,11 @@ namespace OpenTween.Models
             Assert.Equal(MyCommon.HITRESULT.CopyAndMark, filter.ExecFilter(post));
 
             // TextFromApi と RetweetedBy に FilterBody の文字列がそれぞれ含まれている
-            post = new PostClass { ScreenName = "hoge", TextFromApi = "bbb", RetweetedBy = "aaa" };
+            post = new PostClass { ScreenName = "hoge", TextFromApi = "bbb", RetweetedBy = "aaa", RetweetedId = 100L };
             Assert.Equal(MyCommon.HITRESULT.CopyAndMark, filter.ExecFilter(post));
 
             // RetweetedBy が null でなくても依然として ScreenName にはマッチする
-            post = new PostClass { ScreenName = "aaa", TextFromApi = "bbb", RetweetedBy = "hoge" };
+            post = new PostClass { ScreenName = "aaa", TextFromApi = "bbb", RetweetedBy = "hoge", RetweetedId = 100L };
             Assert.Equal(MyCommon.HITRESULT.CopyAndMark, filter.ExecFilter(post));
 
             // ScreenName に対しては完全一致 (UseRegex = false の場合)
@@ -666,7 +666,7 @@ namespace OpenTween.Models
             post = new PostClass { ScreenName = "Aaa", TextFromApi = "Bbb" };
             Assert.Equal(MyCommon.HITRESULT.None, filter.ExecFilter(post));
 
-            post = new PostClass { ScreenName = "hoge", TextFromApi = "Bbb", RetweetedBy = "Aaa" };
+            post = new PostClass { ScreenName = "hoge", TextFromApi = "Bbb", RetweetedBy = "Aaa", RetweetedId = 100L };
             Assert.Equal(MyCommon.HITRESULT.None, filter.ExecFilter(post));
 
             // 大小文字を区別しない
@@ -675,7 +675,7 @@ namespace OpenTween.Models
             post = new PostClass { ScreenName = "Aaa", TextFromApi = "Bbb" };
             Assert.Equal(MyCommon.HITRESULT.CopyAndMark, filter.ExecFilter(post));
 
-            post = new PostClass { ScreenName = "hoge", TextFromApi = "Bbb", RetweetedBy = "Aaa" };
+            post = new PostClass { ScreenName = "hoge", TextFromApi = "Bbb", RetweetedBy = "Aaa", RetweetedId = 100L };
             Assert.Equal(MyCommon.HITRESULT.CopyAndMark, filter.ExecFilter(post));
         }
 
@@ -710,11 +710,11 @@ namespace OpenTween.Models
             Assert.Equal(MyCommon.HITRESULT.Exclude, filter.ExecFilter(post));
 
             // TextFromApi と RetweetedBy に ExFilterBody の文字列がそれぞれ含まれている
-            post = new PostClass { ScreenName = "hoge", TextFromApi = "bbb", RetweetedBy = "aaa" };
+            post = new PostClass { ScreenName = "hoge", TextFromApi = "bbb", RetweetedBy = "aaa", RetweetedId = 100L };
             Assert.Equal(MyCommon.HITRESULT.Exclude, filter.ExecFilter(post));
 
             // RetweetedBy が null でなくても依然として ScreenName にはマッチする
-            post = new PostClass { ScreenName = "aaa", TextFromApi = "bbb", RetweetedBy = "hoge" };
+            post = new PostClass { ScreenName = "aaa", TextFromApi = "bbb", RetweetedBy = "hoge", RetweetedId = 100L };
             Assert.Equal(MyCommon.HITRESULT.Exclude, filter.ExecFilter(post));
 
             // ScreenName に対しては完全一致 (ExUseRegex = false の場合)
@@ -731,7 +731,7 @@ namespace OpenTween.Models
             post = new PostClass { ScreenName = "Aaa", TextFromApi = "Bbb" };
             Assert.Equal(MyCommon.HITRESULT.None, filter.ExecFilter(post));
 
-            post = new PostClass { ScreenName = "hoge", TextFromApi = "Bbb", RetweetedBy = "Aaa" };
+            post = new PostClass { ScreenName = "hoge", TextFromApi = "Bbb", RetweetedBy = "Aaa", RetweetedId = 100L };
             Assert.Equal(MyCommon.HITRESULT.None, filter.ExecFilter(post));
 
             // 大小文字を区別しない
@@ -740,7 +740,7 @@ namespace OpenTween.Models
             post = new PostClass { ScreenName = "Aaa", TextFromApi = "Bbb" };
             Assert.Equal(MyCommon.HITRESULT.Exclude, filter.ExecFilter(post));
 
-            post = new PostClass { ScreenName = "hoge", TextFromApi = "Bbb", RetweetedBy = "Aaa" };
+            post = new PostClass { ScreenName = "hoge", TextFromApi = "Bbb", RetweetedBy = "Aaa", RetweetedId = 100L };
             Assert.Equal(MyCommon.HITRESULT.Exclude, filter.ExecFilter(post));
         }
 
@@ -776,11 +776,11 @@ namespace OpenTween.Models
             Assert.Equal(MyCommon.HITRESULT.CopyAndMark, filter.ExecFilter(post));
 
             // TextFromApi と RetweetedBy に FilterBody の文字列がそれぞれ含まれている
-            post = new PostClass { ScreenName = "hoge", TextFromApi = "bbb", RetweetedBy = "aaa" };
+            post = new PostClass { ScreenName = "hoge", TextFromApi = "bbb", RetweetedBy = "aaa", RetweetedId = 100L };
             Assert.Equal(MyCommon.HITRESULT.CopyAndMark, filter.ExecFilter(post));
 
             // RetweetedBy が null でなくても依然として ScreenName にはマッチする
-            post = new PostClass { ScreenName = "aaa", TextFromApi = "bbb", RetweetedBy = "hoge" };
+            post = new PostClass { ScreenName = "aaa", TextFromApi = "bbb", RetweetedBy = "hoge", RetweetedId = 100L };
             Assert.Equal(MyCommon.HITRESULT.CopyAndMark, filter.ExecFilter(post));
 
             // ScreenName に対しても部分一致 (UseRegex = true の場合)
@@ -797,7 +797,7 @@ namespace OpenTween.Models
             post = new PostClass { ScreenName = "Aaa", TextFromApi = "Bbb" };
             Assert.Equal(MyCommon.HITRESULT.None, filter.ExecFilter(post));
 
-            post = new PostClass { ScreenName = "hoge", TextFromApi = "Bbb", RetweetedBy = "Aaa" };
+            post = new PostClass { ScreenName = "hoge", TextFromApi = "Bbb", RetweetedBy = "Aaa", RetweetedId = 100L };
             Assert.Equal(MyCommon.HITRESULT.None, filter.ExecFilter(post));
 
             // 大小文字を区別しない
@@ -806,7 +806,7 @@ namespace OpenTween.Models
             post = new PostClass { ScreenName = "Aaa", TextFromApi = "Bbb" };
             Assert.Equal(MyCommon.HITRESULT.CopyAndMark, filter.ExecFilter(post));
 
-            post = new PostClass { ScreenName = "hoge", TextFromApi = "Bbb", RetweetedBy = "Aaa" };
+            post = new PostClass { ScreenName = "hoge", TextFromApi = "Bbb", RetweetedBy = "Aaa", RetweetedId = 100L };
             Assert.Equal(MyCommon.HITRESULT.CopyAndMark, filter.ExecFilter(post));
         }
 
@@ -842,11 +842,11 @@ namespace OpenTween.Models
             Assert.Equal(MyCommon.HITRESULT.Exclude, filter.ExecFilter(post));
 
             // TextFromApi と RetweetedBy に ExFilterBody の文字列がそれぞれ含まれている
-            post = new PostClass { ScreenName = "hoge", TextFromApi = "bbb", RetweetedBy = "aaa" };
+            post = new PostClass { ScreenName = "hoge", TextFromApi = "bbb", RetweetedBy = "aaa", RetweetedId = 100L };
             Assert.Equal(MyCommon.HITRESULT.Exclude, filter.ExecFilter(post));
 
             // RetweetedBy が null でなくても依然として ScreenName にはマッチする
-            post = new PostClass { ScreenName = "aaa", TextFromApi = "bbb", RetweetedBy = "hoge" };
+            post = new PostClass { ScreenName = "aaa", TextFromApi = "bbb", RetweetedBy = "hoge", RetweetedId = 100L };
             Assert.Equal(MyCommon.HITRESULT.Exclude, filter.ExecFilter(post));
 
             // ScreenName に対しても部分一致 (ExUseRegex = true の場合)
@@ -863,7 +863,7 @@ namespace OpenTween.Models
             post = new PostClass { ScreenName = "Aaa", TextFromApi = "Bbb" };
             Assert.Equal(MyCommon.HITRESULT.None, filter.ExecFilter(post));
 
-            post = new PostClass { ScreenName = "hoge", TextFromApi = "Bbb", RetweetedBy = "Aaa" };
+            post = new PostClass { ScreenName = "hoge", TextFromApi = "Bbb", RetweetedBy = "Aaa", RetweetedId = 100L };
             Assert.Equal(MyCommon.HITRESULT.None, filter.ExecFilter(post));
 
             // 大小文字を区別しない
@@ -872,7 +872,7 @@ namespace OpenTween.Models
             post = new PostClass { ScreenName = "Aaa", TextFromApi = "Bbb" };
             Assert.Equal(MyCommon.HITRESULT.Exclude, filter.ExecFilter(post));
 
-            post = new PostClass { ScreenName = "hoge", TextFromApi = "Bbb", RetweetedBy = "Aaa" };
+            post = new PostClass { ScreenName = "hoge", TextFromApi = "Bbb", RetweetedBy = "Aaa", RetweetedId = 100L };
             Assert.Equal(MyCommon.HITRESULT.Exclude, filter.ExecFilter(post));
         }
 
@@ -910,11 +910,11 @@ namespace OpenTween.Models
             Assert.Equal(MyCommon.HITRESULT.CopyAndMark, filter.ExecFilter(post));
 
             // Text と ScreenName に FilterBody の文字列がそれぞれ含まれている
-            post = new PostClass { ScreenName = "hoge", Text = "<a href='http://example.com/bbb'>t.co/hoge</a>", RetweetedBy = "aaa" };
+            post = new PostClass { ScreenName = "hoge", Text = "<a href='http://example.com/bbb'>t.co/hoge</a>", RetweetedBy = "aaa", RetweetedId = 100L };
             Assert.Equal(MyCommon.HITRESULT.CopyAndMark, filter.ExecFilter(post));
 
             // RetweetedBy が null でなくても依然として ScreenName にはマッチする
-            post = new PostClass { ScreenName = "aaa", Text = "<a href='http://example.com/bbb'>t.co/hoge</a>", RetweetedBy = "hoge" };
+            post = new PostClass { ScreenName = "aaa", Text = "<a href='http://example.com/bbb'>t.co/hoge</a>", RetweetedBy = "hoge", RetweetedId = 100L };
             Assert.Equal(MyCommon.HITRESULT.CopyAndMark, filter.ExecFilter(post));
 
             // ScreenName に対しては完全一致 (UseRegex = false の場合)
@@ -931,7 +931,7 @@ namespace OpenTween.Models
             post = new PostClass { ScreenName = "Aaa", Text = "<a href='http://example.com/Bbb'>t.co/hoge</a>" };
             Assert.Equal(MyCommon.HITRESULT.None, filter.ExecFilter(post));
 
-            post = new PostClass { ScreenName = "hoge", Text = "<a href='http://example.com/Bbb'>t.co/hoge</a>", RetweetedBy = "Aaa" };
+            post = new PostClass { ScreenName = "hoge", Text = "<a href='http://example.com/Bbb'>t.co/hoge</a>", RetweetedBy = "Aaa", RetweetedId = 100L };
             Assert.Equal(MyCommon.HITRESULT.None, filter.ExecFilter(post));
 
             // 大小文字を区別しない
@@ -940,7 +940,7 @@ namespace OpenTween.Models
             post = new PostClass { ScreenName = "Aaa", Text = "<a href='http://example.com/Bbb'>t.co/hoge</a>" };
             Assert.Equal(MyCommon.HITRESULT.CopyAndMark, filter.ExecFilter(post));
 
-            post = new PostClass { ScreenName = "hoge", Text = "<a href='http://example.com/Bbb'>t.co/hoge</a>", RetweetedBy = "Aaa" };
+            post = new PostClass { ScreenName = "hoge", Text = "<a href='http://example.com/Bbb'>t.co/hoge</a>", RetweetedBy = "Aaa", RetweetedId = 100L };
             Assert.Equal(MyCommon.HITRESULT.CopyAndMark, filter.ExecFilter(post));
         }
 
@@ -978,11 +978,11 @@ namespace OpenTween.Models
             Assert.Equal(MyCommon.HITRESULT.Exclude, filter.ExecFilter(post));
 
             // Text と ScreenName に ExFilterBody の文字列がそれぞれ含まれている
-            post = new PostClass { ScreenName = "hoge", Text = "<a href='http://example.com/bbb'>t.co/hoge</a>", RetweetedBy = "aaa" };
+            post = new PostClass { ScreenName = "hoge", Text = "<a href='http://example.com/bbb'>t.co/hoge</a>", RetweetedBy = "aaa", RetweetedId = 100L };
             Assert.Equal(MyCommon.HITRESULT.Exclude, filter.ExecFilter(post));
 
             // RetweetedBy が null でなくても依然として ScreenName にはマッチする
-            post = new PostClass { ScreenName = "aaa", Text = "<a href='http://example.com/bbb'>t.co/hoge</a>", RetweetedBy = "hoge" };
+            post = new PostClass { ScreenName = "aaa", Text = "<a href='http://example.com/bbb'>t.co/hoge</a>", RetweetedBy = "hoge", RetweetedId = 100L };
             Assert.Equal(MyCommon.HITRESULT.Exclude, filter.ExecFilter(post));
 
             // ScreenName に対しては完全一致 (ExUseRegex = false の場合)
@@ -999,7 +999,7 @@ namespace OpenTween.Models
             post = new PostClass { ScreenName = "Aaa", Text = "<a href='http://example.com/Bbb'>t.co/hoge</a>" };
             Assert.Equal(MyCommon.HITRESULT.None, filter.ExecFilter(post));
 
-            post = new PostClass { ScreenName = "hoge", Text = "<a href='http://example.com/Bbb'>t.co/hoge</a>", RetweetedBy = "Aaa" };
+            post = new PostClass { ScreenName = "hoge", Text = "<a href='http://example.com/Bbb'>t.co/hoge</a>", RetweetedBy = "Aaa", RetweetedId = 100L };
             Assert.Equal(MyCommon.HITRESULT.None, filter.ExecFilter(post));
 
             // 大小文字を区別しない
@@ -1008,7 +1008,7 @@ namespace OpenTween.Models
             post = new PostClass { ScreenName = "Aaa", Text = "<a href='http://example.com/Bbb'>t.co/hoge</a>" };
             Assert.Equal(MyCommon.HITRESULT.Exclude, filter.ExecFilter(post));
 
-            post = new PostClass { ScreenName = "hoge", Text = "<a href='http://example.com/Bbb'>t.co/hoge</a>", RetweetedBy = "Aaa" };
+            post = new PostClass { ScreenName = "hoge", Text = "<a href='http://example.com/Bbb'>t.co/hoge</a>", RetweetedBy = "Aaa", RetweetedId = 100L };
             Assert.Equal(MyCommon.HITRESULT.Exclude, filter.ExecFilter(post));
         }
 
@@ -1047,11 +1047,11 @@ namespace OpenTween.Models
             Assert.Equal(MyCommon.HITRESULT.CopyAndMark, filter.ExecFilter(post));
 
             // Text と ScreenName に FilterBody の文字列がそれぞれ含まれている
-            post = new PostClass { ScreenName = "hoge", Text = "<a href='http://example.com/bbb'>t.co/hoge</a>", RetweetedBy = "aaa" };
+            post = new PostClass { ScreenName = "hoge", Text = "<a href='http://example.com/bbb'>t.co/hoge</a>", RetweetedBy = "aaa", RetweetedId = 100L };
             Assert.Equal(MyCommon.HITRESULT.CopyAndMark, filter.ExecFilter(post));
 
             // RetweetedBy が null でなくても依然として ScreenName にはマッチする
-            post = new PostClass { ScreenName = "aaa", Text = "<a href='http://example.com/bbb'>t.co/hoge</a>", RetweetedBy = "hoge" };
+            post = new PostClass { ScreenName = "aaa", Text = "<a href='http://example.com/bbb'>t.co/hoge</a>", RetweetedBy = "hoge", RetweetedId = 100L };
             Assert.Equal(MyCommon.HITRESULT.CopyAndMark, filter.ExecFilter(post));
 
             // ScreenName に対しても部分一致 (UseRegex = true の場合)
@@ -1068,7 +1068,7 @@ namespace OpenTween.Models
             post = new PostClass { ScreenName = "Aaa", Text = "<a href='http://example.com/Bbb'>t.co/hoge</a>" };
             Assert.Equal(MyCommon.HITRESULT.None, filter.ExecFilter(post));
 
-            post = new PostClass { ScreenName = "hoge", Text = "<a href='http://example.com/Bbb'>t.co/hoge</a>", RetweetedBy = "Aaa" };
+            post = new PostClass { ScreenName = "hoge", Text = "<a href='http://example.com/Bbb'>t.co/hoge</a>", RetweetedBy = "Aaa", RetweetedId = 100L };
             Assert.Equal(MyCommon.HITRESULT.None, filter.ExecFilter(post));
 
             // 大小文字を区別しない
@@ -1077,7 +1077,7 @@ namespace OpenTween.Models
             post = new PostClass { ScreenName = "Aaa", Text = "<a href='http://example.com/Bbb'>t.co/hoge</a>" };
             Assert.Equal(MyCommon.HITRESULT.CopyAndMark, filter.ExecFilter(post));
 
-            post = new PostClass { ScreenName = "hoge", Text = "<a href='http://example.com/Bbb'>t.co/hoge</a>", RetweetedBy = "Aaa" };
+            post = new PostClass { ScreenName = "hoge", Text = "<a href='http://example.com/Bbb'>t.co/hoge</a>", RetweetedBy = "Aaa", RetweetedId = 100L };
             Assert.Equal(MyCommon.HITRESULT.CopyAndMark, filter.ExecFilter(post));
         }
 
@@ -1116,11 +1116,11 @@ namespace OpenTween.Models
             Assert.Equal(MyCommon.HITRESULT.Exclude, filter.ExecFilter(post));
 
             // Text と ScreenName に ExFilterBody の文字列がそれぞれ含まれている
-            post = new PostClass { ScreenName = "hoge", Text = "<a href='http://example.com/bbb'>t.co/hoge</a>", RetweetedBy = "aaa" };
+            post = new PostClass { ScreenName = "hoge", Text = "<a href='http://example.com/bbb'>t.co/hoge</a>", RetweetedBy = "aaa", RetweetedId = 100L };
             Assert.Equal(MyCommon.HITRESULT.Exclude, filter.ExecFilter(post));
 
             // RetweetedBy が null でなくても依然として ScreenName にはマッチする
-            post = new PostClass { ScreenName = "aaa", Text = "<a href='http://example.com/bbb'>t.co/hoge</a>", RetweetedBy = "hoge" };
+            post = new PostClass { ScreenName = "aaa", Text = "<a href='http://example.com/bbb'>t.co/hoge</a>", RetweetedBy = "hoge", RetweetedId = 100L };
             Assert.Equal(MyCommon.HITRESULT.Exclude, filter.ExecFilter(post));
 
             // ScreenName に対しても部分一致 (ExUseRegex = true の場合)
@@ -1137,7 +1137,7 @@ namespace OpenTween.Models
             post = new PostClass { ScreenName = "Aaa", Text = "<a href='http://example.com/Bbb'>t.co/hoge</a>" };
             Assert.Equal(MyCommon.HITRESULT.None, filter.ExecFilter(post));
 
-            post = new PostClass { ScreenName = "hoge", Text = "<a href='http://example.com/Bbb'>t.co/hoge</a>", RetweetedBy = "Aaa" };
+            post = new PostClass { ScreenName = "hoge", Text = "<a href='http://example.com/Bbb'>t.co/hoge</a>", RetweetedBy = "Aaa", RetweetedId = 100L };
             Assert.Equal(MyCommon.HITRESULT.None, filter.ExecFilter(post));
 
             // 大小文字を区別しない
@@ -1146,7 +1146,7 @@ namespace OpenTween.Models
             post = new PostClass { ScreenName = "Aaa", Text = "<a href='http://example.com/Bbb'>t.co/hoge</a>" };
             Assert.Equal(MyCommon.HITRESULT.Exclude, filter.ExecFilter(post));
 
-            post = new PostClass { ScreenName = "hoge", Text = "<a href='http://example.com/Bbb'>t.co/hoge</a>", RetweetedBy = "Aaa" };
+            post = new PostClass { ScreenName = "hoge", Text = "<a href='http://example.com/Bbb'>t.co/hoge</a>", RetweetedBy = "Aaa", RetweetedId = 100L };
             Assert.Equal(MyCommon.HITRESULT.Exclude, filter.ExecFilter(post));
         }
 

@@ -1,5 +1,5 @@
 ﻿// OpenTween - Client of Twitter
-// Copyright (c) 2015 spx (@5px)
+// Copyright (c) 2017 kim_upsilon (@kim_upsilon) <https://upsilo.net/~upsilon/>
 // All rights reserved.
 //
 // This file is part of OpenTween.
@@ -23,28 +23,20 @@
 
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using System.IO;
+using System.Net.Http;
 using System.Threading.Tasks;
 
-namespace OpenTween.Models
+namespace OpenTween.Connection
 {
-    /// <summary>
-    /// enum TabUsageType に対応する拡張メソッドを定義したクラス
-    /// </summary>
-    public static class TabUsageTypeExt
+    public interface IMastodonApiConnection : IDisposable
     {
-        private const MyCommon.TabUsageType DefaultTabTypeMask =
-            MyCommon.TabUsageType.Home |
-            MyCommon.TabUsageType.Mentions |
-            MyCommon.TabUsageType.DirectMessage |
-            MyCommon.TabUsageType.Favorites |
-            MyCommon.TabUsageType.Mute;
+        Task<T> GetAsync<T>(Uri uri, IEnumerable<KeyValuePair<string, string>>? param);
 
-        /// <summary>
-        /// デフォルトタブかどうかを示す値を取得します。
-        /// </summary>
-        public static bool IsDefault(this MyCommon.TabUsageType tabType)
-            => (tabType & DefaultTabTypeMask) != 0;
+        Task<LazyJson<T>> PostLazyAsync<T>(Uri uri, IEnumerable<KeyValuePair<string, string>>? param);
+
+        Task<LazyJson<T>> PostLazyAsync<T>(HttpMethod method, Uri uri, IEnumerable<KeyValuePair<string, string>>? param);
+
+        Task<Stream> GetStreamAsync(Uri uri, IEnumerable<KeyValuePair<string, string>>? param);
     }
 }

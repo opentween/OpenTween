@@ -103,7 +103,7 @@ namespace OpenTween
         /// version.txt のフォーマットについては http://sourceforge.jp/projects/opentween/wiki/VersionTxt を参照。
         /// 派生プロジェクトなどでこの機能を無効にする場合は null をセットして下さい。
         /// </remarks>
-        public static readonly string VersionInfoUrl = "https://www.opentween.org/status/version.txt";
+        public static readonly string? VersionInfoUrl = null;
 
         // =====================================================================
         // 暗号化キー
@@ -126,6 +126,20 @@ namespace OpenTween
         /// Twitter API Key Secret
         /// </summary>
         public static readonly ApiKey TwitterConsumerSecret = ApiKey.Create("%e%p93BdDzlwbYIC5Ych/47OQ==%xYZTCYaBxzS4An3o7Qcigjp9QMtu5vi5iEAW/sNgoOoAUyuHJRPP3Ovs20ZV2fAYKxUDiu76dxLfObwI7QjSRA==%YEruRDAQdbJzO+y6kn7+U/uIyIyNra/8Ulo+L6KJcWA=");
+
+        // =====================================================================
+        // Mastodon
+
+        /// <summary>
+        /// Mastodon インスタンス毎に事前に発行した client_id, client_secret の組
+        /// </summary>
+        /// <remarks>
+        /// ここに含まれていないインスタンスでは <see cref="Api.MastodonApi.AppsRegister"/> によって
+        /// アプリケーションの登録を都度行います
+        /// </remarks>
+        public static readonly IReadOnlyDictionary<string, Tuple<string, string>> MastodonClientIds = new Dictionary<string, Tuple<string, string>>
+        {
+        };
 
         // =====================================================================
         // Foursquare

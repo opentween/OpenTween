@@ -34,26 +34,38 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using OpenTween;
 
 namespace OpenTween.Setting.Panel
 {
     public partial class BasedPanel : SettingPanelBase
     {
+        public bool HasMastodonCredential => this.mastodonCredential != null;
+
+        private MastodonCredential? mastodonCredential = null;
+
         public BasedPanel()
-            => this.InitializeComponent();
+        {
+            this.InitializeComponent();
+            this.RefreshMastodonCredential();
+        }
 
         public void LoadConfig(SettingCommon settingCommon)
         {
+            var accounts = settingCommon.UserAccounts;
+
             using (ControlTransaction.Update(this.AuthUserCombo))
             {
                 this.AuthUserCombo.Items.Clear();
-                this.AuthUserCombo.Items.AddRange(settingCommon.UserAccounts.ToArray());
+                this.AuthUserCombo.Items.AddRange(accounts.ToArray());
 
-                var selectedUserId = settingCommon.UserId;
-                var selectedAccount = settingCommon.UserAccounts.FirstOrDefault(x => x.UserId == selectedUserId);
-                if (selectedAccount != null)
-                    this.AuthUserCombo.SelectedItem = selectedAccount;
+                var primaryIndex = accounts.FindIndex(x => x.Primary);
+                if (primaryIndex != -1)
+                    this.AuthUserCombo.SelectedIndex = primaryIndex;
             }
+
+            this.mastodonCredential = settingCommon.MastodonPrimaryAccount;
+            this.RefreshMastodonCredential();
         }
 
         public void SaveConfig(SettingCommon settingCommon)
@@ -64,11 +76,14 @@ namespace OpenTween.Setting.Panel
             var selectedIndex = this.AuthUserCombo.SelectedIndex;
             if (selectedIndex != -1)
             {
+                foreach (var (account, index) in accounts.WithIndex())
+                    account.Primary = selectedIndex == index;
+
                 var selectedAccount = accounts[selectedIndex];
                 settingCommon.UserId = selectedAccount.UserId;
                 settingCommon.UserName = selectedAccount.Username;
-                settingCommon.Token = selectedAccount.Token;
-                settingCommon.TokenSecret = selectedAccount.TokenSecret;
+                settingCommon.Token = selectedAccount.AccessToken;
+                settingCommon.TokenSecret = selectedAccount.AccessSecretPlain;
             }
             else
             {
@@ -77,6 +92,25 @@ namespace OpenTween.Setting.Panel
                 settingCommon.Token = "";
                 settingCommon.TokenSecret = "";
             }
+
+            var mastodonCredential = this.mastodonCredential;
+            if (mastodonCredential != null)
+            {
+                mastodonCredential.Primary = true;
+                settingCommon.MastodonAccounts = new[] { mastodonCredential };
+            }
+            else
+            {
+                settingCommon.MastodonAccounts = new MastodonCredential[0];
+            }
+        }
+
+        private void RefreshMastodonCredential()
+        {
+            if (this.mastodonCredential != null)
+                this.labelMastodonAccount.Text = this.mastodonCredential.Username;
+            else
+                this.labelMastodonAccount.Text = "(未設定)";
         }
 
         private void AuthClearButton_Click(object sender, EventArgs e)
@@ -92,6 +126,39 @@ namespace OpenTween.Setting.Panel
                 {
                     this.AuthUserCombo.SelectedIndex = -1;
                 }
+            }
+        }
+
+        private async void ButtonMastodonAuth_Click(object sender, EventArgs e)
+        {
+            var ret = InputDialog.Show(this, "インスタンスのURL (例: https://mstdn.jp/)", ApplicationSettings.ApplicationName, out var instanceUriStr);
+            if (ret != DialogResult.OK)
+                return;
+
+            if (!Uri.TryCreate(instanceUriStr, UriKind.Absolute, out var instanceUri))
+                return;
+
+            try
+            {
+                var application = await Mastodon.RegisterClientAsync(instanceUri);
+
+                var authorizeUri = Mastodon.GetAuthorizeUri(instanceUri, application.ClientId);
+
+                var code = ((AppendSettingDialog)this.ParentForm).ShowAuthDialog(authorizeUri);
+                if (MyCommon.IsNullOrEmpty(code))
+                    return;
+
+                var accessToken = await Mastodon.GetAccessTokenAsync(instanceUri, application.ClientId, application.ClientSecret, code);
+
+                this.mastodonCredential = await Mastodon.VerifyCredentialAsync(instanceUri, accessToken);
+
+                this.RefreshMastodonCredential();
+            }
+            catch (WebApiException ex)
+            {
+                var message = Properties.Resources.AuthorizeButton_Click2 + Environment.NewLine + ex.Message;
+                MessageBox.Show(this, message, "Authenticate", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
             }
         }
     }

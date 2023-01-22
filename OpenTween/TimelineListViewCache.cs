@@ -143,7 +143,7 @@ namespace OpenTween
             if (post.FavoritedCount > 0) mk.Append("+" + post.FavoritedCount);
 
             ListViewItem itm;
-            if (post.RetweetedId == null)
+            if (!post.IsRetweet)
             {
                 string[] sitem =
                 {
@@ -301,7 +301,7 @@ namespace OpenTween
                 return ListItemBackColor.None;
 
             // @先
-            if (post.StatusId == basePost.InReplyToStatusId)
+            if (basePost.HasInReplyTo && post.StatusId == basePost.InReplyToStatusId)
                 return ListItemBackColor.AtTo;
 
             // 自分=発言者
@@ -333,7 +333,7 @@ namespace OpenTween
             if (post.IsFav)
                 return ListItemForeColor.Fav;
 
-            if (post.RetweetedId != null)
+            if (post.IsRetweet)
                 return ListItemForeColor.Retweet;
 
             if (post.IsOwl && (post.IsDm || this.settings.OneWayLove))

@@ -57,7 +57,7 @@ namespace OpenTween.Models
             {
                 get
                 {
-                    var retweetedId = this.RetweetedId!.Value;
+                    var retweetedId = this.RetweetedId;
                     var group = this.Group;
                     if (group == null)
                         throw new InvalidOperationException("TestPostClass needs group");
@@ -115,8 +115,8 @@ namespace OpenTween.Models
             post.IsFav = isFav;
             Assert.Equal(isFav, post.IsFav);
 
-            if (post.RetweetedId != null)
-                Assert.Equal(isFav, this.postGroup[post.RetweetedId.Value].IsFav);
+            if (post.IsRetweet)
+                Assert.Equal(isFav, this.postGroup[post.RetweetedId].IsFav);
         }
 
 #pragma warning disable SA1008 // Opening parenthesis should be spaced correctly
@@ -144,9 +144,10 @@ namespace OpenTween.Models
             {
                 IsProtect = protect,
                 IsMark = mark,
-                InReplyToStatusId = reply ? (long?)100L : null,
                 PostGeo = geo ? new PostClass.StatusGeo(-126.716667, -47.15) : (PostClass.StatusGeo?)null,
             };
+            if (reply)
+                post.InReplyToStatusId = 100L;
 
             Assert.Equal(expected, post.StateIndex);
         }
@@ -213,9 +214,7 @@ namespace OpenTween.Models
 
             post.IsDeleted = true;
 
-            Assert.Null(post.InReplyToStatusId);
-            Assert.Equal("", post.InReplyToUser);
-            Assert.Null(post.InReplyToUserId);
+            Assert.False(post.HasInReplyTo);
             Assert.False(post.IsReply);
             Assert.Empty(post.ReplyToList);
             Assert.Equal(-1, post.StateIndex);
@@ -274,6 +273,7 @@ namespace OpenTween.Models
         {
             var post = new TestPostClass
             {
+                RetweetedId = 100L,
                 RetweetedByUserId = 111L, // 自分がリツイートした
                 UserId = 222L, // 他人のツイート
             };
@@ -286,6 +286,7 @@ namespace OpenTween.Models
         {
             var post = new TestPostClass
             {
+                RetweetedId = 100L,
                 RetweetedByUserId = 333L, // 他人がリツイートした
                 UserId = 222L, // 他人のツイート
             };
@@ -298,6 +299,7 @@ namespace OpenTween.Models
         {
             var post = new TestPostClass
             {
+                RetweetedId = 100L,
                 RetweetedByUserId = 222L, // 他人がリツイートした
                 UserId = 111L, // 自分のツイート
             };
@@ -386,9 +388,7 @@ namespace OpenTween.Models
             Assert.Equal("@aaa", originalPost.ScreenName);
             Assert.Equal(1L, originalPost.UserId);
 
-            Assert.Null(originalPost.RetweetedId);
-            Assert.Equal("", originalPost.RetweetedBy);
-            Assert.Null(originalPost.RetweetedByUserId);
+            Assert.False(originalPost.IsRetweet);
             Assert.Equal(1, originalPost.RetweetedCount);
         }
 
@@ -396,7 +396,7 @@ namespace OpenTween.Models
         public void ConvertToOriginalPost_ErrorTest()
         {
             // 公式 RT でないツイート
-            var post = new PostClass { StatusId = 100L, RetweetedId = null };
+            var post = new PostClass { StatusId = 100L };
 
             Assert.Throws<InvalidOperationException>(() => post.ConvertToOriginalPost());
         }

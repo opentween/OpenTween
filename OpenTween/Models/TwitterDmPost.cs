@@ -1,5 +1,5 @@
 ﻿// OpenTween - Client of Twitter
-// Copyright (c) 2015 spx (@5px)
+// Copyright (c) 2017 kim_upsilon (@kim_upsilon) <https://upsilo.net/~upsilon/>
 // All rights reserved.
 //
 // This file is part of OpenTween.
@@ -21,30 +21,19 @@
 
 #nullable enable
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using System.Globalization;
 using System.Threading.Tasks;
 
 namespace OpenTween.Models
 {
-    /// <summary>
-    /// enum TabUsageType に対応する拡張メソッドを定義したクラス
-    /// </summary>
-    public static class TabUsageTypeExt
+    public class TwitterDmPost : PostClass
     {
-        private const MyCommon.TabUsageType DefaultTabTypeMask =
-            MyCommon.TabUsageType.Home |
-            MyCommon.TabUsageType.Mentions |
-            MyCommon.TabUsageType.DirectMessage |
-            MyCommon.TabUsageType.Favorites |
-            MyCommon.TabUsageType.Mute;
+        private readonly Twitter twitter;
 
-        /// <summary>
-        /// デフォルトタブかどうかを示す値を取得します。
-        /// </summary>
-        public static bool IsDefault(this MyCommon.TabUsageType tabType)
-            => (tabType & DefaultTabTypeMask) != 0;
+        public TwitterDmPost(Twitter twitter)
+            => this.twitter = twitter;
+
+        public override Task DeleteAsync()
+            => this.twitter.Api.DirectMessagesEventsDestroy(this.StatusId.ToString(CultureInfo.InvariantCulture));
     }
 }

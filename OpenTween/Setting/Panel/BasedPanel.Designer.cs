@@ -35,6 +35,9 @@
             this.AuthClearButton = new System.Windows.Forms.Button();
             this.Label4 = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.buttonMastodonAuth = new System.Windows.Forms.Button();
+            this.labelMastodonAccount = new System.Windows.Forms.Label();
+            this.label1 = new System.Windows.Forms.Label();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -76,8 +79,29 @@
             this.panel1.Controls.Add(this.StartAuthButton);
             this.panel1.Controls.Add(this.AuthClearButton);
             this.panel1.Controls.Add(this.Label4);
+            this.panel1.Controls.Add(this.buttonMastodonAuth);
+            this.panel1.Controls.Add(this.labelMastodonAccount);
+            this.panel1.Controls.Add(this.label1);
             resources.ApplyResources(this.panel1, "panel1");
             this.panel1.Name = "panel1";
+            // 
+            // buttonMastodonAuth
+            // 
+            resources.ApplyResources(this.buttonMastodonAuth, "buttonMastodonAuth");
+            this.buttonMastodonAuth.Name = "buttonMastodonAuth";
+            this.buttonMastodonAuth.UseVisualStyleBackColor = true;
+            this.buttonMastodonAuth.Click += new System.EventHandler(this.ButtonMastodonAuth_Click);
+            // 
+            // labelMastodonAccount
+            // 
+            this.labelMastodonAccount.AutoEllipsis = true;
+            resources.ApplyResources(this.labelMastodonAccount, "labelMastodonAccount");
+            this.labelMastodonAccount.Name = "labelMastodonAccount";
+            // 
+            // label1
+            // 
+            resources.ApplyResources(this.label1, "label1");
+            this.label1.Name = "label1";
             // 
             // BasedPanel
             // 
@@ -99,5 +123,8 @@
         internal System.Windows.Forms.Button AuthClearButton;
         internal System.Windows.Forms.Label Label4;
         private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.Button buttonMastodonAuth;
+        private System.Windows.Forms.Label labelMastodonAccount;
+        private System.Windows.Forms.Label label1;
     }
 }

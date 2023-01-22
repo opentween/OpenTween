@@ -176,20 +176,20 @@ namespace OpenTween
             => Assert.Equal(excepted, MyCommon.ReplaceAppName(str, "OpenTween"));
 
         [Theory]
-        [InlineData("1.0.0.0", "1.0.0")]
-        [InlineData("1.0.0.1", "1.0.1-dev")]
-        [InlineData("1.0.0.12", "1.0.1-dev+build.12")]
-        [InlineData("1.0.1.0", "1.0.1")]
-        [InlineData("1.0.9.1", "1.0.10-dev")]
-        [InlineData("1.1.0.0", "1.1.0")]
-        [InlineData("1.9.9.1", "1.9.10-dev")]
+        [InlineData("1.0.0.0", "1.0.0+mastodon")]
+        [InlineData("1.0.0.1", "1.0.1-dev+mastodon")]
+        [InlineData("1.0.0.12", "1.0.1-dev+mastodon+build.12")]
+        [InlineData("1.0.1.0", "1.0.1+mastodon")]
+        [InlineData("1.0.9.1", "1.0.10-dev+mastodon")]
+        [InlineData("1.1.0.0", "1.1.0+mastodon")]
+        [InlineData("1.9.9.1", "1.9.10-dev+mastodon")]
         public void GetReadableVersionTest(string fileVersion, string expected)
             => Assert.Equal(expected, MyCommon.GetReadableVersion(fileVersion));
 
         public static readonly TheoryData<PostClass, string> GetStatusUrlTest1TestCase = new()
         {
             {
-                new PostClass { StatusId = 249493863826350080L, ScreenName = "Favstar_LM", RetweetedId = null, RetweetedBy = null },
+                new PostClass { StatusId = 249493863826350080L, ScreenName = "Favstar_LM" },
                 "https://twitter.com/Favstar_LM/status/249493863826350080"
             },
             {

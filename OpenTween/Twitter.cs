@@ -357,7 +357,7 @@ namespace OpenTween
             if (post == null)
                 throw new WebApiException("Err:Target isn't found.");
 
-            var target = post.RetweetedId ?? id;  // 再RTの場合は元発言をRT
+            var target = post.IsRetweet ? post.RetweetedId : id; // 再RTの場合は元発言をRT
 
             var response = await this.Api.StatusesRetweet(target)
                 .ConfigureAwait(false);
@@ -632,7 +632,7 @@ namespace OpenTween
             => this.CreatePostsFromStatusData(status, favTweet: false);
 
         private PostClass CreatePostsFromStatusData(TwitterStatus status, bool favTweet)
-            => this.postFactory.CreateFromStatus(status, this.UserId, this.followerId, favTweet);
+            => this.postFactory.CreateFromStatus(this, status, this.UserId, this.followerId, favTweet);
 
         private long? CreatePostsFromJson(TwitterStatus[] items, MyCommon.WORKERTYPE gType, TabModel? tab, bool read)
         {
@@ -759,11 +759,11 @@ namespace OpenTween
                 throw new ArgumentException("startStatusId (" + startStatusId + ") が posts の中から見つかりませんでした。", nameof(startStatusId));
 
             var nextPost = posts[startStatusId];
-            while (nextPost.InReplyToStatusId != null)
+            while (nextPost.HasInReplyTo)
             {
-                if (!posts.ContainsKey(nextPost.InReplyToStatusId.Value))
+                if (!posts.ContainsKey(nextPost.InReplyToStatusId))
                     break;
-                nextPost = posts[nextPost.InReplyToStatusId.Value];
+                nextPost = posts[nextPost.InReplyToStatusId];
             }
 
             return nextPost;
@@ -773,21 +773,20 @@ namespace OpenTween
         {
             var targetPost = tab.TargetPost;
 
-            if (targetPost.RetweetedId != null)
+            if (targetPost.IsRetweet)
             {
                 var originalPost = targetPost.Clone();
-                originalPost.StatusId = targetPost.RetweetedId.Value;
-                originalPost.RetweetedId = null;
-                originalPost.RetweetedBy = null;
+                originalPost.StatusId = targetPost.RetweetedId;
+                originalPost.IsRetweet = false;
                 targetPost = originalPost;
             }
 
             var relPosts = new Dictionary<long, PostClass>();
-            if (targetPost.TextFromApi.Contains("@") && targetPost.InReplyToStatusId == null)
+            if (targetPost.TextFromApi.Contains("@") && !targetPost.HasInReplyTo)
             {
                 // 検索結果対応
                 var p = TabInformations.GetInstance()[targetPost.StatusId];
-                if (p != null && p.InReplyToStatusId != null)
+                if (p != null && p.HasInReplyTo)
                 {
                     targetPost = p;
                 }
@@ -805,9 +804,9 @@ namespace OpenTween
             // in_reply_to_status_id を使用してリプライチェインを辿る
             var nextPost = FindTopOfReplyChain(relPosts, targetPost.StatusId);
             var loopCount = 1;
-            while (nextPost.InReplyToStatusId != null && loopCount++ <= 20)
+            while (nextPost.HasInReplyTo && loopCount++ <= 20)
             {
-                var inReplyToId = nextPost.InReplyToStatusId.Value;
+                var inReplyToId = nextPost.InReplyToStatusId;
 
                 var inReplyToPost = TabInformations.GetInstance()[inReplyToId];
                 if (inReplyToPost == null)
@@ -872,7 +871,7 @@ namespace OpenTween
                         continue;
 
                     // リプライチェーンが繋がらないツイートは除外
-                    if (post.InReplyToStatusId == null || !relPosts.ContainsKey(post.InReplyToStatusId.Value))
+                    if (!post.HasInReplyTo || !relPosts.ContainsKey(post.InReplyToStatusId))
                         continue;
 
                     relPosts.Add(post.StatusId, post);
@@ -1010,7 +1009,7 @@ namespace OpenTween
 
             foreach (var eventItem in events)
             {
-                var post = this.postFactory.CreateFromDirectMessageEvent(eventItem, users, apps, this.UserId);
+                var post = this.postFactory.CreateFromDirectMessageEvent(this, eventItem, users, apps, this.UserId);
 
                 post.IsRead = read;
                 if (post.IsMe && !read && this.ReadOwnPost)

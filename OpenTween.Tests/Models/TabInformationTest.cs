@@ -260,6 +260,7 @@ namespace OpenTween.Models
             var post = new PostClass
             {
                 UserId = 11111L,
+                RetweetedId = 100L,
                 RetweetedByUserId = 12345L,
                 Text = "hogehoge",
             };
@@ -274,6 +275,7 @@ namespace OpenTween.Models
             var post = new PostClass
             {
                 UserId = 11111L,
+                RetweetedId = 100L,
                 RetweetedByUserId = 22222L,
                 Text = "hogehoge",
             };

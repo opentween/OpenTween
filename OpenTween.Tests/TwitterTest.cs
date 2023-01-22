@@ -88,7 +88,7 @@ namespace OpenTween
         {
             var posts = new Dictionary<long, PostClass>
             {
-                [950L] = new PostClass { StatusId = 950L, InReplyToStatusId = null }, // このツイートが末端
+                [950L] = new PostClass { StatusId = 950L }, // このツイートが末端
                 [987L] = new PostClass { StatusId = 987L, InReplyToStatusId = 950L },
                 [999L] = new PostClass { StatusId = 999L, InReplyToStatusId = 987L },
                 [1000L] = new PostClass { StatusId = 1000L, InReplyToStatusId = 999L },

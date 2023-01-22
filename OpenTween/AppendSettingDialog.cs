@@ -122,7 +122,7 @@ namespace OpenTween
         {
             if (MyCommon.EndingFlag) return;
 
-            if (this.BasedPanel.AuthUserCombo.SelectedIndex == -1 && e.CloseReason == CloseReason.None)
+            if (this.BasedPanel.AuthUserCombo.SelectedIndex == -1 && !this.BasedPanel.HasMastodonCredential && e.CloseReason == CloseReason.None)
             {
                 if (MessageBox.Show(Properties.Resources.Setting_FormClosing1, "Confirm", MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == DialogResult.Cancel)
                 {
@@ -255,8 +255,7 @@ namespace OpenTween
 
             var pinPageUrl = TwitterApiConnection.GetAuthorizeUri(requestToken);
 
-            var browserPath = this.ActionPanel.BrowserPathText.Text;
-            var pin = AuthDialog.DoAuth(this, pinPageUrl, browserPath);
+            var pin = this.ShowAuthDialog(pinPageUrl);
             if (MyCommon.IsNullOrEmpty(pin))
                 return null; // キャンセルされた場合
 
@@ -266,9 +265,15 @@ namespace OpenTween
             {
                 Username = accessTokenResponse["screen_name"],
                 UserId = long.Parse(accessTokenResponse["user_id"]),
-                Token = accessTokenResponse["oauth_token"],
-                TokenSecret = accessTokenResponse["oauth_token_secret"],
+                AccessToken = accessTokenResponse["oauth_token"],
+                AccessSecretPlain = accessTokenResponse["oauth_token_secret"],
             };
+        }
+
+        public string? ShowAuthDialog(Uri pinPageUrl)
+        {
+            var browserPath = this.ActionPanel.BrowserPathText.Text;
+            return AuthDialog.DoAuth(this, pinPageUrl, browserPath);
         }
 
         private void CheckPostAndGet_CheckedChanged(object sender, EventArgs e)
