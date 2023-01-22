@@ -32,8 +32,8 @@
             this.label1 = new System.Windows.Forms.Label();
             this.AuthByOAuth2RadioButton = new System.Windows.Forms.RadioButton();
             this.AuthByOAuth1RadioButton = new System.Windows.Forms.RadioButton();
-            this.OAuth1ConsumerKeyTextBox = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
+            this.OAuth1ConsumerKeyTextBox = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
             this.OAuth1ConsumerSecretTextBox = new System.Windows.Forms.TextBox();
             this.UseTwitterComCookieRadioButton = new System.Windows.Forms.RadioButton();
@@ -60,15 +60,15 @@
             this.AuthByOAuth1RadioButton.TabStop = true;
             this.AuthByOAuth1RadioButton.UseVisualStyleBackColor = true;
             // 
-            // OAuth1ConsumerKeyTextBox
-            // 
-            resources.ApplyResources(this.OAuth1ConsumerKeyTextBox, "OAuth1ConsumerKeyTextBox");
-            this.OAuth1ConsumerKeyTextBox.Name = "OAuth1ConsumerKeyTextBox";
-            // 
             // label2
             // 
             resources.ApplyResources(this.label2, "label2");
             this.label2.Name = "label2";
+            // 
+            // OAuth1ConsumerKeyTextBox
+            // 
+            resources.ApplyResources(this.OAuth1ConsumerKeyTextBox, "OAuth1ConsumerKeyTextBox");
+            this.OAuth1ConsumerKeyTextBox.Name = "OAuth1ConsumerKeyTextBox";
             // 
             // label3
             // 
@@ -104,16 +104,16 @@
             this.AcceptButton = this.OKButton;
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
-            this.Controls.Add(this.OKButton);
-            this.Controls.Add(this.TwitterComCookieTextBox);
-            this.Controls.Add(this.UseTwitterComCookieRadioButton);
-            this.Controls.Add(this.OAuth1ConsumerSecretTextBox);
-            this.Controls.Add(this.label3);
+            this.Controls.Add(this.label1);
+            this.Controls.Add(this.AuthByOAuth2RadioButton);
+            this.Controls.Add(this.AuthByOAuth1RadioButton);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.OAuth1ConsumerKeyTextBox);
-            this.Controls.Add(this.AuthByOAuth1RadioButton);
-            this.Controls.Add(this.AuthByOAuth2RadioButton);
-            this.Controls.Add(this.label1);
+            this.Controls.Add(this.label3);
+            this.Controls.Add(this.OAuth1ConsumerSecretTextBox);
+            this.Controls.Add(this.UseTwitterComCookieRadioButton);
+            this.Controls.Add(this.TwitterComCookieTextBox);
+            this.Controls.Add(this.OKButton);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.MaximizeBox = false;
             this.Name = "AuthTypeSelectDialog";
@@ -129,8 +129,8 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.RadioButton AuthByOAuth2RadioButton;
         private System.Windows.Forms.RadioButton AuthByOAuth1RadioButton;
-        private System.Windows.Forms.TextBox OAuth1ConsumerKeyTextBox;
         private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.TextBox OAuth1ConsumerKeyTextBox;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.TextBox OAuth1ConsumerSecretTextBox;
         private System.Windows.Forms.RadioButton UseTwitterComCookieRadioButton;
