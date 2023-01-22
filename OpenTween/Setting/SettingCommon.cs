@@ -169,7 +169,8 @@ namespace OpenTween
         /// <summary>
         /// Twitter API v2 の使用を有効にする
         /// </summary>
-        public bool EnableTwitterV2Api { get; set; } = true;
+        [XmlIgnore]
+        public bool EnableTwitterV2Api => false;
 
         public bool RestrictFavCheck = false;
         public bool AlwaysTop = false;
