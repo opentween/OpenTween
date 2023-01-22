@@ -39,9 +39,18 @@ namespace OpenTween.Connection
 
         public string AuthToken { get; private set; } = "";
 
+        private readonly ApiKey bearerToken;
+
+        public TwitterComCookieHandler(HttpMessageHandler innerHandler, ApiKey bearerToken)
+            : base(innerHandler)
+        {
+            this.bearerToken = bearerToken;
+        }
+
         public TwitterComCookieHandler(HttpMessageHandler innerHandler, string rawCookie)
             : base(innerHandler)
         {
+            this.bearerToken = ApplicationSettings.TwitterComBearerToken;
             this.SetCookie(rawCookie);
         }
 
@@ -68,7 +77,7 @@ namespace OpenTween.Connection
                 request.Headers.Add("x-twitter-auth-type", "OAuth2Session");
                 request.Headers.Add("x-csrf-token", this.CsrfToken);
                 request.Headers.Add("cookie", this.GenerateCookieValue());
-                request.Headers.Authorization = new("Bearer", ApplicationSettings.TwitterComBearerToken.Value);
+                request.Headers.Authorization = new("Bearer", this.bearerToken.Value);
             }
 
             return await base.SendAsync(request, cancellationToken)
