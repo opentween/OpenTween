@@ -49,10 +49,10 @@ namespace OpenTween.Setting.Panel
                 this.AuthUserCombo.Items.Clear();
                 this.AuthUserCombo.Items.AddRange(settingCommon.UserAccounts.ToArray());
 
-                var selectedUserId = settingCommon.UserId;
-                var selectedAccount = settingCommon.UserAccounts.FirstOrDefault(x => x.UserId == selectedUserId);
-                if (selectedAccount != null)
-                    this.AuthUserCombo.SelectedItem = selectedAccount;
+                var selectedAccountKey = settingCommon.SelectedAccountKey;
+                var selectedAccountIndex = settingCommon.UserAccounts.FindIndex(x => x.UniqueKey == selectedAccountKey);
+                if (selectedAccountIndex != -1)
+                    this.AuthUserCombo.SelectedIndex = selectedAccountIndex;
             }
         }
 
@@ -69,6 +69,7 @@ namespace OpenTween.Setting.Panel
                 settingCommon.UserName = selectedAccount.Username;
                 settingCommon.Token = selectedAccount.Token;
                 settingCommon.TokenSecret = selectedAccount.TokenSecret;
+                settingCommon.SelectedAccountKey = selectedAccount.UniqueKey;
             }
             else
             {
@@ -76,6 +77,7 @@ namespace OpenTween.Setting.Panel
                 settingCommon.UserName = "";
                 settingCommon.Token = "";
                 settingCommon.TokenSecret = "";
+                settingCommon.SelectedAccountKey = null;
             }
         }
 

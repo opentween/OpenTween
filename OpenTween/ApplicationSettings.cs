@@ -127,6 +127,11 @@ namespace OpenTween
         /// </summary>
         public static readonly ApiKey TwitterConsumerSecret = ApiKey.Create("%e%p93BdDzlwbYIC5Ych/47OQ==%xYZTCYaBxzS4An3o7Qcigjp9QMtu5vi5iEAW/sNgoOoAUyuHJRPP3Ovs20ZV2fAYKxUDiu76dxLfObwI7QjSRA==%YEruRDAQdbJzO+y6kn7+U/uIyIyNra/8Ulo+L6KJcWA=");
 
+        /// <summary>
+        /// <see cref="OpenTween.Connection.TwitterComCookieHandler"/> で使用する Bearer token
+        /// </summary>
+        public static readonly ApiKey TwitterComBearerToken = ApiKey.Create("%e%D2/mWPJwkdhuxnXCCnPiAw==%mAH3yTqmvpdf7Zukmlan0yXhUoAuVTo0fBjOsI3RXwP3/NpS2V4/UmcwGy6aZPEl05wDrL9e1BCKdfbB4+cvQUasEGWU1RRW4KsLyzFMX+nqnvP6cgl2Oa7ek0KDT5xShl+gnOCq03dWBPY0uKrLZA==%5+REZK8MSrAzlMM4C6oph/rIJje8YqSDPOiHFiSOyh4=");
+
         // =====================================================================
         // Foursquare
         // https://developer.foursquare.com/ から取得できます。

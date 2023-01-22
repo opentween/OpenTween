@@ -522,7 +522,11 @@ namespace OpenTween
             var configScaleFactor = this.settings.Local.GetConfigScaleFactor(this.CurrentAutoScaleDimensions);
 
             // 認証関連
-            this.tw.Initialize(this.settings.Common.Token, this.settings.Common.TokenSecret, this.settings.Common.UserName, this.settings.Common.UserId);
+            var account = this.settings.Common.SelectedAccount;
+            if (account != null)
+                this.tw.Initialize(account.GetTwitterAppToken(), account.Token, account.TokenSecret, account.Username, account.UserId);
+            else
+                this.tw.Initialize(TwitterAppToken.GetDefault(), "", "", "", 0L);
 
             this.initial = true;
 
@@ -2581,7 +2585,12 @@ namespace OpenTween
                     if (MyCommon.IsNullOrEmpty(this.settings.Common.Token))
                         this.tw.ClearAuthInfo();
 
-                    this.tw.Initialize(this.settings.Common.Token, this.settings.Common.TokenSecret, this.settings.Common.UserName, this.settings.Common.UserId);
+                    var account = this.settings.Common.SelectedAccount;
+                    if (account != null)
+                        this.tw.Initialize(account.GetTwitterAppToken(), account.Token, account.TokenSecret, account.Username, account.UserId);
+                    else
+                        this.tw.Initialize(TwitterAppToken.GetDefault(), "", "", "", 0L);
+
                     this.tw.RestrictFavCheck = this.settings.Common.RestrictFavCheck;
                     this.tw.ReadOwnPost = this.settings.Common.ReadOwnPost;
 

@@ -48,7 +48,10 @@ namespace OpenTween.Setting.Panel
             this.BrowserPathText.Text = settingLocal.BrowserPath;
             this.CheckCloseToExit.Checked = settingCommon.CloseToExit;
             this.CheckMinimizeToTray.Checked = settingCommon.MinimizeToTray;
-            this.CheckEnableTwitterV2Api.Checked = settingCommon.EnableTwitterV2Api;
+
+            this.CheckEnableTwitterV2Api.Enabled = false;
+            this.CheckEnableTwitterV2Api.Checked = false;
+
             this.CheckFavRestrict.Checked = settingCommon.RestrictFavCheck;
             this.chkReadOwnPost.Checked = settingCommon.ReadOwnPost;
             this.CheckReadOldPosts.Checked = settingCommon.ReadOldPosts;
@@ -91,7 +94,6 @@ namespace OpenTween.Setting.Panel
             settingLocal.BrowserPath = this.BrowserPathText.Text.Trim();
             settingCommon.CloseToExit = this.CheckCloseToExit.Checked;
             settingCommon.MinimizeToTray = this.CheckMinimizeToTray.Checked;
-            settingCommon.EnableTwitterV2Api = this.CheckEnableTwitterV2Api.Checked;
             settingCommon.RestrictFavCheck = this.CheckFavRestrict.Checked;
             settingCommon.ReadOwnPost = this.chkReadOwnPost.Checked;
             settingCommon.ReadOldPosts = this.CheckReadOldPosts.Checked;
