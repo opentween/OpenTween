@@ -113,16 +113,19 @@
             // 
             this.MoveToBackMenuItem.Name = "MoveToBackMenuItem";
             resources.ApplyResources(this.MoveToBackMenuItem, "MoveToBackMenuItem");
+            this.MoveToBackMenuItem.Click += new System.EventHandler(this.MoveToBackMenuItem_Click);
             // 
             // MoveToNextMenuItem
             // 
             this.MoveToNextMenuItem.Name = "MoveToNextMenuItem";
             resources.ApplyResources(this.MoveToNextMenuItem, "MoveToNextMenuItem");
+            this.MoveToNextMenuItem.Click += new System.EventHandler(this.MoveToNextMenuItem_Click);
             // 
             // DeleteMediaMenuItem
             // 
             this.DeleteMediaMenuItem.Name = "DeleteMediaMenuItem";
             resources.ApplyResources(this.DeleteMediaMenuItem, "DeleteMediaMenuItem");
+            this.DeleteMediaMenuItem.Click += new System.EventHandler(this.DeleteMediaMenuItem_Click);
             // 
             // panel1
             // 

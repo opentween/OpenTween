@@ -180,6 +180,10 @@ namespace OpenTween
                 case ListChangedType.ItemAdded:
                     var addedMedia = this.Model.MediaItems[e.NewIndex];
                     AddMediaListViewItem(addedMedia, e.NewIndex);
+                    this.CorrectMediaListViewItemPositions(e.NewIndex);
+                    break;
+                case ListChangedType.ItemDeleted:
+                    this.MediaListView.Items.RemoveAt(e.NewIndex);
                     break;
                 case ListChangedType.Reset:
                     this.MediaListView.Items.Clear();
@@ -189,6 +193,34 @@ namespace OpenTween
                 default:
                     throw new NotImplementedException();
             }
+        }
+
+        /// <summary>
+        /// <see cref="MediaListView"/> にアイテムを追加した後の座標を修正する
+        /// </summary>
+        /// <remarks>
+        /// <see cref="ListView.ListViewItemCollection.Insert"/> でインデックスを指定してアイテムを追加した場合、
+        /// コレクションの中では正しい位置にアイテムが挿入されるが、<see cref="ListViewItem.Position"/> の座標は
+        /// 挿入した位置にかかわらず常に最後尾のアイテムとして配置されてしまう。
+        /// このメソッドではアイテム追加後にコレクションのインデックスと表示上の順序が一致するように整列する処理を行う。
+        /// </remarks>
+        private void CorrectMediaListViewItemPositions(int startIndex)
+        {
+            if (startIndex == this.Model.MediaItems.Count - 1)
+                return;
+
+            var items = this.MediaListView.Items.Cast<ListViewItem>()
+                .Skip(startIndex).ToArray();
+
+            var orderedPositions = items.Select(x => x.Position)
+                .OrderBy(x => x.Y).ThenBy(x => x.X).ToArray();
+
+            this.MediaListView.AutoArrange = false;
+
+            foreach (var i in Enumerable.Range(0, items.Length))
+                items[i].Position = orderedPositions[i];
+
+            this.MediaListView.AutoArrange = true;
         }
 
         private void UpdateImageServiceComboItems()
@@ -293,6 +325,15 @@ namespace OpenTween
 
         private void AlternativeTextBox_Validated(object sender, EventArgs e)
             => this.Model.SetSelectedMediaAltText(this.AlternativeTextBox.Text);
+
+        private void MoveToBackMenuItem_Click(object sender, EventArgs e)
+            => this.Model.MoveSelectedMediaItemToPrevious();
+
+        private void MoveToNextMenuItem_Click(object sender, EventArgs e)
+            => this.Model.MoveSelectedMediaItemToNext();
+
+        private void DeleteMediaMenuItem_Click(object sender, EventArgs e)
+            => this.Model.RemoveSelectedMediaItem();
 
         protected override void Dispose(bool disposing)
         {
