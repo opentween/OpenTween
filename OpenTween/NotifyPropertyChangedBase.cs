@@ -40,8 +40,18 @@ namespace OpenTween
 
         protected bool SetProperty<T>(ref T field, T value, [CallerMemberName] string propertyName = "")
         {
-            if (EqualityComparer<T>.Default.Equals(field, value))
-                return false;
+            if (value is IDisposable)
+            {
+                // IDisposable を実装している場合、中身が等価でも異なるインスタンスへの参照であれば常に変更として扱う
+                // （同じ画像だがインスタンスが異なる MemoryImage への参照に入れ替わる場合に問題になる）
+                if (object.ReferenceEquals(field, value))
+                    return false;
+            }
+            else
+            {
+                if (EqualityComparer<T>.Default.Equals(field, value))
+                    return false;
+            }
 
             field = value;
             this.RaisePropertyChanged(propertyName);

@@ -984,18 +984,48 @@ namespace OpenTween
         public static bool IsNullOrEmpty([NotNullWhen(false)] string? value)
             => string.IsNullOrEmpty(value);
 
-        public static Task OpenInBrowserAsync(IWin32Window? owner, string url)
-            => MyCommon.OpenInBrowserAsync(owner, SettingManager.Instance.Local.BrowserPath, url);
+        public static Task OpenInBrowserAsync(IWin32Window? owner, string urlStr)
+            => MyCommon.OpenInBrowserAsync(owner, SettingManager.Instance.Local.BrowserPath, urlStr);
 
-        public static async Task OpenInBrowserAsync(IWin32Window? owner, string? browserPath, string url)
+        public static Task OpenInBrowserAsync(IWin32Window? owner, Uri uri)
+            => MyCommon.OpenInBrowserAsync(owner, SettingManager.Instance.Local.BrowserPath, uri);
+
+        public static async Task OpenInBrowserAsync(IWin32Window? owner, string? browserPath, string urlStr)
         {
+            if (!Uri.TryCreate(urlStr, UriKind.Absolute, out var uri))
+            {
+                var message = string.Format(Properties.Resources.CannotOpenUriText, urlStr);
+                MessageBox.Show(owner, message, ApplicationSettings.ApplicationName, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+            await MyCommon.OpenInBrowserAsync(owner, browserPath, uri);
+        }
+
+        public static async Task OpenInBrowserAsync(IWin32Window? owner, string? browserPath, Uri uri)
+        {
+            if (uri.Scheme != "http" && uri.Scheme != "https")
+            {
+                var message = string.Format(Properties.Resources.CannotOpenUriText, uri.OriginalString);
+                MessageBox.Show(owner, message, ApplicationSettings.ApplicationName, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+
             try
             {
-                await Task.Run(() =>
+                if (MyCommon.IsNullOrEmpty(browserPath))
                 {
-                    var startInfo = MyCommon.CreateBrowserProcessStartInfo(browserPath, url);
-                    Process.Start(startInfo);
-                });
+                    var options = new Windows.System.LauncherOptions
+                    {
+                        IgnoreAppUriHandlers = true,
+                    };
+                    await Windows.System.Launcher.LaunchUriAsync(uri, options);
+                }
+                else
+                {
+                    await Task.Run(() =>
+                    {
+                        var startInfo = MyCommon.CreateBrowserProcessStartInfo(browserPath, uri.AbsoluteUri);
+                        Process.Start(startInfo);
+                    });
+                }
             }
             catch (Win32Exception ex)
             {
@@ -1004,17 +1034,8 @@ namespace OpenTween
             }
         }
 
-        public static ProcessStartInfo CreateBrowserProcessStartInfo(string? browserPathWithArgs, string url)
+        public static ProcessStartInfo CreateBrowserProcessStartInfo(string browserPathWithArgs, string url)
         {
-            if (MyCommon.IsNullOrEmpty(browserPathWithArgs))
-            {
-                return new ProcessStartInfo
-                {
-                    FileName = url,
-                    UseShellExecute = true,
-                };
-            }
-
             var quoteEnd = -1;
             if (browserPathWithArgs.StartsWith("\"", StringComparison.Ordinal))
                 quoteEnd = browserPathWithArgs.IndexOf("\"", 1, StringComparison.Ordinal);

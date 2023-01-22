@@ -30,6 +30,7 @@ using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
 using System.Xml.Serialization;
+using OpenTween.Connection;
 using OpenTween.Thumbnail;
 
 namespace OpenTween
@@ -46,6 +47,13 @@ namespace OpenTween
         #endregion
 
         public List<UserAccount> UserAccounts = new();
+
+        public Guid? SelectedAccountKey { get; set; } = null;
+
+        [XmlIgnore]
+        public UserAccount? SelectedAccount
+            => this.UserAccounts.Find(x => x.UniqueKey == this.SelectedAccountKey);
+
         public string UserName = "";
 
         [XmlIgnore]
@@ -161,7 +169,8 @@ namespace OpenTween
         /// <summary>
         /// Twitter API v2 の使用を有効にする
         /// </summary>
-        public bool EnableTwitterV2Api { get; set; } = true;
+        [XmlIgnore]
+        public bool EnableTwitterV2Api => false;
 
         public bool RestrictFavCheck = false;
         public bool AlwaysTop = false;
@@ -316,9 +325,20 @@ namespace OpenTween
             if (this.AutoShortUrlFirst < 0)
                 this.AutoShortUrlFirst = MyCommon.UrlConverter.Uxnu;
 
-            var selectedAccount = this.UserAccounts.Find(
-                x => string.Equals(x.Username, this.UserName, StringComparison.InvariantCultureIgnoreCase)
-            );
+            UserAccount? selectedAccount;
+            if (this.SelectedAccountKey != null)
+            {
+                selectedAccount = this.SelectedAccount;
+            }
+            else
+            {
+                selectedAccount = this.UserAccounts.Find(
+                    x => string.Equals(x.Username, this.UserName, StringComparison.InvariantCultureIgnoreCase)
+                );
+            }
+
+            this.SelectedAccountKey = selectedAccount?.UniqueKey;
+
             if (selectedAccount?.UserId == 0)
                 selectedAccount.UserId = this.UserId;
 
@@ -329,9 +349,35 @@ namespace OpenTween
 
     public class UserAccount
     {
+        public Guid UniqueKey { get; set; } = Guid.NewGuid();
+
         public string Username = "";
         public long UserId = 0;
+
+        public APIAuthType TwitterAuthType { get; set; }
+
+        public string TwitterOAuth1ConsumerKey { get; set; } = "";
+
+        [XmlIgnore]
+        public string TwitterOAuth1ConsumerSecret { get; set; } = "";
+
+        public string TwitterOAuth1ConsumerSecretEncrypted
+        {
+            get => this.Encrypt(this.TwitterOAuth1ConsumerSecret);
+            set => this.TwitterOAuth1ConsumerSecret = this.Decrypt(value);
+        }
+
+        [XmlIgnore]
+        public string TwitterComCookie { get; set; } = "";
+
+        public string TwitterComCookieEncrypted
+        {
+            get => this.Encrypt(this.TwitterComCookie);
+            set => this.TwitterComCookie = this.Decrypt(value);
+        }
+
         public string Token = "";
+
         [XmlIgnore]
         public string TokenSecret = "";
 
@@ -339,6 +385,17 @@ namespace OpenTween
         {
             get => this.Encrypt(this.TokenSecret);
             set => this.TokenSecret = this.Decrypt(value);
+        }
+
+        public TwitterAppToken GetTwitterAppToken()
+        {
+            return new()
+            {
+                AuthType = this.TwitterAuthType,
+                OAuth1ConsumerKey = ApiKey.Create(this.TwitterOAuth1ConsumerKey),
+                OAuth1ConsumerSecret = ApiKey.Create(this.TwitterOAuth1ConsumerSecret),
+                TwitterComCookie = this.TwitterComCookie,
+            };
         }
 
         private string Encrypt(string password)
@@ -380,5 +437,11 @@ namespace OpenTween
 
         public override string ToString()
             => this.Username;
+    }
+
+    public enum APIAuthType
+    {
+        OAuth1,
+        TwitterComCookie,
     }
 }

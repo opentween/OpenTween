@@ -486,7 +486,7 @@ namespace OpenTween
             if (e.Url.AbsoluteUri != "about:blank")
             {
                 await this.ShowPostDetails(this.CurrentPost!); // 現在の発言を表示し直す (Navigated の段階ではキャンセルできない)
-                await MyCommon.OpenInBrowserAsync(this, e.Url.OriginalString);
+                await MyCommon.OpenInBrowserAsync(this, e.Url);
             }
         }
 
@@ -560,7 +560,7 @@ namespace OpenTween
             var sourceUri = this.CurrentPost?.SourceUri;
             if (sourceUri != null && e.Button == MouseButtons.Left)
             {
-                await MyCommon.OpenInBrowserAsync(this, sourceUri.AbsoluteUri);
+                await MyCommon.OpenInBrowserAsync(this, sourceUri);
             }
         }
 

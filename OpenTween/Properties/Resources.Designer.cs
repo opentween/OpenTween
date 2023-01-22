@@ -506,6 +506,15 @@ namespace OpenTween.Properties {
         }
         
         /// <summary>
+        ///   URLを開くことができません: {0} に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string CannotOpenUriText {
+            get {
+                return ResourceManager.GetString("CannotOpenUriText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   画像ファイル(*.gif;*.jpg;*.jpeg;*.png)|*.gif;*.jpg;*.jpeg;*.png に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string ChangeIconToolStripMenuItem_ClickText1 {
@@ -571,6 +580,11 @@ namespace OpenTween.Properties {
         /// <summary>
         ///   更新履歴
         ///
+        ///==== Ver 3.3.0(2023/01/22)
+        /// * NEW: アカウント追加時にAPIキーを指定可能になりました
+        /// * CHG: API v2 の使用を設定状態に関わらず無効化しました
+        /// * FIX: 同一の画像を複数枚添付する時にプレビュー画像の表示がエラーになる不具合を修正
+        ///
         ///==== Ver 3.2.0(2023/01/20)
         /// * NEW: 複数枚の画像を添付する際にリスト上で画像を確認できるようになりました
         /// * CHG: アカウント追加時の認可関連のエラーメッセージがより詳細になるように変更
@@ -579,11 +593,7 @@ namespace OpenTween.Properties {
         /// * NEW: 引用ツイートを Ctrl+Shift+L で実行するショートカットを追加 (thx @WizardOfPSG!)
         /// * CHG: 発言一覧のフォントサイズがアイコンより大きい場合は項目の高さをフォントサイズに合わせるように変更
         /// * CHG: クリップボードからの画像添付時に表示していた確認ダイアログを廃止
-        /// * FIX: 発言一覧のソート順が日付の昇順となっている場合にタブ切替時にスクロール位置が保持されない不具合を修正
-        ///
-        ///==== Ver 3.0.0(2023/01/11)
-        /// * OpenTween v3.0.0 からは .NET Framework 4.8 以上が必須になります
-        ///  - .NET Framework 4.8 ランタイムは https://dotnet.m [残りの文字列は切り詰められました]&quot;; に類似しているローカライズされた文字列を検索します。
+        /// * FIX: 発言一覧のソート順が日付の昇順となっている場合にタブ切替時にスクロ [残りの文字列は切り詰められました]&quot;; に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string ChangeLog {
             get {

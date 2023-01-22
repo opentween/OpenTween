@@ -90,7 +90,7 @@ namespace OpenTween
             => new(this.Settings.Common);
 
         private TwitterApi CreateTwitterApi()
-            => new(ApplicationSettings.TwitterConsumerKey, ApplicationSettings.TwitterConsumerSecret);
+            => new();
 
         private Twitter CreateTwitter()
             => new(this.TwitterApi);
