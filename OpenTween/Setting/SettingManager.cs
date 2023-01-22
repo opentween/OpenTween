@@ -49,7 +49,7 @@ namespace OpenTween.Setting
 
         /// <summary>ユーザによる設定が必要な項目が残っているか</summary>
         public bool IsIncomplete
-            => MyCommon.IsNullOrEmpty(this.Common.UserName);
+            => this.Common.SelectedAccount == null;
 
         public bool IsFirstRun { get; private set; } = false;
 
@@ -84,6 +84,7 @@ namespace OpenTween.Setting
                     };
 
                     settings.UserAccounts.Add(account);
+                    settings.SelectedAccountKey = account.UniqueKey;
                 }
             }
 

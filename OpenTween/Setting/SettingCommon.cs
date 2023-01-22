@@ -46,6 +46,13 @@ namespace OpenTween
         #endregion
 
         public List<UserAccount> UserAccounts = new();
+
+        public Guid? SelectedAccountKey { get; set; } = null;
+
+        [XmlIgnore]
+        public UserAccount? SelectedAccount
+            => this.UserAccounts.Find(x => x.UniqueKey == this.SelectedAccountKey);
+
         public string UserName = "";
 
         [XmlIgnore]
@@ -316,9 +323,20 @@ namespace OpenTween
             if (this.AutoShortUrlFirst < 0)
                 this.AutoShortUrlFirst = MyCommon.UrlConverter.Uxnu;
 
-            var selectedAccount = this.UserAccounts.Find(
-                x => string.Equals(x.Username, this.UserName, StringComparison.InvariantCultureIgnoreCase)
-            );
+            UserAccount? selectedAccount;
+            if (this.SelectedAccountKey != null)
+            {
+                selectedAccount = this.SelectedAccount;
+            }
+            else
+            {
+                selectedAccount = this.UserAccounts.Find(
+                    x => string.Equals(x.Username, this.UserName, StringComparison.InvariantCultureIgnoreCase)
+                );
+            }
+
+            this.SelectedAccountKey = selectedAccount?.UniqueKey;
+
             if (selectedAccount?.UserId == 0)
                 selectedAccount.UserId = this.UserId;
 
@@ -329,6 +347,8 @@ namespace OpenTween
 
     public class UserAccount
     {
+        public Guid UniqueKey { get; set; } = Guid.NewGuid();
+
         public string Username = "";
         public long UserId = 0;
         public string Token = "";
