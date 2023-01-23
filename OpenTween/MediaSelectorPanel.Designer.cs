@@ -15,6 +15,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MediaSelectorPanel));
             this.Label2 = new System.Windows.Forms.Label();
             this.ImageServiceCombo = new System.Windows.Forms.ComboBox();
@@ -24,12 +25,17 @@
             this.AlternativeTextLabel = new System.Windows.Forms.Label();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.MediaListView = new System.Windows.Forms.ListView();
+            this.MediaListContextMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.MoveToBackMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.MoveToNextMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.DeleteMediaMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.panel1 = new System.Windows.Forms.Panel();
             this.AddMediaButton = new System.Windows.Forms.Button();
             this.ServiceSelectPanel = new System.Windows.Forms.Panel();
             this.ImageSelectedPicture = new OpenTween.OTPictureBox();
             this.AlternativeTextPanel.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
+            this.MediaListContextMenu.SuspendLayout();
             this.panel1.SuspendLayout();
             this.ServiceSelectPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.ImageSelectedPicture)).BeginInit();
@@ -84,6 +90,7 @@
             // 
             // MediaListView
             // 
+            this.MediaListView.ContextMenuStrip = this.MediaListContextMenu;
             resources.ApplyResources(this.MediaListView, "MediaListView");
             this.MediaListView.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.None;
             this.MediaListView.HideSelection = false;
@@ -92,6 +99,33 @@
             this.MediaListView.ShowGroups = false;
             this.MediaListView.UseCompatibleStateImageBehavior = false;
             this.MediaListView.SelectedIndexChanged += new System.EventHandler(this.MediaListView_SelectedIndexChanged);
+            // 
+            // MediaListContextMenu
+            // 
+            this.MediaListContextMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.MoveToBackMenuItem,
+            this.MoveToNextMenuItem,
+            this.DeleteMediaMenuItem});
+            this.MediaListContextMenu.Name = "MediaListContextMenu";
+            resources.ApplyResources(this.MediaListContextMenu, "MediaListContextMenu");
+            // 
+            // MoveToBackMenuItem
+            // 
+            this.MoveToBackMenuItem.Name = "MoveToBackMenuItem";
+            resources.ApplyResources(this.MoveToBackMenuItem, "MoveToBackMenuItem");
+            this.MoveToBackMenuItem.Click += new System.EventHandler(this.MoveToBackMenuItem_Click);
+            // 
+            // MoveToNextMenuItem
+            // 
+            this.MoveToNextMenuItem.Name = "MoveToNextMenuItem";
+            resources.ApplyResources(this.MoveToNextMenuItem, "MoveToNextMenuItem");
+            this.MoveToNextMenuItem.Click += new System.EventHandler(this.MoveToNextMenuItem_Click);
+            // 
+            // DeleteMediaMenuItem
+            // 
+            this.DeleteMediaMenuItem.Name = "DeleteMediaMenuItem";
+            resources.ApplyResources(this.DeleteMediaMenuItem, "DeleteMediaMenuItem");
+            this.DeleteMediaMenuItem.Click += new System.EventHandler(this.DeleteMediaMenuItem_Click);
             // 
             // panel1
             // 
@@ -132,6 +166,7 @@
             this.AlternativeTextPanel.ResumeLayout(false);
             this.AlternativeTextPanel.PerformLayout();
             this.tableLayoutPanel1.ResumeLayout(false);
+            this.MediaListContextMenu.ResumeLayout(false);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             this.ServiceSelectPanel.ResumeLayout(false);
@@ -155,5 +190,9 @@
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Button AddMediaButton;
         private System.Windows.Forms.Panel ServiceSelectPanel;
+        private System.Windows.Forms.ContextMenuStrip MediaListContextMenu;
+        private System.Windows.Forms.ToolStripMenuItem MoveToBackMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem MoveToNextMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem DeleteMediaMenuItem;
     }
 }
