@@ -22,7 +22,7 @@ using System.Runtime.InteropServices;
 // 次の GUID は、このプロジェクトが COM に公開される場合の、typelib の ID です
 [assembly: Guid("2d0ae0ba-adac-49a2-9b10-26fd69e695bf")]
 
-[assembly: AssemblyVersion("3.4.0.0")]
+[assembly: AssemblyVersion("3.4.0.1")]
 
 [assembly: InternalsVisibleTo("OpenTween.Tests")]
 [assembly: InternalsVisibleTo("DynamicProxyGenAssembly2")] // for Moq

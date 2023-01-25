@@ -580,6 +580,8 @@ namespace OpenTween.Properties {
         /// <summary>
         ///   更新履歴
         ///
+        ///==== Unreleased
+        ///
         ///==== Ver 3.4.0(2023/01/29)
         /// * NEW: 複数枚の画像を添付する際に画像の削除や順序の変更ができるようになりました
         /// * FIX: APIアクセス方式の選択画面でのタブオーダーの誤りを修正
@@ -595,7 +597,7 @@ namespace OpenTween.Properties {
         ///
         ///==== Ver 3.1.0(2023/01/14)
         /// * NEW: 引用ツイートを Ctrl+Shift+L で実行するショートカットを追加 (thx @WizardOfPSG!)
-        /// * CHG: 発言一覧のフォントサイズがアイコンより [残りの文字列は切り詰められました]&quot;; に類似しているローカライズされた文字列を検索します。
+        /// * CHG:  [残りの文字列は切り詰められました]&quot;; に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string ChangeLog {
             get {
