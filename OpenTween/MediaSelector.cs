@@ -372,6 +372,37 @@ namespace OpenTween
             return MediaSelectorErrorType.None;
         }
 
+        public void MoveSelectedMediaItemToPrevious()
+        {
+            var index = this.SelectedMediaItemIndex;
+            if (index == -1 || index == 0)
+                return;
+
+            var mediaItem = this.MediaItems[index - 1];
+            this.MediaItems.RemoveAt(index - 1);
+            this.MediaItems.Insert(index, mediaItem);
+        }
+
+        public void MoveSelectedMediaItemToNext()
+        {
+            var index = this.SelectedMediaItemIndex;
+            if (index == -1 || index == (this.MediaItems.Count - 1))
+                return;
+
+            var mediaItem = this.MediaItems[index + 1];
+            this.MediaItems.RemoveAt(index + 1);
+            this.MediaItems.Insert(index, mediaItem);
+        }
+
+        public void RemoveSelectedMediaItem()
+        {
+            var index = this.SelectedMediaItemIndex;
+            if (index == -1)
+                return;
+
+            this.MediaItems.RemoveAt(index);
+        }
+
         public void Dispose()
         {
             if (this.IsDisposed)

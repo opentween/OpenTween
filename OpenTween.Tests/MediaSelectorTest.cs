@@ -294,5 +294,53 @@ namespace OpenTween
             Assert.Equal("Page 1", mediaSelector.MediaItems[0].AltText);
             Assert.Equal("Page 2", mediaSelector.MediaItems[1].AltText);
         }
+
+        [Fact]
+        public void MoveSelectedMediaItemToPrevious_Test()
+        {
+            using var twitterApi = new TwitterApi(ApiKey.Create(""), ApiKey.Create(""));
+            using var twitter = new Twitter(twitterApi);
+            using var mediaSelector = new MediaSelector();
+
+            mediaSelector.AddMediaItemFromFilePath(new[] { "Resources/re.gif", "Resources/re1.png" });
+            mediaSelector.SelectedMediaItemIndex = 1;
+            mediaSelector.MoveSelectedMediaItemToPrevious();
+
+            Assert.Equal("re1.png", mediaSelector.MediaItems[0].Name);
+            Assert.Equal("re.gif", mediaSelector.MediaItems[1].Name);
+            Assert.Equal(0, mediaSelector.SelectedMediaItemIndex);
+        }
+
+        [Fact]
+        public void MoveSelectedMediaItemToNext_Test()
+        {
+            using var twitterApi = new TwitterApi(ApiKey.Create(""), ApiKey.Create(""));
+            using var twitter = new Twitter(twitterApi);
+            using var mediaSelector = new MediaSelector();
+
+            mediaSelector.AddMediaItemFromFilePath(new[] { "Resources/re.gif", "Resources/re1.png" });
+            mediaSelector.SelectedMediaItemIndex = 0;
+            mediaSelector.MoveSelectedMediaItemToNext();
+
+            Assert.Equal("re1.png", mediaSelector.MediaItems[0].Name);
+            Assert.Equal("re.gif", mediaSelector.MediaItems[1].Name);
+            Assert.Equal(1, mediaSelector.SelectedMediaItemIndex);
+        }
+
+        [Fact]
+        public void RemoveSelectedMediaItem_Test()
+        {
+            using var twitterApi = new TwitterApi(ApiKey.Create(""), ApiKey.Create(""));
+            using var twitter = new Twitter(twitterApi);
+            using var mediaSelector = new MediaSelector();
+
+            mediaSelector.AddMediaItemFromFilePath(new[] { "Resources/re.gif", "Resources/re1.png" });
+            mediaSelector.SelectedMediaItemIndex = 0;
+            mediaSelector.RemoveSelectedMediaItem();
+
+            Assert.Single(mediaSelector.MediaItems);
+            Assert.Equal("re1.png", mediaSelector.MediaItems[0].Name);
+            Assert.Equal(-1, mediaSelector.SelectedMediaItemIndex);
+        }
     }
 }
