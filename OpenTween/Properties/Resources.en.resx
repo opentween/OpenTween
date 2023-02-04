@@ -66,6 +66,7 @@
 	<data name="CheckNewVersionText6"><value>New version is not found. Latest version is {0}. Download it?</value></data>
 	<data name="CheckNewVersionText7"><value>Your %AppName% is latest; you don't need to update. Version: {0} Latest version: {1}</value></data>
 	<data name="CheckNewVersionText9"><value>Version check failed</value></data>
+	<data name="CheckOSVersion_Error"><value>This software requires {0} or later version.</value></data>
 	<data name="CheckRuntimeVersion_Error"><value>This software requires {0} or later version.</value></data>
 	<data name="ClearTabMenuItem_ClickText1"><value>Delete all tweets in this tab {0} ? (posts aren't deleted from the server.)</value></data>
 	<data name="ClearTabMenuItem_ClickText2"><value>Confirm Clearing Tab</value></data>

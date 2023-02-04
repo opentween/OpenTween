@@ -33,6 +33,10 @@ namespace OpenTween
     /// </summary>
     public sealed class ApplicationPreconditions
     {
+        // Windows の最小要件
+        private static readonly string OSMinimumVersionName = "Windows 10";
+        private static readonly Version OSMinimumVersion = new(10, 0, 0, 0);
+
         // .NET Framework ランタイムの最小要件
         // 参照: https://docs.microsoft.com/en-us/dotnet/framework/migration-guide/how-to-determine-which-versions-are-installed
         private const string RuntimeMinimumVersionName = ".NET Framework 4.8";
@@ -47,6 +51,13 @@ namespace OpenTween
         public static bool CheckAll()
         {
             var conditions = new ApplicationPreconditions();
+
+            if (!conditions.CheckOSVersion())
+            {
+                // 警告のみ表示し、起動は中断しない
+                var message = string.Format(Properties.Resources.CheckOSVersion_Error, OSMinimumVersionName);
+                ShowMessageBox(message, MessageBoxIcon.Warning);
+            }
 
             if (!conditions.CheckApiKey())
             {
@@ -79,6 +90,22 @@ namespace OpenTween
         /// </summary>
         public bool CheckApiKey()
             => this.CanDecryptApiKey(ApplicationSettings.TwitterConsumerKey);
+
+        /// <summary>
+        /// 起動中の OS のバージョンが最小要件を満たしているか確認する
+        /// </summary>
+        public bool CheckOSVersion()
+        {
+            var os = Environment.OSVersion;
+
+            if (os.Platform != PlatformID.Win32NT)
+                return false;
+
+            if (os.Version < ApplicationPreconditions.OSMinimumVersion)
+                return false;
+
+            return true;
+        }
 
         /// <summary>
         /// 動作中の .NET Framework のバージョンが適切か確認する
