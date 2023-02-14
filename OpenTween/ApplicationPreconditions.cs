@@ -59,16 +59,16 @@ namespace OpenTween
                 ShowMessageBox(message, MessageBoxIcon.Warning);
             }
 
-            if (!conditions.CheckApiKey())
+            if (!conditions.CheckRuntimeVersion())
             {
-                var message = Properties.Resources.WarnIfApiKeyError_Message;
+                var message = string.Format(Properties.Resources.CheckRuntimeVersion_Error, RuntimeMinimumVersionName);
                 ShowMessageBox(message, MessageBoxIcon.Error);
                 return false;
             }
 
-            if (!conditions.CheckRuntimeVersion())
+            if (!conditions.CheckApiKey())
             {
-                var message = string.Format(Properties.Resources.CheckRuntimeVersion_Error, RuntimeMinimumVersionName);
+                var message = Properties.Resources.WarnIfApiKeyError_Message;
                 ShowMessageBox(message, MessageBoxIcon.Error);
                 return false;
             }
