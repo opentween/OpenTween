@@ -392,8 +392,8 @@ namespace OpenTween
             return new()
             {
                 AuthType = this.TwitterAuthType,
-                OAuth1ConsumerKey = ApiKey.Create(this.TwitterOAuth1ConsumerKey),
-                OAuth1ConsumerSecret = ApiKey.Create(this.TwitterOAuth1ConsumerSecret),
+                OAuth1CustomConsumerKey = MyCommon.IsNullOrEmpty(this.TwitterOAuth1ConsumerKey) ? null : ApiKey.Create(this.TwitterOAuth1ConsumerKey),
+                OAuth1CustomConsumerSecret = MyCommon.IsNullOrEmpty(this.TwitterOAuth1ConsumerSecret) ? null : ApiKey.Create(this.TwitterOAuth1ConsumerSecret),
                 TwitterComCookie = this.TwitterComCookie,
             };
         }

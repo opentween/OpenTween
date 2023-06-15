@@ -58,6 +58,23 @@ namespace OpenTween
             {
                 // まだ参照されている場合もあるのでDisposeはファイナライザ任せ
                 this.CacheRemoveCount++;
+
+                var task = e.Item.Value;
+                if (task.Status != TaskStatus.RanToCompletion || task.IsFaulted)
+                {
+                    // Task の例外がハンドルされないまま破棄されると AggregateException が発生するため try-catch で処理する Task を挟む
+                    static async Task HandleException<T>(Task<T> t)
+                    {
+                        try
+                        {
+                            _ = await t.ConfigureAwait(false);
+                        }
+                        catch
+                        {
+                        }
+                    }
+                    _ = HandleException(task);
+                }
             };
 
             this.cancelTokenSource = new CancellationTokenSource();

@@ -43,7 +43,7 @@ namespace OpenTween.Api
 
         internal IApiConnection? ApiConnection;
 
-        private TwitterAppToken appToken = TwitterAppToken.GetDefault();
+        public TwitterAppToken AppToken { get; private set; } = TwitterAppToken.GetDefault();
 
         public TwitterApi()
         {
@@ -51,22 +51,22 @@ namespace OpenTween.Api
 
         public TwitterApi(ApiKey consumerKey, ApiKey consumerSecret)
         {
-            this.appToken = new()
+            this.AppToken = new()
             {
                 AuthType = APIAuthType.OAuth1,
-                OAuth1ConsumerKey = consumerKey,
-                OAuth1ConsumerSecret = consumerSecret,
+                OAuth1CustomConsumerKey = consumerKey,
+                OAuth1CustomConsumerSecret = consumerSecret,
             };
         }
 
         public void Initialize(string accessToken, string accessSecret, long userId, string screenName)
-            => this.Initialize(this.appToken, accessToken, accessSecret, userId, screenName);
+            => this.Initialize(this.AppToken, accessToken, accessSecret, userId, screenName);
 
         public void Initialize(TwitterAppToken appToken, string accessToken, string accessSecret, long userId, string screenName)
         {
-            this.appToken = appToken;
+            this.AppToken = appToken;
 
-            var newInstance = new TwitterApiConnection(this.appToken, accessToken, accessSecret);
+            var newInstance = new TwitterApiConnection(this.AppToken, accessToken, accessSecret);
             var oldInstance = Interlocked.Exchange(ref this.ApiConnection, newInstance);
             oldInstance?.Dispose();
 

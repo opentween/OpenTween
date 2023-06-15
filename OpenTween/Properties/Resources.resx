@@ -72,6 +72,7 @@
 	<data name="CheckNewVersionText6"><value>新しいバージョンは見つかりません。 {0} が公開されています。強制的に更新しますか？</value></data>
 	<data name="CheckNewVersionText7"><value>最新版をお使いです。更新の必要はありませんでした。使用中Ver：{0} 最新Ver：{1}</value></data>
 	<data name="CheckNewVersionText9"><value>バージョンチェック失敗</value></data>
+	<data name="CheckOSVersion_Error"><value>このソフトウェアは {0} 以降が必要です</value></data>
 	<data name="CheckRuntimeVersion_Error"><value>このソフトウェアは {0} 以降が必要です。</value></data>
 	<data name="ClearTabMenuItem_ClickText1"><value>このタブの発言をクリアしてもよろしいですか？{0}（サーバーから発言は削除しません。）</value></data>
 	<data name="ClearTabMenuItem_ClickText2"><value>タブクリア確認</value></data>
@@ -347,6 +348,7 @@
 	<data name="TweenAboutBox_LoadText2"><value>バージョン {0}</value></data>
 	<data name="TweenMain_LoadText1"><value>タブ作成エラー</value></data>
 	<data name="Unauthorized"><value>You are not authorized.</value></data>
+	<data name="UndoRemovedTab_DuplicateError"><value>削除したタブの取消に失敗しました。「{0}」と同じ名前のタブが存在します</value></data>
 	<data name="UnhandledExceptionText1"><value>**** エラー ログ: {0} ****</value></data>
 	<data name="UnhandledExceptionText10"><value>エラー発生</value></data>
 	<data name="UnhandledExceptionText11"><value>Administrator権限：</value></data>

@@ -8699,56 +8699,20 @@ namespace OpenTween
             else
             {
                 var tb = this.statuses.RemovedTab.Pop();
-                if (tb.TabType == MyCommon.TabUsageType.Related)
+                if (this.statuses.ContainsTab(tb.TabName))
                 {
-                    var relatedTab = this.statuses.GetTabByType(MyCommon.TabUsageType.Related);
-                    if (relatedTab != null)
-                    {
-                        // 関連発言なら既存のタブを置き換える
-                        tb.TabName = relatedTab.TabName;
-                        this.ClearTab(tb.TabName, false);
-
-                        this.statuses.ReplaceTab(tb);
-
-                        var tabIndex = this.statuses.Tabs.IndexOf(tb);
-                        this.ListTab.SelectedIndex = tabIndex;
-                    }
-                    else
-                    {
-                        const string TabName = "Related Tweets";
-                        var renamed = TabName;
-                        for (var i = 2; i <= 100; i++)
-                        {
-                            if (!this.statuses.ContainsTab(renamed))
-                                break;
-                            renamed = TabName + i;
-                        }
-                        tb.TabName = renamed;
-
-                        this.statuses.AddTab(tb);
-                        this.AddNewTab(tb, startup: false);
-
-                        var tabIndex = this.statuses.Tabs.Count - 1;
-                        this.ListTab.SelectedIndex = tabIndex;
-                    }
+                    var message = string.Format(Properties.Resources.UndoRemovedTab_DuplicateError, tb.TabName);
+                    MessageBox.Show(this, message, ApplicationSettings.ApplicationName, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    this.statuses.RemovedTab.Push(tb);
+                    return;
                 }
-                else
-                {
-                    var renamed = tb.TabName;
-                    for (var i = 1; i < int.MaxValue; i++)
-                    {
-                        if (!this.statuses.ContainsTab(renamed))
-                            break;
-                        renamed = tb.TabName + "(" + i + ")";
-                    }
-                    tb.TabName = renamed;
 
-                    this.statuses.AddTab(tb);
-                    this.AddNewTab(tb, startup: false);
+                this.statuses.AddTab(tb);
+                this.AddNewTab(tb, startup: false);
 
-                    var tabIndex = this.statuses.Tabs.Count - 1;
-                    this.ListTab.SelectedIndex = tabIndex;
-                }
+                var tabIndex = this.statuses.Tabs.Count - 1;
+                this.ListTab.SelectedIndex = tabIndex;
+
                 this.SaveConfigsTabs();
             }
         }
