@@ -32,13 +32,13 @@ namespace OpenTween.Connection
 {
     public class TwitterAppToken
     {
-        public APIAuthType AuthType { get; set; }
+        public APIAuthType AuthType { get; init; }
 
-        public ApiKey? OAuth1CustomConsumerKey { get; set; }
+        public ApiKey? OAuth1CustomConsumerKey { get; init; }
 
-        public ApiKey? OAuth1CustomConsumerSecret { get; set; }
+        public ApiKey? OAuth1CustomConsumerSecret { get; init; }
 
-        public string TwitterComCookie { get; set; } = "";
+        public string TwitterComCookie { get; init; } = "";
 
         public ApiKey OAuth1ConsumerKey
             => this.OAuth1CustomConsumerKey ?? ApplicationSettings.TwitterConsumerKey;

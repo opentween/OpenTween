@@ -583,6 +583,10 @@ namespace OpenTween
 
             var count = GetApiResultCount(MyCommon.WORKERTYPE.UserTimeline, more, false);
 
+            // Cookie を使用する場合のみ 99 件を超えて取得するとエラーが返る
+            if (this.Api.AppToken.AuthType == APIAuthType.TwitterComCookie)
+                count = Math.Min(count, 99);
+
             TwitterStatus[] statuses;
             if (MyCommon.IsNullOrEmpty(userName))
             {
