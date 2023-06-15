@@ -44,7 +44,11 @@ namespace OpenTween
         private void OKButton_Click(object sender, EventArgs e)
         {
             TwitterAppToken result;
-            if (this.AuthByOAuth1RadioButton.Checked)
+            if (this.AuthByOAuth1BuiltinKeyRadioButton.Checked)
+            {
+                result = TwitterAppToken.GetDefault();
+            }
+            else if (this.AuthByOAuth1RadioButton.Checked)
             {
                 var consumerKey = this.OAuth1ConsumerKeyTextBox.Text;
                 var consumerSecret = this.OAuth1ConsumerSecretTextBox.Text;

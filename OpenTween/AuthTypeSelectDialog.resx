@@ -8,14 +8,18 @@
 	<assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
 
 	<data name="$this.AutoScaleDimensions" type="System.Drawing.SizeF, System.Drawing"><value>96, 96</value></data>
-	<data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing"><value>455, 291</value></data>
+	<data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing"><value>455, 304</value></data>
 	<metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"><value>True</value></metadata>
 	<data name="&gt;&gt;$this.Name"><value>AuthTypeSelectDialog</value></data>
-	<data name="&gt;&gt;$this.Type"><value>OpenTween.OTBaseForm, OpenTween, Version=3.2.0.1, Culture=neutral, PublicKeyToken=null</value></data>
+	<data name="&gt;&gt;$this.Type"><value>OpenTween.OTBaseForm, OpenTween, Version=3.4.0.1, Culture=neutral, PublicKeyToken=null</value></data>
+	<data name="&gt;&gt;AuthByOAuth1BuiltinKeyRadioButton.Name"><value>AuthByOAuth1BuiltinKeyRadioButton</value></data>
+	<data name="&gt;&gt;AuthByOAuth1BuiltinKeyRadioButton.Parent"><value>$this</value></data>
+	<data name="&gt;&gt;AuthByOAuth1BuiltinKeyRadioButton.Type"><value>System.Windows.Forms.RadioButton, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
+	<data name="&gt;&gt;AuthByOAuth1BuiltinKeyRadioButton.ZOrder"><value>2</value></data>
 	<data name="&gt;&gt;AuthByOAuth1RadioButton.Name"><value>AuthByOAuth1RadioButton</value></data>
 	<data name="&gt;&gt;AuthByOAuth1RadioButton.Parent"><value>$this</value></data>
 	<data name="&gt;&gt;AuthByOAuth1RadioButton.Type"><value>System.Windows.Forms.RadioButton, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
-	<data name="&gt;&gt;AuthByOAuth1RadioButton.ZOrder"><value>2</value></data>
+	<data name="&gt;&gt;AuthByOAuth1RadioButton.ZOrder"><value>3</value></data>
 	<data name="&gt;&gt;AuthByOAuth2RadioButton.Name"><value>AuthByOAuth2RadioButton</value></data>
 	<data name="&gt;&gt;AuthByOAuth2RadioButton.Parent"><value>$this</value></data>
 	<data name="&gt;&gt;AuthByOAuth2RadioButton.Type"><value>System.Windows.Forms.RadioButton, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
@@ -27,35 +31,41 @@
 	<data name="&gt;&gt;label2.Name"><value>label2</value></data>
 	<data name="&gt;&gt;label2.Parent"><value>$this</value></data>
 	<data name="&gt;&gt;label2.Type"><value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
-	<data name="&gt;&gt;label2.ZOrder"><value>3</value></data>
+	<data name="&gt;&gt;label2.ZOrder"><value>4</value></data>
 	<data name="&gt;&gt;label3.Name"><value>label3</value></data>
 	<data name="&gt;&gt;label3.Parent"><value>$this</value></data>
 	<data name="&gt;&gt;label3.Type"><value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
-	<data name="&gt;&gt;label3.ZOrder"><value>5</value></data>
+	<data name="&gt;&gt;label3.ZOrder"><value>6</value></data>
 	<data name="&gt;&gt;OAuth1ConsumerKeyTextBox.Name"><value>OAuth1ConsumerKeyTextBox</value></data>
 	<data name="&gt;&gt;OAuth1ConsumerKeyTextBox.Parent"><value>$this</value></data>
 	<data name="&gt;&gt;OAuth1ConsumerKeyTextBox.Type"><value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
-	<data name="&gt;&gt;OAuth1ConsumerKeyTextBox.ZOrder"><value>4</value></data>
+	<data name="&gt;&gt;OAuth1ConsumerKeyTextBox.ZOrder"><value>5</value></data>
 	<data name="&gt;&gt;OAuth1ConsumerSecretTextBox.Name"><value>OAuth1ConsumerSecretTextBox</value></data>
 	<data name="&gt;&gt;OAuth1ConsumerSecretTextBox.Parent"><value>$this</value></data>
 	<data name="&gt;&gt;OAuth1ConsumerSecretTextBox.Type"><value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
-	<data name="&gt;&gt;OAuth1ConsumerSecretTextBox.ZOrder"><value>6</value></data>
+	<data name="&gt;&gt;OAuth1ConsumerSecretTextBox.ZOrder"><value>7</value></data>
 	<data name="&gt;&gt;OKButton.Name"><value>OKButton</value></data>
 	<data name="&gt;&gt;OKButton.Parent"><value>$this</value></data>
 	<data name="&gt;&gt;OKButton.Type"><value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
-	<data name="&gt;&gt;OKButton.ZOrder"><value>9</value></data>
+	<data name="&gt;&gt;OKButton.ZOrder"><value>10</value></data>
 	<data name="&gt;&gt;TwitterComCookieTextBox.Name"><value>TwitterComCookieTextBox</value></data>
 	<data name="&gt;&gt;TwitterComCookieTextBox.Parent"><value>$this</value></data>
 	<data name="&gt;&gt;TwitterComCookieTextBox.Type"><value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
-	<data name="&gt;&gt;TwitterComCookieTextBox.ZOrder"><value>8</value></data>
+	<data name="&gt;&gt;TwitterComCookieTextBox.ZOrder"><value>9</value></data>
 	<data name="&gt;&gt;UseTwitterComCookieRadioButton.Name"><value>UseTwitterComCookieRadioButton</value></data>
 	<data name="&gt;&gt;UseTwitterComCookieRadioButton.Parent"><value>$this</value></data>
 	<data name="&gt;&gt;UseTwitterComCookieRadioButton.Type"><value>System.Windows.Forms.RadioButton, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
-	<data name="&gt;&gt;UseTwitterComCookieRadioButton.ZOrder"><value>7</value></data>
+	<data name="&gt;&gt;UseTwitterComCookieRadioButton.ZOrder"><value>8</value></data>
+	<data name="AuthByOAuth1BuiltinKeyRadioButton.AutoSize" type="System.Boolean, mscorlib"><value>True</value></data>
+	<data name="AuthByOAuth1BuiltinKeyRadioButton.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms"><value>NoControl</value></data>
+	<data name="AuthByOAuth1BuiltinKeyRadioButton.Location" type="System.Drawing.Point, System.Drawing"><value>15, 60</value></data>
+	<data name="AuthByOAuth1BuiltinKeyRadioButton.Size" type="System.Drawing.Size, System.Drawing"><value>287, 16</value></data>
+	<data name="AuthByOAuth1BuiltinKeyRadioButton.TabIndex" type="System.Int32, mscorlib"><value>2</value></data>
+	<data name="AuthByOAuth1BuiltinKeyRadioButton.Text"><value>OAuth 1.0a を使用する（OpenTweenのAPIキーを使用）</value></data>
 	<data name="AuthByOAuth1RadioButton.AutoSize" type="System.Boolean, mscorlib"><value>True</value></data>
-	<data name="AuthByOAuth1RadioButton.Location" type="System.Drawing.Point, System.Drawing"><value>15, 61</value></data>
+	<data name="AuthByOAuth1RadioButton.Location" type="System.Drawing.Point, System.Drawing"><value>15, 82</value></data>
 	<data name="AuthByOAuth1RadioButton.Size" type="System.Drawing.Size, System.Drawing"><value>135, 16</value></data>
-	<data name="AuthByOAuth1RadioButton.TabIndex" type="System.Int32, mscorlib"><value>2</value></data>
+	<data name="AuthByOAuth1RadioButton.TabIndex" type="System.Int32, mscorlib"><value>3</value></data>
 	<data name="AuthByOAuth1RadioButton.Text"><value>OAuth 1.0a を使用する</value></data>
 	<data name="AuthByOAuth2RadioButton.AutoSize" type="System.Boolean, mscorlib"><value>True</value></data>
 	<data name="AuthByOAuth2RadioButton.Enabled" type="System.Boolean, mscorlib"><value>False</value></data>
@@ -70,35 +80,35 @@
 	<data name="label1.TabIndex" type="System.Int32, mscorlib"><value>0</value></data>
 	<data name="label1.Text"><value>Twitter API にアクセスする方法を選択して下さい:</value></data>
 	<data name="label2.AutoSize" type="System.Boolean, mscorlib"><value>True</value></data>
-	<data name="label2.Location" type="System.Drawing.Point, System.Drawing"><value>29, 83</value></data>
+	<data name="label2.Location" type="System.Drawing.Point, System.Drawing"><value>29, 104</value></data>
 	<data name="label2.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms"><value>20, 3, 3, 3</value></data>
 	<data name="label2.Size" type="System.Drawing.Size, System.Drawing"><value>132, 12</value></data>
-	<data name="label2.TabIndex" type="System.Int32, mscorlib"><value>3</value></data>
+	<data name="label2.TabIndex" type="System.Int32, mscorlib"><value>4</value></data>
 	<data name="label2.Text"><value>Consumer Key (API Key)</value></data>
 	<data name="label3.AutoSize" type="System.Boolean, mscorlib"><value>True</value></data>
-	<data name="label3.Location" type="System.Drawing.Point, System.Drawing"><value>29, 126</value></data>
+	<data name="label3.Location" type="System.Drawing.Point, System.Drawing"><value>29, 147</value></data>
 	<data name="label3.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms"><value>3, 3, 3, 3</value></data>
 	<data name="label3.Size" type="System.Drawing.Size, System.Drawing"><value>160, 12</value></data>
-	<data name="label3.TabIndex" type="System.Int32, mscorlib"><value>5</value></data>
+	<data name="label3.TabIndex" type="System.Int32, mscorlib"><value>6</value></data>
 	<data name="label3.Text"><value>Consumer Secret (API Secret)</value></data>
-	<data name="OAuth1ConsumerKeyTextBox.Location" type="System.Drawing.Point, System.Drawing"><value>31, 101</value></data>
+	<data name="OAuth1ConsumerKeyTextBox.Location" type="System.Drawing.Point, System.Drawing"><value>31, 122</value></data>
 	<data name="OAuth1ConsumerKeyTextBox.Size" type="System.Drawing.Size, System.Drawing"><value>400, 19</value></data>
-	<data name="OAuth1ConsumerKeyTextBox.TabIndex" type="System.Int32, mscorlib"><value>4</value></data>
-	<data name="OAuth1ConsumerSecretTextBox.Location" type="System.Drawing.Point, System.Drawing"><value>31, 144</value></data>
+	<data name="OAuth1ConsumerKeyTextBox.TabIndex" type="System.Int32, mscorlib"><value>5</value></data>
+	<data name="OAuth1ConsumerSecretTextBox.Location" type="System.Drawing.Point, System.Drawing"><value>31, 165</value></data>
 	<data name="OAuth1ConsumerSecretTextBox.Size" type="System.Drawing.Size, System.Drawing"><value>400, 19</value></data>
-	<data name="OAuth1ConsumerSecretTextBox.TabIndex" type="System.Int32, mscorlib"><value>6</value></data>
+	<data name="OAuth1ConsumerSecretTextBox.TabIndex" type="System.Int32, mscorlib"><value>7</value></data>
 	<data name="OKButton.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms"><value>Bottom, Right</value></data>
-	<data name="OKButton.Location" type="System.Drawing.Point, System.Drawing"><value>368, 256</value></data>
+	<data name="OKButton.Location" type="System.Drawing.Point, System.Drawing"><value>368, 269</value></data>
 	<data name="OKButton.Size" type="System.Drawing.Size, System.Drawing"><value>75, 23</value></data>
-	<data name="OKButton.TabIndex" type="System.Int32, mscorlib"><value>9</value></data>
+	<data name="OKButton.TabIndex" type="System.Int32, mscorlib"><value>10</value></data>
 	<data name="OKButton.Text"><value>OK</value></data>
-	<data name="TwitterComCookieTextBox.Location" type="System.Drawing.Point, System.Drawing"><value>31, 193</value></data>
+	<data name="TwitterComCookieTextBox.Location" type="System.Drawing.Point, System.Drawing"><value>31, 213</value></data>
 	<data name="TwitterComCookieTextBox.Multiline" type="System.Boolean, mscorlib"><value>True</value></data>
 	<data name="TwitterComCookieTextBox.Size" type="System.Drawing.Size, System.Drawing"><value>400, 50</value></data>
-	<data name="TwitterComCookieTextBox.TabIndex" type="System.Int32, mscorlib"><value>8</value></data>
+	<data name="TwitterComCookieTextBox.TabIndex" type="System.Int32, mscorlib"><value>9</value></data>
 	<data name="UseTwitterComCookieRadioButton.AutoSize" type="System.Boolean, mscorlib"><value>True</value></data>
-	<data name="UseTwitterComCookieRadioButton.Location" type="System.Drawing.Point, System.Drawing"><value>15, 170</value></data>
+	<data name="UseTwitterComCookieRadioButton.Location" type="System.Drawing.Point, System.Drawing"><value>15, 191</value></data>
 	<data name="UseTwitterComCookieRadioButton.Size" type="System.Drawing.Size, System.Drawing"><value>236, 16</value></data>
-	<data name="UseTwitterComCookieRadioButton.TabIndex" type="System.Int32, mscorlib"><value>7</value></data>
+	<data name="UseTwitterComCookieRadioButton.TabIndex" type="System.Int32, mscorlib"><value>8</value></data>
 	<data name="UseTwitterComCookieRadioButton.Text"><value>twitter.com の Cookie を使用する（実験的）</value></data>
 </root>
