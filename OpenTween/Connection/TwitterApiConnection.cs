@@ -67,8 +67,8 @@ namespace OpenTween.Connection
                 new()
                 {
                     AuthType = APIAuthType.OAuth1,
-                    OAuth1ConsumerKey = consumerKey,
-                    OAuth1ConsumerSecret = consumerSecret,
+                    OAuth1CustomConsumerKey = consumerKey,
+                    OAuth1CustomConsumerSecret = consumerSecret,
                 },
                 accessToken,
                 accessSecret

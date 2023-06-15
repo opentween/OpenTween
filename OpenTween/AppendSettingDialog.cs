@@ -299,8 +299,8 @@ namespace OpenTween
             return new UserAccount
             {
                 TwitterAuthType = appToken.AuthType,
-                TwitterOAuth1ConsumerKey = appToken.OAuth1ConsumerKey.Value,
-                TwitterOAuth1ConsumerSecret = appToken.OAuth1ConsumerSecret.Value,
+                TwitterOAuth1ConsumerKey = appToken.OAuth1CustomConsumerKey?.Value ?? "",
+                TwitterOAuth1ConsumerSecret = appToken.OAuth1CustomConsumerSecret?.Value ?? "",
                 Username = accessTokenResponse["screen_name"],
                 UserId = long.Parse(accessTokenResponse["user_id"]),
                 Token = accessTokenResponse["oauth_token"],

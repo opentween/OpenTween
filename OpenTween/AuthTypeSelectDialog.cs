@@ -46,11 +46,13 @@ namespace OpenTween
             TwitterAppToken result;
             if (this.AuthByOAuth1RadioButton.Checked)
             {
+                var consumerKey = this.OAuth1ConsumerKeyTextBox.Text;
+                var consumerSecret = this.OAuth1ConsumerSecretTextBox.Text;
                 result = new()
                 {
                     AuthType = APIAuthType.OAuth1,
-                    OAuth1ConsumerKey = ApiKey.Create(this.OAuth1ConsumerKeyTextBox.Text),
-                    OAuth1ConsumerSecret = ApiKey.Create(this.OAuth1ConsumerSecretTextBox.Text),
+                    OAuth1CustomConsumerKey = MyCommon.IsNullOrEmpty(consumerKey) ? null : ApiKey.Create(consumerKey),
+                    OAuth1CustomConsumerSecret = MyCommon.IsNullOrEmpty(consumerSecret) ? null : ApiKey.Create(consumerSecret),
                 };
             }
             else if (this.UseTwitterComCookieRadioButton.Checked)
