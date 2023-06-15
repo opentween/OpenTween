@@ -72,6 +72,7 @@
 	<data name="CheckNewVersionText6"><value>新しいバージョンは見つかりません。 {0} が公開されています。強制的に更新しますか？</value></data>
 	<data name="CheckNewVersionText7"><value>最新版をお使いです。更新の必要はありませんでした。使用中Ver：{0} 最新Ver：{1}</value></data>
 	<data name="CheckNewVersionText9"><value>バージョンチェック失敗</value></data>
+	<data name="CheckOSVersion_Error"><value>このソフトウェアは {0} 以降が必要です</value></data>
 	<data name="CheckRuntimeVersion_Error"><value>このソフトウェアは {0} 以降が必要です。</value></data>
 	<data name="ClearTabMenuItem_ClickText1"><value>このタブの発言をクリアしてもよろしいですか？{0}（サーバーから発言は削除しません。）</value></data>
 	<data name="ClearTabMenuItem_ClickText2"><value>タブクリア確認</value></data>

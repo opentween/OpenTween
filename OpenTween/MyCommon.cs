@@ -1032,6 +1032,12 @@ namespace OpenTween
                 var message = string.Format(Properties.Resources.BrowserStartFailed, ex.Message);
                 MessageBox.Show(owner, message, ApplicationSettings.ApplicationName, MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
+            catch (MissingMethodException ex)
+            {
+                // WinRT API で存在しないメソッドを呼び出した（非対応の OS 上で実行した）場合に発生する
+                var message = string.Format(Properties.Resources.BrowserStartFailed, ex.Message);
+                MessageBox.Show(owner, message, ApplicationSettings.ApplicationName, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
         }
 
         public static ProcessStartInfo CreateBrowserProcessStartInfo(string browserPathWithArgs, string url)

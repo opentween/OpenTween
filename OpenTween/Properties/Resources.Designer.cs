@@ -687,6 +687,15 @@ namespace OpenTween.Properties {
         }
         
         /// <summary>
+        ///   このソフトウェアは {0} 以降が必要です に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string CheckOSVersion_Error {
+            get {
+                return ResourceManager.GetString("CheckOSVersion_Error", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   このソフトウェアは {0} 以降が必要です。 に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string CheckRuntimeVersion_Error {
