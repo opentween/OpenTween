@@ -580,6 +580,8 @@ namespace OpenTween.Properties {
         /// <summary>
         ///   更新履歴
         ///
+        ///==== Unreleased
+        ///
         ///==== Ver 3.5.0(2023/06/16)
         /// * CHG: アカウント追加時にOpenTweenのAPIキーによる認可を選択肢に追加
         /// * CHG: 非対応のOSを使用している場合に起動時に警告を表示する
@@ -593,8 +595,7 @@ namespace OpenTween.Properties {
         ///
         ///==== Ver 3.3.0(2023/01/22)
         /// * NEW: アカウント追加時にAPIキーを指定可能になりました
-        /// * CHG: API v2 の使用を設定状態に関わらず無効化しました
-        /// * FIX: 同 [残りの文字列は切り詰められました]&quot;; に類似しているローカライズされた文字列を検索します。
+        /// * CHG: API v2 の使用を設定状態に関わら [残りの文字列は切り詰められました]&quot;; に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string ChangeLog {
             get {
