@@ -31,6 +31,7 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(AuthTypeSelectDialog));
             this.label1 = new System.Windows.Forms.Label();
             this.AuthByOAuth2RadioButton = new System.Windows.Forms.RadioButton();
+            this.AuthByOAuth1BuiltinKeyRadioButton = new System.Windows.Forms.RadioButton();
             this.AuthByOAuth1RadioButton = new System.Windows.Forms.RadioButton();
             this.label2 = new System.Windows.Forms.Label();
             this.OAuth1ConsumerKeyTextBox = new System.Windows.Forms.TextBox();
@@ -52,6 +53,13 @@
             this.AuthByOAuth2RadioButton.Name = "AuthByOAuth2RadioButton";
             this.AuthByOAuth2RadioButton.TabStop = true;
             this.AuthByOAuth2RadioButton.UseVisualStyleBackColor = true;
+            // 
+            // AuthByOAuth1BuiltinKeyRadioButton
+            // 
+            resources.ApplyResources(this.AuthByOAuth1BuiltinKeyRadioButton, "AuthByOAuth1BuiltinKeyRadioButton");
+            this.AuthByOAuth1BuiltinKeyRadioButton.Name = "AuthByOAuth1BuiltinKeyRadioButton";
+            this.AuthByOAuth1BuiltinKeyRadioButton.TabStop = true;
+            this.AuthByOAuth1BuiltinKeyRadioButton.UseVisualStyleBackColor = true;
             // 
             // AuthByOAuth1RadioButton
             // 
@@ -106,6 +114,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.Controls.Add(this.label1);
             this.Controls.Add(this.AuthByOAuth2RadioButton);
+            this.Controls.Add(this.AuthByOAuth1BuiltinKeyRadioButton);
             this.Controls.Add(this.AuthByOAuth1RadioButton);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.OAuth1ConsumerKeyTextBox);
@@ -128,6 +137,7 @@
 
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.RadioButton AuthByOAuth2RadioButton;
+        private System.Windows.Forms.RadioButton AuthByOAuth1BuiltinKeyRadioButton;
         private System.Windows.Forms.RadioButton AuthByOAuth1RadioButton;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.TextBox OAuth1ConsumerKeyTextBox;
