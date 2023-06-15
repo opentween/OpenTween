@@ -176,16 +176,6 @@ namespace OpenTween.Models
             }
         }
 
-        public void ReplaceTab(TabModel tab)
-        {
-            if (!this.ContainsTab(tab.TabName))
-                throw new ArgumentOutOfRangeException(nameof(tab));
-
-            var index = this.tabs.IndexOf(tab);
-            this.tabs.RemoveAt(index);
-            this.tabs.Insert(index, tab);
-        }
-
         public void MoveTab(int newIndex, TabModel tab)
         {
             if (!this.ContainsTab(tab))

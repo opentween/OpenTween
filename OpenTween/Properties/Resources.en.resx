@@ -314,6 +314,7 @@ Do you retry to update status?</value></data>
 	<data name="TweenAboutBox_LoadText2"><value>Version {0}</value></data>
 	<data name="TweenMain_LoadText1"><value>Failed to add tab.</value></data>
 	<data name="Unauthorized"><value>You are not authorized.</value></data>
+	<data name="UndoRemovedTab_DuplicateError"><value>Failed to undo the removed tab. A tab with the same name as "{0}" exists.</value></data>
 	<data name="UnhandledExceptionText1"><value>**** Error Log: {0} ****</value></data>
 	<data name="UnhandledExceptionText10"><value>Error</value></data>
 	<data name="UnhandledExceptionText11"><value>Administrator  authority：</value></data>

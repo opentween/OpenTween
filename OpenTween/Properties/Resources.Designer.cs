@@ -3033,6 +3033,15 @@ namespace OpenTween.Properties {
         }
         
         /// <summary>
+        ///   削除したタブの取消に失敗しました。「{0}」と同じ名前のタブが存在します に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string UndoRemovedTab_DuplicateError {
+            get {
+                return ResourceManager.GetString("UndoRemovedTab_DuplicateError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   **** エラー ログ: {0} **** に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string UnhandledExceptionText1 {
