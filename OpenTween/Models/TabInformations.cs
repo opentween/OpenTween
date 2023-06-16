@@ -178,6 +178,8 @@ namespace OpenTween.Models
 
         public void MoveTab(int newIndex, TabModel tab)
         {
+            if (newIndex < 0 || newIndex >= this.tabs.Count)
+                throw new ArgumentOutOfRangeException(nameof(newIndex));
             if (!this.ContainsTab(tab))
                 throw new ArgumentOutOfRangeException(nameof(tab));
 
