@@ -176,6 +176,27 @@ namespace OpenTween.Models
             }
         }
 
+        public bool CanUndoRemovedTab
+            => this.RemovedTab.Count > 0;
+
+        public TabModel UndoRemovedTab()
+        {
+            if (!this.CanUndoRemovedTab)
+                throw new TabException("There isn't removed tab.");
+
+            var tab = this.RemovedTab.Pop();
+            if (this.ContainsTab(tab.TabName))
+            {
+                this.RemovedTab.Push(tab);
+                var message = string.Format(Properties.Resources.UndoRemovedTab_DuplicateError, tab.TabName);
+                throw new TabException(message);
+            }
+
+            this.AddTab(tab);
+
+            return tab;
+        }
+
         public void MoveTab(int newIndex, TabModel tab)
         {
             if (newIndex < 0 || newIndex >= this.tabs.Count)

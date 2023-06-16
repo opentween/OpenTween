@@ -168,6 +168,61 @@ namespace OpenTween.Models
         }
 
         [Fact]
+        public void CanUndoRemovedTab_Test()
+        {
+            var tab = new PublicSearchTabModel("tab");
+            this.tabinfo.AddTab(tab);
+            Assert.False(this.tabinfo.CanUndoRemovedTab);
+
+            this.tabinfo.RemoveTab(tab.TabName);
+            Assert.True(this.tabinfo.CanUndoRemovedTab);
+        }
+
+        [Fact]
+        public void UndoRemovedTab_Test()
+        {
+            var tab = new PublicSearchTabModel("tab");
+            this.tabinfo.AddTab(tab);
+            Assert.True(this.tabinfo.ContainsTab("tab"));
+            Assert.Empty(this.tabinfo.RemovedTab);
+
+            this.tabinfo.RemoveTab("tab");
+            Assert.False(this.tabinfo.ContainsTab("tab"));
+            Assert.Single(this.tabinfo.RemovedTab);
+
+            var restoredTab = this.tabinfo.UndoRemovedTab();
+            Assert.True(this.tabinfo.ContainsTab("tab"));
+            Assert.Same(tab, restoredTab);
+            Assert.Empty(this.tabinfo.RemovedTab);
+        }
+
+        [Fact]
+        public void UndoRemovedTab_EmptyError_Test()
+        {
+            Assert.Empty(this.tabinfo.RemovedTab);
+            Assert.Throws<TabException>(
+                () => this.tabinfo.UndoRemovedTab()
+            );
+        }
+
+        [Fact]
+        public void UndoRemovedTab_DuplicatedName_Test()
+        {
+            var tab = new PublicSearchTabModel("tab");
+            this.tabinfo.AddTab(tab);
+            Assert.Empty(this.tabinfo.RemovedTab);
+
+            this.tabinfo.RemoveTab("tab");
+            Assert.Single(this.tabinfo.RemovedTab);
+
+            this.tabinfo.RenameTab("Recent", "tab");
+            Assert.Throws<TabException>(
+                () => this.tabinfo.UndoRemovedTab()
+            );
+            Assert.Single(this.tabinfo.RemovedTab);
+        }
+
+        [Fact]
         public void RenameTab_PositionTest()
         {
             var replyTab = this.tabinfo.Tabs["Reply"];
