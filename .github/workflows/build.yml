@@ -83,8 +83,8 @@ jobs:
       - name: Run tests
         shell: pwsh
         run: |
-          $altCoverVersion = '8.2.837'
-          $xunitVersion = '2.4.1'
+          $altCoverVersion = '8.6.61'
+          $xunitVersion = '2.4.2'
           $targetFramework = 'net48'
           $altCoverPath = "$($env:NUGET_PACKAGES)\altcover\$($altCoverVersion)\tools\net472\AltCover.exe"
           $xunitPath = "$($env:NUGET_PACKAGES)\xunit.runner.console\$($xunitVersion)\tools\net472\xunit.console.exe"
