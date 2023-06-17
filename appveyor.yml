@@ -64,8 +64,8 @@ before_build:
 
 test_script:
   - cmd: |
-      set altCoverVersion=8.2.837
-      set xunitVersion=2.4.1
+      set altCoverVersion=8.6.61
+      set xunitVersion=2.4.2
       set targetFramework=net48
       set nugetPackages=%UserProfile%\.nuget\packages
 
