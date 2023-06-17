@@ -24,6 +24,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Text;
+using System.Windows.Forms;
 using Xunit;
 using Xunit.Extensions;
 
@@ -71,6 +72,157 @@ namespace OpenTween.Models
         }
 
         [Fact]
+        public void RemoveTab_InnerStorageTabTest()
+        {
+            var tab = new PublicSearchTabModel("search");
+            tab.AddPostQueue(new PostClass { StatusId = 100L });
+            this.tabinfo.AddTab(tab);
+            this.tabinfo.SubmitUpdate();
+
+            Assert.True(this.tabinfo.ContainsTab("search"));
+            Assert.Empty(this.tabinfo.RemovedTab);
+
+            this.tabinfo.RemoveTab("search");
+
+            Assert.False(this.tabinfo.ContainsTab("search"));
+            Assert.Single(this.tabinfo.RemovedTab);
+            Assert.Contains(tab, this.tabinfo.RemovedTab);
+        }
+
+        [Fact]
+        public void RemoveTab_FilterTab_MovedPost_OrphanedTest()
+        {
+            var filterTab = new FilterTabModel("filter");
+            filterTab.AddFilter(new() { FilterName = "opentween", MoveMatches = true });
+            this.tabinfo.AddTab(filterTab);
+
+            this.tabinfo.AddPost(new PostClass { StatusId = 100L, ScreenName = "opentween" });
+            this.tabinfo.DistributePosts();
+            this.tabinfo.SubmitUpdate();
+
+            Assert.False(this.tabinfo.HomeTab.Contains(100L));
+            Assert.True(filterTab.Contains(100L));
+
+            this.tabinfo.RemoveTab("filter");
+
+            Assert.False(this.tabinfo.ContainsTab("filter"));
+            Assert.Single(this.tabinfo.RemovedTab);
+            Assert.Contains(filterTab, this.tabinfo.RemovedTab);
+
+            // 他に MoveMatches で移動している振り分けタブが存在しなければ Home タブに戻す
+            Assert.True(this.tabinfo.HomeTab.Contains(100L));
+        }
+
+        [Fact]
+        public void RemoveTab_FilterTab_MovedPost_NotOrphanedTest()
+        {
+            var filterTab1 = new FilterTabModel("filter1");
+            filterTab1.AddFilter(new() { FilterName = "opentween", MoveMatches = true });
+            this.tabinfo.AddTab(filterTab1);
+
+            var filterTab2 = new FilterTabModel("filter2");
+            filterTab2.AddFilter(new() { FilterName = "opentween", MoveMatches = true });
+            this.tabinfo.AddTab(filterTab2);
+
+            this.tabinfo.AddPost(new PostClass { StatusId = 100L, ScreenName = "opentween" });
+            this.tabinfo.DistributePosts();
+            this.tabinfo.SubmitUpdate();
+
+            Assert.False(this.tabinfo.HomeTab.Contains(100L));
+            Assert.True(filterTab1.Contains(100L));
+            Assert.True(filterTab2.Contains(100L));
+
+            this.tabinfo.RemoveTab("filter1");
+
+            Assert.False(this.tabinfo.ContainsTab("filter1"));
+            Assert.Single(this.tabinfo.RemovedTab);
+            Assert.Contains(filterTab1, this.tabinfo.RemovedTab);
+
+            // 他に MoveMatches で移動している振り分けタブが存在する場合は Home タブに戻さない
+            Assert.False(this.tabinfo.HomeTab.Contains(100L));
+            Assert.True(filterTab2.Contains(100L));
+        }
+
+        [Fact]
+        public void RemoveTab_FilterTab_CopiedPost_Test()
+        {
+            var filterTab = new FilterTabModel("filter");
+            filterTab.AddFilter(new() { FilterName = "opentween", MoveMatches = false });
+            this.tabinfo.AddTab(filterTab);
+
+            this.tabinfo.AddPost(new PostClass { StatusId = 100L, ScreenName = "opentween" });
+            this.tabinfo.DistributePosts();
+            this.tabinfo.SubmitUpdate();
+
+            Assert.True(this.tabinfo.HomeTab.Contains(100L));
+            Assert.True(filterTab.Contains(100L));
+
+            this.tabinfo.RemoveTab("filter");
+
+            Assert.False(this.tabinfo.ContainsTab("filter"));
+            Assert.Single(this.tabinfo.RemovedTab);
+            Assert.Contains(filterTab, this.tabinfo.RemovedTab);
+
+            // 振り分けタブにコピーされた発言は Home タブにも存在しているため何もしない
+            Assert.True(this.tabinfo.HomeTab.Contains(100L));
+        }
+
+        [Fact]
+        public void CanUndoRemovedTab_Test()
+        {
+            var tab = new PublicSearchTabModel("tab");
+            this.tabinfo.AddTab(tab);
+            Assert.False(this.tabinfo.CanUndoRemovedTab);
+
+            this.tabinfo.RemoveTab(tab.TabName);
+            Assert.True(this.tabinfo.CanUndoRemovedTab);
+        }
+
+        [Fact]
+        public void UndoRemovedTab_Test()
+        {
+            var tab = new PublicSearchTabModel("tab");
+            this.tabinfo.AddTab(tab);
+            Assert.True(this.tabinfo.ContainsTab("tab"));
+            Assert.Empty(this.tabinfo.RemovedTab);
+
+            this.tabinfo.RemoveTab("tab");
+            Assert.False(this.tabinfo.ContainsTab("tab"));
+            Assert.Single(this.tabinfo.RemovedTab);
+
+            var restoredTab = this.tabinfo.UndoRemovedTab();
+            Assert.True(this.tabinfo.ContainsTab("tab"));
+            Assert.Same(tab, restoredTab);
+            Assert.Empty(this.tabinfo.RemovedTab);
+        }
+
+        [Fact]
+        public void UndoRemovedTab_EmptyError_Test()
+        {
+            Assert.Empty(this.tabinfo.RemovedTab);
+            Assert.Throws<TabException>(
+                () => this.tabinfo.UndoRemovedTab()
+            );
+        }
+
+        [Fact]
+        public void UndoRemovedTab_DuplicatedName_Test()
+        {
+            var tab = new PublicSearchTabModel("tab");
+            this.tabinfo.AddTab(tab);
+            Assert.Empty(this.tabinfo.RemovedTab);
+
+            this.tabinfo.RemoveTab("tab");
+            Assert.Single(this.tabinfo.RemovedTab);
+
+            this.tabinfo.RenameTab("Recent", "tab");
+            Assert.Throws<TabException>(
+                () => this.tabinfo.UndoRemovedTab()
+            );
+            Assert.Single(this.tabinfo.RemovedTab);
+        }
+
+        [Fact]
         public void RenameTab_PositionTest()
         {
             var replyTab = this.tabinfo.Tabs["Reply"];
@@ -93,6 +245,56 @@ namespace OpenTween.Models
             Assert.Equal("Reply12345", replyTab.TabName);
             Assert.Equal("Reply12345", this.tabinfo.SelectedTabName);
             Assert.Equal(replyTab, this.tabinfo.SelectedTab);
+        }
+
+        [Fact]
+        public void MoveTab_MoveToStart_Test()
+        {
+            Assert.Equal(0, this.tabinfo.Tabs.IndexOf("Recent"));
+            Assert.Equal(1, this.tabinfo.Tabs.IndexOf("Reply"));
+
+            this.tabinfo.MoveTab(0, this.tabinfo.MentionTab);
+
+            Assert.Equal(0, this.tabinfo.Tabs.IndexOf("Reply"));
+            Assert.Equal(1, this.tabinfo.Tabs.IndexOf("Recent"));
+        }
+
+        [Fact]
+        public void MoveTab_MoveToEnd_Test()
+        {
+            Assert.Equal(4, this.tabinfo.Tabs.Count);
+            Assert.Equal(2, this.tabinfo.Tabs.IndexOf("DM"));
+            Assert.Equal(3, this.tabinfo.Tabs.IndexOf("Favorites"));
+
+            this.tabinfo.MoveTab(3, this.tabinfo.DirectMessageTab);
+
+            Assert.Equal(2, this.tabinfo.Tabs.IndexOf("Favorites"));
+            Assert.Equal(3, this.tabinfo.Tabs.IndexOf("DM"));
+        }
+
+        [Fact]
+        public void MoveTab_OutOfRangeError_Test()
+        {
+            Assert.Equal(4, this.tabinfo.Tabs.Count);
+            Assert.Throws<ArgumentOutOfRangeException>(
+                () => this.tabinfo.MoveTab(-1, this.tabinfo.HomeTab)
+            );
+            Assert.Throws<ArgumentOutOfRangeException>(
+                () => this.tabinfo.MoveTab(4, this.tabinfo.HomeTab)
+            );
+        }
+
+        [Theory]
+        [InlineData("Reply", true)]
+        [InlineData("UNKNOWN NAME", false)]
+        public void ContainsTab_TabName_Test(string tabName, bool expected)
+            => Assert.Equal(expected, this.tabinfo.ContainsTab(tabName));
+
+        [Fact]
+        public void ContainsTab_TabInstance_Test()
+        {
+            Assert.True(this.tabinfo.ContainsTab(this.tabinfo.HomeTab));
+            Assert.False(this.tabinfo.ContainsTab(new PublicSearchTabModel("tab")));
         }
 
         [Fact]
@@ -224,6 +426,50 @@ namespace OpenTween.Models
 
             var baseTabName = "NewTab";
             Assert.Throws<TabException>(() => this.tabinfo.MakeTabName(baseTabName, 5));
+        }
+
+        [Fact]
+        public void SetSortMode_Test()
+        {
+            this.tabinfo.SetSortMode(ComparerMode.Id, SortOrder.Descending);
+            Assert.Equal(ComparerMode.Id, this.tabinfo.SortMode);
+            Assert.Equal(SortOrder.Descending, this.tabinfo.SortOrder);
+            Assert.Equal(ComparerMode.Id, this.tabinfo.HomeTab.SortMode);
+            Assert.Equal(SortOrder.Descending, this.tabinfo.HomeTab.SortOrder);
+
+            this.tabinfo.SetSortMode(ComparerMode.Source, SortOrder.Ascending);
+            Assert.Equal(ComparerMode.Source, this.tabinfo.SortMode);
+            Assert.Equal(SortOrder.Ascending, this.tabinfo.SortOrder);
+            Assert.Equal(ComparerMode.Source, this.tabinfo.HomeTab.SortMode);
+            Assert.Equal(SortOrder.Ascending, this.tabinfo.HomeTab.SortOrder);
+        }
+
+        [Fact]
+        public void ToggleSortOrder_SameMode_Test()
+        {
+            this.tabinfo.SetSortMode(ComparerMode.Id, SortOrder.Descending);
+            Assert.Equal(ComparerMode.Id, this.tabinfo.SortMode);
+            Assert.Equal(SortOrder.Descending, this.tabinfo.SortOrder);
+
+            this.tabinfo.ToggleSortOrder(ComparerMode.Id);
+            Assert.Equal(ComparerMode.Id, this.tabinfo.SortMode);
+            Assert.Equal(SortOrder.Ascending, this.tabinfo.SortOrder);
+
+            this.tabinfo.ToggleSortOrder(ComparerMode.Id);
+            Assert.Equal(ComparerMode.Id, this.tabinfo.SortMode);
+            Assert.Equal(SortOrder.Descending, this.tabinfo.SortOrder);
+        }
+
+        [Fact]
+        public void ToggleSortOrder_OtherMode_Test()
+        {
+            this.tabinfo.SetSortMode(ComparerMode.Id, SortOrder.Descending);
+            Assert.Equal(ComparerMode.Id, this.tabinfo.SortMode);
+            Assert.Equal(SortOrder.Descending, this.tabinfo.SortOrder);
+
+            this.tabinfo.ToggleSortOrder(ComparerMode.Source);
+            Assert.Equal(ComparerMode.Source, this.tabinfo.SortMode);
+            Assert.Equal(SortOrder.Ascending, this.tabinfo.SortOrder);
         }
 
         [Fact]

@@ -8691,29 +8691,19 @@ namespace OpenTween
 
         private void UndoRemoveTabMenuItem_Click(object sender, EventArgs e)
         {
-            if (this.statuses.RemovedTab.Count == 0)
+            try
             {
-                MessageBox.Show("There isn't removed tab.", "Undo", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                return;
-            }
-            else
-            {
-                var tb = this.statuses.RemovedTab.Pop();
-                if (this.statuses.ContainsTab(tb.TabName))
-                {
-                    var message = string.Format(Properties.Resources.UndoRemovedTab_DuplicateError, tb.TabName);
-                    MessageBox.Show(this, message, ApplicationSettings.ApplicationName, MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    this.statuses.RemovedTab.Push(tb);
-                    return;
-                }
-
-                this.statuses.AddTab(tb);
-                this.AddNewTab(tb, startup: false);
+                var restoredTab = this.statuses.UndoRemovedTab();
+                this.AddNewTab(restoredTab, startup: false);
 
                 var tabIndex = this.statuses.Tabs.Count - 1;
                 this.ListTab.SelectedIndex = tabIndex;
 
                 this.SaveConfigsTabs();
+            }
+            catch (TabException ex)
+            {
+                MessageBox.Show(this, ex.Message, ApplicationSettings.ApplicationName, MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -8963,14 +8953,7 @@ namespace OpenTween
 
         private void MenuItemEdit_DropDownOpening(object sender, EventArgs e)
         {
-            if (this.statuses.RemovedTab.Count == 0)
-            {
-                this.UndoRemoveTabMenuItem.Enabled = false;
-            }
-            else
-            {
-                this.UndoRemoveTabMenuItem.Enabled = true;
-            }
+            this.UndoRemoveTabMenuItem.Enabled = this.statuses.CanUndoRemovedTab;
 
             if (this.CurrentTab.TabType == MyCommon.TabUsageType.PublicSearch)
                 this.PublicSearchQueryMenuItem.Enabled = true;
