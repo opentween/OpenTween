@@ -1280,6 +1280,71 @@ namespace OpenTween.Models
             Assert.True(post.IsOwl);
         }
 
+        [Fact]
+        public void GetTabByType_Generics_Test()
+        {
+            var tab = new PublicSearchTabModel("search");
+            this.tabinfo.AddTab(tab);
+            Assert.Same(tab, this.tabinfo.GetTabByType<PublicSearchTabModel>());
+        }
+
+        [Fact]
+        public void GetTabByType_Generics_NotFoundTest()
+            => Assert.Null(this.tabinfo.GetTabByType<PublicSearchTabModel>());
+
+        [Fact]
+        public void GetTabByType_Enum_Test()
+        {
+            var tab = new PublicSearchTabModel("search");
+            this.tabinfo.AddTab(tab);
+            Assert.Same(tab, this.tabinfo.GetTabByType(MyCommon.TabUsageType.PublicSearch));
+        }
+
+        [Fact]
+        public void GetTabByType_Enum_NotFoundTest()
+            => Assert.Null(this.tabinfo.GetTabByType(MyCommon.TabUsageType.PublicSearch));
+
+        [Fact]
+        public void GetTabsByType_Generics_Test()
+        {
+            var tab1 = new PublicSearchTabModel("search1");
+            var tab2 = new PublicSearchTabModel("search2");
+            this.tabinfo.AddTab(tab1);
+            this.tabinfo.AddTab(tab2);
+            Assert.Equal(new[] { tab1, tab2 }, this.tabinfo.GetTabsByType<PublicSearchTabModel>());
+        }
+
+        [Fact]
+        public void GetTabsByType_Enum_Test()
+        {
+            var tab1 = new PublicSearchTabModel("search1");
+            var tab2 = new PublicSearchTabModel("search2");
+            this.tabinfo.AddTab(tab1);
+            this.tabinfo.AddTab(tab2);
+            Assert.Equal(new[] { tab1, tab2 }, this.tabinfo.GetTabsByType(MyCommon.TabUsageType.PublicSearch));
+        }
+
+        [Fact]
+        public void GetTabsInnerStorageType_Test()
+        {
+            Assert.Equal(
+                new TabModel[] { this.tabinfo.DirectMessageTab },
+                this.tabinfo.GetTabsInnerStorageType()
+            );
+        }
+
+        [Fact]
+        public void GetTabByName_Test()
+        {
+            var tab = new PublicSearchTabModel("search");
+            this.tabinfo.AddTab(tab);
+            Assert.Same(tab, this.tabinfo.GetTabByName("search"));
+        }
+
+        [Fact]
+        public void GetTabByName_NotFoundTest()
+            => Assert.Null(this.tabinfo.GetTabByName("UNKNOWN_NAME"));
+
         private class TestPostFilterRule : PostFilterRule
         {
             public static PostFilterRule Create(Func<PostClass, MyCommon.HITRESULT> filterDelegate)
