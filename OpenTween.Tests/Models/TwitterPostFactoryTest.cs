@@ -639,5 +639,33 @@ namespace OpenTween.Models
             var statusIds = TwitterPostFactory.GetQuoteTweetStatusIds(urls);
             Assert.Empty(statusIds);
         }
+
+        [Fact]
+        public void ParseDateTimeFromSnowflakeId_LowerTest()
+        {
+            var statusId = 1659990873340346368L;
+            var createdAtStr = "Sat May 20 18:34:00 +0000 2023";
+            var expected = new DateTimeUtc(2023, 5, 20, 18, 34, 0, 0);
+            Assert.Equal(expected, TwitterPostFactory.ParseDateTimeFromSnowflakeId(statusId, createdAtStr));
+        }
+
+        [Fact]
+        public void ParseDateTimeFromSnowflakeId_UpperTest()
+        {
+            var statusId = 1672312060766748673L;
+            var createdAtStr = "Fri Jun 23 18:33:59 +0000 2023";
+            var expected = new DateTimeUtc(2023, 6, 23, 18, 33, 59, 999);
+            Assert.Equal(expected, TwitterPostFactory.ParseDateTimeFromSnowflakeId(statusId, createdAtStr));
+        }
+
+        [Fact]
+        public void ParseDateTimeFromSnowflakeId_FallbackTest()
+        {
+            // Snowflake 導入以前の status_id に対しては created_at の文字列からパースした日時を採用する
+            var statusId = 20L;
+            var createdAtStr = "Tue Mar 21 20:50:14 +0000 2006";
+            var expected = new DateTimeUtc(2006, 3, 21, 20, 50, 14, 0);
+            Assert.Equal(expected, TwitterPostFactory.ParseDateTimeFromSnowflakeId(statusId, createdAtStr));
+        }
     }
 }

@@ -255,34 +255,32 @@ namespace OpenTween.Models
         {
             var sign = this.SortOrder == SortOrder.Ascending ? 1 : -1;
 
-            Comparison<long> comparison;
-            if (this.SortMode == ComparerMode.Id)
+            Comparison<PostClass?> postComparison = this.SortMode switch
             {
-                comparison = (x, y) => sign * x.CompareTo(y);
-            }
-            else
+                ComparerMode.Id =>
+                    (x, y) => Comparer<DateTimeUtc?>.Default.Compare(x?.CreatedAtForSorting, y?.CreatedAtForSorting),
+                ComparerMode.Name =>
+                    (x, y) => Comparer<string?>.Default.Compare(x?.ScreenName, y?.ScreenName),
+                ComparerMode.Nickname =>
+                    (x, y) => Comparer<string?>.Default.Compare(x?.Nickname, y?.Nickname),
+                ComparerMode.Source =>
+                    (x, y) => Comparer<string?>.Default.Compare(x?.Source, y?.Source),
+                _ =>
+                    (x, y) => Comparer<string?>.Default.Compare(x?.TextFromApi, y?.TextFromApi),
+            };
+
+            Comparison<long> comparison = (x, y) =>
             {
-                Comparison<PostClass> postComparison = this.SortMode switch
-                {
-                    ComparerMode.Name => (x, y) => Comparer<string?>.Default.Compare(x?.ScreenName, y?.ScreenName),
-                    ComparerMode.Nickname => (x, y) => Comparer<string?>.Default.Compare(x?.Nickname, y?.Nickname),
-                    ComparerMode.Source => (x, y) => Comparer<string?>.Default.Compare(x?.Source, y?.Source),
-                    _ => (x, y) => Comparer<string?>.Default.Compare(x?.TextFromApi, y?.TextFromApi),
-                };
+                this.Posts.TryGetValue(x, out var xPost);
+                this.Posts.TryGetValue(y, out var yPost);
 
-                comparison = (x, y) =>
-                {
-                    this.Posts.TryGetValue(x, out var xPost);
-                    this.Posts.TryGetValue(y, out var yPost);
+                var compare = sign * postComparison(xPost, yPost);
+                if (compare != 0)
+                    return compare;
 
-                    var compare = sign * postComparison(xPost, yPost);
-                    if (compare != 0)
-                        return compare;
-
-                    // 同値であれば status_id で比較する
-                    return sign * x.CompareTo(y);
-                };
-            }
+                // 同値であれば status_id で比較する
+                return sign * x.CompareTo(y);
+            };
 
             var comparer = Comparer<long>.Create(comparison);
 

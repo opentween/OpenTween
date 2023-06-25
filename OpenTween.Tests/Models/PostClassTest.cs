@@ -272,6 +272,8 @@ namespace OpenTween.Models
             var retweetPost = new PostClass
             {
                 StatusId = 100L,
+                CreatedAtForSorting = new(2023, 1, 2, 0, 0, 0),
+                CreatedAt = new(2023, 1, 1, 0, 0, 0),
                 ScreenName = "@aaa",
                 UserId = 1L,
 
@@ -284,6 +286,8 @@ namespace OpenTween.Models
             var originalPost = retweetPost.ConvertToOriginalPost();
 
             Assert.Equal(50L, originalPost.StatusId);
+            Assert.Equal(new(2023, 1, 1, 0, 0, 0), originalPost.CreatedAt);
+            Assert.Equal(new(2023, 1, 1, 0, 0, 0), originalPost.CreatedAtForSorting);
             Assert.Equal("@aaa", originalPost.ScreenName);
             Assert.Equal(1L, originalPost.UserId);
 

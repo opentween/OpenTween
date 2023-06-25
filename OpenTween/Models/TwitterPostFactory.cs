@@ -133,14 +133,20 @@ namespace OpenTween.Models
             if (followerIds.Count > 0)
                 isOwl = !followerIds.Contains(originalStatusUser.Id);
 
+            var createdAtForSorting = ParseDateTimeFromSnowflakeId(status.Id, status.CreatedAt);
+            var createdAt = retweetedStatus != null
+                ? ParseDateTimeFromSnowflakeId(retweetedStatus.Id, retweetedStatus.CreatedAt)
+                : createdAtForSorting;
+
             return new()
             {
                 // status から生成
                 StatusId = status.Id,
+                CreatedAtForSorting = createdAtForSorting,
                 IsMe = statusUser.Id == selfUserId,
 
                 // originalStatus から生成
-                CreatedAt = MyCommon.DateTimeParse(originalStatus.CreatedAt),
+                CreatedAt = createdAt,
                 Text = text,
                 TextFromApi = textFromApi,
                 AccessibleText = accessibleText,
@@ -512,6 +518,21 @@ namespace OpenTween.Models
                         yield return statusId;
                 }
             }
+        }
+
+        public static readonly DateTimeUtc TwitterEpoch = DateTimeUtc.FromUnixTimeMilliseconds(1288834974657L);
+
+        public static DateTimeUtc ParseDateTimeFromSnowflakeId(long statusId, string createdAtStr)
+        {
+            // status_id からミリ秒単位の日時を算出する
+            var timestampInMs = TwitterEpoch + TimeSpan.FromMilliseconds(statusId >> 22);
+
+            // 通常の方法で得た秒精度の日時と比較して 1 秒未満の差であれば timestampInMs の値を採用する
+            // （Snowflake 導入以前の ID や仕様変更によりこの計算式が使えなくなった場合の対策）
+            var createdAtFromStr = MyCommon.DateTimeParse(createdAtStr);
+            var correct = (timestampInMs - createdAtFromStr).Duration() < TimeSpan.FromSeconds(1);
+
+            return correct ? timestampInMs : createdAtFromStr;
         }
     }
 }

@@ -58,6 +58,13 @@ namespace OpenTween.Models
 
         public DateTimeUtc CreatedAt { get; init; }
 
+        /// <summary>ソート用の日時</summary>
+        /// <remarks>
+        /// <see cref="CreatedAt"/>はリツイートの場合にRT元の日時を表すため、
+        /// ソート用に使用するタイムスタンプを保持する必要がある
+        /// </remarks>
+        public DateTimeUtc CreatedAtForSorting { get; init; }
+
         public long StatusId { get; init; }
 
         public string Text
@@ -285,6 +292,7 @@ namespace OpenTween.Models
             var originalPost = this with
             {
                 StatusId = this.RetweetedId.Value,
+                CreatedAtForSorting = this.CreatedAt,
                 RetweetedId = null,
                 RetweetedBy = "",
                 RetweetedByUserId = null,

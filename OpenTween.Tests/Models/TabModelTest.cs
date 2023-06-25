@@ -337,16 +337,31 @@ namespace OpenTween.Models
 
             tab.UnreadManage = true;
 
-            // ID の昇順でソート
+            // ID (CreatedAtForSorting) の昇順でソート
             tab.SetSortMode(ComparerMode.Id, SortOrder.Ascending);
 
             // 画面には上から 100 → 200 → 300 の順に並ぶ
-            tab.AddPostQueue(new PostClass { StatusId = 100L, IsRead = false });
-            tab.AddPostQueue(new PostClass { StatusId = 200L, IsRead = false });
-            tab.AddPostQueue(new PostClass { StatusId = 300L, IsRead = false });
+            tab.AddPostQueue(new()
+            {
+                StatusId = 100L,
+                CreatedAtForSorting = new(2023, 1, 1, 0, 0, 1),
+                IsRead = false,
+            });
+            tab.AddPostQueue(new()
+            {
+                StatusId = 200L,
+                CreatedAtForSorting = new(2023, 1, 1, 0, 0, 2),
+                IsRead = false,
+            });
+            tab.AddPostQueue(new()
+            {
+                StatusId = 300L,
+                CreatedAtForSorting = new(2023, 1, 1, 0, 0, 3),
+                IsRead = false,
+            });
             tab.AddSubmit();
 
-            // 昇順/降順に関わらず、ID の小さい順に未読の ID を返す
+            // 昇順/降順に関わらず、CreatedAtForSorting の小さい順に未読の ID を返す
             Assert.Equal(100L, tab.NextUnreadId);
         }
 
@@ -357,16 +372,31 @@ namespace OpenTween.Models
 
             tab.UnreadManage = true;
 
-            // ID の降順でソート
+            // ID (CreatedAtForSorting) の降順でソート
             tab.SetSortMode(ComparerMode.Id, SortOrder.Descending);
 
             // 画面には上から 300 → 200 → 100 の順に並ぶ
-            tab.AddPostQueue(new PostClass { StatusId = 100L, IsRead = false });
-            tab.AddPostQueue(new PostClass { StatusId = 200L, IsRead = false });
-            tab.AddPostQueue(new PostClass { StatusId = 300L, IsRead = false });
+            tab.AddPostQueue(new()
+            {
+                StatusId = 100L,
+                CreatedAtForSorting = new(2023, 1, 1, 0, 0, 1),
+                IsRead = false,
+            });
+            tab.AddPostQueue(new()
+            {
+                StatusId = 200L,
+                CreatedAtForSorting = new(2023, 1, 1, 0, 0, 2),
+                IsRead = false,
+            });
+            tab.AddPostQueue(new()
+            {
+                StatusId = 300L,
+                CreatedAtForSorting = new(2023, 1, 1, 0, 0, 3),
+                IsRead = false,
+            });
             tab.AddSubmit();
 
-            // 昇順/降順に関わらず、ID の小さい順に未読の ID を返す
+            // 昇順/降順に関わらず、CreatedAtForSorting の小さい順に未読の ID を返す
             Assert.Equal(100L, tab.NextUnreadId);
         }
 
@@ -471,16 +501,19 @@ namespace OpenTween.Models
             tab.AddPostQueue(new PostClass
             {
                 StatusId = 50L,
+                CreatedAtForSorting = new(2023, 1, 1, 0, 0, 1),
                 IsRead = true, // 既読
             });
             tab.AddPostQueue(new PostClass
             {
                 StatusId = 100L,
+                CreatedAtForSorting = new(2023, 1, 1, 0, 0, 2),
                 IsRead = false, // 未読
             });
             tab.AddPostQueue(new PostClass
             {
                 StatusId = 150L,
+                CreatedAtForSorting = new(2023, 1, 1, 0, 0, 3),
                 IsRead = false, // 未読
             });
             tab.AddSubmit();
@@ -500,6 +533,7 @@ namespace OpenTween.Models
             tab.AddPostQueue(new PostClass
             {
                 StatusId = 100L,
+                CreatedAtForSorting = new(2023, 1, 1, 0, 0, 1),
                 IsRead = false, // 未読
             });
             tab.AddSubmit();
@@ -644,11 +678,46 @@ namespace OpenTween.Models
         {
             var tab = new PublicSearchTabModel("search");
 
-            tab.AddPostQueue(new PostClass { StatusId = 100L, TextFromApi = "abcd", ScreenName = "", Nickname = "" }); // 0
-            tab.AddPostQueue(new PostClass { StatusId = 110L, TextFromApi = "efgh", ScreenName = "", Nickname = "" }); // 1
-            tab.AddPostQueue(new PostClass { StatusId = 120L, TextFromApi = "ijkl", ScreenName = "", Nickname = "" }); // 2
-            tab.AddPostQueue(new PostClass { StatusId = 130L, TextFromApi = "abc", ScreenName = "", Nickname = "" });  // 3
-            tab.AddPostQueue(new PostClass { StatusId = 140L, TextFromApi = "def", ScreenName = "", Nickname = "" });  // 4
+            tab.AddPostQueue(new()
+            {
+                StatusId = 100L,
+                CreatedAtForSorting = new(2023, 1, 1, 0, 0, 0), // 0
+                TextFromApi = "abcd",
+                ScreenName = "",
+                Nickname = "",
+            });
+            tab.AddPostQueue(new()
+            {
+                StatusId = 110L,
+                CreatedAtForSorting = new(2023, 1, 1, 0, 0, 1), // 1
+                TextFromApi = "efgh",
+                ScreenName = "",
+                Nickname = "",
+            });
+            tab.AddPostQueue(new()
+            {
+                StatusId = 120L,
+                CreatedAtForSorting = new(2023, 1, 1, 0, 0, 2), // 2
+                TextFromApi = "ijkl",
+                ScreenName = "",
+                Nickname = "",
+            });
+            tab.AddPostQueue(new()
+            {
+                StatusId = 130L,
+                CreatedAtForSorting = new(2023, 1, 1, 0, 0, 3), // 3
+                TextFromApi = "abc",
+                ScreenName = "",
+                Nickname = "",
+            });
+            tab.AddPostQueue(new()
+            {
+                StatusId = 140L,
+                CreatedAtForSorting = new(2023, 1, 1, 0, 0, 4), // 4
+                TextFromApi = "def",
+                ScreenName = "",
+                Nickname = "",
+            });
 
             tab.SetSortMode(ComparerMode.Id, SortOrder.Ascending);
             tab.AddSubmit();
@@ -667,11 +736,46 @@ namespace OpenTween.Models
         {
             var tab = new PublicSearchTabModel("search");
 
-            tab.AddPostQueue(new PostClass { StatusId = 100L, TextFromApi = "abcd", ScreenName = "", Nickname = "" }); // 0
-            tab.AddPostQueue(new PostClass { StatusId = 110L, TextFromApi = "efgh", ScreenName = "", Nickname = "" }); // 1
-            tab.AddPostQueue(new PostClass { StatusId = 120L, TextFromApi = "ijkl", ScreenName = "", Nickname = "" }); // 2
-            tab.AddPostQueue(new PostClass { StatusId = 130L, TextFromApi = "abc", ScreenName = "", Nickname = "" });  // 3
-            tab.AddPostQueue(new PostClass { StatusId = 140L, TextFromApi = "def", ScreenName = "", Nickname = "" });  // 4
+            tab.AddPostQueue(new()
+            {
+                StatusId = 100L,
+                CreatedAtForSorting = new(2023, 1, 1, 0, 0, 0), // 0
+                TextFromApi = "abcd",
+                ScreenName = "",
+                Nickname = "",
+            });
+            tab.AddPostQueue(new()
+            {
+                StatusId = 110L,
+                CreatedAtForSorting = new(2023, 1, 1, 0, 0, 1), // 1
+                TextFromApi = "efgh",
+                ScreenName = "",
+                Nickname = "",
+            });
+            tab.AddPostQueue(new()
+            {
+                StatusId = 120L,
+                CreatedAtForSorting = new(2023, 1, 1, 0, 0, 2), // 2
+                TextFromApi = "ijkl",
+                ScreenName = "",
+                Nickname = "",
+            });
+            tab.AddPostQueue(new()
+            {
+                StatusId = 130L,
+                CreatedAtForSorting = new(2023, 1, 1, 0, 0, 3), // 3
+                TextFromApi = "abc",
+                ScreenName = "",
+                Nickname = "",
+            });
+            tab.AddPostQueue(new()
+            {
+                StatusId = 140L,
+                CreatedAtForSorting = new(2023, 1, 1, 0, 0, 4), // 4
+                TextFromApi = "def",
+                ScreenName = "",
+                Nickname = "",
+            });
 
             tab.SetSortMode(ComparerMode.Id, SortOrder.Ascending);
             tab.AddSubmit();
@@ -690,9 +794,24 @@ namespace OpenTween.Models
         {
             var tab = new PublicSearchTabModel("search");
 
-            tab.AddPostQueue(new PostClass { StatusId = 100L, TextFromApi = "abcd" }); // 0
-            tab.AddPostQueue(new PostClass { StatusId = 110L, TextFromApi = "efgh" }); // 1
-            tab.AddPostQueue(new PostClass { StatusId = 120L, TextFromApi = "ijkl" }); // 2
+            tab.AddPostQueue(new()
+            {
+                StatusId = 100L,
+                CreatedAtForSorting = new(2023, 1, 1, 0, 0, 0), // 0
+                TextFromApi = "abcd",
+            });
+            tab.AddPostQueue(new()
+            {
+                StatusId = 110L,
+                CreatedAtForSorting = new(2023, 1, 1, 0, 0, 1), // 1
+                TextFromApi = "efgh",
+            });
+            tab.AddPostQueue(new()
+            {
+                StatusId = 120L,
+                CreatedAtForSorting = new(2023, 1, 1, 0, 0, 2), // 2
+                TextFromApi = "ijkl",
+            });
 
             tab.SetSortMode(ComparerMode.Id, SortOrder.Ascending);
             tab.AddSubmit();
@@ -706,9 +825,24 @@ namespace OpenTween.Models
         {
             var tab = new PublicSearchTabModel("search");
 
-            tab.AddPostQueue(new PostClass { StatusId = 100L, TextFromApi = "abcd" }); // 0
-            tab.AddPostQueue(new PostClass { StatusId = 110L, TextFromApi = "efgh" }); // 1
-            tab.AddPostQueue(new PostClass { StatusId = 120L, TextFromApi = "ijkl" }); // 2
+            tab.AddPostQueue(new()
+            {
+                StatusId = 100L,
+                CreatedAtForSorting = new(2023, 1, 1, 0, 0, 0), // 0
+                TextFromApi = "abcd",
+            });
+            tab.AddPostQueue(new()
+            {
+                StatusId = 110L,
+                CreatedAtForSorting = new(2023, 1, 1, 0, 0, 1), // 1
+                TextFromApi = "efgh",
+            });
+            tab.AddPostQueue(new()
+            {
+                StatusId = 120L,
+                CreatedAtForSorting = new(2023, 1, 1, 0, 0, 2), // 2
+                TextFromApi = "ijkl",
+            });
 
             tab.SetSortMode(ComparerMode.Id, SortOrder.Ascending);
             tab.AddSubmit();
@@ -722,9 +856,24 @@ namespace OpenTween.Models
         {
             var tab = new PublicSearchTabModel("search");
 
-            tab.AddPostQueue(new PostClass { StatusId = 100L, TextFromApi = "abcd" }); // 0
-            tab.AddPostQueue(new PostClass { StatusId = 110L, TextFromApi = "efgh" }); // 1
-            tab.AddPostQueue(new PostClass { StatusId = 120L, TextFromApi = "ijkl" }); // 2
+            tab.AddPostQueue(new()
+            {
+                StatusId = 100L,
+                CreatedAtForSorting = new(2023, 1, 1, 0, 0, 0), // 0
+                TextFromApi = "abcd",
+            });
+            tab.AddPostQueue(new()
+            {
+                StatusId = 110L,
+                CreatedAtForSorting = new(2023, 1, 1, 0, 0, 1), // 1
+                TextFromApi = "efgh",
+            });
+            tab.AddPostQueue(new()
+            {
+                StatusId = 120L,
+                CreatedAtForSorting = new(2023, 1, 1, 0, 0, 2), // 2
+                TextFromApi = "ijkl",
+            });
 
             tab.SetSortMode(ComparerMode.Id, SortOrder.Ascending);
             tab.AddSubmit();
@@ -739,9 +888,24 @@ namespace OpenTween.Models
         {
             var tab = new PublicSearchTabModel("search");
 
-            tab.AddPostQueue(new PostClass { StatusId = 100L, TextFromApi = "abcd" }); // 0
-            tab.AddPostQueue(new PostClass { StatusId = 110L, TextFromApi = "efgh" }); // 1
-            tab.AddPostQueue(new PostClass { StatusId = 120L, TextFromApi = "ijkl" }); // 2
+            tab.AddPostQueue(new()
+            {
+                StatusId = 100L,
+                CreatedAtForSorting = new(2023, 1, 1, 0, 0, 0), // 0
+                TextFromApi = "abcd",
+            });
+            tab.AddPostQueue(new()
+            {
+                StatusId = 110L,
+                CreatedAtForSorting = new(2023, 1, 1, 0, 0, 1), // 1
+                TextFromApi = "efgh",
+            });
+            tab.AddPostQueue(new()
+            {
+                StatusId = 120L,
+                CreatedAtForSorting = new(2023, 1, 1, 0, 0, 2), // 2
+                TextFromApi = "ijkl",
+            });
 
             tab.SetSortMode(ComparerMode.Id, SortOrder.Ascending);
             tab.AddSubmit();
