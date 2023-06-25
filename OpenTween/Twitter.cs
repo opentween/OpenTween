@@ -388,17 +388,12 @@ namespace OpenTween
                 throw new WebApiException("Invalid Json!");
 
             // Retweetしたものを返す
-            post = this.CreatePostsFromStatusData(status);
-
-            // ユーザー情報
-            post.IsMe = true;
-
-            post.IsRead = read;
-            post.IsOwl = false;
-            if (this.ReadOwnPost) post.IsRead = true;
-            post.IsDm = false;
-
-            return post;
+            return this.CreatePostsFromStatusData(status) with
+            {
+                IsMe = true,
+                IsRead = this.ReadOwnPost ? true : read,
+                IsOwl = false,
+            };
         }
 
         public string Username
@@ -790,10 +785,12 @@ namespace OpenTween
 
             if (targetPost.RetweetedId != null)
             {
-                var originalPost = targetPost.Clone();
-                originalPost.StatusId = targetPost.RetweetedId.Value;
-                originalPost.RetweetedId = null;
-                originalPost.RetweetedBy = null;
+                var originalPost = targetPost with
+                {
+                    StatusId = targetPost.RetweetedId.Value,
+                    RetweetedId = null,
+                    RetweetedBy = null,
+                };
                 targetPost = originalPost;
             }
 
@@ -900,7 +897,7 @@ namespace OpenTween
 
             relPosts.Values.ToList().ForEach(p =>
             {
-                var post = p.Clone();
+                var post = p with { };
                 if (post.IsMe && !read && this.ReadOwnPost)
                     post.IsRead = true;
                 else

@@ -32,15 +32,6 @@ namespace OpenTween.Models
 {
     public class PostClassTest
     {
-        [Fact]
-        public void CloneTest()
-        {
-            var post = new PostClass();
-            var clonePost = post.Clone();
-
-            TestUtils.CheckDeepCloning(post, clonePost);
-        }
-
         [Theory]
         [InlineData("", "")]
         [InlineData("aaa\nbbb", "aaa bbb")]

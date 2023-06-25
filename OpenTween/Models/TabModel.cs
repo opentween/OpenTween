@@ -194,6 +194,18 @@ namespace OpenTween.Models
             return removedIds;
         }
 
+        /// <summary>
+        /// タブ内にある <see cref="PostClass.StatusId"/> が一致する発言を置き換える
+        /// </summary>
+        /// <returns>置き換えに成功した場合は true、タブ内に存在しない発言などで失敗した場合は false</returns>
+        public bool ReplacePost(PostClass post)
+        {
+            if (!this.Posts.TryGetValue(post.StatusId, out var origPost))
+                return false;
+
+            return this.Posts.TryUpdate(post.StatusId, post, origPost);
+        }
+
         public void SelectPosts(int[] indices)
         {
             bool IsValidIndex(int index)

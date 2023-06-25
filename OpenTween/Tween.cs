@@ -5316,9 +5316,13 @@ namespace OpenTween
                 {
                     var post = await this.tw.GetStatusApi(false, currentPost.StatusId);
 
-                    currentPost.InReplyToStatusId = post.InReplyToStatusId;
-                    currentPost.InReplyToUser = post.InReplyToUser;
-                    currentPost.IsReply = post.IsReply;
+                    currentPost = currentPost with
+                    {
+                        InReplyToStatusId = post.InReplyToStatusId,
+                        InReplyToUser = post.InReplyToUser,
+                        IsReply = post.IsReply,
+                    };
+                    curTabClass.ReplacePost(currentPost);
                     this.listCache?.PurgeCache();
 
                     var index = curTabClass.SelectedIndex;
