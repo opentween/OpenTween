@@ -864,6 +864,12 @@ namespace OpenTween.Models
                         var hit = false;
                         foreach (var tab in this.Tabs)
                         {
+                            if (tab is InternalStorageTabModel)
+                                continue;
+
+                            if (tab == tb)
+                                continue;
+
                             if (tab.Contains(id))
                             {
                                 hit = true;
