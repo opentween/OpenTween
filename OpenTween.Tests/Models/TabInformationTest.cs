@@ -1138,6 +1138,86 @@ namespace OpenTween.Models
         }
 
         [Fact]
+        public void ClearTabIds_InnerStorageTabTest()
+        {
+            var tab = new PublicSearchTabModel("search");
+            tab.AddPostQueue(new PostClass { StatusId = 100L });
+            this.tabinfo.AddTab(tab);
+            this.tabinfo.SubmitUpdate();
+
+            Assert.True(tab.Contains(100L));
+
+            this.tabinfo.ClearTabIds("search");
+            Assert.False(tab.Contains(100L));
+        }
+
+        [Fact]
+        public void ClearTabIds_FilterTab_MovedPost_OrphanedTest()
+        {
+            var filterTab = new FilterTabModel("filter");
+            filterTab.AddFilter(new() { FilterName = "opentween", MoveMatches = true });
+            this.tabinfo.AddTab(filterTab);
+
+            this.tabinfo.AddPost(new PostClass { StatusId = 100L, ScreenName = "opentween" });
+            this.tabinfo.DistributePosts();
+            this.tabinfo.SubmitUpdate();
+
+            Assert.True(this.tabinfo.Posts.ContainsKey(100L));
+            Assert.True(filterTab.Contains(100L));
+
+            this.tabinfo.ClearTabIds("filter");
+            Assert.False(this.tabinfo.Posts.ContainsKey(100L));
+            Assert.False(filterTab.Contains(100L));
+        }
+
+        [Fact]
+        public void ClearTabIds_FilterTab_MovedPost_NotOrphanedTest()
+        {
+            var filterTab1 = new FilterTabModel("filter1");
+            filterTab1.AddFilter(new() { FilterName = "opentween", MoveMatches = true });
+            this.tabinfo.AddTab(filterTab1);
+
+            var filterTab2 = new FilterTabModel("filter2");
+            filterTab2.AddFilter(new() { FilterName = "opentween", MoveMatches = true });
+            this.tabinfo.AddTab(filterTab2);
+
+            this.tabinfo.AddPost(new PostClass { StatusId = 100L, ScreenName = "opentween" });
+            this.tabinfo.DistributePosts();
+            this.tabinfo.SubmitUpdate();
+
+            Assert.True(this.tabinfo.Posts.ContainsKey(100L));
+            Assert.True(filterTab1.Contains(100L));
+            Assert.True(filterTab2.Contains(100L));
+
+            this.tabinfo.ClearTabIds("filter1");
+
+            // 他に MoveMatches で移動している振り分けタブが存在する場合は TabInformations.Posts から削除しない
+            Assert.True(this.tabinfo.ContainsKey(100L));
+            Assert.False(filterTab1.Contains(100L));
+            Assert.True(filterTab2.Contains(100L));
+        }
+
+        [Fact]
+        public void ClearTabIds_NotAffectToOtherTabs_Test()
+        {
+            var otherTab = new PublicSearchTabModel("search");
+            otherTab.AddPostQueue(new PostClass { StatusId = 100L });
+            this.tabinfo.AddTab(otherTab);
+
+            this.tabinfo.AddPost(new PostClass { StatusId = 100L });
+            this.tabinfo.DistributePosts();
+            this.tabinfo.SubmitUpdate();
+
+            // Recent, search のタブに status_id = 100 の発言が存在する状態
+            Assert.True(this.tabinfo.Posts.ContainsKey(100L));
+            Assert.True(otherTab.Contains(100L));
+
+            this.tabinfo.ClearTabIds("Recent");
+            Assert.False(this.tabinfo.Posts.ContainsKey(100L));
+            Assert.True(otherTab.Contains(100L));
+        }
+
+        [Fact]
         public void RefreshOwl_HomeTabTest()
         {
             var post = new PostClass
