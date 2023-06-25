@@ -60,8 +60,6 @@ namespace OpenTween.Models
 
         public long StatusId { get; set; }
 
-        private bool isFav;
-
         public string Text
         {
             get
@@ -211,35 +209,7 @@ namespace OpenTween.Models
         public string TextSingleLine
             => this.TextFromApi.Replace("\n", " ");
 
-        public bool IsFav
-        {
-            get
-            {
-                if (this.RetweetedId != null)
-                {
-                    var post = this.RetweetSource;
-                    if (post != null)
-                    {
-                        return post.IsFav;
-                    }
-                }
-
-                return this.isFav;
-            }
-
-            set
-            {
-                this.isFav = value;
-                if (this.RetweetedId != null)
-                {
-                    var post = this.RetweetSource;
-                    if (post != null)
-                    {
-                        post.IsFav = value;
-                    }
-                }
-            }
-        }
+        public bool IsFav { get; set; }
 
         public bool IsProtect
         {
@@ -300,9 +270,6 @@ namespace OpenTween.Models
                 this.isDeleted = value;
             }
         }
-
-        protected virtual PostClass? RetweetSource
-            => this.RetweetedId != null ? TabInformations.GetInstance().RetweetSource(this.RetweetedId.Value) : null;
 
         public StatusGeo? PostGeo
         {

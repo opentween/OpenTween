@@ -383,9 +383,6 @@ namespace OpenTween.Models
             return this.SortOrder;
         }
 
-        public PostClass? RetweetSource(long id)
-            => this.Posts.TryGetValue(id, out var status) ? status : null;
-
         public void RemovePostFromAllTabs(long statusId, bool setIsDeleted)
         {
             foreach (var tab in this.Tabs)
