@@ -32,60 +32,6 @@ namespace OpenTween.Models
 {
     public class PostClassTest
     {
-        private class PostClassGroup
-        {
-            private readonly Dictionary<long, PostClass> testCases;
-
-            public PostClassGroup(params TestPostClass[] postClasses)
-            {
-                this.testCases = new Dictionary<long, PostClass>();
-                foreach (var p in postClasses)
-                {
-                    p.Group = this;
-                    this.testCases.Add(p.StatusId, p);
-                }
-            }
-
-            public PostClass this[long id] => this.testCases[id];
-        }
-
-        private class TestPostClass : PostClass
-        {
-            public PostClassGroup? Group;
-
-            protected override PostClass RetweetSource
-            {
-                get
-                {
-                    var retweetedId = this.RetweetedId!.Value;
-                    var group = this.Group;
-                    if (group == null)
-                        throw new InvalidOperationException("TestPostClass needs group");
-
-                    return group[retweetedId];
-                }
-            }
-        }
-
-        private readonly PostClassGroup postGroup;
-
-        public PostClassTest()
-        {
-            this.postGroup = new PostClassGroup(
-                new TestPostClass { StatusId = 1L },
-                new TestPostClass { StatusId = 2L, IsFav = true },
-                new TestPostClass { StatusId = 3L, IsFav = false, RetweetedId = 2L });
-        }
-
-        [Fact]
-        public void CloneTest()
-        {
-            var post = new PostClass();
-            var clonePost = post.Clone();
-
-            TestUtils.CheckDeepCloning(post, clonePost);
-        }
-
         [Theory]
         [InlineData("", "")]
         [InlineData("aaa\nbbb", "aaa bbb")]
@@ -94,29 +40,6 @@ namespace OpenTween.Models
             var post = new PostClass { TextFromApi = text };
 
             Assert.Equal(expected, post.TextSingleLine);
-        }
-
-        [Theory]
-        [InlineData(1L, false)]
-        [InlineData(2L, true)]
-        [InlineData(3L, true)]
-        public void GetIsFavTest(long statusId, bool expected)
-            => Assert.Equal(expected, this.postGroup[statusId].IsFav);
-
-        [Theory]
-        [InlineData(2L, true)]
-        [InlineData(2L, false)]
-        [InlineData(3L, true)]
-        [InlineData(3L, false)]
-        public void SetIsFavTest(long statusId, bool isFav)
-        {
-            var post = this.postGroup[statusId];
-
-            post.IsFav = isFav;
-            Assert.Equal(isFav, post.IsFav);
-
-            if (post.RetweetedId != null)
-                Assert.Equal(isFav, this.postGroup[post.RetweetedId.Value].IsFav);
         }
 
 #pragma warning disable SA1008 // Opening parenthesis should be spaced correctly
@@ -140,7 +63,7 @@ namespace OpenTween.Models
 #pragma warning restore SA1008
         public void StateIndexTest(bool protect, bool mark, bool reply, bool geo, int expected)
         {
-            var post = new TestPostClass
+            var post = new PostClass
             {
                 IsProtect = protect,
                 IsMark = mark,
@@ -154,7 +77,7 @@ namespace OpenTween.Models
         [Fact]
         public void SourceHtml_Test()
         {
-            var post = new TestPostClass
+            var post = new PostClass
             {
                 Source = "Twitter Web Client",
                 SourceUri = new Uri("http://twitter.com/"),
@@ -166,7 +89,7 @@ namespace OpenTween.Models
         [Fact]
         public void SourceHtml_PlainTextTest()
         {
-            var post = new TestPostClass
+            var post = new PostClass
             {
                 Source = "web",
                 SourceUri = null,
@@ -178,7 +101,7 @@ namespace OpenTween.Models
         [Fact]
         public void SourceHtml_EscapeTest()
         {
-            var post = new TestPostClass
+            var post = new PostClass
             {
                 Source = "<script>alert(1)</script>",
                 SourceUri = new Uri("http://example.com/?aaa=123&bbb=456"),
@@ -190,7 +113,7 @@ namespace OpenTween.Models
         [Fact]
         public void SourceHtml_EscapePlainTextTest()
         {
-            var post = new TestPostClass
+            var post = new PostClass
             {
                 Source = "<script>alert(1)</script>",
                 SourceUri = null,
@@ -200,31 +123,9 @@ namespace OpenTween.Models
         }
 
         [Fact]
-        public void DeleteTest()
-        {
-            var post = new TestPostClass
-            {
-                InReplyToStatusId = 10L,
-                InReplyToUser = "hogehoge",
-                InReplyToUserId = 100L,
-                IsReply = true,
-                ReplyToList = { (100L, "hogehoge") },
-            };
-
-            post.IsDeleted = true;
-
-            Assert.Null(post.InReplyToStatusId);
-            Assert.Equal("", post.InReplyToUser);
-            Assert.Null(post.InReplyToUserId);
-            Assert.False(post.IsReply);
-            Assert.Empty(post.ReplyToList);
-            Assert.Equal(-1, post.StateIndex);
-        }
-
-        [Fact]
         public void CanDeleteBy_SentDMTest()
         {
-            var post = new TestPostClass
+            var post = new PostClass
             {
                 IsDm = true,
                 IsMe = true, // 自分が送信した DM
@@ -237,7 +138,7 @@ namespace OpenTween.Models
         [Fact]
         public void CanDeleteBy_ReceivedDMTest()
         {
-            var post = new TestPostClass
+            var post = new PostClass
             {
                 IsDm = true,
                 IsMe = false, // 自分が受け取った DM
@@ -250,7 +151,7 @@ namespace OpenTween.Models
         [Fact]
         public void CanDeleteBy_MyTweetTest()
         {
-            var post = new TestPostClass
+            var post = new PostClass
             {
                 UserId = 111L, // 自分のツイート
             };
@@ -261,7 +162,7 @@ namespace OpenTween.Models
         [Fact]
         public void CanDeleteBy_OthersTweetTest()
         {
-            var post = new TestPostClass
+            var post = new PostClass
             {
                 UserId = 222L, // 他人のツイート
             };
@@ -272,7 +173,7 @@ namespace OpenTween.Models
         [Fact]
         public void CanDeleteBy_RetweetedByMeTest()
         {
-            var post = new TestPostClass
+            var post = new PostClass
             {
                 RetweetedByUserId = 111L, // 自分がリツイートした
                 UserId = 222L, // 他人のツイート
@@ -284,7 +185,7 @@ namespace OpenTween.Models
         [Fact]
         public void CanDeleteBy_RetweetedByOthersTest()
         {
-            var post = new TestPostClass
+            var post = new PostClass
             {
                 RetweetedByUserId = 333L, // 他人がリツイートした
                 UserId = 222L, // 他人のツイート
@@ -296,7 +197,7 @@ namespace OpenTween.Models
         [Fact]
         public void CanDeleteBy_MyTweetHaveBeenRetweetedByOthersTest()
         {
-            var post = new TestPostClass
+            var post = new PostClass
             {
                 RetweetedByUserId = 222L, // 他人がリツイートした
                 UserId = 111L, // 自分のツイート
@@ -308,7 +209,7 @@ namespace OpenTween.Models
         [Fact]
         public void CanRetweetBy_DMTest()
         {
-            var post = new TestPostClass
+            var post = new PostClass
             {
                 IsDm = true,
                 IsMe = false, // 自分が受け取った DM
@@ -321,7 +222,7 @@ namespace OpenTween.Models
         [Fact]
         public void CanRetweetBy_MyTweetTest()
         {
-            var post = new TestPostClass
+            var post = new PostClass
             {
                 UserId = 111L, // 自分のツイート
             };
@@ -332,7 +233,7 @@ namespace OpenTween.Models
         [Fact]
         public void CanRetweetBy_ProtectedMyTweetTest()
         {
-            var post = new TestPostClass
+            var post = new PostClass
             {
                 UserId = 111L, // 自分のツイート
                 IsProtect = true,
@@ -344,7 +245,7 @@ namespace OpenTween.Models
         [Fact]
         public void CanRetweetBy_OthersTweet_NotProtectedTest()
         {
-            var post = new TestPostClass
+            var post = new PostClass
             {
                 UserId = 222L, // 他人のツイート
                 IsProtect = false,
@@ -356,7 +257,7 @@ namespace OpenTween.Models
         [Fact]
         public void CanRetweetBy_OthersTweet_ProtectedTest()
         {
-            var post = new TestPostClass
+            var post = new PostClass
             {
                 UserId = 222L, // 他人のツイート
                 IsProtect = true,

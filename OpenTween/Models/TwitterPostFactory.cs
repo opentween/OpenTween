@@ -58,174 +58,120 @@ namespace OpenTween.Models
             bool favTweet = false
         )
         {
-            var post = new PostClass();
-            TwitterEntities entities;
-            string sourceHtml;
+            var statusUser = status.User ?? TwitterUser.CreateUnknownUser();
 
-            post.StatusId = status.Id;
+            // リツイートでない場合は null
+            var retweetedStatus = (TwitterStatus?)null;
+            var retweeterUser = (TwitterUser?)null;
             if (status.RetweetedStatus != null)
             {
-                var retweeted = status.RetweetedStatus;
-
-                post.CreatedAt = MyCommon.DateTimeParse(retweeted.CreatedAt);
-
-                // Id
-                post.RetweetedId = retweeted.Id;
-                // 本文
-                post.TextFromApi = retweeted.FullText;
-                entities = retweeted.MergedEntities;
-                sourceHtml = retweeted.Source;
-                // Reply先
-                post.InReplyToStatusId = retweeted.InReplyToStatusId;
-                post.InReplyToUser = retweeted.InReplyToScreenName;
-                post.InReplyToUserId = status.InReplyToUserId;
-
-                if (favTweet)
-                {
-                    post.IsFav = true;
-                }
-                else
-                {
-                    // 幻覚fav対策
-                    var favTab = this.tabinfo.FavoriteTab;
-                    post.IsFav = favTab.Contains(retweeted.Id);
-                }
-
-                if (retweeted.Coordinates != null)
-                    post.PostGeo = new PostClass.StatusGeo(retweeted.Coordinates.Coordinates[0], retweeted.Coordinates.Coordinates[1]);
-
-                // 以下、ユーザー情報
-                var user = retweeted.User;
-                if (user != null)
-                {
-                    post.UserId = user.Id;
-                    post.ScreenName = user.ScreenName;
-                    post.Nickname = user.Name.Trim();
-                    post.ImageUrl = user.ProfileImageUrlHttps;
-                    post.IsProtect = user.Protected;
-                }
-                else
-                {
-                    post.UserId = 0L;
-                    post.ScreenName = "?????";
-                    post.Nickname = "Unknown User";
-                }
-
-                // Retweetした人
-                if (status.User != null)
-                {
-                    post.RetweetedBy = status.User.ScreenName;
-                    post.RetweetedByUserId = status.User.Id;
-                    post.IsMe = post.RetweetedByUserId == selfUserId;
-                }
-                else
-                {
-                    post.RetweetedBy = "?????";
-                    post.RetweetedByUserId = 0L;
-                }
+                // リツイート元のツイート
+                retweetedStatus = status.RetweetedStatus;
+                // リツイートを行ったユーザー
+                retweeterUser = statusUser;
             }
-            else
+
+            // リツイートであるか否かに関わらず常にオリジナルのツイート及びユーザーを指す
+            var originalStatus = retweetedStatus ?? status;
+            var originalStatusUser = originalStatus.User ?? TwitterUser.CreateUnknownUser();
+
+            bool isFav = favTweet;
+            if (isFav == false)
             {
-                post.CreatedAt = MyCommon.DateTimeParse(status.CreatedAt);
-                // 本文
-                post.TextFromApi = status.FullText;
-                entities = status.MergedEntities;
-                sourceHtml = status.Source;
-                post.InReplyToStatusId = status.InReplyToStatusId;
-                post.InReplyToUser = status.InReplyToScreenName;
-                post.InReplyToUserId = status.InReplyToUserId;
-
-                if (favTweet)
-                {
-                    post.IsFav = true;
-                }
-                else
-                {
-                    // 幻覚fav対策
-                    var favTab = this.tabinfo.FavoriteTab;
-                    post.IsFav = favTab.Posts.TryGetValue(post.StatusId, out var tabinfoPost) && tabinfoPost.IsFav;
-                }
-
-                if (status.Coordinates != null)
-                    post.PostGeo = new PostClass.StatusGeo(status.Coordinates.Coordinates[0], status.Coordinates.Coordinates[1]);
-
-                // 以下、ユーザー情報
-                var user = status.User;
-                if (user != null)
-                {
-                    post.UserId = user.Id;
-                    post.ScreenName = user.ScreenName;
-                    post.Nickname = user.Name.Trim();
-                    post.ImageUrl = user.ProfileImageUrlHttps;
-                    post.IsProtect = user.Protected;
-                    post.IsMe = post.UserId == selfUserId;
-                }
-                else
-                {
-                    post.UserId = 0L;
-                    post.ScreenName = "?????";
-                    post.Nickname = "Unknown User";
-                }
+                // 幻覚fav対策 (8a5717dd のコミット参照)
+                var favTab = this.tabinfo.FavoriteTab;
+                isFav = favTab.Contains(originalStatus.Id);
             }
-            // HTMLに整形
-            var textFromApi = post.TextFromApi;
 
-            var quotedStatusLink = (status.RetweetedStatus ?? status).QuotedStatusPermalink;
+            var geo = (PostClass.StatusGeo?)null;
+            if (originalStatus.Coordinates != null)
+                geo = new(originalStatus.Coordinates.Coordinates[0], originalStatus.Coordinates.Coordinates[1]);
+
+            var entities = originalStatus.MergedEntities;
+            var quotedStatusLink = originalStatus.QuotedStatusPermalink;
 
             if (quotedStatusLink != null && entities.Urls != null && entities.Urls.Any(x => x.ExpandedUrl == quotedStatusLink.Expanded))
                 quotedStatusLink = null; // 移行期は entities.urls と quoted_status_permalink の両方に含まれる場合がある
 
-            post.Text = CreateHtmlAnchor(textFromApi, entities, quotedStatusLink);
-            post.TextFromApi = textFromApi;
-            post.TextFromApi = this.ReplaceTextFromApi(post.TextFromApi, entities, quotedStatusLink);
-            post.TextFromApi = WebUtility.HtmlDecode(post.TextFromApi);
-            post.TextFromApi = post.TextFromApi.Replace("<3", "\u2661");
-            post.AccessibleText = CreateAccessibleText(textFromApi, entities, (status.RetweetedStatus ?? status).QuotedStatus, quotedStatusLink);
-            post.AccessibleText = WebUtility.HtmlDecode(post.AccessibleText);
-            post.AccessibleText = post.AccessibleText.Replace("<3", "\u2661");
+            // HTMLに整形
+            var text = CreateHtmlAnchor(originalStatus.FullText, entities, quotedStatusLink);
 
-            this.ExtractEntities(entities, post.ReplyToList, post.Media);
+            var textFromApi = this.ReplaceTextFromApi(originalStatus.FullText, entities, quotedStatusLink);
+            textFromApi = WebUtility.HtmlDecode(textFromApi);
+            textFromApi = textFromApi.Replace("<3", "\u2661");
 
-            post.QuoteStatusIds = GetQuoteTweetStatusIds(entities, quotedStatusLink)
-                .Where(x => x != post.StatusId && x != post.RetweetedId)
+            var accessibleText = CreateAccessibleText(originalStatus.FullText, entities, originalStatus.QuotedStatus, quotedStatusLink);
+            accessibleText = WebUtility.HtmlDecode(accessibleText);
+            accessibleText = accessibleText.Replace("<3", "\u2661");
+
+            var (replyToList, media) = this.ExtractEntities(entities);
+
+            var quoteStatusIds = GetQuoteTweetStatusIds(entities, quotedStatusLink)
+                .Where(x => x != status.Id && x != originalStatus.Id)
                 .Distinct().ToArray();
 
-            post.ExpandedUrls = entities.OfType<TwitterEntityUrl>()
+            var expandedUrls = entities.OfType<TwitterEntityUrl>()
                 .Select(x => new PostClass.ExpandedUrlInfo(x.Url, x.ExpandedUrl))
                 .ToArray();
 
             // メモリ使用量削減 (同一のテキストであれば同一の string インスタンスを参照させる)
-            if (post.Text == post.TextFromApi)
-                post.Text = post.TextFromApi;
-            if (post.AccessibleText == post.TextFromApi)
-                post.AccessibleText = post.TextFromApi;
+            if (text == textFromApi)
+                text = textFromApi;
+
+            if (accessibleText == textFromApi)
+                accessibleText = textFromApi;
 
             // 他の発言と重複しやすい (共通化できる) 文字列は string.Intern を通す
-            post.ScreenName = string.Intern(post.ScreenName);
-            post.Nickname = string.Intern(post.Nickname);
-            post.ImageUrl = string.Intern(post.ImageUrl);
-            post.RetweetedBy = post.RetweetedBy != null ? string.Intern(post.RetweetedBy) : null;
+            var screenName = string.Intern(originalStatusUser.ScreenName);
+            var nickname = string.Intern(originalStatusUser.Name);
+            var imageUrl = string.Intern(originalStatusUser.ProfileImageUrlHttps);
 
             // Source整形
-            var (sourceText, sourceUri) = ParseSource(sourceHtml);
-            post.Source = string.Intern(sourceText);
-            post.SourceUri = sourceUri;
+            var (sourceText, sourceUri) = ParseSource(originalStatus.Source);
 
-            post.IsReply = post.RetweetedId == null && post.ReplyToList.Any(x => x.UserId == selfUserId);
-            post.IsExcludeReply = false;
+            var isOwl = false;
+            if (followerIds.Count > 0)
+                isOwl = !followerIds.Contains(originalStatusUser.Id);
 
-            if (post.IsMe)
+            return new()
             {
-                post.IsOwl = false;
-            }
-            else
-            {
-                if (followerIds.Count > 0)
-                    post.IsOwl = !followerIds.Contains(post.UserId);
-            }
+                // status から生成
+                StatusId = status.Id,
+                IsMe = statusUser.Id == selfUserId,
 
-            post.IsDm = false;
-            return post;
+                // originalStatus から生成
+                CreatedAt = MyCommon.DateTimeParse(originalStatus.CreatedAt),
+                Text = text,
+                TextFromApi = textFromApi,
+                AccessibleText = accessibleText,
+                QuoteStatusIds = quoteStatusIds,
+                ExpandedUrls = expandedUrls,
+                ReplyToList = replyToList,
+                Media = media,
+                PostGeo = geo,
+                Source = string.Intern(sourceText),
+                SourceUri = sourceUri,
+                IsFav = isFav,
+                IsReply = retweetedStatus != null && replyToList.Any(x => x.UserId == selfUserId),
+                InReplyToStatusId = originalStatus.InReplyToStatusId,
+                InReplyToUser = originalStatus.InReplyToScreenName,
+                InReplyToUserId = originalStatus.InReplyToUserId,
+
+                // originalStatusUser から生成
+                UserId = originalStatusUser.Id,
+                ScreenName = screenName,
+                Nickname = nickname,
+                ImageUrl = imageUrl,
+                IsProtect = originalStatusUser.Protected,
+                IsOwl = isOwl,
+
+                // retweetedStatus から生成
+                RetweetedId = retweetedStatus?.Id,
+
+                // retweeterUser から生成
+                RetweetedBy = retweeterUser != null ? string.Intern(retweeterUser.ScreenName) : null,
+                RetweetedByUserId = retweeterUser?.Id,
+            };
         }
 
         public PostClass CreateFromDirectMessageEvent(
@@ -235,13 +181,11 @@ namespace OpenTween.Models
             long selfUserId
         )
         {
-            var post = new PostClass();
-            post.StatusId = long.Parse(eventItem.Id);
-
             var timestamp = long.Parse(eventItem.CreatedTimestamp);
-            post.CreatedAt = DateTimeUtc.UnixEpoch + TimeSpan.FromTicks(timestamp * TimeSpan.TicksPerMillisecond);
+            var createdAt = DateTimeUtc.UnixEpoch + TimeSpan.FromTicks(timestamp * TimeSpan.TicksPerMillisecond);
+
             // 本文
-            var textFromApi = eventItem.MessageCreate.MessageData.Text;
+            var rawText = eventItem.MessageCreate.MessageData.Text;
 
             var entities = eventItem.MessageCreate.MessageData.Entities;
             var mediaEntity = eventItem.MessageCreate.MessageData.Attachment?.Media;
@@ -250,84 +194,85 @@ namespace OpenTween.Models
                 entities.Media = new[] { mediaEntity };
 
             // HTMLに整形
-            post.Text = CreateHtmlAnchor(textFromApi, entities, quotedStatusLink: null);
-            post.TextFromApi = this.ReplaceTextFromApi(textFromApi, entities, quotedStatusLink: null);
-            post.TextFromApi = WebUtility.HtmlDecode(post.TextFromApi);
-            post.TextFromApi = post.TextFromApi.Replace("<3", "\u2661");
-            post.AccessibleText = CreateAccessibleText(textFromApi, entities, quotedStatus: null, quotedStatusLink: null);
-            post.AccessibleText = WebUtility.HtmlDecode(post.AccessibleText);
-            post.AccessibleText = post.AccessibleText.Replace("<3", "\u2661");
-            post.IsFav = false;
+            var text = CreateHtmlAnchor(rawText, entities, quotedStatusLink: null);
 
-            this.ExtractEntities(entities, post.ReplyToList, post.Media);
+            var textFromApi = this.ReplaceTextFromApi(rawText, entities, quotedStatusLink: null);
+            textFromApi = WebUtility.HtmlDecode(textFromApi);
+            textFromApi = textFromApi.Replace("<3", "\u2661");
 
-            post.QuoteStatusIds = GetQuoteTweetStatusIds(entities, quotedStatusLink: null)
+            var accessibleText = CreateAccessibleText(rawText, entities, quotedStatus: null, quotedStatusLink: null);
+            accessibleText = WebUtility.HtmlDecode(accessibleText);
+            accessibleText = accessibleText.Replace("<3", "\u2661");
+
+            var (replyToList, media) = this.ExtractEntities(entities);
+
+            var quoteStatusIds = GetQuoteTweetStatusIds(entities, quotedStatusLink: null)
                 .Distinct().ToArray();
 
-            post.ExpandedUrls = entities.OfType<TwitterEntityUrl>()
+            var expandedUrls = entities.OfType<TwitterEntityUrl>()
                 .Select(x => new PostClass.ExpandedUrlInfo(x.Url, x.ExpandedUrl))
                 .ToArray();
 
             // 以下、ユーザー情報
-            string userId;
-            if (eventItem.MessageCreate.SenderId != selfUserId.ToString(CultureInfo.InvariantCulture))
-            {
-                userId = eventItem.MessageCreate.SenderId;
-                post.IsMe = false;
-                post.IsOwl = true;
-            }
-            else
-            {
-                userId = eventItem.MessageCreate.Target.RecipientId;
-                post.IsMe = true;
-                post.IsOwl = false;
-            }
+            var senderIsMe = eventItem.MessageCreate.SenderId == selfUserId.ToString(CultureInfo.InvariantCulture);
+            var displayUserId = senderIsMe
+                ? eventItem.MessageCreate.Target.RecipientId
+                : eventItem.MessageCreate.SenderId;
 
-            if (users.TryGetValue(userId, out var user))
-            {
-                post.UserId = user.Id;
-                post.ScreenName = user.ScreenName;
-                post.Nickname = user.Name.Trim();
-                post.ImageUrl = user.ProfileImageUrlHttps;
-                post.IsProtect = user.Protected;
-            }
-            else
-            {
-                post.UserId = 0L;
-                post.ScreenName = "?????";
-                post.Nickname = "Unknown User";
-            }
+            if (!users.TryGetValue(displayUserId, out var displayUser))
+                displayUser = TwitterUser.CreateUnknownUser();
 
             // メモリ使用量削減 (同一のテキストであれば同一の string インスタンスを参照させる)
-            if (post.Text == post.TextFromApi)
-                post.Text = post.TextFromApi;
-            if (post.AccessibleText == post.TextFromApi)
-                post.AccessibleText = post.TextFromApi;
+            if (text == textFromApi)
+                text = textFromApi;
+            if (accessibleText == textFromApi)
+                accessibleText = textFromApi;
 
             // 他の発言と重複しやすい (共通化できる) 文字列は string.Intern を通す
-            post.ScreenName = string.Intern(post.ScreenName);
-            post.Nickname = string.Intern(post.Nickname);
-            post.ImageUrl = string.Intern(post.ImageUrl);
+            var screenName = string.Intern(displayUser.ScreenName);
+            var nickname = string.Intern(displayUser.Name);
+            var imageUrl = string.Intern(displayUser.ProfileImageUrlHttps);
 
+            var source = (string?)null;
+            var sourceUri = (Uri?)null;
             var appId = eventItem.MessageCreate.SourceAppId;
             if (appId != null && apps.TryGetValue(appId, out var app))
             {
-                post.Source = string.Intern(app.Name);
+                source = string.Intern(app.Name);
 
                 try
                 {
-                    post.SourceUri = new Uri(SourceUriBase, app.Url);
+                    sourceUri = new Uri(SourceUriBase, app.Url);
                 }
                 catch (UriFormatException)
                 {
                 }
             }
 
-            post.IsReply = false;
-            post.IsExcludeReply = false;
-            post.IsDm = true;
+            return new()
+            {
+                StatusId = long.Parse(eventItem.Id),
+                IsDm = true,
+                CreatedAt = createdAt,
+                Text = text,
+                TextFromApi = textFromApi,
+                AccessibleText = accessibleText,
+                QuoteStatusIds = quoteStatusIds,
+                ExpandedUrls = expandedUrls,
+                ReplyToList = replyToList,
+                Media = media,
+                Source = source ?? "",
+                SourceUri = sourceUri,
 
-            return post;
+                // displayUser から生成
+                UserId = displayUser.Id,
+                ScreenName = screenName,
+                Nickname = nickname,
+                ImageUrl = imageUrl,
+                IsProtect = displayUser.Protected,
+                IsMe = senderIsMe,
+                IsOwl = !senderIsMe,
+            };
         }
 
         private string ReplaceTextFromApi(string text, TwitterEntities? entities, TwitterQuotedStatusPermalink? quotedStatusLink)
@@ -356,10 +301,13 @@ namespace OpenTween.Models
             return text;
         }
 
-        private void ExtractEntities(TwitterEntities? entities, List<(long UserId, string ScreenName)> atList, List<MediaInfo> media)
+        private (List<(long UserId, string ScreenName)> ReplyToList, List<MediaInfo> Media) ExtractEntities(TwitterEntities? entities)
         {
+            var atList = new List<(long UserId, string ScreenName)>();
+            var media = new List<MediaInfo>();
+
             if (entities == null)
-                return;
+                return (atList, media);
 
             if (entities.Hashtags != null)
             {
@@ -377,23 +325,22 @@ namespace OpenTween.Models
 
             if (entities.Media != null)
             {
-                if (media != null)
+                foreach (var ent in entities.Media)
                 {
-                    foreach (var ent in entities.Media)
-                    {
-                        if (media.Any(x => x.Url == ent.MediaUrlHttps))
-                            continue;
+                    if (media.Any(x => x.Url == ent.MediaUrlHttps))
+                        continue;
 
-                        var videoUrl =
-                            ent.VideoInfo != null && ent.Type == "animated_gif" || ent.Type == "video"
-                            ? ent.ExpandedUrl
-                            : null;
+                    var videoUrl =
+                        ent.VideoInfo != null && ent.Type == "animated_gif" || ent.Type == "video"
+                        ? ent.ExpandedUrl
+                        : null;
 
-                        var mediaInfo = new MediaInfo(ent.MediaUrlHttps, ent.AltText, videoUrl);
-                        media.Add(mediaInfo);
-                    }
+                    var mediaInfo = new MediaInfo(ent.MediaUrlHttps, ent.AltText, videoUrl);
+                    media.Add(mediaInfo);
                 }
             }
+
+            return (atList, media);
         }
 
         private static string CreateAccessibleText(string text, TwitterEntities? entities, TwitterStatus? quotedStatus, TwitterQuotedStatusPermalink? quotedStatusLink)

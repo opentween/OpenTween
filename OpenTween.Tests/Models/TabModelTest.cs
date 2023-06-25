@@ -259,6 +259,31 @@ namespace OpenTween.Models
         }
 
         [Fact]
+        public void ReplacePost_SuccessTest()
+        {
+            var tab = new PublicSearchTabModel("search");
+            var origPost = new PostClass { StatusId = 100L };
+            tab.AddPostQueue(origPost);
+            tab.AddSubmit();
+
+            Assert.Same(origPost, tab.Posts[100L]);
+
+            var newPost = new PostClass { StatusId = 100L, InReplyToStatusId = 200L };
+            Assert.True(tab.ReplacePost(newPost));
+            Assert.Same(newPost, tab.Posts[100L]);
+        }
+
+        [Fact]
+        public void ReplacePost_FailedTest()
+        {
+            var tab = new PublicSearchTabModel("search");
+            Assert.False(tab.Contains(100L));
+
+            var newPost = new PostClass { StatusId = 100L, InReplyToStatusId = 200L };
+            Assert.False(tab.ReplacePost(newPost));
+        }
+
+        [Fact]
         public void NextUnreadId_Test()
         {
             var tab = new PublicSearchTabModel("search");

@@ -38,29 +38,27 @@ using System.Threading.Tasks;
 
 namespace OpenTween.Models
 {
-    public class PostClass : ICloneable
+    public record PostClass()
     {
         public readonly record struct StatusGeo(
             double Longitude,
             double Latitude
         );
 
-        public string Nickname { get; set; } = "";
+        public string Nickname { get; init; } = "";
 
-        public string TextFromApi { get; set; } = "";
+        public string TextFromApi { get; init; } = "";
 
         /// <summary>スクリーンリーダーでの読み上げを考慮したテキスト</summary>
-        public string AccessibleText { get; set; } = "";
+        public string AccessibleText { get; init; } = "";
 
-        public string ImageUrl { get; set; } = "";
+        public string ImageUrl { get; init; } = "";
 
-        public string ScreenName { get; set; } = "";
+        public string ScreenName { get; init; } = "";
 
-        public DateTimeUtc CreatedAt { get; set; }
+        public DateTimeUtc CreatedAt { get; init; }
 
-        public long StatusId { get; set; }
-
-        private bool isFav;
+        public long StatusId { get; init; }
 
         public string Text
         {
@@ -75,59 +73,40 @@ namespace OpenTween.Models
 
                 return expandedHtml;
             }
-            set => this.text = value;
+            init => this.text = value;
         }
 
         private string text = "";
 
-        public bool IsRead { get; set; }
+        public bool IsReply { get; init; }
 
-        public bool IsReply { get; set; }
+        public string? InReplyToUser { get; init; }
 
-        public bool IsExcludeReply { get; set; }
+        public string Source { get; init; } = "";
 
-        private bool isProtect;
+        public Uri? SourceUri { get; init; }
 
-        public bool IsOwl { get; set; }
+        public List<(long UserId, string ScreenName)> ReplyToList { get; init; } = new();
 
-        private bool isMark;
+        public bool IsMe { get; init; }
 
-        public string? InReplyToUser { get; set; }
+        public bool IsDm { get; init; }
 
-        private long? inReplyToStatusId;
+        public long UserId { get; init; }
 
-        public string Source { get; set; } = "";
+        public string? RetweetedBy { get; init; }
 
-        public Uri? SourceUri { get; set; }
+        public long? RetweetedId { get; init; }
 
-        public List<(long UserId, string ScreenName)> ReplyToList { get; set; }
+        public long? RetweetedByUserId { get; init; }
 
-        public bool IsMe { get; set; }
+        public long? InReplyToUserId { get; init; }
 
-        public bool IsDm { get; set; }
+        public List<MediaInfo> Media { get; init; } = new();
 
-        public long UserId { get; set; }
+        public long[] QuoteStatusIds { get; init; } = Array.Empty<long>();
 
-        public bool FilterHit { get; set; }
-
-        public string? RetweetedBy { get; set; }
-
-        public long? RetweetedId { get; set; }
-
-        private bool isDeleted = false;
-        private StatusGeo? postGeo = null;
-
-        public int RetweetedCount { get; set; }
-
-        public long? RetweetedByUserId { get; set; }
-
-        public long? InReplyToUserId { get; set; }
-
-        public List<MediaInfo> Media { get; set; }
-
-        public long[] QuoteStatusIds { get; set; }
-
-        public ExpandedUrlInfo[] ExpandedUrls { get; set; }
+        public ExpandedUrlInfo[] ExpandedUrls { get; init; } = Array.Empty<ExpandedUrlInfo>();
 
         /// <summary>
         /// <see cref="PostClass"/> に含まれる t.co の展開後の URL を保持するクラス
@@ -185,11 +164,6 @@ namespace OpenTween.Models
                 => this.Clone();
         }
 
-        public int FavoritedCount { get; set; }
-
-        private States states = States.None;
-        private bool expandComplatedAll = false;
-
         [Flags]
         private enum States
         {
@@ -200,129 +174,53 @@ namespace OpenTween.Models
             Geo = 8,
         }
 
-        public PostClass()
+        public int StateIndex
         {
-            this.Media = new List<MediaInfo>();
-            this.ReplyToList = new List<(long, string)>();
-            this.QuoteStatusIds = Array.Empty<long>();
-            this.ExpandedUrls = Array.Empty<ExpandedUrlInfo>();
+            get
+            {
+                var states = States.None;
+
+                if (this.IsProtect)
+                    states |= States.Protect;
+                if (this.IsMark)
+                    states |= States.Mark;
+                if (this.InReplyToStatusId != null)
+                    states |= States.Reply;
+                if (this.PostGeo != null)
+                    states |= States.Geo;
+
+                return (int)states - 1;
+            }
         }
 
         public string TextSingleLine
             => this.TextFromApi.Replace("\n", " ");
 
-        public bool IsFav
-        {
-            get
-            {
-                if (this.RetweetedId != null)
-                {
-                    var post = this.RetweetSource;
-                    if (post != null)
-                    {
-                        return post.IsFav;
-                    }
-                }
+        public long? InReplyToStatusId { get; init; }
 
-                return this.isFav;
-            }
+        public bool IsProtect { get; init; }
 
-            set
-            {
-                this.isFav = value;
-                if (this.RetweetedId != null)
-                {
-                    var post = this.RetweetSource;
-                    if (post != null)
-                    {
-                        post.IsFav = value;
-                    }
-                }
-            }
-        }
+        public StatusGeo? PostGeo { get; set; }
 
-        public bool IsProtect
-        {
-            get => this.isProtect;
-            set
-            {
-                if (value)
-                    this.states |= States.Protect;
-                else
-                    this.states &= ~States.Protect;
+        public bool IsFav { get; set; }
 
-                this.isProtect = value;
-            }
-        }
+        public bool IsRead { get; set; }
 
-        public bool IsMark
-        {
-            get => this.isMark;
-            set
-            {
-                if (value)
-                    this.states |= States.Mark;
-                else
-                    this.states &= ~States.Mark;
+        public bool IsExcludeReply { get; set; }
 
-                this.isMark = value;
-            }
-        }
+        public bool IsOwl { get; set; }
 
-        public long? InReplyToStatusId
-        {
-            get => this.inReplyToStatusId;
-            set
-            {
-                if (value != null)
-                    this.states |= States.Reply;
-                else
-                    this.states &= ~States.Reply;
+        public bool IsMark { get; set; }
 
-                this.inReplyToStatusId = value;
-            }
-        }
+        public bool IsDeleted { get; set; }
 
-        public bool IsDeleted
-        {
-            get => this.isDeleted;
-            set
-            {
-                if (value)
-                {
-                    this.InReplyToStatusId = null;
-                    this.InReplyToUser = "";
-                    this.InReplyToUserId = null;
-                    this.IsReply = false;
-                    this.ReplyToList = new List<(long, string)>();
-                    this.states = States.None;
-                }
-                this.isDeleted = value;
-            }
-        }
+        public bool FilterHit { get; set; }
 
-        protected virtual PostClass? RetweetSource
-            => this.RetweetedId != null ? TabInformations.GetInstance().RetweetSource(this.RetweetedId.Value) : null;
+        public int RetweetedCount { get; set; }
 
-        public StatusGeo? PostGeo
-        {
-            get => this.postGeo;
-            set
-            {
-                if (value != null)
-                {
-                    this.states |= States.Geo;
-                }
-                else
-                {
-                    this.states &= ~States.Geo;
-                }
-                this.postGeo = value;
-            }
-        }
+        public int FavoritedCount { get; set; }
 
-        public int StateIndex
-            => (int)this.states - 1;
+        private bool expandComplatedAll = false;
 
         // 互換性のために用意
         public string SourceHtml
@@ -384,13 +282,14 @@ namespace OpenTween.Models
             if (this.RetweetedId == null)
                 throw new InvalidOperationException();
 
-            var originalPost = this.Clone();
-
-            originalPost.StatusId = this.RetweetedId.Value;
-            originalPost.RetweetedId = null;
-            originalPost.RetweetedBy = "";
-            originalPost.RetweetedByUserId = null;
-            originalPost.RetweetedCount = 1;
+            var originalPost = this with
+            {
+                StatusId = this.RetweetedId.Value,
+                RetweetedId = null,
+                RetweetedBy = "",
+                RetweetedByUserId = null,
+                RetweetedCount = 1,
+            };
 
             return originalPost;
         }
@@ -435,60 +334,5 @@ namespace OpenTween.Models
 
             return html;
         }
-
-        public PostClass Clone()
-        {
-            var clone = (PostClass)this.MemberwiseClone();
-            clone.ReplyToList = new List<(long, string)>(this.ReplyToList);
-            clone.Media = new List<MediaInfo>(this.Media);
-            clone.QuoteStatusIds = this.QuoteStatusIds.ToArray();
-            clone.ExpandedUrls = this.ExpandedUrls.Select(x => x.Clone()).ToArray();
-
-            return clone;
-        }
-
-        object ICloneable.Clone()
-            => this.Clone();
-
-        public override bool Equals(object? obj)
-        {
-            if (obj == null || this.GetType() != obj.GetType()) return false;
-            return this.Equals((PostClass)obj);
-        }
-
-        public bool Equals(PostClass? other)
-        {
-            if (other == null) return false;
-            return (this.Nickname == other.Nickname) &&
-                    (this.TextFromApi == other.TextFromApi) &&
-                    (this.ImageUrl == other.ImageUrl) &&
-                    (this.ScreenName == other.ScreenName) &&
-                    (this.CreatedAt == other.CreatedAt) &&
-                    (this.StatusId == other.StatusId) &&
-                    (this.IsFav == other.IsFav) &&
-                    (this.Text == other.Text) &&
-                    (this.IsRead == other.IsRead) &&
-                    (this.IsReply == other.IsReply) &&
-                    (this.IsExcludeReply == other.IsExcludeReply) &&
-                    (this.IsProtect == other.IsProtect) &&
-                    (this.IsOwl == other.IsOwl) &&
-                    (this.IsMark == other.IsMark) &&
-                    (this.InReplyToUser == other.InReplyToUser) &&
-                    (this.InReplyToStatusId == other.InReplyToStatusId) &&
-                    (this.Source == other.Source) &&
-                    (this.SourceUri == other.SourceUri) &&
-                    this.ReplyToList.SequenceEqual(other.ReplyToList) &&
-                    (this.IsMe == other.IsMe) &&
-                    (this.IsDm == other.IsDm) &&
-                    (this.UserId == other.UserId) &&
-                    (this.FilterHit == other.FilterHit) &&
-                    (this.RetweetedBy == other.RetweetedBy) &&
-                    (this.RetweetedId == other.RetweetedId) &&
-                    (this.IsDeleted == other.IsDeleted) &&
-                    (this.InReplyToUserId == other.InReplyToUserId);
-        }
-
-        public override int GetHashCode()
-            => this.StatusId.GetHashCode();
     }
 }
