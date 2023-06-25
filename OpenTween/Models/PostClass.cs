@@ -185,7 +185,6 @@ namespace OpenTween.Models
 
         public int FavoritedCount { get; set; }
 
-        private States states = States.None;
         private bool expandComplatedAll = false;
 
         [Flags]
@@ -206,52 +205,35 @@ namespace OpenTween.Models
             this.ExpandedUrls = Array.Empty<ExpandedUrlInfo>();
         }
 
+        public int StateIndex
+        {
+            get
+            {
+                var states = States.None;
+
+                if (this.IsProtect)
+                    states |= States.Protect;
+                if (this.IsMark)
+                    states |= States.Mark;
+                if (this.InReplyToStatusId != null)
+                    states |= States.Reply;
+                if (this.PostGeo != null)
+                    states |= States.Geo;
+
+                return (int)states - 1;
+            }
+        }
+
         public string TextSingleLine
             => this.TextFromApi.Replace("\n", " ");
 
         public bool IsFav { get; set; }
 
-        public bool IsProtect
-        {
-            get => this.isProtect;
-            set
-            {
-                if (value)
-                    this.states |= States.Protect;
-                else
-                    this.states &= ~States.Protect;
+        public bool IsProtect { get; set; }
 
-                this.isProtect = value;
-            }
-        }
+        public bool IsMark { get; set; }
 
-        public bool IsMark
-        {
-            get => this.isMark;
-            set
-            {
-                if (value)
-                    this.states |= States.Mark;
-                else
-                    this.states &= ~States.Mark;
-
-                this.isMark = value;
-            }
-        }
-
-        public long? InReplyToStatusId
-        {
-            get => this.inReplyToStatusId;
-            set
-            {
-                if (value != null)
-                    this.states |= States.Reply;
-                else
-                    this.states &= ~States.Reply;
-
-                this.inReplyToStatusId = value;
-            }
-        }
+        public long? InReplyToStatusId { get; set; }
 
         public bool IsDeleted
         {
@@ -265,31 +247,12 @@ namespace OpenTween.Models
                     this.InReplyToUserId = null;
                     this.IsReply = false;
                     this.ReplyToList = new List<(long, string)>();
-                    this.states = States.None;
                 }
                 this.isDeleted = value;
             }
         }
 
-        public StatusGeo? PostGeo
-        {
-            get => this.postGeo;
-            set
-            {
-                if (value != null)
-                {
-                    this.states |= States.Geo;
-                }
-                else
-                {
-                    this.states &= ~States.Geo;
-                }
-                this.postGeo = value;
-            }
-        }
-
-        public int StateIndex
-            => (int)this.states - 1;
+        public StatusGeo? PostGeo { get; set; }
 
         // 互換性のために用意
         public string SourceHtml
