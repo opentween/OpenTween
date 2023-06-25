@@ -132,28 +132,6 @@ namespace OpenTween.Models
         }
 
         [Fact]
-        public void DeleteTest()
-        {
-            var post = new PostClass
-            {
-                InReplyToStatusId = 10L,
-                InReplyToUser = "hogehoge",
-                InReplyToUserId = 100L,
-                IsReply = true,
-                ReplyToList = { (100L, "hogehoge") },
-            };
-
-            post.IsDeleted = true;
-
-            Assert.Null(post.InReplyToStatusId);
-            Assert.Equal("", post.InReplyToUser);
-            Assert.Null(post.InReplyToUserId);
-            Assert.False(post.IsReply);
-            Assert.Empty(post.ReplyToList);
-            Assert.Equal(-1, post.StateIndex);
-        }
-
-        [Fact]
         public void CanDeleteBy_SentDMTest()
         {
             var post = new PostClass

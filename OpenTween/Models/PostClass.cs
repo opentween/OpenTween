@@ -235,22 +235,7 @@ namespace OpenTween.Models
 
         public long? InReplyToStatusId { get; set; }
 
-        public bool IsDeleted
-        {
-            get => this.isDeleted;
-            set
-            {
-                if (value)
-                {
-                    this.InReplyToStatusId = null;
-                    this.InReplyToUser = "";
-                    this.InReplyToUserId = null;
-                    this.IsReply = false;
-                    this.ReplyToList = new List<(long, string)>();
-                }
-                this.isDeleted = value;
-            }
-        }
+        public bool IsDeleted { get; set; }
 
         public StatusGeo? PostGeo { get; set; }
 
