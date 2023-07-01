@@ -5019,7 +5019,7 @@ namespace OpenTween
                 return;
 
             var selectedStatusId = tab.SelectedStatusId;
-            if (selectedStatusId == -1)
+            if (selectedStatusId == null)
                 return;
 
             int fIdx, toIdx, stp;
@@ -5061,7 +5061,7 @@ namespace OpenTween
                 if (targetTab.TabType == MyCommon.TabUsageType.DirectMessage)
                     continue;
 
-                var foundIndex = targetTab.IndexOf(selectedStatusId);
+                var foundIndex = targetTab.IndexOf(selectedStatusId.Value);
                 if (foundIndex != -1)
                 {
                     this.ListTab.SelectedIndex = tabidx;

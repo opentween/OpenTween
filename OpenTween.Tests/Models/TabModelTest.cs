@@ -129,7 +129,7 @@ namespace OpenTween.Models
             tab.SelectPosts(Array.Empty<int>());
 
             Assert.Empty(tab.SelectedStatusIds);
-            Assert.Equal(-1L, tab.SelectedStatusId);
+            Assert.Null(tab.SelectedStatusId);
             Assert.Empty(tab.SelectedPosts);
             Assert.Null(tab.SelectedPost);
             Assert.Equal(-1, tab.SelectedIndex);

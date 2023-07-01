@@ -82,8 +82,8 @@ namespace OpenTween.Models
         public long[] SelectedStatusIds
             => this.selectedStatusIds.ToArray();
 
-        public long SelectedStatusId
-            => this.selectedStatusIds.DefaultIfEmpty(-1).First();
+        public long? SelectedStatusId
+            => this.selectedStatusIds.Count > 0 ? this.selectedStatusIds[0] : null;
 
         public PostClass[] SelectedPosts
             => this.selectedStatusIds.Select(x => this.Posts[x]).ToArray();
@@ -96,7 +96,7 @@ namespace OpenTween.Models
             get
             {
                 var statusId = this.SelectedStatusId;
-                return statusId != -1 ? this.IndexOf(statusId) : -1;
+                return statusId != null ? this.IndexOf(statusId.Value) : -1;
             }
         }
 
