@@ -290,17 +290,17 @@ namespace OpenTween.Models
 
         /// <summary>
         /// 次に表示する未読ツイートのIDを返します。
-        /// ただし、未読がない場合または UnreadManage が false の場合は -1 を返します
+        /// ただし、未読がない場合または UnreadManage が false の場合は null を返します
         /// </summary>
-        public long NextUnreadId
+        public long? NextUnreadId
         {
             get
             {
                 if (!this.UnreadManage || !SettingManager.Instance.Common.UnreadManage)
-                    return -1L;
+                    return null;
 
                 if (this.unreadIds.Count == 0)
-                    return -1L;
+                    return null;
 
                 // unreadIds はリストのインデックス番号順に並んでいるため、
                 // 例えば ID 順の整列であれば昇順なら上から、降順なら下から順に返せば過去→現在の順になる
@@ -317,7 +317,7 @@ namespace OpenTween.Models
             get
             {
                 var unreadId = this.NextUnreadId;
-                return unreadId != -1 ? this.IndexOf(unreadId) : -1;
+                return unreadId != null ? this.IndexOf(unreadId.Value) : -1;
             }
         }
 
