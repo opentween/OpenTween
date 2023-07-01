@@ -326,7 +326,7 @@ namespace OpenTween
 
             var loadingReplyHtml = string.Empty;
             if (post.InReplyToStatusId != null)
-                loadingReplyHtml = FormatQuoteTweetHtml(post.InReplyToStatusId.Value, Properties.Resources.LoadingText, isReply: true);
+                loadingReplyHtml = FormatQuoteTweetHtml(post.InReplyToStatusId, Properties.Resources.LoadingText, isReply: true);
 
             var body = post.Text + string.Concat(loadingQuoteHtml) + loadingReplyHtml;
 
@@ -337,7 +337,7 @@ namespace OpenTween
             var loadTweetTasks = quoteStatusIds.Select(x => this.CreateQuoteTweetHtml(x, isReply: false)).ToList();
 
             if (post.InReplyToStatusId != null)
-                loadTweetTasks.Add(this.CreateQuoteTweetHtml(post.InReplyToStatusId.Value, isReply: true));
+                loadTweetTasks.Add(this.CreateQuoteTweetHtml(post.InReplyToStatusId, isReply: true));
 
             var quoteHtmls = await Task.WhenAll(loadTweetTasks);
 
@@ -351,14 +351,14 @@ namespace OpenTween
                 this.PostBrowser.DocumentText = this.Owner.CreateDetailHtml(body);
         }
 
-        private async Task<string> CreateQuoteTweetHtml(long statusId, bool isReply)
+        private async Task<string> CreateQuoteTweetHtml(PostId statusId, bool isReply)
         {
             var post = TabInformations.GetInstance()[statusId];
             if (post == null)
             {
                 try
                 {
-                    post = await this.Owner.TwitterInstance.GetStatusApi(false, statusId)
+                    post = await this.Owner.TwitterInstance.GetStatusApi(false, statusId.ToTwitterStatusId())
                         .ConfigureAwait(false);
                 }
                 catch (WebApiException ex)
@@ -384,14 +384,14 @@ namespace OpenTween
             return FormatQuoteTweetHtml(post.StatusId, innerHtml, isReply);
         }
 
-        internal static string FormatQuoteTweetHtml(long statusId, string innerHtml, bool isReply)
+        internal static string FormatQuoteTweetHtml(PostId statusId, string innerHtml, bool isReply)
         {
             var blockClassName = "quote-tweet";
 
             if (isReply)
                 blockClassName += " reply";
 
-            return "<a class=\"quote-tweet-link\" href=\"//opentween/status/" + statusId + "\">" +
+            return "<a class=\"quote-tweet-link\" href=\"//opentween/status/" + statusId.Id + "\">" +
                 $"<blockquote class=\"{blockClassName}\">{innerHtml}</blockquote>" +
                 "</a>";
         }

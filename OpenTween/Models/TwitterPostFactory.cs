@@ -80,7 +80,7 @@ namespace OpenTween.Models
             {
                 // 幻覚fav対策 (8a5717dd のコミット参照)
                 var favTab = this.tabinfo.FavoriteTab;
-                isFav = favTab.Contains(originalStatus.Id);
+                isFav = favTab.Contains(new TwitterStatusId(originalStatus.IdStr));
             }
 
             var geo = (PostClass.StatusGeo?)null;
@@ -108,7 +108,9 @@ namespace OpenTween.Models
 
             var quoteStatusIds = GetQuoteTweetStatusIds(entities, quotedStatusLink)
                 .Where(x => x != status.Id && x != originalStatus.Id)
-                .Distinct().ToArray();
+                .Distinct()
+                .Select(x => new TwitterStatusId(x))
+                .ToArray();
 
             var expandedUrls = entities.OfType<TwitterEntityUrl>()
                 .Select(x => new PostClass.ExpandedUrlInfo(x.Url, x.ExpandedUrl))
@@ -141,7 +143,7 @@ namespace OpenTween.Models
             return new()
             {
                 // status から生成
-                StatusId = status.Id,
+                StatusId = new TwitterStatusId(status.IdStr),
                 CreatedAtForSorting = createdAtForSorting,
                 IsMe = statusUser.Id == selfUserId,
 
@@ -159,7 +161,7 @@ namespace OpenTween.Models
                 SourceUri = sourceUri,
                 IsFav = isFav,
                 IsReply = retweetedStatus != null && replyToList.Any(x => x.UserId == selfUserId),
-                InReplyToStatusId = originalStatus.InReplyToStatusId,
+                InReplyToStatusId = originalStatus.InReplyToStatusIdStr != null ? new TwitterStatusId(originalStatus.InReplyToStatusIdStr) : null,
                 InReplyToUser = originalStatus.InReplyToScreenName,
                 InReplyToUserId = originalStatus.InReplyToUserId,
 
@@ -172,7 +174,7 @@ namespace OpenTween.Models
                 IsOwl = isOwl,
 
                 // retweetedStatus から生成
-                RetweetedId = retweetedStatus?.Id,
+                RetweetedId = retweetedStatus != null ? new TwitterStatusId(retweetedStatus.IdStr) : null,
 
                 // retweeterUser から生成
                 RetweetedBy = retweeterUser != null ? string.Intern(retweeterUser.ScreenName) : null,
@@ -213,7 +215,9 @@ namespace OpenTween.Models
             var (replyToList, media) = this.ExtractEntities(entities);
 
             var quoteStatusIds = GetQuoteTweetStatusIds(entities, quotedStatusLink: null)
-                .Distinct().ToArray();
+                .Distinct()
+                .Select(x => new TwitterStatusId(x))
+                .ToArray();
 
             var expandedUrls = entities.OfType<TwitterEntityUrl>()
                 .Select(x => new PostClass.ExpandedUrlInfo(x.Url, x.ExpandedUrl))
@@ -257,7 +261,7 @@ namespace OpenTween.Models
 
             return new()
             {
-                StatusId = long.Parse(eventItem.Id),
+                StatusId = new TwitterDirectMessageId(eventItem.Id),
                 IsDm = true,
                 CreatedAt = createdAt,
                 Text = text,

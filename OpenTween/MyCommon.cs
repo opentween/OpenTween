@@ -845,14 +845,12 @@ namespace OpenTween
 
         public static string GetStatusUrl(PostClass post)
         {
-            if (post.RetweetedId == null)
-                return GetStatusUrl(post.ScreenName, post.StatusId);
-            else
-                return GetStatusUrl(post.ScreenName, post.RetweetedId.Value);
+            var statusId = post.RetweetedId ?? post.StatusId;
+            return GetStatusUrl(post.ScreenName, statusId.ToTwitterStatusId());
         }
 
-        public static string GetStatusUrl(string screenName, long statusId)
-            => TwitterUrl + screenName + "/status/" + statusId;
+        public static string GetStatusUrl(string screenName, TwitterStatusId statusId)
+            => TwitterUrl + screenName + "/status/" + statusId.Id;
 
         /// <summary>
         /// 指定された IDictionary を元にクエリ文字列を生成します

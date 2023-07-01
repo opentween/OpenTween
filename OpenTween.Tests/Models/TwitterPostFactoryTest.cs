@@ -79,7 +79,7 @@ namespace OpenTween.Models
             var status = this.CreateStatus();
             var post = factory.CreateFromStatus(status, selfUserId: 20000L, followerIds: EmptyIdSet);
 
-            Assert.Equal(status.Id, post.StatusId);
+            Assert.Equal(new TwitterStatusId(status.IdStr), post.StatusId);
             Assert.Equal(new DateTimeUtc(2022, 1, 1, 0, 0, 0), post.CreatedAt);
             Assert.Equal("hoge", post.Text);
             Assert.Equal("hoge", post.TextFromApi);
@@ -164,9 +164,9 @@ namespace OpenTween.Models
 
             var post = factory.CreateFromStatus(retweetStatus, selfUserId: 20000L, followerIds: EmptyIdSet);
 
-            Assert.Equal(retweetStatus.Id, post.StatusId);
+            Assert.Equal(new TwitterStatusId(retweetStatus.IdStr), post.StatusId);
             Assert.Equal(retweetStatus.User.Id, post.RetweetedByUserId);
-            Assert.Equal(originalStatus.Id, post.RetweetedId);
+            Assert.Equal(new TwitterStatusId(originalStatus.IdStr), post.RetweetedId);
             Assert.Equal(originalStatus.User.Id, post.UserId);
 
             Assert.Equal("OpenTween", post.Source);
@@ -228,7 +228,7 @@ namespace OpenTween.Models
             var apps = this.CreateApps();
             var post = factory.CreateFromDirectMessageEvent(eventItem, users, apps, selfUserId: selfUser.Id);
 
-            Assert.Equal(long.Parse(eventItem.Id), post.StatusId);
+            Assert.Equal(new TwitterDirectMessageId(eventItem.Id), post.StatusId);
             Assert.Equal(new DateTimeUtc(2022, 1, 1, 0, 0, 0), post.CreatedAt);
             Assert.Equal("hoge", post.Text);
             Assert.Equal("hoge", post.TextFromApi);

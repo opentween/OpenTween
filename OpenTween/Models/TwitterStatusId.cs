@@ -1,5 +1,5 @@
 ﻿// OpenTween - Client of Twitter
-// Copyright (c) 2016 kim_upsilon (@kim_upsilon) <https://upsilo.net/~upsilon/>
+// Copyright (c) 2023 kim_upsilon (@kim_upsilon) <https://upsilo.net/~upsilon/>
 // All rights reserved.
 //
 // This file is part of OpenTween.
@@ -26,23 +26,25 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using OpenTween.Connection;
-using OpenTween.Models;
 
-namespace OpenTween
+namespace OpenTween.Models
 {
-    public class PostStatusParams
+    public class TwitterStatusId : PostId
     {
-        public string Text { get; set; } = "";
+        public override string IdType => "twitter_status";
 
-        public PostId? InReplyToStatusId { get; set; }
+        public override string Id { get; }
 
-        public IReadOnlyList<long> MediaIds { get; set; } = Array.Empty<long>();
+        public TwitterStatusId(string id)
+            => this.Id = id;
 
-        public bool AutoPopulateReplyMetadata { get; set; }
+        public TwitterStatusId(long id)
+            => this.Id = id.ToString();
+    }
 
-        public IReadOnlyList<long> ExcludeReplyUserIds { get; set; } = Array.Empty<long>();
-
-        public string? AttachmentUrl { get; set; }
+    public static class TwitterStatusIdExtension
+    {
+        public static TwitterStatusId ToTwitterStatusId(this PostId postId)
+            => postId is TwitterStatusId statusId ? statusId : throw new InvalidOperationException("Cannot convert to twitter status_id.");
     }
 }

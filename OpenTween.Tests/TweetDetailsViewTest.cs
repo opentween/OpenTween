@@ -37,7 +37,7 @@ namespace OpenTween
         {
             var post = new PostClass
             {
-                StatusId = 12345L,
+                StatusId = new TwitterStatusId("12345"),
                 Nickname = "upsilon",
                 ScreenName = "kim_upsilon",
                 Text = "<a href=\"https://twitter.com/twitterapi\">@twitterapi</a> hogehoge",
@@ -57,7 +57,7 @@ namespace OpenTween
         [Fact]
         public void FormatQuoteTweetHtml_HtmlTest()
         {
-            var statusId = 12345L; // リンク先のステータスID
+            var statusId = new TwitterStatusId("12345"); // リンク先のステータスID
             var html = "<marquee>hogehoge</marquee>"; // HTMLをそのまま出力する (エスケープしない)
 
             var expected = "<a class=\"quote-tweet-link\" href=\"//opentween/status/12345\">" +
@@ -73,7 +73,7 @@ namespace OpenTween
             var expected = "<a class=\"quote-tweet-link\" href=\"//opentween/status/12345\">" +
                 "<blockquote class=\"quote-tweet reply\">hogehoge</blockquote>" +
                 "</a>";
-            Assert.Equal(expected, TweetDetailsView.FormatQuoteTweetHtml(12345L, "hogehoge", isReply: true));
+            Assert.Equal(expected, TweetDetailsView.FormatQuoteTweetHtml(new TwitterStatusId("12345"), "hogehoge", isReply: true));
         }
 
         [Fact]

@@ -39,8 +39,8 @@ namespace OpenTween.Models
 
             var posts = new[]
             {
-                new PostClass { StatusId = 100L },
-                new PostClass { StatusId = 110L },
+                new PostClass { StatusId = new TwitterStatusId("100") },
+                new PostClass { StatusId = new TwitterStatusId("110") },
             };
             tab.AddPostQueue(posts[0]);
             tab.AddPostQueue(posts[1]);
@@ -51,8 +51,8 @@ namespace OpenTween.Models
 
             tab.AnchorPost = posts[1];
 
-            Assert.Equal(110L, tab.AnchorStatusId);
-            Assert.Equal(110L, tab.AnchorPost.StatusId);
+            Assert.Equal(new TwitterStatusId("110"), tab.AnchorStatusId);
+            Assert.Equal(new TwitterStatusId("110"), tab.AnchorPost.StatusId);
         }
 
         [Fact]
@@ -62,15 +62,15 @@ namespace OpenTween.Models
 
             var posts = new[]
             {
-                new PostClass { StatusId = 100L },
+                new PostClass { StatusId = new TwitterStatusId("100") },
             };
             tab.AddPostQueue(posts[0]);
             tab.AddSubmit();
             tab.AnchorPost = posts[0];
 
-            Assert.Equal(100L, tab.AnchorPost.StatusId);
+            Assert.Equal(new TwitterStatusId("100"), tab.AnchorPost.StatusId);
 
-            tab.EnqueueRemovePost(100L, setIsDeleted: true);
+            tab.EnqueueRemovePost(new TwitterStatusId("100"), setIsDeleted: true);
             tab.RemoveSubmit();
 
             Assert.Null(tab.AnchorPost);
@@ -83,13 +83,13 @@ namespace OpenTween.Models
 
             var posts = new[]
             {
-                new PostClass { StatusId = 100L },
+                new PostClass { StatusId = new TwitterStatusId("100") },
             };
             tab.AddPostQueue(posts[0]);
             tab.AddSubmit();
             tab.AnchorPost = posts[0];
 
-            Assert.Equal(100L, tab.AnchorPost.StatusId);
+            Assert.Equal(new TwitterStatusId("100"), tab.AnchorPost.StatusId);
             tab.ClearAnchor();
             Assert.Null(tab.AnchorPost);
         }
@@ -101,9 +101,9 @@ namespace OpenTween.Models
 
             var posts = new[]
             {
-                new PostClass { StatusId = 100L },
-                new PostClass { StatusId = 110L },
-                new PostClass { StatusId = 120L },
+                new PostClass { StatusId = new TwitterStatusId("100") },
+                new PostClass { StatusId = new TwitterStatusId("110") },
+                new PostClass { StatusId = new TwitterStatusId("120") },
             };
             tab.AddPostQueue(posts[0]);
             tab.AddPostQueue(posts[1]);
@@ -112,8 +112,8 @@ namespace OpenTween.Models
 
             tab.SelectPosts(new[] { 0, 2 });
 
-            Assert.Equal(new[] { 100L, 120L }, tab.SelectedStatusIds);
-            Assert.Equal(100L, tab.SelectedStatusId);
+            Assert.Equal(new[] { new TwitterStatusId("100"), new TwitterStatusId("120") }, tab.SelectedStatusIds);
+            Assert.Equal(new TwitterStatusId("100"), tab.SelectedStatusId);
             Assert.Equal(new[] { posts[0], posts[2] }, tab.SelectedPosts);
             Assert.Equal(posts[0], tab.SelectedPost);
             Assert.Equal(0, tab.SelectedIndex);
@@ -123,7 +123,7 @@ namespace OpenTween.Models
         public void SelectPosts_EmptyTest()
         {
             var tab = new PublicSearchTabModel("search");
-            tab.AddPostQueue(new PostClass { StatusId = 100L });
+            tab.AddPostQueue(new PostClass { StatusId = new TwitterStatusId("100") });
             tab.AddSubmit();
 
             tab.SelectPosts(Array.Empty<int>());
@@ -139,7 +139,7 @@ namespace OpenTween.Models
         public void SelectPosts_InvalidIndexTest()
         {
             var tab = new PublicSearchTabModel("search");
-            tab.AddPostQueue(new PostClass { StatusId = 100L });
+            tab.AddPostQueue(new PostClass { StatusId = new TwitterStatusId("100") });
             tab.AddSubmit();
 
             Assert.Throws<ArgumentOutOfRangeException>(() => tab.SelectPosts(new[] { -1 }));
@@ -154,16 +154,16 @@ namespace OpenTween.Models
                 UnreadManage = true,
             };
 
-            tab.AddPostQueue(new PostClass { StatusId = 100L, IsRead = false });
-            tab.AddPostQueue(new PostClass { StatusId = 110L, IsRead = false });
-            tab.AddPostQueue(new PostClass { StatusId = 120L, IsRead = false });
+            tab.AddPostQueue(new PostClass { StatusId = new TwitterStatusId("100"), IsRead = false });
+            tab.AddPostQueue(new PostClass { StatusId = new TwitterStatusId("110"), IsRead = false });
+            tab.AddPostQueue(new PostClass { StatusId = new TwitterStatusId("120"), IsRead = false });
 
             tab.AddSubmit();
 
             Assert.Equal(3, tab.AllCount);
             Assert.Equal(3, tab.UnreadCount);
 
-            tab.EnqueueRemovePost(100L, setIsDeleted: false);
+            tab.EnqueueRemovePost(new TwitterStatusId("100"), setIsDeleted: false);
 
             // この時点では削除は行われない
             Assert.Equal(3, tab.AllCount);
@@ -173,8 +173,8 @@ namespace OpenTween.Models
 
             Assert.Equal(2, tab.AllCount);
             Assert.Equal(2, tab.UnreadCount);
-            Assert.Equal(new[] { 110L, 120L }, tab.StatusIds);
-            Assert.Equal(new[] { 100L }, removedIds.AsEnumerable());
+            Assert.Equal(new[] { new TwitterStatusId("110"), new TwitterStatusId("120") }, tab.StatusIds);
+            Assert.Equal(new[] { new TwitterStatusId("100") }, removedIds.AsEnumerable());
         }
 
         [Fact]
@@ -185,14 +185,14 @@ namespace OpenTween.Models
                 UnreadManage = true,
             };
 
-            var post = new PostClass { StatusId = 100L, IsRead = false };
+            var post = new PostClass { StatusId = new TwitterStatusId("100"), IsRead = false };
             tab.AddPostQueue(post);
             tab.AddSubmit();
 
             Assert.Equal(1, tab.AllCount);
             Assert.Equal(1, tab.UnreadCount);
 
-            tab.EnqueueRemovePost(100L, setIsDeleted: true);
+            tab.EnqueueRemovePost(new TwitterStatusId("100"), setIsDeleted: true);
 
             // この時点ではタブからの削除は行われないが、PostClass.IsDeleted は true にセットされる
             Assert.Equal(1, tab.AllCount);
@@ -203,7 +203,7 @@ namespace OpenTween.Models
 
             Assert.Equal(0, tab.AllCount);
             Assert.Equal(0, tab.UnreadCount);
-            Assert.Equal(new[] { 100L }, removedIds.AsEnumerable());
+            Assert.Equal(new[] { new TwitterStatusId("100") }, removedIds.AsEnumerable());
         }
 
         [Fact]
@@ -214,14 +214,14 @@ namespace OpenTween.Models
                 UnreadManage = true,
             };
 
-            tab.AddPostQueue(new PostClass { StatusId = 100L, IsRead = false });
+            tab.AddPostQueue(new PostClass { StatusId = new TwitterStatusId("100"), IsRead = false });
             tab.AddSubmit();
 
             Assert.Equal(1, tab.AllCount);
             Assert.Equal(1, tab.UnreadCount);
 
-            // StatusId = 999L は存在しない
-            tab.EnqueueRemovePost(999L, setIsDeleted: false);
+            // StatusId = 999 は存在しない
+            tab.EnqueueRemovePost(new TwitterStatusId("999"), setIsDeleted: false);
 
             Assert.Equal(1, tab.AllCount);
             Assert.Equal(1, tab.UnreadCount);
@@ -237,49 +237,49 @@ namespace OpenTween.Models
         public void EnqueueRemovePost_SelectedTest()
         {
             var tab = new PublicSearchTabModel("search");
-            tab.AddPostQueue(new PostClass { StatusId = 100L });
-            tab.AddPostQueue(new PostClass { StatusId = 110L });
+            tab.AddPostQueue(new PostClass { StatusId = new TwitterStatusId("100") });
+            tab.AddPostQueue(new PostClass { StatusId = new TwitterStatusId("110") });
             tab.AddSubmit();
             tab.SelectPosts(new[] { 0, 1 });
 
             Assert.Equal(2, tab.AllCount);
-            Assert.Equal(new[] { 100L, 110L }, tab.SelectedStatusIds);
+            Assert.Equal(new[] { new TwitterStatusId("100"), new TwitterStatusId("110") }, tab.SelectedStatusIds);
 
-            tab.EnqueueRemovePost(100L, setIsDeleted: false);
+            tab.EnqueueRemovePost(new TwitterStatusId("100"), setIsDeleted: false);
 
             // この時点では変化しない
             Assert.Equal(2, tab.AllCount);
-            Assert.Equal(new[] { 100L, 110L }, tab.SelectedStatusIds);
+            Assert.Equal(new[] { new TwitterStatusId("100"), new TwitterStatusId("110") }, tab.SelectedStatusIds);
 
             tab.RemoveSubmit();
 
             // 削除された発言の選択が解除される
             Assert.Equal(1, tab.AllCount);
-            Assert.Equal(new[] { 110L }, tab.SelectedStatusIds);
+            Assert.Equal(new[] { new TwitterStatusId("110") }, tab.SelectedStatusIds);
         }
 
         [Fact]
         public void ReplacePost_SuccessTest()
         {
             var tab = new PublicSearchTabModel("search");
-            var origPost = new PostClass { StatusId = 100L };
+            var origPost = new PostClass { StatusId = new TwitterStatusId("100") };
             tab.AddPostQueue(origPost);
             tab.AddSubmit();
 
-            Assert.Same(origPost, tab.Posts[100L]);
+            Assert.Same(origPost, tab.Posts[new TwitterStatusId("100")]);
 
-            var newPost = new PostClass { StatusId = 100L, InReplyToStatusId = 200L };
+            var newPost = new PostClass { StatusId = new TwitterStatusId("100"), InReplyToStatusId = new TwitterStatusId("200") };
             Assert.True(tab.ReplacePost(newPost));
-            Assert.Same(newPost, tab.Posts[100L]);
+            Assert.Same(newPost, tab.Posts[new TwitterStatusId("100")]);
         }
 
         [Fact]
         public void ReplacePost_FailedTest()
         {
             var tab = new PublicSearchTabModel("search");
-            Assert.False(tab.Contains(100L));
+            Assert.False(tab.Contains(new TwitterStatusId("100")));
 
-            var newPost = new PostClass { StatusId = 100L, InReplyToStatusId = 200L };
+            var newPost = new PostClass { StatusId = new TwitterStatusId("100"), InReplyToStatusId = new TwitterStatusId("200") };
             Assert.False(tab.ReplacePost(newPost));
         }
 
@@ -291,25 +291,25 @@ namespace OpenTween.Models
             tab.UnreadManage = true;
 
             // 未読なし
-            Assert.Equal(-1L, tab.NextUnreadId);
+            Assert.Null(tab.NextUnreadId);
 
             tab.AddPostQueue(new PostClass
             {
-                StatusId = 100L,
+                StatusId = new TwitterStatusId("100"),
                 IsRead = false, // 未読
             });
             tab.AddSubmit();
 
-            Assert.Equal(100L, tab.NextUnreadId);
+            Assert.Equal(new TwitterStatusId("100"), tab.NextUnreadId);
 
             tab.AddPostQueue(new PostClass
             {
-                StatusId = 50L,
+                StatusId = new TwitterStatusId("50"),
                 IsRead = true, // 既読
             });
             tab.AddSubmit();
 
-            Assert.Equal(100L, tab.NextUnreadId);
+            Assert.Equal(new TwitterStatusId("100"), tab.NextUnreadId);
         }
 
         [Fact]
@@ -322,12 +322,12 @@ namespace OpenTween.Models
 
             tab.AddPostQueue(new PostClass
             {
-                StatusId = 100L,
+                StatusId = new TwitterStatusId("100"),
                 IsRead = false, // 未読
             });
             tab.AddSubmit();
 
-            Assert.Equal(-1L, tab.NextUnreadId);
+            Assert.Null(tab.NextUnreadId);
         }
 
         [Fact]
@@ -343,26 +343,26 @@ namespace OpenTween.Models
             // 画面には上から 100 → 200 → 300 の順に並ぶ
             tab.AddPostQueue(new()
             {
-                StatusId = 100L,
+                StatusId = new TwitterStatusId("100"),
                 CreatedAtForSorting = new(2023, 1, 1, 0, 0, 1),
                 IsRead = false,
             });
             tab.AddPostQueue(new()
             {
-                StatusId = 200L,
+                StatusId = new TwitterStatusId("200"),
                 CreatedAtForSorting = new(2023, 1, 1, 0, 0, 2),
                 IsRead = false,
             });
             tab.AddPostQueue(new()
             {
-                StatusId = 300L,
+                StatusId = new TwitterStatusId("300"),
                 CreatedAtForSorting = new(2023, 1, 1, 0, 0, 3),
                 IsRead = false,
             });
             tab.AddSubmit();
 
             // 昇順/降順に関わらず、CreatedAtForSorting の小さい順に未読の ID を返す
-            Assert.Equal(100L, tab.NextUnreadId);
+            Assert.Equal(new TwitterStatusId("100"), tab.NextUnreadId);
         }
 
         [Fact]
@@ -378,26 +378,26 @@ namespace OpenTween.Models
             // 画面には上から 300 → 200 → 100 の順に並ぶ
             tab.AddPostQueue(new()
             {
-                StatusId = 100L,
+                StatusId = new TwitterStatusId("100"),
                 CreatedAtForSorting = new(2023, 1, 1, 0, 0, 1),
                 IsRead = false,
             });
             tab.AddPostQueue(new()
             {
-                StatusId = 200L,
+                StatusId = new TwitterStatusId("200"),
                 CreatedAtForSorting = new(2023, 1, 1, 0, 0, 2),
                 IsRead = false,
             });
             tab.AddPostQueue(new()
             {
-                StatusId = 300L,
+                StatusId = new TwitterStatusId("300"),
                 CreatedAtForSorting = new(2023, 1, 1, 0, 0, 3),
                 IsRead = false,
             });
             tab.AddSubmit();
 
             // 昇順/降順に関わらず、CreatedAtForSorting の小さい順に未読の ID を返す
-            Assert.Equal(100L, tab.NextUnreadId);
+            Assert.Equal(new TwitterStatusId("100"), tab.NextUnreadId);
         }
 
         [Fact]
@@ -411,13 +411,13 @@ namespace OpenTween.Models
             tab.SetSortMode(ComparerMode.Name, SortOrder.Ascending);
 
             // 画面には上から 200 → 100 → 300 の順に並ぶ
-            tab.AddPostQueue(new PostClass { StatusId = 100L, ScreenName = "bbb", IsRead = false });
-            tab.AddPostQueue(new PostClass { StatusId = 200L, ScreenName = "aaa", IsRead = false });
-            tab.AddPostQueue(new PostClass { StatusId = 300L, ScreenName = "ccc", IsRead = false });
+            tab.AddPostQueue(new PostClass { StatusId = new TwitterStatusId("100"), ScreenName = "bbb", IsRead = false });
+            tab.AddPostQueue(new PostClass { StatusId = new TwitterStatusId("200"), ScreenName = "aaa", IsRead = false });
+            tab.AddPostQueue(new PostClass { StatusId = new TwitterStatusId("300"), ScreenName = "ccc", IsRead = false });
             tab.AddSubmit();
 
             // 昇順/降順に関わらず、ScreenName の辞書順で小さい順に未読の ID を返す
-            Assert.Equal(200L, tab.NextUnreadId);
+            Assert.Equal(new TwitterStatusId("200"), tab.NextUnreadId);
         }
 
         [Fact]
@@ -431,13 +431,13 @@ namespace OpenTween.Models
             tab.SetSortMode(ComparerMode.Name, SortOrder.Descending);
 
             // 画面には上から 300 → 100 → 200 の順に並ぶ
-            tab.AddPostQueue(new PostClass { StatusId = 100L, ScreenName = "bbb", IsRead = false });
-            tab.AddPostQueue(new PostClass { StatusId = 200L, ScreenName = "aaa", IsRead = false });
-            tab.AddPostQueue(new PostClass { StatusId = 300L, ScreenName = "ccc", IsRead = false });
+            tab.AddPostQueue(new PostClass { StatusId = new TwitterStatusId("100"), ScreenName = "bbb", IsRead = false });
+            tab.AddPostQueue(new PostClass { StatusId = new TwitterStatusId("200"), ScreenName = "aaa", IsRead = false });
+            tab.AddPostQueue(new PostClass { StatusId = new TwitterStatusId("300"), ScreenName = "ccc", IsRead = false });
             tab.AddSubmit();
 
             // 昇順/降順に関わらず、ScreenName の辞書順で小さい順に未読の ID を返す
-            Assert.Equal(200L, tab.NextUnreadId);
+            Assert.Equal(new TwitterStatusId("200"), tab.NextUnreadId);
         }
 
         [Fact]
@@ -452,7 +452,7 @@ namespace OpenTween.Models
 
             tab.AddPostQueue(new PostClass
             {
-                StatusId = 100L,
+                StatusId = new TwitterStatusId("100"),
                 IsRead = false, // 未読
             });
             tab.AddSubmit();
@@ -461,7 +461,7 @@ namespace OpenTween.Models
 
             tab.AddPostQueue(new PostClass
             {
-                StatusId = 50L,
+                StatusId = new TwitterStatusId("50"),
                 IsRead = true, // 既読
             });
             tab.AddSubmit();
@@ -479,7 +479,7 @@ namespace OpenTween.Models
 
             tab.AddPostQueue(new PostClass
             {
-                StatusId = 100L,
+                StatusId = new TwitterStatusId("100"),
                 IsRead = false, // 未読
             });
             tab.AddSubmit();
@@ -500,19 +500,19 @@ namespace OpenTween.Models
 
             tab.AddPostQueue(new PostClass
             {
-                StatusId = 50L,
+                StatusId = new TwitterStatusId("50"),
                 CreatedAtForSorting = new(2023, 1, 1, 0, 0, 1),
                 IsRead = true, // 既読
             });
             tab.AddPostQueue(new PostClass
             {
-                StatusId = 100L,
+                StatusId = new TwitterStatusId("100"),
                 CreatedAtForSorting = new(2023, 1, 1, 0, 0, 2),
                 IsRead = false, // 未読
             });
             tab.AddPostQueue(new PostClass
             {
-                StatusId = 150L,
+                StatusId = new TwitterStatusId("150"),
                 CreatedAtForSorting = new(2023, 1, 1, 0, 0, 3),
                 IsRead = false, // 未読
             });
@@ -532,7 +532,7 @@ namespace OpenTween.Models
 
             tab.AddPostQueue(new PostClass
             {
-                StatusId = 100L,
+                StatusId = new TwitterStatusId("100"),
                 CreatedAtForSorting = new(2023, 1, 1, 0, 0, 1),
                 IsRead = false, // 未読
             });
@@ -549,13 +549,13 @@ namespace OpenTween.Models
 
             Assert.Empty(tab.GetUnreadIds());
 
-            tab.AddPostQueue(new PostClass { StatusId = 100L, IsRead = false });
-            tab.AddPostQueue(new PostClass { StatusId = 200L, IsRead = true });
+            tab.AddPostQueue(new PostClass { StatusId = new TwitterStatusId("100"), IsRead = false });
+            tab.AddPostQueue(new PostClass { StatusId = new TwitterStatusId("200"), IsRead = true });
             tab.AddSubmit();
 
-            Assert.Equal(new[] { 100L }, tab.GetUnreadIds());
+            Assert.Equal(new[] { new TwitterStatusId("100") }, tab.GetUnreadIds());
 
-            tab.SetReadState(100L, true); // 既読にする
+            tab.SetReadState(new TwitterStatusId("100"), true); // 既読にする
 
             Assert.Empty(tab.GetUnreadIds());
         }
@@ -569,14 +569,14 @@ namespace OpenTween.Models
 
             tab.AddPostQueue(new PostClass
             {
-                StatusId = 100L,
+                StatusId = new TwitterStatusId("100"),
                 IsRead = false, // 未読
             });
             tab.AddSubmit();
 
             Assert.Equal(1, tab.UnreadCount);
 
-            tab.SetReadState(100L, true); // 既読にする
+            tab.SetReadState(new TwitterStatusId("100"), true); // 既読にする
 
             Assert.Equal(0, tab.UnreadCount);
         }
@@ -590,14 +590,14 @@ namespace OpenTween.Models
 
             tab.AddPostQueue(new PostClass
             {
-                StatusId = 100L,
+                StatusId = new TwitterStatusId("100"),
                 IsRead = true, // 既読
             });
             tab.AddSubmit();
 
             Assert.Equal(0, tab.UnreadCount);
 
-            tab.SetReadState(100L, false); // 未読にする
+            tab.SetReadState(new TwitterStatusId("100"), false); // 未読にする
 
             Assert.Equal(1, tab.UnreadCount);
         }
@@ -680,7 +680,7 @@ namespace OpenTween.Models
 
             tab.AddPostQueue(new()
             {
-                StatusId = 100L,
+                StatusId = new TwitterStatusId("100"),
                 CreatedAtForSorting = new(2023, 1, 1, 0, 0, 0), // 0
                 TextFromApi = "abcd",
                 ScreenName = "",
@@ -688,7 +688,7 @@ namespace OpenTween.Models
             });
             tab.AddPostQueue(new()
             {
-                StatusId = 110L,
+                StatusId = new TwitterStatusId("110"),
                 CreatedAtForSorting = new(2023, 1, 1, 0, 0, 1), // 1
                 TextFromApi = "efgh",
                 ScreenName = "",
@@ -696,7 +696,7 @@ namespace OpenTween.Models
             });
             tab.AddPostQueue(new()
             {
-                StatusId = 120L,
+                StatusId = new TwitterStatusId("120"),
                 CreatedAtForSorting = new(2023, 1, 1, 0, 0, 2), // 2
                 TextFromApi = "ijkl",
                 ScreenName = "",
@@ -704,7 +704,7 @@ namespace OpenTween.Models
             });
             tab.AddPostQueue(new()
             {
-                StatusId = 130L,
+                StatusId = new TwitterStatusId("130"),
                 CreatedAtForSorting = new(2023, 1, 1, 0, 0, 3), // 3
                 TextFromApi = "abc",
                 ScreenName = "",
@@ -712,7 +712,7 @@ namespace OpenTween.Models
             });
             tab.AddPostQueue(new()
             {
-                StatusId = 140L,
+                StatusId = new TwitterStatusId("140"),
                 CreatedAtForSorting = new(2023, 1, 1, 0, 0, 4), // 4
                 TextFromApi = "def",
                 ScreenName = "",
@@ -738,7 +738,7 @@ namespace OpenTween.Models
 
             tab.AddPostQueue(new()
             {
-                StatusId = 100L,
+                StatusId = new TwitterStatusId("100"),
                 CreatedAtForSorting = new(2023, 1, 1, 0, 0, 0), // 0
                 TextFromApi = "abcd",
                 ScreenName = "",
@@ -746,7 +746,7 @@ namespace OpenTween.Models
             });
             tab.AddPostQueue(new()
             {
-                StatusId = 110L,
+                StatusId = new TwitterStatusId("110"),
                 CreatedAtForSorting = new(2023, 1, 1, 0, 0, 1), // 1
                 TextFromApi = "efgh",
                 ScreenName = "",
@@ -754,7 +754,7 @@ namespace OpenTween.Models
             });
             tab.AddPostQueue(new()
             {
-                StatusId = 120L,
+                StatusId = new TwitterStatusId("120"),
                 CreatedAtForSorting = new(2023, 1, 1, 0, 0, 2), // 2
                 TextFromApi = "ijkl",
                 ScreenName = "",
@@ -762,7 +762,7 @@ namespace OpenTween.Models
             });
             tab.AddPostQueue(new()
             {
-                StatusId = 130L,
+                StatusId = new TwitterStatusId("130"),
                 CreatedAtForSorting = new(2023, 1, 1, 0, 0, 3), // 3
                 TextFromApi = "abc",
                 ScreenName = "",
@@ -770,7 +770,7 @@ namespace OpenTween.Models
             });
             tab.AddPostQueue(new()
             {
-                StatusId = 140L,
+                StatusId = new TwitterStatusId("140"),
                 CreatedAtForSorting = new(2023, 1, 1, 0, 0, 4), // 4
                 TextFromApi = "def",
                 ScreenName = "",
@@ -796,19 +796,19 @@ namespace OpenTween.Models
 
             tab.AddPostQueue(new()
             {
-                StatusId = 100L,
+                StatusId = new TwitterStatusId("100"),
                 CreatedAtForSorting = new(2023, 1, 1, 0, 0, 0), // 0
                 TextFromApi = "abcd",
             });
             tab.AddPostQueue(new()
             {
-                StatusId = 110L,
+                StatusId = new TwitterStatusId("110"),
                 CreatedAtForSorting = new(2023, 1, 1, 0, 0, 1), // 1
                 TextFromApi = "efgh",
             });
             tab.AddPostQueue(new()
             {
-                StatusId = 120L,
+                StatusId = new TwitterStatusId("120"),
                 CreatedAtForSorting = new(2023, 1, 1, 0, 0, 2), // 2
                 TextFromApi = "ijkl",
             });
@@ -816,8 +816,8 @@ namespace OpenTween.Models
             tab.SetSortMode(ComparerMode.Id, SortOrder.Ascending);
             tab.AddSubmit();
 
-            Assert.Equal(100L, tab[0].StatusId);
-            Assert.Equal(120L, tab[2].StatusId);
+            Assert.Equal(new TwitterStatusId("100"), tab[0].StatusId);
+            Assert.Equal(new TwitterStatusId("120"), tab[2].StatusId);
         }
 
         [Fact]
@@ -827,19 +827,19 @@ namespace OpenTween.Models
 
             tab.AddPostQueue(new()
             {
-                StatusId = 100L,
+                StatusId = new TwitterStatusId("100"),
                 CreatedAtForSorting = new(2023, 1, 1, 0, 0, 0), // 0
                 TextFromApi = "abcd",
             });
             tab.AddPostQueue(new()
             {
-                StatusId = 110L,
+                StatusId = new TwitterStatusId("110"),
                 CreatedAtForSorting = new(2023, 1, 1, 0, 0, 1), // 1
                 TextFromApi = "efgh",
             });
             tab.AddPostQueue(new()
             {
-                StatusId = 120L,
+                StatusId = new TwitterStatusId("120"),
                 CreatedAtForSorting = new(2023, 1, 1, 0, 0, 2), // 2
                 TextFromApi = "ijkl",
             });
@@ -858,19 +858,19 @@ namespace OpenTween.Models
 
             tab.AddPostQueue(new()
             {
-                StatusId = 100L,
+                StatusId = new TwitterStatusId("100"),
                 CreatedAtForSorting = new(2023, 1, 1, 0, 0, 0), // 0
                 TextFromApi = "abcd",
             });
             tab.AddPostQueue(new()
             {
-                StatusId = 110L,
+                StatusId = new TwitterStatusId("110"),
                 CreatedAtForSorting = new(2023, 1, 1, 0, 0, 1), // 1
                 TextFromApi = "efgh",
             });
             tab.AddPostQueue(new()
             {
-                StatusId = 120L,
+                StatusId = new TwitterStatusId("120"),
                 CreatedAtForSorting = new(2023, 1, 1, 0, 0, 2), // 2
                 TextFromApi = "ijkl",
             });
@@ -878,9 +878,9 @@ namespace OpenTween.Models
             tab.SetSortMode(ComparerMode.Id, SortOrder.Ascending);
             tab.AddSubmit();
 
-            Assert.Equal(new[] { 100L, 110L, 120L }, tab[0, 2].Select(x => x.StatusId));
-            Assert.Equal(new[] { 100L }, tab[0, 0].Select(x => x.StatusId));
-            Assert.Equal(new[] { 120L }, tab[2, 2].Select(x => x.StatusId));
+            Assert.Equal(new[] { new TwitterStatusId("100"), new TwitterStatusId("110"), new TwitterStatusId("120") }, tab[0, 2].Select(x => x.StatusId));
+            Assert.Equal(new[] { new TwitterStatusId("100") }, tab[0, 0].Select(x => x.StatusId));
+            Assert.Equal(new[] { new TwitterStatusId("120") }, tab[2, 2].Select(x => x.StatusId));
         }
 
         [Fact]
@@ -890,19 +890,19 @@ namespace OpenTween.Models
 
             tab.AddPostQueue(new()
             {
-                StatusId = 100L,
+                StatusId = new TwitterStatusId("100"),
                 CreatedAtForSorting = new(2023, 1, 1, 0, 0, 0), // 0
                 TextFromApi = "abcd",
             });
             tab.AddPostQueue(new()
             {
-                StatusId = 110L,
+                StatusId = new TwitterStatusId("110"),
                 CreatedAtForSorting = new(2023, 1, 1, 0, 0, 1), // 1
                 TextFromApi = "efgh",
             });
             tab.AddPostQueue(new()
             {
-                StatusId = 120L,
+                StatusId = new TwitterStatusId("120"),
                 CreatedAtForSorting = new(2023, 1, 1, 0, 0, 2), // 2
                 TextFromApi = "ijkl",
             });

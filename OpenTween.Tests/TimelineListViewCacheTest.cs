@@ -34,7 +34,7 @@ namespace OpenTween
         {
             return new()
             {
-                StatusId = this.random.Next(10000),
+                StatusId = new TwitterStatusId(this.random.Next(10000)),
                 UserId = this.random.Next(10000),
                 ScreenName = "test",
                 Nickname = "てすと",
@@ -153,7 +153,7 @@ namespace OpenTween
 
             var post = this.CreatePost() with
             {
-                RetweetedId = 50L,
+                RetweetedId = new TwitterStatusId("50"),
                 RetweetedBy = "hoge",
             };
 
@@ -317,7 +317,7 @@ namespace OpenTween
 
             var post = this.CreatePost() with
             {
-                RetweetedId = 100L,
+                RetweetedId = new TwitterStatusId("100"),
             };
 
             tab.AddPostQueue(post);

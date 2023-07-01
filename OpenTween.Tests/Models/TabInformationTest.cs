@@ -75,7 +75,7 @@ namespace OpenTween.Models
         public void RemoveTab_InnerStorageTabTest()
         {
             var tab = new PublicSearchTabModel("search");
-            tab.AddPostQueue(new PostClass { StatusId = 100L });
+            tab.AddPostQueue(new PostClass { StatusId = new TwitterStatusId("100") });
             this.tabinfo.AddTab(tab);
             this.tabinfo.SubmitUpdate();
 
@@ -96,12 +96,12 @@ namespace OpenTween.Models
             filterTab.AddFilter(new() { FilterName = "opentween", MoveMatches = true });
             this.tabinfo.AddTab(filterTab);
 
-            this.tabinfo.AddPost(new PostClass { StatusId = 100L, ScreenName = "opentween" });
+            this.tabinfo.AddPost(new PostClass { StatusId = new TwitterStatusId("100"), ScreenName = "opentween" });
             this.tabinfo.DistributePosts();
             this.tabinfo.SubmitUpdate();
 
-            Assert.False(this.tabinfo.HomeTab.Contains(100L));
-            Assert.True(filterTab.Contains(100L));
+            Assert.False(this.tabinfo.HomeTab.Contains(new TwitterStatusId("100")));
+            Assert.True(filterTab.Contains(new TwitterStatusId("100")));
 
             this.tabinfo.RemoveTab("filter");
 
@@ -110,7 +110,7 @@ namespace OpenTween.Models
             Assert.Contains(filterTab, this.tabinfo.RemovedTab);
 
             // 他に MoveMatches で移動している振り分けタブが存在しなければ Home タブに戻す
-            Assert.True(this.tabinfo.HomeTab.Contains(100L));
+            Assert.True(this.tabinfo.HomeTab.Contains(new TwitterStatusId("100")));
         }
 
         [Fact]
@@ -124,13 +124,13 @@ namespace OpenTween.Models
             filterTab2.AddFilter(new() { FilterName = "opentween", MoveMatches = true });
             this.tabinfo.AddTab(filterTab2);
 
-            this.tabinfo.AddPost(new PostClass { StatusId = 100L, ScreenName = "opentween" });
+            this.tabinfo.AddPost(new PostClass { StatusId = new TwitterStatusId("100"), ScreenName = "opentween" });
             this.tabinfo.DistributePosts();
             this.tabinfo.SubmitUpdate();
 
-            Assert.False(this.tabinfo.HomeTab.Contains(100L));
-            Assert.True(filterTab1.Contains(100L));
-            Assert.True(filterTab2.Contains(100L));
+            Assert.False(this.tabinfo.HomeTab.Contains(new TwitterStatusId("100")));
+            Assert.True(filterTab1.Contains(new TwitterStatusId("100")));
+            Assert.True(filterTab2.Contains(new TwitterStatusId("100")));
 
             this.tabinfo.RemoveTab("filter1");
 
@@ -139,8 +139,8 @@ namespace OpenTween.Models
             Assert.Contains(filterTab1, this.tabinfo.RemovedTab);
 
             // 他に MoveMatches で移動している振り分けタブが存在する場合は Home タブに戻さない
-            Assert.False(this.tabinfo.HomeTab.Contains(100L));
-            Assert.True(filterTab2.Contains(100L));
+            Assert.False(this.tabinfo.HomeTab.Contains(new TwitterStatusId("100")));
+            Assert.True(filterTab2.Contains(new TwitterStatusId("100")));
         }
 
         [Fact]
@@ -150,12 +150,12 @@ namespace OpenTween.Models
             filterTab.AddFilter(new() { FilterName = "opentween", MoveMatches = false });
             this.tabinfo.AddTab(filterTab);
 
-            this.tabinfo.AddPost(new PostClass { StatusId = 100L, ScreenName = "opentween" });
+            this.tabinfo.AddPost(new PostClass { StatusId = new TwitterStatusId("100"), ScreenName = "opentween" });
             this.tabinfo.DistributePosts();
             this.tabinfo.SubmitUpdate();
 
-            Assert.True(this.tabinfo.HomeTab.Contains(100L));
-            Assert.True(filterTab.Contains(100L));
+            Assert.True(this.tabinfo.HomeTab.Contains(new TwitterStatusId("100")));
+            Assert.True(filterTab.Contains(new TwitterStatusId("100")));
 
             this.tabinfo.RemoveTab("filter");
 
@@ -164,7 +164,7 @@ namespace OpenTween.Models
             Assert.Contains(filterTab, this.tabinfo.RemovedTab);
 
             // 振り分けタブにコピーされた発言は Home タブにも存在しているため何もしない
-            Assert.True(this.tabinfo.HomeTab.Contains(100L));
+            Assert.True(this.tabinfo.HomeTab.Contains(new TwitterStatusId("100")));
         }
 
         [Fact]
@@ -612,15 +612,15 @@ namespace OpenTween.Models
 
             // search1 に追加するツイート (StatusId: 100, 150, 200; すべて未読)
             tab1.UnreadManage = true;
-            tab1.AddPostQueue(new PostClass { StatusId = 100L, IsRead = false });
-            tab1.AddPostQueue(new PostClass { StatusId = 150L, IsRead = false });
-            tab1.AddPostQueue(new PostClass { StatusId = 200L, IsRead = false });
+            tab1.AddPostQueue(new PostClass { StatusId = new TwitterStatusId("100"), IsRead = false });
+            tab1.AddPostQueue(new PostClass { StatusId = new TwitterStatusId("150"), IsRead = false });
+            tab1.AddPostQueue(new PostClass { StatusId = new TwitterStatusId("200"), IsRead = false });
 
             // search2 に追加するツイート (StatusId: 150, 200, 250; すべて未読)
             tab2.UnreadManage = true;
-            tab2.AddPostQueue(new PostClass { StatusId = 150L, IsRead = false });
-            tab2.AddPostQueue(new PostClass { StatusId = 200L, IsRead = false });
-            tab2.AddPostQueue(new PostClass { StatusId = 250L, IsRead = false });
+            tab2.AddPostQueue(new PostClass { StatusId = new TwitterStatusId("150"), IsRead = false });
+            tab2.AddPostQueue(new PostClass { StatusId = new TwitterStatusId("200"), IsRead = false });
+            tab2.AddPostQueue(new PostClass { StatusId = new TwitterStatusId("250"), IsRead = false });
 
             this.tabinfo.DistributePosts();
             this.tabinfo.SubmitUpdate();
@@ -632,12 +632,12 @@ namespace OpenTween.Models
             // ... ここまで長い前置き
 
             // StatusId: 200 を既読にする (search1, search2 両方に含まれる)
-            this.tabinfo.SetReadAllTab(200L, read: true);
+            this.tabinfo.SetReadAllTab(new TwitterStatusId("200"), read: true);
             Assert.Equal(2, tab1.UnreadCount);
             Assert.Equal(2, tab2.UnreadCount);
 
             // StatusId: 100 を既読にする (search1 のみに含まれる)
-            this.tabinfo.SetReadAllTab(100L, read: true);
+            this.tabinfo.SetReadAllTab(new TwitterStatusId("100"), read: true);
             Assert.Equal(1, tab1.UnreadCount);
             Assert.Equal(2, tab2.UnreadCount);
         }
@@ -653,15 +653,15 @@ namespace OpenTween.Models
 
             // search1 に追加するツイート (StatusId: 100, 150, 200; すべて既読)
             tab1.UnreadManage = true;
-            tab1.AddPostQueue(new PostClass { StatusId = 100L, IsRead = true });
-            tab1.AddPostQueue(new PostClass { StatusId = 150L, IsRead = true });
-            tab1.AddPostQueue(new PostClass { StatusId = 200L, IsRead = true });
+            tab1.AddPostQueue(new PostClass { StatusId = new TwitterStatusId("100"), IsRead = true });
+            tab1.AddPostQueue(new PostClass { StatusId = new TwitterStatusId("150"), IsRead = true });
+            tab1.AddPostQueue(new PostClass { StatusId = new TwitterStatusId("200"), IsRead = true });
 
             // search2 に追加するツイート (StatusId: 150, 200, 250; すべて既読)
             tab2.UnreadManage = true;
-            tab2.AddPostQueue(new PostClass { StatusId = 150L, IsRead = true });
-            tab2.AddPostQueue(new PostClass { StatusId = 200L, IsRead = true });
-            tab2.AddPostQueue(new PostClass { StatusId = 250L, IsRead = true });
+            tab2.AddPostQueue(new PostClass { StatusId = new TwitterStatusId("150"), IsRead = true });
+            tab2.AddPostQueue(new PostClass { StatusId = new TwitterStatusId("200"), IsRead = true });
+            tab2.AddPostQueue(new PostClass { StatusId = new TwitterStatusId("250"), IsRead = true });
 
             this.tabinfo.DistributePosts();
             this.tabinfo.SubmitUpdate();
@@ -673,12 +673,12 @@ namespace OpenTween.Models
             // ... ここまで長い前置き
 
             // StatusId: 200 を未読にする (search1, search2 両方に含まれる)
-            this.tabinfo.SetReadAllTab(200L, read: false);
+            this.tabinfo.SetReadAllTab(new TwitterStatusId("200"), read: false);
             Assert.Equal(1, tab1.UnreadCount);
             Assert.Equal(1, tab2.UnreadCount);
 
             // StatusId: 100 を未読にする (search1 のみに含まれる)
-            this.tabinfo.SetReadAllTab(100L, read: false);
+            this.tabinfo.SetReadAllTab(new TwitterStatusId("100"), read: false);
             Assert.Equal(2, tab1.UnreadCount);
             Assert.Equal(1, tab2.UnreadCount);
         }
@@ -690,9 +690,9 @@ namespace OpenTween.Models
 
             // Recent に追加するツイート (StatusId: 100, 150, 200; すべて未読)
             homeTab.UnreadManage = true;
-            this.tabinfo.AddPost(new PostClass { StatusId = 100L, IsRead = false });
-            this.tabinfo.AddPost(new PostClass { StatusId = 150L, IsRead = false });
-            this.tabinfo.AddPost(new PostClass { StatusId = 200L, IsRead = false });
+            this.tabinfo.AddPost(new PostClass { StatusId = new TwitterStatusId("100"), IsRead = false });
+            this.tabinfo.AddPost(new PostClass { StatusId = new TwitterStatusId("150"), IsRead = false });
+            this.tabinfo.AddPost(new PostClass { StatusId = new TwitterStatusId("200"), IsRead = false });
 
             this.tabinfo.DistributePosts();
             this.tabinfo.SubmitUpdate();
@@ -713,9 +713,9 @@ namespace OpenTween.Models
             // Recent に追加するツイート (StatusId: 100, 150, 200; すべて未読)
             // StatusId: 150 は未読だがリプライ属性が付いている
             homeTab.UnreadManage = true;
-            this.tabinfo.AddPost(new PostClass { StatusId = 100L, IsRead = false });
-            this.tabinfo.AddPost(new PostClass { StatusId = 150L, IsRead = false, IsReply = true });
-            this.tabinfo.AddPost(new PostClass { StatusId = 200L, IsRead = false });
+            this.tabinfo.AddPost(new PostClass { StatusId = new TwitterStatusId("100"), IsRead = false });
+            this.tabinfo.AddPost(new PostClass { StatusId = new TwitterStatusId("150"), IsRead = false, IsReply = true });
+            this.tabinfo.AddPost(new PostClass { StatusId = new TwitterStatusId("200"), IsRead = false });
 
             this.tabinfo.DistributePosts();
             this.tabinfo.SubmitUpdate();
@@ -728,7 +728,7 @@ namespace OpenTween.Models
 
             // リプライである StatusId: 150 を除いてすべて未読になっている
             Assert.Equal(1, homeTab.UnreadCount);
-            Assert.Equal(150L, homeTab.NextUnreadId);
+            Assert.Equal(new TwitterStatusId("150"), homeTab.NextUnreadId);
         }
 
         [Fact]
@@ -738,14 +738,14 @@ namespace OpenTween.Models
 
             // Recent に追加するツイート (StatusId: 100, 150, 200; すべて未読)
             homeTab.UnreadManage = true;
-            this.tabinfo.AddPost(new PostClass { StatusId = 100L, IsRead = false });
-            this.tabinfo.AddPost(new PostClass { StatusId = 150L, IsRead = false });
-            this.tabinfo.AddPost(new PostClass { StatusId = 200L, IsRead = false });
+            this.tabinfo.AddPost(new PostClass { StatusId = new TwitterStatusId("100"), IsRead = false });
+            this.tabinfo.AddPost(new PostClass { StatusId = new TwitterStatusId("150"), IsRead = false });
+            this.tabinfo.AddPost(new PostClass { StatusId = new TwitterStatusId("200"), IsRead = false });
 
             // StatusId: 150 だけ FilterTab の振り分けルールにヒットする (PostClass.FilterHit が true になる)
             var filterTab = new FilterTabModel("FilterTab");
             filterTab.AddFilter(TestPostFilterRule.Create(x =>
-                x.StatusId == 150L ? MyCommon.HITRESULT.Copy : MyCommon.HITRESULT.None));
+                x.StatusId == new TwitterStatusId("150") ? MyCommon.HITRESULT.Copy : MyCommon.HITRESULT.None));
             this.tabinfo.AddTab(filterTab);
 
             this.tabinfo.DistributePosts();
@@ -759,7 +759,7 @@ namespace OpenTween.Models
 
             // FilterHit が true である StatusId: 150 を除いてすべて未読になっている
             Assert.Equal(1, homeTab.UnreadCount);
-            Assert.Equal(150L, homeTab.NextUnreadId);
+            Assert.Equal(new TwitterStatusId("150"), homeTab.NextUnreadId);
         }
 
         [Fact]
@@ -767,13 +767,13 @@ namespace OpenTween.Models
         {
             var homeTab = this.tabinfo.HomeTab;
 
-            this.tabinfo.AddPost(new PostClass { StatusId = 100L });
+            this.tabinfo.AddPost(new PostClass { StatusId = new TwitterStatusId("100") });
             this.tabinfo.DistributePosts();
             this.tabinfo.SubmitUpdate();
 
             Assert.Equal(1, homeTab.AllCount);
 
-            this.tabinfo.RemovePostFromAllTabs(100L, setIsDeleted: true);
+            this.tabinfo.RemovePostFromAllTabs(new TwitterStatusId("100"), setIsDeleted: true);
 
             // この時点ではまだ削除されない
             Assert.Equal(1, homeTab.AllCount);
@@ -782,7 +782,7 @@ namespace OpenTween.Models
 
             Assert.True(isDeletePost);
             Assert.Equal(0, homeTab.AllCount);
-            Assert.False(this.tabinfo.Posts.ContainsKey(100L));
+            Assert.False(this.tabinfo.Posts.ContainsKey(new TwitterStatusId("100")));
         }
 
         [Fact]
@@ -791,7 +791,7 @@ namespace OpenTween.Models
             var homeTab = this.tabinfo.HomeTab;
             var favTab = this.tabinfo.FavoriteTab;
 
-            this.tabinfo.AddPost(new PostClass { StatusId = 100L, IsFav = true });
+            this.tabinfo.AddPost(new PostClass { StatusId = new TwitterStatusId("100"), IsFav = true });
             this.tabinfo.DistributePosts();
             this.tabinfo.SubmitUpdate();
 
@@ -799,7 +799,7 @@ namespace OpenTween.Models
             Assert.Equal(1, favTab.AllCount);
 
             // favTab のみ発言を除去 (homeTab には残ったまま)
-            favTab.EnqueueRemovePost(100L, setIsDeleted: false);
+            favTab.EnqueueRemovePost(new TwitterStatusId("100"), setIsDeleted: false);
 
             // この時点ではまだ削除されない
             Assert.Equal(1, homeTab.AllCount);
@@ -812,7 +812,7 @@ namespace OpenTween.Models
             Assert.Equal(0, favTab.AllCount);
 
             // homeTab には発言が残っているので Posts からは削除されない
-            Assert.True(this.tabinfo.Posts.ContainsKey(100L));
+            Assert.True(this.tabinfo.Posts.ContainsKey(new TwitterStatusId("100")));
         }
 
         [Fact]
@@ -834,13 +834,13 @@ namespace OpenTween.Models
             dmTab.SoundFile = "dm.wav";
 
             // 通常ツイート
-            this.tabinfo.AddPost(new PostClass { StatusId = 100L, IsRead = false });
+            this.tabinfo.AddPost(new PostClass { StatusId = new TwitterStatusId("100"), IsRead = false });
 
             // リプライ
-            this.tabinfo.AddPost(new PostClass { StatusId = 200L, IsReply = true, IsRead = false });
+            this.tabinfo.AddPost(new PostClass { StatusId = new TwitterStatusId("200"), IsReply = true, IsRead = false });
 
             // DM
-            dmTab.AddPostQueue(new PostClass { StatusId = 300L, IsDm = true, IsRead = false });
+            dmTab.AddPostQueue(new PostClass { StatusId = new TwitterStatusId("300"), IsDm = true, IsRead = false });
 
             this.tabinfo.DistributePosts();
 
@@ -867,10 +867,10 @@ namespace OpenTween.Models
             replyTab.SoundFile = "";
 
             // 通常ツイート
-            this.tabinfo.AddPost(new PostClass { StatusId = 100L, IsRead = false });
+            this.tabinfo.AddPost(new PostClass { StatusId = new TwitterStatusId("100"), IsRead = false });
 
             // リプライ
-            this.tabinfo.AddPost(new PostClass { StatusId = 200L, IsReply = true, IsRead = false });
+            this.tabinfo.AddPost(new PostClass { StatusId = new TwitterStatusId("200"), IsReply = true, IsRead = false });
 
             this.tabinfo.DistributePosts();
 
@@ -902,15 +902,15 @@ namespace OpenTween.Models
             myTab1.AddFilter(filter);
             myTab1.FilterModified = false;
 
-            this.tabinfo.AddPost(new PostClass { StatusId = 100L, ScreenName = "aaa" });
-            this.tabinfo.AddPost(new PostClass { StatusId = 200L, ScreenName = "bbb" });
-            this.tabinfo.AddPost(new PostClass { StatusId = 300L, ScreenName = "ccc" });
+            this.tabinfo.AddPost(new PostClass { StatusId = new TwitterStatusId("100"), ScreenName = "aaa" });
+            this.tabinfo.AddPost(new PostClass { StatusId = new TwitterStatusId("200"), ScreenName = "bbb" });
+            this.tabinfo.AddPost(new PostClass { StatusId = new TwitterStatusId("300"), ScreenName = "ccc" });
             this.tabinfo.DistributePosts();
             this.tabinfo.SubmitUpdate();
 
             // この時点での振り分け状態
-            Assert.Equal(new[] { 100L, 200L, 300L }, homeTab.StatusIds, AnyOrderComparer<long>.Instance);
-            Assert.Equal(new[] { 100L }, myTab1.StatusIds);
+            Assert.Equal(new[] { new TwitterStatusId("100"), new TwitterStatusId("200"), new TwitterStatusId("300") }, homeTab.StatusIds, AnyOrderComparer<PostId>.Instance);
+            Assert.Equal(new[] { new TwitterStatusId("100") }, myTab1.StatusIds);
 
             // フィルタを変更する
             filter.FilterName = "bbb";
@@ -925,8 +925,8 @@ namespace OpenTween.Models
             //   [statusId: 200] は Recent から MyTab1 にコピーされる
 
             // 変更後の振り分け状態
-            Assert.Equal(new[] { 100L, 200L, 300L }, homeTab.StatusIds, AnyOrderComparer<long>.Instance);
-            Assert.Equal(new[] { 200L }, myTab1.StatusIds);
+            Assert.Equal(new[] { new TwitterStatusId("100"), new TwitterStatusId("200"), new TwitterStatusId("300") }, homeTab.StatusIds, AnyOrderComparer<PostId>.Instance);
+            Assert.Equal(new[] { new TwitterStatusId("200") }, myTab1.StatusIds);
         }
 
         [Fact]
@@ -948,15 +948,15 @@ namespace OpenTween.Models
             myTab1.AddFilter(filter);
             myTab1.FilterModified = false;
 
-            this.tabinfo.AddPost(new PostClass { StatusId = 100L, ScreenName = "aaa" });
-            this.tabinfo.AddPost(new PostClass { StatusId = 200L, ScreenName = "bbb" });
-            this.tabinfo.AddPost(new PostClass { StatusId = 300L, ScreenName = "ccc" });
+            this.tabinfo.AddPost(new PostClass { StatusId = new TwitterStatusId("100"), ScreenName = "aaa" });
+            this.tabinfo.AddPost(new PostClass { StatusId = new TwitterStatusId("200"), ScreenName = "bbb" });
+            this.tabinfo.AddPost(new PostClass { StatusId = new TwitterStatusId("300"), ScreenName = "ccc" });
             this.tabinfo.DistributePosts();
             this.tabinfo.SubmitUpdate();
 
             // この時点での振り分け状態
-            Assert.Equal(new[] { 100L, 200L, 300L }, homeTab.StatusIds, AnyOrderComparer<long>.Instance);
-            Assert.Equal(new[] { 100L }, myTab1.StatusIds);
+            Assert.Equal(new[] { new TwitterStatusId("100"), new TwitterStatusId("200"), new TwitterStatusId("300") }, homeTab.StatusIds, AnyOrderComparer<PostId>.Instance);
+            Assert.Equal(new[] { new TwitterStatusId("100") }, myTab1.StatusIds);
 
             // フィルタを変更する
             filter.FilterName = "bbb";
@@ -971,11 +971,11 @@ namespace OpenTween.Models
             //   [statusId: 200] は Recent から MyTab1 にコピーされ、マークが付与される
 
             // 変更後の振り分け状態
-            Assert.Equal(new[] { 100L, 200L, 300L }, homeTab.StatusIds, AnyOrderComparer<long>.Instance);
-            Assert.Equal(new[] { 200L }, myTab1.StatusIds);
+            Assert.Equal(new[] { new TwitterStatusId("100"), new TwitterStatusId("200"), new TwitterStatusId("300") }, homeTab.StatusIds, AnyOrderComparer<PostId>.Instance);
+            Assert.Equal(new[] { new TwitterStatusId("200") }, myTab1.StatusIds);
 
             // [statusId: 200] は IsMark が true の状態になる
-            Assert.True(this.tabinfo[200L]!.IsMark);
+            Assert.True(this.tabinfo[new TwitterStatusId("200")]!.IsMark);
         }
 
         [Fact]
@@ -996,15 +996,15 @@ namespace OpenTween.Models
             myTab1.AddFilter(filter);
             myTab1.FilterModified = false;
 
-            this.tabinfo.AddPost(new PostClass { StatusId = 100L, ScreenName = "aaa" });
-            this.tabinfo.AddPost(new PostClass { StatusId = 200L, ScreenName = "bbb" });
-            this.tabinfo.AddPost(new PostClass { StatusId = 300L, ScreenName = "ccc" });
+            this.tabinfo.AddPost(new PostClass { StatusId = new TwitterStatusId("100"), ScreenName = "aaa" });
+            this.tabinfo.AddPost(new PostClass { StatusId = new TwitterStatusId("200"), ScreenName = "bbb" });
+            this.tabinfo.AddPost(new PostClass { StatusId = new TwitterStatusId("300"), ScreenName = "ccc" });
             this.tabinfo.DistributePosts();
             this.tabinfo.SubmitUpdate();
 
             // この時点での振り分け状態
-            Assert.Equal(new[] { 200L, 300L }, homeTab.StatusIds, AnyOrderComparer<long>.Instance);
-            Assert.Equal(new[] { 100L }, myTab1.StatusIds);
+            Assert.Equal(new[] { new TwitterStatusId("200"), new TwitterStatusId("300") }, homeTab.StatusIds, AnyOrderComparer<PostId>.Instance);
+            Assert.Equal(new[] { new TwitterStatusId("100") }, myTab1.StatusIds);
 
             // フィルタを変更する
             filter.FilterName = "bbb";
@@ -1019,8 +1019,8 @@ namespace OpenTween.Models
             //   [statusId: 200] は Recent から MyTab1 に移動される
 
             // 変更後の振り分け状態
-            Assert.Equal(new[] { 100L, 300L }, homeTab.StatusIds, AnyOrderComparer<long>.Instance);
-            Assert.Equal(new[] { 200L }, myTab1.StatusIds);
+            Assert.Equal(new[] { new TwitterStatusId("100"), new TwitterStatusId("300") }, homeTab.StatusIds, AnyOrderComparer<PostId>.Instance);
+            Assert.Equal(new[] { new TwitterStatusId("200") }, myTab1.StatusIds);
         }
 
         [Fact]
@@ -1053,16 +1053,16 @@ namespace OpenTween.Models
             myTab2.AddFilter(filter2);
             myTab2.FilterModified = false;
 
-            this.tabinfo.AddPost(new PostClass { StatusId = 100L, ScreenName = "aaa" });
-            this.tabinfo.AddPost(new PostClass { StatusId = 200L, ScreenName = "bbb" });
-            this.tabinfo.AddPost(new PostClass { StatusId = 300L, ScreenName = "ccc" });
+            this.tabinfo.AddPost(new PostClass { StatusId = new TwitterStatusId("100"), ScreenName = "aaa" });
+            this.tabinfo.AddPost(new PostClass { StatusId = new TwitterStatusId("200"), ScreenName = "bbb" });
+            this.tabinfo.AddPost(new PostClass { StatusId = new TwitterStatusId("300"), ScreenName = "ccc" });
             this.tabinfo.DistributePosts();
             this.tabinfo.SubmitUpdate();
 
             // この時点での振り分け状態
-            Assert.Equal(new[] { 300L }, homeTab.StatusIds);
-            Assert.Equal(new[] { 100L }, myTab1.StatusIds);
-            Assert.Equal(new[] { 200L }, myTab2.StatusIds);
+            Assert.Equal(new[] { new TwitterStatusId("300") }, homeTab.StatusIds);
+            Assert.Equal(new[] { new TwitterStatusId("100") }, myTab1.StatusIds);
+            Assert.Equal(new[] { new TwitterStatusId("200") }, myTab2.StatusIds);
 
             // MyTab1 のフィルタを変更する
             filter1.FilterName = "bbb";
@@ -1082,9 +1082,9 @@ namespace OpenTween.Models
             //   [statusId: 300] は Recent から MyTab2 に移動される
 
             // 変更後の振り分け状態
-            Assert.Equal(new[] { 100L }, homeTab.StatusIds);
-            Assert.Equal(new[] { 200L }, myTab1.StatusIds);
-            Assert.Equal(new[] { 300L }, myTab2.StatusIds);
+            Assert.Equal(new[] { new TwitterStatusId("100") }, homeTab.StatusIds);
+            Assert.Equal(new[] { new TwitterStatusId("200") }, myTab1.StatusIds);
+            Assert.Equal(new[] { new TwitterStatusId("300") }, myTab2.StatusIds);
         }
 
         [Fact]
@@ -1101,18 +1101,18 @@ namespace OpenTween.Models
             replyTab.AddFilter(filter);
             replyTab.FilterModified = false;
 
-            this.tabinfo.AddPost(new PostClass { StatusId = 100L, ScreenName = "aaa", IsReply = true });
-            this.tabinfo.AddPost(new PostClass { StatusId = 200L, ScreenName = "bbb", IsReply = true });
-            this.tabinfo.AddPost(new PostClass { StatusId = 300L, ScreenName = "ccc", IsReply = true });
+            this.tabinfo.AddPost(new PostClass { StatusId = new TwitterStatusId("100"), ScreenName = "aaa", IsReply = true });
+            this.tabinfo.AddPost(new PostClass { StatusId = new TwitterStatusId("200"), ScreenName = "bbb", IsReply = true });
+            this.tabinfo.AddPost(new PostClass { StatusId = new TwitterStatusId("300"), ScreenName = "ccc", IsReply = true });
             this.tabinfo.DistributePosts();
             this.tabinfo.SubmitUpdate();
 
             // この時点での振り分け状態
-            Assert.Equal(new[] { 100L, 200L, 300L }, homeTab.StatusIds, AnyOrderComparer<long>.Instance);
-            Assert.Equal(new[] { 200L, 300L }, replyTab.StatusIds, AnyOrderComparer<long>.Instance);
+            Assert.Equal(new[] { new TwitterStatusId("100"), new TwitterStatusId("200"), new TwitterStatusId("300") }, homeTab.StatusIds, AnyOrderComparer<PostId>.Instance);
+            Assert.Equal(new[] { new TwitterStatusId("200"), new TwitterStatusId("300") }, replyTab.StatusIds, AnyOrderComparer<PostId>.Instance);
 
             // [statusId: 100] は IsExcludeReply が true の状態になっている
-            Assert.True(this.tabinfo[100L]!.IsExcludeReply);
+            Assert.True(this.tabinfo[new TwitterStatusId("100")]!.IsExcludeReply);
 
             // Reply のフィルタを変更する
             filter.ExFilterName = "bbb";
@@ -1127,28 +1127,28 @@ namespace OpenTween.Models
             //   [statusId: 200] は Reply から取り除かれ、IsExcludeReply が true になる
 
             // 変更後の振り分け状態
-            Assert.Equal(new[] { 100L, 200L, 300L }, homeTab.StatusIds, AnyOrderComparer<long>.Instance);
-            Assert.Equal(new[] { 100L, 300L }, replyTab.StatusIds, AnyOrderComparer<long>.Instance);
+            Assert.Equal(new[] { new TwitterStatusId("100"), new TwitterStatusId("200"), new TwitterStatusId("300") }, homeTab.StatusIds, AnyOrderComparer<PostId>.Instance);
+            Assert.Equal(new[] { new TwitterStatusId("100"), new TwitterStatusId("300") }, replyTab.StatusIds, AnyOrderComparer<PostId>.Instance);
 
             // [statusId: 100] は IsExcludeReply が false の状態になる
-            Assert.False(this.tabinfo[100L]!.IsExcludeReply);
+            Assert.False(this.tabinfo[new TwitterStatusId("100")]!.IsExcludeReply);
 
             // [statusId: 200] は IsExcludeReply が true の状態になる
-            Assert.True(this.tabinfo[200L]!.IsExcludeReply);
+            Assert.True(this.tabinfo[new TwitterStatusId("200")]!.IsExcludeReply);
         }
 
         [Fact]
         public void ClearTabIds_InnerStorageTabTest()
         {
             var tab = new PublicSearchTabModel("search");
-            tab.AddPostQueue(new PostClass { StatusId = 100L });
+            tab.AddPostQueue(new PostClass { StatusId = new TwitterStatusId("100") });
             this.tabinfo.AddTab(tab);
             this.tabinfo.SubmitUpdate();
 
-            Assert.True(tab.Contains(100L));
+            Assert.True(tab.Contains(new TwitterStatusId("100")));
 
             this.tabinfo.ClearTabIds("search");
-            Assert.False(tab.Contains(100L));
+            Assert.False(tab.Contains(new TwitterStatusId("100")));
         }
 
         [Fact]
@@ -1158,16 +1158,16 @@ namespace OpenTween.Models
             filterTab.AddFilter(new() { FilterName = "opentween", MoveMatches = true });
             this.tabinfo.AddTab(filterTab);
 
-            this.tabinfo.AddPost(new PostClass { StatusId = 100L, ScreenName = "opentween" });
+            this.tabinfo.AddPost(new PostClass { StatusId = new TwitterStatusId("100"), ScreenName = "opentween" });
             this.tabinfo.DistributePosts();
             this.tabinfo.SubmitUpdate();
 
-            Assert.True(this.tabinfo.Posts.ContainsKey(100L));
-            Assert.True(filterTab.Contains(100L));
+            Assert.True(this.tabinfo.Posts.ContainsKey(new TwitterStatusId("100")));
+            Assert.True(filterTab.Contains(new TwitterStatusId("100")));
 
             this.tabinfo.ClearTabIds("filter");
-            Assert.False(this.tabinfo.Posts.ContainsKey(100L));
-            Assert.False(filterTab.Contains(100L));
+            Assert.False(this.tabinfo.Posts.ContainsKey(new TwitterStatusId("100")));
+            Assert.False(filterTab.Contains(new TwitterStatusId("100")));
         }
 
         [Fact]
@@ -1181,40 +1181,40 @@ namespace OpenTween.Models
             filterTab2.AddFilter(new() { FilterName = "opentween", MoveMatches = true });
             this.tabinfo.AddTab(filterTab2);
 
-            this.tabinfo.AddPost(new PostClass { StatusId = 100L, ScreenName = "opentween" });
+            this.tabinfo.AddPost(new PostClass { StatusId = new TwitterStatusId("100"), ScreenName = "opentween" });
             this.tabinfo.DistributePosts();
             this.tabinfo.SubmitUpdate();
 
-            Assert.True(this.tabinfo.Posts.ContainsKey(100L));
-            Assert.True(filterTab1.Contains(100L));
-            Assert.True(filterTab2.Contains(100L));
+            Assert.True(this.tabinfo.Posts.ContainsKey(new TwitterStatusId("100")));
+            Assert.True(filterTab1.Contains(new TwitterStatusId("100")));
+            Assert.True(filterTab2.Contains(new TwitterStatusId("100")));
 
             this.tabinfo.ClearTabIds("filter1");
 
             // 他に MoveMatches で移動している振り分けタブが存在する場合は TabInformations.Posts から削除しない
-            Assert.True(this.tabinfo.ContainsKey(100L));
-            Assert.False(filterTab1.Contains(100L));
-            Assert.True(filterTab2.Contains(100L));
+            Assert.True(this.tabinfo.ContainsKey(new TwitterStatusId("100")));
+            Assert.False(filterTab1.Contains(new TwitterStatusId("100")));
+            Assert.True(filterTab2.Contains(new TwitterStatusId("100")));
         }
 
         [Fact]
         public void ClearTabIds_NotAffectToOtherTabs_Test()
         {
             var otherTab = new PublicSearchTabModel("search");
-            otherTab.AddPostQueue(new PostClass { StatusId = 100L });
+            otherTab.AddPostQueue(new PostClass { StatusId = new TwitterStatusId("100") });
             this.tabinfo.AddTab(otherTab);
 
-            this.tabinfo.AddPost(new PostClass { StatusId = 100L });
+            this.tabinfo.AddPost(new PostClass { StatusId = new TwitterStatusId("100") });
             this.tabinfo.DistributePosts();
             this.tabinfo.SubmitUpdate();
 
             // Recent, search のタブに status_id = 100 の発言が存在する状態
-            Assert.True(this.tabinfo.Posts.ContainsKey(100L));
-            Assert.True(otherTab.Contains(100L));
+            Assert.True(this.tabinfo.Posts.ContainsKey(new TwitterStatusId("100")));
+            Assert.True(otherTab.Contains(new TwitterStatusId("100")));
 
             this.tabinfo.ClearTabIds("Recent");
-            Assert.False(this.tabinfo.Posts.ContainsKey(100L));
-            Assert.True(otherTab.Contains(100L));
+            Assert.False(this.tabinfo.Posts.ContainsKey(new TwitterStatusId("100")));
+            Assert.True(otherTab.Contains(new TwitterStatusId("100")));
         }
 
         [Fact]
@@ -1222,7 +1222,7 @@ namespace OpenTween.Models
         {
             var post = new PostClass
             {
-                StatusId = 100L,
+                StatusId = new TwitterStatusId("100"),
                 ScreenName = "aaa",
                 UserId = 123L,
                 IsOwl = true,
@@ -1245,7 +1245,7 @@ namespace OpenTween.Models
 
             var post = new PostClass
             {
-                StatusId = 100L,
+                StatusId = new TwitterStatusId("100"),
                 ScreenName = "aaa",
                 UserId = 123L,
                 IsOwl = true,
@@ -1265,7 +1265,7 @@ namespace OpenTween.Models
         {
             var post = new PostClass
             {
-                StatusId = 100L,
+                StatusId = new TwitterStatusId("100"),
                 ScreenName = "aaa",
                 UserId = 123L,
                 IsOwl = false,

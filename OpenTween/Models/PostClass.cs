@@ -65,7 +65,7 @@ namespace OpenTween.Models
         /// </remarks>
         public DateTimeUtc CreatedAtForSorting { get; init; }
 
-        public long StatusId { get; init; }
+        public PostId StatusId { get; init; } = null!;
 
         public string Text
         {
@@ -103,7 +103,7 @@ namespace OpenTween.Models
 
         public string? RetweetedBy { get; init; }
 
-        public long? RetweetedId { get; init; }
+        public PostId? RetweetedId { get; init; }
 
         public long? RetweetedByUserId { get; init; }
 
@@ -111,7 +111,7 @@ namespace OpenTween.Models
 
         public List<MediaInfo> Media { get; init; } = new();
 
-        public long[] QuoteStatusIds { get; init; } = Array.Empty<long>();
+        public PostId[] QuoteStatusIds { get; init; } = Array.Empty<PostId>();
 
         public ExpandedUrlInfo[] ExpandedUrls { get; init; } = Array.Empty<ExpandedUrlInfo>();
 
@@ -203,7 +203,7 @@ namespace OpenTween.Models
         public string TextSingleLine
             => this.TextFromApi.Replace("\n", " ");
 
-        public long? InReplyToStatusId { get; init; }
+        public PostId? InReplyToStatusId { get; init; }
 
         public bool IsProtect { get; init; }
 
@@ -291,7 +291,7 @@ namespace OpenTween.Models
 
             var originalPost = this with
             {
-                StatusId = this.RetweetedId.Value,
+                StatusId = this.RetweetedId,
                 CreatedAtForSorting = this.CreatedAt,
                 RetweetedId = null,
                 RetweetedBy = "",
