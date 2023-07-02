@@ -83,7 +83,7 @@ namespace OpenTween.Models
                 SourceUri = new Uri("http://twitter.com/"),
             };
 
-            Assert.Equal("<a href=\"http://twitter.com/\" rel=\"nofollow\">Twitter Web Client</a>", post.SourceHtml);
+            Assert.Equal("""<a href="http://twitter.com/" rel="nofollow">Twitter Web Client</a>""", post.SourceHtml);
         }
 
         [Fact]
@@ -107,7 +107,7 @@ namespace OpenTween.Models
                 SourceUri = new Uri("http://example.com/?aaa=123&bbb=456"),
             };
 
-            Assert.Equal("<a href=\"http://example.com/?aaa=123&amp;bbb=456\" rel=\"nofollow\">&lt;script&gt;alert(1)&lt;/script&gt;</a>", post.SourceHtml);
+            Assert.Equal("""<a href="http://example.com/?aaa=123&amp;bbb=456" rel="nofollow">&lt;script&gt;alert(1)&lt;/script&gt;</a>""", post.SourceHtml);
         }
 
         [Fact]
@@ -326,7 +326,7 @@ namespace OpenTween.Models
 
             var post = new PostClass
             {
-                Text = "<a href=\"http://t.co/aaaaaaa\" title=\"http://t.co/aaaaaaa\">bit.ly/abcde</a>",
+                Text = """<a href="http://t.co/aaaaaaa" title="http://t.co/aaaaaaa">bit.ly/abcde</a>""",
                 ExpandedUrls = new[]
                 {
                     new FakeExpandedUrlInfo(
@@ -350,7 +350,7 @@ namespace OpenTween.Models
             Assert.Equal("http://bit.ly/abcde", urlInfo.ExpandedUrl);
             Assert.Equal("http://bit.ly/abcde", post.GetExpandedUrl("http://t.co/aaaaaaa"));
             Assert.Equal(new[] { "http://bit.ly/abcde" }, post.GetExpandedUrls());
-            Assert.Equal("<a href=\"http://t.co/aaaaaaa\" title=\"http://bit.ly/abcde\">bit.ly/abcde</a>", post.Text);
+            Assert.Equal("""<a href="http://t.co/aaaaaaa" title="http://bit.ly/abcde">bit.ly/abcde</a>""", post.Text);
 
             // bit.ly 展開後の URL は「http://example.com/abcde」
             urlInfo.FakeResult.SetResult("http://example.com/abcde");
@@ -362,7 +362,7 @@ namespace OpenTween.Models
             Assert.Equal("http://example.com/abcde", urlInfo.ExpandedUrl);
             Assert.Equal("http://example.com/abcde", post.GetExpandedUrl("http://t.co/aaaaaaa"));
             Assert.Equal(new[] { "http://example.com/abcde" }, post.GetExpandedUrls());
-            Assert.Equal("<a href=\"http://t.co/aaaaaaa\" title=\"http://example.com/abcde\">bit.ly/abcde</a>", post.Text);
+            Assert.Equal("""<a href="http://t.co/aaaaaaa" title="http://example.com/abcde">bit.ly/abcde</a>""", post.Text);
         }
     }
 }

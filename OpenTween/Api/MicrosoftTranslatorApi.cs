@@ -85,7 +85,7 @@ namespace OpenTween.Api
             request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", this.AccessToken);
 
             var escapedText = JsonUtils.EscapeJsonString(text);
-            var json = $@"[{{""Text"": ""{escapedText}""}}]";
+            var json = $$"""[{"Text": "{{escapedText}}"}]""";
 
             using var body = new StringContent(json, Encoding.UTF8, "application/json");
             request.Content = body;

@@ -38,10 +38,10 @@ namespace OpenTween
         [Theory]
         [InlineData("https://twitter.com/twitterapi/status/22634515958",
             new[] { "22634515958" })]
-        [InlineData("<a target=\"_self\" href=\"https://t.co/aaaaaaaa\" title=\"https://twitter.com/twitterapi/status/22634515958\">twitter.com/twitterapi/stat…</a>",
+        [InlineData("""<a target="_self" href="https://t.co/aaaaaaaa" title="https://twitter.com/twitterapi/status/22634515958">twitter.com/twitterapi/stat…</a>""",
             new[] { "22634515958" })]
-        [InlineData("<a target=\"_self\" href=\"https://t.co/bU3oR95KIy\" title=\"https://twitter.com/haru067/status/224782458816692224\">https://t.co/bU3oR95KIy</a>" +
-            "<a target=\"_self\" href=\"https://t.co/bbbbbbbb\" title=\"https://twitter.com/karno/status/311081657790771200\">https://t.co/bbbbbbbb</a>",
+        [InlineData("""<a target="_self" href="https://t.co/bU3oR95KIy" title="https://twitter.com/haru067/status/224782458816692224">https://t.co/bU3oR95KIy</a>""" +
+            """<a target="_self" href="https://t.co/bbbbbbbb" title="https://twitter.com/karno/status/311081657790771200">https://t.co/bbbbbbbb</a>""",
             new[] { "224782458816692224", "311081657790771200" })]
         [InlineData("https://mobile.twitter.com/muji_net/status/21984934471",
             new[] { "21984934471" })]

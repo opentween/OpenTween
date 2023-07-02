@@ -700,25 +700,27 @@ namespace OpenTween.Api
         public async Task DirectMessagesEventsNew_Test()
         {
             var mock = new Mock<IApiConnection>();
-            var responseText = @"{
-  ""event"": {
-    ""type"": ""message_create"",
-    ""message_create"": {
-      ""target"": {
-        ""recipient_id"": ""12345""
-      },
-      ""message_data"": {
-        ""text"": ""hogehoge"",
-        ""attachment"": {
-          ""type"": ""media"",
-          ""media"": {
-            ""id"": ""67890""
-          }
-        }
-      }
-    }
-  }
-}";
+            var responseText = """
+                {
+                  "event": {
+                    "type": "message_create",
+                    "message_create": {
+                      "target": {
+                        "recipient_id": "12345"
+                      },
+                      "message_data": {
+                        "text": "hogehoge",
+                        "attachment": {
+                          "type": "media",
+                          "media": {
+                            "id": "67890"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+                """;
             mock.Setup(x =>
                 x.PostJsonAsync<TwitterMessageEventSingle>(
                     new Uri("direct_messages/events/new.json", UriKind.Relative),
@@ -1355,7 +1357,7 @@ namespace OpenTween.Api
             mock.Setup(x =>
                 x.PostJsonAsync(
                     new Uri("https://upload.twitter.com/1.1/media/metadata/create.json", UriKind.Absolute),
-                    "{\"media_id\": \"12345\", \"alt_text\": {\"text\": \"hogehoge\"}}")
+                    """{"media_id": "12345", "alt_text": {"text": "hogehoge"}}""")
             )
             .Returns(Task.CompletedTask);
 

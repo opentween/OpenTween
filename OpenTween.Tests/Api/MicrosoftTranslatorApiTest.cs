@@ -73,16 +73,18 @@ namespace OpenTween.Api
 
                 return new HttpResponseMessage(HttpStatusCode.OK)
                 {
-                    Content = new StringContent(@"[
-    {
-        ""translations"": [
-            {
-                ""text"": ""ほげほげ"",
-                ""to"": ""ja""
-            }
-        ]
-    }
-]"),
+                    Content = new StringContent("""
+                        [
+                            {
+                                "translations": [
+                                    {
+                                        "text": "ほげほげ",
+                                        "to": "ja"
+                                    }
+                                ]
+                            }
+                        ]
+                        """),
                 };
             });
 

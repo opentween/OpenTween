@@ -17,31 +17,33 @@ namespace OpenTween.Thumbnail.Services
         [Fact]
         public void ParsePostJson_Test()
         {
-            var json = @"{
-  ""meta"": { ""status"": 200, ""msg"": ""OK"" },
-  ""response"": {
-    ""blog"": { },
-    ""posts"": [
-      {
-        ""id"": 1234567,
-        ""post_url"": ""http://example.com/post/1234567"",
-        ""type"": ""photo"",
-        ""photos"": [
-          {
-            ""caption"": """",
-            ""alt_sizes"": [
-              {
-                ""width"": 1280,
-                ""height"": 722,
-                ""url"": ""http://example.com/photo/1280/1234567/1/tumblr_hogehoge""
-              }
-            ]
-          }
-        ]
-      }
-    ]
-  }
-}";
+            var json = """
+                {
+                  "meta": { "status": 200, "msg": "OK" },
+                  "response": {
+                    "blog": { },
+                    "posts": [
+                      {
+                        "id": 1234567,
+                        "post_url": "http://example.com/post/1234567",
+                        "type": "photo",
+                        "photos": [
+                          {
+                            "caption": "",
+                            "alt_sizes": [
+                              {
+                                "width": 1280,
+                                "height": 722,
+                                "url": "http://example.com/photo/1280/1234567/1/tumblr_hogehoge"
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                }
+                """;
             var jsonBytes = Encoding.UTF8.GetBytes(json);
             var thumbs = Tumblr.ParsePhotoPostJson(jsonBytes);
 
@@ -75,10 +77,12 @@ namespace OpenTween.Thumbnail.Services
 
                 return new HttpResponseMessage(HttpStatusCode.OK)
                 {
-                    Content = new StringContent(@"{
-  ""meta"": { ""status"": 200, ""msg"": ""OK"" },
-  ""response"": { ""blog"": { }, ""posts"": { } }
-}"),
+                    Content = new StringContent("""
+                        {
+                          "meta": { "status": 200, "msg": "OK" },
+                          "response": { "blog": { }, "posts": { } }
+                        }
+                        """),
                 };
             });
 
@@ -112,10 +116,12 @@ namespace OpenTween.Thumbnail.Services
 
                 return new HttpResponseMessage(HttpStatusCode.OK)
                 {
-                    Content = new StringContent(@"{
-  ""meta"": { ""status"": 200, ""msg"": ""OK"" },
-  ""response"": { ""blog"": { }, ""posts"": { } }
-}"),
+                    Content = new StringContent("""
+                        {
+                          "meta": { "status": 200, "msg": "OK" },
+                          "response": { "blog": { }, "posts": { } }
+                        }
+                        """),
                 };
             });
 

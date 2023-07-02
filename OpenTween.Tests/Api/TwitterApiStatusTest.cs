@@ -244,7 +244,7 @@ namespace OpenTween.Api
         {
             var status = new TwitterApiStatus();
 
-            var json = "{\"resources\":{\"statuses\":{\"/statuses/home_timeline\":{\"limit\":150,\"remaining\":100,\"reset\":1356998400}}}}";
+            var json = """{"resources":{"statuses":{"/statuses/home_timeline":{"limit":150,"remaining":100,"reset":1356998400}}}}""";
 
             Assert.Raises<TwitterApiStatus.AccessLimitUpdatedEventArgs>(
                 x => status.AccessLimitUpdated += x,

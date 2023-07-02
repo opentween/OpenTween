@@ -45,12 +45,14 @@ namespace OpenTween.Api
 
                 return new HttpResponseMessage(HttpStatusCode.OK)
                 {
-                    Content = new StringContent(@"<?xml version=""1.0"" encoding=""utf-8""?>
-<rsp>
-    <media>
-        <mediaurl>https://www.mobypicture.com/user/OpenTween/view/00000000</mediaurl>
-    </media>
-</rsp>"),
+                    Content = new StringContent("""
+                        <?xml version="1.0" encoding="utf-8"?>
+                        <rsp>
+                            <media>
+                                <mediaurl>https://www.mobypicture.com/user/OpenTween/view/00000000</mediaurl>
+                            </media>
+                        </rsp>
+                        """),
                 };
             });
 

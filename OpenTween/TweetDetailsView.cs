@@ -391,8 +391,8 @@ namespace OpenTween
             if (isReply)
                 blockClassName += " reply";
 
-            return "<a class=\"quote-tweet-link\" href=\"//opentween/status/" + statusId.Id + "\">" +
-                $"<blockquote class=\"{blockClassName}\">{innerHtml}</blockquote>" +
+            return $"""<a class="quote-tweet-link" href="//opentween/status/{statusId.Id}">""" +
+                $"""<blockquote class="{blockClassName}">{innerHtml}</blockquote>""" +
                 "</a>";
         }
 

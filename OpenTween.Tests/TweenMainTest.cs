@@ -78,7 +78,7 @@ namespace OpenTween
         [Fact]
         public void CreateRetweetUnofficial_UrlTest()
         {
-            var statusText = "<a href=\"http://t.co/KYi7vMZzRt\" title=\"http://twitter.com/\">twitter.com</a>";
+            var statusText = """<a href="http://t.co/KYi7vMZzRt" title="http://twitter.com/">twitter.com</a>""";
 
             Assert.Equal("http://twitter.com/", TweenMain.CreateRetweetUnofficial(statusText, false));
         }
@@ -86,7 +86,7 @@ namespace OpenTween
         [Fact]
         public void CreateRetweetUnofficial_MentionTest()
         {
-            var statusText = "<a class=\"mention\" href=\"https://twitter.com/twitterapi\">@TwitterAPI</a>";
+            var statusText = """<a class="mention" href="https://twitter.com/twitterapi">@TwitterAPI</a>""";
 
             Assert.Equal("@TwitterAPI", TweenMain.CreateRetweetUnofficial(statusText, false));
         }
@@ -94,7 +94,7 @@ namespace OpenTween
         [Fact]
         public void CreateRetweetUnofficial_HashtagTest()
         {
-            var statusText = "<a class=\"hashtag\" href=\"https://twitter.com/search?q=%23OpenTween\">#OpenTween</a>";
+            var statusText = """<a class="hashtag" href="https://twitter.com/search?q=%23OpenTween">#OpenTween</a>""";
 
             Assert.Equal("#OpenTween", TweenMain.CreateRetweetUnofficial(statusText, false));
         }
