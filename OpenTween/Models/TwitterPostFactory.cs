@@ -409,12 +409,12 @@ namespace OpenTween.Models
             // PostClass.ExpandedUrlInfo を使用して非同期に URL 展開を行うためここでは expanded_url を使用しない
             text = TweetFormatter.AutoLinkHtml(text, mergedEntities, keepTco: true);
 
-            text = Regex.Replace(text, "(^|[^a-zA-Z0-9_/&#＃@＠>=.~])(sm|nm)([0-9]{1,10})", "$1<a href=\"https://www.nicovideo.jp/watch/$2$3\">$2$3</a>");
+            text = Regex.Replace(text, "(^|[^a-zA-Z0-9_/&#＃@＠>=.~])(sm|nm)([0-9]{1,10})", """$1<a href="https://www.nicovideo.jp/watch/$2$3">$2$3</a>""");
             text = PreProcessUrl(text); // IDN置換
 
             if (quotedStatusLink != null)
             {
-                text += string.Format(" <a href=\"{0}\" title=\"{0}\">{1}</a>",
+                text += string.Format(""" <a href="{0}" title="{0}">{1}</a>""",
                     WebUtility.HtmlEncode(quotedStatusLink.Expanded),
                     WebUtility.HtmlEncode(quotedStatusLink.Display));
             }
@@ -473,7 +473,7 @@ namespace OpenTween.Models
 
             // sourceHtmlの例: <a href="http://twitter.com" rel="nofollow">Twitter Web Client</a>
 
-            var match = Regex.Match(sourceHtml, "^<a href=\"(?<uri>.+?)\".*?>(?<text>.+)</a>$", RegexOptions.IgnoreCase);
+            var match = Regex.Match(sourceHtml, """^<a href="(?<uri>.+?)".*?>(?<text>.+)</a>$""", RegexOptions.IgnoreCase);
             if (match.Success)
             {
                 sourceText = WebUtility.HtmlDecode(match.Groups["text"].Value);

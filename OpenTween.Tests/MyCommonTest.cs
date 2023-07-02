@@ -128,7 +128,7 @@ namespace OpenTween
         public static readonly TheoryData<string, JsonData> CreateDataFromJsonTestCase = new()
         {
             {
-                @"{""id"":""1"", ""body"":""hogehoge""}",
+                """{"id":"1", "body":"hogehoge"}""",
                 new JsonData { Id = "1", Body = "hogehoge" }
             },
         };

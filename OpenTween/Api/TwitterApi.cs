@@ -445,28 +445,31 @@ namespace OpenTween.Api
             var attachment = "";
             if (mediaId != null)
             {
-                attachment = "," + $@"
-        ""attachment"": {{
-          ""type"": ""media"",
-          ""media"": {{
-            ""id"": ""{JsonUtils.EscapeJsonString(mediaId.ToString())}""
-          }}
-        }}";
+                attachment = ",\r\n" + $$"""
+                            "attachment": {
+                              "type": "media",
+                              "media": {
+                                "id": "{{JsonUtils.EscapeJsonString(mediaId.ToString())}}"
+                              }
+                            }
+                    """;
             }
 
-            var json = $@"{{
-  ""event"": {{
-    ""type"": ""message_create"",
-    ""message_create"": {{
-      ""target"": {{
-        ""recipient_id"": ""{JsonUtils.EscapeJsonString(recipientId.ToString())}""
-      }},
-      ""message_data"": {{
-        ""text"": ""{JsonUtils.EscapeJsonString(text)}""{attachment}
-      }}
-    }}
-  }}
-}}";
+            var json = $$"""
+                {
+                  "event": {
+                    "type": "message_create",
+                    "message_create": {
+                      "target": {
+                        "recipient_id": "{{JsonUtils.EscapeJsonString(recipientId.ToString())}}"
+                      },
+                      "message_data": {
+                        "text": "{{JsonUtils.EscapeJsonString(text)}}"{{attachment}}
+                      }
+                    }
+                  }
+                }
+                """;
 
             return this.Connection.PostJsonAsync<TwitterMessageEventSingle>(endpoint, json);
         }
@@ -807,7 +810,7 @@ namespace OpenTween.Api
             var endpoint = new Uri("https://upload.twitter.com/1.1/media/metadata/create.json");
 
             var escapedAltText = JsonUtils.EscapeJsonString(altText);
-            var json = $@"{{""media_id"": ""{mediaId}"", ""alt_text"": {{""text"": ""{escapedAltText}""}}}}";
+            var json = $$$"""{"media_id": "{{{mediaId}}}", "alt_text": {"text": "{{{escapedAltText}}}"}}""";
 
             return this.Connection.PostJsonAsync(endpoint, json);
         }

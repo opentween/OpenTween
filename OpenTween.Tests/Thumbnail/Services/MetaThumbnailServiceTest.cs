@@ -54,19 +54,19 @@ namespace OpenTween.Thumbnail.Services
         {
             var service = new TestMetaThumbnailService(@"http://example.com/.+");
 
-            service.FakeHtml = @"
-<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML+RDFa 1.0//EN' 'http://www.w3.org/MarkUp/DTD/xhtml-rdfa-1.dtd'>
-<html xmlns='http://www.w3.org/1999/xhtml'>
-<head>
-  <meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
-  <meta property='og:image' content='http://img.example.com/abcd'/>
-  <title>hogehoge</title>
-</head>
-<body>
-  <p>hogehoge</p>
-</body>
-</html>
-";
+            service.FakeHtml = """
+                <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML+RDFa 1.0//EN" "http://www.w3.org/MarkUp/DTD/xhtml-rdfa-1.dtd">
+                <html xmlns="http://www.w3.org/1999/xhtml">
+                <head>
+                  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+                  <meta property="og:image" content="http://img.example.com/abcd"/>
+                  <title>hogehoge</title>
+                </head>
+                <body>
+                  <p>hogehoge</p>
+                </body>
+                </html>
+                """;
             var thumbinfo = await service.GetThumbnailInfoAsync("http://example.com/abcd", new PostClass(), CancellationToken.None);
 
             Assert.NotNull(thumbinfo);
@@ -80,15 +80,15 @@ namespace OpenTween.Thumbnail.Services
         {
             var service = new TestMetaThumbnailService(@"http://example.com/.+");
 
-            service.FakeHtml = @"
-<!DOCTYPE HTML PUBLIC '-//W3C//DTD HTML 4.01//EN' 'http://www.w3.org/TR/html4/strict.dtd'>
+            service.FakeHtml = """
+                <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
 
-<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'>
-<meta name='twitter:image' content='http://img.example.com/abcd'>
-<title>hogehoge</title>
+                <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+                <meta name="twitter:image" content="http://img.example.com/abcd">
+                <title>hogehoge</title>
 
-<p>hogehoge
-";
+                <p>hogehoge
+                """;
             var thumbinfo = await service.GetThumbnailInfoAsync("http://example.com/abcd", new PostClass(), CancellationToken.None);
 
             Assert.NotNull(thumbinfo);
@@ -102,15 +102,15 @@ namespace OpenTween.Thumbnail.Services
         {
             var service = new TestMetaThumbnailService(@"http://example.com/.+");
 
-            service.FakeHtml = @"
-<!DOCTYPE HTML PUBLIC '-//W3C//DTD HTML 4.01//EN' 'http://www.w3.org/TR/html4/strict.dtd'>
+            service.FakeHtml = """
+                <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
 
-<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'>
-<meta name='twitter:image' value='http://img.example.com/abcd'>
-<title>hogehoge</title>
+                <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+                <meta name="twitter:image" value="http://img.example.com/abcd">
+                <title>hogehoge</title>
 
-<p>hogehoge
-";
+                <p>hogehoge
+                """;
             var thumbinfo = await service.GetThumbnailInfoAsync("http://example.com/abcd", new PostClass(), CancellationToken.None);
 
             Assert.NotNull(thumbinfo);
@@ -124,15 +124,15 @@ namespace OpenTween.Thumbnail.Services
         {
             var service = new TestMetaThumbnailService(@"http://example.com/.+");
 
-            service.FakeHtml = @"
-<!DOCTYPE HTML PUBLIC '-//W3C//DTD HTML 4.01//EN' 'http://www.w3.org/TR/html4/strict.dtd'>
+            service.FakeHtml = """
+                <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
 
-<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'>
-<meta content='http://img.example.com/abcd' name='twitter:image'>
-<title>hogehoge</title>
+                <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+                <meta content="http://img.example.com/abcd" name="twitter:image">
+                <title>hogehoge</title>
 
-<p>hogehoge
-";
+                <p>hogehoge
+                """;
             var thumbinfo = await service.GetThumbnailInfoAsync("http://example.com/abcd", new PostClass(), CancellationToken.None);
 
             Assert.NotNull(thumbinfo);
@@ -146,16 +146,16 @@ namespace OpenTween.Thumbnail.Services
         {
             var service = new TestMetaThumbnailService(@"http://example.com/.+");
 
-            service.FakeHtml = @"
-<!DOCTYPE HTML PUBLIC '-//W3C//DTD HTML 4.01//EN' 'http://www.w3.org/TR/html4/strict.dtd'>
+            service.FakeHtml = """
+                <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
 
-<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'>
-<meta name='og:image' content=''>
-<meta content='http://img.example.com/abcd' name='twitter:image'>
-<title>hogehoge</title>
+                <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+                <meta name="og:image" content="">
+                <meta content="http://img.example.com/abcd" name="twitter:image">
+                <title>hogehoge</title>
 
-<p>hogehoge
-";
+                <p>hogehoge
+                """;
             var thumbinfo = await service.GetThumbnailInfoAsync("http://example.com/abcd", new PostClass(), CancellationToken.None);
 
             Assert.NotNull(thumbinfo);
@@ -169,15 +169,15 @@ namespace OpenTween.Thumbnail.Services
         {
             var service = new TestMetaThumbnailService(@"http://example.com/.+");
 
-            service.FakeHtml = @"
-<!DOCTYPE HTML PUBLIC '-//W3C//DTD HTML 4.01//EN' 'http://www.w3.org/TR/html4/strict.dtd'>
+            service.FakeHtml = """
+                <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
 
-<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'>
-<meta name='og:image' content=''><meta content='http://img.example.com/abcd' name='twitter:image'>
-<title>hogehoge</title>
+                <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+                <meta name="og:image" content=""><meta content="http://img.example.com/abcd" name="twitter:image">
+                <title>hogehoge</title>
 
-<p>hogehoge
-";
+                <p>hogehoge
+                """;
             var thumbinfo = await service.GetThumbnailInfoAsync("http://example.com/abcd", new PostClass(), CancellationToken.None);
 
             Assert.NotNull(thumbinfo);
@@ -191,15 +191,15 @@ namespace OpenTween.Thumbnail.Services
         {
             var service = new TestMetaThumbnailService(@"http://example.com/.+");
 
-            service.FakeHtml = @"
-<!DOCTYPE HTML PUBLIC '-//W3C//DTD HTML 4.01//EN' 'http://www.w3.org/TR/html4/strict.dtd'>
+            service.FakeHtml = """
+                <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
 
-<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'>
-<meta content='' name='twitter:title'><meta content='http://img.example.com/abcd' name='twitter:image'>
-<title>hogehoge</title>
+                <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+                <meta content="" name="twitter:title"><meta content="http://img.example.com/abcd" name="twitter:image">
+                <title>hogehoge</title>
 
-<p>hogehoge
-";
+                <p>hogehoge
+                """;
             var thumbinfo = await service.GetThumbnailInfoAsync("http://example.com/abcd", new PostClass(), CancellationToken.None);
 
             Assert.NotNull(thumbinfo);
@@ -213,14 +213,14 @@ namespace OpenTween.Thumbnail.Services
         {
             var service = new TestMetaThumbnailService(@"http://example.com/.+");
 
-            service.FakeHtml = @"
-<!DOCTYPE HTML PUBLIC '-//W3C//DTD HTML 4.01//EN' 'http://www.w3.org/TR/html4/strict.dtd'>
+            service.FakeHtml = """
+                <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
 
-<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'>
-<title>hogehoge</title>
+                <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+                <title>hogehoge</title>
 
-<p>hogehoge
-";
+                <p>hogehoge
+                """;
             var thumbinfo = await service.GetThumbnailInfoAsync("http://example.com/abcd", new PostClass(), CancellationToken.None);
 
             Assert.Null(thumbinfo);

@@ -37,7 +37,7 @@ namespace OpenTween.Connection
         [Fact]
         public void ParseCookie_Test()
         {
-            var cookie = "guest_id_marketing=hoge; guest_id_ads=hoge; personalization_id=\"hoge\"; guest_id=hoge; ct0=aaaaaaaaaa; kdt=hoge; twid=hoge; auth_token=bbbbbbbbbb; dnt=1";
+            var cookie = """guest_id_marketing=hoge; guest_id_ads=hoge; personalization_id="hoge"; guest_id=hoge; ct0=aaaaaaaaaa; kdt=hoge; twid=hoge; auth_token=bbbbbbbbbb; dnt=1""";
             var innerHandler = Mock.Of<HttpMessageHandler>();
             using var handler = new TwitterComCookieHandler(innerHandler, cookie);
             Assert.Equal("aaaaaaaaaa", handler.CsrfToken);

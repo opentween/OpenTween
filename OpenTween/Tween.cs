@@ -98,10 +98,10 @@ namespace OpenTween
         private readonly object syncObject = new(); // ロック用
 
         private const string DetailHtmlFormatHead =
-            "<head><meta http-equiv=\"X-UA-Compatible\" content=\"IE=8\">"
-            + "<style type=\"text/css\"><!-- "
+            """<head><meta http-equiv="X-UA-Compatible" content="IE=8">"""
+            + """<style type="text/css"><!-- """
             + "body, p, pre {margin: 0;} "
-            + "body {font-family: \"%FONT_FAMILY%\", \"Segoe UI Emoji\", sans-serif; font-size: %FONT_SIZE%pt; background-color:rgb(%BG_COLOR%); word-wrap: break-word; color:rgb(%FONT_COLOR%);} "
+            + """body {font-family: "%FONT_FAMILY%", "Segoe UI Emoji", sans-serif; font-size: %FONT_SIZE%pt; background-color:rgb(%BG_COLOR%); word-wrap: break-word; color:rgb(%FONT_COLOR%);} """
             + "pre {font-family: inherit;} "
             + "a:link, a:visited, a:active, a:hover {color:rgb(%LINK_COLOR%); } "
             + "img.emoji {width: 1em; height: 1em; margin: 0 .05em 0 .1em; vertical-align: -0.1em; border: none;} "
@@ -8185,13 +8185,13 @@ namespace OpenTween
             // TweetFormatterクラスによって整形された状態のHTMLを元のツイートに復元します
 
             // 通常の URL
-            statusHtml = Regex.Replace(statusHtml, "<a href=\"(?<href>.+?)\" title=\"(?<title>.+?)\">(?<text>.+?)</a>", "${title}");
+            statusHtml = Regex.Replace(statusHtml, """<a href="(?<href>.+?)" title="(?<title>.+?)">(?<text>.+?)</a>""", "${title}");
             // メンション
-            statusHtml = Regex.Replace(statusHtml, "<a class=\"mention\" href=\"(?<href>.+?)\">(?<text>.+?)</a>", "${text}");
+            statusHtml = Regex.Replace(statusHtml, """<a class="mention" href="(?<href>.+?)">(?<text>.+?)</a>""", "${text}");
             // ハッシュタグ
-            statusHtml = Regex.Replace(statusHtml, "<a class=\"hashtag\" href=\"(?<href>.+?)\">(?<text>.+?)</a>", "${text}");
+            statusHtml = Regex.Replace(statusHtml, """<a class="hashtag" href="(?<href>.+?)">(?<text>.+?)</a>""", "${text}");
             // 絵文字
-            statusHtml = Regex.Replace(statusHtml, "<img class=\"emoji\" src=\".+?\" alt=\"(?<text>.+?)\" />", "${text}");
+            statusHtml = Regex.Replace(statusHtml, """<img class="emoji" src=".+?" alt="(?<text>.+?)" />""", "${text}");
 
             // <br> 除去
             if (multiline)

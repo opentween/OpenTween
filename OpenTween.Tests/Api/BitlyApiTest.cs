@@ -132,7 +132,7 @@ namespace OpenTween.Api
 
                 return new HttpResponseMessage(HttpStatusCode.OK)
                 {
-                    Content = new StringContent("{\"access_token\": \"abcdefg\"}"),
+                    Content = new StringContent("""{"access_token": "abcdefg"}"""),
                 };
             });
 
@@ -154,7 +154,7 @@ namespace OpenTween.Api
             {
                 return new HttpResponseMessage(HttpStatusCode.OK)
                 {
-                    Content = new StringContent("{\"status_code\": \"500\", \"status_txt\": \"MISSING_ARG_USERNAME\"}"),
+                    Content = new StringContent("""{"status_code": "500", "status_txt": "MISSING_ARG_USERNAME"}"""),
                 };
             });
 

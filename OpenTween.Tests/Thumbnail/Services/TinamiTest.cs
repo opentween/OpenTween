@@ -56,21 +56,23 @@ namespace OpenTween.Thumbnail.Services
         {
             var service = new TestTinami();
 
-            service.FakeXml = @"<?xml version='1.0' encoding='utf-8' ?>
-<rsp stat='ok'>
-  <content type='illust' issupport='1' iscollection='0'>
-    <title>ほげほげ</title>
-    <description>説明</description>
-    <thumbnails>
-      <thumbnail_150x150 url='http://img.tinami.com/hogehoge_150.gif' width='112' height='120'/>
-    </thumbnails>
-    <image>
-      <url>http://img.tinami.com/hogehoge_full.gif</url>
-      <width>640</width>
-      <height>480</height>
-    </image>
-  </content>
-</rsp>";
+            service.FakeXml = """
+                <?xml version="1.0" encoding="utf-8" ?>
+                <rsp stat="ok">
+                  <content type="illust" issupport="1" iscollection="0">
+                    <title>ほげほげ</title>
+                    <description>説明</description>
+                    <thumbnails>
+                      <thumbnail_150x150 url="http://img.tinami.com/hogehoge_150.gif" width="112" height="120"/>
+                    </thumbnails>
+                    <image>
+                      <url>http://img.tinami.com/hogehoge_full.gif</url>
+                      <width>640</width>
+                      <height>480</height>
+                    </image>
+                  </content>
+                </rsp>
+                """;
             var thumbinfo = await service.GetThumbnailInfoAsync("http://www.tinami.com/view/12345", new PostClass(), CancellationToken.None);
 
             Assert.NotNull(thumbinfo);
@@ -84,10 +86,12 @@ namespace OpenTween.Thumbnail.Services
         {
             var service = new TestTinami();
 
-            service.FakeXml = @"<?xml version='1.0' encoding='utf-8'?>
-<rsp stat='user_only'>
-  <err msg='この作品は登録ユーザー限定の作品です。'/>
-</rsp>";
+            service.FakeXml = """
+                <?xml version="1.0" encoding="utf-8"?>
+                <rsp stat="user_only">
+                  <err msg="この作品は登録ユーザー限定の作品です。"/>
+                </rsp>
+                """;
             var thumbinfo = await service.GetThumbnailInfoAsync("http://www.tinami.com/view/12345", new PostClass(), CancellationToken.None);
 
             Assert.Null(thumbinfo);

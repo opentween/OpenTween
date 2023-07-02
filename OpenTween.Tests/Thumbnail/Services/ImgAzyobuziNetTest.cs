@@ -62,12 +62,12 @@ namespace OpenTween.Thumbnail.Services
                         throw new HttpRequestException();
 
                     if (apiBase == "http://error.example.com/api/")
-                        return Encoding.UTF8.GetBytes("{\"error\": {\"code\": 5001}}");
+                        return Encoding.UTF8.GetBytes("""{"error": {"code": 5001}}""");
 
                     if (apiBase == "http://invalid.example.com/api/")
                         return Encoding.UTF8.GetBytes("<<<INVALID JSON>>>");
 
-                    return Encoding.UTF8.GetBytes("[{\"name\": \"hogehoge\", \"regex\": \"^https?://example.com/(.+)$\"}]");
+                    return Encoding.UTF8.GetBytes("""[{"name": "hogehoge", "regex": "^https?://example.com/(.+)$"}]""");
                 });
             }
         }
