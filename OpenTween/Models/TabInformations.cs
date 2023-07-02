@@ -47,10 +47,10 @@ namespace OpenTween.Models
 
         public MuteTabModel MuteTab { get; private set; } = new();
 
-        public ConcurrentDictionary<long, PostClass> Posts { get; } = new();
+        public ConcurrentDictionary<PostId, PostClass> Posts { get; } = new();
 
-        private readonly Dictionary<long, PostClass> quotes = new();
-        private readonly ConcurrentDictionary<long, int> retweetsCount = new();
+        private readonly Dictionary<PostId, PostClass> quotes = new();
+        private readonly ConcurrentDictionary<PostId, int> retweetsCount = new();
 
         public Stack<TabModel> RemovedTab { get; } = new();
 
@@ -62,7 +62,7 @@ namespace OpenTween.Models
         // AddPost(複数回) -> DistributePosts          -> SubmitUpdate
 
         private readonly TabCollection tabs = new();
-        private readonly ConcurrentQueue<long> addQueue = new();
+        private readonly ConcurrentQueue<PostId> addQueue = new();
 
         /// <summary>通知サウンドを再生する優先順位</summary>
         private readonly Dictionary<MyCommon.TabUsageType, int> notifyPriorityByTabType = new()
@@ -156,7 +156,6 @@ namespace OpenTween.Models
                     {
                         var exist = false;
                         var id = tb.GetStatusIdAt(idx);
-                        if (id < 0) continue;
                         foreach (var tab in this.Tabs)
                         {
                             if (tab != tb && tab != dmTab)
@@ -383,7 +382,7 @@ namespace OpenTween.Models
             return this.SortOrder;
         }
 
-        public void RemovePostFromAllTabs(long statusId, bool setIsDeleted)
+        public void RemovePostFromAllTabs(PostId statusId, bool setIsDeleted)
         {
             foreach (var tab in this.Tabs)
             {
@@ -415,7 +414,7 @@ namespace OpenTween.Models
                 isDeletePost = false;
 
                 var addedCountTotal = 0;
-                var removedIdsAll = new List<long>();
+                var removedIdsAll = new List<PostId>();
                 var notifyPostsList = new List<PostClass>();
 
                 var currentNotifyPriority = -1;
@@ -647,7 +646,7 @@ namespace OpenTween.Models
             if (retweetPost.RetweetedId == null)
                 throw new InvalidOperationException();
 
-            var retweetedId = retweetPost.RetweetedId.Value;
+            var retweetedId = retweetPost.RetweetedId;
 
             return this.retweetsCount.AddOrUpdate(retweetedId, 1, (k, v) => v >= 10 ? 1 : v + 1);
         }
@@ -670,7 +669,7 @@ namespace OpenTween.Models
         /// <param name="statusId">変更するツイートのID</param>
         /// <param name="read">既読状態</param>
         /// <returns>既読状態に変化があれば true、変化がなければ false</returns>
-        public bool SetReadAllTab(long statusId, bool read)
+        public bool SetReadAllTab(PostId statusId, bool read)
         {
             lock (this.lockObj)
             {
@@ -713,7 +712,7 @@ namespace OpenTween.Models
             }
         }
 
-        public PostClass? this[long id]
+        public PostClass? this[PostId id]
         {
             get
             {
@@ -729,7 +728,7 @@ namespace OpenTween.Models
             }
         }
 
-        public bool ContainsKey(long id)
+        public bool ContainsKey(PostId id)
         {
             // DM,公式検索は非対応
             lock (this.lockObj)
@@ -759,7 +758,7 @@ namespace OpenTween.Models
             lock (this.lockObj)
             {
                 var homeTab = this.HomeTab;
-                var detachedIdsAll = Enumerable.Empty<long>();
+                var detachedIdsAll = Enumerable.Empty<PostId>();
 
                 foreach (var tab in this.Tabs.OfType<FilterTabModel>().ToArray())
                 {

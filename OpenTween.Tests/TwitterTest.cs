@@ -86,26 +86,26 @@ namespace OpenTween
         [Fact]
         public void FindTopOfReplyChainTest()
         {
-            var posts = new Dictionary<long, PostClass>
+            var posts = new Dictionary<PostId, PostClass>
             {
-                [950L] = new PostClass { StatusId = 950L, InReplyToStatusId = null }, // このツイートが末端
-                [987L] = new PostClass { StatusId = 987L, InReplyToStatusId = 950L },
-                [999L] = new PostClass { StatusId = 999L, InReplyToStatusId = 987L },
-                [1000L] = new PostClass { StatusId = 1000L, InReplyToStatusId = 999L },
+                [new TwitterStatusId("950")] = new PostClass { StatusId = new TwitterStatusId("950"), InReplyToStatusId = null }, // このツイートが末端
+                [new TwitterStatusId("987")] = new PostClass { StatusId = new TwitterStatusId("987"), InReplyToStatusId = new TwitterStatusId("950") },
+                [new TwitterStatusId("999")] = new PostClass { StatusId = new TwitterStatusId("999"), InReplyToStatusId = new TwitterStatusId("987") },
+                [new TwitterStatusId("1000")] = new PostClass { StatusId = new TwitterStatusId("1000"), InReplyToStatusId = new TwitterStatusId("999") },
             };
-            Assert.Equal(950L, Twitter.FindTopOfReplyChain(posts, 1000L).StatusId);
-            Assert.Equal(950L, Twitter.FindTopOfReplyChain(posts, 950L).StatusId);
-            Assert.Throws<ArgumentException>(() => Twitter.FindTopOfReplyChain(posts, 500L));
+            Assert.Equal(new TwitterStatusId("950"), Twitter.FindTopOfReplyChain(posts, new TwitterStatusId("1000")).StatusId);
+            Assert.Equal(new TwitterStatusId("950"), Twitter.FindTopOfReplyChain(posts, new TwitterStatusId("950")).StatusId);
+            Assert.Throws<ArgumentException>(() => Twitter.FindTopOfReplyChain(posts, new TwitterStatusId("500")));
 
-            posts = new Dictionary<long, PostClass>
+            posts = new Dictionary<PostId, PostClass>
             {
-                // 1200L は posts の中に存在しない
-                [1210L] = new PostClass { StatusId = 1210L, InReplyToStatusId = 1200L },
-                [1220L] = new PostClass { StatusId = 1220L, InReplyToStatusId = 1210L },
-                [1230L] = new PostClass { StatusId = 1230L, InReplyToStatusId = 1220L },
+                // new TwitterStatusId("1200") は posts の中に存在しない
+                [new TwitterStatusId("1210")] = new PostClass { StatusId = new TwitterStatusId("1210"), InReplyToStatusId = new TwitterStatusId("1200") },
+                [new TwitterStatusId("1220")] = new PostClass { StatusId = new TwitterStatusId("1220"), InReplyToStatusId = new TwitterStatusId("1210") },
+                [new TwitterStatusId("1230")] = new PostClass { StatusId = new TwitterStatusId("1230"), InReplyToStatusId = new TwitterStatusId("1220") },
             };
-            Assert.Equal(1210L, Twitter.FindTopOfReplyChain(posts, 1230L).StatusId);
-            Assert.Equal(1210L, Twitter.FindTopOfReplyChain(posts, 1210L).StatusId);
+            Assert.Equal(new TwitterStatusId("1210"), Twitter.FindTopOfReplyChain(posts, new TwitterStatusId("1230")).StatusId);
+            Assert.Equal(new TwitterStatusId("1210"), Twitter.FindTopOfReplyChain(posts, new TwitterStatusId("1210")).StatusId);
         }
 
         [Fact]

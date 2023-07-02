@@ -80,7 +80,7 @@ namespace OpenTween.Models
             {
                 // 幻覚fav対策 (8a5717dd のコミット参照)
                 var favTab = this.tabinfo.FavoriteTab;
-                isFav = favTab.Contains(originalStatus.Id);
+                isFav = favTab.Contains(new TwitterStatusId(originalStatus.IdStr));
             }
 
             var geo = (PostClass.StatusGeo?)null;
@@ -108,7 +108,9 @@ namespace OpenTween.Models
 
             var quoteStatusIds = GetQuoteTweetStatusIds(entities, quotedStatusLink)
                 .Where(x => x != status.Id && x != originalStatus.Id)
-                .Distinct().ToArray();
+                .Distinct()
+                .Select(x => new TwitterStatusId(x))
+                .ToArray();
 
             var expandedUrls = entities.OfType<TwitterEntityUrl>()
                 .Select(x => new PostClass.ExpandedUrlInfo(x.Url, x.ExpandedUrl))
@@ -133,14 +135,20 @@ namespace OpenTween.Models
             if (followerIds.Count > 0)
                 isOwl = !followerIds.Contains(originalStatusUser.Id);
 
+            var createdAtForSorting = ParseDateTimeFromSnowflakeId(status.Id, status.CreatedAt);
+            var createdAt = retweetedStatus != null
+                ? ParseDateTimeFromSnowflakeId(retweetedStatus.Id, retweetedStatus.CreatedAt)
+                : createdAtForSorting;
+
             return new()
             {
                 // status から生成
-                StatusId = status.Id,
+                StatusId = new TwitterStatusId(status.IdStr),
+                CreatedAtForSorting = createdAtForSorting,
                 IsMe = statusUser.Id == selfUserId,
 
                 // originalStatus から生成
-                CreatedAt = MyCommon.DateTimeParse(originalStatus.CreatedAt),
+                CreatedAt = createdAt,
                 Text = text,
                 TextFromApi = textFromApi,
                 AccessibleText = accessibleText,
@@ -153,7 +161,7 @@ namespace OpenTween.Models
                 SourceUri = sourceUri,
                 IsFav = isFav,
                 IsReply = retweetedStatus != null && replyToList.Any(x => x.UserId == selfUserId),
-                InReplyToStatusId = originalStatus.InReplyToStatusId,
+                InReplyToStatusId = originalStatus.InReplyToStatusIdStr != null ? new TwitterStatusId(originalStatus.InReplyToStatusIdStr) : null,
                 InReplyToUser = originalStatus.InReplyToScreenName,
                 InReplyToUserId = originalStatus.InReplyToUserId,
 
@@ -166,7 +174,7 @@ namespace OpenTween.Models
                 IsOwl = isOwl,
 
                 // retweetedStatus から生成
-                RetweetedId = retweetedStatus?.Id,
+                RetweetedId = retweetedStatus != null ? new TwitterStatusId(retweetedStatus.IdStr) : null,
 
                 // retweeterUser から生成
                 RetweetedBy = retweeterUser != null ? string.Intern(retweeterUser.ScreenName) : null,
@@ -207,7 +215,9 @@ namespace OpenTween.Models
             var (replyToList, media) = this.ExtractEntities(entities);
 
             var quoteStatusIds = GetQuoteTweetStatusIds(entities, quotedStatusLink: null)
-                .Distinct().ToArray();
+                .Distinct()
+                .Select(x => new TwitterStatusId(x))
+                .ToArray();
 
             var expandedUrls = entities.OfType<TwitterEntityUrl>()
                 .Select(x => new PostClass.ExpandedUrlInfo(x.Url, x.ExpandedUrl))
@@ -251,7 +261,7 @@ namespace OpenTween.Models
 
             return new()
             {
-                StatusId = long.Parse(eventItem.Id),
+                StatusId = new TwitterDirectMessageId(eventItem.Id),
                 IsDm = true,
                 CreatedAt = createdAt,
                 Text = text,
@@ -512,6 +522,21 @@ namespace OpenTween.Models
                         yield return statusId;
                 }
             }
+        }
+
+        public static readonly DateTimeUtc TwitterEpoch = DateTimeUtc.FromUnixTimeMilliseconds(1288834974657L);
+
+        public static DateTimeUtc ParseDateTimeFromSnowflakeId(long statusId, string createdAtStr)
+        {
+            // status_id からミリ秒単位の日時を算出する
+            var timestampInMs = TwitterEpoch + TimeSpan.FromMilliseconds(statusId >> 22);
+
+            // 通常の方法で得た秒精度の日時と比較して 1 秒未満の差であれば timestampInMs の値を採用する
+            // （Snowflake 導入以前の ID や仕様変更によりこの計算式が使えなくなった場合の対策）
+            var createdAtFromStr = MyCommon.DateTimeParse(createdAtStr);
+            var correct = (timestampInMs - createdAtFromStr).Duration() < TimeSpan.FromSeconds(1);
+
+            return correct ? timestampInMs : createdAtFromStr;
         }
     }
 }

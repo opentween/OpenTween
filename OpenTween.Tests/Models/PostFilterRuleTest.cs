@@ -1410,7 +1410,7 @@ namespace OpenTween.Models
 
             filter.FilterRt = true;
 
-            post = new PostClass { RetweetedBy = "hogehoge", RetweetedId = 123L };
+            post = new PostClass { RetweetedBy = "hogehoge", RetweetedId = new TwitterStatusId("123") };
             Assert.Equal(MyCommon.HITRESULT.CopyAndMark, filter.ExecFilter(post));
 
             post = new PostClass { };
@@ -1425,7 +1425,7 @@ namespace OpenTween.Models
 
             filter.ExFilterRt = true;
 
-            post = new PostClass { RetweetedBy = "hogehoge", RetweetedId = 123L };
+            post = new PostClass { RetweetedBy = "hogehoge", RetweetedId = new TwitterStatusId("123") };
             Assert.Equal(MyCommon.HITRESULT.Exclude, filter.ExecFilter(post));
 
             post = new PostClass { };

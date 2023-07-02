@@ -38,9 +38,9 @@ namespace OpenTween.Models
 {
     public abstract class InternalStorageTabModel : TabModel
     {
-        protected readonly ConcurrentDictionary<long, PostClass> internalPosts = new();
+        protected readonly ConcurrentDictionary<PostId, PostClass> internalPosts = new();
 
-        public override ConcurrentDictionary<long, PostClass> Posts
+        public override ConcurrentDictionary<PostId, PostClass> Posts
             => this.internalPosts;
 
         protected InternalStorageTabModel(string tabName)
@@ -58,7 +58,7 @@ namespace OpenTween.Models
             base.AddPostQueue(post);
         }
 
-        public override void EnqueueRemovePost(long statusId, bool setIsDeleted)
+        public override void EnqueueRemovePost(PostId statusId, bool setIsDeleted)
         {
             base.EnqueueRemovePost(statusId, setIsDeleted);
 
@@ -69,7 +69,7 @@ namespace OpenTween.Models
             }
         }
 
-        public override bool RemovePostImmediately(long statusId)
+        public override bool RemovePostImmediately(PostId statusId)
         {
             if (!base.RemovePostImmediately(statusId))
                 return false;
@@ -85,7 +85,7 @@ namespace OpenTween.Models
             this.internalPosts.Clear();
         }
 
-        internal override bool SetReadState(long statusId, bool read)
+        internal override bool SetReadState(PostId statusId, bool read)
         {
             if (this.Posts.TryGetValue(statusId, out var post))
                 post.IsRead = read;

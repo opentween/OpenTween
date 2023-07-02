@@ -191,7 +191,7 @@ namespace OpenTween.Api
             using var twitterApi = new TwitterApi(ApiKey.Create("fake_consumer_key"), ApiKey.Create("fake_consumer_secret"));
             twitterApi.ApiConnection = mock.Object;
 
-            await twitterApi.StatusesShow(statusId: 100L)
+            await twitterApi.StatusesShow(statusId: new("100"))
                 .ConfigureAwait(false);
 
             mock.VerifyAll();
@@ -252,7 +252,7 @@ namespace OpenTween.Api
 
             await twitterApi.StatusesUpdate(
                     "hogehoge",
-                    replyToId: 100L,
+                    replyToId: new("100"),
                     mediaIds: new[] { 10L, 20L },
                     autoPopulateReplyMetadata: true,
                     excludeReplyUserIds: new[] { 100L, 200L },
@@ -306,7 +306,7 @@ namespace OpenTween.Api
             using var twitterApi = new TwitterApi(ApiKey.Create("fake_consumer_key"), ApiKey.Create("fake_consumer_secret"));
             twitterApi.ApiConnection = mock.Object;
 
-            await twitterApi.StatusesDestroy(statusId: 100L)
+            await twitterApi.StatusesDestroy(statusId: new("100"))
                 .IgnoreResponse()
                 .ConfigureAwait(false);
 
@@ -333,7 +333,7 @@ namespace OpenTween.Api
             using var twitterApi = new TwitterApi(ApiKey.Create("fake_consumer_key"), ApiKey.Create("fake_consumer_secret"));
             twitterApi.ApiConnection = mock.Object;
 
-            await twitterApi.StatusesRetweet(100L)
+            await twitterApi.StatusesRetweet(new("100"))
                 .IgnoreResponse()
                 .ConfigureAwait(false);
 
@@ -748,7 +748,7 @@ namespace OpenTween.Api
             using var twitterApi = new TwitterApi(ApiKey.Create("fake_consumer_key"), ApiKey.Create("fake_consumer_secret"));
             twitterApi.ApiConnection = mock.Object;
 
-            await twitterApi.DirectMessagesEventsDestroy(eventId: "100")
+            await twitterApi.DirectMessagesEventsDestroy(eventId: new("100"))
                 .ConfigureAwait(false);
 
             mock.VerifyAll();
@@ -880,7 +880,7 @@ namespace OpenTween.Api
             using var twitterApi = new TwitterApi(ApiKey.Create("fake_consumer_key"), ApiKey.Create("fake_consumer_secret"));
             twitterApi.ApiConnection = mock.Object;
 
-            await twitterApi.FavoritesCreate(statusId: 100L)
+            await twitterApi.FavoritesCreate(statusId: new("100"))
                 .IgnoreResponse()
                 .ConfigureAwait(false);
 
@@ -905,7 +905,7 @@ namespace OpenTween.Api
             using var twitterApi = new TwitterApi(ApiKey.Create("fake_consumer_key"), ApiKey.Create("fake_consumer_secret"));
             twitterApi.ApiConnection = mock.Object;
 
-            await twitterApi.FavoritesDestroy(statusId: 100L)
+            await twitterApi.FavoritesDestroy(statusId: new("100"))
                 .IgnoreResponse()
                 .ConfigureAwait(false);
 

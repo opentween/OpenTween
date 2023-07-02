@@ -79,7 +79,7 @@ namespace OpenTween.Models
             var status = this.CreateStatus();
             var post = factory.CreateFromStatus(status, selfUserId: 20000L, followerIds: EmptyIdSet);
 
-            Assert.Equal(status.Id, post.StatusId);
+            Assert.Equal(new TwitterStatusId(status.IdStr), post.StatusId);
             Assert.Equal(new DateTimeUtc(2022, 1, 1, 0, 0, 0), post.CreatedAt);
             Assert.Equal("hoge", post.Text);
             Assert.Equal("hoge", post.TextFromApi);
@@ -164,9 +164,9 @@ namespace OpenTween.Models
 
             var post = factory.CreateFromStatus(retweetStatus, selfUserId: 20000L, followerIds: EmptyIdSet);
 
-            Assert.Equal(retweetStatus.Id, post.StatusId);
+            Assert.Equal(new TwitterStatusId(retweetStatus.IdStr), post.StatusId);
             Assert.Equal(retweetStatus.User.Id, post.RetweetedByUserId);
-            Assert.Equal(originalStatus.Id, post.RetweetedId);
+            Assert.Equal(new TwitterStatusId(originalStatus.IdStr), post.RetweetedId);
             Assert.Equal(originalStatus.User.Id, post.UserId);
 
             Assert.Equal("OpenTween", post.Source);
@@ -228,7 +228,7 @@ namespace OpenTween.Models
             var apps = this.CreateApps();
             var post = factory.CreateFromDirectMessageEvent(eventItem, users, apps, selfUserId: selfUser.Id);
 
-            Assert.Equal(long.Parse(eventItem.Id), post.StatusId);
+            Assert.Equal(new TwitterDirectMessageId(eventItem.Id), post.StatusId);
             Assert.Equal(new DateTimeUtc(2022, 1, 1, 0, 0, 0), post.CreatedAt);
             Assert.Equal("hoge", post.Text);
             Assert.Equal("hoge", post.TextFromApi);
@@ -638,6 +638,34 @@ namespace OpenTween.Models
 
             var statusIds = TwitterPostFactory.GetQuoteTweetStatusIds(urls);
             Assert.Empty(statusIds);
+        }
+
+        [Fact]
+        public void ParseDateTimeFromSnowflakeId_LowerTest()
+        {
+            var statusId = 1659990873340346368L;
+            var createdAtStr = "Sat May 20 18:34:00 +0000 2023";
+            var expected = new DateTimeUtc(2023, 5, 20, 18, 34, 0, 0);
+            Assert.Equal(expected, TwitterPostFactory.ParseDateTimeFromSnowflakeId(statusId, createdAtStr));
+        }
+
+        [Fact]
+        public void ParseDateTimeFromSnowflakeId_UpperTest()
+        {
+            var statusId = 1672312060766748673L;
+            var createdAtStr = "Fri Jun 23 18:33:59 +0000 2023";
+            var expected = new DateTimeUtc(2023, 6, 23, 18, 33, 59, 999);
+            Assert.Equal(expected, TwitterPostFactory.ParseDateTimeFromSnowflakeId(statusId, createdAtStr));
+        }
+
+        [Fact]
+        public void ParseDateTimeFromSnowflakeId_FallbackTest()
+        {
+            // Snowflake 導入以前の status_id に対しては created_at の文字列からパースした日時を採用する
+            var statusId = 20L;
+            var createdAtStr = "Tue Mar 21 20:50:14 +0000 2006";
+            var expected = new DateTimeUtc(2006, 3, 21, 20, 50, 14, 0);
+            Assert.Equal(expected, TwitterPostFactory.ParseDateTimeFromSnowflakeId(statusId, createdAtStr));
         }
     }
 }

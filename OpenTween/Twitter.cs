@@ -255,7 +255,7 @@ namespace OpenTween
 
             var response = await this.Api.StatusesUpdate(
                     param.Text,
-                    param.InReplyToStatusId,
+                    param.InReplyToStatusId?.ToTwitterStatusId(),
                     param.MediaIds,
                     param.AutoPopulateReplyMetadata,
                     param.ExcludeReplyUserIds,
@@ -359,7 +359,7 @@ namespace OpenTween
                 .ConfigureAwait(false);
         }
 
-        public async Task<PostClass?> PostRetweet(long id, bool read)
+        public async Task<PostClass?> PostRetweet(PostId id, bool read)
         {
             this.CheckAccountState();
 
@@ -370,7 +370,7 @@ namespace OpenTween
 
             var target = post.RetweetedId ?? id;  // 再RTの場合は元発言をRT
 
-            var response = await this.Api.StatusesRetweet(target)
+            var response = await this.Api.StatusesRetweet(target.ToTwitterStatusId())
                 .ConfigureAwait(false);
 
             var status = await response.LoadJsonAsync()
@@ -379,7 +379,8 @@ namespace OpenTween
             // 二重取得回避
             lock (this.lockObj)
             {
-                if (TabInformations.GetInstance().ContainsKey(status.Id))
+                var statusId = new TwitterStatusId(status.IdStr);
+                if (TabInformations.GetInstance().ContainsKey(statusId))
                     return null;
             }
 
@@ -611,7 +612,7 @@ namespace OpenTween
                 tab.OldestId = minimumId.Value;
         }
 
-        public async Task<PostClass> GetStatusApi(bool read, long id)
+        public async Task<PostClass> GetStatusApi(bool read, TwitterStatusId id)
         {
             this.CheckAccountState();
 
@@ -626,7 +627,7 @@ namespace OpenTween
             return item;
         }
 
-        public async Task GetStatusApi(bool read, long id, TabModel tab)
+        public async Task GetStatusApi(bool read, TwitterStatusId id, TabModel tab)
         {
             var post = await this.GetStatusApi(read, id)
                 .ConfigureAwait(false);
@@ -656,13 +657,14 @@ namespace OpenTween
                 // 二重取得回避
                 lock (this.lockObj)
                 {
+                    var id = new TwitterStatusId(status.IdStr);
                     if (tab == null)
                     {
-                        if (TabInformations.GetInstance().ContainsKey(status.Id)) continue;
+                        if (TabInformations.GetInstance().ContainsKey(id)) continue;
                     }
                     else
                     {
-                        if (tab.Contains(status.Id)) continue;
+                        if (tab.Contains(id)) continue;
                     }
                 }
 
@@ -697,7 +699,8 @@ namespace OpenTween
                 // 二重取得回避
                 lock (this.lockObj)
                 {
-                    if (tab.Contains(status.Id)) continue;
+                    if (tab.Contains(new TwitterStatusId(status.IdStr)))
+                        continue;
                 }
 
                 var post = this.CreatePostsFromStatusData(status);
@@ -724,7 +727,8 @@ namespace OpenTween
                 // 二重取得回避
                 lock (this.lockObj)
                 {
-                    if (favTab.Contains(status.Id)) continue;
+                    if (favTab.Contains(new TwitterStatusId(status.IdStr)))
+                        continue;
                 }
 
                 var post = this.CreatePostsFromStatusData(status, true);
@@ -763,17 +767,17 @@ namespace OpenTween
         /// startStatusId からリプライ先の発言を辿る。発言は posts 以外からは検索しない。
         /// </summary>
         /// <returns>posts の中から検索されたリプライチェインの末端</returns>
-        internal static PostClass FindTopOfReplyChain(IDictionary<long, PostClass> posts, long startStatusId)
+        internal static PostClass FindTopOfReplyChain(IDictionary<PostId, PostClass> posts, PostId startStatusId)
         {
             if (!posts.ContainsKey(startStatusId))
-                throw new ArgumentException("startStatusId (" + startStatusId + ") が posts の中から見つかりませんでした。", nameof(startStatusId));
+                throw new ArgumentException("startStatusId (" + startStatusId.Id + ") が posts の中から見つかりませんでした。", nameof(startStatusId));
 
             var nextPost = posts[startStatusId];
             while (nextPost.InReplyToStatusId != null)
             {
-                if (!posts.ContainsKey(nextPost.InReplyToStatusId.Value))
+                if (!posts.ContainsKey(nextPost.InReplyToStatusId))
                     break;
-                nextPost = posts[nextPost.InReplyToStatusId.Value];
+                nextPost = posts[nextPost.InReplyToStatusId];
             }
 
             return nextPost;
@@ -787,14 +791,14 @@ namespace OpenTween
             {
                 var originalPost = targetPost with
                 {
-                    StatusId = targetPost.RetweetedId.Value,
+                    StatusId = targetPost.RetweetedId,
                     RetweetedId = null,
                     RetweetedBy = null,
                 };
                 targetPost = originalPost;
             }
 
-            var relPosts = new Dictionary<long, PostClass>();
+            var relPosts = new Dictionary<PostId, PostClass>();
             if (targetPost.TextFromApi.Contains("@") && targetPost.InReplyToStatusId == null)
             {
                 // 検索結果対応
@@ -805,7 +809,7 @@ namespace OpenTween
                 }
                 else
                 {
-                    p = await this.GetStatusApi(read, targetPost.StatusId)
+                    p = await this.GetStatusApi(read, targetPost.StatusId.ToTwitterStatusId())
                         .ConfigureAwait(false);
                     targetPost = p;
                 }
@@ -819,14 +823,14 @@ namespace OpenTween
             var loopCount = 1;
             while (nextPost.InReplyToStatusId != null && loopCount++ <= 20)
             {
-                var inReplyToId = nextPost.InReplyToStatusId.Value;
+                var inReplyToId = nextPost.InReplyToStatusId;
 
                 var inReplyToPost = TabInformations.GetInstance()[inReplyToId];
                 if (inReplyToPost == null)
                 {
                     try
                     {
-                        inReplyToPost = await this.GetStatusApi(read, inReplyToId)
+                        inReplyToPost = await this.GetStatusApi(read, inReplyToId.ToTwitterStatusId())
                             .ConfigureAwait(false);
                     }
                     catch (WebApiException ex)
@@ -847,11 +851,9 @@ namespace OpenTween
                 .Concat(Twitter.ThirdPartyStatusUrlRegex.Matches(text).Cast<Match>());
             foreach (var match in ma)
             {
-                if (long.TryParse(match.Groups["StatusId"].Value, out var statusId))
+                var statusId = new TwitterStatusId(match.Groups["StatusId"].Value);
+                if (!relPosts.ContainsKey(statusId))
                 {
-                    if (relPosts.ContainsKey(statusId))
-                        continue;
-
                     var p = TabInformations.GetInstance()[statusId];
                     if (p == null)
                     {
@@ -884,7 +886,7 @@ namespace OpenTween
                         continue;
 
                     // リプライチェーンが繋がらないツイートは除外
-                    if (post.InReplyToStatusId == null || !relPosts.ContainsKey(post.InReplyToStatusId.Value))
+                    if (post.InReplyToStatusId == null || !relPosts.ContainsKey(post.InReplyToStatusId))
                         continue;
 
                     relPosts.Add(post.StatusId, post);
@@ -913,7 +915,7 @@ namespace OpenTween
         private async Task<PostClass[]> GetConversationPosts(PostClass firstPost, PostClass targetPost)
         {
             var conversationId = firstPost.StatusId;
-            var query = $"conversation_id:{conversationId}";
+            var query = $"conversation_id:{conversationId.Id}";
 
             if (targetPost.InReplyToUser != null && targetPost.InReplyToUser != targetPost.ScreenName)
                 query += $" (from:{targetPost.ScreenName} to:{targetPost.InReplyToUser}) OR (from:{targetPost.InReplyToUser} to:{targetPost.ScreenName})";

@@ -67,7 +67,7 @@ namespace OpenTween.Models
             {
                 IsProtect = protect,
                 IsMark = mark,
-                InReplyToStatusId = reply ? (long?)100L : null,
+                InReplyToStatusId = reply ? new TwitterStatusId("100") : null,
                 PostGeo = geo ? new PostClass.StatusGeo(-126.716667, -47.15) : (PostClass.StatusGeo?)null,
             };
 
@@ -271,11 +271,13 @@ namespace OpenTween.Models
         {
             var retweetPost = new PostClass
             {
-                StatusId = 100L,
+                StatusId = new TwitterStatusId("100"),
+                CreatedAtForSorting = new(2023, 1, 2, 0, 0, 0),
+                CreatedAt = new(2023, 1, 1, 0, 0, 0),
                 ScreenName = "@aaa",
                 UserId = 1L,
 
-                RetweetedId = 50L,
+                RetweetedId = new TwitterStatusId("50"),
                 RetweetedBy = "@bbb",
                 RetweetedByUserId = 2L,
                 RetweetedCount = 0,
@@ -283,7 +285,9 @@ namespace OpenTween.Models
 
             var originalPost = retweetPost.ConvertToOriginalPost();
 
-            Assert.Equal(50L, originalPost.StatusId);
+            Assert.Equal(new TwitterStatusId("50"), originalPost.StatusId);
+            Assert.Equal(new(2023, 1, 1, 0, 0, 0), originalPost.CreatedAt);
+            Assert.Equal(new(2023, 1, 1, 0, 0, 0), originalPost.CreatedAtForSorting);
             Assert.Equal("@aaa", originalPost.ScreenName);
             Assert.Equal(1L, originalPost.UserId);
 
@@ -297,7 +301,7 @@ namespace OpenTween.Models
         public void ConvertToOriginalPost_ErrorTest()
         {
             // 公式 RT でないツイート
-            var post = new PostClass { StatusId = 100L, RetweetedId = null };
+            var post = new PostClass { StatusId = new TwitterStatusId("100"), RetweetedId = null };
 
             Assert.Throws<InvalidOperationException>(() => post.ConvertToOriginalPost());
         }
