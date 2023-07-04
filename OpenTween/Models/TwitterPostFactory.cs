@@ -107,9 +107,8 @@ namespace OpenTween.Models
             var (replyToList, media) = this.ExtractEntities(entities);
 
             var quoteStatusIds = GetQuoteTweetStatusIds(entities, quotedStatusLink)
-                .Where(x => x != status.Id && x != originalStatus.Id)
+                .Where(x => x.Id != status.IdStr && x.Id != originalStatus.IdStr)
                 .Distinct()
-                .Select(x => new TwitterStatusId(x))
                 .ToArray();
 
             var expandedUrls = entities.OfType<TwitterEntityUrl>()
@@ -216,7 +215,6 @@ namespace OpenTween.Models
 
             var quoteStatusIds = GetQuoteTweetStatusIds(entities, quotedStatusLink: null)
                 .Distinct()
-                .Select(x => new TwitterStatusId(x))
                 .ToArray();
 
             var expandedUrls = entities.OfType<TwitterEntityUrl>()
@@ -499,7 +497,7 @@ namespace OpenTween.Models
         /// <summary>
         /// ツイートに含まれる引用ツイートのURLからステータスIDを抽出
         /// </summary>
-        public static IEnumerable<long> GetQuoteTweetStatusIds(IEnumerable<TwitterEntity>? entities, TwitterQuotedStatusPermalink? quotedStatusLink)
+        public static IEnumerable<TwitterStatusId> GetQuoteTweetStatusIds(IEnumerable<TwitterEntity>? entities, TwitterQuotedStatusPermalink? quotedStatusLink)
         {
             entities ??= Enumerable.Empty<TwitterEntity>();
 
@@ -511,16 +509,13 @@ namespace OpenTween.Models
             return GetQuoteTweetStatusIds(urls);
         }
 
-        public static IEnumerable<long> GetQuoteTweetStatusIds(IEnumerable<string> urls)
+        public static IEnumerable<TwitterStatusId> GetQuoteTweetStatusIds(IEnumerable<string> urls)
         {
             foreach (var url in urls)
             {
                 var match = Twitter.StatusUrlRegex.Match(url);
                 if (match.Success)
-                {
-                    if (long.TryParse(match.Groups["StatusId"].Value, out var statusId))
-                        yield return statusId;
-                }
+                    yield return new(match.Groups["StatusId"].Value);
             }
         }
 

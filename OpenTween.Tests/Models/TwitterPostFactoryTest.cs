@@ -598,7 +598,7 @@ namespace OpenTween.Models
             };
 
             var statusIds = TwitterPostFactory.GetQuoteTweetStatusIds(entities, quotedStatusLink: null);
-            Assert.Equal(new[] { 599261132361072640L }, statusIds);
+            Assert.Equal(new[] { new TwitterStatusId("599261132361072640") }, statusIds);
         }
 
         [Fact]
@@ -612,7 +612,7 @@ namespace OpenTween.Models
             };
 
             var statusIds = TwitterPostFactory.GetQuoteTweetStatusIds(entities, quotedStatusLink);
-            Assert.Equal(new[] { 599261132361072640L }, statusIds);
+            Assert.Equal(new[] { new TwitterStatusId("599261132361072640") }, statusIds);
         }
 
         [Fact]
@@ -624,20 +624,7 @@ namespace OpenTween.Models
             };
 
             var statusIds = TwitterPostFactory.GetQuoteTweetStatusIds(urls);
-            Assert.Equal(new[] { 599261132361072640L }, statusIds);
-        }
-
-        [Fact]
-        public void GetQuoteTweetStatusIds_OverflowTest()
-        {
-            var urls = new[]
-            {
-                // 符号付き 64 ビット整数の範囲を超える値
-                "https://twitter.com/kim_upsilon/status/9999999999999999999",
-            };
-
-            var statusIds = TwitterPostFactory.GetQuoteTweetStatusIds(urls);
-            Assert.Empty(statusIds);
+            Assert.Equal(new[] { new TwitterStatusId("599261132361072640") }, statusIds);
         }
 
         [Fact]
