@@ -35,7 +35,7 @@ namespace OpenTween
     [Serializable]
     public class WebApiException : Exception
     {
-        public string? ResponseText { get; } = null;
+        public string? ResponseText { get; set; } = null;
 
         public WebApiException()
         {
