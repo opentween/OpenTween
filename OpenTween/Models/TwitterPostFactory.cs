@@ -161,7 +161,7 @@ namespace OpenTween.Models
                 Source = string.Intern(sourceText),
                 SourceUri = sourceUri,
                 IsFav = isFav,
-                IsReply = retweetedStatus != null && replyToList.Any(x => x.UserId == selfUserId),
+                IsReply = retweetedStatus == null && replyToList.Any(x => x.UserId == selfUserId),
                 InReplyToStatusId = originalStatus.InReplyToStatusIdStr != null ? new TwitterStatusId(originalStatus.InReplyToStatusIdStr) : null,
                 InReplyToUser = originalStatus.InReplyToScreenName,
                 InReplyToUserId = originalStatus.InReplyToUserId,
