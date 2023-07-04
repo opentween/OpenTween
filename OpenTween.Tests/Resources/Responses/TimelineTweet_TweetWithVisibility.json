@@ -1,0 +1,532 @@
+{
+  "itemType": "TimelineTweet",
+  "__typename": "TimelineTweet",
+  "tweet_results": {
+    "result": {
+      "__typename": "TweetWithVisibilityResults",
+      "tweet": {
+        "rest_id": "1602775353088524288",
+        "core": {
+          "user_results": {
+            "result": {
+              "__typename": "User",
+              "id": "VXNlcjozNTc3NTA4OTE=",
+              "rest_id": "357750891",
+              "affiliates_highlighted_label": {
+                "label": {
+                  "url": {
+                    "url": "https://twitter.com/Twitter",
+                    "urlType": "DeepLink"
+                  },
+                  "badge": {
+                    "url": "https://pbs.twimg.com/profile_images/1488548719062654976/u6qfBBkF_bigger.jpg"
+                  },
+                  "description": "Twitter",
+                  "userLabelType": "BusinessLabel",
+                  "userLabelDisplayType": "Badge"
+                }
+              },
+              "has_graduated_access": true,
+              "is_blue_verified": true,
+              "profile_image_shape": "Square",
+              "legacy": {
+                "can_dm": false,
+                "can_media_tag": true,
+                "created_at": "Thu Aug 18 21:08:15 +0000 2011",
+                "default_profile": false,
+                "default_profile_image": false,
+                "description": "because brands are good at Twitter too",
+                "entities": {
+                  "description": {
+                    "urls": []
+                  },
+                  "url": {
+                    "urls": [
+                      {
+                        "display_url": "marketing.twitter.com",
+                        "expanded_url": "https://marketing.twitter.com",
+                        "url": "https://t.co/p14vvM2Vul",
+                        "indices": [
+                          0,
+                          23
+                        ]
+                      }
+                    ]
+                  }
+                },
+                "fast_followers_count": 0,
+                "favourites_count": 4233,
+                "followers_count": 1039062,
+                "friends_count": 826,
+                "has_custom_timelines": true,
+                "is_translator": false,
+                "listed_count": 5052,
+                "location": "Twitter HQ",
+                "media_count": 1865,
+                "name": "Twitter Marketing",
+                "normal_followers_count": 1039062,
+                "pinned_tweet_ids_str": [],
+                "possibly_sensitive": false,
+                "profile_banner_url": "https://pbs.twimg.com/profile_banners/357750891/1677173802",
+                "profile_image_url_https": "https://pbs.twimg.com/profile_images/1628811028388610048/C8AyxJiB_normal.jpg",
+                "profile_interstitial_type": "",
+                "screen_name": "TwitterMktg",
+                "statuses_count": 10161,
+                "translator_type": "none",
+                "url": "https://t.co/p14vvM2Vul",
+                "verified": false,
+                "verified_type": "Business",
+                "want_retweets": false,
+                "withheld_in_countries": []
+              }
+            }
+          }
+        },
+        "card": {
+          "rest_id": "https://t.co/v4kIDVQjpy",
+          "legacy": {
+            "binding_values": [
+              {
+                "key": "photo_image_full_size_large",
+                "value": {
+                  "image_value": {
+                    "height": 402,
+                    "width": 768,
+                    "url": "https://pbs.twimg.com/card_img/1673535623045472256/R4An0Lxi?format=jpg&name=800x419"
+                  },
+                  "type": "IMAGE"
+                }
+              },
+              {
+                "key": "thumbnail_image",
+                "value": {
+                  "image_value": {
+                    "height": 147,
+                    "width": 280,
+                    "url": "https://pbs.twimg.com/card_img/1673535623045472256/R4An0Lxi?format=jpg&name=280x150"
+                  },
+                  "type": "IMAGE"
+                }
+              },
+              {
+                "key": "description",
+                "value": {
+                  "string_value": "We’re re-enabling Twitter Blue sign ups on iOS and web. Twitter Blue subscribers will get access to subscriber-only features* such as Edit Tweet, 1080p video uploads and reader mode.",
+                  "type": "STRING"
+                }
+              },
+              {
+                "key": "domain",
+                "value": {
+                  "string_value": "blog.twitter.com",
+                  "type": "STRING"
+                }
+              },
+              {
+                "key": "thumbnail_image_large",
+                "value": {
+                  "image_value": {
+                    "height": 315,
+                    "width": 600,
+                    "url": "https://pbs.twimg.com/card_img/1673535623045472256/R4An0Lxi?format=jpg&name=600x600"
+                  },
+                  "type": "IMAGE"
+                }
+              },
+              {
+                "key": "summary_photo_image_small",
+                "value": {
+                  "image_value": {
+                    "height": 202,
+                    "width": 386,
+                    "url": "https://pbs.twimg.com/card_img/1673535623045472256/R4An0Lxi?format=jpg&name=386x202"
+                  },
+                  "type": "IMAGE"
+                }
+              },
+              {
+                "key": "thumbnail_image_original",
+                "value": {
+                  "image_value": {
+                    "height": 403,
+                    "width": 768,
+                    "url": "https://pbs.twimg.com/card_img/1673535623045472256/R4An0Lxi?format=jpg&name=orig"
+                  },
+                  "type": "IMAGE"
+                }
+              },
+              {
+                "key": "site",
+                "value": {
+                  "scribe_key": "publisher_id",
+                  "type": "USER",
+                  "user_value": {
+                    "id_str": "783214",
+                    "path": []
+                  }
+                }
+              },
+              {
+                "key": "photo_image_full_size_small",
+                "value": {
+                  "image_value": {
+                    "height": 202,
+                    "width": 386,
+                    "url": "https://pbs.twimg.com/card_img/1673535623045472256/R4An0Lxi?format=jpg&name=386x202"
+                  },
+                  "type": "IMAGE"
+                }
+              },
+              {
+                "key": "summary_photo_image_large",
+                "value": {
+                  "image_value": {
+                    "height": 402,
+                    "width": 768,
+                    "url": "https://pbs.twimg.com/card_img/1673535623045472256/R4An0Lxi?format=jpg&name=800x419"
+                  },
+                  "type": "IMAGE"
+                }
+              },
+              {
+                "key": "thumbnail_image_small",
+                "value": {
+                  "image_value": {
+                    "height": 76,
+                    "width": 144,
+                    "url": "https://pbs.twimg.com/card_img/1673535623045472256/R4An0Lxi?format=jpg&name=144x144"
+                  },
+                  "type": "IMAGE"
+                }
+              },
+              {
+                "key": "thumbnail_image_x_large",
+                "value": {
+                  "image_value": {
+                    "height": 403,
+                    "width": 768,
+                    "url": "https://pbs.twimg.com/card_img/1673535623045472256/R4An0Lxi?format=png&name=2048x2048_2_exp"
+                  },
+                  "type": "IMAGE"
+                }
+              },
+              {
+                "key": "photo_image_full_size_original",
+                "value": {
+                  "image_value": {
+                    "height": 403,
+                    "width": 768,
+                    "url": "https://pbs.twimg.com/card_img/1673535623045472256/R4An0Lxi?format=jpg&name=orig"
+                  },
+                  "type": "IMAGE"
+                }
+              },
+              {
+                "key": "vanity_url",
+                "value": {
+                  "scribe_key": "vanity_url",
+                  "string_value": "blog.twitter.com",
+                  "type": "STRING"
+                }
+              },
+              {
+                "key": "photo_image_full_size",
+                "value": {
+                  "image_value": {
+                    "height": 314,
+                    "width": 600,
+                    "url": "https://pbs.twimg.com/card_img/1673535623045472256/R4An0Lxi?format=jpg&name=600x314"
+                  },
+                  "type": "IMAGE"
+                }
+              },
+              {
+                "key": "thumbnail_image_color",
+                "value": {
+                  "image_color_value": {
+                    "palette": [
+                      {
+                        "rgb": {
+                          "blue": 243,
+                          "green": 172,
+                          "red": 69
+                        },
+                        "percentage": 100
+                      }
+                    ]
+                  },
+                  "type": "IMAGE_COLOR"
+                }
+              },
+              {
+                "key": "title",
+                "value": {
+                  "string_value": "Twitter Blue is back. And gold checkmarks are here!",
+                  "type": "STRING"
+                }
+              },
+              {
+                "key": "summary_photo_image_color",
+                "value": {
+                  "image_color_value": {
+                    "palette": [
+                      {
+                        "rgb": {
+                          "blue": 243,
+                          "green": 172,
+                          "red": 69
+                        },
+                        "percentage": 100
+                      }
+                    ]
+                  },
+                  "type": "IMAGE_COLOR"
+                }
+              },
+              {
+                "key": "summary_photo_image_x_large",
+                "value": {
+                  "image_value": {
+                    "height": 403,
+                    "width": 768,
+                    "url": "https://pbs.twimg.com/card_img/1673535623045472256/R4An0Lxi?format=png&name=2048x2048_2_exp"
+                  },
+                  "type": "IMAGE"
+                }
+              },
+              {
+                "key": "summary_photo_image",
+                "value": {
+                  "image_value": {
+                    "height": 314,
+                    "width": 600,
+                    "url": "https://pbs.twimg.com/card_img/1673535623045472256/R4An0Lxi?format=jpg&name=600x314"
+                  },
+                  "type": "IMAGE"
+                }
+              },
+              {
+                "key": "photo_image_full_size_color",
+                "value": {
+                  "image_color_value": {
+                    "palette": [
+                      {
+                        "rgb": {
+                          "blue": 243,
+                          "green": 172,
+                          "red": 69
+                        },
+                        "percentage": 100
+                      }
+                    ]
+                  },
+                  "type": "IMAGE_COLOR"
+                }
+              },
+              {
+                "key": "photo_image_full_size_x_large",
+                "value": {
+                  "image_value": {
+                    "height": 403,
+                    "width": 768,
+                    "url": "https://pbs.twimg.com/card_img/1673535623045472256/R4An0Lxi?format=png&name=2048x2048_2_exp"
+                  },
+                  "type": "IMAGE"
+                }
+              },
+              {
+                "key": "card_url",
+                "value": {
+                  "scribe_key": "card_url",
+                  "string_value": "https://t.co/v4kIDVQjpy",
+                  "type": "STRING"
+                }
+              },
+              {
+                "key": "summary_photo_image_original",
+                "value": {
+                  "image_value": {
+                    "height": 403,
+                    "width": 768,
+                    "url": "https://pbs.twimg.com/card_img/1673535623045472256/R4An0Lxi?format=jpg&name=orig"
+                  },
+                  "type": "IMAGE"
+                }
+              }
+            ],
+            "card_platform": {
+              "platform": {
+                "audience": {
+                  "name": "production"
+                },
+                "device": {
+                  "name": "Swift",
+                  "version": "12"
+                }
+              }
+            },
+            "name": "summary_large_image",
+            "url": "https://t.co/v4kIDVQjpy",
+            "user_refs_results": [
+              {
+                "result": {
+                  "__typename": "User",
+                  "id": "VXNlcjo3ODMyMTQ=",
+                  "rest_id": "783214",
+                  "affiliates_highlighted_label": {},
+                  "has_graduated_access": true,
+                  "is_blue_verified": true,
+                  "profile_image_shape": "Square",
+                  "legacy": {
+                    "can_dm": false,
+                    "can_media_tag": true,
+                    "created_at": "Tue Feb 20 14:35:54 +0000 2007",
+                    "default_profile": false,
+                    "default_profile_image": false,
+                    "description": "What's happening?!",
+                    "entities": {
+                      "description": {
+                        "urls": []
+                      },
+                      "url": {
+                        "urls": [
+                          {
+                            "display_url": "about.twitter.com",
+                            "expanded_url": "https://about.twitter.com/",
+                            "url": "https://t.co/DAtOo6uuHk",
+                            "indices": [
+                              0,
+                              23
+                            ]
+                          }
+                        ]
+                      }
+                    },
+                    "fast_followers_count": 0,
+                    "favourites_count": 6118,
+                    "followers_count": 65674140,
+                    "friends_count": 0,
+                    "has_custom_timelines": true,
+                    "is_translator": false,
+                    "listed_count": 88108,
+                    "location": "everywhere",
+                    "media_count": 2445,
+                    "name": "Twitter",
+                    "normal_followers_count": 65674140,
+                    "pinned_tweet_ids_str": [],
+                    "possibly_sensitive": false,
+                    "profile_banner_url": "https://pbs.twimg.com/profile_banners/783214/1646075315",
+                    "profile_image_url_https": "https://pbs.twimg.com/profile_images/1488548719062654976/u6qfBBkF_normal.jpg",
+                    "profile_interstitial_type": "",
+                    "screen_name": "Twitter",
+                    "statuses_count": 15052,
+                    "translator_type": "regular",
+                    "url": "https://t.co/DAtOo6uuHk",
+                    "verified": false,
+                    "verified_type": "Business",
+                    "want_retweets": false,
+                    "withheld_in_countries": []
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "unified_card": {
+          "card_fetch_state": "NoCard"
+        },
+        "edit_control": {
+          "edit_tweet_ids": [
+            "1602775353088524288"
+          ],
+          "editable_until_msecs": "1670968196000",
+          "is_edit_eligible": true,
+          "edits_remaining": "5"
+        },
+        "edit_perspective": {
+          "favorited": false,
+          "retweeted": false
+        },
+        "is_translatable": false,
+        "views": {
+          "state": "Enabled"
+        },
+        "source": "<a href=\"https://mobile.twitter.com\" rel=\"nofollow\">Twitter Web App</a>",
+        "legacy": {
+          "bookmark_count": 6,
+          "bookmarked": false,
+          "created_at": "Tue Dec 13 21:19:56 +0000 2022",
+          "conversation_control": {
+            "policy": "Community",
+            "conversation_owner_results": {
+              "result": {
+                "__typename": "User",
+                "legacy": {
+                  "screen_name": "TwitterMktg"
+                }
+              }
+            }
+          },
+          "conversation_id_str": "1602775353088524288",
+          "display_text_range": [
+            0,
+            110
+          ],
+          "entities": {
+            "user_mentions": [],
+            "urls": [
+              {
+                "display_url": "blog.twitter.com/en_us/topics/p…",
+                "expanded_url": "https://blog.twitter.com/en_us/topics/product/2022/twitter-blue-update",
+                "url": "https://t.co/v4kIDVQjpy",
+                "indices": [
+                  87,
+                  110
+                ]
+              }
+            ],
+            "hashtags": [],
+            "symbols": []
+          },
+          "favorite_count": 201,
+          "favorited": false,
+          "full_text": "Twitter Blue is back. And Gold Checkmarks for advertisers are here! Read the latest:  \nhttps://t.co/v4kIDVQjpy",
+          "is_quote_status": false,
+          "lang": "en",
+          "limited_actions": "limited_replies",
+          "possibly_sensitive": false,
+          "possibly_sensitive_editable": true,
+          "quote_count": 36,
+          "reply_count": 0,
+          "retweet_count": 40,
+          "retweeted": false,
+          "user_id_str": "357750891",
+          "id_str": "1602775353088524288"
+        },
+        "quick_promote_eligibility": {
+          "eligibility": "IneligibleNotProfessional"
+        }
+      },
+      "limitedActionResults": {
+        "limited_actions": [
+          {
+            "action": "Reply",
+            "prompt": {
+              "__typename": "CtaLimitedActionPrompt",
+              "cta_type": "SeeConversation",
+              "headline": {
+                "text": "Who can reply?",
+                "entities": []
+              },
+              "subtext": {
+                "text": "People the author mentioned can reply",
+                "entities": []
+              }
+            }
+          }
+        ]
+      }
+    }
+  },
+  "tweetDisplayType": "Tweet"
+}

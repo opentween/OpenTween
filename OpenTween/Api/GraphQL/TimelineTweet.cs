@@ -49,7 +49,14 @@ namespace OpenTween.Api.GraphQL
 
         public TwitterStatus ToTwitterStatus()
         {
-            var tweetElm = this.Element.Element("tweet_results")?.Element("result") ?? throw CreateParseError();
+            var resultElm = this.Element.Element("tweet_results")?.Element("result") ?? throw CreateParseError();
+            var tweetElm = resultElm.Element("__typename")?.Value switch
+            {
+                "Tweet" => resultElm,
+                "TweetWithVisibilityResults" => resultElm.Element("tweet") ?? throw CreateParseError(),
+                _ => throw CreateParseError(),
+            };
+
             return this.ParseTweet(tweetElm);
         }
 
