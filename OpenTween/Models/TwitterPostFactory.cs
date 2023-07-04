@@ -75,6 +75,8 @@ namespace OpenTween.Models
             var originalStatus = retweetedStatus ?? status;
             var originalStatusUser = originalStatus.User ?? TwitterUser.CreateUnknownUser();
 
+            var isMe = statusUser.Id == selfUserId;
+
             bool isFav = favTweet;
             if (isFav == false)
             {
@@ -131,7 +133,7 @@ namespace OpenTween.Models
             var (sourceText, sourceUri) = ParseSource(originalStatus.Source);
 
             var isOwl = false;
-            if (followerIds.Count > 0)
+            if (!isMe && followerIds.Count > 0)
                 isOwl = !followerIds.Contains(originalStatusUser.Id);
 
             var createdAtForSorting = ParseDateTimeFromSnowflakeId(status.Id, status.CreatedAt);
@@ -144,7 +146,7 @@ namespace OpenTween.Models
                 // status から生成
                 StatusId = new TwitterStatusId(status.IdStr),
                 CreatedAtForSorting = createdAtForSorting,
-                IsMe = statusUser.Id == selfUserId,
+                IsMe = isMe,
 
                 // originalStatus から生成
                 CreatedAt = createdAt,
@@ -159,7 +161,7 @@ namespace OpenTween.Models
                 Source = string.Intern(sourceText),
                 SourceUri = sourceUri,
                 IsFav = isFav,
-                IsReply = retweetedStatus != null && replyToList.Any(x => x.UserId == selfUserId),
+                IsReply = retweetedStatus == null && replyToList.Any(x => x.UserId == selfUserId),
                 InReplyToStatusId = originalStatus.InReplyToStatusIdStr != null ? new TwitterStatusId(originalStatus.InReplyToStatusIdStr) : null,
                 InReplyToUser = originalStatus.InReplyToScreenName,
                 InReplyToUserId = originalStatus.InReplyToUserId,

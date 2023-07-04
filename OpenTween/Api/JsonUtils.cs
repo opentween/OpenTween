@@ -21,7 +21,10 @@
 
 #nullable enable
 
+using System.IO;
+using System.Runtime.Serialization.Json;
 using System.Text;
+using System.Xml.Linq;
 
 namespace OpenTween.Api
 {
@@ -43,6 +46,32 @@ namespace OpenTween.Api
             }
 
             return builder.ToString();
+        }
+
+        /// <summary>
+        /// <see cref="JsonReaderWriterFactory"/>で読み込んだ<see cref="XElement"/>をJSONとして書き出す
+        /// </summary>
+        public static string JsonXmlToString(XElement element)
+        {
+            var isRoot = element.Name == "root";
+
+            using var stream = new MemoryStream();
+            using (var jsonWriter = JsonReaderWriterFactory.CreateJsonWriter(stream))
+            {
+                if (isRoot)
+                {
+                    element.WriteTo(jsonWriter);
+                }
+                else
+                {
+                    jsonWriter.WriteStartElement("root");
+                    jsonWriter.WriteAttributeString("type", element.Attribute("type").Value);
+                    foreach (var child in element.Elements())
+                        child.WriteTo(jsonWriter);
+                    jsonWriter.WriteEndElement();
+                }
+            }
+            return Encoding.UTF8.GetString(stream.ToArray());
         }
     }
 }

@@ -110,5 +110,18 @@ namespace OpenTween.Api.GraphQL
             Assert.Equal("1617126084138659840", post.RetweetedId!.Id);
             Assert.Equal(514241801L, post.UserId);
         }
+
+        [Fact]
+        public void ToStatus_WithTwitterPostFactory_TweetWithVisibility_Test()
+        {
+            var rootElm = this.LoadResponseDocument("TimelineTweet_TweetWithVisibility.json");
+            var timelineTweet = new TimelineTweet(rootElm);
+            var status = timelineTweet.ToTwitterStatus();
+            var postFactory = new TwitterPostFactory(this.CreateTabInfo());
+            var post = postFactory.CreateFromStatus(status, selfUserId: 1L, new HashSet<long>());
+
+            Assert.Equal("1602775353088524288", post.StatusId.Id);
+            Assert.Equal(357750891L, post.UserId);
+        }
     }
 }

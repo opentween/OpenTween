@@ -23,6 +23,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Runtime.Serialization.Json;
 using System.Text;
@@ -82,9 +83,18 @@ namespace OpenTween.Api.GraphQL
             var param = this.CreateParameters();
             using var stream = await apiConnection.GetStreamAsync(EndpointUri, param);
             using var jsonReader = JsonReaderWriterFactory.CreateJsonReader(stream, XmlDictionaryReaderQuotas.Max);
-            var xElm = XElement.Load(jsonReader);
 
-            return TimelineTweet.ExtractTimelineTweets(xElm);
+            XElement rootElm;
+            try
+            {
+                rootElm = XElement.Load(jsonReader);
+            }
+            catch (IOException ex)
+            {
+                throw new WebApiException("IO Error", ex);
+            }
+
+            return TimelineTweet.ExtractTimelineTweets(rootElm);
         }
     }
 }
