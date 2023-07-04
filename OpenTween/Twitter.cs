@@ -43,6 +43,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using OpenTween.Api;
 using OpenTween.Api.DataModel;
+using OpenTween.Api.GraphQL;
 using OpenTween.Api.TwitterV2;
 using OpenTween.Connection;
 using OpenTween.Models;
@@ -746,7 +747,17 @@ namespace OpenTween
             var count = GetApiResultCount(MyCommon.WORKERTYPE.List, more, startup);
 
             TwitterStatus[] statuses;
-            if (more)
+            if (this.Api.AppToken.AuthType == APIAuthType.TwitterComCookie)
+            {
+                var request = new ListLatestTweetsTimelineRequest(tab.ListInfo.Id.ToString())
+                {
+                    Count = count,
+                };
+                var timelineTweets = await request.Send(this.Api.Connection)
+                    .ConfigureAwait(false);
+                statuses = timelineTweets.Select(x => x.ToTwitterStatus()).ToArray();
+            }
+            else if (more)
             {
                 statuses = await this.Api.ListsStatuses(tab.ListInfo.Id, count, maxId: tab.OldestId, includeRTs: SettingManager.Instance.Common.IsListsIncludeRts)
                     .ConfigureAwait(false);
