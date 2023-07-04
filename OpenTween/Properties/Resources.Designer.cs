@@ -580,6 +580,8 @@ namespace OpenTween.Properties {
         /// <summary>
         ///   更新履歴
         ///
+        ///==== Unreleased
+        ///
         ///==== Ver 3.6.1(2023/07/07)
         /// * CHG: graphqlエンドポイントからのレスポンスの読み込み失敗時に問題の起きたツイートをErrorLogsに書き出す機能を追加
         /// * FIX: リプライ制限されたツイートがリストのタイムラインに含まれているとエラーになる不具合を修正 (thx @wal_san!)
@@ -590,7 +592,7 @@ namespace OpenTween.Properties {
         ///
         ///==== Ver 3.6.0(2023/07/05)
         /// * NEW: Cookie使用時にgraphqlエンドポイントを使用したリストのタイムライン取得に対応
-        /// * FIX: 「このタブの発言をクリア」で参照され [残りの文字列は切り詰められました]&quot;; に類似しているローカライズされた文字列を検索します。
+        /// * FIX: [残りの文字列は切り詰められました]&quot;; に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string ChangeLog {
             get {
