@@ -49,6 +49,25 @@ namespace OpenTween
         }
 
         [Fact]
+        public void SelectedMediaServiceIndex_Test()
+        {
+            using var twitterApi = new TwitterApi(ApiKey.Create(""), ApiKey.Create(""));
+            using var twitter = new Twitter(twitterApi);
+            using var mediaSelector = new MediaSelector();
+            twitter.Initialize("", "", "", 0L);
+            mediaSelector.InitializeServices(twitter, TwitterConfiguration.DefaultConfiguration());
+
+            Assert.Equal("Twitter", mediaSelector.MediaServices[0].Key);
+            Assert.Equal("Imgur", mediaSelector.MediaServices[1].Key);
+
+            mediaSelector.SelectedMediaServiceName = "Imgur";
+            Assert.Equal(1, mediaSelector.SelectedMediaServiceIndex);
+
+            mediaSelector.SelectedMediaServiceName = "Twitter";
+            Assert.Equal(0, mediaSelector.SelectedMediaServiceIndex);
+        }
+
+        [Fact]
         public void SelectMediaService_TwitterTest()
         {
             using var twitterApi = new TwitterApi(ApiKey.Create(""), ApiKey.Create(""));
@@ -293,6 +312,103 @@ namespace OpenTween
 
             Assert.Equal("Page 1", mediaSelector.MediaItems[0].AltText);
             Assert.Equal("Page 2", mediaSelector.MediaItems[1].AltText);
+        }
+
+        [Fact]
+        public void Validate_PassTest()
+        {
+            using var twitterApi = new TwitterApi(ApiKey.Create(""), ApiKey.Create(""));
+            using var twitter = new Twitter(twitterApi);
+            using var mediaSelector = new MediaSelector();
+            twitter.Initialize("", "", "", 0L);
+            mediaSelector.InitializeServices(twitter, TwitterConfiguration.DefaultConfiguration());
+            mediaSelector.SelectMediaService("Twitter");
+
+            using var mediaItem = TestUtils.CreateDummyMediaItem();
+            mediaSelector.AddMediaItem(mediaItem);
+            Assert.Equal(MediaSelectorErrorType.None, mediaSelector.Validate(out var rejected));
+            Assert.Null(rejected);
+        }
+
+        [Fact]
+        public void Validate_EmptyErrorTest()
+        {
+            using var twitterApi = new TwitterApi(ApiKey.Create(""), ApiKey.Create(""));
+            using var twitter = new Twitter(twitterApi);
+            using var mediaSelector = new MediaSelector();
+            twitter.Initialize("", "", "", 0L);
+            mediaSelector.InitializeServices(twitter, TwitterConfiguration.DefaultConfiguration());
+            mediaSelector.SelectMediaService("Twitter");
+
+            Assert.Equal(
+                MediaSelectorErrorType.MediaItemNotSet,
+                mediaSelector.Validate(out var rejected)
+            );
+            Assert.Null(rejected);
+        }
+
+        [Fact]
+        public void Validate_ServiceNotSelectedErrorTest()
+        {
+            using var twitterApi = new TwitterApi(ApiKey.Create(""), ApiKey.Create(""));
+            using var twitter = new Twitter(twitterApi);
+            using var mediaSelector = new MediaSelector();
+            twitter.Initialize("", "", "", 0L);
+            mediaSelector.InitializeServices(twitter, TwitterConfiguration.DefaultConfiguration());
+
+            using var mediaItem = TestUtils.CreateDummyMediaItem();
+            mediaSelector.AddMediaItem(mediaItem);
+            Assert.Equal(
+                MediaSelectorErrorType.ServiceNotSelected,
+                mediaSelector.Validate(out var rejected)
+            );
+            Assert.Null(rejected);
+        }
+
+        [Fact]
+        public void Validate_ExtensionErrorTest()
+        {
+            using var twitterApi = new TwitterApi(ApiKey.Create(""), ApiKey.Create(""));
+            using var twitter = new Twitter(twitterApi);
+            using var mediaSelector = new MediaSelector();
+            twitter.Initialize("", "", "", 0L);
+            mediaSelector.InitializeServices(twitter, TwitterConfiguration.DefaultConfiguration());
+            mediaSelector.SelectMediaService("Twitter");
+
+            var mock = new Mock<IMediaItem>();
+            mock.Setup(x => x.CreateImage()).Returns(() => TestUtils.CreateDummyImage());
+            mock.Setup(x => x.Extension).Returns(".exe");
+            mock.Setup(x => x.Size).Returns(1_000_000);
+
+            mediaSelector.AddMediaItem(mock.Object);
+            Assert.Equal(
+                MediaSelectorErrorType.UnsupportedFileExtension,
+                mediaSelector.Validate(out var rejected)
+            );
+            Assert.Same(mock.Object, rejected);
+        }
+
+        [Fact]
+        public void Validate_FileSizeErrorTest()
+        {
+            using var twitterApi = new TwitterApi(ApiKey.Create(""), ApiKey.Create(""));
+            using var twitter = new Twitter(twitterApi);
+            using var mediaSelector = new MediaSelector();
+            twitter.Initialize("", "", "", 0L);
+            mediaSelector.InitializeServices(twitter, TwitterConfiguration.DefaultConfiguration());
+            mediaSelector.SelectMediaService("Twitter");
+
+            var mock = new Mock<IMediaItem>();
+            mock.Setup(x => x.CreateImage()).Returns(() => TestUtils.CreateDummyImage());
+            mock.Setup(x => x.Extension).Returns(".png");
+            mock.Setup(x => x.Size).Returns(1_000_000_000); // 1GB
+
+            mediaSelector.AddMediaItem(mock.Object);
+            Assert.Equal(
+                MediaSelectorErrorType.FileSizeExceeded,
+                mediaSelector.Validate(out var rejected)
+            );
+            Assert.Same(mock.Object, rejected);
         }
 
         [Fact]

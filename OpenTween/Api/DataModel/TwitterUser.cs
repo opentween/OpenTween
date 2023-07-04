@@ -115,5 +115,17 @@ namespace OpenTween.Api.DataModel
         /// <exception cref="SerializationException"/>
         public static TwitterUser ParseJson(string json)
             => MyCommon.CreateDataFromJson<TwitterUser>(json);
+
+        public static TwitterUser CreateUnknownUser()
+        {
+            return new()
+            {
+                Id = 0L,
+                IdStr = "0",
+                ScreenName = "?????",
+                Name = "Unknown User",
+                ProfileImageUrlHttps = "",
+            };
+        }
     }
 }

@@ -37,18 +37,18 @@ namespace OpenTween
         {
             var post = new PostClass
             {
-                StatusId = 12345L,
+                StatusId = new TwitterStatusId("12345"),
                 Nickname = "upsilon",
                 ScreenName = "kim_upsilon",
-                Text = "<a href=\"https://twitter.com/twitterapi\">@twitterapi</a> hogehoge",
+                Text = """<a href="https://twitter.com/twitterapi">@twitterapi</a> hogehoge""",
                 CreatedAt = new DateTimeUtc(2015, 3, 30, 3, 30, 0),
             };
 
             // PostClass.Text はリンクを除去するのみでエスケープは行わない
             // (TweetFormatter によって既にエスケープされた文字列が格納されているため)
 
-            var expected = "<a class=\"quote-tweet-link\" href=\"//opentween/status/12345\">" +
-                "<blockquote class=\"quote-tweet\">" +
+            var expected = """<a class="quote-tweet-link" href="//opentween/status/12345">""" +
+                """<blockquote class="quote-tweet">""" +
                 "<p>@twitterapi hogehoge</p> &mdash; upsilon (@kim_upsilon) " + DateTimeUtc.Parse("2015/03/30 3:30:00", DateTimeFormatInfo.InvariantInfo).ToLocalTimeString() +
                 "</blockquote></a>";
             Assert.Equal(expected, TweetDetailsView.FormatQuoteTweetHtml(post, isReply: false));
@@ -57,11 +57,11 @@ namespace OpenTween
         [Fact]
         public void FormatQuoteTweetHtml_HtmlTest()
         {
-            var statusId = 12345L; // リンク先のステータスID
+            var statusId = new TwitterStatusId("12345"); // リンク先のステータスID
             var html = "<marquee>hogehoge</marquee>"; // HTMLをそのまま出力する (エスケープしない)
 
-            var expected = "<a class=\"quote-tweet-link\" href=\"//opentween/status/12345\">" +
-                "<blockquote class=\"quote-tweet\"><marquee>hogehoge</marquee></blockquote>" +
+            var expected = """<a class="quote-tweet-link" href="//opentween/status/12345">""" +
+                """<blockquote class="quote-tweet"><marquee>hogehoge</marquee></blockquote>""" +
                 "</a>";
             Assert.Equal(expected, TweetDetailsView.FormatQuoteTweetHtml(statusId, html, isReply: false));
         }
@@ -70,16 +70,16 @@ namespace OpenTween
         public void FormatQuoteTweetHtml_ReplyHtmlTest()
         {
             // blockquote の class に reply が付与される
-            var expected = "<a class=\"quote-tweet-link\" href=\"//opentween/status/12345\">" +
-                "<blockquote class=\"quote-tweet reply\">hogehoge</blockquote>" +
+            var expected = """<a class="quote-tweet-link" href="//opentween/status/12345">""" +
+                """<blockquote class="quote-tweet reply">hogehoge</blockquote>""" +
                 "</a>";
-            Assert.Equal(expected, TweetDetailsView.FormatQuoteTweetHtml(12345L, "hogehoge", isReply: true));
+            Assert.Equal(expected, TweetDetailsView.FormatQuoteTweetHtml(new TwitterStatusId("12345"), "hogehoge", isReply: true));
         }
 
         [Fact]
         public void StripLinkTagHtml_Test()
         {
-            var html = "<a href=\"https://twitter.com/twitterapi\">@twitterapi</a>";
+            var html = """<a href="https://twitter.com/twitterapi">@twitterapi</a>""";
 
             var expected = "@twitterapi";
             Assert.Equal(expected, TweetDetailsView.StripLinkTagHtml(html));

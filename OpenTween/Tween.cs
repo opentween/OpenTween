@@ -98,10 +98,10 @@ namespace OpenTween
         private readonly object syncObject = new(); // ロック用
 
         private const string DetailHtmlFormatHead =
-            "<head><meta http-equiv=\"X-UA-Compatible\" content=\"IE=8\">"
-            + "<style type=\"text/css\"><!-- "
+            """<head><meta http-equiv="X-UA-Compatible" content="IE=8">"""
+            + """<style type="text/css"><!-- """
             + "body, p, pre {margin: 0;} "
-            + "body {font-family: \"%FONT_FAMILY%\", \"Segoe UI Emoji\", sans-serif; font-size: %FONT_SIZE%pt; background-color:rgb(%BG_COLOR%); word-wrap: break-word; color:rgb(%FONT_COLOR%);} "
+            + """body {font-family: "%FONT_FAMILY%", "Segoe UI Emoji", sans-serif; font-size: %FONT_SIZE%pt; background-color:rgb(%BG_COLOR%); word-wrap: break-word; color:rgb(%FONT_COLOR%);} """
             + "pre {font-family: inherit;} "
             + "a:link, a:visited, a:active, a:hover {color:rgb(%LINK_COLOR%); } "
             + "img.emoji {width: 1em; height: 1em; margin: 0 .05em 0 .1em; vertical-align: -0.1em; border: none;} "
@@ -167,7 +167,7 @@ namespace OpenTween
         // 発言投稿時のAPI引数（発言編集時に設定。手書きreplyでは設定されない）
 
         /// <summary>リプライ先のステータスID・スクリーン名</summary>
-        private (long StatusId, string ScreenName)? inReplyTo = null;
+        private (PostId StatusId, string ScreenName)? inReplyTo = null;
 
         // 時速表示用
         private readonly List<DateTimeUtc> postTimestamps = new();
@@ -219,8 +219,8 @@ namespace OpenTween
         private List<UrlUndo>? urlUndoBuffer = null;
 
         private readonly record struct ReplyChain(
-            long OriginalId,
-            long InReplyToId,
+            PostId OriginalId,
+            PostId InReplyToId,
             TabModel OriginalTab
         );
 
@@ -258,7 +258,7 @@ namespace OpenTween
 
         private readonly record struct StatusTextHistory(
             string Status,
-            (long StatusId, string ScreenName)? InReplyTo = null
+            (PostId StatusId, string ScreenName)? InReplyTo = null
         );
 
         private readonly HookGlobalHotkey hookGlobalHotkey;
@@ -1048,7 +1048,7 @@ namespace OpenTween
                             if (MyCommon.IsNullOrEmpty(bText)) return;
 
                             var image = this.iconCache.TryGetFromCache(post.ImageUrl);
-                            this.gh.Notify(nt, post.StatusId.ToString(), title.ToString(), bText, image?.Image, post.ImageUrl);
+                            this.gh.Notify(nt, post.StatusId.Id, title.ToString(), bText, image?.Image, post.ImageUrl);
                         }
                     }
                     else
@@ -1418,7 +1418,7 @@ namespace OpenTween
             }
         }
 
-        private async Task FavAddAsync(long statusId, TabModel tab)
+        private async Task FavAddAsync(PostId statusId, TabModel tab)
         {
             await this.workerSemaphore.WaitAsync();
 
@@ -1440,7 +1440,7 @@ namespace OpenTween
             }
         }
 
-        private async Task FavAddAsyncInternal(IProgress<string> p, CancellationToken ct, long statusId, TabModel tab)
+        private async Task FavAddAsyncInternal(IProgress<string> p, CancellationToken ct, PostId statusId, TabModel tab)
         {
             if (ct.IsCancellationRequested)
                 return;
@@ -1460,9 +1460,10 @@ namespace OpenTween
 
                 try
                 {
+                    var twitterStatusId = (post.RetweetedId ?? post.StatusId).ToTwitterStatusId();
                     try
                     {
-                        await this.tw.Api.FavoritesCreate(post.RetweetedId ?? post.StatusId)
+                        await this.tw.Api.FavoritesCreate(twitterStatusId)
                             .IgnoreResponse()
                             .ConfigureAwait(false);
                     }
@@ -1474,7 +1475,7 @@ namespace OpenTween
 
                     if (this.settings.Common.RestrictFavCheck)
                     {
-                        var status = await this.tw.Api.StatusesShow(post.RetweetedId ?? post.StatusId)
+                        var status = await this.tw.Api.StatusesShow(twitterStatusId)
                             .ConfigureAwait(false);
 
                         if (status.Favorited != true)
@@ -1538,7 +1539,7 @@ namespace OpenTween
             }
         }
 
-        private async Task FavRemoveAsync(IReadOnlyList<long> statusIds, TabModel tab)
+        private async Task FavRemoveAsync(IReadOnlyList<PostId> statusIds, TabModel tab)
         {
             await this.workerSemaphore.WaitAsync();
 
@@ -1560,7 +1561,7 @@ namespace OpenTween
             }
         }
 
-        private async Task FavRemoveAsyncInternal(IProgress<string> p, CancellationToken ct, IReadOnlyList<long> statusIds, TabModel tab)
+        private async Task FavRemoveAsyncInternal(IProgress<string> p, CancellationToken ct, IReadOnlyList<PostId> statusIds, TabModel tab)
         {
             if (ct.IsCancellationRequested)
                 return;
@@ -1568,7 +1569,7 @@ namespace OpenTween
             if (!CheckAccountValid())
                 throw new WebApiException("Auth error. Check your account");
 
-            var successIds = new List<long>();
+            var successIds = new List<PostId>();
 
             await Task.Run(async () =>
             {
@@ -1586,9 +1587,11 @@ namespace OpenTween
                     if (!post.IsFav)
                         continue;
 
+                    var twitterStatusId = (post.RetweetedId ?? post.StatusId).ToTwitterStatusId();
+
                     try
                     {
-                        await this.tw.Api.FavoritesDestroy(post.RetweetedId ?? post.StatusId)
+                        await this.tw.Api.FavoritesDestroy(twitterStatusId)
                             .IgnoreResponse()
                             .ConfigureAwait(false);
                     }
@@ -1796,7 +1799,7 @@ namespace OpenTween
                 await this.RefreshTabAsync<HomeTabModel>();
         }
 
-        private async Task RetweetAsync(IReadOnlyList<long> statusIds)
+        private async Task RetweetAsync(IReadOnlyList<PostId> statusIds)
         {
             await this.workerSemaphore.WaitAsync();
 
@@ -1818,7 +1821,7 @@ namespace OpenTween
             }
         }
 
-        private async Task RetweetAsyncInternal(IProgress<string> p, CancellationToken ct, IReadOnlyList<long> statusIds)
+        private async Task RetweetAsyncInternal(IProgress<string> p, CancellationToken ct, IReadOnlyList<PostId> statusIds)
         {
             if (ct.IsCancellationRequested)
                 return;
@@ -2389,9 +2392,9 @@ namespace OpenTween
 
                     try
                     {
-                        if (post.IsDm)
+                        if (post.StatusId is TwitterDirectMessageId dmId)
                         {
-                            await this.tw.Api.DirectMessagesEventsDestroy(post.StatusId.ToString(CultureInfo.InvariantCulture));
+                            await this.tw.Api.DirectMessagesEventsDestroy(dmId);
                         }
                         else
                         {
@@ -2399,7 +2402,7 @@ namespace OpenTween
                             {
                                 // 自分が RT したツイート (自分が RT した自分のツイートも含む)
                                 //   => RT を取り消し
-                                await this.tw.Api.StatusesDestroy(post.StatusId)
+                                await this.tw.Api.StatusesDestroy(post.StatusId.ToTwitterStatusId())
                                     .IgnoreResponse();
                             }
                             else
@@ -2410,14 +2413,14 @@ namespace OpenTween
                                     {
                                         // 他人に RT された自分のツイート
                                         //   => RT 元の自分のツイートを削除
-                                        await this.tw.Api.StatusesDestroy(post.RetweetedId.Value)
+                                        await this.tw.Api.StatusesDestroy(post.RetweetedId.ToTwitterStatusId())
                                             .IgnoreResponse();
                                     }
                                     else
                                     {
                                         // 自分のツイート
                                         //   => ツイートを削除
-                                        await this.tw.Api.StatusesDestroy(post.StatusId)
+                                        await this.tw.Api.StatusesDestroy(post.StatusId.ToTwitterStatusId())
                                             .IgnoreResponse();
                                     }
                                 }
@@ -5019,7 +5022,7 @@ namespace OpenTween
                 return;
 
             var selectedStatusId = tab.SelectedStatusId;
-            if (selectedStatusId == -1)
+            if (selectedStatusId == null)
                 return;
 
             int fIdx, toIdx, stp;
@@ -5197,7 +5200,7 @@ namespace OpenTween
             if (anchorStatusId == null)
                 return;
 
-            var idx = this.CurrentTab.IndexOf(anchorStatusId.Value);
+            var idx = this.CurrentTab.IndexOf(anchorStatusId);
             if (idx == -1)
                 return;
 
@@ -5314,11 +5317,15 @@ namespace OpenTween
             {
                 try
                 {
-                    var post = await this.tw.GetStatusApi(false, currentPost.StatusId);
+                    var post = await this.tw.GetStatusApi(false, currentPost.StatusId.ToTwitterStatusId());
 
-                    currentPost.InReplyToStatusId = post.InReplyToStatusId;
-                    currentPost.InReplyToUser = post.InReplyToUser;
-                    currentPost.IsReply = post.IsReply;
+                    currentPost = currentPost with
+                    {
+                        InReplyToStatusId = post.InReplyToStatusId,
+                        InReplyToUser = post.InReplyToUser,
+                        IsReply = post.IsReply,
+                    };
+                    curTabClass.ReplacePost(currentPost);
                     this.listCache?.PurgeCache();
 
                     var index = curTabClass.SelectedIndex;
@@ -5336,11 +5343,11 @@ namespace OpenTween
             {
                 this.replyChains = new Stack<ReplyChain>();
             }
-            this.replyChains.Push(new ReplyChain(currentPost.StatusId, currentPost.InReplyToStatusId.Value, curTabClass));
+            this.replyChains.Push(new ReplyChain(currentPost.StatusId, currentPost.InReplyToStatusId, curTabClass));
 
             int inReplyToIndex;
             string inReplyToTabName;
-            var inReplyToId = currentPost.InReplyToStatusId.Value;
+            var inReplyToId = currentPost.InReplyToStatusId;
             var inReplyToUser = currentPost.InReplyToUser;
 
             var inReplyToPosts = from tab in this.statuses.Tabs
@@ -5358,7 +5365,7 @@ namespace OpenTween
                 {
                     await Task.Run(async () =>
                     {
-                        var post = await this.tw.GetStatusApi(false, currentPost.InReplyToStatusId.Value)
+                        var post = await this.tw.GetStatusApi(false, currentPost.InReplyToStatusId.ToTwitterStatusId())
                             .ConfigureAwait(false);
                         post.IsRead = true;
 
@@ -5369,7 +5376,7 @@ namespace OpenTween
                 catch (WebApiException ex)
                 {
                     this.StatusLabel.Text = $"Err:{ex.Message}(GetStatus)";
-                    await MyCommon.OpenInBrowserAsync(this, MyCommon.GetStatusUrl(inReplyToUser, inReplyToId));
+                    await MyCommon.OpenInBrowserAsync(this, MyCommon.GetStatusUrl(inReplyToUser, inReplyToId.ToTwitterStatusId()));
                     return;
                 }
 
@@ -5378,7 +5385,7 @@ namespace OpenTween
                 inReplyPost = inReplyToPosts.FirstOrDefault();
                 if (inReplyPost == null)
                 {
-                    await MyCommon.OpenInBrowserAsync(this, MyCommon.GetStatusUrl(inReplyToUser, inReplyToId));
+                    await MyCommon.OpenInBrowserAsync(this, MyCommon.GetStatusUrl(inReplyToUser, inReplyToId.ToTwitterStatusId()));
                     return;
                 }
             }
@@ -5606,10 +5613,8 @@ namespace OpenTween
             }
         }
 
-        private bool GoStatus(long statusId)
+        private bool GoStatus(PostId statusId)
         {
-            if (statusId == 0) return false;
-
             var tab = this.statuses.Tabs
                 .Where(x => x.TabType != MyCommon.TabUsageType.DirectMessage)
                 .Where(x => x.Contains(statusId))
@@ -5630,10 +5635,8 @@ namespace OpenTween
             return true;
         }
 
-        private bool GoDirectMessage(long statusId)
+        private bool GoDirectMessage(PostId statusId)
         {
-            if (statusId == 0) return false;
-
             var tab = this.statuses.DirectMessageTab;
             var index = tab.IndexOf(statusId);
 
@@ -5840,7 +5843,7 @@ namespace OpenTween
 
             try
             {
-                var statusId = long.Parse(match.Groups["StatusId"].Value);
+                var statusId = new TwitterStatusId(match.Groups["StatusId"].Value);
                 await this.OpenRelatedTab(statusId);
             }
             catch (OverflowException)
@@ -5888,7 +5891,7 @@ namespace OpenTween
                                  "\"" + post.TextFromApi.Replace("\n", "").Replace("\"", "\"\"") + "\"" + "\t" +
                                  post.CreatedAt.ToLocalTimeString() + "\t" +
                                  post.ScreenName + "\t" +
-                                 post.StatusId + "\t" +
+                                 post.StatusId.Id + "\t" +
                                  post.ImageUrl + "\t" +
                                  "\"" + post.Text.Replace("\n", "").Replace("\"", "\"\"") + "\"" + "\t" +
                                  protect);
@@ -5905,7 +5908,7 @@ namespace OpenTween
                                  "\"" + post.TextFromApi.Replace("\n", "").Replace("\"", "\"\"") + "\"" + "\t" +
                                  post.CreatedAt.ToLocalTimeString() + "\t" +
                                  post.ScreenName + "\t" +
-                                 post.StatusId + "\t" +
+                                 post.StatusId.Id + "\t" +
                                  post.ImageUrl + "\t" +
                                  "\"" + post.Text.Replace("\n", "").Replace("\"", "\"\"") + "\"" + "\t" +
                                  protect);
@@ -7319,10 +7322,10 @@ namespace OpenTween
             {
                 if (MyCommon.IsKeyDown(Keys.Shift))
                 {
-                    await MyCommon.OpenInBrowserAsync(this, MyCommon.GetStatusUrl(currentPost.InReplyToUser, currentPost.InReplyToStatusId.Value));
+                    await MyCommon.OpenInBrowserAsync(this, MyCommon.GetStatusUrl(currentPost.InReplyToUser, currentPost.InReplyToStatusId.ToTwitterStatusId()));
                     return;
                 }
-                if (this.statuses.Posts.TryGetValue(currentPost.InReplyToStatusId.Value, out var repPost))
+                if (this.statuses.Posts.TryGetValue(currentPost.InReplyToStatusId, out var repPost))
                 {
                     MessageBox.Show($"{repPost.ScreenName} / {repPost.Nickname}   ({repPost.CreatedAt.ToLocalTimeString()})" + Environment.NewLine + repPost.TextFromApi);
                 }
@@ -7330,12 +7333,12 @@ namespace OpenTween
                 {
                     foreach (var tb in this.statuses.GetTabsByType(MyCommon.TabUsageType.Lists | MyCommon.TabUsageType.PublicSearch))
                     {
-                        if (tb == null || !tb.Contains(currentPost.InReplyToStatusId.Value)) break;
-                        repPost = tb.Posts[currentPost.InReplyToStatusId.Value];
+                        if (tb == null || !tb.Contains(currentPost.InReplyToStatusId)) break;
+                        repPost = tb.Posts[currentPost.InReplyToStatusId];
                         MessageBox.Show($"{repPost.ScreenName} / {repPost.Nickname}   ({repPost.CreatedAt.ToLocalTimeString()})" + Environment.NewLine + repPost.TextFromApi);
                         return;
                     }
-                    await MyCommon.OpenInBrowserAsync(this, MyCommon.GetStatusUrl(currentPost.InReplyToUser, currentPost.InReplyToStatusId.Value));
+                    await MyCommon.OpenInBrowserAsync(this, MyCommon.GetStatusUrl(currentPost.InReplyToUser, currentPost.InReplyToStatusId.ToTwitterStatusId()));
                 }
             }
         }
@@ -7897,7 +7900,7 @@ namespace OpenTween
             var match = Regex.Match(uri.AbsolutePath, @"^/status/(\d+)$");
             if (match.Success)
             {
-                var statusId = long.Parse(match.Groups[1].Value);
+                var statusId = new TwitterStatusId(match.Groups[1].Value);
                 await this.OpenRelatedTab(statusId);
                 return;
             }
@@ -8182,13 +8185,13 @@ namespace OpenTween
             // TweetFormatterクラスによって整形された状態のHTMLを元のツイートに復元します
 
             // 通常の URL
-            statusHtml = Regex.Replace(statusHtml, "<a href=\"(?<href>.+?)\" title=\"(?<title>.+?)\">(?<text>.+?)</a>", "${title}");
+            statusHtml = Regex.Replace(statusHtml, """<a href="(?<href>.+?)" title="(?<title>.+?)">(?<text>.+?)</a>""", "${title}");
             // メンション
-            statusHtml = Regex.Replace(statusHtml, "<a class=\"mention\" href=\"(?<href>.+?)\">(?<text>.+?)</a>", "${text}");
+            statusHtml = Regex.Replace(statusHtml, """<a class="mention" href="(?<href>.+?)">(?<text>.+?)</a>""", "${text}");
             // ハッシュタグ
-            statusHtml = Regex.Replace(statusHtml, "<a class=\"hashtag\" href=\"(?<href>.+?)\">(?<text>.+?)</a>", "${text}");
+            statusHtml = Regex.Replace(statusHtml, """<a class="hashtag" href="(?<href>.+?)">(?<text>.+?)</a>""", "${text}");
             // 絵文字
-            statusHtml = Regex.Replace(statusHtml, "<img class=\"emoji\" src=\".+?\" alt=\"(?<text>.+?)\" />", "${text}");
+            statusHtml = Regex.Replace(statusHtml, """<img class="emoji" src=".+?" alt="(?<text>.+?)" />""", "${text}");
 
             // <br> 除去
             if (multiline)
@@ -8691,29 +8694,19 @@ namespace OpenTween
 
         private void UndoRemoveTabMenuItem_Click(object sender, EventArgs e)
         {
-            if (this.statuses.RemovedTab.Count == 0)
+            try
             {
-                MessageBox.Show("There isn't removed tab.", "Undo", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                return;
-            }
-            else
-            {
-                var tb = this.statuses.RemovedTab.Pop();
-                if (this.statuses.ContainsTab(tb.TabName))
-                {
-                    var message = string.Format(Properties.Resources.UndoRemovedTab_DuplicateError, tb.TabName);
-                    MessageBox.Show(this, message, ApplicationSettings.ApplicationName, MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    this.statuses.RemovedTab.Push(tb);
-                    return;
-                }
-
-                this.statuses.AddTab(tb);
-                this.AddNewTab(tb, startup: false);
+                var restoredTab = this.statuses.UndoRemovedTab();
+                this.AddNewTab(restoredTab, startup: false);
 
                 var tabIndex = this.statuses.Tabs.Count - 1;
                 this.ListTab.SelectedIndex = tabIndex;
 
                 this.SaveConfigsTabs();
+            }
+            catch (TabException ex)
+            {
+                MessageBox.Show(this, ex.Message, ApplicationSettings.ApplicationName, MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -8963,14 +8956,7 @@ namespace OpenTween
 
         private void MenuItemEdit_DropDownOpening(object sender, EventArgs e)
         {
-            if (this.statuses.RemovedTab.Count == 0)
-            {
-                this.UndoRemoveTabMenuItem.Enabled = false;
-            }
-            else
-            {
-                this.UndoRemoveTabMenuItem.Enabled = true;
-            }
+            this.UndoRemoveTabMenuItem.Enabled = this.statuses.CanUndoRemovedTab;
 
             if (this.CurrentTab.TabType == MyCommon.TabUsageType.PublicSearch)
                 this.PublicSearchQueryMenuItem.Enabled = true;
@@ -9095,7 +9081,7 @@ namespace OpenTween
 
                 try
                 {
-                    var task = this.tw.Api.StatusesShow(statusId);
+                    var task = this.tw.Api.StatusesShow(statusId.ToTwitterStatusId());
                     status = await dialog.WaitForAsync(this, task);
                 }
                 catch (WebApiException ex)
@@ -9286,14 +9272,14 @@ namespace OpenTween
         /// </summary>
         /// <param name="statusId">表示するツイートのID</param>
         /// <exception cref="TabException">名前の重複が多すぎてタブを作成できない場合</exception>
-        public async Task OpenRelatedTab(long statusId)
+        public async Task OpenRelatedTab(PostId statusId)
         {
             var post = this.statuses[statusId];
             if (post == null)
             {
                 try
                 {
-                    post = await this.tw.GetStatusApi(false, statusId);
+                    post = await this.tw.GetStatusApi(false, statusId.ToTwitterStatusId());
                 }
                 catch (WebApiException ex)
                 {
@@ -9469,7 +9455,7 @@ namespace OpenTween
                         xUrl = xUrl.Replace("{ID}", post.ScreenName);
 
                         var statusId = post.RetweetedId ?? post.StatusId;
-                        xUrl = xUrl.Replace("{STATUS}", statusId.ToString());
+                        xUrl = xUrl.Replace("{STATUS}", statusId.Id);
 
                         await MyCommon.OpenInBrowserAsync(this, xUrl);
                     }
@@ -9496,11 +9482,11 @@ namespace OpenTween
                     this.BringToFront();
                     if (e.NotifyType == GrowlHelper.NotifyType.DirectMessage)
                     {
-                        if (!this.GoDirectMessage(e.StatusId)) this.StatusText.Focus();
+                        if (!this.GoDirectMessage(new TwitterStatusId(e.StatusId))) this.StatusText.Focus();
                     }
                     else
                     {
-                        if (!this.GoStatus(e.StatusId)) this.StatusText.Focus();
+                        if (!this.GoStatus(new TwitterStatusId(e.StatusId))) this.StatusText.Focus();
                     }
                 });
             }

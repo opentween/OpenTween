@@ -46,7 +46,7 @@ namespace OpenTween
 
         internal readonly record struct ListViewScroll(
             ScrollLockMode ScrollLockMode,
-            long? TopItemStatusId
+            PostId? TopItemStatusId
         );
 
         internal enum ScrollLockMode
@@ -65,9 +65,9 @@ namespace OpenTween
         }
 
         internal readonly record struct ListViewSelection(
-            long[] SelectedStatusIds,
-            long? SelectionMarkStatusId,
-            long? FocusedStatusId
+            PostId[] SelectedStatusIds,
+            PostId? SelectionMarkStatusId,
+            PostId? FocusedStatusId
         );
 
         public TimelineListViewState(DetailsListView listView, TabModel tab)
@@ -100,7 +100,7 @@ namespace OpenTween
         private ListViewScroll SaveListViewScroll(bool lockScroll)
         {
             var lockMode = this.GetScrollLockMode(lockScroll);
-            long? topItemStatusId = null;
+            PostId? topItemStatusId = null;
 
             if (lockMode == ScrollLockMode.FixedToItem || lockMode == ScrollLockMode.None)
             {
@@ -165,7 +165,7 @@ namespace OpenTween
             {
                 return new ListViewSelection
                 {
-                    SelectedStatusIds = Array.Empty<long>(),
+                    SelectedStatusIds = Array.Empty<PostId>(),
                     SelectionMarkStatusId = null,
                     FocusedStatusId = null,
                 };
@@ -179,18 +179,18 @@ namespace OpenTween
             };
         }
 
-        private long? GetFocusedStatusId()
+        private PostId? GetFocusedStatusId()
         {
             var index = this.listView.FocusedItem?.Index ?? -1;
 
-            return index != -1 && index < this.tab.AllCount ? this.tab.GetStatusIdAt(index) : (long?)null;
+            return index != -1 && index < this.tab.AllCount ? this.tab.GetStatusIdAt(index) : null;
         }
 
-        private long? GetSelectionMarkStatusId()
+        private PostId? GetSelectionMarkStatusId()
         {
             var index = this.listView.SelectionMark;
 
-            return index != -1 && index < this.tab.AllCount ? this.tab.GetStatusIdAt(index) : (long?)null;
+            return index != -1 && index < this.tab.AllCount ? this.tab.GetStatusIdAt(index) : null;
         }
 
         /// <summary>
@@ -214,7 +214,7 @@ namespace OpenTween
                     this.listView.EnsureVisible(this.listView.VirtualListSize - 1);
                     break;
                 case ScrollLockMode.FixedToItem:
-                    var topIndex = listScroll.TopItemStatusId != null ? this.tab.IndexOf(listScroll.TopItemStatusId.Value) : -1;
+                    var topIndex = listScroll.TopItemStatusId != null ? this.tab.IndexOf(listScroll.TopItemStatusId) : -1;
                     if (topIndex != -1)
                     {
                         var topItem = this.listView.Items[topIndex];
@@ -255,14 +255,14 @@ namespace OpenTween
 
             if (listSelection.FocusedStatusId != null)
             {
-                var focusedIndex = this.tab.IndexOf(listSelection.FocusedStatusId.Value);
+                var focusedIndex = this.tab.IndexOf(listSelection.FocusedStatusId);
                 if (focusedIndex != -1)
                     this.listView.Items[focusedIndex].Focused = true;
             }
 
             if (listSelection.SelectionMarkStatusId != null)
             {
-                var selectionMarkIndex = this.tab.IndexOf(listSelection.SelectionMarkStatusId.Value);
+                var selectionMarkIndex = this.tab.IndexOf(listSelection.SelectionMarkStatusId);
                 if (selectionMarkIndex != -1)
                     this.listView.SelectionMark = selectionMarkIndex;
             }

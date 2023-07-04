@@ -30,6 +30,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using OpenTween.Api.DataModel;
 using OpenTween.Connection;
+using OpenTween.Models;
 
 namespace OpenTween.Api
 {
@@ -136,12 +137,12 @@ namespace OpenTween.Api
             return this.Connection.GetAsync<TwitterStatus[]>(endpoint, param, "/statuses/user_timeline");
         }
 
-        public Task<TwitterStatus> StatusesShow(long statusId)
+        public Task<TwitterStatus> StatusesShow(TwitterStatusId statusId)
         {
             var endpoint = new Uri("statuses/show.json", UriKind.Relative);
             var param = new Dictionary<string, string>
             {
-                ["id"] = statusId.ToString(),
+                ["id"] = statusId.Id,
                 ["include_entities"] = "true",
                 ["include_ext_alt_text"] = "true",
                 ["tweet_mode"] = "extended",
@@ -166,7 +167,7 @@ namespace OpenTween.Api
 
         public Task<LazyJson<TwitterStatus>> StatusesUpdate(
             string status,
-            long? replyToId,
+            TwitterStatusId? replyToId,
             IReadOnlyList<long>? mediaIds,
             bool? autoPopulateReplyMetadata = null,
             IReadOnlyList<long>? excludeReplyUserIds = null,
@@ -182,7 +183,7 @@ namespace OpenTween.Api
             };
 
             if (replyToId != null)
-                param["in_reply_to_status_id"] = replyToId.ToString();
+                param["in_reply_to_status_id"] = replyToId.Id;
             if (mediaIds != null && mediaIds.Count > 0)
                 param.Add("media_ids", string.Join(",", mediaIds));
             if (autoPopulateReplyMetadata != null)
@@ -195,23 +196,23 @@ namespace OpenTween.Api
             return this.Connection.PostLazyAsync<TwitterStatus>(endpoint, param);
         }
 
-        public Task<LazyJson<TwitterStatus>> StatusesDestroy(long statusId)
+        public Task<LazyJson<TwitterStatus>> StatusesDestroy(TwitterStatusId statusId)
         {
             var endpoint = new Uri("statuses/destroy.json", UriKind.Relative);
             var param = new Dictionary<string, string>
             {
-                ["id"] = statusId.ToString(),
+                ["id"] = statusId.Id,
             };
 
             return this.Connection.PostLazyAsync<TwitterStatus>(endpoint, param);
         }
 
-        public Task<LazyJson<TwitterStatus>> StatusesRetweet(long statusId)
+        public Task<LazyJson<TwitterStatus>> StatusesRetweet(TwitterStatusId statusId)
         {
             var endpoint = new Uri("statuses/retweet.json", UriKind.Relative);
             var param = new Dictionary<string, string>
             {
-                ["id"] = statusId.ToString(),
+                ["id"] = statusId.Id,
                 ["include_entities"] = "true",
                 ["include_ext_alt_text"] = "true",
                 ["tweet_mode"] = "extended",
@@ -444,38 +445,41 @@ namespace OpenTween.Api
             var attachment = "";
             if (mediaId != null)
             {
-                attachment = "," + $@"
-        ""attachment"": {{
-          ""type"": ""media"",
-          ""media"": {{
-            ""id"": ""{JsonUtils.EscapeJsonString(mediaId.ToString())}""
-          }}
-        }}";
+                attachment = ",\r\n" + $$"""
+                            "attachment": {
+                              "type": "media",
+                              "media": {
+                                "id": "{{JsonUtils.EscapeJsonString(mediaId.ToString())}}"
+                              }
+                            }
+                    """;
             }
 
-            var json = $@"{{
-  ""event"": {{
-    ""type"": ""message_create"",
-    ""message_create"": {{
-      ""target"": {{
-        ""recipient_id"": ""{JsonUtils.EscapeJsonString(recipientId.ToString())}""
-      }},
-      ""message_data"": {{
-        ""text"": ""{JsonUtils.EscapeJsonString(text)}""{attachment}
-      }}
-    }}
-  }}
-}}";
+            var json = $$"""
+                {
+                  "event": {
+                    "type": "message_create",
+                    "message_create": {
+                      "target": {
+                        "recipient_id": "{{JsonUtils.EscapeJsonString(recipientId.ToString())}}"
+                      },
+                      "message_data": {
+                        "text": "{{JsonUtils.EscapeJsonString(text)}}"{{attachment}}
+                      }
+                    }
+                  }
+                }
+                """;
 
             return this.Connection.PostJsonAsync<TwitterMessageEventSingle>(endpoint, json);
         }
 
-        public Task DirectMessagesEventsDestroy(string eventId)
+        public Task DirectMessagesEventsDestroy(TwitterDirectMessageId eventId)
         {
             var endpoint = new Uri("direct_messages/events/destroy.json", UriKind.Relative);
             var param = new Dictionary<string, string>
             {
-                ["id"] = eventId.ToString(),
+                ["id"] = eventId.Id,
             };
 
             // なぜか application/x-www-form-urlencoded でパラメーターを送ると Bad Request になる謎仕様
@@ -544,24 +548,24 @@ namespace OpenTween.Api
             return this.Connection.GetAsync<TwitterStatus[]>(endpoint, param, "/favorites/list");
         }
 
-        public Task<LazyJson<TwitterStatus>> FavoritesCreate(long statusId)
+        public Task<LazyJson<TwitterStatus>> FavoritesCreate(TwitterStatusId statusId)
         {
             var endpoint = new Uri("favorites/create.json", UriKind.Relative);
             var param = new Dictionary<string, string>
             {
-                ["id"] = statusId.ToString(),
+                ["id"] = statusId.Id,
                 ["tweet_mode"] = "extended",
             };
 
             return this.Connection.PostLazyAsync<TwitterStatus>(endpoint, param);
         }
 
-        public Task<LazyJson<TwitterStatus>> FavoritesDestroy(long statusId)
+        public Task<LazyJson<TwitterStatus>> FavoritesDestroy(TwitterStatusId statusId)
         {
             var endpoint = new Uri("favorites/destroy.json", UriKind.Relative);
             var param = new Dictionary<string, string>
             {
-                ["id"] = statusId.ToString(),
+                ["id"] = statusId.Id,
                 ["tweet_mode"] = "extended",
             };
 
@@ -806,7 +810,7 @@ namespace OpenTween.Api
             var endpoint = new Uri("https://upload.twitter.com/1.1/media/metadata/create.json");
 
             var escapedAltText = JsonUtils.EscapeJsonString(altText);
-            var json = $@"{{""media_id"": ""{mediaId}"", ""alt_text"": {{""text"": ""{escapedAltText}""}}}}";
+            var json = $$$"""{"media_id": "{{{mediaId}}}", "alt_text": {"text": "{{{escapedAltText}}}"}}""";
 
             return this.Connection.PostJsonAsync(endpoint, json);
         }

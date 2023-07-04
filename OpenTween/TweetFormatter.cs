@@ -135,7 +135,7 @@ namespace OpenTween
             if (entity.DisplayUrl == null)
             {
                 expandedUrl = MyCommon.ConvertToReadableUrl(targetText);
-                return "<a href=\"" + E(entity.Url) + "\" title=\"" + E(expandedUrl) + "\">" + T(E(targetText)) + "</a>";
+                return $"""<a href="{E(entity.Url)}" title="{E(expandedUrl)}">{T(E(targetText))}</a>""";
             }
 
             var linkUrl = entity.Url;
@@ -156,14 +156,14 @@ namespace OpenTween
                 }
             }
 
-            return "<a href=\"" + E(linkUrl) + "\" title=\"" + E(titleText) + "\">" + T(E(entity.DisplayUrl)) + "</a>";
+            return $"""<a href="{E(linkUrl)}" title="{E(titleText)}">{T(E(entity.DisplayUrl))}</a>""";
         }
 
         private static string FormatHashtagEntity(string targetText, TwitterEntityHashtag entity)
-            => "<a class=\"hashtag\" href=\"https://twitter.com/search?q=%23" + EU(entity.Text) + "\">" + T(E(targetText)) + "</a>";
+            => $"""<a class="hashtag" href="https://twitter.com/search?q=%23{EU(entity.Text)}">{T(E(targetText))}</a>""";
 
         private static string FormatMentionEntity(string targetText, TwitterEntityMention entity)
-            => "<a class=\"mention\" href=\"https://twitter.com/" + EU(entity.ScreenName) + "\">" + T(E(targetText)) + "</a>";
+            => $"""<a class="mention" href="https://twitter.com/{EU(entity.ScreenName)}">{T(E(targetText))}</a>""";
 
         private static string FormatEmojiEntity(string targetText, TwitterEntityEmoji entity)
         {
@@ -173,7 +173,7 @@ namespace OpenTween
             if (MyCommon.IsNullOrEmpty(entity.Url))
                 return "";
 
-            return "<img class=\"emoji\" src=\"" + E(entity.Url) + "\" alt=\"" + E(entity.Text) + "\" />";
+            return $"""<img class="emoji" src="{E(entity.Url)}" alt="{E(entity.Text)}" />""";
         }
 
         // 長いのでエイリアスとして e(...), eu(...), t(...) でエスケープできるようにする

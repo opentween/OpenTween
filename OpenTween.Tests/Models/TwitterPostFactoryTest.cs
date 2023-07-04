@@ -52,7 +52,7 @@ namespace OpenTween.Models
                 IdStr = statusId.ToString(),
                 CreatedAt = "Sat Jan 01 00:00:00 +0000 2022",
                 FullText = "hoge",
-                Source = "<a href=\"https://www.opentween.org/\" rel=\"nofollow\">OpenTween</a>",
+                Source = """<a href="https://www.opentween.org/" rel="nofollow">OpenTween</a>""",
                 Entities = new(),
                 User = this.CreateUser(),
             };
@@ -79,7 +79,7 @@ namespace OpenTween.Models
             var status = this.CreateStatus();
             var post = factory.CreateFromStatus(status, selfUserId: 20000L, followerIds: EmptyIdSet);
 
-            Assert.Equal(status.Id, post.StatusId);
+            Assert.Equal(new TwitterStatusId(status.IdStr), post.StatusId);
             Assert.Equal(new DateTimeUtc(2022, 1, 1, 0, 0, 0), post.CreatedAt);
             Assert.Equal("hoge", post.Text);
             Assert.Equal("hoge", post.TextFromApi);
@@ -160,13 +160,13 @@ namespace OpenTween.Models
 
             var retweetStatus = this.CreateStatus();
             retweetStatus.RetweetedStatus = originalStatus;
-            retweetStatus.Source = "<a href=\"https://mobile.twitter.com\" rel=\"nofollow\">Twitter Web App</a>";
+            retweetStatus.Source = """<a href="https://mobile.twitter.com" rel="nofollow">Twitter Web App</a>""";
 
             var post = factory.CreateFromStatus(retweetStatus, selfUserId: 20000L, followerIds: EmptyIdSet);
 
-            Assert.Equal(retweetStatus.Id, post.StatusId);
+            Assert.Equal(new TwitterStatusId(retweetStatus.IdStr), post.StatusId);
             Assert.Equal(retweetStatus.User.Id, post.RetweetedByUserId);
-            Assert.Equal(originalStatus.Id, post.RetweetedId);
+            Assert.Equal(new TwitterStatusId(originalStatus.IdStr), post.RetweetedId);
             Assert.Equal(originalStatus.User.Id, post.UserId);
 
             Assert.Equal("OpenTween", post.Source);
@@ -228,7 +228,7 @@ namespace OpenTween.Models
             var apps = this.CreateApps();
             var post = factory.CreateFromDirectMessageEvent(eventItem, users, apps, selfUserId: selfUser.Id);
 
-            Assert.Equal(long.Parse(eventItem.Id), post.StatusId);
+            Assert.Equal(new TwitterDirectMessageId(eventItem.Id), post.StatusId);
             Assert.Equal(new DateTimeUtc(2022, 1, 1, 0, 0, 0), post.CreatedAt);
             Assert.Equal("hoge", post.Text);
             Assert.Equal("hoge", post.TextFromApi);
@@ -315,7 +315,7 @@ namespace OpenTween.Models
 
             var accessibleText = string.Format(Properties.Resources.ImageAltText, "代替テキスト");
             Assert.Equal(accessibleText, post.AccessibleText);
-            Assert.Equal("<a href=\"https://t.co/hoge\" title=\"代替テキスト\">pic.twitter.com/hoge</a>", post.Text);
+            Assert.Equal("""<a href="https://t.co/hoge" title="代替テキスト">pic.twitter.com/hoge</a>""", post.Text);
             Assert.Equal("pic.twitter.com/hoge", post.TextFromApi);
             Assert.Equal("pic.twitter.com/hoge", post.TextSingleLine);
         }
@@ -345,7 +345,7 @@ namespace OpenTween.Models
             var post = factory.CreateFromStatus(status, selfUserId: 100L, followerIds: EmptyIdSet);
 
             Assert.Equal("pic.twitter.com/hoge", post.AccessibleText);
-            Assert.Equal("<a href=\"https://t.co/hoge\" title=\"https://twitter.com/hoge/status/1234567890/photo/1\">pic.twitter.com/hoge</a>", post.Text);
+            Assert.Equal("""<a href="https://t.co/hoge" title="https://twitter.com/hoge/status/1234567890/photo/1">pic.twitter.com/hoge</a>""", post.Text);
             Assert.Equal("pic.twitter.com/hoge", post.TextFromApi);
             Assert.Equal("pic.twitter.com/hoge", post.TextSingleLine);
         }
@@ -387,7 +387,7 @@ namespace OpenTween.Models
 
             var accessibleText = string.Format(Properties.Resources.QuoteStatus_AccessibleText, "foo", "test");
             Assert.Equal(accessibleText, post.AccessibleText);
-            Assert.Equal("<a href=\"https://twitter.com/hoge/status/1234567890\" title=\"https://twitter.com/hoge/status/1234567890\">twitter.com/hoge/status/1…</a>", post.Text);
+            Assert.Equal("""<a href="https://twitter.com/hoge/status/1234567890" title="https://twitter.com/hoge/status/1234567890">twitter.com/hoge/status/1…</a>""", post.Text);
             Assert.Equal("twitter.com/hoge/status/1…", post.TextFromApi);
             Assert.Equal("twitter.com/hoge/status/1…", post.TextSingleLine);
         }
@@ -422,7 +422,7 @@ namespace OpenTween.Models
 
             var accessibleText = "hoge " + string.Format(Properties.Resources.QuoteStatus_AccessibleText, "foo", "test");
             Assert.Equal(accessibleText, post.AccessibleText);
-            Assert.Equal("hoge <a href=\"https://twitter.com/hoge/status/1234567890\" title=\"https://twitter.com/hoge/status/1234567890\">twitter.com/hoge/status/1…</a>", post.Text);
+            Assert.Equal("""hoge <a href="https://twitter.com/hoge/status/1234567890" title="https://twitter.com/hoge/status/1234567890">twitter.com/hoge/status/1…</a>""", post.Text);
             Assert.Equal("hoge twitter.com/hoge/status/1…", post.TextFromApi);
             Assert.Equal("hoge twitter.com/hoge/status/1…", post.TextSingleLine);
         }
@@ -453,7 +453,7 @@ namespace OpenTween.Models
 
             var accessibleText = "twitter.com/hoge/status/1…";
             Assert.Equal(accessibleText, post.AccessibleText);
-            Assert.Equal("<a href=\"https://twitter.com/hoge/status/1234567890\" title=\"https://twitter.com/hoge/status/1234567890\">twitter.com/hoge/status/1…</a>", post.Text);
+            Assert.Equal("""<a href="https://twitter.com/hoge/status/1234567890" title="https://twitter.com/hoge/status/1234567890">twitter.com/hoge/status/1…</a>""", post.Text);
             Assert.Equal("twitter.com/hoge/status/1…", post.TextFromApi);
             Assert.Equal("twitter.com/hoge/status/1…", post.TextSingleLine);
         }
@@ -484,9 +484,9 @@ namespace OpenTween.Models
                 },
             };
 
-            var expectedHtml = @"<a class=""mention"" href=""https://twitter.com/twitterapi"">@twitterapi</a>"
-                + @" <a class=""hashtag"" href=""https://twitter.com/search?q=%23BreakingMyTwitter"">#BreakingMyTwitter</a>"
-                + @" <a href=""https://t.co/mIJcSoVSK3"" title=""https://t.co/mIJcSoVSK3"">apps-of-a-feather.com</a>";
+            var expectedHtml = """<a class="mention" href="https://twitter.com/twitterapi">@twitterapi</a>"""
+                + """ <a class="hashtag" href="https://twitter.com/search?q=%23BreakingMyTwitter">#BreakingMyTwitter</a>"""
+                + """ <a href="https://t.co/mIJcSoVSK3" title="https://t.co/mIJcSoVSK3">apps-of-a-feather.com</a>""";
 
             Assert.Equal(expectedHtml, TwitterPostFactory.CreateHtmlAnchor(text, entities, quotedStatusLink: null));
         }
@@ -497,7 +497,7 @@ namespace OpenTween.Models
             var text = "sm9";
             var entities = new TwitterEntities();
 
-            var expectedHtml = @"<a href=""https://www.nicovideo.jp/watch/sm9"">sm9</a>";
+            var expectedHtml = """<a href="https://www.nicovideo.jp/watch/sm9">sm9</a>""";
 
             Assert.Equal(expectedHtml, TwitterPostFactory.CreateHtmlAnchor(text, entities, quotedStatusLink: null));
         }
@@ -515,7 +515,7 @@ namespace OpenTween.Models
             };
 
             var expectedHtml = @"hoge"
-                + @" <a href=""https://twitter.com/hoge/status/1234567890"" title=""https://twitter.com/hoge/status/1234567890"">twitter.com/hoge/status/1…</a>";
+                + """ <a href="https://twitter.com/hoge/status/1234567890" title="https://twitter.com/hoge/status/1234567890">twitter.com/hoge/status/1…</a>""";
 
             Assert.Equal(expectedHtml, TwitterPostFactory.CreateHtmlAnchor(text, entities, quotedStatusLink));
         }
@@ -523,7 +523,7 @@ namespace OpenTween.Models
         [Fact]
         public void ParseSource_Test()
         {
-            var sourceHtml = "<a href=\"http://twitter.com\" rel=\"nofollow\">Twitter Web Client</a>";
+            var sourceHtml = """<a href="http://twitter.com" rel="nofollow">Twitter Web Client</a>""";
 
             var expected = ("Twitter Web Client", new Uri("http://twitter.com/"));
             Assert.Equal(expected, TwitterPostFactory.ParseSource(sourceHtml));
@@ -542,7 +542,7 @@ namespace OpenTween.Models
         public void ParseSource_RelativeUriTest()
         {
             // 参照: https://twitter.com/kim_upsilon/status/477796052049752064
-            var sourceHtml = "<a href=\"erased_45416\" rel=\"nofollow\">erased_45416</a>";
+            var sourceHtml = """<a href="erased_45416" rel="nofollow">erased_45416</a>""";
 
             var expected = ("erased_45416", new Uri("https://twitter.com/erased_45416"));
             Assert.Equal(expected, TwitterPostFactory.ParseSource(sourceHtml));
@@ -570,7 +570,7 @@ namespace OpenTween.Models
         [Fact]
         public void ParseSource_UnescapeTest()
         {
-            var sourceHtml = "<a href=\"http://example.com/?aaa=123&amp;bbb=456\" rel=\"nofollow\">&lt;&lt;hogehoge&gt;&gt;</a>";
+            var sourceHtml = """<a href="http://example.com/?aaa=123&amp;bbb=456" rel="nofollow">&lt;&lt;hogehoge&gt;&gt;</a>""";
 
             var expected = ("<<hogehoge>>", new Uri("http://example.com/?aaa=123&bbb=456"));
             Assert.Equal(expected, TwitterPostFactory.ParseSource(sourceHtml));
@@ -598,7 +598,7 @@ namespace OpenTween.Models
             };
 
             var statusIds = TwitterPostFactory.GetQuoteTweetStatusIds(entities, quotedStatusLink: null);
-            Assert.Equal(new[] { 599261132361072640L }, statusIds);
+            Assert.Equal(new[] { new TwitterStatusId("599261132361072640") }, statusIds);
         }
 
         [Fact]
@@ -612,7 +612,7 @@ namespace OpenTween.Models
             };
 
             var statusIds = TwitterPostFactory.GetQuoteTweetStatusIds(entities, quotedStatusLink);
-            Assert.Equal(new[] { 599261132361072640L }, statusIds);
+            Assert.Equal(new[] { new TwitterStatusId("599261132361072640") }, statusIds);
         }
 
         [Fact]
@@ -624,20 +624,35 @@ namespace OpenTween.Models
             };
 
             var statusIds = TwitterPostFactory.GetQuoteTweetStatusIds(urls);
-            Assert.Equal(new[] { 599261132361072640L }, statusIds);
+            Assert.Equal(new[] { new TwitterStatusId("599261132361072640") }, statusIds);
         }
 
         [Fact]
-        public void GetQuoteTweetStatusIds_OverflowTest()
+        public void ParseDateTimeFromSnowflakeId_LowerTest()
         {
-            var urls = new[]
-            {
-                // 符号付き 64 ビット整数の範囲を超える値
-                "https://twitter.com/kim_upsilon/status/9999999999999999999",
-            };
+            var statusId = 1659990873340346368L;
+            var createdAtStr = "Sat May 20 18:34:00 +0000 2023";
+            var expected = new DateTimeUtc(2023, 5, 20, 18, 34, 0, 0);
+            Assert.Equal(expected, TwitterPostFactory.ParseDateTimeFromSnowflakeId(statusId, createdAtStr));
+        }
 
-            var statusIds = TwitterPostFactory.GetQuoteTweetStatusIds(urls);
-            Assert.Empty(statusIds);
+        [Fact]
+        public void ParseDateTimeFromSnowflakeId_UpperTest()
+        {
+            var statusId = 1672312060766748673L;
+            var createdAtStr = "Fri Jun 23 18:33:59 +0000 2023";
+            var expected = new DateTimeUtc(2023, 6, 23, 18, 33, 59, 999);
+            Assert.Equal(expected, TwitterPostFactory.ParseDateTimeFromSnowflakeId(statusId, createdAtStr));
+        }
+
+        [Fact]
+        public void ParseDateTimeFromSnowflakeId_FallbackTest()
+        {
+            // Snowflake 導入以前の status_id に対しては created_at の文字列からパースした日時を採用する
+            var statusId = 20L;
+            var createdAtStr = "Tue Mar 21 20:50:14 +0000 2006";
+            var expected = new DateTimeUtc(2006, 3, 21, 20, 50, 14, 0);
+            Assert.Equal(expected, TwitterPostFactory.ParseDateTimeFromSnowflakeId(statusId, createdAtStr));
         }
     }
 }

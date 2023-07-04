@@ -269,6 +269,15 @@ namespace OpenTween
                 utc.ToDateTimeUnsafe());
         }
 
+        [Fact]
+        public void FromUnixTimeMilliseconds_Test()
+        {
+            var utc = DateTimeUtc.FromUnixTimeMilliseconds(1234567890123);
+
+            Assert.Equal(new DateTime(2009, 2, 13, 23, 31, 30, 123, DateTimeKind.Utc),
+                utc.ToDateTimeUnsafe());
+        }
+
         public static readonly TheoryData<string, DateTimeUtc> ParseTestFixtures = new()
         {
             { "2018-05-06T11:22:33.111", new DateTimeUtc(2018, 5, 6, 11, 22, 33, 111) },

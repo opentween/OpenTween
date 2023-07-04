@@ -29,16 +29,18 @@ namespace OpenTween.Api.DataModel
         [Fact]
         public void Deserialize_AppsTest()
         {
-            var json = @"{
-  ""events"": [],
-  ""apps"": {
-    ""258901"": {
-      ""id"": ""258901"",
-      ""name"": ""Twitter for Android"",
-      ""url"": ""http://twitter.com/download/android""
-    }
-  }
-}";
+            var json = """
+                {
+                  "events": [],
+                  "apps": {
+                    "258901": {
+                      "id": "258901",
+                      "name": "Twitter for Android",
+                      "url": "http://twitter.com/download/android"
+                    }
+                  }
+                }
+                """;
             var result = MyCommon.CreateDataFromJson<TwitterMessageEventList>(json);
             Assert.Single(result.Apps);
 

@@ -34,7 +34,7 @@ namespace OpenTween
         {
             return new()
             {
-                StatusId = this.random.Next(10000),
+                StatusId = new TwitterStatusId(this.random.Next(10000)),
                 UserId = this.random.Next(10000),
                 ScreenName = "test",
                 Nickname = "てすと",
@@ -151,9 +151,11 @@ namespace OpenTween
             using var listView = new DetailsListView();
             using var cache = new TimelineListViewCache(listView, tab, new());
 
-            var post = this.CreatePost();
-            post.RetweetedId = 50L;
-            post.RetweetedBy = "hoge";
+            var post = this.CreatePost() with
+            {
+                RetweetedId = new TwitterStatusId("50"),
+                RetweetedBy = "hoge",
+            };
 
             tab.AddPostQueue(post);
             tab.AddSubmit();
@@ -313,8 +315,10 @@ namespace OpenTween
             using var listView = new DetailsListView();
             using var cache = new TimelineListViewCache(listView, tab, new());
 
-            var post = this.CreatePost();
-            post.RetweetedId = 100L;
+            var post = this.CreatePost() with
+            {
+                RetweetedId = new TwitterStatusId("100"),
+            };
 
             tab.AddPostQueue(post);
             tab.AddSubmit();
@@ -368,9 +372,11 @@ namespace OpenTween
             using var listView = new DetailsListView();
             using var cache = new TimelineListViewCache(listView, tab, settingCommon);
 
-            var post = this.CreatePost();
-            post.IsDm = true;
-            post.IsOwl = true;
+            var post = this.CreatePost() with
+            {
+                IsDm = true,
+                IsOwl = true,
+            };
 
             // DM の場合は設定に関わらず ColorOWL を使う
             settingCommon.OneWayLove = false;
@@ -392,8 +398,10 @@ namespace OpenTween
             var targetPost = this.CreatePost();
             tab.AddPostQueue(targetPost);
 
-            var basePost = this.CreatePost();
-            basePost.InReplyToStatusId = targetPost.StatusId;
+            var basePost = this.CreatePost() with
+            {
+                InReplyToStatusId = targetPost.StatusId,
+            };
             tab.AddPostQueue(basePost);
 
             tab.AddSubmit();
@@ -410,8 +418,10 @@ namespace OpenTween
             using var listView = new DetailsListView();
             using var cache = new TimelineListViewCache(listView, tab, new());
 
-            var targetPost = this.CreatePost();
-            targetPost.IsMe = true;
+            var targetPost = this.CreatePost() with
+            {
+                IsMe = true,
+            };
             tab.AddPostQueue(targetPost);
 
             var basePost = this.CreatePost();
@@ -431,8 +441,10 @@ namespace OpenTween
             using var listView = new DetailsListView();
             using var cache = new TimelineListViewCache(listView, tab, new());
 
-            var targetPost = this.CreatePost();
-            targetPost.IsReply = true;
+            var targetPost = this.CreatePost() with
+            {
+                IsReply = true,
+            };
             tab.AddPostQueue(targetPost);
 
             var basePost = this.CreatePost();
@@ -455,8 +467,10 @@ namespace OpenTween
             var targetPost = this.CreatePost();
             tab.AddPostQueue(targetPost);
 
-            var basePost = this.CreatePost();
-            basePost.ReplyToList = new() { (targetPost.UserId, targetPost.ScreenName) };
+            var basePost = this.CreatePost() with
+            {
+                ReplyToList = new() { (targetPost.UserId, targetPost.ScreenName) },
+            };
             tab.AddPostQueue(basePost);
 
             tab.AddSubmit();
@@ -476,8 +490,10 @@ namespace OpenTween
             var basePost = this.CreatePost();
             tab.AddPostQueue(basePost);
 
-            var targetPost = this.CreatePost();
-            targetPost.ReplyToList = new() { (basePost.UserId, basePost.ScreenName) };
+            var targetPost = this.CreatePost() with
+            {
+                ReplyToList = new() { (basePost.UserId, basePost.ScreenName) },
+            };
             tab.AddPostQueue(targetPost);
 
             tab.AddSubmit();
@@ -497,8 +513,10 @@ namespace OpenTween
             var targetPost = this.CreatePost();
             tab.AddPostQueue(targetPost);
 
-            var basePost = this.CreatePost();
-            basePost.UserId = targetPost.UserId;
+            var basePost = this.CreatePost() with
+            {
+                UserId = targetPost.UserId,
+            };
             tab.AddPostQueue(basePost);
 
             tab.AddSubmit();

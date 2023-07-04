@@ -209,7 +209,7 @@ namespace OpenTween.Connection
             {
                 return new HttpResponseMessage(HttpStatusCode.Forbidden)
                 {
-                    Content = new StringContent("{\"errors\":[{\"code\":187,\"message\":\"Status is a duplicate.\"}]}"),
+                    Content = new StringContent("""{"errors":[{"code":187,"message":"Status is a duplicate."}]}"""),
                 };
             });
 
@@ -452,14 +452,14 @@ namespace OpenTween.Connection
                 var body = await x.Content.ReadAsStringAsync()
                     .ConfigureAwait(false);
 
-                Assert.Equal("{\"aaaa\": 1111}", body);
+                Assert.Equal("""{"aaaa": 1111}""", body);
 
                 return new HttpResponseMessage(HttpStatusCode.NoContent);
             });
 
             var endpoint = new Uri("hoge/tetete.json", UriKind.Relative);
 
-            await apiConnection.PostJsonAsync(endpoint, "{\"aaaa\": 1111}")
+            await apiConnection.PostJsonAsync(endpoint, """{"aaaa": 1111}""")
                 .ConfigureAwait(false);
 
             Assert.Equal(0, mockHandler.QueueCount);
@@ -484,7 +484,7 @@ namespace OpenTween.Connection
                 var body = await x.Content.ReadAsStringAsync()
                     .ConfigureAwait(false);
 
-                Assert.Equal("{\"aaaa\": 1111}", body);
+                Assert.Equal("""{"aaaa": 1111}""", body);
 
                 return new HttpResponseMessage(HttpStatusCode.OK)
                 {
@@ -494,7 +494,7 @@ namespace OpenTween.Connection
 
             var endpoint = new Uri("hoge/tetete.json", UriKind.Relative);
 
-            var response = await apiConnection.PostJsonAsync<string>(endpoint, "{\"aaaa\": 1111}")
+            var response = await apiConnection.PostJsonAsync<string>(endpoint, """{"aaaa": 1111}""")
                 .ConfigureAwait(false);
 
             var result = await response.LoadJsonAsync()

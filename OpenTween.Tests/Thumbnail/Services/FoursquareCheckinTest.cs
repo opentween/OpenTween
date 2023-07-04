@@ -221,23 +221,25 @@ namespace OpenTween.Thumbnail.Services
         [Fact]
         public void ParseInLocation_Test()
         {
-            var json = @"{
-  ""meta"": { ""code"": 200 },
-  ""response"": {
-    ""checkin"": {
-      ""id"": ""xxxxxxxxx"",
-      ""type"": ""checkin"",
-      ""venue"": {
-        ""id"": ""4b73dedcf964a5206bbe2de3"",
-        ""name"": ""高松駅 (Takamatsu Sta.)"",
-        ""location"": {
-          ""lat"": 34.35067978344854,
-          ""lng"": 134.04693603515625
-        }
-      }
-    }
-  }
-}";
+            var json = """
+                {
+                  "meta": { "code": 200 },
+                  "response": {
+                    "checkin": {
+                      "id": "xxxxxxxxx",
+                      "type": "checkin",
+                      "venue": {
+                        "id": "4b73dedcf964a5206bbe2de3",
+                        "name": "高松駅 (Takamatsu Sta.)",
+                        "location": {
+                          "lat": 34.35067978344854,
+                          "lng": 134.04693603515625
+                        }
+                      }
+                    }
+                  }
+                }
+                """;
             var jsonBytes = Encoding.UTF8.GetBytes(json);
             var location = FoursquareCheckin.ParseIntoLocation(jsonBytes);
 
@@ -249,23 +251,25 @@ namespace OpenTween.Thumbnail.Services
         [Fact]
         public void ParseInLocation_CultureTest()
         {
-            var json = @"{
-  ""meta"": { ""code"": 200 },
-  ""response"": {
-    ""checkin"": {
-      ""id"": ""xxxxxxxxx"",
-      ""type"": ""checkin"",
-      ""venue"": {
-        ""id"": ""4b73dedcf964a5206bbe2de3"",
-        ""name"": ""高松駅 (Takamatsu Sta.)"",
-        ""location"": {
-          ""lat"": 34.35067978344854,
-          ""lng"": 134.04693603515625
-        }
-      }
-    }
-  }
-}";
+            var json = """
+                {
+                  "meta": { "code": 200 },
+                  "response": {
+                    "checkin": {
+                      "id": "xxxxxxxxx",
+                      "type": "checkin",
+                      "venue": {
+                        "id": "4b73dedcf964a5206bbe2de3",
+                        "name": "高松駅 (Takamatsu Sta.)",
+                        "location": {
+                          "lat": 34.35067978344854,
+                          "lng": 134.04693603515625
+                        }
+                      }
+                    }
+                  }
+                }
+                """;
             var origCulture = Thread.CurrentThread.CurrentCulture;
             Thread.CurrentThread.CurrentCulture = new CultureInfo("ru-RU");
 
@@ -282,24 +286,26 @@ namespace OpenTween.Thumbnail.Services
         [Fact]
         public void ParseInLocation_PlanetTest()
         {
-            var json = @"{
-  ""meta"": { ""code"": 200 },
-  ""response"": {
-    ""checkin"": {
-      ""id"": ""xxxxxxxxx"",
-      ""type"": ""checkin"",
-      ""venue"": {
-        ""id"": ""5069d8bdc640385aa7711fe4"",
-        ""name"": ""Gale Crater"",
-        ""location"": {
-          ""planet"": ""mars"",
-          ""lat"": 34.201694,
-          ""lng"": -118.17166
-        }
-      }
-    }
-  }
-}";
+            var json = """
+                {
+                  "meta": { "code": 200 },
+                  "response": {
+                    "checkin": {
+                      "id": "xxxxxxxxx",
+                      "type": "checkin",
+                      "venue": {
+                        "id": "5069d8bdc640385aa7711fe4",
+                        "name": "Gale Crater",
+                        "location": {
+                          "planet": "mars",
+                          "lat": 34.201694,
+                          "lng": -118.17166
+                        }
+                      }
+                    }
+                  }
+                }
+                """;
             var jsonBytes = Encoding.UTF8.GetBytes(json);
             var location = FoursquareCheckin.ParseIntoLocation(jsonBytes);
 
@@ -310,16 +316,18 @@ namespace OpenTween.Thumbnail.Services
         [Fact]
         public void ParseInLocation_VenueNullTest()
         {
-            var json = @"{
-  ""meta"": { ""code"": 200 },
-  ""response"": {
-    ""checkin"": {
-      ""id"": ""xxxxxxxxx"",
-      ""type"": ""checkin"",
-      ""venue"": null
-    }
-  }
-}";
+            var json = """
+                {
+                  "meta": { "code": 200 },
+                  "response": {
+                    "checkin": {
+                      "id": "xxxxxxxxx",
+                      "type": "checkin",
+                      "venue": null
+                    }
+                  }
+                }
+                """;
             var jsonBytes = Encoding.UTF8.GetBytes(json);
             var location = FoursquareCheckin.ParseIntoLocation(jsonBytes);
 

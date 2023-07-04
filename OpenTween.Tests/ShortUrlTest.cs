@@ -370,8 +370,8 @@ namespace OpenTween
                 return this.CreateRedirectResponse("http://example.com/hoge2");
             });
 
-            Assert.Equal("<a href=\"http://example.com/hoge2\">hogehoge</a>",
-                await shortUrl.ExpandUrlHtmlAsync("<a href=\"https://t.co/hoge1\">hogehoge</a>"));
+            Assert.Equal("""<a href="http://example.com/hoge2">hogehoge</a>""",
+                await shortUrl.ExpandUrlHtmlAsync("""<a href="https://t.co/hoge1">hogehoge</a>"""));
 
             Assert.Equal(0, handler.QueueCount);
         }
@@ -390,8 +390,8 @@ namespace OpenTween
                 return this.CreateRedirectResponse("http://example.com/hoge");
             });
 
-            Assert.Equal("<a href=\"./hoge\">hogehoge</a>",
-                await shortUrl.ExpandUrlHtmlAsync("<a href=\"./hoge\">hogehoge</a>"));
+            Assert.Equal("""<a href="./hoge">hogehoge</a>""",
+                await shortUrl.ExpandUrlHtmlAsync("""<a href="./hoge">hogehoge</a>"""));
 
             Assert.Equal(1, handler.QueueCount);
         }

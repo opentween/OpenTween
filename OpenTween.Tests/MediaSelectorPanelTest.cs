@@ -1,5 +1,5 @@
 ﻿// OpenTween - Client of Twitter
-// Copyright (c) 2016 kim_upsilon (@kim_upsilon) <https://upsilo.net/~upsilon/>
+// Copyright (c) 2023 kim_upsilon (@kim_upsilon) <https://upsilo.net/~upsilon/>
 // All rights reserved.
 //
 // This file is part of OpenTween.
@@ -19,30 +19,23 @@
 // the Free Software Foundation, Inc., 51 Franklin Street - Fifth Floor,
 // Boston, MA 02110-1301, USA.
 
-#nullable enable
-
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using OpenTween.Connection;
-using OpenTween.Models;
+using Xunit;
 
 namespace OpenTween
 {
-    public class PostStatusParams
+    public class MediaSelectorPanelTest
     {
-        public string Text { get; set; } = "";
-
-        public PostId? InReplyToStatusId { get; set; }
-
-        public IReadOnlyList<long> MediaIds { get; set; } = Array.Empty<long>();
-
-        public bool AutoPopulateReplyMetadata { get; set; }
-
-        public IReadOnlyList<long> ExcludeReplyUserIds { get; set; } = Array.Empty<long>();
-
-        public string? AttachmentUrl { get; set; }
+        [WinFormsFact]
+        public void Initialize_Test()
+        {
+            using (new MediaSelectorPanel())
+            {
+            }
+        }
     }
 }
