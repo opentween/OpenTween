@@ -55,6 +55,9 @@
     <None Update="Resources\Responses\TimelineTweet_RetweetedTweet.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Update="Resources\Responses\TimelineTweet_TweetWithVisibility.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Update="Resources\Responses\TimelineTweet_TweetWithMedia.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
