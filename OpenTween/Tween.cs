@@ -9444,7 +9444,7 @@ namespace OpenTween
 
         private async Task OpenUserAppointUrl()
         {
-            if (this.settings.Common.UserAppointUrl != null)
+            if (!MyCommon.IsNullOrEmpty(this.settings.Common.UserAppointUrl))
             {
                 if (this.settings.Common.UserAppointUrl.Contains("{ID}") || this.settings.Common.UserAppointUrl.Contains("{STATUS}"))
                 {
