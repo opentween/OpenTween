@@ -19,6 +19,11 @@
 // the Free Software Foundation, Inc., 51 Franklin Street - Fifth Floor,
 // Boston, MA 02110-1301, USA.
 
+using System.IO;
+using System.Runtime.Serialization.Json;
+using System.Text;
+using System.Xml;
+using System.Xml.Linq;
 using Xunit;
 
 namespace OpenTween.Api
@@ -34,5 +39,38 @@ namespace OpenTween.Api
         [InlineData("\U0001D11E", @"\uD834\uDD1E")]
         public void EscapeJsonString_Test(string targetText, string expectedText)
             => Assert.Equal(expectedText, JsonUtils.EscapeJsonString(targetText));
+
+        [Fact]
+        public void JsonXmlToString_WholeTest()
+        {
+            var json = """{"hoge":{"aaa":12345}}""";
+            using var stream = new MemoryStream(Encoding.UTF8.GetBytes(json));
+            using var jsonReader = JsonReaderWriterFactory.CreateJsonReader(stream, XmlDictionaryReaderQuotas.Max);
+            var rootElement = XElement.Load(jsonReader);
+
+            Assert.Equal("""{"hoge":{"aaa":12345}}""", JsonUtils.JsonXmlToString(rootElement));
+        }
+
+        [Fact]
+        public void JsonXmlToString_SubsetTest()
+        {
+            var json = """{"hoge":{"aaa":12345}}""";
+            using var stream = new MemoryStream(Encoding.UTF8.GetBytes(json));
+            using var jsonReader = JsonReaderWriterFactory.CreateJsonReader(stream, XmlDictionaryReaderQuotas.Max);
+            var rootElement = XElement.Load(jsonReader);
+
+            Assert.Equal("""{"aaa":12345}""", JsonUtils.JsonXmlToString(rootElement.Element("hoge")));
+        }
+
+        [Fact]
+        public void JsonXmlToString_NullTest()
+        {
+            var json = """{"hoge":null}""";
+            using var stream = new MemoryStream(Encoding.UTF8.GetBytes(json));
+            using var jsonReader = JsonReaderWriterFactory.CreateJsonReader(stream, XmlDictionaryReaderQuotas.Max);
+            var rootElement = XElement.Load(jsonReader);
+
+            Assert.Equal("null", JsonUtils.JsonXmlToString(rootElement.Element("hoge")));
+        }
     }
 }
