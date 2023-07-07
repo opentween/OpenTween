@@ -41,6 +41,10 @@ namespace OpenTween.Models
         public override MyCommon.TabUsageType TabType
             => MyCommon.TabUsageType.PublicSearch;
 
+        public long OldestId { get; set; } = long.MaxValue;
+
+        public long SinceId { get; set; }
+
         public string SearchWords
         {
             get => this.searchWords;
@@ -88,6 +92,15 @@ namespace OpenTween.Models
             TabInformations.GetInstance().DistributePosts();
 
             progress.Report("Search refreshed");
+        }
+
+        /// <summary>
+        /// タブ更新時に使用する SinceId, OldestId をリセットする
+        /// </summary>
+        public void ResetFetchIds()
+        {
+            this.SinceId = 0L;
+            this.OldestId = long.MaxValue;
         }
     }
 }

@@ -55,10 +55,6 @@ namespace OpenTween.Models
 
         public SortOrder SortOrder { get; private set; }
 
-        public long OldestId { get; set; } = long.MaxValue;
-
-        public long SinceId { get; set; }
-
         public abstract MyCommon.TabUsageType TabType { get; }
 
         public virtual ConcurrentDictionary<PostId, PostClass> Posts
@@ -229,15 +225,6 @@ namespace OpenTween.Models
             this.selectedStatusIds.Clear();
 
             Interlocked.Exchange(ref this.addQueue, new ConcurrentQueue<TemporaryId>());
-        }
-
-        /// <summary>
-        /// タブ更新時に使用する SinceId, OldestId をリセットする
-        /// </summary>
-        public void ResetFetchIds()
-        {
-            this.SinceId = 0L;
-            this.OldestId = long.MaxValue;
         }
 
         /// <summary>

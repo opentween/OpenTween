@@ -174,8 +174,6 @@ namespace OpenTween
 
         private readonly TwitterPostFactory postFactory;
 
-        private string? nextCursorDirectMessage = null;
-
         private long previousStatusId = -1L;
 
         public Twitter(TwitterApi api)
@@ -752,10 +750,13 @@ namespace OpenTween
                 var request = new ListLatestTweetsTimelineRequest(tab.ListInfo.Id.ToString())
                 {
                     Count = count,
+                    Cursor = more ? tab.CursorBottom : null,
                 };
-                var timelineTweets = await request.Send(this.Api.Connection)
+                var response = await request.Send(this.Api.Connection)
                     .ConfigureAwait(false);
-                statuses = timelineTweets.Select(x => x.ToTwitterStatus()).ToArray();
+
+                statuses = response.Tweets.Select(x => x.ToTwitterStatus()).ToArray();
+                tab.CursorBottom = response.CursorBottom;
             }
             else if (more)
             {
@@ -966,7 +967,7 @@ namespace OpenTween
                 tab.OldestId = minimumId.Value;
         }
 
-        public async Task GetDirectMessageEvents(bool read, bool backward)
+        public async Task GetDirectMessageEvents(bool read, DirectMessagesTabModel dmTab, bool backward)
         {
             this.CheckAccountState();
             this.CheckAccessLevel(TwitterApiAccessLevel.ReadWriteAndDirectMessage);
@@ -976,7 +977,7 @@ namespace OpenTween
             TwitterMessageEventList eventList;
             if (backward)
             {
-                eventList = await this.Api.DirectMessagesEventsList(count, this.nextCursorDirectMessage)
+                eventList = await this.Api.DirectMessagesEventsList(count, dmTab.NextCursor)
                     .ConfigureAwait(false);
             }
             else
@@ -985,7 +986,7 @@ namespace OpenTween
                     .ConfigureAwait(false);
             }
 
-            this.nextCursorDirectMessage = eventList.NextCursor;
+            dmTab.NextCursor = eventList.NextCursor;
 
             await this.CreateDirectMessagesEventFromJson(eventList, read)
                 .ConfigureAwait(false);
