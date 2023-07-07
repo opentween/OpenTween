@@ -57,9 +57,38 @@ namespace OpenTween.Api.GraphQL
                 Count = 20,
             };
 
-            var tweets = await request.Send(mock.Object).ConfigureAwait(false);
-            Assert.Single(tweets);
+            var response = await request.Send(mock.Object).ConfigureAwait(false);
+            Assert.Single(response.Tweets);
+            Assert.Equal("DAABCgABF0HfRMi__7QKAAIVAxUYmFWQAwgAAwAAAAIAAA", response.CursorBottom);
 
+            mock.VerifyAll();
+        }
+
+        [Fact]
+        public async Task Send_RequestCursor_Test()
+        {
+            using var responseStream = File.OpenRead("Resources/Responses/ListLatestTweetsTimeline_SimpleTweet.json");
+
+            var mock = new Mock<IApiConnection>();
+            mock.Setup(x =>
+                    x.GetStreamAsync(It.IsAny<Uri>(), It.IsAny<IDictionary<string, string>>())
+                )
+                .Callback<Uri, IDictionary<string, string>>((url, param) =>
+                {
+                    Assert.Equal(new("https://twitter.com/i/api/graphql/6ClPnsuzQJ1p7-g32GQw9Q/ListLatestTweetsTimeline"), url);
+                    Assert.Equal(2, param.Count);
+                    Assert.Equal("""{"listId":"1675863884757110790","count":20,"cursor":"aaa"}""", param["variables"]);
+                    Assert.True(param.ContainsKey("features"));
+                })
+                .ReturnsAsync(responseStream);
+
+            var request = new ListLatestTweetsTimelineRequest(listId: "1675863884757110790")
+            {
+                Count = 20,
+                Cursor = "aaa",
+            };
+
+            await request.Send(mock.Object).ConfigureAwait(false);
             mock.VerifyAll();
         }
     }

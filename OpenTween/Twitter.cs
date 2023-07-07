@@ -750,10 +750,13 @@ namespace OpenTween
                 var request = new ListLatestTweetsTimelineRequest(tab.ListInfo.Id.ToString())
                 {
                     Count = count,
+                    Cursor = more ? tab.CursorBottom : null,
                 };
-                var timelineTweets = await request.Send(this.Api.Connection)
+                var response = await request.Send(this.Api.Connection)
                     .ConfigureAwait(false);
-                statuses = timelineTweets.Select(x => x.ToTwitterStatus()).ToArray();
+
+                statuses = response.Tweets.Select(x => x.ToTwitterStatus()).ToArray();
+                tab.CursorBottom = response.CursorBottom;
             }
             else if (more)
             {

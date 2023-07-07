@@ -45,6 +45,8 @@ namespace OpenTween.Models
 
         public long OldestId { get; set; } = long.MaxValue;
 
+        public string? CursorBottom { get; set; }
+
         public ListTimelineTabModel(string tabName, ListElement list)
             : base(tabName)
         {
