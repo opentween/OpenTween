@@ -41,7 +41,7 @@ using OpenTween.Thumbnail;
 
 namespace OpenTween
 {
-    public partial class TweetThumbnail : UserControl
+    public partial class TweetThumbnailControl : UserControl
     {
         protected internal List<OTPictureBox> PictureBox = new();
         protected MouseWheelMessageFilter filter = new();
@@ -59,7 +59,7 @@ namespace OpenTween
         private ThumbnailGenerator ThumbGenerator
             => this.thumbGenerator ?? throw this.NotInitializedException();
 
-        public TweetThumbnail()
+        public TweetThumbnailControl()
             => this.InitializeComponent();
 
         public void Initialize(ThumbnailGenerator thumbnailGenerator)

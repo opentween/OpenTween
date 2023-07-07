@@ -9498,13 +9498,13 @@ namespace OpenTween
             this.AboutMenuItem.Text = MyCommon.ReplaceAppName(this.AboutMenuItem.Text);
         }
 
-        private void TweetThumbnail_ThumbnailLoading(object sender, EventArgs e)
+        private void TweetThumbnailControl_ThumbnailLoading(object sender, EventArgs e)
             => this.SplitContainer3.Panel2Collapsed = false;
 
-        private async void TweetThumbnail_ThumbnailDoubleClick(object sender, ThumbnailDoubleClickEventArgs e)
+        private async void TweetThumbnailControl_ThumbnailDoubleClick(object sender, ThumbnailDoubleClickEventArgs e)
             => await this.OpenThumbnailPicture(e.Thumbnail);
 
-        private async void TweetThumbnail_ThumbnailImageSearchClick(object sender, ThumbnailImageSearchEventArgs e)
+        private async void TweetThumbnailControl_ThumbnailImageSearchClick(object sender, ThumbnailImageSearchEventArgs e)
             => await MyCommon.OpenInBrowserAsync(this, e.ImageUrl);
 
         private async Task OpenThumbnailPicture(ThumbnailInfo thumbnail)

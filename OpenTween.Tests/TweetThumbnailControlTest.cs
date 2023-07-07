@@ -39,7 +39,7 @@ using Xunit.Extensions;
 
 namespace OpenTween
 {
-    public class TweetThumbnailTest
+    public class TweetThumbnailControlTest
     {
         private class TestThumbnailService : IThumbnailService
         {
@@ -78,7 +78,7 @@ namespace OpenTween
             }
         }
 
-        public TweetThumbnailTest()
+        public TweetThumbnailControlTest()
             => this.MyCommonSetup();
 
         private ThumbnailGenerator CreateThumbnailGenerator()
@@ -107,9 +107,9 @@ namespace OpenTween
         [WinFormsFact]
         public void CreatePictureBoxTest()
         {
-            using var thumbBox = new TweetThumbnail();
+            using var thumbBox = new TweetThumbnailControl();
 
-            var method = typeof(TweetThumbnail).GetMethod("CreatePictureBox", BindingFlags.Instance | BindingFlags.NonPublic);
+            var method = typeof(TweetThumbnailControl).GetMethod("CreatePictureBox", BindingFlags.Instance | BindingFlags.NonPublic);
             var picbox = method.Invoke(thumbBox, new[] { "pictureBox1" }) as PictureBox;
 
             Assert.NotNull(picbox);
@@ -133,7 +133,7 @@ namespace OpenTween
                 },
             };
 
-            using var thumbbox = new TweetThumbnail();
+            using var thumbbox = new TweetThumbnailControl();
             thumbbox.Initialize(this.CreateThumbnailGenerator());
 
             using var tokenSource = new CancellationTokenSource();
@@ -152,10 +152,10 @@ namespace OpenTween
         [InlineData(2)]
         public void SetThumbnailCountTest(int count)
         {
-            using var thumbbox = new TweetThumbnail();
+            using var thumbbox = new TweetThumbnailControl();
             thumbbox.Initialize(this.CreateThumbnailGenerator());
 
-            var method = typeof(TweetThumbnail).GetMethod("SetThumbnailCount", BindingFlags.Instance | BindingFlags.NonPublic);
+            var method = typeof(TweetThumbnailControl).GetMethod("SetThumbnailCount", BindingFlags.Instance | BindingFlags.NonPublic);
             method.Invoke(thumbbox, new[] { (object)count });
 
             Assert.Equal(count, thumbbox.PictureBox.Count);
@@ -189,7 +189,7 @@ namespace OpenTween
                 },
             };
 
-            using var thumbbox = new TweetThumbnail();
+            using var thumbbox = new TweetThumbnailControl();
             thumbbox.Initialize(this.CreateThumbnailGenerator());
 
             await thumbbox.ShowThumbnailAsync(post);
@@ -222,7 +222,7 @@ namespace OpenTween
                 },
             };
 
-            using var thumbbox = new TweetThumbnail();
+            using var thumbbox = new TweetThumbnailControl();
             thumbbox.Initialize(this.CreateThumbnailGenerator());
 
             await thumbbox.ShowThumbnailAsync(post);
@@ -253,7 +253,7 @@ namespace OpenTween
         [WinFormsFact]
         public async Task ThumbnailLoadingEventTest()
         {
-            using var thumbbox = new TweetThumbnail();
+            using var thumbbox = new TweetThumbnailControl();
             thumbbox.Initialize(this.CreateThumbnailGenerator());
 
             var post = new PostClass
@@ -298,7 +298,7 @@ namespace OpenTween
                 },
             };
 
-            using var thumbbox = new TweetThumbnail();
+            using var thumbbox = new TweetThumbnailControl();
             thumbbox.Initialize(this.CreateThumbnailGenerator());
 
             await thumbbox.ShowThumbnailAsync(post);

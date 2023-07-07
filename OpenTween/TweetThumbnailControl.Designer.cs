@@ -1,6 +1,6 @@
 ﻿namespace OpenTween
 {
-    partial class TweetThumbnail
+    partial class TweetThumbnailControl
     {
         /// <summary> 
         /// 必要なデザイナー変数です。
@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(TweetThumbnail));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(TweetThumbnailControl));
             this.scrollBar = new System.Windows.Forms.VScrollBar();
             this.toolTip = new System.Windows.Forms.ToolTip(this.components);
             this.panelPictureBox = new System.Windows.Forms.Panel();
