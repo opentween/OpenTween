@@ -43,6 +43,8 @@ namespace OpenTween.Models
 
         public string ScreenName { get; }
 
+        public long OldestId { get; set; } = long.MaxValue;
+
         public UserTimelineTabModel(string tabName, string screenName)
             : base(tabName)
         {

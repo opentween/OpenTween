@@ -41,6 +41,8 @@ namespace OpenTween.Models
         public override MyCommon.TabUsageType TabType
             => MyCommon.TabUsageType.Mentions;
 
+        public long OldestId { get; set; } = long.MaxValue;
+
         public MentionsTabModel()
             : this(MyCommon.DEFAULTTAB.REPLY)
         {

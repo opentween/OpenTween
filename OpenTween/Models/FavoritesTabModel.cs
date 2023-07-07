@@ -41,6 +41,8 @@ namespace OpenTween.Models
         public override MyCommon.TabUsageType TabType
             => MyCommon.TabUsageType.Favorites;
 
+        public long OldestId { get; set; } = long.MaxValue;
+
         public FavoritesTabModel()
             : this(MyCommon.DEFAULTTAB.FAV)
         {
