@@ -28,6 +28,7 @@ using System.Drawing;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 using OpenTween.Thumbnail;
 
@@ -38,10 +39,6 @@ namespace OpenTween
         private readonly MouseWheelMessageFilter filter = new();
 
         public event EventHandler<EventArgs>? ThumbnailLoading;
-
-        public event EventHandler<ThumbnailDoubleClickEventArgs>? ThumbnailDoubleClick;
-
-        public event EventHandler<ThumbnailImageSearchEventArgs>? ThumbnailImageSearchClick;
 
         [Browsable(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
@@ -121,8 +118,15 @@ namespace OpenTween
             _ = this.pictureBox.SetImageFromTask(this.Model.LoadSelectedThumbnail);
         }
 
-        private void OpenImage(ThumbnailInfo thumb)
-            => this.ThumbnailDoubleClick?.Invoke(this, new ThumbnailDoubleClickEventArgs(thumb));
+        public async Task OpenImageInBrowser()
+        {
+            if (!this.Model.ThumbnailAvailable)
+                return;
+
+            var thumbnail = this.Model.CurrentThumbnail;
+            var mediaUrl = thumbnail.FullSizeImageUrl ?? thumbnail.MediaPageUrl;
+            await MyCommon.OpenInBrowserAsync(this, mediaUrl);
+        }
 
         protected override void ScaleControl(SizeF factor, BoundsSpecified specified)
         {
@@ -141,23 +145,23 @@ namespace OpenTween
                 this.Model.ScrollDown();
         }
 
-        private void PictureBox_DoubleClick(object sender, EventArgs e)
-            => this.OpenImage(this.Model.CurrentThumbnail);
+        private async void PictureBox_DoubleClick(object sender, EventArgs e)
+            => await this.OpenImageInBrowser();
 
-        private void SearchSimilarImageMenuItem_Click(object sender, EventArgs e)
+        private async void SearchSimilarImageMenuItem_Click(object sender, EventArgs e)
         {
             var searchUri = this.Model.GetImageSearchUriGoogle();
-            this.ThumbnailImageSearchClick?.Invoke(this, new ThumbnailImageSearchEventArgs(searchUri));
+            await MyCommon.OpenInBrowserAsync(this, searchUri);
         }
 
-        private void SearchImageSauceNaoMenuItem_Click(object sender, EventArgs e)
+        private async void SearchImageSauceNaoMenuItem_Click(object sender, EventArgs e)
         {
             var searchUri = this.Model.GetImageSearchUriSauceNao();
-            this.ThumbnailImageSearchClick?.Invoke(this, new ThumbnailImageSearchEventArgs(searchUri));
+            await MyCommon.OpenInBrowserAsync(this, searchUri);
         }
 
-        private void OpenMenuItem_Click(object sender, EventArgs e)
-            => this.OpenImage(this.Model.CurrentThumbnail);
+        private async void OpenMenuItem_Click(object sender, EventArgs e)
+            => await this.OpenImageInBrowser();
 
         private void CopyUrlMenuItem_Click(object sender, EventArgs e)
         {
@@ -184,21 +188,5 @@ namespace OpenTween
                 MessageBox.Show(ex.Message);
             }
         }
-    }
-
-    public class ThumbnailDoubleClickEventArgs : EventArgs
-    {
-        public ThumbnailInfo Thumbnail { get; }
-
-        public ThumbnailDoubleClickEventArgs(ThumbnailInfo thumbnail)
-            => this.Thumbnail = thumbnail;
-    }
-
-    public class ThumbnailImageSearchEventArgs : EventArgs
-    {
-        public Uri SearchUri { get; }
-
-        public ThumbnailImageSearchEventArgs(Uri uri)
-            => this.SearchUri = uri;
     }
 }

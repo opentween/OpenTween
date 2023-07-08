@@ -706,8 +706,6 @@
             this.tweetThumbnail1.Name = "tweetThumbnail1";
             this.tweetThumbnail1.TabStop = false;
             this.tweetThumbnail1.ThumbnailLoading += new System.EventHandler<System.EventArgs>(this.TweetThumbnailControl_ThumbnailLoading);
-            this.tweetThumbnail1.ThumbnailDoubleClick += new System.EventHandler<OpenTween.ThumbnailDoubleClickEventArgs>(this.TweetThumbnailControl_ThumbnailDoubleClick);
-            this.tweetThumbnail1.ThumbnailImageSearchClick += new System.EventHandler<OpenTween.ThumbnailImageSearchEventArgs>(this.TweetThumbnailControl_ThumbnailImageSearchClick);
             // 
             // MenuStrip1
             // 

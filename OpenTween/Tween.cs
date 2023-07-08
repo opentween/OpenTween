@@ -4857,7 +4857,7 @@ namespace OpenTween
                 ShortcutCommand.Create(Keys.Alt | Keys.Shift | Keys.Enter)
                     .FocusedOn(FocusedControl.ListTab)
                     .OnlyWhen(() => !this.SplitContainer3.Panel2Collapsed)
-                    .Do(() => this.OpenThumbnailPicture(this.tweetThumbnail1.Model.CurrentThumbnail)),
+                    .Do(() => this.tweetThumbnail1.OpenImageInBrowser()),
             };
         }
 
@@ -9500,19 +9500,6 @@ namespace OpenTween
 
         private void TweetThumbnailControl_ThumbnailLoading(object sender, EventArgs e)
             => this.SplitContainer3.Panel2Collapsed = false;
-
-        private async void TweetThumbnailControl_ThumbnailDoubleClick(object sender, ThumbnailDoubleClickEventArgs e)
-            => await this.OpenThumbnailPicture(e.Thumbnail);
-
-        private async void TweetThumbnailControl_ThumbnailImageSearchClick(object sender, ThumbnailImageSearchEventArgs e)
-            => await MyCommon.OpenInBrowserAsync(this, e.SearchUri);
-
-        private async Task OpenThumbnailPicture(ThumbnailInfo thumbnail)
-        {
-            var url = thumbnail.FullSizeImageUrl ?? thumbnail.MediaPageUrl;
-
-            await MyCommon.OpenInBrowserAsync(this, url);
-        }
 
         private async void TwitterApiStatusToolStripMenuItem_Click(object sender, EventArgs e)
             => await MyCommon.OpenInBrowserAsync(this, Twitter.ServiceAvailabilityStatusUrl);
