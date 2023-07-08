@@ -62,6 +62,16 @@ namespace OpenTween
         public TweetThumbnailControl()
             => this.InitializeComponent();
 
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                this.components?.Dispose();
+                this.filter.Dispose();
+            }
+            base.Dispose(disposing);
+        }
+
         public void Initialize(ThumbnailGenerator thumbnailGenerator)
             => this.thumbGenerator = thumbnailGenerator;
 
