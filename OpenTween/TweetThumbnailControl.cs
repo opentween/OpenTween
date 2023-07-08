@@ -38,8 +38,6 @@ namespace OpenTween
     {
         private readonly MouseWheelMessageFilter filter = new();
 
-        public event EventHandler<EventArgs>? ThumbnailLoading;
-
         [Browsable(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public TweetThumbnail Model { get; } = new();
@@ -93,8 +91,6 @@ namespace OpenTween
                     this.scrollBar.Value = 0;
                     this.scrollBar.Maximum = this.Model.Thumbnails.Length - 1;
                 }
-
-                this.ThumbnailLoading?.Invoke(this, EventArgs.Empty);
             }
             else
             {

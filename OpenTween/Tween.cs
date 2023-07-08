@@ -4222,15 +4222,17 @@ namespace OpenTween
                 this.tweetDetailsView.ShowPostDetails(currentPost),
             };
 
-            this.SplitContainer3.Panel2Collapsed = true;
-
             if (this.settings.Common.PreviewEnable)
             {
                 var oldTokenSource = Interlocked.Exchange(ref this.thumbnailTokenSource, new CancellationTokenSource());
                 oldTokenSource?.Cancel();
 
                 var token = this.thumbnailTokenSource!.Token;
-                loadTasks.Add(this.tweetThumbnail1.Model.PrepareThumbnails(currentPost, token));
+                loadTasks.Add(this.PrepareThumbnailControl(currentPost, token));
+            }
+            else
+            {
+                this.SplitContainer3.Panel2Collapsed = true;
             }
 
             async Task DelayedTasks()
@@ -4246,6 +4248,25 @@ namespace OpenTween
 
             // サムネイルの読み込みを待たずに次に選択されたツイートを表示するため await しない
             _ = DelayedTasks();
+        }
+
+        private async Task PrepareThumbnailControl(PostClass post, CancellationToken token)
+        {
+            var prepareTask = this.tweetThumbnail1.Model.PrepareThumbnails(post, token);
+
+            var timeout = Task.Delay(100);
+            if ((await Task.WhenAny(prepareTask, timeout)) == timeout)
+            {
+                token.ThrowIfCancellationRequested();
+
+                // サムネイル情報の読み込みに時間が掛かっている場合は一旦サムネイル領域を非表示にする
+                this.SplitContainer3.Panel2Collapsed = true;
+            }
+
+            await prepareTask;
+            token.ThrowIfCancellationRequested();
+
+            this.SplitContainer3.Panel2Collapsed = !this.tweetThumbnail1.Model.ThumbnailAvailable;
         }
 
         private async void MatomeMenuItem_Click(object sender, EventArgs e)
@@ -9497,9 +9518,6 @@ namespace OpenTween
             this.MatomeMenuItem.Text = MyCommon.ReplaceAppName(this.MatomeMenuItem.Text);
             this.AboutMenuItem.Text = MyCommon.ReplaceAppName(this.AboutMenuItem.Text);
         }
-
-        private void TweetThumbnailControl_ThumbnailLoading(object sender, EventArgs e)
-            => this.SplitContainer3.Panel2Collapsed = false;
 
         private async void TwitterApiStatusToolStripMenuItem_Click(object sender, EventArgs e)
             => await MyCommon.OpenInBrowserAsync(this, Twitter.ServiceAvailabilityStatusUrl);

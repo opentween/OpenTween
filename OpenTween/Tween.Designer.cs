@@ -705,7 +705,6 @@
             resources.ApplyResources(this.tweetThumbnail1, "tweetThumbnail1");
             this.tweetThumbnail1.Name = "tweetThumbnail1";
             this.tweetThumbnail1.TabStop = false;
-            this.tweetThumbnail1.ThumbnailLoading += new System.EventHandler<System.EventArgs>(this.TweetThumbnailControl_ThumbnailLoading);
             // 
             // MenuStrip1
             // 
