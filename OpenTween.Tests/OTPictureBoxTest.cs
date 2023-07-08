@@ -29,7 +29,7 @@ namespace OpenTween
 {
     public class OTPictureBoxTest
     {
-        [Fact]
+        [WinFormsFact]
         public void SizeMode_SetterGetterTest()
         {
             using var picbox = new OTPictureBox();
@@ -39,7 +39,7 @@ namespace OpenTween
             Assert.Equal(PictureBoxSizeMode.Zoom, ((PictureBox)picbox).SizeMode);
         }
 
-        [Fact]
+        [WinFormsFact]
         public void SizeMode_ErrorImageTest()
         {
             using var picbox = new OTPictureBox();
@@ -51,7 +51,7 @@ namespace OpenTween
             Assert.Equal(PictureBoxSizeMode.CenterImage, ((PictureBox)picbox).SizeMode);
         }
 
-        [Fact]
+        [WinFormsFact]
         public void SizeMode_ErrorImageTest2()
         {
             using var picbox = new OTPictureBox();
@@ -63,7 +63,7 @@ namespace OpenTween
             Assert.Equal(PictureBoxSizeMode.CenterImage, ((PictureBox)picbox).SizeMode);
         }
 
-        [Fact]
+        [WinFormsFact]
         public void SizeMode_RestoreTest()
         {
             using var picbox = new OTPictureBox();
@@ -77,13 +77,10 @@ namespace OpenTween
             Assert.Equal(PictureBoxSizeMode.Zoom, ((PictureBox)picbox).SizeMode);
         }
 
-        [Fact]
+        [WinFormsFact]
         public async Task SetImageFromAsync_Test()
         {
             using var picbox = new OTPictureBox();
-
-            // Mono でのテスト実行時にデッドロックする問題の対策
-            SynchronizationContext.SetSynchronizationContext(new SynchronizationContext());
 
             var tcs = new TaskCompletionSource<MemoryImage>();
 
@@ -98,13 +95,10 @@ namespace OpenTween
             Assert.Equal(image, picbox.Image);
         }
 
-        [Fact]
+        [WinFormsFact]
         public async Task SetImageFromAsync_ErrorTest()
         {
             using var picbox = new OTPictureBox();
-
-            // Mono でのテスト実行時にデッドロックする問題の対策
-            SynchronizationContext.SetSynchronizationContext(new SynchronizationContext());
 
             var tcs = new TaskCompletionSource<MemoryImage>();
 
