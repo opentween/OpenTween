@@ -118,7 +118,7 @@ namespace OpenTween
         public Uri GetImageSearchUriGoogle()
         {
             var imageUrl = this.GetUrlForImageSearch();
-            return new(@"https://www.google.com/searchbyimage?image_url=" + Uri.EscapeDataString(imageUrl));
+            return new(@"https://lens.google.com/uploadbyurl?url=" + Uri.EscapeDataString(imageUrl));
         }
 
         public Uri GetImageSearchUriSauceNao()
