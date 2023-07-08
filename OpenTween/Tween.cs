@@ -562,7 +562,7 @@ namespace OpenTween
             this.ImageSelector.Model.InitializeServices(this.tw, this.tw.Configuration);
             this.ImageSelector.Model.SelectMediaService(this.settings.Common.UseImageServiceName, this.settings.Common.UseImageService);
 
-            this.tweetThumbnail1.Initialize(this.thumbGenerator);
+            this.tweetThumbnail1.Model.Initialize(this.thumbGenerator);
 
             // ハッシュタグ/@id関連
             this.AtIdSupl = new AtIdSupplement(this.settings.AtIdList.AtIdList, "@");
@@ -4230,7 +4230,7 @@ namespace OpenTween
                 oldTokenSource?.Cancel();
 
                 var token = this.thumbnailTokenSource!.Token;
-                loadTasks.Add(this.tweetThumbnail1.ShowThumbnailAsync(currentPost, token));
+                loadTasks.Add(this.tweetThumbnail1.Model.PrepareThumbnails(currentPost, token));
             }
 
             async Task DelayedTasks()
@@ -4849,15 +4849,15 @@ namespace OpenTween
                     .Do(() => this.CopyUserId()),
 
                 ShortcutCommand.Create(Keys.Alt | Keys.Shift | Keys.Up)
-                    .Do(() => this.tweetThumbnail1.ScrollUp()),
+                    .Do(() => this.tweetThumbnail1.Model.ScrollUp()),
 
                 ShortcutCommand.Create(Keys.Alt | Keys.Shift | Keys.Down)
-                    .Do(() => this.tweetThumbnail1.ScrollDown()),
+                    .Do(() => this.tweetThumbnail1.Model.ScrollDown()),
 
                 ShortcutCommand.Create(Keys.Alt | Keys.Shift | Keys.Enter)
                     .FocusedOn(FocusedControl.ListTab)
                     .OnlyWhen(() => !this.SplitContainer3.Panel2Collapsed)
-                    .Do(() => this.OpenThumbnailPicture(this.tweetThumbnail1.Thumbnail)),
+                    .Do(() => this.OpenThumbnailPicture(this.tweetThumbnail1.Model.CurrentThumbnail)),
             };
         }
 
@@ -9505,7 +9505,7 @@ namespace OpenTween
             => await this.OpenThumbnailPicture(e.Thumbnail);
 
         private async void TweetThumbnailControl_ThumbnailImageSearchClick(object sender, ThumbnailImageSearchEventArgs e)
-            => await MyCommon.OpenInBrowserAsync(this, e.ImageUrl);
+            => await MyCommon.OpenInBrowserAsync(this, e.SearchUri);
 
         private async Task OpenThumbnailPicture(ThumbnailInfo thumbnail)
         {
