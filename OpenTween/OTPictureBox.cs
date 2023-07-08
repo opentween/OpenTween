@@ -44,6 +44,18 @@ namespace OpenTween
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public new MemoryImage? Image
         {
+            get => this.ImageInternal;
+            set
+            {
+                this.ImageInternal = value;
+
+                // Image を直接更新した場合も SetImageFromTask による更新をキャンセルした扱いにする
+                Interlocked.Increment(ref this.currentImageTaskId);
+            }
+        }
+
+        private MemoryImage? ImageInternal
+        {
             get => this.memoryImage;
             set
             {
@@ -115,7 +127,7 @@ namespace OpenTween
                 var image = await Task.Run(imageTask);
 
                 if (id == this.currentImageTaskId)
-                    this.Image = image;
+                    this.ImageInternal = image;
             }
             catch (Exception)
             {
