@@ -257,11 +257,11 @@
     <Compile Update="TabsDialog.Designer.cs">
       <DependentUpon>TabsDialog.cs</DependentUpon>
     </Compile>
-    <Compile Update="TweetThumbnail.cs">
+    <Compile Update="TweetThumbnailControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Update="TweetThumbnail.Designer.cs">
-      <DependentUpon>TweetThumbnail.cs</DependentUpon>
+    <Compile Update="TweetThumbnailControl.Designer.cs">
+      <DependentUpon>TweetThumbnailControl.cs</DependentUpon>
     </Compile>
     <Compile Update="UpdateDialog.cs">
       <SubType>Form</SubType>
@@ -504,11 +504,11 @@
     <EmbeddedResource Update="TabsDialog.resx">
       <DependentUpon>TabsDialog.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Update="TweetThumbnail.en.resx">
-      <DependentUpon>TweetThumbnail.cs</DependentUpon>
+    <EmbeddedResource Update="TweetThumbnailControl.en.resx">
+      <DependentUpon>TweetThumbnailControl.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Update="TweetThumbnail.resx">
-      <DependentUpon>TweetThumbnail.cs</DependentUpon>
+    <EmbeddedResource Update="TweetThumbnailControl.resx">
+      <DependentUpon>TweetThumbnailControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Update="UpdateDialog.en.resx">
       <DependentUpon>UpdateDialog.cs</DependentUpon>

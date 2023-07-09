@@ -21,312 +21,349 @@
 
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Net.Http;
-using System.Reflection;
-using System.Runtime.InteropServices;
-using System.Text.RegularExpressions;
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Windows.Forms;
 using Moq;
 using OpenTween.Models;
 using OpenTween.Thumbnail;
 using OpenTween.Thumbnail.Services;
 using Xunit;
-using Xunit.Extensions;
 
 namespace OpenTween
 {
     public class TweetThumbnailTest
     {
-        private class TestThumbnailService : IThumbnailService
-        {
-            private readonly Regex regex;
-            private readonly string replaceUrl;
-            private readonly string? replaceTooltip;
-
-            public TestThumbnailService(string pattern, string replaceUrl, string? replaceTooltip)
-            {
-                this.regex = new Regex(pattern);
-                this.replaceUrl = replaceUrl;
-                this.replaceTooltip = replaceTooltip;
-            }
-
-            public override async Task<ThumbnailInfo?> GetThumbnailInfoAsync(string url, PostClass post, CancellationToken token)
-            {
-                var match = this.regex.Match(url);
-
-                if (!match.Success) return null;
-
-                if (url.StartsWith("http://slow.example.com/", StringComparison.Ordinal))
-                    await Task.Delay(1000, token).ConfigureAwait(false);
-
-                return new MockThumbnailInfo
-                {
-                    MediaPageUrl = url,
-                    ThumbnailImageUrl = match.Result(this.replaceUrl),
-                    TooltipText = this.replaceTooltip != null ? match.Result(this.replaceTooltip) : null,
-                };
-            }
-
-            private class MockThumbnailInfo : ThumbnailInfo
-            {
-                public override Task<MemoryImage> LoadThumbnailImageAsync(HttpClient http, CancellationToken cancellationToken)
-                    => Task.FromResult(TestUtils.CreateDummyImage());
-            }
-        }
-
-        public TweetThumbnailTest()
-            => this.MyCommonSetup();
-
         private ThumbnailGenerator CreateThumbnailGenerator()
         {
             var imgAzyobuziNet = new ImgAzyobuziNet(autoupdate: false);
             var thumbGenerator = new ThumbnailGenerator(imgAzyobuziNet);
             thumbGenerator.Services.Clear();
-            thumbGenerator.Services.AddRange(new[]
-            {
-                new TestThumbnailService(@"^https?://foo.example.com/(.+)$", @"http://img.example.com/${1}.png", null),
-                new TestThumbnailService(@"^https?://bar.example.com/(.+)$", @"http://img.example.com/${1}.png", @"${1}"),
-                new TestThumbnailService(@"^https?://slow.example.com/(.+)$", @"http://img.example.com/${1}.png", null),
-            });
-
             return thumbGenerator;
         }
 
-        private void MyCommonSetup()
+        private IThumbnailService CreateThumbnailService()
         {
-            var mockAssembly = new Mock<_Assembly>();
-            mockAssembly.Setup(m => m.GetName()).Returns(new AssemblyName("OpenTween"));
-
-            MyCommon.EntryAssembly = mockAssembly.Object;
+            var thumbnailServiceMock = new Mock<IThumbnailService>();
+            thumbnailServiceMock
+                .Setup(
+                    x => x.GetThumbnailInfoAsync("http://example.com/abcd", It.IsAny<PostClass>(), It.IsAny<CancellationToken>())
+                )
+                .ReturnsAsync(new MockThumbnailInfo
+                {
+                    MediaPageUrl = "http://example.com/abcd",
+                    ThumbnailImageUrl = "http://img.example.com/abcd.png",
+                });
+            thumbnailServiceMock
+                .Setup(
+                    x => x.GetThumbnailInfoAsync("http://example.com/efgh", It.IsAny<PostClass>(), It.IsAny<CancellationToken>())
+                )
+                .ReturnsAsync(new MockThumbnailInfo
+                {
+                    MediaPageUrl = "http://example.com/efgh",
+                    ThumbnailImageUrl = "http://img.example.com/efgh.png",
+                });
+            return thumbnailServiceMock.Object;
         }
 
-        [WinFormsFact]
-        public void CreatePictureBoxTest()
+        [Fact]
+        public async Task PrepareThumbnails_Test()
         {
-            using var thumbBox = new TweetThumbnail();
+            var thumbnailGenerator = this.CreateThumbnailGenerator();
+            thumbnailGenerator.Services.Add(this.CreateThumbnailService());
 
-            var method = typeof(TweetThumbnail).GetMethod("CreatePictureBox", BindingFlags.Instance | BindingFlags.NonPublic);
-            var picbox = method.Invoke(thumbBox, new[] { "pictureBox1" }) as PictureBox;
+            var tweetThumbnail = new TweetThumbnail();
+            tweetThumbnail.Initialize(thumbnailGenerator);
 
-            Assert.NotNull(picbox);
-            Assert.Equal("pictureBox1", picbox!.Name);
-            Assert.Equal(PictureBoxSizeMode.Zoom, picbox.SizeMode);
-            Assert.False(picbox.WaitOnLoad);
-            Assert.Equal(DockStyle.Fill, picbox.Dock);
-
-            picbox.Dispose();
-        }
-
-        [WinFormsFact]
-        public async Task CancelAsyncTest()
-        {
             var post = new PostClass
             {
-                TextFromApi = "てすと http://slow.example.com/abcd",
-                Media = new List<MediaInfo>
-                {
-                    new MediaInfo("http://slow.example.com/abcd"),
-                },
+                StatusId = new TwitterStatusId("100"),
+                Media = new() { new("http://example.com/abcd") },
             };
 
-            using var thumbbox = new TweetThumbnail();
-            thumbbox.Initialize(this.CreateThumbnailGenerator());
+            await tweetThumbnail.PrepareThumbnails(post, CancellationToken.None)
+                .ConfigureAwait(false);
+
+            Assert.True(tweetThumbnail.ThumbnailAvailable);
+            Assert.Single(tweetThumbnail.Thumbnails);
+            Assert.Equal(0, tweetThumbnail.SelectedIndex);
+            Assert.Equal("http://example.com/abcd", tweetThumbnail.CurrentThumbnail.MediaPageUrl);
+            Assert.Equal("http://img.example.com/abcd.png", tweetThumbnail.CurrentThumbnail.ThumbnailImageUrl);
+        }
+
+        [Fact]
+        public async Task PrepareThumbnails_NoThumbnailTest()
+        {
+            var thumbnailGenerator = this.CreateThumbnailGenerator();
+            thumbnailGenerator.Services.Add(this.CreateThumbnailService());
+
+            var tweetThumbnail = new TweetThumbnail();
+            tweetThumbnail.Initialize(thumbnailGenerator);
+
+            var post = new PostClass
+            {
+                StatusId = new TwitterStatusId("100"),
+                Media = new() { new("http://hoge.example.com/") },
+            };
+
+            await tweetThumbnail.PrepareThumbnails(post, CancellationToken.None)
+                .ConfigureAwait(false);
+
+            Assert.False(tweetThumbnail.ThumbnailAvailable);
+            Assert.Throws<InvalidOperationException>(() => tweetThumbnail.Thumbnails);
+        }
+
+        [Fact]
+        public async Task PrepareThumbnails_CancelTest()
+        {
+            var thumbnailServiceMock = new Mock<IThumbnailService>();
+            thumbnailServiceMock
+                .Setup(
+                    x => x.GetThumbnailInfoAsync("http://slow.example.com/abcd", It.IsAny<PostClass>(), It.IsAny<CancellationToken>())
+                )
+                .Returns(async () =>
+                {
+                    await Task.Delay(200);
+                    return new MockThumbnailInfo();
+                });
+
+            var thumbnailGenerator = this.CreateThumbnailGenerator();
+            thumbnailGenerator.Services.Add(thumbnailServiceMock.Object);
+
+            var tweetThumbnail = new TweetThumbnail();
+            tweetThumbnail.Initialize(thumbnailGenerator);
+
+            var post = new PostClass
+            {
+                StatusId = new TwitterStatusId("100"),
+                Media = new() { new("http://slow.example.com/abcd") },
+            };
 
             using var tokenSource = new CancellationTokenSource();
-
-            var task = thumbbox.ShowThumbnailAsync(post, tokenSource.Token);
-
+            var task = tweetThumbnail.PrepareThumbnails(post, tokenSource.Token);
             tokenSource.Cancel();
 
             await Assert.ThrowsAnyAsync<OperationCanceledException>(async () => await task);
             Assert.True(task.IsCanceled);
         }
 
-        [WinFormsTheory]
-        [InlineData(0)]
-        [InlineData(1)]
-        [InlineData(2)]
-        public void SetThumbnailCountTest(int count)
+        [Fact]
+        public async Task LoadSelectedThumbnail_Test()
         {
-            using var thumbbox = new TweetThumbnail();
-            thumbbox.Initialize(this.CreateThumbnailGenerator());
+            using var image = TestUtils.CreateDummyImage();
+            var thumbnailInfoMock = new Mock<ThumbnailInfo>() { CallBase = true };
+            thumbnailInfoMock
+                .Setup(
+                    x => x.LoadThumbnailImageAsync(It.IsAny<HttpClient>(), It.IsAny<CancellationToken>())
+                )
+                .ReturnsAsync(image);
 
-            var method = typeof(TweetThumbnail).GetMethod("SetThumbnailCount", BindingFlags.Instance | BindingFlags.NonPublic);
-            method.Invoke(thumbbox, new[] { (object)count });
+            var thumbnailServiceMock = new Mock<IThumbnailService>();
+            thumbnailServiceMock
+                .Setup(
+                    x => x.GetThumbnailInfoAsync("http://example.com/abcd", It.IsAny<PostClass>(), It.IsAny<CancellationToken>())
+                )
+                .ReturnsAsync(thumbnailInfoMock.Object);
 
-            Assert.Equal(count, thumbbox.PictureBox.Count);
+            var thumbnailGenerator = this.CreateThumbnailGenerator();
+            thumbnailGenerator.Services.Add(thumbnailServiceMock.Object);
 
-            var num = 0;
-            foreach (var picbox in thumbbox.PictureBox)
-            {
-                Assert.Equal("pictureBox" + num, picbox.Name);
-                num++;
-            }
-
-            Assert.Equal(thumbbox.PictureBox, thumbbox.panelPictureBox.Controls.Cast<OTPictureBox>());
-
-            Assert.Equal(0, thumbbox.scrollBar.Minimum);
-
-            if (count == 0)
-                Assert.Equal(0, thumbbox.scrollBar.Maximum);
-            else
-                Assert.Equal(count - 1, thumbbox.scrollBar.Maximum);
-        }
-
-        [WinFormsFact]
-        public async Task ShowThumbnailAsyncTest()
-        {
-            var post = new PostClass
-            {
-                TextFromApi = "てすと http://foo.example.com/abcd",
-                Media = new List<MediaInfo>
-                {
-                    new MediaInfo("http://foo.example.com/abcd"),
-                },
-            };
-
-            using var thumbbox = new TweetThumbnail();
-            thumbbox.Initialize(this.CreateThumbnailGenerator());
-
-            await thumbbox.ShowThumbnailAsync(post);
-
-            Assert.Equal(0, thumbbox.scrollBar.Maximum);
-            Assert.False(thumbbox.scrollBar.Enabled);
-
-            Assert.Single(thumbbox.PictureBox);
-            Assert.NotNull(thumbbox.PictureBox[0].Image);
-
-            Assert.IsAssignableFrom<ThumbnailInfo>(thumbbox.PictureBox[0].Tag);
-            var thumbinfo = (ThumbnailInfo)thumbbox.PictureBox[0].Tag;
-
-            Assert.Equal("http://foo.example.com/abcd", thumbinfo.MediaPageUrl);
-            Assert.Equal("http://img.example.com/abcd.png", thumbinfo.ThumbnailImageUrl);
-
-            Assert.Equal("", thumbbox.toolTip.GetToolTip(thumbbox.PictureBox[0]));
-        }
-
-        [WinFormsFact]
-        public async Task ShowThumbnailAsyncTest2()
-        {
-            var post = new PostClass
-            {
-                TextFromApi = "てすと http://foo.example.com/abcd http://bar.example.com/efgh",
-                Media = new List<MediaInfo>
-                {
-                    new MediaInfo("http://foo.example.com/abcd"),
-                    new MediaInfo("http://bar.example.com/efgh"),
-                },
-            };
-
-            using var thumbbox = new TweetThumbnail();
-            thumbbox.Initialize(this.CreateThumbnailGenerator());
-
-            await thumbbox.ShowThumbnailAsync(post);
-
-            Assert.Equal(1, thumbbox.scrollBar.Maximum);
-            Assert.True(thumbbox.scrollBar.Enabled);
-
-            Assert.Equal(2, thumbbox.PictureBox.Count);
-            Assert.NotNull(thumbbox.PictureBox[0].Image);
-            Assert.NotNull(thumbbox.PictureBox[1].Image);
-
-            Assert.IsAssignableFrom<ThumbnailInfo>(thumbbox.PictureBox[0].Tag);
-            var thumbinfo = (ThumbnailInfo)thumbbox.PictureBox[0].Tag;
-
-            Assert.Equal("http://foo.example.com/abcd", thumbinfo.MediaPageUrl);
-            Assert.Equal("http://img.example.com/abcd.png", thumbinfo.ThumbnailImageUrl);
-
-            Assert.IsAssignableFrom<ThumbnailInfo>(thumbbox.PictureBox[1].Tag);
-            thumbinfo = (ThumbnailInfo)thumbbox.PictureBox[1].Tag;
-
-            Assert.Equal("http://bar.example.com/efgh", thumbinfo.MediaPageUrl);
-            Assert.Equal("http://img.example.com/efgh.png", thumbinfo.ThumbnailImageUrl);
-
-            Assert.Equal("", thumbbox.toolTip.GetToolTip(thumbbox.PictureBox[0]));
-            Assert.Equal("efgh", thumbbox.toolTip.GetToolTip(thumbbox.PictureBox[1]));
-        }
-
-        [WinFormsFact]
-        public async Task ThumbnailLoadingEventTest()
-        {
-            using var thumbbox = new TweetThumbnail();
-            thumbbox.Initialize(this.CreateThumbnailGenerator());
+            var tweetThumbnail = new TweetThumbnail();
+            tweetThumbnail.Initialize(thumbnailGenerator);
 
             var post = new PostClass
             {
-                TextFromApi = "てすと",
-                Media = new List<MediaInfo>
-                {
-                },
+                StatusId = new TwitterStatusId("100"),
+                Media = new() { new("http://example.com/abcd") },
             };
-            await TestUtils.NotRaisesAsync<EventArgs>(
-                x => thumbbox.ThumbnailLoading += x,
-                x => thumbbox.ThumbnailLoading -= x,
-                () => thumbbox.ShowThumbnailAsync(post)
+
+            await tweetThumbnail.PrepareThumbnails(post, CancellationToken.None);
+
+            var loadedImage = await tweetThumbnail.LoadSelectedThumbnail();
+            Assert.Same(image, loadedImage);
+        }
+
+        [Fact]
+        public async Task LoadSelectedThumbnail_RequestCollapsingTest()
+        {
+            var tsc = new TaskCompletionSource<MemoryImage>();
+            var thumbnailInfoMock = new Mock<ThumbnailInfo>() { CallBase = true };
+            thumbnailInfoMock
+                .Setup(
+                    x => x.LoadThumbnailImageAsync(It.IsAny<HttpClient>(), It.IsAny<CancellationToken>())
+                )
+                .Returns(tsc.Task);
+
+            var thumbnailServiceMock = new Mock<IThumbnailService>();
+            thumbnailServiceMock
+                .Setup(
+                    x => x.GetThumbnailInfoAsync("http://example.com/abcd", It.IsAny<PostClass>(), It.IsAny<CancellationToken>())
+                )
+                .ReturnsAsync(thumbnailInfoMock.Object);
+
+            var thumbnailGenerator = this.CreateThumbnailGenerator();
+            thumbnailGenerator.Services.Add(thumbnailServiceMock.Object);
+
+            var tweetThumbnail = new TweetThumbnail();
+            tweetThumbnail.Initialize(thumbnailGenerator);
+
+            var post = new PostClass
+            {
+                StatusId = new TwitterStatusId("100"),
+                Media = new() { new("http://example.com/abcd") },
+            };
+
+            await tweetThumbnail.PrepareThumbnails(post, CancellationToken.None);
+
+            var loadTask1 = tweetThumbnail.LoadSelectedThumbnail();
+            await Task.Delay(50);
+
+            // 画像のロードが完了しない間に再度 LoadSelectedThumbnail が呼ばれた場合は同一の Task を返す
+            // （複数回呼ばれても画像のリクエストは一本にまとめられる）
+            var loadTask2 = tweetThumbnail.LoadSelectedThumbnail();
+            Assert.Same(loadTask1, loadTask2);
+
+            using var image = TestUtils.CreateDummyImage();
+            tsc.SetResult(image);
+
+            Assert.Same(image, await loadTask1);
+        }
+
+        [Fact]
+        public async Task SelectedIndex_Test()
+        {
+            var thumbnailGenerator = this.CreateThumbnailGenerator();
+            thumbnailGenerator.Services.Add(this.CreateThumbnailService());
+
+            var tweetThumbnail = new TweetThumbnail();
+            tweetThumbnail.Initialize(thumbnailGenerator);
+
+            var post = new PostClass
+            {
+                StatusId = new TwitterStatusId("100"),
+                Media = new() { new("http://example.com/abcd"), new("http://example.com/efgh") },
+            };
+
+            await tweetThumbnail.PrepareThumbnails(post, CancellationToken.None)
+                .ConfigureAwait(false);
+
+            Assert.Equal(2, tweetThumbnail.Thumbnails.Length);
+            Assert.Equal(0, tweetThumbnail.SelectedIndex);
+            Assert.Equal("http://example.com/abcd", tweetThumbnail.CurrentThumbnail.MediaPageUrl);
+
+            tweetThumbnail.SelectedIndex = 1;
+            Assert.Equal(1, tweetThumbnail.SelectedIndex);
+            Assert.Equal("http://example.com/efgh", tweetThumbnail.CurrentThumbnail.MediaPageUrl);
+
+            Assert.Throws<ArgumentOutOfRangeException>(() => tweetThumbnail.SelectedIndex = -1);
+            Assert.Throws<ArgumentOutOfRangeException>(() => tweetThumbnail.SelectedIndex = 2);
+        }
+
+        [Fact]
+        public void SelectedIndex_NoThumbnailTest()
+        {
+            var thumbnailGenerator = this.CreateThumbnailGenerator();
+            var tweetThumbnail = new TweetThumbnail();
+            tweetThumbnail.Initialize(thumbnailGenerator);
+
+            Assert.False(tweetThumbnail.ThumbnailAvailable);
+
+            // サムネイルが無い場合に 0 以外の値をセットすると例外を発生させる
+            tweetThumbnail.SelectedIndex = 0;
+            Assert.Throws<ArgumentOutOfRangeException>(() => tweetThumbnail.SelectedIndex = -1);
+            Assert.Throws<ArgumentOutOfRangeException>(() => tweetThumbnail.SelectedIndex = 1);
+        }
+
+        [Fact]
+        public async Task GetImageSearchUriGoogle_Test()
+        {
+            var thumbnailGenerator = this.CreateThumbnailGenerator();
+            thumbnailGenerator.Services.Add(this.CreateThumbnailService());
+
+            var tweetThumbnail = new TweetThumbnail();
+            tweetThumbnail.Initialize(thumbnailGenerator);
+
+            var post = new PostClass
+            {
+                StatusId = new TwitterStatusId("100"),
+                Media = new() { new("http://example.com/abcd") },
+            };
+
+            await tweetThumbnail.PrepareThumbnails(post, CancellationToken.None)
+                .ConfigureAwait(false);
+
+            Assert.Equal("http://img.example.com/abcd.png", tweetThumbnail.CurrentThumbnail.ThumbnailImageUrl);
+            Assert.Equal(
+                new(@"https://www.google.com/searchbyimage?image_url=http%3A%2F%2Fimg.example.com%2Fabcd.png"),
+                tweetThumbnail.GetImageSearchUriGoogle()
             );
+        }
 
-            var post2 = new PostClass
+        [Fact]
+        public async Task GetImageSearchUriSauceNao_Test()
+        {
+            var thumbnailGenerator = this.CreateThumbnailGenerator();
+            thumbnailGenerator.Services.Add(this.CreateThumbnailService());
+
+            var tweetThumbnail = new TweetThumbnail();
+            tweetThumbnail.Initialize(thumbnailGenerator);
+
+            var post = new PostClass
             {
-                TextFromApi = "てすと http://foo.example.com/abcd",
-                Media = new List<MediaInfo>
-                    {
-                        new MediaInfo("http://foo.example.com/abcd"),
-                    },
+                StatusId = new TwitterStatusId("100"),
+                Media = new() { new("http://example.com/abcd") },
             };
 
-            await Assert.RaisesAsync<EventArgs>(
-                x => thumbbox.ThumbnailLoading += x,
-                x => thumbbox.ThumbnailLoading -= x,
-                () => thumbbox.ShowThumbnailAsync(post2)
+            await tweetThumbnail.PrepareThumbnails(post, CancellationToken.None)
+                .ConfigureAwait(false);
+
+            Assert.Equal("http://img.example.com/abcd.png", tweetThumbnail.CurrentThumbnail.ThumbnailImageUrl);
+            Assert.Equal(
+                new(@"https://saucenao.com/search.php?url=http%3A%2F%2Fimg.example.com%2Fabcd.png"),
+                tweetThumbnail.GetImageSearchUriSauceNao()
             );
         }
 
-        [WinFormsFact]
-        public async Task ScrollTest()
+        [Fact]
+        public async Task Scroll_Test()
         {
+            var thumbnailGenerator = this.CreateThumbnailGenerator();
+            thumbnailGenerator.Services.Add(this.CreateThumbnailService());
+
+            var tweetThumbnail = new TweetThumbnail();
+            tweetThumbnail.Initialize(thumbnailGenerator);
+
             var post = new PostClass
             {
-                TextFromApi = "てすと http://foo.example.com/abcd http://foo.example.com/efgh",
-                Media = new List<MediaInfo>
-                {
-                    new MediaInfo("http://foo.example.com/abcd"),
-                    new MediaInfo("http://foo.example.com/efgh"),
-                },
+                StatusId = new TwitterStatusId("100"),
+                Media = new() { new("http://example.com/abcd"), new("http://example.com/efgh") },
             };
 
-            using var thumbbox = new TweetThumbnail();
-            thumbbox.Initialize(this.CreateThumbnailGenerator());
+            await tweetThumbnail.PrepareThumbnails(post, CancellationToken.None)
+                .ConfigureAwait(false);
 
-            await thumbbox.ShowThumbnailAsync(post);
+            Assert.Equal(2, tweetThumbnail.Thumbnails.Length);
+            Assert.Equal(0, tweetThumbnail.SelectedIndex);
 
-            Assert.Equal(0, thumbbox.scrollBar.Minimum);
-            Assert.Equal(1, thumbbox.scrollBar.Maximum);
+            tweetThumbnail.ScrollDown();
+            Assert.Equal(1, tweetThumbnail.SelectedIndex);
 
-            thumbbox.scrollBar.Value = 0;
+            tweetThumbnail.ScrollDown();
+            Assert.Equal(1, tweetThumbnail.SelectedIndex);
 
-            thumbbox.ScrollDown();
-            Assert.Equal(1, thumbbox.scrollBar.Value);
-            Assert.False(thumbbox.PictureBox[0].Visible);
-            Assert.True(thumbbox.PictureBox[1].Visible);
+            tweetThumbnail.ScrollUp();
+            Assert.Equal(0, tweetThumbnail.SelectedIndex);
 
-            thumbbox.ScrollDown();
-            Assert.Equal(1, thumbbox.scrollBar.Value);
-            Assert.False(thumbbox.PictureBox[0].Visible);
-            Assert.True(thumbbox.PictureBox[1].Visible);
+            tweetThumbnail.ScrollUp();
+            Assert.Equal(0, tweetThumbnail.SelectedIndex);
+        }
 
-            thumbbox.ScrollUp();
-            Assert.Equal(0, thumbbox.scrollBar.Value);
-            Assert.True(thumbbox.PictureBox[0].Visible);
-            Assert.False(thumbbox.PictureBox[1].Visible);
-
-            thumbbox.ScrollUp();
-            Assert.Equal(0, thumbbox.scrollBar.Value);
-            Assert.True(thumbbox.PictureBox[0].Visible);
-            Assert.False(thumbbox.PictureBox[1].Visible);
+        private class MockThumbnailInfo : ThumbnailInfo
+        {
+            public override Task<MemoryImage> LoadThumbnailImageAsync(HttpClient http, CancellationToken cancellationToken)
+                => Task.FromResult(TestUtils.CreateDummyImage());
         }
     }
 }

@@ -1,24 +1,11 @@
 ﻿namespace OpenTween
 {
-    partial class TweetThumbnail
+    partial class TweetThumbnailControl
     {
         /// <summary> 
         /// 必要なデザイナー変数です。
         /// </summary>
         private System.ComponentModel.IContainer components = null;
-
-        /// <summary> 
-        /// 使用中のリソースをすべてクリーンアップします。
-        /// </summary>
-        /// <param name="disposing">マネージ リソースが破棄される場合 true、破棄されない場合は false です。</param>
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing && (components != null))
-            {
-                components.Dispose();
-            }
-            base.Dispose(disposing);
-        }
 
         #region コンポーネント デザイナーで生成されたコード
 
@@ -29,10 +16,10 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(TweetThumbnail));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(TweetThumbnailControl));
             this.scrollBar = new System.Windows.Forms.VScrollBar();
             this.toolTip = new System.Windows.Forms.ToolTip(this.components);
-            this.panelPictureBox = new System.Windows.Forms.Panel();
+            this.pictureBox = new OpenTween.OTPictureBox();
             this.contextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.openMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.copyToClipboardMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -40,6 +27,7 @@
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.searchImageGoogleMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.searchImageSauceNaoMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox)).BeginInit();
             this.contextMenuStrip.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -52,11 +40,16 @@
             this.toolTip.SetToolTip(this.scrollBar, resources.GetString("scrollBar.ToolTip"));
             this.scrollBar.ValueChanged += new System.EventHandler(this.ScrollBar_ValueChanged);
             // 
-            // panelPictureBox
+            // pictureBox
             // 
-            resources.ApplyResources(this.panelPictureBox, "panelPictureBox");
-            this.panelPictureBox.Name = "panelPictureBox";
-            this.toolTip.SetToolTip(this.panelPictureBox, resources.GetString("panelPictureBox.ToolTip"));
+            resources.ApplyResources(this.pictureBox, "pictureBox");
+            this.pictureBox.AccessibleRole = System.Windows.Forms.AccessibleRole.Graphic;
+            this.pictureBox.ContextMenuStrip = this.contextMenuStrip;
+            this.pictureBox.Name = "pictureBox";
+            this.pictureBox.TabStop = false;
+            this.toolTip.SetToolTip(this.pictureBox, resources.GetString("pictureBox.ToolTip"));
+            this.pictureBox.DoubleClick += new System.EventHandler(this.PictureBox_DoubleClick);
+            this.pictureBox.MouseWheel += new System.Windows.Forms.MouseEventHandler(this.PictureBox_MouseWheel);
             // 
             // contextMenuStrip
             // 
@@ -70,7 +63,6 @@
             this.searchImageSauceNaoMenuItem});
             this.contextMenuStrip.Name = "contextMenuStrip";
             this.toolTip.SetToolTip(this.contextMenuStrip, resources.GetString("contextMenuStrip.ToolTip"));
-            this.contextMenuStrip.Opening += new System.ComponentModel.CancelEventHandler(this.ContextMenuStrip_Opening);
             // 
             // openMenuItem
             // 
@@ -107,14 +99,15 @@
             this.searchImageSauceNaoMenuItem.Name = "searchImageSauceNaoMenuItem";
             this.searchImageSauceNaoMenuItem.Click += new System.EventHandler(this.SearchImageSauceNaoMenuItem_Click);
             // 
-            // TweetThumbnail
+            // TweetThumbnailControl
             // 
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
-            this.Controls.Add(this.panelPictureBox);
+            this.Controls.Add(this.pictureBox);
             this.Controls.Add(this.scrollBar);
-            this.Name = "TweetThumbnail";
+            this.Name = "TweetThumbnailControl";
             this.toolTip.SetToolTip(this, resources.GetString("$this.ToolTip"));
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox)).EndInit();
             this.contextMenuStrip.ResumeLayout(false);
             this.ResumeLayout(false);
 
@@ -124,7 +117,7 @@
 
         protected internal System.Windows.Forms.VScrollBar scrollBar;
         protected internal System.Windows.Forms.ToolTip toolTip;
-        protected internal System.Windows.Forms.Panel panelPictureBox;
+        private OTPictureBox pictureBox;
         private System.Windows.Forms.ContextMenuStrip contextMenuStrip;
         private System.Windows.Forms.ToolStripMenuItem searchImageGoogleMenuItem;
         private System.Windows.Forms.ToolStripMenuItem searchImageSauceNaoMenuItem;
