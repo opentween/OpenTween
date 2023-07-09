@@ -296,7 +296,7 @@ namespace OpenTween
 
             Assert.Equal("http://img.example.com/abcd.png", tweetThumbnail.CurrentThumbnail.ThumbnailImageUrl);
             Assert.Equal(
-                new(@"https://www.google.com/searchbyimage?image_url=http%3A%2F%2Fimg.example.com%2Fabcd.png"),
+                new(@"https://lens.google.com/uploadbyurl?url=http%3A%2F%2Fimg.example.com%2Fabcd.png"),
                 tweetThumbnail.GetImageSearchUriGoogle()
             );
         }
