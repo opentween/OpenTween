@@ -73,5 +73,17 @@ namespace OpenTween.Api
             }
             return Encoding.UTF8.GetString(stream.ToArray());
         }
+
+        public static string SerializeJsonByDataContract<T>(T content)
+        {
+            using var stream = new MemoryStream();
+            var settings = new DataContractJsonSerializerSettings
+            {
+                UseSimpleDictionaryFormat = true,
+            };
+            var serializer = new DataContractJsonSerializer(typeof(T), settings);
+            serializer.WriteObject(stream, content);
+            return Encoding.UTF8.GetString(stream.ToArray());
+        }
     }
 }
