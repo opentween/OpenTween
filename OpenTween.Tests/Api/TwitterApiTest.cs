@@ -1359,7 +1359,7 @@ namespace OpenTween.Api
                     new Uri("https://upload.twitter.com/1.1/media/metadata/create.json", UriKind.Absolute),
                     """{"media_id": "12345", "alt_text": {"text": "hogehoge"}}""")
             )
-            .Returns(Task.CompletedTask);
+            .ReturnsAsync("");
 
             using var twitterApi = new TwitterApi(ApiKey.Create("fake_consumer_key"), ApiKey.Create("fake_consumer_secret"));
             twitterApi.ApiConnection = mock.Object;

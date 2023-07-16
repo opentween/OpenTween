@@ -454,14 +454,18 @@ namespace OpenTween.Connection
 
                 Assert.Equal("""{"aaaa": 1111}""", body);
 
-                return new HttpResponseMessage(HttpStatusCode.NoContent);
+                return new HttpResponseMessage(HttpStatusCode.OK)
+                {
+                    Content = new StringContent(@"{""ok"":true}"),
+                };
             });
 
             var endpoint = new Uri("hoge/tetete.json", UriKind.Relative);
 
-            await apiConnection.PostJsonAsync(endpoint, """{"aaaa": 1111}""")
+            var response = await apiConnection.PostJsonAsync(endpoint, """{"aaaa": 1111}""")
                 .ConfigureAwait(false);
 
+            Assert.Equal(@"{""ok"":true}", response);
             Assert.Equal(0, mockHandler.QueueCount);
         }
 
