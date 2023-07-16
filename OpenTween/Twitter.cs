@@ -442,6 +442,26 @@ namespace OpenTween
             };
         }
 
+        public async Task DeleteRetweet(PostClass post)
+        {
+            if (post.RetweetedId == null)
+                throw new ArgumentException("post is not retweeted status", nameof(post));
+
+            if (this.Api.AppToken.AuthType == APIAuthType.TwitterComCookie)
+            {
+                var request = new DeleteRetweetRequest
+                {
+                    SourceTweetId = post.RetweetedId.ToTwitterStatusId(),
+                };
+                await request.Send(this.Api.Connection).ConfigureAwait(false);
+            }
+            else
+            {
+                await this.Api.StatusesDestroy(post.StatusId.ToTwitterStatusId())
+                    .IgnoreResponse();
+            }
+        }
+
         public string Username
             => this.Api.CurrentScreenName;
 
