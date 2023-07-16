@@ -2402,8 +2402,7 @@ namespace OpenTween
                             {
                                 // 自分が RT したツイート (自分が RT した自分のツイートも含む)
                                 //   => RT を取り消し
-                                await this.tw.Api.StatusesDestroy(post.StatusId.ToTwitterStatusId())
-                                    .IgnoreResponse();
+                                await this.tw.DeleteRetweet(post);
                             }
                             else
                             {

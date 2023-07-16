@@ -405,6 +405,16 @@ namespace OpenTween
 
             var target = post.RetweetedId ?? id;  // 再RTの場合は元発言をRT
 
+            if (this.Api.AppToken.AuthType == APIAuthType.TwitterComCookie)
+            {
+                var request = new CreateRetweetRequest
+                {
+                    TweetId = target.ToTwitterStatusId(),
+                };
+                await request.Send(this.Api.Connection).ConfigureAwait(false);
+                return null;
+            }
+
             var response = await this.Api.StatusesRetweet(target.ToTwitterStatusId())
                 .ConfigureAwait(false);
 
@@ -430,6 +440,26 @@ namespace OpenTween
                 IsRead = this.ReadOwnPost ? true : read,
                 IsOwl = false,
             };
+        }
+
+        public async Task DeleteRetweet(PostClass post)
+        {
+            if (post.RetweetedId == null)
+                throw new ArgumentException("post is not retweeted status", nameof(post));
+
+            if (this.Api.AppToken.AuthType == APIAuthType.TwitterComCookie)
+            {
+                var request = new DeleteRetweetRequest
+                {
+                    SourceTweetId = post.RetweetedId.ToTwitterStatusId(),
+                };
+                await request.Send(this.Api.Connection).ConfigureAwait(false);
+            }
+            else
+            {
+                await this.Api.StatusesDestroy(post.StatusId.ToTwitterStatusId())
+                    .IgnoreResponse();
+            }
         }
 
         public string Username

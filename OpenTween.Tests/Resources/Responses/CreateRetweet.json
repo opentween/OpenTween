@@ -1,0 +1,14 @@
+{
+  "data": {
+    "create_retweet": {
+      "retweet_results": {
+        "result": {
+          "rest_id": "1617128268548964354",
+          "legacy": {
+            "full_text": "RT @opentween: #OpenTween v3.3.0 リリースしました\nhttps://t.co/nQja6BhnU6\nhttps://t.co/HPLtWszxIr"
+          }
+        }
+      }
+    }
+  }
+}
