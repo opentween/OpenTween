@@ -1,7 +1,7 @@
 ﻿更新履歴
 
 ==== Unreleased
- * NEW: Cookie使用時のツイート投稿に対応
+ * NEW: Cookie使用時のツイート投稿・削除に対応
  * NEW: graphqlエンドポイントを使用しているタブでの「前データを取得」に対応
  * CHG: Google画像検索のURLの変更に対応
 
