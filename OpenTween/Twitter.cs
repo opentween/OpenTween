@@ -405,6 +405,16 @@ namespace OpenTween
 
             var target = post.RetweetedId ?? id;  // 再RTの場合は元発言をRT
 
+            if (this.Api.AppToken.AuthType == APIAuthType.TwitterComCookie)
+            {
+                var request = new CreateRetweetRequest
+                {
+                    TweetId = target.ToTwitterStatusId(),
+                };
+                await request.Send(this.Api.Connection).ConfigureAwait(false);
+                return null;
+            }
+
             var response = await this.Api.StatusesRetweet(target.ToTwitterStatusId())
                 .ConfigureAwait(false);
 
