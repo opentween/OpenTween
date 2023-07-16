@@ -1111,6 +1111,9 @@ namespace OpenTween
             if (this.CurrentPost == null)
                 return;
 
+            if (this.CurrentPost.StatusId is not TwitterStatusId)
+                return;
+
             var statusUrl = MyCommon.GetStatusUrl(this.CurrentPost);
             await MyCommon.OpenInBrowserAsync(this, statusUrl);
         }
