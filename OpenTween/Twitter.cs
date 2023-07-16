@@ -252,18 +252,37 @@ namespace OpenTween
                 return null;
             }
 
-            var response = await this.Api.StatusesUpdate(
-                    param.Text,
-                    param.InReplyToStatusId?.ToTwitterStatusId(),
-                    param.MediaIds,
-                    param.AutoPopulateReplyMetadata,
-                    param.ExcludeReplyUserIds,
-                    param.AttachmentUrl
-                )
-                .ConfigureAwait(false);
+            TwitterStatus status;
 
-            var status = await response.LoadJsonAsync()
-                .ConfigureAwait(false);
+            if (this.Api.AppToken.AuthType == APIAuthType.TwitterComCookie)
+            {
+                var request = new CreateTweetRequest
+                {
+                    TweetText = param.Text,
+                    InReplyToTweetId = param.InReplyToStatusId?.ToTwitterStatusId(),
+                    ExcludeReplyUserIds = param.ExcludeReplyUserIds.Select(x => x.ToString()).ToArray(),
+                    MediaIds = param.MediaIds.Select(x => x.ToString()).ToArray(),
+                    AttachmentUrl = param.AttachmentUrl,
+                };
+
+                status = await request.Send(this.Api.Connection)
+                    .ConfigureAwait(false);
+            }
+            else
+            {
+                var response = await this.Api.StatusesUpdate(
+                        param.Text,
+                        param.InReplyToStatusId?.ToTwitterStatusId(),
+                        param.MediaIds,
+                        param.AutoPopulateReplyMetadata,
+                        param.ExcludeReplyUserIds,
+                        param.AttachmentUrl
+                    )
+                    .ConfigureAwait(false);
+
+                status = await response.LoadJsonAsync()
+                    .ConfigureAwait(false);
+            }
 
             this.UpdateUserStats(status.User);
 
