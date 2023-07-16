@@ -681,8 +681,21 @@ namespace OpenTween
         {
             this.CheckAccountState();
 
-            var status = await this.Api.StatusesShow(id)
-                .ConfigureAwait(false);
+            TwitterStatus status;
+            if (this.Api.AppToken.AuthType == APIAuthType.TwitterComCookie)
+            {
+                var request = new TweetDetailRequest
+                {
+                    FocalTweetId = id,
+                };
+                var tweets = await request.Send(this.Api.Connection).ConfigureAwait(false);
+                status = tweets.Select(x => x.ToTwitterStatus()).Where(x => x.IdStr == id.Id).First();
+            }
+            else
+            {
+                status = await this.Api.StatusesShow(id)
+                    .ConfigureAwait(false);
+            }
 
             var item = this.CreatePostsFromStatusData(status);
 
