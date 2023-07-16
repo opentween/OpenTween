@@ -66,6 +66,8 @@ namespace OpenTween.Api.GraphQL
         private record Variables(
             [property: DataMember(Name = "tweet_text")]
             string TweetText,
+            [property: DataMember(Name = "dark_request")]
+            bool DarkRequest,
             [property: DataMember(Name = "reply", EmitDefaultValue = false)]
             VariableReply? Reply,
             [property: DataMember(Name = "media", EmitDefaultValue = false)]
@@ -104,6 +106,7 @@ namespace OpenTween.Api.GraphQL
             var body = new RequestBody(
                 Variables: new(
                     TweetText: this.TweetText,
+                    DarkRequest: false,
                     Reply: this.InReplyToTweetId != null
                         ? new(
                             InReplyToTweetId: this.InReplyToTweetId.Id,
