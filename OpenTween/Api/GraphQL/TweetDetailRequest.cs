@@ -73,6 +73,11 @@ namespace OpenTween.Api.GraphQL
             {
                 throw new WebApiException("IO Error", ex);
             }
+            catch (NotSupportedException ex)
+            {
+                // NotSupportedException: Stream does not support reading. のエラーが時々報告される
+                throw new WebApiException("Stream Error", ex);
+            }
 
             return TimelineTweet.ExtractTimelineTweets(rootElm);
         }
