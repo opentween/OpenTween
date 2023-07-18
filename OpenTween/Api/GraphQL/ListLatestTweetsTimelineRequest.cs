@@ -103,6 +103,8 @@ namespace OpenTween.Api.GraphQL
                 throw new WebApiException("Stream Error", ex);
             }
 
+            ErrorResponse.ThrowIfError(rootElm);
+
             var tweets = TimelineTweet.ExtractTimelineTweets(rootElm);
             var cursorBottom = rootElm.XPathSelectElement("//content[__typename[text()='TimelineTimelineCursor']][cursorType[text()='Bottom']]/value")?.Value;
 

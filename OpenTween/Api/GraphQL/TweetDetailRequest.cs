@@ -79,6 +79,8 @@ namespace OpenTween.Api.GraphQL
                 throw new WebApiException("Stream Error", ex);
             }
 
+            ErrorResponse.ThrowIfError(rootElm);
+
             return TimelineTweet.ExtractTimelineTweets(rootElm);
         }
     }

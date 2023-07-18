@@ -48,7 +48,8 @@ namespace OpenTween.Api.GraphQL
         public async Task Send(IApiConnection apiConnection)
         {
             var json = this.CreateRequestBody();
-            await apiConnection.PostJsonAsync(EndpointUri, json);
+            var responseText = await apiConnection.PostJsonAsync(EndpointUri, json);
+            ErrorResponse.ThrowIfError(responseText);
         }
     }
 }

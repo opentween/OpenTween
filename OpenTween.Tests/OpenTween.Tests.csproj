@@ -58,6 +58,9 @@
     <None Update="Resources\Responses\CreateTweet_CircleTweet.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Update="Resources\Responses\Error_NotFound.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Update="Resources\Responses\TimelineTweet_RetweetedTweet.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

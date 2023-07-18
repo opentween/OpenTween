@@ -161,6 +161,8 @@ namespace OpenTween.Api.GraphQL
             using var jsonReader = JsonReaderWriterFactory.CreateJsonReader(responseBytes, XmlDictionaryReaderQuotas.Max);
 
             var rootElm = XElement.Load(jsonReader);
+            ErrorResponse.ThrowIfError(rootElm);
+
             var tweetElm = rootElm.XPathSelectElement("/data/create_tweet/tweet_results/result") ?? throw CreateParseError();
 
             return TimelineTweet.ParseTweet(tweetElm);

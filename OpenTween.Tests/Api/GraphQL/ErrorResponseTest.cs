@@ -19,37 +19,32 @@
 // the Free Software Foundation, Inc., 51 Franklin Street - Fifth Floor,
 // Boston, MA 02110-1301, USA.
 
-#nullable enable
-
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using OpenTween.Connection;
-using OpenTween.Models;
+using Xunit;
 
 namespace OpenTween.Api.GraphQL
 {
-    public class DeleteRetweetRequest
+    public class ErrorResponseTest
     {
-        private static readonly Uri EndpointUri = new("https://twitter.com/i/api/graphql/iQtK4dl5hBmXewYZuEOKVw/DeleteRetweet");
-
-        required public TwitterStatusId SourceTweetId { get; set; }
-
-        public string CreateRequestBody()
+        [Fact]
+        public void ThrowIfError_ErrorResponseTest()
         {
-            return $$"""
-            {"variables":{"source_tweet_id":"{{JsonUtils.EscapeJsonString(this.SourceTweetId.Id)}}","dark_request":false},"queryId":"iQtK4dl5hBmXewYZuEOKVw"}
-            """;
+            var responseText = File.ReadAllText("Resources/Responses/Error_NotFound.json");
+            var exception = Assert.Throws<WebApiException>(() => ErrorResponse.ThrowIfError(responseText));
+            Assert.Equal("_Missing: No status found with that ID.", exception.Message);
         }
 
-        public async Task Send(IApiConnection apiConnection)
+        [Fact]
+        public void ThrowIfError_SuccessResponseTest()
         {
-            var json = this.CreateRequestBody();
-            var responseText = await apiConnection.PostJsonAsync(EndpointUri, json);
+            var responseText = File.ReadAllText("Resources/Responses/TweetDetail.json");
             ErrorResponse.ThrowIfError(responseText);
+            // 通常のレスポンスに対しては WebApiException を発生させない
         }
     }
 }
