@@ -62,7 +62,7 @@
 	<data name="ChangeIconToolStripMenuItem_ClickText5"><value>アイコンを変更しました。 次回発言より反映されます。</value></data>
 	<data name="ChangeIconToolStripMenuItem_ClickText6"><value>ユーザーアイコンとして使用できないファイルです</value></data>
 	<data name="ChangeIconToolStripMenuItem_Confirm"><value>アイコンを変更します。よろしいですか？</value></data>
-	<data name="ChangeLog" type="System.Resources.ResXFileRef, System.Windows.Forms"><value>..\Resources\ChangeLog.txt;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value></data>
+	<data name="ChangeLog" type="System.Resources.ResXFileRef, System.Windows.Forms"><value>..\..\CHANGELOG.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value></data>
 	<data name="CheckNewVersionText1"><value>%AppName%更新確認</value></data>
 	<data name="CheckNewVersionText10"><value>更新版のバージョン取得に失敗しました。しばらく待ってから再度お試しください。</value></data>
 	<data name="CheckNewVersionText2"><value>%AppName%更新結果</value></data>

@@ -595,6 +595,7 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="..\CHANGELOG.txt" Link="Resources\CHANGELOG.txt" />
     <Content Include="Icons\description.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -606,7 +607,6 @@
     <Content Include="Resources\5y.ico" />
     <Content Include="Resources\6b.ico" />
     <Content Include="Resources\6g.ico" />
-    <Content Include="Resources\ChangeLog.txt" />
     <Content Include="Resources\Description.txt" />
     <Content Include="Resources\InitialImage.png" />
     <Content Include="Resources\LogoImage.png" />
