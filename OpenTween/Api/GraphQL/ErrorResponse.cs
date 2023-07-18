@@ -23,7 +23,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Runtime.Serialization.Json;
 using System.Text;
@@ -31,40 +30,34 @@ using System.Threading.Tasks;
 using System.Xml;
 using System.Xml.Linq;
 using System.Xml.XPath;
-using OpenTween.Connection;
-using OpenTween.Models;
 
 namespace OpenTween.Api.GraphQL
 {
-    public class CreateRetweetRequest
+    public static class ErrorResponse
     {
-        private static readonly Uri EndpointUri = new("https://twitter.com/i/api/graphql/ojPdsZsimiJrUGLR1sjUtA/CreateRetweet");
-
-        required public TwitterStatusId TweetId { get; set; }
-
-        public string CreateRequestBody()
+        public static void ThrowIfError(string? jsonString)
         {
-            return $$"""
-            {"variables":{"tweet_id":"{{JsonUtils.EscapeJsonString(this.TweetId.Id)}}","dark_request":false},"queryId":"ojPdsZsimiJrUGLR1sjUtA"}
-            """;
-        }
+            if (MyCommon.IsNullOrEmpty(jsonString))
+                return;
 
-        public async Task<TwitterStatusId> Send(IApiConnection apiConnection)
-        {
-            var json = this.CreateRequestBody();
-            var response = await apiConnection.PostJsonAsync(EndpointUri, json);
-            var responseBytes = Encoding.UTF8.GetBytes(response);
-            using var jsonReader = JsonReaderWriterFactory.CreateJsonReader(responseBytes, XmlDictionaryReaderQuotas.Max);
+            var jsonBytes = Encoding.UTF8.GetBytes(jsonString);
+            using var jsonReader = JsonReaderWriterFactory.CreateJsonReader(jsonBytes, XmlDictionaryReaderQuotas.Max);
 
             var rootElm = XElement.Load(jsonReader);
-            ErrorResponse.ThrowIfError(rootElm);
-
-            var tweetIdStr = rootElm.XPathSelectElement("/data/create_retweet/retweet_results/result/rest_id")?.Value ?? throw CreateParseError();
-
-            return new(tweetIdStr);
+            ThrowIfError(rootElm);
         }
 
-        private static Exception CreateParseError()
-            => throw new WebApiException($"Parse error on CreateRetweet");
+        public static void ThrowIfError(XElement rootElm)
+        {
+            var errorsElm = rootElm.Element("errors") ?? null;
+            if (errorsElm == null)
+                return;
+
+            var messageElm = rootElm.XPathSelectElement("/errors/item/message") ?? null;
+            var messageText = messageElm?.Value ?? "Error";
+            var responseJson = JsonUtils.JsonXmlToString(rootElm);
+
+            throw new WebApiException(messageText, responseJson);
+        }
     }
 }
