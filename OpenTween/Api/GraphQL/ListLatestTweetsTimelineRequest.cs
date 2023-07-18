@@ -30,6 +30,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml;
 using System.Xml.Linq;
+using System.Xml.XPath;
 using OpenTween.Connection;
 
 namespace OpenTween.Api.GraphQL
@@ -42,6 +43,8 @@ namespace OpenTween.Api.GraphQL
 
         public int Count { get; set; } = 20;
 
+        public string? Cursor { get; set; }
+
         public ListLatestTweetsTimelineRequest(string listId)
             => this.ListId = listId;
 
@@ -52,6 +55,7 @@ namespace OpenTween.Api.GraphQL
                 ["variables"] = "{" +
                     $@"""listId"":""{JsonUtils.EscapeJsonString(this.ListId)}""," +
                     $@"""count"":{this.Count}" +
+                    (this.Cursor != null ? $@",""cursor"":""{JsonUtils.EscapeJsonString(this.Cursor)}""" : "") +
                     "}",
                 ["features"] = "{" +
                     @"""rweb_lists_timeline_redesign_enabled"":true," +
@@ -78,7 +82,7 @@ namespace OpenTween.Api.GraphQL
             };
         }
 
-        public async Task<TimelineTweet[]> Send(IApiConnection apiConnection)
+        public async Task<TimelineResponse> Send(IApiConnection apiConnection)
         {
             var param = this.CreateParameters();
             using var stream = await apiConnection.GetStreamAsync(EndpointUri, param);
@@ -93,8 +97,18 @@ namespace OpenTween.Api.GraphQL
             {
                 throw new WebApiException("IO Error", ex);
             }
+            catch (NotSupportedException ex)
+            {
+                // NotSupportedException: Stream does not support reading. のエラーが時々報告される
+                throw new WebApiException("Stream Error", ex);
+            }
 
-            return TimelineTweet.ExtractTimelineTweets(rootElm);
+            ErrorResponse.ThrowIfError(rootElm);
+
+            var tweets = TimelineTweet.ExtractTimelineTweets(rootElm);
+            var cursorBottom = rootElm.XPathSelectElement("//content[__typename[text()='TimelineTimelineCursor']][cursorType[text()='Bottom']]/value")?.Value;
+
+            return new(tweets, cursorBottom);
         }
     }
 }

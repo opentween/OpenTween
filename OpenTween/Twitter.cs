@@ -174,8 +174,6 @@ namespace OpenTween
 
         private readonly TwitterPostFactory postFactory;
 
-        private string? nextCursorDirectMessage = null;
-
         private long previousStatusId = -1L;
 
         public Twitter(TwitterApi api)
@@ -254,18 +252,37 @@ namespace OpenTween
                 return null;
             }
 
-            var response = await this.Api.StatusesUpdate(
-                    param.Text,
-                    param.InReplyToStatusId?.ToTwitterStatusId(),
-                    param.MediaIds,
-                    param.AutoPopulateReplyMetadata,
-                    param.ExcludeReplyUserIds,
-                    param.AttachmentUrl
-                )
-                .ConfigureAwait(false);
+            TwitterStatus status;
 
-            var status = await response.LoadJsonAsync()
-                .ConfigureAwait(false);
+            if (this.Api.AppToken.AuthType == APIAuthType.TwitterComCookie)
+            {
+                var request = new CreateTweetRequest
+                {
+                    TweetText = param.Text,
+                    InReplyToTweetId = param.InReplyToStatusId?.ToTwitterStatusId(),
+                    ExcludeReplyUserIds = param.ExcludeReplyUserIds.Select(x => x.ToString()).ToArray(),
+                    MediaIds = param.MediaIds.Select(x => x.ToString()).ToArray(),
+                    AttachmentUrl = param.AttachmentUrl,
+                };
+
+                status = await request.Send(this.Api.Connection)
+                    .ConfigureAwait(false);
+            }
+            else
+            {
+                var response = await this.Api.StatusesUpdate(
+                        param.Text,
+                        param.InReplyToStatusId?.ToTwitterStatusId(),
+                        param.MediaIds,
+                        param.AutoPopulateReplyMetadata,
+                        param.ExcludeReplyUserIds,
+                        param.AttachmentUrl
+                    )
+                    .ConfigureAwait(false);
+
+                status = await response.LoadJsonAsync()
+                    .ConfigureAwait(false);
+            }
 
             this.UpdateUserStats(status.User);
 
@@ -278,6 +295,23 @@ namespace OpenTween
             var post = this.CreatePostsFromStatusData(status);
             if (this.ReadOwnPost) post.IsRead = true;
             return post;
+        }
+
+        public async Task DeleteTweet(TwitterStatusId tweetId)
+        {
+            if (this.Api.AppToken.AuthType == APIAuthType.TwitterComCookie)
+            {
+                var request = new DeleteTweetRequest
+                {
+                    TweetId = tweetId,
+                };
+                await request.Send(this.Api.Connection);
+            }
+            else
+            {
+                await this.Api.StatusesDestroy(tweetId)
+                    .IgnoreResponse();
+            }
         }
 
         public async Task<long> UploadMedia(IMediaItem item, string? mediaCategory = null)
@@ -371,6 +405,16 @@ namespace OpenTween
 
             var target = post.RetweetedId ?? id;  // 再RTの場合は元発言をRT
 
+            if (this.Api.AppToken.AuthType == APIAuthType.TwitterComCookie)
+            {
+                var request = new CreateRetweetRequest
+                {
+                    TweetId = target.ToTwitterStatusId(),
+                };
+                await request.Send(this.Api.Connection).ConfigureAwait(false);
+                return null;
+            }
+
             var response = await this.Api.StatusesRetweet(target.ToTwitterStatusId())
                 .ConfigureAwait(false);
 
@@ -396,6 +440,26 @@ namespace OpenTween
                 IsRead = this.ReadOwnPost ? true : read,
                 IsOwl = false,
             };
+        }
+
+        public async Task DeleteRetweet(PostClass post)
+        {
+            if (post.RetweetedId == null)
+                throw new ArgumentException("post is not retweeted status", nameof(post));
+
+            if (this.Api.AppToken.AuthType == APIAuthType.TwitterComCookie)
+            {
+                var request = new DeleteRetweetRequest
+                {
+                    SourceTweetId = post.RetweetedId.ToTwitterStatusId(),
+                };
+                await request.Send(this.Api.Connection).ConfigureAwait(false);
+            }
+            else
+            {
+                await this.Api.StatusesDestroy(post.StatusId.ToTwitterStatusId())
+                    .IgnoreResponse();
+            }
         }
 
         public string Username
@@ -617,8 +681,21 @@ namespace OpenTween
         {
             this.CheckAccountState();
 
-            var status = await this.Api.StatusesShow(id)
-                .ConfigureAwait(false);
+            TwitterStatus status;
+            if (this.Api.AppToken.AuthType == APIAuthType.TwitterComCookie)
+            {
+                var request = new TweetDetailRequest
+                {
+                    FocalTweetId = id,
+                };
+                var tweets = await request.Send(this.Api.Connection).ConfigureAwait(false);
+                status = tweets.Select(x => x.ToTwitterStatus()).Where(x => x.IdStr == id.Id).First();
+            }
+            else
+            {
+                status = await this.Api.StatusesShow(id)
+                    .ConfigureAwait(false);
+            }
 
             var item = this.CreatePostsFromStatusData(status);
 
@@ -752,10 +829,17 @@ namespace OpenTween
                 var request = new ListLatestTweetsTimelineRequest(tab.ListInfo.Id.ToString())
                 {
                     Count = count,
+                    Cursor = more ? tab.CursorBottom : null,
                 };
-                var timelineTweets = await request.Send(this.Api.Connection)
+                var response = await request.Send(this.Api.Connection)
                     .ConfigureAwait(false);
-                statuses = timelineTweets.Select(x => x.ToTwitterStatus()).ToArray();
+
+                var convertedStatuses = response.Tweets.Select(x => x.ToTwitterStatus());
+                if (!SettingManager.Instance.Common.IsListsIncludeRts)
+                    convertedStatuses = convertedStatuses.Where(x => x.RetweetedStatus == null);
+
+                statuses = convertedStatuses.ToArray();
+                tab.CursorBottom = response.CursorBottom;
             }
             else if (more)
             {
@@ -966,7 +1050,7 @@ namespace OpenTween
                 tab.OldestId = minimumId.Value;
         }
 
-        public async Task GetDirectMessageEvents(bool read, bool backward)
+        public async Task GetDirectMessageEvents(bool read, DirectMessagesTabModel dmTab, bool backward)
         {
             this.CheckAccountState();
             this.CheckAccessLevel(TwitterApiAccessLevel.ReadWriteAndDirectMessage);
@@ -976,7 +1060,7 @@ namespace OpenTween
             TwitterMessageEventList eventList;
             if (backward)
             {
-                eventList = await this.Api.DirectMessagesEventsList(count, this.nextCursorDirectMessage)
+                eventList = await this.Api.DirectMessagesEventsList(count, dmTab.NextCursor)
                     .ConfigureAwait(false);
             }
             else
@@ -985,7 +1069,7 @@ namespace OpenTween
                     .ConfigureAwait(false);
             }
 
-            this.nextCursorDirectMessage = eventList.NextCursor;
+            dmTab.NextCursor = eventList.NextCursor;
 
             await this.CreateDirectMessagesEventFromJson(eventList, read)
                 .ConfigureAwait(false);

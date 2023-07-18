@@ -1,5 +1,5 @@
 ﻿// OpenTween - Client of Twitter
-// Copyright (c) 2016 kim_upsilon (@kim_upsilon) <https://upsilo.net/~upsilon/>
+// Copyright (c) 2023 kim_upsilon (@kim_upsilon) <https://upsilo.net/~upsilon/>
 // All rights reserved.
 //
 // This file is part of OpenTween.
@@ -23,31 +23,14 @@
 
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace OpenTween.Connection
+namespace OpenTween.Api.GraphQL
 {
-    public interface IApiConnection : IDisposable
-    {
-        Task<T> GetAsync<T>(Uri uri, IDictionary<string, string>? param, string? endpointName);
-
-        Task<Stream> GetStreamAsync(Uri uri, IDictionary<string, string>? param);
-
-        Task<Stream> GetStreamingStreamAsync(Uri uri, IDictionary<string, string>? param);
-
-        Task<LazyJson<T>> PostLazyAsync<T>(Uri uri, IDictionary<string, string>? param);
-
-        Task<LazyJson<T>> PostLazyAsync<T>(Uri uri, IDictionary<string, string>? param, IDictionary<string, IMediaItem>? media);
-
-        Task PostAsync(Uri uri, IDictionary<string, string>? param, IDictionary<string, IMediaItem>? media);
-
-        Task<string> PostJsonAsync(Uri uri, string json);
-
-        Task<LazyJson<T>> PostJsonAsync<T>(Uri uri, string json);
-
-        Task DeleteAsync(Uri uri);
-    }
+    public record TimelineResponse(
+        TimelineTweet[] Tweets,
+        string? CursorBottom
+    );
 }

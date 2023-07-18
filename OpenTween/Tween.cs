@@ -562,7 +562,7 @@ namespace OpenTween
             this.ImageSelector.Model.InitializeServices(this.tw, this.tw.Configuration);
             this.ImageSelector.Model.SelectMediaService(this.settings.Common.UseImageServiceName, this.settings.Common.UseImageService);
 
-            this.tweetThumbnail1.Initialize(this.thumbGenerator);
+            this.tweetThumbnail1.Model.Initialize(this.thumbGenerator);
 
             // ハッシュタグ/@id関連
             this.AtIdSupl = new AtIdSupplement(this.settings.AtIdList.AtIdList, "@");
@@ -1244,7 +1244,7 @@ namespace OpenTween
             var status = new PostStatusParams();
 
             var statusTextCompat = this.FormatStatusText(this.StatusText.Text);
-            if (this.GetRestStatusCount(statusTextCompat) >= 0)
+            if (this.GetRestStatusCount(statusTextCompat) >= 0 && this.tw.Api.AppToken.AuthType == APIAuthType.OAuth1)
             {
                 // auto_populate_reply_metadata や attachment_url を使用しなくても 140 字以内に
                 // 収まる場合はこれらのオプションを使用せずに投稿する
@@ -2402,8 +2402,7 @@ namespace OpenTween
                             {
                                 // 自分が RT したツイート (自分が RT した自分のツイートも含む)
                                 //   => RT を取り消し
-                                await this.tw.Api.StatusesDestroy(post.StatusId.ToTwitterStatusId())
-                                    .IgnoreResponse();
+                                await this.tw.DeleteRetweet(post);
                             }
                             else
                             {
@@ -2413,15 +2412,13 @@ namespace OpenTween
                                     {
                                         // 他人に RT された自分のツイート
                                         //   => RT 元の自分のツイートを削除
-                                        await this.tw.Api.StatusesDestroy(post.RetweetedId.ToTwitterStatusId())
-                                            .IgnoreResponse();
+                                        await this.tw.DeleteTweet(post.RetweetedId.ToTwitterStatusId());
                                     }
                                     else
                                     {
                                         // 自分のツイート
                                         //   => ツイートを削除
-                                        await this.tw.Api.StatusesDestroy(post.StatusId.ToTwitterStatusId())
-                                            .IgnoreResponse();
+                                        await this.tw.DeleteTweet(post.StatusId.ToTwitterStatusId());
                                     }
                                 }
                             }
@@ -4222,15 +4219,17 @@ namespace OpenTween
                 this.tweetDetailsView.ShowPostDetails(currentPost),
             };
 
-            this.SplitContainer3.Panel2Collapsed = true;
-
             if (this.settings.Common.PreviewEnable)
             {
                 var oldTokenSource = Interlocked.Exchange(ref this.thumbnailTokenSource, new CancellationTokenSource());
                 oldTokenSource?.Cancel();
 
                 var token = this.thumbnailTokenSource!.Token;
-                loadTasks.Add(this.tweetThumbnail1.ShowThumbnailAsync(currentPost, token));
+                loadTasks.Add(this.PrepareThumbnailControl(currentPost, token));
+            }
+            else
+            {
+                this.SplitContainer3.Panel2Collapsed = true;
             }
 
             async Task DelayedTasks()
@@ -4246,6 +4245,25 @@ namespace OpenTween
 
             // サムネイルの読み込みを待たずに次に選択されたツイートを表示するため await しない
             _ = DelayedTasks();
+        }
+
+        private async Task PrepareThumbnailControl(PostClass post, CancellationToken token)
+        {
+            var prepareTask = this.tweetThumbnail1.Model.PrepareThumbnails(post, token);
+
+            var timeout = Task.Delay(100);
+            if ((await Task.WhenAny(prepareTask, timeout)) == timeout)
+            {
+                token.ThrowIfCancellationRequested();
+
+                // サムネイル情報の読み込みに時間が掛かっている場合は一旦サムネイル領域を非表示にする
+                this.SplitContainer3.Panel2Collapsed = true;
+            }
+
+            await prepareTask;
+            token.ThrowIfCancellationRequested();
+
+            this.SplitContainer3.Panel2Collapsed = !this.tweetThumbnail1.Model.ThumbnailAvailable;
         }
 
         private async void MatomeMenuItem_Click(object sender, EventArgs e)
@@ -4849,15 +4867,15 @@ namespace OpenTween
                     .Do(() => this.CopyUserId()),
 
                 ShortcutCommand.Create(Keys.Alt | Keys.Shift | Keys.Up)
-                    .Do(() => this.tweetThumbnail1.ScrollUp()),
+                    .Do(() => this.tweetThumbnail1.Model.ScrollUp()),
 
                 ShortcutCommand.Create(Keys.Alt | Keys.Shift | Keys.Down)
-                    .Do(() => this.tweetThumbnail1.ScrollDown()),
+                    .Do(() => this.tweetThumbnail1.Model.ScrollDown()),
 
                 ShortcutCommand.Create(Keys.Alt | Keys.Shift | Keys.Enter)
                     .FocusedOn(FocusedControl.ListTab)
                     .OnlyWhen(() => !this.SplitContainer3.Panel2Collapsed)
-                    .Do(() => this.OpenThumbnailPicture(this.tweetThumbnail1.Thumbnail)),
+                    .Do(() => this.tweetThumbnail1.OpenImageInBrowser()),
             };
         }
 
@@ -9496,22 +9514,6 @@ namespace OpenTween
         {
             this.MatomeMenuItem.Text = MyCommon.ReplaceAppName(this.MatomeMenuItem.Text);
             this.AboutMenuItem.Text = MyCommon.ReplaceAppName(this.AboutMenuItem.Text);
-        }
-
-        private void TweetThumbnail_ThumbnailLoading(object sender, EventArgs e)
-            => this.SplitContainer3.Panel2Collapsed = false;
-
-        private async void TweetThumbnail_ThumbnailDoubleClick(object sender, ThumbnailDoubleClickEventArgs e)
-            => await this.OpenThumbnailPicture(e.Thumbnail);
-
-        private async void TweetThumbnail_ThumbnailImageSearchClick(object sender, ThumbnailImageSearchEventArgs e)
-            => await MyCommon.OpenInBrowserAsync(this, e.ImageUrl);
-
-        private async Task OpenThumbnailPicture(ThumbnailInfo thumbnail)
-        {
-            var url = thumbnail.FullSizeImageUrl ?? thumbnail.MediaPageUrl;
-
-            await MyCommon.OpenInBrowserAsync(this, url);
         }
 
         private async void TwitterApiStatusToolStripMenuItem_Click(object sender, EventArgs e)

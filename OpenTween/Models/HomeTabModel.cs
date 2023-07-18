@@ -43,6 +43,8 @@ namespace OpenTween.Models
         public override MyCommon.TabUsageType TabType
             => MyCommon.TabUsageType.Home;
 
+        public long OldestId { get; set; } = long.MaxValue;
+
         public int TweetsPerHour => this.tweetsPerHour;
 
         // 流速計測用

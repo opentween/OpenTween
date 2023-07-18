@@ -62,7 +62,7 @@
             this.StatusText = new System.Windows.Forms.TextBox();
             this.PostButton = new System.Windows.Forms.Button();
             this.lblLen = new System.Windows.Forms.Label();
-            this.tweetThumbnail1 = new OpenTween.TweetThumbnail();
+            this.tweetThumbnail1 = new OpenTween.TweetThumbnailControl();
             this.MenuStrip1 = new System.Windows.Forms.MenuStrip();
             this.MenuItemFile = new System.Windows.Forms.ToolStripMenuItem();
             this.SettingFileMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -705,9 +705,6 @@
             resources.ApplyResources(this.tweetThumbnail1, "tweetThumbnail1");
             this.tweetThumbnail1.Name = "tweetThumbnail1";
             this.tweetThumbnail1.TabStop = false;
-            this.tweetThumbnail1.ThumbnailLoading += new System.EventHandler<System.EventArgs>(this.TweetThumbnail_ThumbnailLoading);
-            this.tweetThumbnail1.ThumbnailDoubleClick += new System.EventHandler<OpenTween.ThumbnailDoubleClickEventArgs>(this.TweetThumbnail_ThumbnailDoubleClick);
-            this.tweetThumbnail1.ThumbnailImageSearchClick += new System.EventHandler<OpenTween.ThumbnailImageSearchEventArgs>(this.TweetThumbnail_ThumbnailImageSearchClick);
             // 
             // MenuStrip1
             // 
@@ -2379,7 +2376,7 @@
         internal System.Windows.Forms.Timer TimerRefreshIcon;
         private System.Windows.Forms.ToolStripMenuItem ProtectTabMenuItem;
         private System.Windows.Forms.ToolStripMenuItem ProtectTbMenuItem;
-        private TweetThumbnail tweetThumbnail1;
+        private TweetThumbnailControl tweetThumbnail1;
         private System.Windows.Forms.ToolStripMenuItem TwitterApiStatusToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator44;
         private System.Windows.Forms.ToolStripMenuItem OpenURLFileMenuItem;

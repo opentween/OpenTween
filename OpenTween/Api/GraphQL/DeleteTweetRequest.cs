@@ -1,5 +1,5 @@
 ﻿// OpenTween - Client of Twitter
-// Copyright (c) 2016 kim_upsilon (@kim_upsilon) <https://upsilo.net/~upsilon/>
+// Copyright (c) 2023 kim_upsilon (@kim_upsilon) <https://upsilo.net/~upsilon/>
 // All rights reserved.
 //
 // This file is part of OpenTween.
@@ -27,27 +27,29 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using OpenTween.Connection;
+using OpenTween.Models;
 
-namespace OpenTween.Connection
+namespace OpenTween.Api.GraphQL
 {
-    public interface IApiConnection : IDisposable
+    public class DeleteTweetRequest
     {
-        Task<T> GetAsync<T>(Uri uri, IDictionary<string, string>? param, string? endpointName);
+        private static readonly Uri EndpointUri = new("https://twitter.com/i/api/graphql/VaenaVgh5q5ih7kvyVjgtg/DeleteTweet");
 
-        Task<Stream> GetStreamAsync(Uri uri, IDictionary<string, string>? param);
+        required public TwitterStatusId TweetId { get; set; }
 
-        Task<Stream> GetStreamingStreamAsync(Uri uri, IDictionary<string, string>? param);
+        public string CreateRequestBody()
+        {
+            return $$"""
+            {"variables":{"tweet_id":"{{JsonUtils.EscapeJsonString(this.TweetId.Id)}}","dark_request":false},"queryId":"VaenaVgh5q5ih7kvyVjgtg"}
+            """;
+        }
 
-        Task<LazyJson<T>> PostLazyAsync<T>(Uri uri, IDictionary<string, string>? param);
-
-        Task<LazyJson<T>> PostLazyAsync<T>(Uri uri, IDictionary<string, string>? param, IDictionary<string, IMediaItem>? media);
-
-        Task PostAsync(Uri uri, IDictionary<string, string>? param, IDictionary<string, IMediaItem>? media);
-
-        Task<string> PostJsonAsync(Uri uri, string json);
-
-        Task<LazyJson<T>> PostJsonAsync<T>(Uri uri, string json);
-
-        Task DeleteAsync(Uri uri);
+        public async Task Send(IApiConnection apiConnection)
+        {
+            var json = this.CreateRequestBody();
+            var responseText = await apiConnection.PostJsonAsync(EndpointUri, json);
+            ErrorResponse.ThrowIfError(responseText);
+        }
     }
 }

@@ -338,10 +338,34 @@ namespace OpenTween.Connection
             }
         }
 
-        public async Task PostJsonAsync(Uri uri, string json)
-            => await this.PostJsonAsync<object>(uri, json)
-                         .IgnoreResponse()
-                         .ConfigureAwait(false);
+        public async Task<string> PostJsonAsync(Uri uri, string json)
+        {
+            var requestUri = new Uri(RestApiBase, uri);
+            using var request = new HttpRequestMessage(HttpMethod.Post, requestUri);
+
+            using var postContent = new StringContent(json, Encoding.UTF8, "application/json");
+            request.Content = postContent;
+
+            try
+            {
+                using var response = await this.Http.SendAsync(request)
+                    .ConfigureAwait(false);
+
+                await TwitterApiConnection.CheckStatusCode(response)
+                    .ConfigureAwait(false);
+
+                return await response.Content.ReadAsStringAsync()
+                    .ConfigureAwait(false);
+            }
+            catch (HttpRequestException ex)
+            {
+                throw TwitterApiException.CreateFromException(ex);
+            }
+            catch (OperationCanceledException ex)
+            {
+                throw TwitterApiException.CreateFromException(ex);
+            }
+        }
 
         public async Task<LazyJson<T>> PostJsonAsync<T>(Uri uri, string json)
         {

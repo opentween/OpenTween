@@ -14,7 +14,7 @@
 	<data name="copyUrlMenuItem.Text"><value>&amp;Copy image URL</value></data>
 	<data name="openMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>254, 22</value></data>
 	<data name="openMenuItem.Text"><value>&amp;Open</value></data>
-	<data name="panelPictureBox.ToolTip"><value /></data>
+	<data name="pictureBox.ToolTip"><value /></data>
 	<data name="scrollBar.ToolTip"><value /></data>
 	<data name="searchImageGoogleMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>254, 22</value></data>
 	<data name="searchImageGoogleMenuItem.Text"><value>Search similar images (Google)</value></data>

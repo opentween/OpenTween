@@ -1,5 +1,5 @@
 ﻿// OpenTween - Client of Twitter
-// Copyright (c) 2016 kim_upsilon (@kim_upsilon) <https://upsilo.net/~upsilon/>
+// Copyright (c) 2023 kim_upsilon (@kim_upsilon) <https://upsilo.net/~upsilon/>
 // All rights reserved.
 //
 // This file is part of OpenTween.
@@ -19,35 +19,41 @@
 // the Free Software Foundation, Inc., 51 Franklin Street - Fifth Floor,
 // Boston, MA 02110-1301, USA.
 
-#nullable enable
-
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Moq;
+using OpenTween.Connection;
+using Xunit;
 
-namespace OpenTween.Connection
+namespace OpenTween.Api.GraphQL
 {
-    public interface IApiConnection : IDisposable
+    public class DeleteTweetRequestTest
     {
-        Task<T> GetAsync<T>(Uri uri, IDictionary<string, string>? param, string? endpointName);
+        [Fact]
+        public async Task Send_Test()
+        {
+            var mock = new Mock<IApiConnection>();
+            mock.Setup(x =>
+                    x.PostJsonAsync(It.IsAny<Uri>(), It.IsAny<string>())
+                )
+                .Callback<Uri, string>((url, json) =>
+                {
+                    Assert.Equal(new("https://twitter.com/i/api/graphql/VaenaVgh5q5ih7kvyVjgtg/DeleteTweet"), url);
+                    Assert.Contains(@"""tweet_id"":""12345""", json);
+                });
 
-        Task<Stream> GetStreamAsync(Uri uri, IDictionary<string, string>? param);
+            var request = new DeleteTweetRequest
+            {
+                TweetId = new("12345"),
+            };
 
-        Task<Stream> GetStreamingStreamAsync(Uri uri, IDictionary<string, string>? param);
+            await request.Send(mock.Object).ConfigureAwait(false);
 
-        Task<LazyJson<T>> PostLazyAsync<T>(Uri uri, IDictionary<string, string>? param);
-
-        Task<LazyJson<T>> PostLazyAsync<T>(Uri uri, IDictionary<string, string>? param, IDictionary<string, IMediaItem>? media);
-
-        Task PostAsync(Uri uri, IDictionary<string, string>? param, IDictionary<string, IMediaItem>? media);
-
-        Task<string> PostJsonAsync(Uri uri, string json);
-
-        Task<LazyJson<T>> PostJsonAsync<T>(Uri uri, string json);
-
-        Task DeleteAsync(Uri uri);
+            mock.VerifyAll();
+        }
     }
 }

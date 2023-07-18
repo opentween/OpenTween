@@ -1,5 +1,5 @@
 ﻿// OpenTween - Client of Twitter
-// Copyright (c) 2016 kim_upsilon (@kim_upsilon) <https://upsilo.net/~upsilon/>
+// Copyright (c) 2023 kim_upsilon (@kim_upsilon) <https://upsilo.net/~upsilon/>
 // All rights reserved.
 //
 // This file is part of OpenTween.
@@ -19,35 +19,32 @@
 // the Free Software Foundation, Inc., 51 Franklin Street - Fifth Floor,
 // Boston, MA 02110-1301, USA.
 
-#nullable enable
-
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Xunit;
 
-namespace OpenTween.Connection
+namespace OpenTween.Api.GraphQL
 {
-    public interface IApiConnection : IDisposable
+    public class ErrorResponseTest
     {
-        Task<T> GetAsync<T>(Uri uri, IDictionary<string, string>? param, string? endpointName);
+        [Fact]
+        public void ThrowIfError_ErrorResponseTest()
+        {
+            var responseText = File.ReadAllText("Resources/Responses/Error_NotFound.json");
+            var exception = Assert.Throws<WebApiException>(() => ErrorResponse.ThrowIfError(responseText));
+            Assert.Equal("_Missing: No status found with that ID.", exception.Message);
+        }
 
-        Task<Stream> GetStreamAsync(Uri uri, IDictionary<string, string>? param);
-
-        Task<Stream> GetStreamingStreamAsync(Uri uri, IDictionary<string, string>? param);
-
-        Task<LazyJson<T>> PostLazyAsync<T>(Uri uri, IDictionary<string, string>? param);
-
-        Task<LazyJson<T>> PostLazyAsync<T>(Uri uri, IDictionary<string, string>? param, IDictionary<string, IMediaItem>? media);
-
-        Task PostAsync(Uri uri, IDictionary<string, string>? param, IDictionary<string, IMediaItem>? media);
-
-        Task<string> PostJsonAsync(Uri uri, string json);
-
-        Task<LazyJson<T>> PostJsonAsync<T>(Uri uri, string json);
-
-        Task DeleteAsync(Uri uri);
+        [Fact]
+        public void ThrowIfError_SuccessResponseTest()
+        {
+            var responseText = File.ReadAllText("Resources/Responses/TweetDetail.json");
+            ErrorResponse.ThrowIfError(responseText);
+            // 通常のレスポンスに対しては WebApiException を発生させない
+        }
     }
 }

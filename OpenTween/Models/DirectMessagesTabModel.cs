@@ -41,6 +41,8 @@ namespace OpenTween.Models
         public override MyCommon.TabUsageType TabType
             => MyCommon.TabUsageType.DirectMessage;
 
+        public string? NextCursor { get; set; }
+
         public DirectMessagesTabModel()
             : this(MyCommon.DEFAULTTAB.DM)
         {
@@ -61,7 +63,7 @@ namespace OpenTween.Models
 
             progress.Report(string.Format(Properties.Resources.GetTimelineWorker_RunWorkerCompletedText8, backward ? -1 : 1));
 
-            await tw.GetDirectMessageEvents(read, backward)
+            await tw.GetDirectMessageEvents(read, this, backward)
                 .ConfigureAwait(false);
 
             TabInformations.GetInstance().DistributePosts();

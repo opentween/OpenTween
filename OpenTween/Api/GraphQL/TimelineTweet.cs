@@ -52,7 +52,7 @@ namespace OpenTween.Api.GraphQL
             try
             {
                 var resultElm = this.Element.Element("tweet_results")?.Element("result") ?? throw CreateParseError();
-                return this.ParseTweetUnion(resultElm);
+                return TimelineTweet.ParseTweetUnion(resultElm);
             }
             catch (WebApiException ex)
             {
@@ -62,7 +62,7 @@ namespace OpenTween.Api.GraphQL
             }
         }
 
-        private TwitterStatus ParseTweetUnion(XElement tweetUnionElm)
+        public static TwitterStatus ParseTweetUnion(XElement tweetUnionElm)
         {
             var tweetElm = tweetUnionElm.Element("__typename")?.Value switch
             {
@@ -71,10 +71,10 @@ namespace OpenTween.Api.GraphQL
                 _ => throw CreateParseError(),
             };
 
-            return this.ParseTweet(tweetElm);
+            return TimelineTweet.ParseTweet(tweetElm);
         }
 
-        private TwitterStatus ParseTweet(XElement tweetElm)
+        public static TwitterStatus ParseTweet(XElement tweetElm)
         {
             var tweetLegacyElm = tweetElm.Element("legacy") ?? throw CreateParseError();
             var userElm = tweetElm.Element("core")?.Element("user_results")?.Element("result") ?? throw CreateParseError();
@@ -147,7 +147,7 @@ namespace OpenTween.Api.GraphQL
                     ScreenName = GetText(userLegacyElm, "screen_name"),
                     Protected = GetTextOrNull(userLegacyElm, "protected") == "true",
                 },
-                RetweetedStatus = retweetedTweetElm != null ? this.ParseTweetUnion(retweetedTweetElm) : null,
+                RetweetedStatus = retweetedTweetElm != null ? TimelineTweet.ParseTweetUnion(retweetedTweetElm) : null,
             };
         }
 

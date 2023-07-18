@@ -35,12 +35,15 @@ namespace OpenTween
     /// <summary>
     /// コントロールにフォーカスが当たってなくても無理矢理 MouseWheel イベントを発生させるクラス
     /// </summary>
-    public class MouseWheelMessageFilter : IMessageFilter
+    public sealed class MouseWheelMessageFilter : IMessageFilter, IDisposable
     {
         private readonly List<Control> controls = new();
 
         public MouseWheelMessageFilter()
             => Application.AddMessageFilter(this);
+
+        public void Dispose()
+            => Application.RemoveMessageFilter(this);
 
         public void Register(Control target)
             => this.controls.Add(target);

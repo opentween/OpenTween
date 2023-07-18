@@ -29,7 +29,7 @@ namespace OpenTween
 {
     public class OTPictureBoxTest
     {
-        [Fact]
+        [WinFormsFact]
         public void SizeMode_SetterGetterTest()
         {
             using var picbox = new OTPictureBox();
@@ -39,7 +39,7 @@ namespace OpenTween
             Assert.Equal(PictureBoxSizeMode.Zoom, ((PictureBox)picbox).SizeMode);
         }
 
-        [Fact]
+        [WinFormsFact]
         public void SizeMode_ErrorImageTest()
         {
             using var picbox = new OTPictureBox();
@@ -51,7 +51,7 @@ namespace OpenTween
             Assert.Equal(PictureBoxSizeMode.CenterImage, ((PictureBox)picbox).SizeMode);
         }
 
-        [Fact]
+        [WinFormsFact]
         public void SizeMode_ErrorImageTest2()
         {
             using var picbox = new OTPictureBox();
@@ -63,7 +63,7 @@ namespace OpenTween
             Assert.Equal(PictureBoxSizeMode.CenterImage, ((PictureBox)picbox).SizeMode);
         }
 
-        [Fact]
+        [WinFormsFact]
         public void SizeMode_RestoreTest()
         {
             using var picbox = new OTPictureBox();
@@ -77,13 +77,10 @@ namespace OpenTween
             Assert.Equal(PictureBoxSizeMode.Zoom, ((PictureBox)picbox).SizeMode);
         }
 
-        [Fact]
+        [WinFormsFact]
         public async Task SetImageFromAsync_Test()
         {
             using var picbox = new OTPictureBox();
-
-            // Mono でのテスト実行時にデッドロックする問題の対策
-            SynchronizationContext.SetSynchronizationContext(new SynchronizationContext());
 
             var tcs = new TaskCompletionSource<MemoryImage>();
 
@@ -98,13 +95,10 @@ namespace OpenTween
             Assert.Equal(image, picbox.Image);
         }
 
-        [Fact]
+        [WinFormsFact]
         public async Task SetImageFromAsync_ErrorTest()
         {
             using var picbox = new OTPictureBox();
-
-            // Mono でのテスト実行時にデッドロックする問題の対策
-            SynchronizationContext.SetSynchronizationContext(new SynchronizationContext());
 
             var tcs = new TaskCompletionSource<MemoryImage>();
 
@@ -116,6 +110,55 @@ namespace OpenTween
             await setImageTask;
 
             Assert.Equal(picbox.ErrorImage, ((PictureBox)picbox).Image);
+        }
+
+        [WinFormsFact]
+        public async Task SetImageFromAsync_OutdatedTest()
+        {
+            using var picbox = new OTPictureBox();
+
+            // 1回目
+            var tcs1 = new TaskCompletionSource<MemoryImage>();
+            var setImageTask1 = picbox.SetImageFromTask(() => tcs1.Task);
+
+            // 2回目
+            var tcs2 = new TaskCompletionSource<MemoryImage>();
+            var setImageTask2 = picbox.SetImageFromTask(() => tcs2.Task);
+
+            Assert.Same(picbox.InitialImage, ((PictureBox)picbox).Image);
+
+            // 2回目のタスクが先に完了する
+            using var image2 = TestUtils.CreateDummyImage();
+            tcs2.SetResult(image2);
+            await setImageTask2;
+            Assert.Same(image2, picbox.Image);
+
+            // 1回目のタスクが完了したとしても、最後に呼んだ SetImageFromTask の画像を表示し続ける
+            using var image1 = TestUtils.CreateDummyImage();
+            tcs1.SetResult(image1);
+            await setImageTask1;
+            Assert.Same(image2, picbox.Image);
+        }
+
+        [WinFormsFact]
+        public async Task SetImageFromAsync_OutdatedByImageSetterTest()
+        {
+            using var picbox = new OTPictureBox();
+
+            // 1回目
+            var tcs1 = new TaskCompletionSource<MemoryImage>();
+            var setImageTask1 = picbox.SetImageFromTask(() => tcs1.Task);
+
+            // 2回目 (set_Image による同期的な更新)
+            using var image2 = TestUtils.CreateDummyImage();
+            picbox.Image = image2;
+            Assert.Same(image2, picbox.Image);
+
+            // 1回目のタスクが完了したとしても、最後にセットされた Image の画像を表示し続ける
+            using var image1 = TestUtils.CreateDummyImage();
+            tcs1.SetResult(image1);
+            await setImageTask1;
+            Assert.Same(image2, picbox.Image);
         }
     }
 }
