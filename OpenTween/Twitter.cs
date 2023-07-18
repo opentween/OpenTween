@@ -834,7 +834,11 @@ namespace OpenTween
                 var response = await request.Send(this.Api.Connection)
                     .ConfigureAwait(false);
 
-                statuses = response.Tweets.Select(x => x.ToTwitterStatus()).ToArray();
+                var convertedStatuses = response.Tweets.Select(x => x.ToTwitterStatus());
+                if (!SettingManager.Instance.Common.IsListsIncludeRts)
+                    convertedStatuses = convertedStatuses.Where(x => x.RetweetedStatus == null);
+
+                statuses = convertedStatuses.ToArray();
                 tab.CursorBottom = response.CursorBottom;
             }
             else if (more)
