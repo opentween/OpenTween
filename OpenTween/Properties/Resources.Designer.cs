@@ -580,6 +580,8 @@ namespace OpenTween.Properties {
         /// <summary>
         ///   更新履歴
         ///
+        ///==== Unreleased
+        ///
         ///==== Ver 3.7.0(2023/07/19)
         /// * NEW: Cookie使用時のツイート投稿・削除に対応
         /// * NEW: Cookie使用時のリツイートおよびリツイートの取消に対応
@@ -594,7 +596,7 @@ namespace OpenTween.Properties {
         /// * FIX: リプライ制限されたツイートのRTがリストのタイムラインに含まれているとエラーになる不具合を修正
         ///
         ///==== Ver 3.6.1(2023/07/07)
-        /// * CHG: graphqlエンドポイントからのレス [残りの文字列は切り詰められました]&quot;; に類似しているローカライズされた文字列を検索します。
+        /// * CHG:  [残りの文字列は切り詰められました]&quot;; に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string ChangeLog {
             get {
