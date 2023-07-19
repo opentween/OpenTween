@@ -174,7 +174,7 @@ namespace OpenTween
 
         private readonly TwitterPostFactory postFactory;
 
-        private long previousStatusId = -1L;
+        private string? previousStatusId = null;
 
         public Twitter(TwitterApi api)
         {
@@ -286,10 +286,10 @@ namespace OpenTween
 
             this.UpdateUserStats(status.User);
 
-            if (status.Id == this.previousStatusId)
+            if (status.IdStr == this.previousStatusId)
                 throw new WebApiException("OK:Delaying?");
 
-            this.previousStatusId = status.Id;
+            this.previousStatusId = status.IdStr;
 
             // 投稿したものを返す
             var post = this.CreatePostsFromStatusData(status);
