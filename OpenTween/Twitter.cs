@@ -689,7 +689,9 @@ namespace OpenTween
                     FocalTweetId = id,
                 };
                 var tweets = await request.Send(this.Api.Connection).ConfigureAwait(false);
-                status = tweets.Select(x => x.ToTwitterStatus()).Where(x => x.IdStr == id.Id).First();
+                status = tweets.Select(x => x.ToTwitterStatus())
+                    .Where(x => x.IdStr == id.Id)
+                    .FirstOrDefault() ?? throw new WebApiException("Empty result set");
             }
             else
             {
