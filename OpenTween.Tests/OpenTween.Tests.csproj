@@ -82,5 +82,8 @@
     <None Update="Resources\Responses\TweetDetail.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Update="Resources\Responses\TimelineTweet_SelfThread.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 </Project>

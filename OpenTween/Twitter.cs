@@ -174,7 +174,7 @@ namespace OpenTween
 
         private readonly TwitterPostFactory postFactory;
 
-        private long previousStatusId = -1L;
+        private string? previousStatusId = null;
 
         public Twitter(TwitterApi api)
         {
@@ -286,10 +286,10 @@ namespace OpenTween
 
             this.UpdateUserStats(status.User);
 
-            if (status.Id == this.previousStatusId)
+            if (status.IdStr == this.previousStatusId)
                 throw new WebApiException("OK:Delaying?");
 
-            this.previousStatusId = status.Id;
+            this.previousStatusId = status.IdStr;
 
             // 投稿したものを返す
             var post = this.CreatePostsFromStatusData(status);
@@ -689,7 +689,9 @@ namespace OpenTween
                     FocalTweetId = id,
                 };
                 var tweets = await request.Send(this.Api.Connection).ConfigureAwait(false);
-                status = tweets.Select(x => x.ToTwitterStatus()).Where(x => x.IdStr == id.Id).First();
+                status = tweets.Select(x => x.ToTwitterStatus())
+                    .Where(x => x.IdStr == id.Id)
+                    .FirstOrDefault() ?? throw new WebApiException("Empty result set");
             }
             else
             {
