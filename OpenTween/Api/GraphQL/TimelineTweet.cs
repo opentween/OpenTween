@@ -156,7 +156,7 @@ namespace OpenTween.Api.GraphQL
 
         public static TimelineTweet[] ExtractTimelineTweets(XElement element)
         {
-            return element.XPathSelectElements($"//itemContent[itemType[text()='{TypeName}']][tweetDisplayType[text()='Tweet']]")
+            return element.XPathSelectElements($"//itemContent[itemType[text()='{TypeName}']][tweetDisplayType[text()='Tweet' or text()='SelfThread']]")
                 .Select(x => new TimelineTweet(x))
                 .ToArray();
         }
