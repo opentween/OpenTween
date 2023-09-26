@@ -68,6 +68,21 @@ namespace OpenTween
 
         private MemoryImage? memoryImage;
 
+        public bool PlayableMark
+        {
+            get => this.playableMark;
+            set
+            {
+                if (value == this.playableMark)
+                    return;
+
+                this.playableMark = value;
+                this.Invalidate();
+            }
+        }
+
+        private bool playableMark = false;
+
         [Localizable(true)]
         [DefaultValue(PictureBoxSizeMode.Normal)]
         public new PictureBoxSizeMode SizeMode
@@ -177,8 +192,14 @@ namespace OpenTween
 
         private void DrawPlayableMark(PaintEventArgs pe)
         {
-            if (!(this.Tag is ThumbnailInfo thumb && thumb.IsPlayable)) return;
-            if (base.Image == base.InitialImage || base.Image == base.ErrorImage) return;
+            if (!this.PlayableMark)
+                return;
+
+            if (this.Image == null)
+                return;
+
+            if (base.Image == base.InitialImage || base.Image == base.ErrorImage)
+                return;
 
             var overlayImage = Properties.Resources.PlayableOverlayImage;
 
