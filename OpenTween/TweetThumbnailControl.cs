@@ -109,6 +109,7 @@ namespace OpenTween
             this.scrollBar.Value = this.Model.SelectedIndex;
 
             var thumbnail = this.Model.CurrentThumbnail;
+            this.pictureBox.PlayableMark = thumbnail.IsPlayable;
             this.pictureBox.AccessibleDescription = thumbnail.TooltipText;
             this.toolTip.SetToolTip(this.pictureBox, thumbnail.TooltipText);
             _ = this.pictureBox.SetImageFromTask(this.Model.LoadSelectedThumbnail);
