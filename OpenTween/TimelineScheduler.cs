@@ -135,10 +135,12 @@ namespace OpenTween
             {
                 this.preventTimerUpdate = true;
 
-                if (this.systemResumeMode)
-                    await this.TimerCallback_AfterSystemResume().ConfigureAwait(false);
-                else
-                    await this.TimerCallback_Normal().ConfigureAwait(false);
+                var updateTasks = this.systemResumeMode
+                    ? this.TimerCallback_AfterSystemResume()
+                    : this.TimerCallback_Normal();
+
+                await updateTasks.RunAll(runOnThreadPool: true)
+                    .ConfigureAwait(false);
             }
             finally
             {
@@ -147,7 +149,7 @@ namespace OpenTween
             }
         }
 
-        private async Task TimerCallback_Normal()
+        private TaskCollection TimerCallback_Normal()
         {
             var now = DateTimeUtc.Now;
             var round = TimeSpan.FromSeconds(1); // 1秒未満の差異であればまとめて実行する
@@ -160,21 +162,21 @@ namespace OpenTween
                     tasks.Add(taskType);
             }
 
-            await this.RunUpdateTasks(tasks, now).ConfigureAwait(false);
+            return this.RunUpdateTasks(tasks, now);
         }
 
-        private async Task TimerCallback_AfterSystemResume()
+        private TaskCollection TimerCallback_AfterSystemResume()
         {
             // systemResumeMode では一定期間経過後に全てのタイムラインを更新する
             var now = DateTimeUtc.Now;
 
             this.systemResumeMode = false;
-            await this.RunUpdateTasks(TimelineScheduler.AllTaskTypes, now).ConfigureAwait(false);
+            return this.RunUpdateTasks(TimelineScheduler.AllTaskTypes, now);
         }
 
-        private async Task RunUpdateTasks(IEnumerable<TimelineSchedulerTaskType> taskTypes, DateTimeUtc now)
+        private TaskCollection RunUpdateTasks(IEnumerable<TimelineSchedulerTaskType> taskTypes, DateTimeUtc now)
         {
-            var updateTasks = new List<Func<Task>>(capacity: TimelineScheduler.AllTaskTypes.Length);
+            var updateTasks = new TaskCollection(capacity: TimelineScheduler.AllTaskTypes.Length);
 
             foreach (var taskType in taskTypes)
             {
@@ -183,8 +185,7 @@ namespace OpenTween
                     updateTasks.Add(func);
             }
 
-            await Task.WhenAll(updateTasks.Select(x => Task.Run(x)))
-                .ConfigureAwait(false);
+            return updateTasks;
         }
 
         private TimeSpan NextTimerDelay()
