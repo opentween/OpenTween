@@ -135,12 +135,22 @@ namespace OpenTween
             {
                 this.preventTimerUpdate = true;
 
-                var updateTasks = this.systemResumeMode
+                var (taskTypes, updateTasks) = this.systemResumeMode
                     ? this.TimerCallback_AfterSystemResume()
                     : this.TimerCallback_Normal();
 
-                await updateTasks.RunAll(runOnThreadPool: true)
-                    .ConfigureAwait(false);
+                var updateTask = updateTasks.RunAll(runOnThreadPool: true);
+
+                // すべてのコールバック関数の Task が完了してから次のタイマーの待機時間を計算する
+                // ただし、30 秒を超過した場合はエラー報告のダイアログを表示した上で完了を待たずにタイマーを再開する
+                // （タイムライン更新が停止する不具合が報告される件への暫定的な対処）
+                var timeout = Task.Delay(TimeSpan.FromSeconds(30));
+                if (await Task.WhenAny(updateTask, timeout) == timeout)
+                {
+                    var message = "タイムライン更新が規定時間内に完了しませんでした: " +
+                        string.Join(", ", taskTypes);
+                    throw new Exception(message);
+                }
             }
             finally
             {
@@ -149,7 +159,7 @@ namespace OpenTween
             }
         }
 
-        private TaskCollection TimerCallback_Normal()
+        private (TimelineSchedulerTaskType[] TaskTypes, TaskCollection Task) TimerCallback_Normal()
         {
             var now = DateTimeUtc.Now;
             var round = TimeSpan.FromSeconds(1); // 1秒未満の差異であればまとめて実行する
@@ -162,16 +172,17 @@ namespace OpenTween
                     tasks.Add(taskType);
             }
 
-            return this.RunUpdateTasks(tasks, now);
+            return (tasks.ToArray(), this.RunUpdateTasks(tasks, now));
         }
 
-        private TaskCollection TimerCallback_AfterSystemResume()
+        private (TimelineSchedulerTaskType[] TaskTypes, TaskCollection Task) TimerCallback_AfterSystemResume()
         {
             // systemResumeMode では一定期間経過後に全てのタイムラインを更新する
             var now = DateTimeUtc.Now;
 
             this.systemResumeMode = false;
-            return this.RunUpdateTasks(TimelineScheduler.AllTaskTypes, now);
+            var taskTypes = TimelineScheduler.AllTaskTypes;
+            return (taskTypes, this.RunUpdateTasks(taskTypes, now));
         }
 
         private TaskCollection RunUpdateTasks(IEnumerable<TimelineSchedulerTaskType> taskTypes, DateTimeUtc now)
