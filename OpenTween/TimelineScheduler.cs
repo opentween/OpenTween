@@ -105,9 +105,26 @@ namespace OpenTween
                 return; // TimerCallback 内で更新されるのでここは単に無視してよい
 
             if (this.Enabled)
-                this.timer.Change(this.NextTimerDelay(), Timeout.InfiniteTimeSpan);
+            {
+                var delay = this.NextTimerDelay();
+
+                // タイマーの待機時間が 1 時間を超える値になった場合は異常値として強制的にリセットする
+                // （タイムライン更新が停止する不具合が報告される件への暫定的な対処）
+                if (delay >= TimeSpan.FromHours(1))
+                {
+                    MyCommon.ExceptionOut(new Exception("タイムライン更新の待機時間が異常値のためリセットします: " + delay));
+                    foreach (var key in this.LastUpdatedAt.Keys)
+                        this.LastUpdatedAt[key] = DateTimeUtc.MinValue;
+
+                    delay = TimeSpan.FromSeconds(10);
+                }
+
+                this.timer.Change(delay, Timeout.InfiniteTimeSpan);
+            }
             else
+            {
                 this.timer.Change(Timeout.InfiniteTimeSpan, Timeout.InfiniteTimeSpan);
+            }
         }
 
         public void SystemResumed()
