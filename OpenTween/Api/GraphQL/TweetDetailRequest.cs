@@ -61,12 +61,12 @@ namespace OpenTween.Api.GraphQL
         public async Task<TimelineTweet[]> Send(IApiConnection apiConnection)
         {
             var param = this.CreateParameters();
-            using var stream = await apiConnection.GetStreamAsync(EndpointUri, param);
-            using var jsonReader = JsonReaderWriterFactory.CreateJsonReader(stream, XmlDictionaryReaderQuotas.Max);
 
             XElement rootElm;
             try
             {
+                using var stream = await apiConnection.GetStreamAsync(EndpointUri, param);
+                using var jsonReader = JsonReaderWriterFactory.CreateJsonReader(stream, XmlDictionaryReaderQuotas.Max);
                 rootElm = XElement.Load(jsonReader);
             }
             catch (IOException ex)
