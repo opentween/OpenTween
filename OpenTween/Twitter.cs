@@ -766,11 +766,11 @@ namespace OpenTween
             return minimumId;
         }
 
-        private long? CreatePostsFromSearchJson(TwitterSearchResult items, PublicSearchTabModel tab, bool read, bool more)
+        private long? CreatePostsFromSearchJson(TwitterStatus[] statuses, PublicSearchTabModel tab, bool read, bool more)
         {
             long? minimumId = null;
 
-            foreach (var status in items.Statuses)
+            foreach (var status in statuses)
             {
                 if (minimumId == null || minimumId.Value > status.Id)
                     minimumId = status.Id;
@@ -1029,24 +1029,47 @@ namespace OpenTween
         {
             var count = GetApiResultCount(MyCommon.WORKERTYPE.PublicSearch, more, false);
 
-            long? maxId = null;
-            long? sinceId = null;
-            if (more)
+            TwitterStatus[] statuses;
+            if (this.Api.AppToken.AuthType == APIAuthType.TwitterComCookie)
             {
-                maxId = tab.OldestId - 1;
+                var request = new SearchTimelineRequest(tab.SearchWords)
+                {
+                    Count = count,
+                    Cursor = more ? tab.CursorBottom : null,
+                };
+                var response = await request.Send(this.Api.Connection)
+                    .ConfigureAwait(false);
+
+                var convertedStatuses = response.Tweets.Select(x => x.ToTwitterStatus());
+                if (!SettingManager.Instance.Common.IsListsIncludeRts)
+                    convertedStatuses = convertedStatuses.Where(x => x.RetweetedStatus == null);
+
+                statuses = convertedStatuses.ToArray();
+                tab.CursorBottom = response.CursorBottom;
             }
             else
             {
-                sinceId = tab.SinceId;
-            }
+                long? maxId = null;
+                long? sinceId = null;
+                if (more)
+                {
+                    maxId = tab.OldestId - 1;
+                }
+                else
+                {
+                    sinceId = tab.SinceId;
+                }
 
-            var searchResult = await this.Api.SearchTweets(tab.SearchWords, tab.SearchLang, count, maxId, sinceId)
-                .ConfigureAwait(false);
+                var searchResult = await this.Api.SearchTweets(tab.SearchWords, tab.SearchLang, count, maxId, sinceId)
+                    .ConfigureAwait(false);
+
+                statuses = searchResult.Statuses;
+            }
 
             if (!TabInformations.GetInstance().ContainsTab(tab))
                 return;
 
-            var minimumId = this.CreatePostsFromSearchJson(searchResult, tab, read, more);
+            var minimumId = this.CreatePostsFromSearchJson(statuses, tab, read, more);
 
             if (minimumId != null)
                 tab.OldestId = minimumId.Value;

@@ -45,6 +45,8 @@ namespace OpenTween.Models
 
         public long SinceId { get; set; }
 
+        public string? CursorBottom { get; set; }
+
         public string SearchWords
         {
             get => this.searchWords;

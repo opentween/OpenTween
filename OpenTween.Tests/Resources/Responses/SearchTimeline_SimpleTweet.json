@@ -1,0 +1,665 @@
+{
+  "data": {
+    "search_by_raw_query": {
+      "search_timeline": {
+        "timeline": {
+          "instructions": [
+            {
+              "type": "TimelineAddEntries",
+              "entries": [
+                {
+                  "entryId": "tweet-1619433164757413894",
+                  "sortIndex": "1725509634359296000",
+                  "content": {
+                    "entryType": "TimelineTimelineItem",
+                    "__typename": "TimelineTimelineItem",
+                    "itemContent": {
+                      "itemType": "TimelineTweet",
+                      "__typename": "TimelineTweet",
+                      "tweet_results": {
+                        "result": {
+                          "__typename": "Tweet",
+                          "rest_id": "1619433164757413894",
+                          "core": {
+                            "user_results": {
+                              "result": {
+                                "__typename": "User",
+                                "id": "VXNlcjo1MTQyNDE4MDE=",
+                                "rest_id": "514241801",
+                                "affiliates_highlighted_label": {},
+                                "has_graduated_access": false,
+                                "is_blue_verified": false,
+                                "profile_image_shape": "Circle",
+                                "legacy": {
+                                  "following": true,
+                                  "can_dm": true,
+                                  "can_media_tag": false,
+                                  "created_at": "Sun Mar 04 11:33:45 +0000 2012",
+                                  "default_profile": false,
+                                  "default_profile_image": false,
+                                  "description": "Windows 用 Twitter クライアント OpenTween のアカウントです。",
+                                  "entities": {
+                                    "description": {
+                                      "urls": []
+                                    },
+                                    "url": {
+                                      "urls": [
+                                        {
+                                          "display_url": "opentween.org",
+                                          "expanded_url": "https://www.opentween.org/",
+                                          "url": "https://t.co/An6OJeC28u",
+                                          "indices": [
+                                            0,
+                                            23
+                                          ]
+                                        }
+                                      ]
+                                    }
+                                  },
+                                  "fast_followers_count": 0,
+                                  "favourites_count": 0,
+                                  "followers_count": 308,
+                                  "friends_count": 1,
+                                  "has_custom_timelines": false,
+                                  "is_translator": false,
+                                  "listed_count": 14,
+                                  "location": "",
+                                  "media_count": 0,
+                                  "name": "OpenTween",
+                                  "normal_followers_count": 308,
+                                  "pinned_tweet_ids_str": [
+                                    "1617124615347908609"
+                                  ],
+                                  "possibly_sensitive": false,
+                                  "profile_image_url_https": "https://pbs.twimg.com/profile_images/661168792488153088/-UAFci6G_normal.png",
+                                  "profile_interstitial_type": "",
+                                  "screen_name": "opentween",
+                                  "statuses_count": 31,
+                                  "translator_type": "none",
+                                  "url": "https://t.co/An6OJeC28u",
+                                  "verified": false,
+                                  "want_retweets": true,
+                                  "withheld_in_countries": []
+                                }
+                              }
+                            }
+                          },
+                          "card": {
+                            "rest_id": "https://t.co/TBrqEPbIpX",
+                            "legacy": {
+                              "binding_values": [
+                                {
+                                  "key": "photo_image_full_size_large",
+                                  "value": {
+                                    "image_value": {
+                                      "height": 419,
+                                      "width": 800,
+                                      "url": "https://pbs.twimg.com/card_img/1723588496747905025/HMdKjUR4?format=jpg&name=800x419"
+                                    },
+                                    "type": "IMAGE"
+                                  }
+                                },
+                                {
+                                  "key": "thumbnail_image",
+                                  "value": {
+                                    "image_value": {
+                                      "height": 200,
+                                      "width": 400,
+                                      "url": "https://pbs.twimg.com/card_img/1723588496747905025/HMdKjUR4?format=jpg&name=400x400"
+                                    },
+                                    "type": "IMAGE"
+                                  }
+                                },
+                                {
+                                  "key": "description",
+                                  "value": {
+                                    "string_value": "==== Ver 3.4.0(2023/01/29) NEW: 複数枚の画像を添付する際に画像の削除や順序の変更ができるようになりました FIX: APIアクセス方式の選択画面でのタブオーダーの誤りを修正",
+                                    "type": "STRING"
+                                  }
+                                },
+                                {
+                                  "key": "domain",
+                                  "value": {
+                                    "string_value": "github.com",
+                                    "type": "STRING"
+                                  }
+                                },
+                                {
+                                  "key": "thumbnail_image_large",
+                                  "value": {
+                                    "image_value": {
+                                      "height": 300,
+                                      "width": 600,
+                                      "url": "https://pbs.twimg.com/card_img/1723588496747905025/HMdKjUR4?format=jpg&name=600x600"
+                                    },
+                                    "type": "IMAGE"
+                                  }
+                                },
+                                {
+                                  "key": "summary_photo_image_small",
+                                  "value": {
+                                    "image_value": {
+                                      "height": 202,
+                                      "width": 386,
+                                      "url": "https://pbs.twimg.com/card_img/1723588496747905025/HMdKjUR4?format=jpg&name=386x202"
+                                    },
+                                    "type": "IMAGE"
+                                  }
+                                },
+                                {
+                                  "key": "thumbnail_image_original",
+                                  "value": {
+                                    "image_value": {
+                                      "height": 600,
+                                      "width": 1200,
+                                      "url": "https://pbs.twimg.com/card_img/1723588496747905025/HMdKjUR4?format=jpg&name=orig"
+                                    },
+                                    "type": "IMAGE"
+                                  }
+                                },
+                                {
+                                  "key": "site",
+                                  "value": {
+                                    "scribe_key": "publisher_id",
+                                    "type": "USER",
+                                    "user_value": {
+                                      "id_str": "13334762",
+                                      "path": []
+                                    }
+                                  }
+                                },
+                                {
+                                  "key": "photo_image_full_size_small",
+                                  "value": {
+                                    "image_value": {
+                                      "height": 202,
+                                      "width": 386,
+                                      "url": "https://pbs.twimg.com/card_img/1723588496747905025/HMdKjUR4?format=jpg&name=386x202"
+                                    },
+                                    "type": "IMAGE"
+                                  }
+                                },
+                                {
+                                  "key": "summary_photo_image_large",
+                                  "value": {
+                                    "image_value": {
+                                      "height": 419,
+                                      "width": 800,
+                                      "url": "https://pbs.twimg.com/card_img/1723588496747905025/HMdKjUR4?format=jpg&name=800x419"
+                                    },
+                                    "type": "IMAGE"
+                                  }
+                                },
+                                {
+                                  "key": "thumbnail_image_small",
+                                  "value": {
+                                    "image_value": {
+                                      "height": 72,
+                                      "width": 144,
+                                      "url": "https://pbs.twimg.com/card_img/1723588496747905025/HMdKjUR4?format=jpg&name=144x144"
+                                    },
+                                    "type": "IMAGE"
+                                  }
+                                },
+                                {
+                                  "key": "thumbnail_image_x_large",
+                                  "value": {
+                                    "image_value": {
+                                      "height": 600,
+                                      "width": 1200,
+                                      "url": "https://pbs.twimg.com/card_img/1723588496747905025/HMdKjUR4?format=png&name=2048x2048_2_exp"
+                                    },
+                                    "type": "IMAGE"
+                                  }
+                                },
+                                {
+                                  "key": "photo_image_full_size_original",
+                                  "value": {
+                                    "image_value": {
+                                      "height": 600,
+                                      "width": 1200,
+                                      "url": "https://pbs.twimg.com/card_img/1723588496747905025/HMdKjUR4?format=jpg&name=orig"
+                                    },
+                                    "type": "IMAGE"
+                                  }
+                                },
+                                {
+                                  "key": "photo_image_full_size_alt_text",
+                                  "value": {
+                                    "string_value": "==== Ver 3.4.0(2023/01/29) NEW: 複数枚の画像を添付する際に画像の削除や順序の変更ができるようになりました FIX: APIアクセス方式の選択画面でのタブオーダーの誤りを修正",
+                                    "type": "STRING"
+                                  }
+                                },
+                                {
+                                  "key": "vanity_url",
+                                  "value": {
+                                    "scribe_key": "vanity_url",
+                                    "string_value": "github.com",
+                                    "type": "STRING"
+                                  }
+                                },
+                                {
+                                  "key": "photo_image_full_size",
+                                  "value": {
+                                    "image_value": {
+                                      "height": 314,
+                                      "width": 600,
+                                      "url": "https://pbs.twimg.com/card_img/1723588496747905025/HMdKjUR4?format=jpg&name=600x314"
+                                    },
+                                    "type": "IMAGE"
+                                  }
+                                },
+                                {
+                                  "key": "summary_photo_image_alt_text",
+                                  "value": {
+                                    "string_value": "==== Ver 3.4.0(2023/01/29) NEW: 複数枚の画像を添付する際に画像の削除や順序の変更ができるようになりました FIX: APIアクセス方式の選択画面でのタブオーダーの誤りを修正",
+                                    "type": "STRING"
+                                  }
+                                },
+                                {
+                                  "key": "thumbnail_image_color",
+                                  "value": {
+                                    "image_color_value": {
+                                      "palette": [
+                                        {
+                                          "rgb": {
+                                            "blue": 255,
+                                            "green": 255,
+                                            "red": 255
+                                          },
+                                          "percentage": 91.54
+                                        },
+                                        {
+                                          "rgb": {
+                                            "blue": 1,
+                                            "green": 135,
+                                            "red": 23
+                                          },
+                                          "percentage": 3.12
+                                        },
+                                        {
+                                          "rgb": {
+                                            "blue": 105,
+                                            "green": 184,
+                                            "red": 118
+                                          },
+                                          "percentage": 1.56
+                                        },
+                                        {
+                                          "rgb": {
+                                            "blue": 40,
+                                            "green": 55,
+                                            "red": 50
+                                          },
+                                          "percentage": 0.99
+                                        },
+                                        {
+                                          "rgb": {
+                                            "blue": 152,
+                                            "green": 247,
+                                            "red": 255
+                                          },
+                                          "percentage": 0.37
+                                        }
+                                      ]
+                                    },
+                                    "type": "IMAGE_COLOR"
+                                  }
+                                },
+                                {
+                                  "key": "title",
+                                  "value": {
+                                    "string_value": "Release OpenTween v3.4.0 · opentween/OpenTween",
+                                    "type": "STRING"
+                                  }
+                                },
+                                {
+                                  "key": "summary_photo_image_color",
+                                  "value": {
+                                    "image_color_value": {
+                                      "palette": [
+                                        {
+                                          "rgb": {
+                                            "blue": 255,
+                                            "green": 255,
+                                            "red": 255
+                                          },
+                                          "percentage": 91.54
+                                        },
+                                        {
+                                          "rgb": {
+                                            "blue": 1,
+                                            "green": 135,
+                                            "red": 23
+                                          },
+                                          "percentage": 3.12
+                                        },
+                                        {
+                                          "rgb": {
+                                            "blue": 105,
+                                            "green": 184,
+                                            "red": 118
+                                          },
+                                          "percentage": 1.56
+                                        },
+                                        {
+                                          "rgb": {
+                                            "blue": 40,
+                                            "green": 55,
+                                            "red": 50
+                                          },
+                                          "percentage": 0.99
+                                        },
+                                        {
+                                          "rgb": {
+                                            "blue": 152,
+                                            "green": 247,
+                                            "red": 255
+                                          },
+                                          "percentage": 0.37
+                                        }
+                                      ]
+                                    },
+                                    "type": "IMAGE_COLOR"
+                                  }
+                                },
+                                {
+                                  "key": "summary_photo_image_x_large",
+                                  "value": {
+                                    "image_value": {
+                                      "height": 600,
+                                      "width": 1200,
+                                      "url": "https://pbs.twimg.com/card_img/1723588496747905025/HMdKjUR4?format=png&name=2048x2048_2_exp"
+                                    },
+                                    "type": "IMAGE"
+                                  }
+                                },
+                                {
+                                  "key": "summary_photo_image",
+                                  "value": {
+                                    "image_value": {
+                                      "height": 314,
+                                      "width": 600,
+                                      "url": "https://pbs.twimg.com/card_img/1723588496747905025/HMdKjUR4?format=jpg&name=600x314"
+                                    },
+                                    "type": "IMAGE"
+                                  }
+                                },
+                                {
+                                  "key": "photo_image_full_size_color",
+                                  "value": {
+                                    "image_color_value": {
+                                      "palette": [
+                                        {
+                                          "rgb": {
+                                            "blue": 255,
+                                            "green": 255,
+                                            "red": 255
+                                          },
+                                          "percentage": 91.54
+                                        },
+                                        {
+                                          "rgb": {
+                                            "blue": 1,
+                                            "green": 135,
+                                            "red": 23
+                                          },
+                                          "percentage": 3.12
+                                        },
+                                        {
+                                          "rgb": {
+                                            "blue": 105,
+                                            "green": 184,
+                                            "red": 118
+                                          },
+                                          "percentage": 1.56
+                                        },
+                                        {
+                                          "rgb": {
+                                            "blue": 40,
+                                            "green": 55,
+                                            "red": 50
+                                          },
+                                          "percentage": 0.99
+                                        },
+                                        {
+                                          "rgb": {
+                                            "blue": 152,
+                                            "green": 247,
+                                            "red": 255
+                                          },
+                                          "percentage": 0.37
+                                        }
+                                      ]
+                                    },
+                                    "type": "IMAGE_COLOR"
+                                  }
+                                },
+                                {
+                                  "key": "photo_image_full_size_x_large",
+                                  "value": {
+                                    "image_value": {
+                                      "height": 600,
+                                      "width": 1200,
+                                      "url": "https://pbs.twimg.com/card_img/1723588496747905025/HMdKjUR4?format=png&name=2048x2048_2_exp"
+                                    },
+                                    "type": "IMAGE"
+                                  }
+                                },
+                                {
+                                  "key": "card_url",
+                                  "value": {
+                                    "scribe_key": "card_url",
+                                    "string_value": "https://t.co/TBrqEPbIpX",
+                                    "type": "STRING"
+                                  }
+                                },
+                                {
+                                  "key": "summary_photo_image_original",
+                                  "value": {
+                                    "image_value": {
+                                      "height": 600,
+                                      "width": 1200,
+                                      "url": "https://pbs.twimg.com/card_img/1723588496747905025/HMdKjUR4?format=jpg&name=orig"
+                                    },
+                                    "type": "IMAGE"
+                                  }
+                                }
+                              ],
+                              "card_platform": {
+                                "platform": {
+                                  "audience": {
+                                    "name": "production"
+                                  },
+                                  "device": {
+                                    "name": "Swift",
+                                    "version": "12"
+                                  }
+                                }
+                              },
+                              "name": "summary_large_image",
+                              "url": "https://t.co/TBrqEPbIpX",
+                              "user_refs_results": [
+                                {
+                                  "result": {
+                                    "__typename": "User",
+                                    "id": "VXNlcjoxMzMzNDc2Mg==",
+                                    "rest_id": "13334762",
+                                    "affiliates_highlighted_label": {},
+                                    "has_graduated_access": true,
+                                    "is_blue_verified": true,
+                                    "profile_image_shape": "Square",
+                                    "legacy": {
+                                      "can_dm": false,
+                                      "can_media_tag": true,
+                                      "created_at": "Mon Feb 11 04:41:50 +0000 2008",
+                                      "default_profile": false,
+                                      "default_profile_image": false,
+                                      "description": "The AI-powered developer platform to build, scale, and deliver secure software.",
+                                      "entities": {
+                                        "description": {
+                                          "urls": []
+                                        },
+                                        "url": {
+                                          "urls": [
+                                            {
+                                              "display_url": "github.com",
+                                              "expanded_url": "http://github.com",
+                                              "url": "https://t.co/bbJgfyzcJR",
+                                              "indices": [
+                                                0,
+                                                23
+                                              ]
+                                            }
+                                          ]
+                                        }
+                                      },
+                                      "fast_followers_count": 0,
+                                      "favourites_count": 8074,
+                                      "followers_count": 2537262,
+                                      "friends_count": 336,
+                                      "has_custom_timelines": true,
+                                      "is_translator": false,
+                                      "listed_count": 18206,
+                                      "location": "San Francisco, CA",
+                                      "media_count": 2182,
+                                      "name": "GitHub",
+                                      "normal_followers_count": 2537262,
+                                      "pinned_tweet_ids_str": [
+                                        "1722309261680607674"
+                                      ],
+                                      "possibly_sensitive": false,
+                                      "profile_banner_url": "https://pbs.twimg.com/profile_banners/13334762/1692114901",
+                                      "profile_image_url_https": "https://pbs.twimg.com/profile_images/1633247750010830848/8zfRrYjA_normal.png",
+                                      "profile_interstitial_type": "",
+                                      "screen_name": "github",
+                                      "statuses_count": 8713,
+                                      "translator_type": "none",
+                                      "url": "https://t.co/bbJgfyzcJR",
+                                      "verified": false,
+                                      "verified_type": "Business",
+                                      "want_retweets": false,
+                                      "withheld_in_countries": []
+                                    }
+                                  }
+                                }
+                              ]
+                            }
+                          },
+                          "unmention_data": {},
+                          "unified_card": {
+                            "card_fetch_state": "NoCard"
+                          },
+                          "edit_control": {
+                            "edit_tweet_ids": [
+                              "1619433164757413894"
+                            ],
+                            "editable_until_msecs": "1674939728000",
+                            "is_edit_eligible": true,
+                            "edits_remaining": "5"
+                          },
+                          "is_translatable": true,
+                          "views": {
+                            "count": "7057",
+                            "state": "EnabledWithCount"
+                          },
+                          "source": "<a href=\"https://www.opentween.org/\" rel=\"nofollow\">OpenTween (dev)</a>",
+                          "legacy": {
+                            "bookmark_count": 1,
+                            "bookmarked": false,
+                            "created_at": "Sat Jan 28 20:32:08 +0000 2023",
+                            "conversation_id_str": "1619433164757413894",
+                            "display_text_range": [
+                              0,
+                              74
+                            ],
+                            "entities": {
+                              "user_mentions": [],
+                              "urls": [
+                                {
+                                  "display_url": "osdn.net/projects/opent…",
+                                  "expanded_url": "https://osdn.net/projects/opentween/releases/78214",
+                                  "url": "https://t.co/7K0wP0moMw",
+                                  "indices": [
+                                    27,
+                                    50
+                                  ]
+                                },
+                                {
+                                  "display_url": "github.com/opentween/Open…",
+                                  "expanded_url": "https://github.com/opentween/OpenTween/releases/tag/OpenTween_v3.4.0",
+                                  "url": "https://t.co/TBrqEPbIpX",
+                                  "indices": [
+                                    51,
+                                    74
+                                  ]
+                                }
+                              ],
+                              "hashtags": [
+                                {
+                                  "indices": [
+                                    0,
+                                    10
+                                  ],
+                                  "text": "OpenTween"
+                                }
+                              ],
+                              "symbols": []
+                            },
+                            "favorite_count": 23,
+                            "favorited": false,
+                            "full_text": "#OpenTween v3.4.0 リリースしました\nhttps://t.co/7K0wP0moMw\nhttps://t.co/TBrqEPbIpX",
+                            "is_quote_status": false,
+                            "lang": "ja",
+                            "possibly_sensitive": false,
+                            "possibly_sensitive_editable": true,
+                            "quote_count": 1,
+                            "reply_count": 0,
+                            "retweet_count": 37,
+                            "retweeted": false,
+                            "user_id_str": "514241801",
+                            "id_str": "1619433164757413894"
+                          }
+                        }
+                      },
+                      "tweetDisplayType": "Tweet"
+                    },
+                    "clientEventInfo": {
+                      "component": "result",
+                      "element": "tweet",
+                      "details": {
+                        "timelinesDetails": {
+                          "controllerData": "DAACDAAFDAABDAABDAABCgABAAAAAAAAAAAAAAwAAgoAAQAAAAAAAABACgACeZLCPXeFB4ULAAMAAAAOZnJvbTpvcGVudHdlZW4KAAVI5p7pPhun5QgABgAAABIKAAdKf1o1dSI7xgAAAAAA"
+                        }
+                      }
+                    }
+                  }
+                },
+                {
+                  "entryId": "cursor-top-9223372036854775807",
+                  "sortIndex": "9223372036854775807",
+                  "content": {
+                    "entryType": "TimelineTimelineCursor",
+                    "__typename": "TimelineTimelineCursor",
+                    "value": "DAADDAABCgABFnlh4hraMAYKAAIOTm0DEhTAAQAIAAIAAAABCAADAAAAAAgABAAAAAAKAAUX8j3ezIAnEAoABhfyPd7Mf9jwAAA",
+                    "cursorType": "Top"
+                  }
+                },
+                {
+                  "entryId": "cursor-bottom-0",
+                  "sortIndex": "0",
+                  "content": {
+                    "entryType": "TimelineTimelineCursor",
+                    "__typename": "TimelineTimelineCursor",
+                    "value": "DAADDAABCgABFnlh4hraMAYKAAIOTm0DEhTAAQAIAAIAAAACCAADAAAAAAgABAAAAAAKAAUX8j3ezIAnEAoABhfyPd7Mf9jwAAA",
+                    "cursorType": "Bottom"
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      }
+    }
+  }
+}
