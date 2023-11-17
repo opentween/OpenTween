@@ -25,6 +25,7 @@ using System.IO;
 using System.Linq;
 using System.Runtime.Serialization.Json;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Xml;
 using System.Xml.Linq;
@@ -76,6 +77,7 @@ namespace OpenTween.Api.GraphQL
 
             Assert.Equal("1613784711020826626", post.StatusId.Id);
             Assert.Equal(40480664L, post.UserId);
+            Assert.False(post.IsPromoted);
         }
 
         [Fact]
@@ -135,6 +137,21 @@ namespace OpenTween.Api.GraphQL
 
             Assert.Equal("1511751702684499968", post.StatusId.Id);
             Assert.Equal(40480664L, post.UserId);
+        }
+
+        [Fact]
+        public void ToStatus_WithTwitterPostFactory_PromotedTweet_Test()
+        {
+            var rootElm = this.LoadResponseDocument("TimelineTweet_PromotedTweet.json");
+            var timelineTweet = new TimelineTweet(rootElm);
+            var status = timelineTweet.ToTwitterStatus();
+            var postFactory = new TwitterPostFactory(this.CreateTabInfo());
+            var post = postFactory.CreateFromStatus(status, selfUserId: 1L, new HashSet<long>());
+
+            Assert.Equal("1674737917363888129", post.StatusId.Id);
+            Assert.Equal(2941313791L, post.UserId);
+            Assert.True(post.IsPromoted);
+            Assert.Matches(new Regex(@"^\[Promoted\]\n"), post.TextFromApi);
         }
     }
 }

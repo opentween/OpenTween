@@ -141,12 +141,21 @@ namespace OpenTween.Models
                 ? ParseDateTimeFromSnowflakeId(retweetedStatus.Id, retweetedStatus.CreatedAt)
                 : createdAtForSorting;
 
+            if (status.IsPromoted)
+            {
+                const string PromotedPrefix = "[Promoted]";
+                text = PromotedPrefix + "<br />" + text;
+                textFromApi = PromotedPrefix + "\n" + textFromApi;
+                accessibleText = PromotedPrefix + "\n" + accessibleText;
+            }
+
             return new()
             {
                 // status から生成
                 StatusId = new TwitterStatusId(status.IdStr),
                 CreatedAtForSorting = createdAtForSorting,
                 IsMe = isMe,
+                IsPromoted = status.IsPromoted,
 
                 // originalStatus から生成
                 CreatedAt = createdAt,

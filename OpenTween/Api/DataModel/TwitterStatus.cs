@@ -140,6 +140,9 @@ namespace OpenTween.Api.DataModel
         [DataMember(Name = "withheld_scope")]
         public string WithheldScope { get; set; }
 
+        [IgnoreDataMember]
+        public bool IsPromoted { get; set; }
+
         /// <summary>
         /// Entities と ExtendedEntities をマージした状態のエンティティを返します
         /// </summary>

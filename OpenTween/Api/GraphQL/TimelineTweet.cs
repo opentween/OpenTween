@@ -52,7 +52,12 @@ namespace OpenTween.Api.GraphQL
             try
             {
                 var resultElm = this.Element.Element("tweet_results")?.Element("result") ?? throw CreateParseError();
-                return TimelineTweet.ParseTweetUnion(resultElm);
+                var status = TimelineTweet.ParseTweetUnion(resultElm);
+
+                if (this.Element.Element("promotedMetadata") != null)
+                    status.IsPromoted = true;
+
+                return status;
             }
             catch (WebApiException ex)
             {

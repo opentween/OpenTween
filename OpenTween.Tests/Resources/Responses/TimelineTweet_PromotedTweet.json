@@ -1,0 +1,251 @@
+{
+  "itemType": "TimelineTweet",
+  "__typename": "TimelineTweet",
+  "tweet_results": {
+    "result": {
+      "__typename": "Tweet",
+      "rest_id": "1674737917363888129",
+      "core": {
+        "user_results": {
+          "result": {
+            "__typename": "User",
+            "id": "VXNlcjoyOTQxMzEzNzkx",
+            "rest_id": "2941313791",
+            "affiliates_highlighted_label": {},
+            "has_graduated_access": true,
+            "is_blue_verified": true,
+            "profile_image_shape": "Circle",
+            "legacy": {
+              "can_dm": false,
+              "can_media_tag": false,
+              "created_at": "Wed Dec 24 02:05:26 +0000 2014",
+              "default_profile": false,
+              "default_profile_image": false,
+              "description": "アニメ「響け！ユーフォニアム」の公式Twitterです。\n2023年8月4日(金)より『特別編 響け！ユーフォニアム～アンサンブルコンテスト～』劇場上映！2024年「久美子3年生編」TVシリーズ放送決定！\n推奨ハッシュタグ「#anime_eupho」",
+              "entities": {
+                "description": {
+                  "urls": []
+                },
+                "url": {
+                  "urls": [
+                    {
+                      "display_url": "anime-eupho.com",
+                      "expanded_url": "http://anime-eupho.com/",
+                      "url": "https://t.co/5guaIPn28k",
+                      "indices": [
+                        0,
+                        23
+                      ]
+                    }
+                  ]
+                }
+              },
+              "fast_followers_count": 0,
+              "favourites_count": 0,
+              "followers_count": 340679,
+              "friends_count": 23,
+              "has_custom_timelines": true,
+              "is_translator": false,
+              "listed_count": 2532,
+              "location": "北宇治高校音楽室",
+              "media_count": 2094,
+              "name": "アニメ「響け！ユーフォニアム」公式",
+              "normal_followers_count": 340679,
+              "pinned_tweet_ids_str": [
+                "1664927785947893760"
+              ],
+              "possibly_sensitive": false,
+              "profile_banner_url": "https://pbs.twimg.com/profile_banners/2941313791/1680858015",
+              "profile_image_url_https": "https://pbs.twimg.com/profile_images/1644263804363231233/TL288Ltp_normal.png",
+              "profile_interstitial_type": "",
+              "screen_name": "anime_eupho",
+              "statuses_count": 4907,
+              "translator_type": "none",
+              "url": "https://t.co/5guaIPn28k",
+              "verified": false,
+              "want_retweets": false,
+              "withheld_in_countries": []
+            }
+          }
+        }
+      },
+      "card": {
+        "rest_id": "card://1674737916055261184",
+        "legacy": {
+          "binding_values": [
+            {
+              "key": "unified_card",
+              "value": {
+                "string_value": "{\"type\":\"video_website\",\"component_objects\":{\"details_1\":{\"type\":\"details\",\"data\":{\"title\":{\"content\":\"\\u300E\\u7279\\u5225\\u7DE8 \\u97FF\\u3051\\uFF01\\u30E6\\u30FC\\u30D5\\u30A9\\u30CB\\u30A2\\u30E0\\uFF5E\\u30A2\\u30F3\\u30B5\\u30F3\\u30D6\\u30EB\\u30B3\\u30F3\\u30C6\\u30B9\\u30C8\\uFF5E\\u300F8\\u67084\\u65E5\\u30ED\\u30FC\\u30C9\\u30B7\\u30E7\\u30FC\",\"is_rtl\":false},\"subtitle\":{\"content\":\"anime-eupho.com\",\"is_rtl\":false},\"destination\":\"override_browser_with_docked_media_1\"}},\"media_1\":{\"type\":\"media\",\"data\":{\"id\":\"13_1674736795601502209\",\"destination\":\"browser_with_docked_media_1\"}}},\"destination_objects\":{\"browser_with_docked_media_1\":{\"type\":\"browser_with_docked_media\",\"data\":{\"url_data\":{\"url\":\"http://anime-eupho.com/\",\"vanity\":\"anime-eupho.com\"},\"media_id\":\"13_1674736795601502209\"}},\"override_browser_with_docked_media_1\":{\"type\":\"browser\",\"data\":{\"url_data\":{\"url\":\"http://anime-eupho.com/\",\"vanity\":\"anime-eupho.com\"}}}},\"components\":[\"media_1\",\"details_1\"],\"media_entities\":{\"13_1674736795601502209\":{\"id\":1674736795601502209,\"id_str\":\"1674736795601502209\",\"indices\":[0,0],\"media_url\":\"\",\"media_url_https\":\"https://pbs.twimg.com/amplify_video_thumb/1674736795601502209/img/bxlpnnKbwnx_N-FZ.jpg\",\"url\":\"\",\"display_url\":\"\",\"expanded_url\":\"\",\"type\":\"video\",\"original_info\":{\"width\":450,\"height\":450},\"sizes\":{\"large\":{\"w\":450,\"h\":450,\"resize\":\"fit\"},\"medium\":{\"w\":450,\"h\":450,\"resize\":\"fit\"},\"thumb\":{\"w\":150,\"h\":150,\"resize\":\"crop\"},\"small\":{\"w\":450,\"h\":450,\"resize\":\"fit\"}},\"source_user_id\":2941313791,\"source_user_id_str\":\"2941313791\",\"video_info\":{\"aspect_ratio\":[1,1],\"duration_millis\":59993,\"variants\":[{\"bitrate\":432000,\"content_type\":\"video/mp4\",\"url\":\"https://video.twimg.com/amplify_video/1674736795601502209/vid/320x320/Iakv5clMMixbHK9M.mp4?tag=16\"},{\"content_type\":\"application/x-mpegURL\",\"url\":\"https://video.twimg.com/amplify_video/1674736795601502209/pl/ujSekIvgVC2izpYk.m3u8?tag=16&container=fmp4\"},{\"bitrate\":832000,\"content_type\":\"video/mp4\",\"url\":\"https://video.twimg.com/amplify_video/1674736795601502209/vid/450x450/BT7SQAGeBUVEJsLb.mp4?tag=16\"}]},\"media_key\":\"13_1674736795601502209\",\"ext\":{\"mediaColor\":{\"r\":{\"ok\":{\"palette\":[{\"rgb\":{\"red\":185,\"green\":188,\"blue\":169},\"percentage\":48.47},{\"rgb\":{\"red\":129,\"green\":199,\"blue\":208},\"percentage\":25.65},{\"rgb\":{\"red\":120,\"green\":121,\"blue\":111},\"percentage\":11.13},{\"rgb\":{\"red\":218,\"green\":196,\"blue\":145},\"percentage\":6.94},{\"rgb\":{\"red\":225,\"green\":172,\"blue\":174},\"percentage\":1.97}]}},\"ttl\":-1}}}}}",
+                "type": "STRING"
+              }
+            },
+            {
+              "key": "card_url",
+              "value": {
+                "scribe_key": "card_url",
+                "string_value": "https://twitter.com",
+                "type": "STRING"
+              }
+            }
+          ],
+          "card_platform": {
+            "platform": {
+              "audience": {
+                "name": "production"
+              },
+              "device": {
+                "name": "Swift",
+                "version": "12"
+              }
+            }
+          },
+          "name": "unified_card",
+          "url": "card://1674737916055261184",
+          "user_refs_results": []
+        }
+      },
+      "unified_card": {
+        "card_fetch_state": "NoCard"
+      },
+      "edit_control": {
+        "edit_tweet_ids": [
+          "1674737917363888129"
+        ],
+        "editable_until_msecs": "1688127209000",
+        "is_edit_eligible": false,
+        "edits_remaining": "5"
+      },
+      "is_translatable": true,
+      "views": {
+        "count": "5492577",
+        "state": "EnabledWithCount"
+      },
+      "source": "<a href=\"https://twitter.com\" rel=\"nofollow\">Twitter for Advertisers</a>",
+      "legacy": {
+        "bookmark_count": 260,
+        "bookmarked": false,
+        "created_at": "Fri Jun 30 11:13:29 +0000 2023",
+        "conversation_id_str": "1674737917363888129",
+        "display_text_range": [
+          0,
+          151
+        ],
+        "entities": {
+          "user_mentions": [],
+          "urls": [],
+          "hashtags": [
+            {
+              "indices": [
+                128,
+                140
+              ],
+              "text": "anime_eupho"
+            },
+            {
+              "indices": [
+                141,
+                151
+              ],
+              "text": "ユーフォ_アンコン"
+            }
+          ],
+          "symbols": []
+        },
+        "favorite_count": 12577,
+        "favorited": false,
+        "full_text": "＼　8月4日(金) 新世代スタート🎺　／\n\n『特別編 響け！ユーフォニアム～アンサンブルコンテスト～』\n\n京都アニメーションが描くのは、吹奏楽に懸ける高校生たちのささやかだけれど“トクベツ”な青春🎼🍃\n\n4年ぶりの完全新作をぜひ劇場でご覧ください🎞️✨\n\n#anime_eupho\n#ユーフォ_アンコン",
+        "is_quote_status": false,
+        "lang": "ja",
+        "possibly_sensitive": false,
+        "possibly_sensitive_editable": true,
+        "quote_count": 382,
+        "reply_count": 27,
+        "retweet_count": 3438,
+        "retweeted": false,
+        "scopes": {
+          "followers": false
+        },
+        "user_id_str": "2941313791",
+        "id_str": "1674737917363888129"
+      }
+    }
+  },
+  "tweetDisplayType": "Tweet",
+  "promotedMetadata": {
+    "advertiser_results": {
+      "result": {
+        "__typename": "User",
+        "id": "VXNlcjoyOTQxMzEzNzkx",
+        "rest_id": "2941313791",
+        "affiliates_highlighted_label": {},
+        "has_graduated_access": true,
+        "is_blue_verified": true,
+        "profile_image_shape": "Circle",
+        "legacy": {
+          "can_dm": false,
+          "can_media_tag": false,
+          "created_at": "Wed Dec 24 02:05:26 +0000 2014",
+          "default_profile": false,
+          "default_profile_image": false,
+          "description": "アニメ「響け！ユーフォニアム」の公式Twitterです。\n2023年8月4日(金)より『特別編 響け！ユーフォニアム～アンサンブルコンテスト～』劇場上映！2024年「久美子3年生編」TVシリーズ放送決定！\n推奨ハッシュタグ「#anime_eupho」",
+          "entities": {
+            "description": {
+              "urls": []
+            },
+            "url": {
+              "urls": [
+                {
+                  "display_url": "anime-eupho.com",
+                  "expanded_url": "http://anime-eupho.com/",
+                  "url": "https://t.co/5guaIPn28k",
+                  "indices": [
+                    0,
+                    23
+                  ]
+                }
+              ]
+            }
+          },
+          "fast_followers_count": 0,
+          "favourites_count": 0,
+          "followers_count": 340679,
+          "friends_count": 23,
+          "has_custom_timelines": true,
+          "is_translator": false,
+          "listed_count": 2532,
+          "location": "北宇治高校音楽室",
+          "media_count": 2094,
+          "name": "アニメ「響け！ユーフォニアム」公式",
+          "normal_followers_count": 340679,
+          "pinned_tweet_ids_str": [
+            "1664927785947893760"
+          ],
+          "possibly_sensitive": false,
+          "profile_banner_url": "https://pbs.twimg.com/profile_banners/2941313791/1680858015",
+          "profile_image_url_https": "https://pbs.twimg.com/profile_images/1644263804363231233/TL288Ltp_normal.png",
+          "profile_interstitial_type": "",
+          "screen_name": "anime_eupho",
+          "statuses_count": 4907,
+          "translator_type": "none",
+          "url": "https://t.co/5guaIPn28k",
+          "verified": false,
+          "want_retweets": false,
+          "withheld_in_countries": []
+        }
+      }
+    },
+    "disclosureType": "NoDisclosure",
+    "experimentValues": [],
+    "impressionId": "114ca684d08e6914",
+    "impressionString": "114ca684d08e6914",
+    "clickTrackingInfo": {
+      "urlParams": [
+        {
+          "key": "twclid",
+          "value": "2-3c338c685ez4ontt5gvkj2j80"
+        }
+      ]
+    }
+  }
+}
