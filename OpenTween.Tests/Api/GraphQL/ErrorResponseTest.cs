@@ -46,5 +46,13 @@ namespace OpenTween.Api.GraphQL
             ErrorResponse.ThrowIfError(responseText);
             // 通常のレスポンスに対しては WebApiException を発生させない
         }
+
+        [Fact]
+        public void ThrowIfError_SuccessWithErrorResponseTest()
+        {
+            var responseText = File.ReadAllText("Resources/Responses/SearchTimeline_SuccessWithError.json");
+            ErrorResponse.ThrowIfError(responseText);
+            // errors と data の両方を含むレスポンスに対してはエラーを無視する
+        }
     }
 }
