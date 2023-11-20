@@ -28,6 +28,7 @@ using System.Text;
 using System.Threading.Tasks;
 using OpenTween.Api.DataModel;
 using OpenTween.Connection;
+using OpenTween.Models;
 
 namespace OpenTween.Api.TwitterV2
 {
@@ -39,9 +40,9 @@ namespace OpenTween.Api.TwitterV2
 
         public int? MaxResults { get; set; }
 
-        public string? UntilId { get; set; }
+        public TwitterStatusId? UntilId { get; set; }
 
-        public string? SinceId { get; set; }
+        public TwitterStatusId? SinceId { get; set; }
 
         public GetTimelineRequest(long userId)
             => this.UserId = userId;
@@ -60,10 +61,10 @@ namespace OpenTween.Api.TwitterV2
                 param["max_results"] = this.MaxResults.ToString();
 
             if (this.UntilId != null)
-                param["until_id"] = this.UntilId;
+                param["until_id"] = this.UntilId.Id;
 
             if (this.SinceId != null)
-                param["since_id"] = this.SinceId;
+                param["since_id"] = this.SinceId.Id;
 
             return param;
         }

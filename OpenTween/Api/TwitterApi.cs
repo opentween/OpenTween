@@ -75,7 +75,7 @@ namespace OpenTween.Api
             this.CurrentScreenName = screenName;
         }
 
-        public Task<TwitterStatus[]> StatusesHomeTimeline(int? count = null, long? maxId = null, long? sinceId = null)
+        public Task<TwitterStatus[]> StatusesHomeTimeline(int? count = null, TwitterStatusId? maxId = null, TwitterStatusId? sinceId = null)
         {
             var endpoint = new Uri("statuses/home_timeline.json", UriKind.Relative);
             var param = new Dictionary<string, string>
@@ -88,14 +88,14 @@ namespace OpenTween.Api
             if (count != null)
                 param["count"] = count.ToString();
             if (maxId != null)
-                param["max_id"] = maxId.ToString();
+                param["max_id"] = maxId.Id;
             if (sinceId != null)
-                param["since_id"] = sinceId.ToString();
+                param["since_id"] = sinceId.Id;
 
             return this.Connection.GetAsync<TwitterStatus[]>(endpoint, param, "/statuses/home_timeline");
         }
 
-        public Task<TwitterStatus[]> StatusesMentionsTimeline(int? count = null, long? maxId = null, long? sinceId = null)
+        public Task<TwitterStatus[]> StatusesMentionsTimeline(int? count = null, TwitterStatusId? maxId = null, TwitterStatusId? sinceId = null)
         {
             var endpoint = new Uri("statuses/mentions_timeline.json", UriKind.Relative);
             var param = new Dictionary<string, string>
@@ -108,14 +108,14 @@ namespace OpenTween.Api
             if (count != null)
                 param["count"] = count.ToString();
             if (maxId != null)
-                param["max_id"] = maxId.ToString();
+                param["max_id"] = maxId.Id;
             if (sinceId != null)
-                param["since_id"] = sinceId.ToString();
+                param["since_id"] = sinceId.Id;
 
             return this.Connection.GetAsync<TwitterStatus[]>(endpoint, param, "/statuses/mentions_timeline");
         }
 
-        public Task<TwitterStatus[]> StatusesUserTimeline(string screenName, int? count = null, long? maxId = null, long? sinceId = null)
+        public Task<TwitterStatus[]> StatusesUserTimeline(string screenName, int? count = null, TwitterStatusId? maxId = null, TwitterStatusId? sinceId = null)
         {
             var endpoint = new Uri("statuses/user_timeline.json", UriKind.Relative);
             var param = new Dictionary<string, string>
@@ -130,9 +130,9 @@ namespace OpenTween.Api
             if (count != null)
                 param["count"] = count.ToString();
             if (maxId != null)
-                param["max_id"] = maxId.ToString();
+                param["max_id"] = maxId.Id;
             if (sinceId != null)
-                param["since_id"] = sinceId.ToString();
+                param["since_id"] = sinceId.Id;
 
             return this.Connection.GetAsync<TwitterStatus[]>(endpoint, param, "/statuses/user_timeline");
         }
@@ -221,7 +221,7 @@ namespace OpenTween.Api
             return this.Connection.PostLazyAsync<TwitterStatus>(endpoint, param);
         }
 
-        public Task<TwitterSearchResult> SearchTweets(string query, string? lang = null, int? count = null, long? maxId = null, long? sinceId = null)
+        public Task<TwitterSearchResult> SearchTweets(string query, string? lang = null, int? count = null, TwitterStatusId? maxId = null, TwitterStatusId? sinceId = null)
         {
             var endpoint = new Uri("search/tweets.json", UriKind.Relative);
             var param = new Dictionary<string, string>
@@ -238,9 +238,9 @@ namespace OpenTween.Api
             if (count != null)
                 param["count"] = count.ToString();
             if (maxId != null)
-                param["max_id"] = maxId.ToString();
+                param["max_id"] = maxId.Id;
             if (sinceId != null)
-                param["since_id"] = sinceId.ToString();
+                param["since_id"] = sinceId.Id;
 
             return this.Connection.GetAsync<TwitterSearchResult>(endpoint, param, "/search/tweets");
         }
@@ -340,7 +340,7 @@ namespace OpenTween.Api
             return this.Connection.PostLazyAsync<TwitterList>(endpoint, param);
         }
 
-        public Task<TwitterStatus[]> ListsStatuses(long listId, int? count = null, long? maxId = null, long? sinceId = null, bool? includeRTs = null)
+        public Task<TwitterStatus[]> ListsStatuses(long listId, int? count = null, TwitterStatusId? maxId = null, TwitterStatusId? sinceId = null, bool? includeRTs = null)
         {
             var endpoint = new Uri("lists/statuses.json", UriKind.Relative);
             var param = new Dictionary<string, string>
@@ -354,9 +354,9 @@ namespace OpenTween.Api
             if (count != null)
                 param["count"] = count.ToString();
             if (maxId != null)
-                param["max_id"] = maxId.ToString();
+                param["max_id"] = maxId.Id;
             if (sinceId != null)
-                param["since_id"] = sinceId.ToString();
+                param["since_id"] = sinceId.Id;
             if (includeRTs != null)
                 param["include_rts"] = includeRTs.Value ? "true" : "false";
 

@@ -53,8 +53,8 @@ namespace OpenTween.Api.TwitterV2
             var request = new GetTimelineRequest(userId: 100L)
             {
                 MaxResults = 200,
-                SinceId = "100",
-                UntilId = "900",
+                SinceId = new("100"),
+                UntilId = new("900"),
             };
 
             await request.Send(mock.Object).ConfigureAwait(false);

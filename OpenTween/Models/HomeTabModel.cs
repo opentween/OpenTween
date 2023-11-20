@@ -43,7 +43,7 @@ namespace OpenTween.Models
         public override MyCommon.TabUsageType TabType
             => MyCommon.TabUsageType.Home;
 
-        public long OldestId { get; set; } = long.MaxValue;
+        public PostId? OldestId { get; set; }
 
         public int TweetsPerHour => this.tweetsPerHour;
 
