@@ -60,6 +60,40 @@ namespace OpenTween.Models
         }
 
         [Fact]
+        public void OperatorGreaterThan_Test()
+        {
+            var a = this.CreatePostId("twitter", "100");
+            var b = this.CreatePostId("twitter", "200");
+#pragma warning disable CS1718
+            Assert.False(a < a);
+            Assert.True(a < b);
+            Assert.False(b < a);
+            Assert.False(b < b);
+            Assert.True(a <= a);
+            Assert.True(a <= b);
+            Assert.False(b <= a);
+            Assert.True(b <= b);
+#pragma warning restore CS1718
+        }
+
+        [Fact]
+        public void OperatorLessThan_Test()
+        {
+            var a = this.CreatePostId("twitter", "100");
+            var b = this.CreatePostId("twitter", "200");
+#pragma warning disable CS1718
+            Assert.False(a > a);
+            Assert.False(a > b);
+            Assert.True(b > a);
+            Assert.False(b > b);
+            Assert.True(a >= a);
+            Assert.False(a >= b);
+            Assert.True(b >= a);
+            Assert.True(b >= b);
+#pragma warning restore CS1718
+        }
+
+        [Fact]
         public void Equals_Test()
         {
             var a = this.CreatePostId("twitter", "100");

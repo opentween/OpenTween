@@ -64,5 +64,17 @@ namespace OpenTween.Models
 
         public static bool operator !=(PostId? left, PostId? right)
             => !EqualityComparer<PostId?>.Default.Equals(left, right);
+
+        public static bool operator <(PostId left, PostId right)
+            => Comparer<PostId>.Default.Compare(left, right) < 0;
+
+        public static bool operator <=(PostId left, PostId right)
+            => Comparer<PostId>.Default.Compare(left, right) <= 0;
+
+        public static bool operator >=(PostId left, PostId right)
+            => Comparer<PostId>.Default.Compare(left, right) >= 0;
+
+        public static bool operator >(PostId left, PostId right)
+            => Comparer<PostId>.Default.Compare(left, right) > 0;
     }
 }

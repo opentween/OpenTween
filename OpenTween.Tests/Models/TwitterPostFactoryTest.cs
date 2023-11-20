@@ -654,5 +654,140 @@ namespace OpenTween.Models
             var expected = new DateTimeUtc(2006, 3, 21, 20, 50, 14, 0);
             Assert.Equal(expected, TwitterPostFactory.ParseDateTimeFromSnowflakeId(statusId, createdAtStr));
         }
+
+        [Fact]
+        public void AdjustSortKeyForPromotedPost_BetweenNormatPostsTest()
+        {
+            // プロモーション以外のツイートは投稿日時の降順に並んでいると仮定する
+            var posts = new[]
+            {
+                new PostClass
+                {
+                    IsPromoted = false,
+                    CreatedAtForSorting = new(2023, 8, 1, 0, 0, 0, 6),
+                },
+                // 中間にあるプロモーションツイートは前後のツイートの中間に配置されるように調整する
+                new PostClass
+                {
+                    IsPromoted = true,
+                    CreatedAtForSorting = new(2023, 7, 31, 0, 0, 0, 0),
+                },
+                new PostClass
+                {
+                    IsPromoted = true,
+                    CreatedAtForSorting = new(2023, 9, 22, 0, 0, 0, 0),
+                },
+                new PostClass
+                {
+                    IsPromoted = false,
+                    CreatedAtForSorting = new(2023, 8, 1, 0, 0, 0, 0),
+                },
+            };
+
+            TwitterPostFactory.AdjustSortKeyForPromotedPost(posts);
+
+            Assert.Equal(new(2023, 8, 1, 0, 0, 0, 6), posts[0].CreatedAtForSorting);
+            Assert.Equal(new(2023, 8, 1, 0, 0, 0, 4), posts[1].CreatedAtForSorting);
+            Assert.Equal(new(2023, 8, 1, 0, 0, 0, 2), posts[2].CreatedAtForSorting);
+            Assert.Equal(new(2023, 8, 1, 0, 0, 0, 0), posts[3].CreatedAtForSorting);
+        }
+
+        [Fact]
+        public void AdjustSortKeyForPromotedPost_BeforeNormatPostsTest()
+        {
+            // プロモーション以外のツイートは投稿日時の降順に並んでいると仮定する
+            var posts = new[]
+            {
+                // 先頭にあるプロモーションツイートは最初の通常ツイートを基準に 1ms ずつ加算した値をセットする
+                new PostClass
+                {
+                    IsPromoted = true,
+                    CreatedAtForSorting = new(2023, 7, 31, 0, 0, 0, 0),
+                },
+                new PostClass
+                {
+                    IsPromoted = true,
+                    CreatedAtForSorting = new(2023, 9, 22, 0, 0, 0, 0),
+                },
+                new PostClass
+                {
+                    IsPromoted = false,
+                    CreatedAtForSorting = new(2023, 8, 1, 0, 0, 0, 0),
+                },
+            };
+
+            TwitterPostFactory.AdjustSortKeyForPromotedPost(posts);
+
+            Assert.Equal(new(2023, 8, 1, 0, 0, 0, 2), posts[0].CreatedAtForSorting);
+            Assert.Equal(new(2023, 8, 1, 0, 0, 0, 1), posts[1].CreatedAtForSorting);
+            Assert.Equal(new(2023, 8, 1, 0, 0, 0, 0), posts[2].CreatedAtForSorting);
+        }
+
+        [Fact]
+        public void AdjustSortKeyForPromotedPost_AfterNormatPostsTest()
+        {
+            // プロモーション以外のツイートは投稿日時の降順に並んでいると仮定する
+            var posts = new[]
+            {
+                new PostClass
+                {
+                    IsPromoted = false,
+                    CreatedAtForSorting = new(2023, 8, 1, 0, 0, 0, 6),
+                },
+                // 末尾にあるプロモーションツイートは最後の通常ツイートを基準に 1ms ずつ減算した値をセットする
+                new PostClass
+                {
+                    IsPromoted = true,
+                    CreatedAtForSorting = new(2023, 7, 31, 0, 0, 0, 0),
+                },
+                new PostClass
+                {
+                    IsPromoted = true,
+                    CreatedAtForSorting = new(2023, 9, 22, 0, 0, 0, 0),
+                },
+            };
+
+            TwitterPostFactory.AdjustSortKeyForPromotedPost(posts);
+
+            Assert.Equal(new(2023, 8, 1, 0, 0, 0, 6), posts[0].CreatedAtForSorting);
+            Assert.Equal(new(2023, 8, 1, 0, 0, 0, 5), posts[1].CreatedAtForSorting);
+            Assert.Equal(new(2023, 8, 1, 0, 0, 0, 4), posts[2].CreatedAtForSorting);
+        }
+
+        [Fact]
+        public void AdjustSortKeyForPromotedPost_NormatPostsOnlyTest()
+        {
+            // プロモーションツイートが一件もない場合も正常に動くことをテストする
+            var posts = new[]
+            {
+                new PostClass
+                {
+                    IsPromoted = false,
+                    CreatedAtForSorting = new(2023, 8, 1, 0, 0, 0, 0),
+                },
+            };
+
+            TwitterPostFactory.AdjustSortKeyForPromotedPost(posts);
+
+            Assert.Equal(new(2023, 8, 1, 0, 0, 0, 0), posts[0].CreatedAtForSorting);
+        }
+
+        [Fact]
+        public void AdjustSortKeyForPromotedPost_PromotedPostsOnlyTest()
+        {
+            // プロモーションツイートしか存在しない場合も正常に動くことをテストする
+            var posts = new[]
+            {
+                new PostClass
+                {
+                    IsPromoted = true,
+                    CreatedAtForSorting = new(2023, 8, 1, 0, 0, 0, 0),
+                },
+            };
+
+            TwitterPostFactory.AdjustSortKeyForPromotedPost(posts);
+
+            Assert.Equal(new(2023, 8, 1, 0, 0, 0, 0), posts[0].CreatedAtForSorting);
+        }
     }
 }

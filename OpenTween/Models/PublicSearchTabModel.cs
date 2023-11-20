@@ -41,9 +41,9 @@ namespace OpenTween.Models
         public override MyCommon.TabUsageType TabType
             => MyCommon.TabUsageType.PublicSearch;
 
-        public long OldestId { get; set; } = long.MaxValue;
+        public PostId? OldestId { get; set; }
 
-        public long SinceId { get; set; }
+        public PostId? SinceId { get; set; }
 
         public string? CursorBottom { get; set; }
 
@@ -101,8 +101,8 @@ namespace OpenTween.Models
         /// </summary>
         public void ResetFetchIds()
         {
-            this.SinceId = 0L;
-            this.OldestId = long.MaxValue;
+            this.SinceId = null;
+            this.OldestId = null;
         }
     }
 }

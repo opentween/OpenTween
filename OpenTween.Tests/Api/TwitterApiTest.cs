@@ -104,7 +104,7 @@ namespace OpenTween.Api
             using var twitterApi = new TwitterApi(ApiKey.Create("fake_consumer_key"), ApiKey.Create("fake_consumer_secret"));
             twitterApi.ApiConnection = mock.Object;
 
-            await twitterApi.StatusesHomeTimeline(200, maxId: 900L, sinceId: 100L)
+            await twitterApi.StatusesHomeTimeline(200, maxId: new("900"), sinceId: new("100"))
                 .ConfigureAwait(false);
 
             mock.VerifyAll();
@@ -133,7 +133,7 @@ namespace OpenTween.Api
             using var twitterApi = new TwitterApi(ApiKey.Create("fake_consumer_key"), ApiKey.Create("fake_consumer_secret"));
             twitterApi.ApiConnection = mock.Object;
 
-            await twitterApi.StatusesMentionsTimeline(200, maxId: 900L, sinceId: 100L)
+            await twitterApi.StatusesMentionsTimeline(200, maxId: new("900"), sinceId: new("100"))
                 .ConfigureAwait(false);
 
             mock.VerifyAll();
@@ -164,7 +164,7 @@ namespace OpenTween.Api
             using var twitterApi = new TwitterApi(ApiKey.Create("fake_consumer_key"), ApiKey.Create("fake_consumer_secret"));
             twitterApi.ApiConnection = mock.Object;
 
-            await twitterApi.StatusesUserTimeline("twitterapi", count: 200, maxId: 900L, sinceId: 100L)
+            await twitterApi.StatusesUserTimeline("twitterapi", count: 200, maxId: new("900"), sinceId: new("100"))
                 .ConfigureAwait(false);
 
             mock.VerifyAll();
@@ -366,7 +366,7 @@ namespace OpenTween.Api
             using var twitterApi = new TwitterApi(ApiKey.Create("fake_consumer_key"), ApiKey.Create("fake_consumer_secret"));
             twitterApi.ApiConnection = mock.Object;
 
-            await twitterApi.SearchTweets("from:twitterapi", "en", count: 200, maxId: 900L, sinceId: 100L)
+            await twitterApi.SearchTweets("from:twitterapi", "en", count: 200, maxId: new("900"), sinceId: new("100"))
                 .ConfigureAwait(false);
 
             mock.VerifyAll();
@@ -553,7 +553,7 @@ namespace OpenTween.Api
             using var twitterApi = new TwitterApi(ApiKey.Create("fake_consumer_key"), ApiKey.Create("fake_consumer_secret"));
             twitterApi.ApiConnection = mock.Object;
 
-            await twitterApi.ListsStatuses(12345L, count: 200, maxId: 900L, sinceId: 100L, includeRTs: true)
+            await twitterApi.ListsStatuses(12345L, count: 200, maxId: new("900"), sinceId: new("100"), includeRTs: true)
                 .ConfigureAwait(false);
 
             mock.VerifyAll();
