@@ -731,10 +731,15 @@ namespace OpenTween
 
             var posts = items.Select(x => this.CreatePostsFromStatusData(x)).ToArray();
 
+            TwitterPostFactory.AdjustSortKeyForPromotedPost(posts);
+
             foreach (var post in posts)
             {
-                if (minimumId == null || minimumId > post.StatusId)
-                    minimumId = post.StatusId;
+                if (!post.IsPromoted)
+                {
+                    if (minimumId == null || minimumId > post.StatusId)
+                        minimumId = post.StatusId;
+                }
 
                 // 二重取得回避
                 lock (this.lockObj)
@@ -772,13 +777,18 @@ namespace OpenTween
 
             var posts = statuses.Select(x => this.CreatePostsFromStatusData(x)).ToArray();
 
+            TwitterPostFactory.AdjustSortKeyForPromotedPost(posts);
+
             foreach (var post in posts)
             {
-                if (minimumId == null || minimumId > post.StatusId)
-                    minimumId = post.StatusId;
+                if (!post.IsPromoted)
+                {
+                    if (minimumId == null || minimumId > post.StatusId)
+                        minimumId = post.StatusId;
 
-                if (!more && (tab.SinceId == null || post.StatusId > tab.SinceId))
-                    tab.SinceId = post.StatusId;
+                    if (!more && (tab.SinceId == null || post.StatusId > tab.SinceId))
+                        tab.SinceId = post.StatusId;
+                }
 
                 // 二重取得回避
                 lock (this.lockObj)
