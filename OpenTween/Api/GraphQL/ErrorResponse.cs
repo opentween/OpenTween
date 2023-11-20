@@ -49,6 +49,10 @@ namespace OpenTween.Api.GraphQL
 
         public static void ThrowIfError(XElement rootElm)
         {
+            // errors と data プロパティが両方ともある場合はエラーを無視して正常なレスポンスとして扱う
+            if (rootElm.Element("data")?.HasElements == true)
+                return;
+
             var errorsElm = rootElm.Element("errors") ?? null;
             if (errorsElm == null)
                 return;

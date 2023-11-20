@@ -64,6 +64,9 @@
     <None Update="Resources\Responses\SearchTimeline_SimpleTweet.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Update="Resources\Responses\SearchTimeline_SuccessWithError.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Update="Resources\Responses\TimelineTweet_PromotedTweet.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
