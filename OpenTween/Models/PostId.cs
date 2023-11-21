@@ -44,6 +44,11 @@ namespace OpenTween.Models
             if (compareByIdType != 0)
                 return compareByIdType;
 
+            // 辞書順による比較のみだと "20" > "100" となってしまうため文字数による比較も加える
+            var compareByIdLength = this.Id.Length.CompareTo(other.Id.Length);
+            if (compareByIdLength != 0)
+                return compareByIdLength;
+
             return this.Id.CompareTo(other.Id);
         }
 
