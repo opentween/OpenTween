@@ -60,6 +60,15 @@ namespace OpenTween.Models
         }
 
         [Fact]
+        public void CompareTo_IdLengthTest()
+        {
+            var a = this.CreatePostId("twitter", "200");
+            var b = this.CreatePostId("twitter", "1000");
+            Assert.True(a.CompareTo(b) < 0);
+            Assert.True(b.CompareTo(a) > 0);
+        }
+
+        [Fact]
         public void OperatorGreaterThan_Test()
         {
             var a = this.CreatePostId("twitter", "100");
