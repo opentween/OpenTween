@@ -381,7 +381,7 @@ namespace OpenTween
             var body = mc.Groups["body"].Value;
             var recipientName = mc.Groups["id"].Value;
 
-            var recipient = await this.Api.UsersShow(recipientName)
+            var recipient = await this.GetUserInfo(recipientName)
                 .ConfigureAwait(false);
 
             var response = await this.Api.DirectMessagesEventsNew(recipient.Id, body, mediaId)
@@ -459,6 +459,28 @@ namespace OpenTween
             {
                 await this.Api.StatusesDestroy(post.StatusId.ToTwitterStatusId())
                     .IgnoreResponse();
+            }
+        }
+
+        public async Task<TwitterUser> GetUserInfo(string screenName)
+        {
+            if (this.Api.AppToken.AuthType == APIAuthType.TwitterComCookie)
+            {
+                var request = new UserByScreenNameRequest
+                {
+                    ScreenName = screenName,
+                };
+                var response = await request.Send(this.Api.Connection)
+                    .ConfigureAwait(false);
+
+                return response.ToTwitterUser();
+            }
+            else
+            {
+                var user = await this.Api.UsersShow(screenName)
+                    .ConfigureAwait(false);
+
+                return user;
             }
         }
 

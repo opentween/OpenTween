@@ -9020,7 +9020,7 @@ namespace OpenTween
 
                 try
                 {
-                    var task = this.tw.Api.UsersShow(id);
+                    var task = this.tw.GetUserInfo(id);
                     user = await dialog.WaitForAsync(this, task);
                 }
                 catch (WebApiException ex)

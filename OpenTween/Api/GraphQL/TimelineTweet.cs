@@ -83,8 +83,8 @@ namespace OpenTween.Api.GraphQL
         {
             var tweetLegacyElm = tweetElm.Element("legacy") ?? throw CreateParseError();
             var userElm = tweetElm.Element("core")?.Element("user_results")?.Element("result") ?? throw CreateParseError();
-            var userLegacyElm = userElm.Element("legacy") ?? throw CreateParseError();
             var retweetedTweetElm = tweetLegacyElm.Element("retweeted_status_result")?.Element("result");
+            var user = new TwitterGraphqlUser(userElm);
 
             static string GetText(XElement elm, string name)
                 => elm.Element(name)?.Value ?? throw CreateParseError();
@@ -143,15 +143,7 @@ namespace OpenTween.Api.GraphQL
                         })
                         .ToArray(),
                 },
-                User = new()
-                {
-                    Id = long.Parse(GetText(userElm, "rest_id")),
-                    IdStr = GetText(userElm, "rest_id"),
-                    Name = GetText(userLegacyElm, "name"),
-                    ProfileImageUrlHttps = GetText(userLegacyElm, "profile_image_url_https"),
-                    ScreenName = GetText(userLegacyElm, "screen_name"),
-                    Protected = GetTextOrNull(userLegacyElm, "protected") == "true",
-                },
+                User = user.ToTwitterUser(),
                 RetweetedStatus = retweetedTweetElm != null ? TimelineTweet.ParseTweetUnion(retweetedTweetElm) : null,
             };
         }
