@@ -64,9 +64,10 @@ namespace OpenTween
                 scheduler.Enabled = true;
 
                 Assert.True(mockTimer.IsTimerRunning);
-                Assert.Equal(TimeSpan.Zero, mockTimer.DueTime);
+                Assert.Equal(TimeSpan.FromMinutes(1), mockTimer.DueTime);
 
-                // 0:00:00 - 0:00:10
+                // 0:01:00 - 0:01:10
+                TestUtils.DriftTime(TimeSpan.FromMinutes(1));
                 await mockTimer.Invoke();
 
                 Assert.True(mockTimer.IsTimerRunning);
@@ -95,9 +96,10 @@ namespace OpenTween
                 scheduler.Enabled = true;
 
                 Assert.True(mockTimer.IsTimerRunning);
-                Assert.Equal(TimeSpan.Zero, mockTimer.DueTime);
+                Assert.Equal(TimeSpan.FromMinutes(1), mockTimer.DueTime);
 
-                // 0:00:00
+                // 0:01:00
+                TestUtils.DriftTime(TimeSpan.FromMinutes(1));
                 await mockTimer.Invoke();
 
                 Assert.Equal(1, count); // invoked
@@ -109,7 +111,7 @@ namespace OpenTween
                 Assert.True(mockTimer.IsTimerRunning);
                 Assert.Equal(TimeSpan.FromMinutes(10), mockTimer.DueTime);
 
-                // 0:10:00
+                // 0:11:00
                 TestUtils.DriftTime(TimeSpan.FromMinutes(10));
                 await mockTimer.Invoke();
 

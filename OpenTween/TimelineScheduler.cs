@@ -140,7 +140,7 @@ namespace OpenTween
         public void Reset()
         {
             foreach (var taskType in TimelineScheduler.AllTaskTypes)
-                this.LastUpdatedAt[taskType] = DateTimeUtc.MinValue;
+                this.LastUpdatedAt[taskType] = DateTimeUtc.Now;
 
             this.systemResumeMode = false;
             this.RefreshSchedule();
