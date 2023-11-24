@@ -84,6 +84,14 @@ namespace OpenTween
             public string? User { get; set; }
 
             /// <summary>
+            /// 表示するユーザーのID (<see cref="MyCommon.TabUsageType.UserTimeline"/> で使用)
+            /// </summary>
+            /// <remarks>
+            /// v3.7.1 まで存在しない項目のため、空の場合は <see cref="User"/> から補う必要がある
+            /// </remarks>
+            public string? UserId { get; set; }
+
+            /// <summary>
             /// 検索文字列 (<see cref="MyCommon.TabUsageType.PublicSearch"/> で使用)
             /// </summary>
             public string SearchWords { get; set; } = "";

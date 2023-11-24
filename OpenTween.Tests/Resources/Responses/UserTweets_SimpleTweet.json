@@ -1,0 +1,185 @@
+{
+  "data": {
+    "user": {
+      "result": {
+        "__typename": "User",
+        "timeline_v2": {
+          "timeline": {
+            "instructions": [
+              {
+                "type": "TimelineClearCache"
+              },
+              {
+                "type": "TimelineAddEntries",
+                "entries": [
+                  {
+                    "entryId": "tweet-1612926719035600906",
+                    "sortIndex": "1728066818414739426",
+                    "content": {
+                      "entryType": "TimelineTimelineItem",
+                      "__typename": "TimelineTimelineItem",
+                      "itemContent": {
+                        "itemType": "TimelineTweet",
+                        "__typename": "TimelineTweet",
+                        "tweet_results": {
+                          "result": {
+                            "__typename": "Tweet",
+                            "rest_id": "1612926719035600906",
+                            "core": {
+                              "user_results": {
+                                "result": {
+                                  "__typename": "User",
+                                  "id": "VXNlcjo0MDQ4MDY2NA==",
+                                  "rest_id": "40480664",
+                                  "affiliates_highlighted_label": {},
+                                  "has_graduated_access": true,
+                                  "is_blue_verified": false,
+                                  "profile_image_shape": "Circle",
+                                  "legacy": {
+                                    "following": true,
+                                    "can_dm": false,
+                                    "can_media_tag": false,
+                                    "created_at": "Sat May 16 15:20:01 +0000 2009",
+                                    "default_profile": false,
+                                    "default_profile_image": false,
+                                    "description": "OpenTween Project 言い出しっぺ",
+                                    "entities": {
+                                      "description": {
+                                        "urls": []
+                                      },
+                                      "url": {
+                                        "urls": [
+                                          {
+                                            "display_url": "m.upsilo.net/@upsilon",
+                                            "expanded_url": "https://m.upsilo.net/@upsilon",
+                                            "url": "https://t.co/vNMmyHHOQD",
+                                            "indices": [
+                                              0,
+                                              23
+                                            ]
+                                          }
+                                        ]
+                                      }
+                                    },
+                                    "fast_followers_count": 0,
+                                    "favourites_count": 215409,
+                                    "followers_count": 1288,
+                                    "friends_count": 2,
+                                    "has_custom_timelines": false,
+                                    "is_translator": false,
+                                    "listed_count": 92,
+                                    "location": "Funabashi, Chiba, Japan",
+                                    "media_count": 876,
+                                    "name": "upsilon",
+                                    "normal_followers_count": 1288,
+                                    "pinned_tweet_ids_str": [],
+                                    "possibly_sensitive": false,
+                                    "profile_banner_url": "https://pbs.twimg.com/profile_banners/40480664/1349188016",
+                                    "profile_image_url_https": "https://pbs.twimg.com/profile_images/719076434/____normal.png",
+                                    "profile_interstitial_type": "",
+                                    "screen_name": "kim_upsilon",
+                                    "statuses_count": 10081,
+                                    "translator_type": "regular",
+                                    "url": "https://t.co/vNMmyHHOQD",
+                                    "verified": false,
+                                    "want_retweets": true,
+                                    "withheld_in_countries": []
+                                  }
+                                }
+                              }
+                            },
+                            "unmention_data": {},
+                            "edit_control": {
+                              "edit_tweet_ids": [
+                                "1612926719035600906"
+                              ],
+                              "editable_until_msecs": "1673388471000",
+                              "is_edit_eligible": true,
+                              "edits_remaining": "5"
+                            },
+                            "is_translatable": true,
+                            "views": {
+                              "count": "288",
+                              "state": "EnabledWithCount"
+                            },
+                            "source": "<a href=\"https://www.opentween.org/\" rel=\"nofollow\">OpenTween (dev)</a>",
+                            "legacy": {
+                              "bookmark_count": 0,
+                              "bookmarked": false,
+                              "created_at": "Tue Jan 10 21:37:51 +0000 2023",
+                              "conversation_id_str": "1612926719035600906",
+                              "display_text_range": [
+                                0,
+                                5
+                              ],
+                              "entities": {
+                                "user_mentions": [],
+                                "urls": [],
+                                "hashtags": [],
+                                "symbols": []
+                              },
+                              "favorite_count": 2,
+                              "favorited": false,
+                              "full_text": "よろしくね",
+                              "is_quote_status": false,
+                              "lang": "ja",
+                              "quote_count": 0,
+                              "reply_count": 0,
+                              "retweet_count": 0,
+                              "retweeted": false,
+                              "user_id_str": "40480664",
+                              "id_str": "1612926719035600906"
+                            },
+                            "quick_promote_eligibility": {
+                              "eligibility": "IneligibleNotProfessional"
+                            }
+                          }
+                        },
+                        "tweetDisplayType": "Tweet"
+                      },
+                      "clientEventInfo": {
+                        "component": "tweet",
+                        "element": "tweet",
+                        "details": {
+                          "timelinesDetails": {
+                            "injectionType": "RankedOrganicTweet",
+                            "controllerData": "DAACDAABDAABCgABAAAAAAAAAAAKAAkAAAAAZE0+pwAAAAA="
+                          }
+                        }
+                      }
+                    }
+                  },
+                  {
+                    "entryId": "cursor-top-1728066818414739457",
+                    "sortIndex": "1728066818414739457",
+                    "content": {
+                      "entryType": "TimelineTimelineCursor",
+                      "__typename": "TimelineTimelineCursor",
+                      "value": "DAABCgABF_tTnZvAJxEKAAIWes8rE1oQAAgAAwAAAAEAAA",
+                      "cursorType": "Top"
+                    }
+                  },
+                  {
+                    "entryId": "cursor-bottom-1728066818414739439",
+                    "sortIndex": "1728066818414739439",
+                    "content": {
+                      "entryType": "TimelineTimelineCursor",
+                      "__typename": "TimelineTimelineCursor",
+                      "value": "DAABCgABF_tTnZu__-0KAAIWZa6KTRoAAwgAAwAAAAIAAA",
+                      "cursorType": "Bottom"
+                    }
+                  }
+                ]
+              }
+            ],
+            "metadata": {
+              "scribeConfig": {
+                "page": "profileBest"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

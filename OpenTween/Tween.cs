@@ -5807,6 +5807,7 @@ namespace OpenTween
                         break;
                     case UserTimelineTabModel userTab:
                         tabSetting.User = userTab.ScreenName;
+                        tabSetting.UserId = userTab.UserId;
                         break;
                     case PublicSearchTabModel searchTab:
                         tabSetting.SearchWords = searchTab.SearchWords;
