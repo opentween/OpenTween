@@ -381,7 +381,7 @@ namespace OpenTween
             var body = mc.Groups["body"].Value;
             var recipientName = mc.Groups["id"].Value;
 
-            var recipient = await this.Api.UsersShow(recipientName)
+            var recipient = await this.GetUserInfo(recipientName)
                 .ConfigureAwait(false);
 
             var response = await this.Api.DirectMessagesEventsNew(recipient.Id, body, mediaId)
@@ -459,6 +459,28 @@ namespace OpenTween
             {
                 await this.Api.StatusesDestroy(post.StatusId.ToTwitterStatusId())
                     .IgnoreResponse();
+            }
+        }
+
+        public async Task<TwitterUser> GetUserInfo(string screenName)
+        {
+            if (this.Api.AppToken.AuthType == APIAuthType.TwitterComCookie)
+            {
+                var request = new UserByScreenNameRequest
+                {
+                    ScreenName = screenName,
+                };
+                var response = await request.Send(this.Api.Connection)
+                    .ConfigureAwait(false);
+
+                return response.ToTwitterUser();
+            }
+            else
+            {
+                var user = await this.Api.UsersShow(screenName)
+                    .ConfigureAwait(false);
+
+                return user;
             }
         }
 
@@ -638,7 +660,7 @@ namespace OpenTween
                 tab.OldestId = minimumId;
         }
 
-        public async Task GetUserTimelineApi(bool read, string userName, UserTimelineTabModel tab, bool more)
+        public async Task GetUserTimelineApi(bool read, UserTimelineTabModel tab, bool more)
         {
             this.CheckAccountState();
 
@@ -649,24 +671,39 @@ namespace OpenTween
                 count = Math.Min(count, 99);
 
             TwitterStatus[] statuses;
-            if (MyCommon.IsNullOrEmpty(userName))
+            if (this.Api.AppToken.AuthType == APIAuthType.TwitterComCookie)
             {
-                var target = tab.ScreenName;
-                if (MyCommon.IsNullOrEmpty(target)) return;
-                userName = target;
-                statuses = await this.Api.StatusesUserTimeline(userName, count)
+                var userId = tab.UserId;
+                if (MyCommon.IsNullOrEmpty(userId))
+                {
+                    var user = await this.GetUserInfo(tab.ScreenName)
+                        .ConfigureAwait(false);
+
+                    userId = user.IdStr;
+                    tab.UserId = user.IdStr;
+                }
+
+                var request = new UserTweetsRequest(userId)
+                {
+                    Count = count,
+                    Cursor = more ? tab.CursorBottom : null,
+                };
+                var response = await request.Send(this.Api.Connection)
                     .ConfigureAwait(false);
+
+                statuses = response.Tweets.Select(x => x.ToTwitterStatus()).ToArray();
+                tab.CursorBottom = response.CursorBottom;
             }
             else
             {
                 if (more)
                 {
-                    statuses = await this.Api.StatusesUserTimeline(userName, count, maxId: tab.OldestId as TwitterStatusId)
+                    statuses = await this.Api.StatusesUserTimeline(tab.ScreenName, count, maxId: tab.OldestId as TwitterStatusId)
                         .ConfigureAwait(false);
                 }
                 else
                 {
-                    statuses = await this.Api.StatusesUserTimeline(userName, count)
+                    statuses = await this.Api.StatusesUserTimeline(tab.ScreenName, count)
                         .ConfigureAwait(false);
                 }
             }

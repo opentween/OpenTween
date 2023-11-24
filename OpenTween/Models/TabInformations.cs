@@ -253,7 +253,10 @@ namespace OpenTween.Models
                 MyCommon.TabUsageType.UserDefined
                     => new FilterTabModel(tabName),
                 MyCommon.TabUsageType.UserTimeline
-                    => new UserTimelineTabModel(tabName, tabSetting.User!),
+                    => new UserTimelineTabModel(tabName, tabSetting.User!)
+                    {
+                        UserId = tabSetting.UserId,
+                    },
                 MyCommon.TabUsageType.PublicSearch
                     => new PublicSearchTabModel(tabName)
                     {

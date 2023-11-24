@@ -5807,6 +5807,7 @@ namespace OpenTween
                         break;
                     case UserTimelineTabModel userTab:
                         tabSetting.User = userTab.ScreenName;
+                        tabSetting.UserId = userTab.UserId;
                         break;
                     case PublicSearchTabModel searchTab:
                         tabSetting.SearchWords = searchTab.SearchWords;
@@ -9020,7 +9021,7 @@ namespace OpenTween
 
                 try
                 {
-                    var task = this.tw.Api.UsersShow(id);
+                    var task = this.tw.GetUserInfo(id);
                     user = await dialog.WaitForAsync(this, task);
                 }
                 catch (WebApiException ex)
