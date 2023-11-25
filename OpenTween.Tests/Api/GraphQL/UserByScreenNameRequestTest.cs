@@ -59,5 +59,29 @@ namespace OpenTween.Api.GraphQL
 
             mock.VerifyAll();
         }
+
+        [Fact]
+        public async Task Send_UserUnavailableTest()
+        {
+            using var responseStream = File.OpenRead("Resources/Responses/UserByScreenName_Suspended.json");
+
+            var mock = new Mock<IApiConnection>();
+            mock.Setup(x =>
+                    x.GetStreamAsync(It.IsAny<Uri>(), It.IsAny<IDictionary<string, string>>())
+                )
+                .ReturnsAsync(responseStream);
+
+            var request = new UserByScreenNameRequest
+            {
+                ScreenName = "elonmusk",
+            };
+
+            var ex = await Assert.ThrowsAsync<WebApiException>(
+                () => request.Send(mock.Object)
+            );
+            Assert.Equal("User is suspended", ex.Message);
+
+            mock.VerifyAll();
+        }
     }
 }
