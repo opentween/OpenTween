@@ -38,6 +38,11 @@ namespace OpenTween.Api.GraphQL
 
         public XElement Element { get; }
 
+        public bool IsTombstone
+            => this.tombstoneElm != null;
+
+        private readonly XElement? tombstoneElm;
+
         public TimelineTweet(XElement element)
         {
             var typeName = element.Element("itemType")?.Value;
@@ -45,10 +50,16 @@ namespace OpenTween.Api.GraphQL
                 throw new ArgumentException($"Invalid itemType: {typeName}", nameof(element));
 
             this.Element = element;
+            this.tombstoneElm = this.TryGetTombstoneElm();
         }
+
+        private XElement? TryGetTombstoneElm()
+            => this.Element.XPathSelectElement("tweet_results/result[__typename[text()='TweetTombstone']]");
 
         public TwitterStatus ToTwitterStatus()
         {
+            this.ThrowIfTweetIsTombstone();
+
             try
             {
                 var resultElm = this.Element.Element("tweet_results")?.Element("result") ?? throw CreateParseError();
@@ -65,6 +76,18 @@ namespace OpenTween.Api.GraphQL
                 MyCommon.TraceOut(ex);
                 throw;
             }
+        }
+
+        public void ThrowIfTweetIsTombstone()
+        {
+            if (this.tombstoneElm == null)
+                return;
+
+            var tombstoneText = this.tombstoneElm.XPathSelectElement("tombstone/text/text")?.Value;
+            var message = tombstoneText ?? "Tweet is not available";
+            var json = JsonUtils.JsonXmlToString(this.Element);
+
+            throw new WebApiException(message, json);
         }
 
         public static TwitterStatus ParseTweetUnion(XElement tweetUnionElm)

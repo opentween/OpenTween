@@ -687,7 +687,11 @@ namespace OpenTween
                 var response = await request.Send(this.Api.Connection)
                     .ConfigureAwait(false);
 
-                statuses = response.Tweets.Select(x => x.ToTwitterStatus()).ToArray();
+                statuses = response.Tweets
+                    .Where(x => !x.IsTombstone)
+                    .Select(x => x.ToTwitterStatus())
+                    .ToArray();
+
                 tab.CursorBottom = response.CursorBottom;
             }
             else
@@ -881,7 +885,10 @@ namespace OpenTween
                 var response = await request.Send(this.Api.Connection)
                     .ConfigureAwait(false);
 
-                var convertedStatuses = response.Tweets.Select(x => x.ToTwitterStatus());
+                var convertedStatuses = response.Tweets
+                    .Where(x => !x.IsTombstone)
+                    .Select(x => x.ToTwitterStatus());
+
                 if (!SettingManager.Instance.Common.IsListsIncludeRts)
                     convertedStatuses = convertedStatuses.Where(x => x.RetweetedStatus == null);
 
@@ -1085,7 +1092,11 @@ namespace OpenTween
                 var response = await request.Send(this.Api.Connection)
                     .ConfigureAwait(false);
 
-                statuses = response.Tweets.Select(x => x.ToTwitterStatus()).ToArray();
+                statuses = response.Tweets
+                    .Where(x => !x.IsTombstone)
+                    .Select(x => x.ToTwitterStatus())
+                    .ToArray();
+
                 tab.CursorBottom = response.CursorBottom;
             }
             else

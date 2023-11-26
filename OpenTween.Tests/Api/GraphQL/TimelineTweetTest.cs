@@ -153,5 +153,18 @@ namespace OpenTween.Api.GraphQL
             Assert.True(post.IsPromoted);
             Assert.Matches(new Regex(@"^\[Promoted\]\n"), post.TextFromApi);
         }
+
+        [Fact]
+        public void ToStatus_TweetTombstone_Test()
+        {
+            var rootElm = this.LoadResponseDocument("TimelineTweet_TweetTombstone.json");
+            var timelineTweet = new TimelineTweet(rootElm);
+
+            Assert.True(timelineTweet.IsTombstone);
+            var ex = Assert.Throws<WebApiException>(
+                () => timelineTweet.ToTwitterStatus()
+            );
+            Assert.Equal("This Post is from a suspended account. Learn more", ex.Message);
+        }
     }
 }
