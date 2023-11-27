@@ -102,5 +102,5 @@ Write-Host "Build success!"
     Value = $timestamp
   }
   Get-FileHash -Algorithm SHA256 $destPath
-  Get-FileHash -Algorithm SHA256 $pdbPath
+  # Get-FileHash -Algorithm SHA256 $pdbPath
 ) | Format-List
