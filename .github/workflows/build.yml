@@ -37,7 +37,7 @@ jobs:
       - name: Build
         shell: pwsh
         run: |
-          msbuild /target:restore,build "/p:Configuration=$($env:CONFIGURATION)" /verbosity:minimal
+          msbuild /target:restore,build "/p:Configuration=$($env:CONFIGURATION)" /p:DebugType=None /verbosity:minimal
 
       - name: Upload build result
         uses: actions/upload-artifact@v3
@@ -171,7 +171,6 @@ jobs:
           $destPath = 'OpenTween.zip'
           $headCommit = '${{ github.event.pull_request.head.sha }}'
           .\tools\build-zip-archive.ps1 -BinDir $binDir -DestPath $destPath -HeadCommit $headCommit
-          Copy-Item ($binDir + 'OpenTween.pdb') -Destination '.\'
 
       - name: Upload build result
         uses: actions/upload-artifact@v3
@@ -179,4 +178,3 @@ jobs:
           name: package
           path: |
             ./OpenTween.zip
-            ./OpenTween.pdb
