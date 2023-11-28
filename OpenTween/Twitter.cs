@@ -679,7 +679,7 @@ namespace OpenTween
                     tab.UserId = user.IdStr;
                 }
 
-                var request = new UserTweetsRequest(userId)
+                var request = new UserTweetsAndRepliesRequest(userId)
                 {
                     Count = count,
                     Cursor = more ? tab.CursorBottom : null,
@@ -690,6 +690,7 @@ namespace OpenTween
                 statuses = response.Tweets
                     .Where(x => !x.IsTombstone)
                     .Select(x => x.ToTwitterStatus())
+                    .Where(x => x.User.IdStr == userId) // リプライツリーに含まれる他ユーザーのツイートを除外
                     .ToArray();
 
                 tab.CursorBottom = response.CursorBottom;

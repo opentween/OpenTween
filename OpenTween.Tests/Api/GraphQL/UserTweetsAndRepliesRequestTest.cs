@@ -31,12 +31,12 @@ using Xunit;
 
 namespace OpenTween.Api.GraphQL
 {
-    public class UserTweetsRequestTest
+    public class UserTweetsAndRepliesRequestTest
     {
         [Fact]
         public async Task Send_Test()
         {
-            using var responseStream = File.OpenRead("Resources/Responses/UserTweets_SimpleTweet.json");
+            using var responseStream = File.OpenRead("Resources/Responses/UserTweetsAndReplies_SimpleTweet.json");
 
             var mock = new Mock<IApiConnection>();
             mock.Setup(x =>
@@ -44,15 +44,14 @@ namespace OpenTween.Api.GraphQL
                 )
                 .Callback<Uri, IDictionary<string, string>>((url, param) =>
                 {
-                    Assert.Equal(new("https://twitter.com/i/api/graphql/2GIWTr7XwadIixZDtyXd4A/UserTweets"), url);
-                    Assert.Equal(3, param.Count);
-                    Assert.Equal("""{"userId":"40480664","count":20,"includePromotedContent":true,"withQuickPromoteEligibilityTweetFields":true,"withVoice":true,"withV2Timeline":true}""", param["variables"]);
+                    Assert.Equal(new("https://twitter.com/i/api/graphql/YlkSUg0mRBx7-EkxCvc-bw/UserTweetsAndReplies"), url);
+                    Assert.Equal(2, param.Count);
+                    Assert.Equal("""{"userId":"40480664","count":20,"includePromotedContent":true,"withCommunity":true,"withVoice":true,"withV2Timeline":true}""", param["variables"]);
                     Assert.True(param.ContainsKey("features"));
-                    Assert.True(param.ContainsKey("fieldToggles"));
                 })
                 .ReturnsAsync(responseStream);
 
-            var request = new UserTweetsRequest(userId: "40480664")
+            var request = new UserTweetsAndRepliesRequest(userId: "40480664")
             {
                 Count = 20,
             };
@@ -67,7 +66,7 @@ namespace OpenTween.Api.GraphQL
         [Fact]
         public async Task Send_RequestCursor_Test()
         {
-            using var responseStream = File.OpenRead("Resources/Responses/UserTweets_SimpleTweet.json");
+            using var responseStream = File.OpenRead("Resources/Responses/UserTweetsAndReplies_SimpleTweet.json");
 
             var mock = new Mock<IApiConnection>();
             mock.Setup(x =>
@@ -75,15 +74,14 @@ namespace OpenTween.Api.GraphQL
                 )
                 .Callback<Uri, IDictionary<string, string>>((url, param) =>
                 {
-                    Assert.Equal(new("https://twitter.com/i/api/graphql/2GIWTr7XwadIixZDtyXd4A/UserTweets"), url);
-                    Assert.Equal(3, param.Count);
-                    Assert.Equal("""{"userId":"40480664","count":20,"includePromotedContent":true,"withQuickPromoteEligibilityTweetFields":true,"withVoice":true,"withV2Timeline":true,"cursor":"aaa"}""", param["variables"]);
+                    Assert.Equal(new("https://twitter.com/i/api/graphql/YlkSUg0mRBx7-EkxCvc-bw/UserTweetsAndReplies"), url);
+                    Assert.Equal(2, param.Count);
+                    Assert.Equal("""{"userId":"40480664","count":20,"includePromotedContent":true,"withCommunity":true,"withVoice":true,"withV2Timeline":true,"cursor":"aaa"}""", param["variables"]);
                     Assert.True(param.ContainsKey("features"));
-                    Assert.True(param.ContainsKey("fieldToggles"));
                 })
                 .ReturnsAsync(responseStream);
 
-            var request = new UserTweetsRequest(userId: "40480664")
+            var request = new UserTweetsAndRepliesRequest(userId: "40480664")
             {
                 Count = 20,
                 Cursor = "aaa",
