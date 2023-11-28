@@ -119,7 +119,7 @@ namespace OpenTween
         {
             this.CurrentPost = post;
 
-            var loadTasks = new List<Task>();
+            var loadTasks = new TaskCollection();
 
             using (ControlTransaction.Update(this.TableLayoutPanel1))
             {
@@ -155,7 +155,7 @@ namespace OpenTween
                 this.NameLinkLabel.LinkColor = nameForeColor;
                 this.NameLinkLabel.ActiveLinkColor = nameForeColor;
 
-                loadTasks.Add(this.SetUserPictureAsync(post.ImageUrl));
+                loadTasks.Add(() => this.SetUserPictureAsync(post.ImageUrl));
 
                 this.DateTimeLabel.Text = post.CreatedAt.ToLocalTimeString();
             }
@@ -220,9 +220,9 @@ namespace OpenTween
                 this.PostBrowser.Document.Window.ScrollTo(0, 0);
             }
 
-            loadTasks.Add(this.AppendQuoteTweetAsync(post));
+            loadTasks.Add(() => this.AppendQuoteTweetAsync(post));
 
-            await Task.WhenAll(loadTasks);
+            await loadTasks.RunAll();
         }
 
         public void ScrollDownPostBrowser(bool forward)

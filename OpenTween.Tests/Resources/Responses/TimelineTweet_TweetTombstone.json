@@ -1,0 +1,29 @@
+{
+  "itemType": "TimelineTweet",
+  "__typename": "TimelineTweet",
+  "tweet_results": {
+    "result": {
+      "__typename": "TweetTombstone",
+      "tombstone": {
+        "__typename": "TextTombstone",
+        "text": {
+          "rtl": false,
+          "text": "This Post is from a suspended account. Learn more",
+          "entities": [
+            {
+              "fromIndex": 39,
+              "toIndex": 49,
+              "ref": {
+                "type": "TimelineUrl",
+                "url": "https://help.twitter.com/rules-and-policies/notices-on-twitter",
+                "urlType": "ExternalUrl"
+              }
+            }
+          ]
+        }
+      }
+    }
+  },
+  "tweetDisplayType": "Tweet",
+  "hasModeratedReplies": false
+}

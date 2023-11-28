@@ -381,7 +381,7 @@ namespace OpenTween
             var body = mc.Groups["body"].Value;
             var recipientName = mc.Groups["id"].Value;
 
-            var recipient = await this.Api.UsersShow(recipientName)
+            var recipient = await this.GetUserInfo(recipientName)
                 .ConfigureAwait(false);
 
             var response = await this.Api.DirectMessagesEventsNew(recipient.Id, body, mediaId)
@@ -459,6 +459,28 @@ namespace OpenTween
             {
                 await this.Api.StatusesDestroy(post.StatusId.ToTwitterStatusId())
                     .IgnoreResponse();
+            }
+        }
+
+        public async Task<TwitterUser> GetUserInfo(string screenName)
+        {
+            if (this.Api.AppToken.AuthType == APIAuthType.TwitterComCookie)
+            {
+                var request = new UserByScreenNameRequest
+                {
+                    ScreenName = screenName,
+                };
+                var response = await request.Send(this.Api.Connection)
+                    .ConfigureAwait(false);
+
+                return response.ToTwitterUser();
+            }
+            else
+            {
+                var user = await this.Api.UsersShow(screenName)
+                    .ConfigureAwait(false);
+
+                return user;
             }
         }
 
@@ -588,7 +610,7 @@ namespace OpenTween
                 var request = new GetTimelineRequest(this.UserId)
                 {
                     MaxResults = count,
-                    UntilId = more ? tab.OldestId.ToString() : null,
+                    UntilId = more ? tab.OldestId as TwitterStatusId : null,
                 };
 
                 var response = await request.Send(this.Api.Connection)
@@ -604,15 +626,15 @@ namespace OpenTween
             }
             else
             {
-                var maxId = more ? tab.OldestId : (long?)null;
+                var maxId = more ? tab.OldestId : null;
 
-                statuses = await this.Api.StatusesHomeTimeline(count, maxId)
+                statuses = await this.Api.StatusesHomeTimeline(count, maxId as TwitterStatusId)
                     .ConfigureAwait(false);
             }
 
             var minimumId = this.CreatePostsFromJson(statuses, MyCommon.WORKERTYPE.Timeline, tab, read);
             if (minimumId != null)
-                tab.OldestId = minimumId.Value;
+                tab.OldestId = minimumId;
         }
 
         public async Task GetMentionsTimelineApi(bool read, MentionsTabModel tab, bool more, bool startup)
@@ -624,7 +646,7 @@ namespace OpenTween
             TwitterStatus[] statuses;
             if (more)
             {
-                statuses = await this.Api.StatusesMentionsTimeline(count, maxId: tab.OldestId)
+                statuses = await this.Api.StatusesMentionsTimeline(count, maxId: tab.OldestId as TwitterStatusId)
                     .ConfigureAwait(false);
             }
             else
@@ -635,38 +657,54 @@ namespace OpenTween
 
             var minimumId = this.CreatePostsFromJson(statuses, MyCommon.WORKERTYPE.Reply, tab, read);
             if (minimumId != null)
-                tab.OldestId = minimumId.Value;
+                tab.OldestId = minimumId;
         }
 
-        public async Task GetUserTimelineApi(bool read, string userName, UserTimelineTabModel tab, bool more)
+        public async Task GetUserTimelineApi(bool read, UserTimelineTabModel tab, bool more)
         {
             this.CheckAccountState();
 
             var count = GetApiResultCount(MyCommon.WORKERTYPE.UserTimeline, more, false);
 
-            // Cookie を使用する場合のみ 99 件を超えて取得するとエラーが返る
-            if (this.Api.AppToken.AuthType == APIAuthType.TwitterComCookie)
-                count = Math.Min(count, 99);
-
             TwitterStatus[] statuses;
-            if (MyCommon.IsNullOrEmpty(userName))
+            if (this.Api.AppToken.AuthType == APIAuthType.TwitterComCookie)
             {
-                var target = tab.ScreenName;
-                if (MyCommon.IsNullOrEmpty(target)) return;
-                userName = target;
-                statuses = await this.Api.StatusesUserTimeline(userName, count)
+                var userId = tab.UserId;
+                if (MyCommon.IsNullOrEmpty(userId))
+                {
+                    var user = await this.GetUserInfo(tab.ScreenName)
+                        .ConfigureAwait(false);
+
+                    userId = user.IdStr;
+                    tab.UserId = user.IdStr;
+                }
+
+                var request = new UserTweetsAndRepliesRequest(userId)
+                {
+                    Count = count,
+                    Cursor = more ? tab.CursorBottom : null,
+                };
+                var response = await request.Send(this.Api.Connection)
                     .ConfigureAwait(false);
+
+                statuses = response.Tweets
+                    .Where(x => !x.IsTombstone)
+                    .Select(x => x.ToTwitterStatus())
+                    .Where(x => x.User.IdStr == userId) // リプライツリーに含まれる他ユーザーのツイートを除外
+                    .ToArray();
+
+                tab.CursorBottom = response.CursorBottom;
             }
             else
             {
                 if (more)
                 {
-                    statuses = await this.Api.StatusesUserTimeline(userName, count, maxId: tab.OldestId)
+                    statuses = await this.Api.StatusesUserTimeline(tab.ScreenName, count, maxId: tab.OldestId as TwitterStatusId)
                         .ConfigureAwait(false);
                 }
                 else
                 {
-                    statuses = await this.Api.StatusesUserTimeline(userName, count)
+                    statuses = await this.Api.StatusesUserTimeline(tab.ScreenName, count)
                         .ConfigureAwait(false);
                 }
             }
@@ -674,7 +712,7 @@ namespace OpenTween
             var minimumId = this.CreatePostsFromJson(statuses, MyCommon.WORKERTYPE.UserTimeline, tab, read);
 
             if (minimumId != null)
-                tab.OldestId = minimumId.Value;
+                tab.OldestId = minimumId;
         }
 
         public async Task<PostClass> GetStatusApi(bool read, TwitterStatusId id)
@@ -725,19 +763,26 @@ namespace OpenTween
         private PostClass CreatePostsFromStatusData(TwitterStatus status, bool favTweet)
             => this.postFactory.CreateFromStatus(status, this.UserId, this.followerId, favTweet);
 
-        private long? CreatePostsFromJson(TwitterStatus[] items, MyCommon.WORKERTYPE gType, TabModel? tab, bool read)
+        private PostId? CreatePostsFromJson(TwitterStatus[] items, MyCommon.WORKERTYPE gType, TabModel? tab, bool read)
         {
-            long? minimumId = null;
+            PostId? minimumId = null;
 
-            foreach (var status in items)
+            var posts = items.Select(x => this.CreatePostsFromStatusData(x)).ToArray();
+
+            TwitterPostFactory.AdjustSortKeyForPromotedPost(posts);
+
+            foreach (var post in posts)
             {
-                if (minimumId == null || minimumId.Value > status.Id)
-                    minimumId = status.Id;
+                if (!post.IsPromoted)
+                {
+                    if (minimumId == null || minimumId > post.StatusId)
+                        minimumId = post.StatusId;
+                }
 
                 // 二重取得回避
                 lock (this.lockObj)
                 {
-                    var id = new TwitterStatusId(status.IdStr);
+                    var id = post.StatusId;
                     if (tab == null)
                     {
                         if (TabInformations.GetInstance().ContainsKey(id)) continue;
@@ -750,9 +795,7 @@ namespace OpenTween
 
                 // RT禁止ユーザーによるもの
                 if (gType != MyCommon.WORKERTYPE.UserTimeline &&
-                    status.RetweetedStatus != null && this.noRTId.Contains(status.User.Id)) continue;
-
-                var post = this.CreatePostsFromStatusData(status);
+                    post.RetweetedByUserId != null && this.noRTId.Contains(post.RetweetedByUserId.Value)) continue;
 
                 post.IsRead = read;
                 if (post.IsMe && !read && this.ReadOwnPost) post.IsRead = true;
@@ -766,24 +809,31 @@ namespace OpenTween
             return minimumId;
         }
 
-        private long? CreatePostsFromSearchJson(TwitterSearchResult items, PublicSearchTabModel tab, bool read, bool more)
+        private PostId? CreatePostsFromSearchJson(TwitterStatus[] statuses, PublicSearchTabModel tab, bool read, bool more)
         {
-            long? minimumId = null;
+            PostId? minimumId = null;
 
-            foreach (var status in items.Statuses)
+            var posts = statuses.Select(x => this.CreatePostsFromStatusData(x)).ToArray();
+
+            TwitterPostFactory.AdjustSortKeyForPromotedPost(posts);
+
+            foreach (var post in posts)
             {
-                if (minimumId == null || minimumId.Value > status.Id)
-                    minimumId = status.Id;
+                if (!post.IsPromoted)
+                {
+                    if (minimumId == null || minimumId > post.StatusId)
+                        minimumId = post.StatusId;
 
-                if (!more && status.Id > tab.SinceId) tab.SinceId = status.Id;
+                    if (!more && (tab.SinceId == null || post.StatusId > tab.SinceId))
+                        tab.SinceId = post.StatusId;
+                }
+
                 // 二重取得回避
                 lock (this.lockObj)
                 {
-                    if (tab.Contains(new TwitterStatusId(status.IdStr)))
+                    if (tab.Contains(post.StatusId))
                         continue;
                 }
-
-                var post = this.CreatePostsFromStatusData(status);
 
                 post.IsRead = read;
                 if ((post.IsMe && !read) && this.ReadOwnPost) post.IsRead = true;
@@ -836,7 +886,10 @@ namespace OpenTween
                 var response = await request.Send(this.Api.Connection)
                     .ConfigureAwait(false);
 
-                var convertedStatuses = response.Tweets.Select(x => x.ToTwitterStatus());
+                var convertedStatuses = response.Tweets
+                    .Where(x => !x.IsTombstone)
+                    .Select(x => x.ToTwitterStatus());
+
                 if (!SettingManager.Instance.Common.IsListsIncludeRts)
                     convertedStatuses = convertedStatuses.Where(x => x.RetweetedStatus == null);
 
@@ -845,7 +898,7 @@ namespace OpenTween
             }
             else if (more)
             {
-                statuses = await this.Api.ListsStatuses(tab.ListInfo.Id, count, maxId: tab.OldestId, includeRTs: SettingManager.Instance.Common.IsListsIncludeRts)
+                statuses = await this.Api.ListsStatuses(tab.ListInfo.Id, count, maxId: tab.OldestId as TwitterStatusId, includeRTs: SettingManager.Instance.Common.IsListsIncludeRts)
                     .ConfigureAwait(false);
             }
             else
@@ -857,7 +910,7 @@ namespace OpenTween
             var minimumId = this.CreatePostsFromJson(statuses, MyCommon.WORKERTYPE.List, tab, read);
 
             if (minimumId != null)
-                tab.OldestId = minimumId.Value;
+                tab.OldestId = minimumId;
         }
 
         /// <summary>
@@ -1029,27 +1082,50 @@ namespace OpenTween
         {
             var count = GetApiResultCount(MyCommon.WORKERTYPE.PublicSearch, more, false);
 
-            long? maxId = null;
-            long? sinceId = null;
-            if (more)
+            TwitterStatus[] statuses;
+            if (this.Api.AppToken.AuthType == APIAuthType.TwitterComCookie)
             {
-                maxId = tab.OldestId - 1;
+                var request = new SearchTimelineRequest(tab.SearchWords)
+                {
+                    Count = count,
+                    Cursor = more ? tab.CursorBottom : null,
+                };
+                var response = await request.Send(this.Api.Connection)
+                    .ConfigureAwait(false);
+
+                statuses = response.Tweets
+                    .Where(x => !x.IsTombstone)
+                    .Select(x => x.ToTwitterStatus())
+                    .ToArray();
+
+                tab.CursorBottom = response.CursorBottom;
             }
             else
             {
-                sinceId = tab.SinceId;
-            }
+                TwitterStatusId? maxId = null;
+                TwitterStatusId? sinceId = null;
+                if (more)
+                {
+                    maxId = tab.OldestId as TwitterStatusId;
+                }
+                else
+                {
+                    sinceId = tab.SinceId as TwitterStatusId;
+                }
 
-            var searchResult = await this.Api.SearchTweets(tab.SearchWords, tab.SearchLang, count, maxId, sinceId)
-                .ConfigureAwait(false);
+                var searchResult = await this.Api.SearchTweets(tab.SearchWords, tab.SearchLang, count, maxId, sinceId)
+                    .ConfigureAwait(false);
+
+                statuses = searchResult.Statuses;
+            }
 
             if (!TabInformations.GetInstance().ContainsTab(tab))
                 return;
 
-            var minimumId = this.CreatePostsFromSearchJson(searchResult, tab, read, more);
+            var minimumId = this.CreatePostsFromSearchJson(statuses, tab, read, more);
 
             if (minimumId != null)
-                tab.OldestId = minimumId.Value;
+                tab.OldestId = minimumId;
         }
 
         public async Task GetDirectMessageEvents(bool read, DirectMessagesTabModel dmTab, bool backward)

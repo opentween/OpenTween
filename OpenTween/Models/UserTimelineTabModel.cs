@@ -43,7 +43,11 @@ namespace OpenTween.Models
 
         public string ScreenName { get; }
 
-        public long OldestId { get; set; } = long.MaxValue;
+        public string? UserId { get; set; }
+
+        public PostId? OldestId { get; set; }
+
+        public string? CursorBottom { get; set; }
 
         public UserTimelineTabModel(string tabName, string screenName)
             : base(tabName)
@@ -64,7 +68,7 @@ namespace OpenTween.Models
 
             progress.Report("UserTimeline refreshing...");
 
-            await tw.GetUserTimelineApi(read, this.ScreenName, this, backward)
+            await tw.GetUserTimelineApi(read, this, backward)
                 .ConfigureAwait(false);
 
             TabInformations.GetInstance().DistributePosts();

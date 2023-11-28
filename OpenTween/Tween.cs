@@ -4214,10 +4214,8 @@ namespace OpenTween
             if (!forceupdate && currentPost.Equals(oldDisplayPost))
                 return;
 
-            var loadTasks = new List<Task>
-            {
-                this.tweetDetailsView.ShowPostDetails(currentPost),
-            };
+            var loadTasks = new TaskCollection();
+            loadTasks.Add(() => this.tweetDetailsView.ShowPostDetails(currentPost));
 
             if (this.settings.Common.PreviewEnable)
             {
@@ -4225,26 +4223,17 @@ namespace OpenTween
                 oldTokenSource?.Cancel();
 
                 var token = this.thumbnailTokenSource!.Token;
-                loadTasks.Add(this.PrepareThumbnailControl(currentPost, token));
+                loadTasks.Add(() => this.PrepareThumbnailControl(currentPost, token));
             }
             else
             {
                 this.SplitContainer3.Panel2Collapsed = true;
             }
 
-            async Task DelayedTasks()
-            {
-                try
-                {
-                    await Task.WhenAll(loadTasks);
-                }
-                catch (OperationCanceledException)
-                {
-                }
-            }
-
             // サムネイルの読み込みを待たずに次に選択されたツイートを表示するため await しない
-            _ = DelayedTasks();
+            _ = loadTasks
+                .IgnoreException(x => x is OperationCanceledException)
+                .RunAll();
         }
 
         private async Task PrepareThumbnailControl(PostClass post, CancellationToken token)
@@ -5818,6 +5807,7 @@ namespace OpenTween
                         break;
                     case UserTimelineTabModel userTab:
                         tabSetting.User = userTab.ScreenName;
+                        tabSetting.UserId = userTab.UserId;
                         break;
                     case PublicSearchTabModel searchTab:
                         tabSetting.SearchWords = searchTab.SearchWords;
@@ -8009,27 +7999,29 @@ namespace OpenTween
 
             if (this.IsNetworkAvailable())
             {
-                var loadTasks = new List<Task>
+                var loadTasks = new TaskCollection();
+
+                loadTasks.Add(new[]
                 {
-                    this.RefreshMuteUserIdsAsync(),
-                    this.RefreshBlockIdsAsync(),
-                    this.RefreshNoRetweetIdsAsync(),
-                    this.RefreshTwitterConfigurationAsync(),
-                    this.RefreshTabAsync<HomeTabModel>(),
-                    this.RefreshTabAsync<MentionsTabModel>(),
-                    this.RefreshTabAsync<DirectMessagesTabModel>(),
-                    this.RefreshTabAsync<PublicSearchTabModel>(),
-                    this.RefreshTabAsync<UserTimelineTabModel>(),
-                    this.RefreshTabAsync<ListTimelineTabModel>(),
-                };
+                    this.RefreshMuteUserIdsAsync,
+                    this.RefreshBlockIdsAsync,
+                    this.RefreshNoRetweetIdsAsync,
+                    this.RefreshTwitterConfigurationAsync,
+                    this.RefreshTabAsync<HomeTabModel>,
+                    this.RefreshTabAsync<MentionsTabModel>,
+                    this.RefreshTabAsync<DirectMessagesTabModel>,
+                    this.RefreshTabAsync<PublicSearchTabModel>,
+                    this.RefreshTabAsync<UserTimelineTabModel>,
+                    this.RefreshTabAsync<ListTimelineTabModel>,
+                });
 
                 if (this.settings.Common.StartupFollowers)
-                    loadTasks.Add(this.RefreshFollowerIdsAsync());
+                    loadTasks.Add(this.RefreshFollowerIdsAsync);
 
                 if (this.settings.Common.GetFav)
-                    loadTasks.Add(this.RefreshTabAsync<FavoritesTabModel>());
+                    loadTasks.Add(this.RefreshTabAsync<FavoritesTabModel>);
 
-                var allTasks = Task.WhenAll(loadTasks);
+                var allTasks = loadTasks.RunAll();
 
                 var i = 0;
                 while (true)
@@ -8069,18 +8061,18 @@ namespace OpenTween
                 }
 
                 // 取得失敗の場合は再試行する
-                var reloadTasks = new List<Task>();
+                var reloadTasks = new TaskCollection();
 
                 if (!this.tw.GetFollowersSuccess && this.settings.Common.StartupFollowers)
-                    reloadTasks.Add(this.RefreshFollowerIdsAsync());
+                    reloadTasks.Add(() => this.RefreshFollowerIdsAsync());
 
                 if (!this.tw.GetNoRetweetSuccess)
-                    reloadTasks.Add(this.RefreshNoRetweetIdsAsync());
+                    reloadTasks.Add(() => this.RefreshNoRetweetIdsAsync());
 
                 if (this.tw.Configuration.PhotoSizeLimit == 0)
-                    reloadTasks.Add(this.RefreshTwitterConfigurationAsync());
+                    reloadTasks.Add(() => this.RefreshTwitterConfigurationAsync());
 
-                await Task.WhenAll(reloadTasks);
+                await reloadTasks.RunAll();
             }
 
             this.initial = false;
@@ -8161,18 +8153,17 @@ namespace OpenTween
         {
             if (!this.ExistCurrentPost) return;
             this.doFavRetweetFlags = true;
-            var retweetTask = this.DoReTweetOfficial(true);
+
+            var tasks = new TaskCollection();
+            tasks.Add(() => this.DoReTweetOfficial(true));
+
             if (this.doFavRetweetFlags)
             {
                 this.doFavRetweetFlags = false;
-                var favoriteTask = this.FavoriteChange(true, false);
+                tasks.Add(() => this.FavoriteChange(true, false));
+            }
 
-                await Task.WhenAll(retweetTask, favoriteTask);
-            }
-            else
-            {
-                await retweetTask;
-            }
+            await tasks.RunAll();
         }
 
         private async Task FavoritesRetweetUnofficial()
@@ -9030,7 +9021,7 @@ namespace OpenTween
 
                 try
                 {
-                    var task = this.tw.Api.UsersShow(id);
+                    var task = this.tw.GetUserInfo(id);
                     user = await dialog.WaitForAsync(this, task);
                 }
                 catch (WebApiException ex)

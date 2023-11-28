@@ -115,6 +115,8 @@ namespace OpenTween.Models
 
         public ExpandedUrlInfo[] ExpandedUrls { get; init; } = Array.Empty<ExpandedUrlInfo>();
 
+        public bool IsPromoted { get; set; }
+
         /// <summary>
         /// <see cref="PostClass"/> に含まれる t.co の展開後の URL を保持するクラス
         /// </summary>

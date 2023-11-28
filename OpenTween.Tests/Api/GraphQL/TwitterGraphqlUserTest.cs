@@ -19,49 +19,37 @@
 // the Free Software Foundation, Inc., 51 Franklin Street - Fifth Floor,
 // Boston, MA 02110-1301, USA.
 
-#nullable enable
-
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Runtime.Serialization.Json;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml;
 using System.Xml.Linq;
-using System.Xml.XPath;
+using Xunit;
 
 namespace OpenTween.Api.GraphQL
 {
-    public static class ErrorResponse
+    public class TwitterGraphqlUserTest
     {
-        public static void ThrowIfError(string? jsonString)
+        private XElement LoadResponseDocument(string filename)
         {
-            if (MyCommon.IsNullOrEmpty(jsonString))
-                return;
-
-            var jsonBytes = Encoding.UTF8.GetBytes(jsonString);
-            using var jsonReader = JsonReaderWriterFactory.CreateJsonReader(jsonBytes, XmlDictionaryReaderQuotas.Max);
-
-            var rootElm = XElement.Load(jsonReader);
-            ThrowIfError(rootElm);
+            using var stream = File.OpenRead($"Resources/Responses/{filename}");
+            using var jsonReader = JsonReaderWriterFactory.CreateJsonReader(stream, XmlDictionaryReaderQuotas.Max);
+            return XElement.Load(jsonReader);
         }
 
-        public static void ThrowIfError(XElement rootElm)
+        [Fact]
+        public void ToTwitterUser_Test()
         {
-            // errors と data プロパティが両方ともある場合はエラーを無視して正常なレスポンスとして扱う
-            if (rootElm.Element("data")?.HasElements == true)
-                return;
+            var userElm = this.LoadResponseDocument("User_Simple.json");
+            var graphqlUser = new TwitterGraphqlUser(userElm);
+            var user = graphqlUser.ToTwitterUser();
 
-            var errorsElm = rootElm.Element("errors") ?? null;
-            if (errorsElm == null)
-                return;
-
-            var messageElm = rootElm.XPathSelectElement("/errors/item/message") ?? null;
-            var messageText = messageElm?.Value ?? "Error";
-            var responseJson = JsonUtils.JsonXmlToString(rootElm);
-
-            throw new WebApiException(messageText, responseJson);
+            Assert.Equal("514241801", user.IdStr);
+            Assert.Equal("opentween", user.ScreenName);
         }
     }
 }

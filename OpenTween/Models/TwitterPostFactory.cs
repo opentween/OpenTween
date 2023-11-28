@@ -141,12 +141,21 @@ namespace OpenTween.Models
                 ? ParseDateTimeFromSnowflakeId(retweetedStatus.Id, retweetedStatus.CreatedAt)
                 : createdAtForSorting;
 
+            if (status.IsPromoted)
+            {
+                const string PromotedPrefix = "[Promoted]";
+                text = PromotedPrefix + "<br />" + text;
+                textFromApi = PromotedPrefix + "\n" + textFromApi;
+                accessibleText = PromotedPrefix + "\n" + accessibleText;
+            }
+
             return new()
             {
                 // status から生成
                 StatusId = new TwitterStatusId(status.IdStr),
                 CreatedAtForSorting = createdAtForSorting,
                 IsMe = isMe,
+                IsPromoted = status.IsPromoted,
 
                 // originalStatus から生成
                 CreatedAt = createdAt,
@@ -534,6 +543,88 @@ namespace OpenTween.Models
             var correct = (timestampInMs - createdAtFromStr).Duration() < TimeSpan.FromSeconds(1);
 
             return correct ? timestampInMs : createdAtFromStr;
+        }
+
+        /// <summary>
+        /// Promotion Tweet のソート順を調整する
+        /// </summary>
+        /// <remarks>
+        /// API から返ってきた並び順と同等となるように <see cref="PostClass.CreatedAtForSorting"/> の値を調整する
+        /// </remarks>
+        public static void AdjustSortKeyForPromotedPost(PostClass[] posts)
+        {
+            var firstSeenNormalPostIndex = posts.FindIndex(x => !x.IsPromoted);
+
+            // 通常のツイートが一件も無い場合は何もせず終了（比較対象となるツイートが存在しないため）
+            if (firstSeenNormalPostIndex == -1)
+                return;
+
+            // 通常のツイートより手前にプロモーションが挿入されていた場合は、
+            // 最初の通常ツイートに対して 1ms ずつ加算した値を設定する（降順に並べるので加算）
+            if (firstSeenNormalPostIndex != 0)
+            {
+                var firstSeenSortKey = posts[firstSeenNormalPostIndex].CreatedAtForSorting;
+                foreach (var i in MyCommon.CountUp(0, firstSeenNormalPostIndex - 1))
+                {
+                    var distance = firstSeenNormalPostIndex - i;
+                    posts[i] = posts[i] with
+                    {
+                        CreatedAtForSorting = firstSeenSortKey + TimeSpan.FromMilliseconds(distance),
+                    };
+                }
+            }
+
+            // 最初に見つかった通常ツイートが末尾だった場合はここで終了
+            if (firstSeenNormalPostIndex == posts.Length - 1)
+                return;
+
+            // 通常ツイートと通常ツイートの間に挟まるプロモーションに対する処理
+            var lastSeenNormalPostIndex = firstSeenNormalPostIndex;
+            foreach (var index in MyCommon.CountUp(firstSeenNormalPostIndex + 1, posts.Length - 1))
+            {
+                var post = posts[index];
+                if (post.IsPromoted)
+                    continue;
+
+                if (lastSeenNormalPostIndex != index - 1)
+                {
+                    // lastSeenNormalPostIndex と index が隣接していない → 間にプロモーションがある
+                    var lastNormalSortKey = posts[lastSeenNormalPostIndex].CreatedAtForSorting;
+                    var nextNormalSortKey = post.CreatedAtForSorting;
+                    var promotedPostCount = index - lastSeenNormalPostIndex - 1;
+
+                    // lastNormalSortKey と nextNormalSortKey の間の経過時間を均等に分割した時間をプロモーションのソートキーに設定する
+                    var gap = lastNormalSortKey - nextNormalSortKey;
+                    var durationPerPost = TimeSpan.FromTicks(gap.Ticks / (promotedPostCount + 1));
+                    var sortKey = lastNormalSortKey;
+                    foreach (var promotedIndex in MyCommon.CountUp(lastSeenNormalPostIndex + 1, index - 1))
+                    {
+                        sortKey -= durationPerPost;
+                        posts[promotedIndex] = posts[promotedIndex] with
+                        {
+                            CreatedAtForSorting = sortKey,
+                        };
+                    }
+                }
+
+                lastSeenNormalPostIndex = index;
+            }
+
+            // 最後に見つかった通常ツイートが末尾だった場合はここで終了
+            if (lastSeenNormalPostIndex == posts.Length - 1)
+                return;
+
+            // 最後の通常ツイートよりも後ろにプロモーションが挿入されていた場合は、
+            // 最後の通常ツイートに対して 1ms ずつ減算した値を設定する（降順に並べるので減算）
+            var lastSeenSortKey = posts[lastSeenNormalPostIndex].CreatedAtForSorting;
+            foreach (var i in MyCommon.CountUp(lastSeenNormalPostIndex + 1, posts.Length - 1))
+            {
+                var distance = i - lastSeenNormalPostIndex;
+                posts[i] = posts[i] with
+                {
+                    CreatedAtForSorting = lastSeenSortKey - TimeSpan.FromMilliseconds(distance),
+                };
+            }
         }
     }
 }

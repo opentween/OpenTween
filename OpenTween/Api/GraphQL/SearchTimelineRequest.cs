@@ -35,35 +35,37 @@ using OpenTween.Connection;
 
 namespace OpenTween.Api.GraphQL
 {
-    public class ListLatestTweetsTimelineRequest
+    public class SearchTimelineRequest
     {
-        private static readonly Uri EndpointUri = new("https://twitter.com/i/api/graphql/6ClPnsuzQJ1p7-g32GQw9Q/ListLatestTweetsTimeline");
+        private static readonly Uri EndpointUri = new("https://twitter.com/i/api/graphql/lZ0GCEojmtQfiUQa5oJSEw/SearchTimeline");
 
-        public string ListId { get; set; }
+        public string RawQuery { get; set; }
 
         public int Count { get; set; } = 20;
 
         public string? Cursor { get; set; }
 
-        public ListLatestTweetsTimelineRequest(string listId)
-            => this.ListId = listId;
+        public SearchTimelineRequest(string rawQuery)
+            => this.RawQuery = rawQuery;
 
         public Dictionary<string, string> CreateParameters()
         {
             return new()
             {
                 ["variables"] = "{" +
-                    $@"""listId"":""{JsonUtils.EscapeJsonString(this.ListId)}""," +
-                    $@"""count"":{this.Count}" +
+                    $@"""rawQuery"":""{JsonUtils.EscapeJsonString(this.RawQuery)}""," +
+                    $@"""count"":{this.Count}," +
+                    $@"""product"":""Latest""" +
                     (this.Cursor != null ? $@",""cursor"":""{JsonUtils.EscapeJsonString(this.Cursor)}""" : "") +
                     "}",
                 ["features"] = "{" +
-                    @"""rweb_lists_timeline_redesign_enabled"":true," +
                     @"""responsive_web_graphql_exclude_directive_enabled"":true," +
                     @"""verified_phone_label_enabled"":false," +
+                    @"""responsive_web_home_pinned_timelines_enabled"":true," +
                     @"""creator_subscriptions_tweet_preview_api_enabled"":true," +
                     @"""responsive_web_graphql_timeline_navigation_enabled"":true," +
                     @"""responsive_web_graphql_skip_user_profile_image_extensions_enabled"":false," +
+                    @"""c9s_tweet_anatomy_moderator_badge_enabled"":true," +
                     @"""tweetypie_unmention_optimization_enabled"":true," +
                     @"""responsive_web_edit_tweet_api_enabled"":true," +
                     @"""graphql_is_translatable_rweb_tweet_is_translatable_enabled"":true," +

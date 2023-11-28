@@ -32,33 +32,32 @@ using System.Xml;
 using System.Xml.Linq;
 using System.Xml.XPath;
 using OpenTween.Connection;
-using OpenTween.Models;
 
 namespace OpenTween.Api.GraphQL
 {
-    public class TweetDetailRequest
+    public class UserByScreenNameRequest
     {
-        private static readonly Uri EndpointUri = new("https://twitter.com/i/api/graphql/-Ls3CrSQNo2fRKH6i6Na1A/TweetDetail");
+        private static readonly Uri EndpointUri = new("https://twitter.com/i/api/graphql/xc8f1g7BYqr6VTzTbvNlGw/UserByScreenName");
 
-        required public TwitterStatusId FocalTweetId { get; set; }
+        required public string ScreenName { get; set; }
 
         public Dictionary<string, string> CreateParameters()
         {
             return new()
             {
                 ["variables"] = $$"""
-                    {"focalTweetId":"{{this.FocalTweetId.Id}}","with_rux_injections":false,"includePromotedContent":true,"withCommunity":true,"withQuickPromoteEligibilityTweetFields":true,"withBirdwatchNotes":true,"withVoice":true,"withV2Timeline":true}
+                    {"screen_name":"{{this.ScreenName}}","withSafetyModeUserFields":true}
                     """,
                 ["features"] = """
-                    {"rweb_lists_timeline_redesign_enabled":true,"responsive_web_graphql_exclude_directive_enabled":true,"verified_phone_label_enabled":false,"creator_subscriptions_tweet_preview_api_enabled":true,"responsive_web_graphql_timeline_navigation_enabled":true,"responsive_web_graphql_skip_user_profile_image_extensions_enabled":false,"tweetypie_unmention_optimization_enabled":true,"responsive_web_edit_tweet_api_enabled":true,"graphql_is_translatable_rweb_tweet_is_translatable_enabled":true,"view_counts_everywhere_api_enabled":true,"longform_notetweets_consumption_enabled":true,"responsive_web_twitter_article_tweet_consumption_enabled":false,"tweet_awards_web_tipping_enabled":false,"freedom_of_speech_not_reach_fetch_enabled":true,"standardized_nudges_misinfo":true,"tweet_with_visibility_results_prefer_gql_limited_actions_policy_enabled":true,"longform_notetweets_rich_text_read_enabled":true,"longform_notetweets_inline_media_enabled":true,"responsive_web_media_download_video_enabled":false,"responsive_web_enhance_cards_enabled":false}
+                    {"hidden_profile_likes_enabled":false,"hidden_profile_subscriptions_enabled":false,"responsive_web_graphql_exclude_directive_enabled":true,"verified_phone_label_enabled":false,"subscriptions_verification_info_verified_since_enabled":true,"highlights_tweets_tab_ui_enabled":true,"creator_subscriptions_tweet_preview_api_enabled":true,"responsive_web_graphql_skip_user_profile_image_extensions_enabled":false,"responsive_web_graphql_timeline_navigation_enabled":true}
                     """,
                 ["fieldToggles"] = """
-                    {"withAuxiliaryUserLabels":false,"withArticleRichContentState":false}
+                    {"withAuxiliaryUserLabels":false}
                     """,
             };
         }
 
-        public async Task<TimelineTweet[]> Send(IApiConnection apiConnection)
+        public async Task<TwitterGraphqlUser> Send(IApiConnection apiConnection)
         {
             var param = this.CreateParameters();
 
@@ -81,7 +80,21 @@ namespace OpenTween.Api.GraphQL
 
             ErrorResponse.ThrowIfError(rootElm);
 
-            return TimelineTweet.ExtractTimelineTweets(rootElm);
+            var userElm = rootElm.XPathSelectElement("/data/user/result");
+            this.ThrowIfUserUnavailable(userElm);
+
+            return new(userElm);
+        }
+
+        private void ThrowIfUserUnavailable(XElement userElm)
+        {
+            var typeName = userElm.Element("__typename")?.Value;
+            if (typeName == "UserUnavailable")
+            {
+                var errorText = userElm.Element("message")?.Value ?? "User is not available.";
+                var json = JsonUtils.JsonXmlToString(userElm);
+                throw new WebApiException(errorText, json);
+            }
         }
     }
 }

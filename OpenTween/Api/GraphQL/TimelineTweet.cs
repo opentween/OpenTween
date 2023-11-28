@@ -38,6 +38,11 @@ namespace OpenTween.Api.GraphQL
 
         public XElement Element { get; }
 
+        public bool IsTombstone
+            => this.tombstoneElm != null;
+
+        private readonly XElement? tombstoneElm;
+
         public TimelineTweet(XElement element)
         {
             var typeName = element.Element("itemType")?.Value;
@@ -45,14 +50,25 @@ namespace OpenTween.Api.GraphQL
                 throw new ArgumentException($"Invalid itemType: {typeName}", nameof(element));
 
             this.Element = element;
+            this.tombstoneElm = this.TryGetTombstoneElm();
         }
+
+        private XElement? TryGetTombstoneElm()
+            => this.Element.XPathSelectElement("tweet_results/result[__typename[text()='TweetTombstone']]");
 
         public TwitterStatus ToTwitterStatus()
         {
+            this.ThrowIfTweetIsTombstone();
+
             try
             {
                 var resultElm = this.Element.Element("tweet_results")?.Element("result") ?? throw CreateParseError();
-                return TimelineTweet.ParseTweetUnion(resultElm);
+                var status = TimelineTweet.ParseTweetUnion(resultElm);
+
+                if (this.Element.Element("promotedMetadata") != null)
+                    status.IsPromoted = true;
+
+                return status;
             }
             catch (WebApiException ex)
             {
@@ -60,6 +76,18 @@ namespace OpenTween.Api.GraphQL
                 MyCommon.TraceOut(ex);
                 throw;
             }
+        }
+
+        public void ThrowIfTweetIsTombstone()
+        {
+            if (this.tombstoneElm == null)
+                return;
+
+            var tombstoneText = this.tombstoneElm.XPathSelectElement("tombstone/text/text")?.Value;
+            var message = tombstoneText ?? "Tweet is not available";
+            var json = JsonUtils.JsonXmlToString(this.Element);
+
+            throw new WebApiException(message, json);
         }
 
         public static TwitterStatus ParseTweetUnion(XElement tweetUnionElm)
@@ -78,8 +106,8 @@ namespace OpenTween.Api.GraphQL
         {
             var tweetLegacyElm = tweetElm.Element("legacy") ?? throw CreateParseError();
             var userElm = tweetElm.Element("core")?.Element("user_results")?.Element("result") ?? throw CreateParseError();
-            var userLegacyElm = userElm.Element("legacy") ?? throw CreateParseError();
             var retweetedTweetElm = tweetLegacyElm.Element("retweeted_status_result")?.Element("result");
+            var user = new TwitterGraphqlUser(userElm);
 
             static string GetText(XElement elm, string name)
                 => elm.Element(name)?.Value ?? throw CreateParseError();
@@ -138,15 +166,7 @@ namespace OpenTween.Api.GraphQL
                         })
                         .ToArray(),
                 },
-                User = new()
-                {
-                    Id = long.Parse(GetText(userElm, "rest_id")),
-                    IdStr = GetText(userElm, "rest_id"),
-                    Name = GetText(userLegacyElm, "name"),
-                    ProfileImageUrlHttps = GetText(userLegacyElm, "profile_image_url_https"),
-                    ScreenName = GetText(userLegacyElm, "screen_name"),
-                    Protected = GetTextOrNull(userLegacyElm, "protected") == "true",
-                },
+                User = user.ToTwitterUser(),
                 RetweetedStatus = retweetedTweetElm != null ? TimelineTweet.ParseTweetUnion(retweetedTweetElm) : null,
             };
         }

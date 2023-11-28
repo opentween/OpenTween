@@ -43,7 +43,7 @@ namespace OpenTween.Models
 
         public ListElement ListInfo { get; set; }
 
-        public long OldestId { get; set; } = long.MaxValue;
+        public PostId? OldestId { get; set; }
 
         public string? CursorBottom { get; set; }
 
