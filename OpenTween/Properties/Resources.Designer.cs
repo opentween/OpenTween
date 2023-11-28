@@ -580,6 +580,8 @@ namespace OpenTween.Properties {
         /// <summary>
         ///   更新履歴
         ///
+        ///==== Unreleased
+        ///
         ///==== Ver 3.8.0(2023/11/29)
         /// * NEW: graphqlエンドポイントを使用した検索タイムラインの取得に対応
         /// * NEW: graphqlエンドポイントを使用したプロフィール情報の取得に対応
@@ -592,7 +594,7 @@ namespace OpenTween.Properties {
         /// * FIX: 起動直後にタイムラインの取得が重複して行われる不具合を修正
         ///
         ///==== Ver 3.7.1(2023/07/20)
-        /// * FIX: Cookie使用時に複数回ツイートを投稿するとDelaying [残りの文字列は切り詰められました]&quot;; に類似しているローカライズされた文字列を検索します。
+        /// * FIX: Cookie使用時に複数 [残りの文字列は切り詰められました]&quot;; に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string ChangeLog {
             get {
