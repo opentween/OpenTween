@@ -143,6 +143,7 @@ namespace OpenTween.Connection
             {
                 UseCookies = false,
                 AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate,
+                ReadWriteTimeout = (int)DefaultTimeout.TotalMilliseconds,
             };
 
             if (Networking.Proxy != null)
