@@ -40,14 +40,15 @@ namespace OpenTween.Api.GraphQL
 
             var mock = new Mock<IApiConnection>();
             mock.Setup(x =>
-                    x.GetStreamAsync(It.IsAny<Uri>(), It.IsAny<IDictionary<string, string>>())
+                    x.GetStreamAsync(It.IsAny<Uri>(), It.IsAny<IDictionary<string, string>>(), It.IsAny<string>())
                 )
-                .Callback<Uri, IDictionary<string, string>>((url, param) =>
+                .Callback<Uri, IDictionary<string, string>, string>((url, param, endpointName) =>
                 {
                     Assert.Equal(new("https://twitter.com/i/api/graphql/lZ0GCEojmtQfiUQa5oJSEw/SearchTimeline"), url);
                     Assert.Equal(2, param.Count);
                     Assert.Equal("""{"rawQuery":"#OpenTween","count":20,"product":"Latest"}""", param["variables"]);
                     Assert.True(param.ContainsKey("features"));
+                    Assert.Equal("SearchTimeline", endpointName);
                 })
                 .ReturnsAsync(responseStream);
 
@@ -71,14 +72,15 @@ namespace OpenTween.Api.GraphQL
 
             var mock = new Mock<IApiConnection>();
             mock.Setup(x =>
-                    x.GetStreamAsync(It.IsAny<Uri>(), It.IsAny<IDictionary<string, string>>())
+                    x.GetStreamAsync(It.IsAny<Uri>(), It.IsAny<IDictionary<string, string>>(), It.IsAny<string>())
                 )
-                .Callback<Uri, IDictionary<string, string>>((url, param) =>
+                .Callback<Uri, IDictionary<string, string>, string>((url, param, endpointName) =>
                 {
                     Assert.Equal(new("https://twitter.com/i/api/graphql/lZ0GCEojmtQfiUQa5oJSEw/SearchTimeline"), url);
                     Assert.Equal(2, param.Count);
                     Assert.Equal("""{"rawQuery":"#OpenTween","count":20,"product":"Latest","cursor":"aaa"}""", param["variables"]);
                     Assert.True(param.ContainsKey("features"));
+                    Assert.Equal("SearchTimeline", endpointName);
                 })
                 .ReturnsAsync(responseStream);
 

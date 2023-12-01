@@ -38,6 +38,8 @@ namespace OpenTween.Api.GraphQL
 {
     public class TweetDetailRequest
     {
+        public static readonly string EndpointName = "TweetDetail";
+
         private static readonly Uri EndpointUri = new("https://twitter.com/i/api/graphql/-Ls3CrSQNo2fRKH6i6Na1A/TweetDetail");
 
         required public TwitterStatusId FocalTweetId { get; set; }
@@ -65,7 +67,7 @@ namespace OpenTween.Api.GraphQL
             XElement rootElm;
             try
             {
-                using var stream = await apiConnection.GetStreamAsync(EndpointUri, param);
+                using var stream = await apiConnection.GetStreamAsync(EndpointUri, param, EndpointName);
                 using var jsonReader = JsonReaderWriterFactory.CreateJsonReader(stream, XmlDictionaryReaderQuotas.Max);
                 rootElm = XElement.Load(jsonReader);
             }
