@@ -40,12 +40,13 @@ namespace OpenTween.Api.GraphQL
 
             var mock = new Mock<IApiConnection>();
             mock.Setup(x =>
-                    x.GetStreamAsync(It.IsAny<Uri>(), It.IsAny<IDictionary<string, string>>())
+                    x.GetStreamAsync(It.IsAny<Uri>(), It.IsAny<IDictionary<string, string>>(), It.IsAny<string>())
                 )
-                .Callback<Uri, IDictionary<string, string>>((url, param) =>
+                .Callback<Uri, IDictionary<string, string>, string>((url, param, endpointName) =>
                 {
                     Assert.Equal(new("https://twitter.com/i/api/graphql/xc8f1g7BYqr6VTzTbvNlGw/UserByScreenName"), url);
                     Assert.Contains(@"""screen_name"":""opentween""", param["variables"]);
+                    Assert.Equal("UserByScreenName", endpointName);
                 })
                 .ReturnsAsync(responseStream);
 
@@ -67,7 +68,7 @@ namespace OpenTween.Api.GraphQL
 
             var mock = new Mock<IApiConnection>();
             mock.Setup(x =>
-                    x.GetStreamAsync(It.IsAny<Uri>(), It.IsAny<IDictionary<string, string>>())
+                    x.GetStreamAsync(It.IsAny<Uri>(), It.IsAny<IDictionary<string, string>>(), It.IsAny<string>())
                 )
                 .ReturnsAsync(responseStream);
 

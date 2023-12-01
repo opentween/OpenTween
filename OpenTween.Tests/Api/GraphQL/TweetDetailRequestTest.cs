@@ -41,12 +41,13 @@ namespace OpenTween.Api.GraphQL
 
             var mock = new Mock<IApiConnection>();
             mock.Setup(x =>
-                    x.GetStreamAsync(It.IsAny<Uri>(), It.IsAny<IDictionary<string, string>>())
+                    x.GetStreamAsync(It.IsAny<Uri>(), It.IsAny<IDictionary<string, string>>(), It.IsAny<string>())
                 )
-                .Callback<Uri, IDictionary<string, string>>((url, param) =>
+                .Callback<Uri, IDictionary<string, string>, string>((url, param, endpointName) =>
                 {
                     Assert.Equal(new("https://twitter.com/i/api/graphql/-Ls3CrSQNo2fRKH6i6Na1A/TweetDetail"), url);
                     Assert.Contains(@"""focalTweetId"":""1619433164757413894""", param["variables"]);
+                    Assert.Equal("TweetDetail", endpointName);
                 })
                 .ReturnsAsync(responseStream);
 
