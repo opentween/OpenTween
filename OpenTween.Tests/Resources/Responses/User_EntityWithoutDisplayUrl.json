@@ -1,0 +1,125 @@
+{
+  "__typename": "User",
+  "id": "VXNlcjo0MTA0MTEx",
+  "rest_id": "4104111",
+  "affiliates_highlighted_label": {
+    "label": {
+      "badge": {
+        "url": "https://pbs.twimg.com/semantic_core_img/1428827730364096519/4ZXpTBhS?format=png&name=orig"
+      },
+      "description": "Automated",
+      "longDescription": {
+        "text": "Automated by @ariela",
+        "entities": [
+          {
+            "fromIndex": 13,
+            "toIndex": 20,
+            "ref": {
+              "type": "TimelineRichTextMention",
+              "screen_name": "ariela",
+              "mention_results": {
+                "result": {
+                  "__typename": "User",
+                  "legacy": {
+                    "screen_name": "ariela"
+                  },
+                  "rest_id": "3486871"
+                }
+              }
+            }
+          }
+        ]
+      },
+      "userLabelType": "AutomatedLabel"
+    }
+  },
+  "has_graduated_access": true,
+  "is_blue_verified": true,
+  "profile_image_shape": "Circle",
+  "legacy": {
+    "can_dm": false,
+    "can_media_tag": false,
+    "created_at": "Wed Apr 11 01:33:52 +0000 2007",
+    "default_profile": false,
+    "default_profile_image": false,
+    "description": "警戒：震度1以上 もしくは M3以上の地震情報を提供しています。 基本的に返事は行いません。問い合わせは@ariela もしくはyuki at https://t.co/DrMBNu9mAfにどうぞ。 非公式RTを繰り返すBOTはブロックします。",
+    "entities": {
+      "description": {
+        "urls": [
+          {
+            "display_url": "transrain.net",
+            "expanded_url": "http://transrain.net",
+            "url": "https://t.co/DrMBNu9mAf",
+            "indices": [
+              72,
+              95
+            ]
+          }
+        ]
+      },
+      "url": {
+        "urls": [
+          {
+            "url": "http://earthquake.transrain.net/",
+            "indices": [
+              0,
+              32
+            ]
+          }
+        ]
+      }
+    },
+    "fast_followers_count": 0,
+    "favourites_count": 1,
+    "followers_count": 3219441,
+    "friends_count": 5,
+    "has_custom_timelines": false,
+    "is_translator": false,
+    "listed_count": 44208,
+    "location": "",
+    "media_count": 0,
+    "name": "地震速報",
+    "normal_followers_count": 3219441,
+    "pinned_tweet_ids_str": [
+      "1623494931666046977"
+    ],
+    "possibly_sensitive": false,
+    "profile_image_url_https": "https://pbs.twimg.com/profile_images/368358807/eqjp_normal.png",
+    "profile_interstitial_type": "",
+    "screen_name": "earthquake_jp",
+    "statuses_count": 59090,
+    "translator_type": "none",
+    "url": "http://earthquake.transrain.net/",
+    "verified": false,
+    "want_retweets": false,
+    "withheld_in_countries": []
+  },
+  "smart_blocked_by": false,
+  "smart_blocking": false,
+  "legacy_extended_profile": {},
+  "is_profile_translatable": true,
+  "verification_info": {
+    "reason": {
+      "description": {
+        "text": "This account is verified. Learn more",
+        "entities": [
+          {
+            "from_index": 26,
+            "to_index": 36,
+            "ref": {
+              "url": "https://help.twitter.com/managing-your-account/about-twitter-verified-accounts",
+              "url_type": "ExternalUrl"
+            }
+          }
+        ]
+      },
+      "verified_since_msec": "1682244679134"
+    }
+  },
+  "highlights_info": {
+    "can_highlight_tweets": true,
+    "highlighted_tweets": "0"
+  },
+  "business_account": {},
+  "creator_subscriptions_count": 0
+}
