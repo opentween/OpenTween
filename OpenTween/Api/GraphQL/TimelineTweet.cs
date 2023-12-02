@@ -138,8 +138,8 @@ namespace OpenTween.Api.GraphQL
                         .Select(x => new TwitterEntityUrl()
                         {
                             Indices = x.XPathSelectElements("indices/item").Select(x => int.Parse(x.Value)).ToArray(),
-                            DisplayUrl = GetText(x, "display_url"),
-                            ExpandedUrl = GetText(x, "expanded_url"),
+                            DisplayUrl = GetTextOrNull(x, "display_url"),
+                            ExpandedUrl = GetTextOrNull(x, "expanded_url"),
                             Url = GetText(x, "url"),
                         })
                         .ToArray(),
