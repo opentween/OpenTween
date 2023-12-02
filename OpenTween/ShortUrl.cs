@@ -515,13 +515,12 @@ namespace OpenTween
         [SuppressMessage("Microsoft.Reliability", "CA2000:DisposeObjectsBeforeLosingScope")]
         private static HttpClient CreateDefaultHttpClient()
         {
-            var handler = Networking.CreateHttpClientHandler();
-            handler.AllowAutoRedirect = false;
+            var builder = Networking.CreateHttpClientBuilder();
 
-            var http = Networking.CreateHttpClient(handler);
-            http.Timeout = TimeSpan.FromSeconds(30);
+            builder.SetupHttpClientHandler(x => x.AllowAutoRedirect = false);
+            builder.SetupHttpClient(x => x.Timeout = TimeSpan.FromSeconds(30));
 
-            return http;
+            return builder.Build();
         }
     }
 }

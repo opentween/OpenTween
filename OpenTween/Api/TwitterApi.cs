@@ -25,6 +25,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net.Http;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -815,8 +816,8 @@ namespace OpenTween.Api
             return this.Connection.PostJsonAsync(endpoint, json);
         }
 
-        public OAuthEchoHandler CreateOAuthEchoHandler(Uri authServiceProvider, Uri? realm = null)
-            => ((TwitterApiConnection)this.Connection).CreateOAuthEchoHandler(authServiceProvider, realm);
+        public OAuthEchoHandler CreateOAuthEchoHandler(HttpMessageHandler innerHandler, Uri authServiceProvider, Uri? realm = null)
+            => ((TwitterApiConnection)this.Connection).CreateOAuthEchoHandler(innerHandler, authServiceProvider, realm);
 
         public void Dispose()
             => this.ApiConnection?.Dispose();
