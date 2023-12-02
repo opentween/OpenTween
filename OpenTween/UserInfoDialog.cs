@@ -169,7 +169,12 @@ namespace OpenTween
                 var urlEntities = entities?.Urls ?? Array.Empty<TwitterEntityUrl>();
 
                 foreach (var entity in urlEntities)
+                {
+                    if (entity.ExpandedUrl == null)
+                        continue;
+
                     entity.ExpandedUrl = await ShortUrl.Instance.ExpandUrlAsync(entity.ExpandedUrl);
+                }
 
                 // user.entities には urls 以外のエンティティが含まれていないため、テキストをもとに生成する
                 var mergedEntities = urlEntities.AsEnumerable<TwitterEntity>()
@@ -253,7 +258,7 @@ namespace OpenTween
                 var urlEntities = entities.Urls ?? Array.Empty<TwitterEntityUrl>();
 
                 foreach (var entity in urlEntities)
-                    entity.ExpandedUrl = await ShortUrl.Instance.ExpandUrlAsync(entity.ExpandedUrl);
+                    entity.ExpandedUrl = await ShortUrl.Instance.ExpandUrlAsync(entity.ExpandedUrl ?? entity.Url);
 
                 var mergedEntities = entities.Concat(TweetExtractor.ExtractEmojiEntities(status.FullText));
 

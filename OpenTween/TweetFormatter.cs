@@ -132,7 +132,7 @@ namespace OpenTween
 
             // 過去に存在した壊れたエンティティの対策
             // 参照: https://dev.twitter.com/discussions/12628
-            if (entity.DisplayUrl == null)
+            if (entity.DisplayUrl == null || entity.ExpandedUrl == null)
             {
                 expandedUrl = MyCommon.ConvertToReadableUrl(targetText);
                 return $"""<a href="{E(entity.Url)}" title="{E(expandedUrl)}">{T(E(targetText))}</a>""";
