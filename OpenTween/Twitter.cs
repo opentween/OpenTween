@@ -682,7 +682,7 @@ namespace OpenTween
                 var request = new UserTweetsAndRepliesRequest(userId)
                 {
                     Count = count,
-                    Cursor = more ? tab.CursorBottom : null,
+                    Cursor = more ? tab.CursorBottom : tab.CursorTop,
                 };
                 var response = await request.Send(this.Api.Connection)
                     .ConfigureAwait(false);
@@ -694,6 +694,9 @@ namespace OpenTween
                     .ToArray();
 
                 tab.CursorBottom = response.CursorBottom;
+
+                if (!more)
+                    tab.CursorTop = response.CursorTop;
             }
             else
             {
@@ -881,7 +884,7 @@ namespace OpenTween
                 var request = new ListLatestTweetsTimelineRequest(tab.ListInfo.Id.ToString())
                 {
                     Count = count,
-                    Cursor = more ? tab.CursorBottom : null,
+                    Cursor = more ? tab.CursorBottom : tab.CursorTop,
                 };
                 var response = await request.Send(this.Api.Connection)
                     .ConfigureAwait(false);
@@ -895,6 +898,9 @@ namespace OpenTween
 
                 statuses = convertedStatuses.ToArray();
                 tab.CursorBottom = response.CursorBottom;
+
+                if (!more)
+                    tab.CursorTop = response.CursorTop;
             }
             else if (more)
             {
@@ -1088,7 +1094,7 @@ namespace OpenTween
                 var request = new SearchTimelineRequest(tab.SearchWords)
                 {
                     Count = count,
-                    Cursor = more ? tab.CursorBottom : null,
+                    Cursor = more ? tab.CursorBottom : tab.CursorTop,
                 };
                 var response = await request.Send(this.Api.Connection)
                     .ConfigureAwait(false);
@@ -1099,6 +1105,9 @@ namespace OpenTween
                     .ToArray();
 
                 tab.CursorBottom = response.CursorBottom;
+
+                if (!more)
+                    tab.CursorTop = response.CursorTop;
             }
             else
             {

@@ -45,6 +45,8 @@ namespace OpenTween.Models
 
         public PostId? SinceId { get; set; }
 
+        public string? CursorTop { get; set; }
+
         public string? CursorBottom { get; set; }
 
         public string SearchWords

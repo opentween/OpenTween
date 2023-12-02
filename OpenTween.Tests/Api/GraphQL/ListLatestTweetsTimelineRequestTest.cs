@@ -41,14 +41,15 @@ namespace OpenTween.Api.GraphQL
 
             var mock = new Mock<IApiConnection>();
             mock.Setup(x =>
-                    x.GetStreamAsync(It.IsAny<Uri>(), It.IsAny<IDictionary<string, string>>())
+                    x.GetStreamAsync(It.IsAny<Uri>(), It.IsAny<IDictionary<string, string>>(), It.IsAny<string>())
                 )
-                .Callback<Uri, IDictionary<string, string>>((url, param) =>
+                .Callback<Uri, IDictionary<string, string>, string>((url, param, endpointName) =>
                 {
                     Assert.Equal(new("https://twitter.com/i/api/graphql/6ClPnsuzQJ1p7-g32GQw9Q/ListLatestTweetsTimeline"), url);
                     Assert.Equal(2, param.Count);
                     Assert.Equal("""{"listId":"1675863884757110790","count":20}""", param["variables"]);
                     Assert.True(param.ContainsKey("features"));
+                    Assert.Equal("ListLatestTweetsTimeline", endpointName);
                 })
                 .ReturnsAsync(responseStream);
 
@@ -59,6 +60,7 @@ namespace OpenTween.Api.GraphQL
 
             var response = await request.Send(mock.Object).ConfigureAwait(false);
             Assert.Single(response.Tweets);
+            Assert.Equal("DAABCgABF0HfRMjAJxEKAAIWes8rE1oQAAgAAwAAAAEAAA", response.CursorTop);
             Assert.Equal("DAABCgABF0HfRMi__7QKAAIVAxUYmFWQAwgAAwAAAAIAAA", response.CursorBottom);
 
             mock.VerifyAll();
@@ -71,14 +73,15 @@ namespace OpenTween.Api.GraphQL
 
             var mock = new Mock<IApiConnection>();
             mock.Setup(x =>
-                    x.GetStreamAsync(It.IsAny<Uri>(), It.IsAny<IDictionary<string, string>>())
+                    x.GetStreamAsync(It.IsAny<Uri>(), It.IsAny<IDictionary<string, string>>(), It.IsAny<string>())
                 )
-                .Callback<Uri, IDictionary<string, string>>((url, param) =>
+                .Callback<Uri, IDictionary<string, string>, string>((url, param, endpointName) =>
                 {
                     Assert.Equal(new("https://twitter.com/i/api/graphql/6ClPnsuzQJ1p7-g32GQw9Q/ListLatestTweetsTimeline"), url);
                     Assert.Equal(2, param.Count);
                     Assert.Equal("""{"listId":"1675863884757110790","count":20,"cursor":"aaa"}""", param["variables"]);
                     Assert.True(param.ContainsKey("features"));
+                    Assert.Equal("ListLatestTweetsTimeline", endpointName);
                 })
                 .ReturnsAsync(responseStream);
 

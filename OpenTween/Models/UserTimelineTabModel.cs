@@ -47,6 +47,8 @@ namespace OpenTween.Models
 
         public PostId? OldestId { get; set; }
 
+        public string? CursorTop { get; set; }
+
         public string? CursorBottom { get; set; }
 
         public UserTimelineTabModel(string tabName, string screenName)

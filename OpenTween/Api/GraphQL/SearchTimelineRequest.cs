@@ -37,6 +37,8 @@ namespace OpenTween.Api.GraphQL
 {
     public class SearchTimelineRequest
     {
+        public static readonly string EndpointName = "SearchTimeline";
+
         private static readonly Uri EndpointUri = new("https://twitter.com/i/api/graphql/lZ0GCEojmtQfiUQa5oJSEw/SearchTimeline");
 
         public string RawQuery { get; set; }
@@ -91,7 +93,7 @@ namespace OpenTween.Api.GraphQL
             XElement rootElm;
             try
             {
-                using var stream = await apiConnection.GetStreamAsync(EndpointUri, param);
+                using var stream = await apiConnection.GetStreamAsync(EndpointUri, param, EndpointName);
                 using var jsonReader = JsonReaderWriterFactory.CreateJsonReader(stream, XmlDictionaryReaderQuotas.Max);
                 rootElm = XElement.Load(jsonReader);
             }
@@ -108,9 +110,10 @@ namespace OpenTween.Api.GraphQL
             ErrorResponse.ThrowIfError(rootElm);
 
             var tweets = TimelineTweet.ExtractTimelineTweets(rootElm);
+            var cursorTop = rootElm.XPathSelectElement("//content[__typename[text()='TimelineTimelineCursor']][cursorType[text()='Top']]/value")?.Value;
             var cursorBottom = rootElm.XPathSelectElement("//content[__typename[text()='TimelineTimelineCursor']][cursorType[text()='Bottom']]/value")?.Value;
 
-            return new(tweets, cursorBottom);
+            return new(tweets, cursorTop, cursorBottom);
         }
     }
 }

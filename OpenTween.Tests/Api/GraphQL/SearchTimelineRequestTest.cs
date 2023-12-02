@@ -40,14 +40,15 @@ namespace OpenTween.Api.GraphQL
 
             var mock = new Mock<IApiConnection>();
             mock.Setup(x =>
-                    x.GetStreamAsync(It.IsAny<Uri>(), It.IsAny<IDictionary<string, string>>())
+                    x.GetStreamAsync(It.IsAny<Uri>(), It.IsAny<IDictionary<string, string>>(), It.IsAny<string>())
                 )
-                .Callback<Uri, IDictionary<string, string>>((url, param) =>
+                .Callback<Uri, IDictionary<string, string>, string>((url, param, endpointName) =>
                 {
                     Assert.Equal(new("https://twitter.com/i/api/graphql/lZ0GCEojmtQfiUQa5oJSEw/SearchTimeline"), url);
                     Assert.Equal(2, param.Count);
                     Assert.Equal("""{"rawQuery":"#OpenTween","count":20,"product":"Latest"}""", param["variables"]);
                     Assert.True(param.ContainsKey("features"));
+                    Assert.Equal("SearchTimeline", endpointName);
                 })
                 .ReturnsAsync(responseStream);
 
@@ -58,6 +59,7 @@ namespace OpenTween.Api.GraphQL
 
             var response = await request.Send(mock.Object).ConfigureAwait(false);
             Assert.Single(response.Tweets);
+            Assert.Equal("DAADDAABCgABFnlh4hraMAYKAAIOTm0DEhTAAQAIAAIAAAABCAADAAAAAAgABAAAAAAKAAUX8j3ezIAnEAoABhfyPd7Mf9jwAAA", response.CursorTop);
             Assert.Equal("DAADDAABCgABFnlh4hraMAYKAAIOTm0DEhTAAQAIAAIAAAACCAADAAAAAAgABAAAAAAKAAUX8j3ezIAnEAoABhfyPd7Mf9jwAAA", response.CursorBottom);
 
             mock.VerifyAll();
@@ -70,14 +72,15 @@ namespace OpenTween.Api.GraphQL
 
             var mock = new Mock<IApiConnection>();
             mock.Setup(x =>
-                    x.GetStreamAsync(It.IsAny<Uri>(), It.IsAny<IDictionary<string, string>>())
+                    x.GetStreamAsync(It.IsAny<Uri>(), It.IsAny<IDictionary<string, string>>(), It.IsAny<string>())
                 )
-                .Callback<Uri, IDictionary<string, string>>((url, param) =>
+                .Callback<Uri, IDictionary<string, string>, string>((url, param, endpointName) =>
                 {
                     Assert.Equal(new("https://twitter.com/i/api/graphql/lZ0GCEojmtQfiUQa5oJSEw/SearchTimeline"), url);
                     Assert.Equal(2, param.Count);
                     Assert.Equal("""{"rawQuery":"#OpenTween","count":20,"product":"Latest","cursor":"aaa"}""", param["variables"]);
                     Assert.True(param.ContainsKey("features"));
+                    Assert.Equal("SearchTimeline", endpointName);
                 })
                 .ReturnsAsync(responseStream);
 

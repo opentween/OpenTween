@@ -162,11 +162,11 @@ namespace OpenTween.Api.DataModel
     [DataContract]
     public class TwitterEntityUrl : TwitterEntity
     {
-        [DataMember(Name = "display_url")]
-        public string DisplayUrl { get; set; }
+        [DataMember(Name = "display_url", IsRequired = false)]
+        public string? DisplayUrl { get; set; }
 
-        [DataMember(Name = "expanded_url")]
-        public string ExpandedUrl { get; set; }
+        [DataMember(Name = "expanded_url", IsRequired = false)]
+        public string? ExpandedUrl { get; set; }
 
         [DataMember(Name = "url")]
         public string Url { get; set; }

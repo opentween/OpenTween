@@ -51,5 +51,20 @@ namespace OpenTween.Api.GraphQL
             Assert.Equal("514241801", user.IdStr);
             Assert.Equal("opentween", user.ScreenName);
         }
+
+        [Fact]
+        public void ToTwitterUser_EntityWithoutDisplayUrlTest()
+        {
+            var userElm = this.LoadResponseDocument("User_EntityWithoutDisplayUrl.json");
+            var graphqlUser = new TwitterGraphqlUser(userElm);
+            var user = graphqlUser.ToTwitterUser();
+
+            Assert.Equal("4104111", user.IdStr);
+            var urlEntity = user.Entities?.Url?.Urls.First()!;
+            Assert.Equal("http://earthquake.transrain.net/", urlEntity.Url);
+            Assert.Equal(new[] { 0, 32 }, urlEntity.Indices);
+            Assert.Null(urlEntity.DisplayUrl);
+            Assert.Null(urlEntity.ExpandedUrl);
+        }
     }
 }

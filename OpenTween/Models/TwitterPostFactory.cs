@@ -114,7 +114,7 @@ namespace OpenTween.Models
                 .ToArray();
 
             var expandedUrls = entities.OfType<TwitterEntityUrl>()
-                .Select(x => new PostClass.ExpandedUrlInfo(x.Url, x.ExpandedUrl))
+                .Select(x => new PostClass.ExpandedUrlInfo(x.Url, x.ExpandedUrl ?? x.Url))
                 .ToArray();
 
             // メモリ使用量削減 (同一のテキストであれば同一の string インスタンスを参照させる)
@@ -229,7 +229,7 @@ namespace OpenTween.Models
                 .ToArray();
 
             var expandedUrls = entities.OfType<TwitterEntityUrl>()
-                .Select(x => new PostClass.ExpandedUrlInfo(x.Url, x.ExpandedUrl))
+                .Select(x => new PostClass.ExpandedUrlInfo(x.Url, x.ExpandedUrl ?? x.Url))
                 .ToArray();
 
             // 以下、ユーザー情報
@@ -512,7 +512,7 @@ namespace OpenTween.Models
         {
             entities ??= Enumerable.Empty<TwitterEntity>();
 
-            var urls = entities.OfType<TwitterEntityUrl>().Select(x => x.ExpandedUrl);
+            var urls = entities.OfType<TwitterEntityUrl>().Select(x => x.ExpandedUrl ?? x.Url);
 
             if (quotedStatusLink != null)
                 urls = urls.Append(quotedStatusLink.Expanded);
