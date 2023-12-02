@@ -488,12 +488,12 @@ namespace OpenTween.Connection
             }
         }
 
-        public OAuthEchoHandler CreateOAuthEchoHandler(Uri authServiceProvider, Uri? realm = null)
+        public OAuthEchoHandler CreateOAuthEchoHandler(HttpMessageHandler innerHandler, Uri authServiceProvider, Uri? realm = null)
         {
             var uri = new Uri(RestApiBase, authServiceProvider);
 
             return OAuthEchoHandler.CreateHandler(
-                Networking.CreateHttpClientHandler(),
+                innerHandler,
                 uri,
                 this.appToken.OAuth1ConsumerKey,
                 this.appToken.OAuth1ConsumerSecret,
@@ -611,35 +611,43 @@ namespace OpenTween.Connection
 
         private static HttpClient InitializeHttpClient(ApiKey consumerKey, ApiKey consumerSecret, string accessToken, string accessSecret, bool disableGzip = false)
         {
-            var innerHandler = Networking.CreateHttpClientHandler();
-            innerHandler.CachePolicy = new RequestCachePolicy(RequestCacheLevel.BypassCache);
+            var builder = Networking.CreateHttpClientBuilder();
 
-            if (disableGzip)
-                innerHandler.AutomaticDecompression = DecompressionMethods.None;
+            builder.SetupHttpClientHandler(x =>
+            {
+                x.CachePolicy = new RequestCachePolicy(RequestCacheLevel.BypassCache);
 
-            var handler = new OAuthHandler(innerHandler, consumerKey, consumerSecret, accessToken, accessSecret);
+                if (disableGzip)
+                    x.AutomaticDecompression = DecompressionMethods.None;
+            });
 
-            return Networking.CreateHttpClient(handler);
+            builder.AddHandler(x => new OAuthHandler(x, consumerKey, consumerSecret, accessToken, accessSecret));
+
+            return builder.Build();
         }
 
         private static HttpClient InitializeHttpClient(TwitterAppToken appToken, string accessToken, string accessSecret, bool disableGzip = false)
         {
-            var innerHandler = Networking.CreateHttpClientHandler();
-            innerHandler.CachePolicy = new RequestCachePolicy(RequestCacheLevel.BypassCache);
+            var builder = Networking.CreateHttpClientBuilder();
 
-            if (disableGzip)
-                innerHandler.AutomaticDecompression = DecompressionMethods.None;
+            builder.SetupHttpClientHandler(x =>
+            {
+                x.CachePolicy = new RequestCachePolicy(RequestCacheLevel.BypassCache);
 
-            HttpMessageHandler handler = appToken.AuthType switch
+                if (disableGzip)
+                    x.AutomaticDecompression = DecompressionMethods.None;
+            });
+
+            builder.AddHandler(x => appToken.AuthType switch
             {
                 APIAuthType.OAuth1
-                    => new OAuthHandler(innerHandler, appToken.OAuth1ConsumerKey, appToken.OAuth1ConsumerSecret, accessToken, accessSecret),
+                    => new OAuthHandler(x, appToken.OAuth1ConsumerKey, appToken.OAuth1ConsumerSecret, accessToken, accessSecret),
                 APIAuthType.TwitterComCookie
-                    => new TwitterComCookieHandler(innerHandler, appToken.TwitterComCookie),
+                    => new TwitterComCookieHandler(x, appToken.TwitterComCookie),
                 _ => throw new NotImplementedException(),
-            };
+            });
 
-            return Networking.CreateHttpClient(handler);
+            return builder.Build();
         }
     }
 }

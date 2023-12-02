@@ -57,8 +57,10 @@ namespace OpenTween.Api
             }
             else
             {
-                this.http = Networking.CreateHttpClient(Networking.CreateHttpClientHandler());
-                this.http.Timeout = Networking.UploadImageTimeout;
+                var builder = Networking.CreateHttpClientBuilder();
+                builder.SetupHttpClient(x => x.Timeout = Networking.UploadImageTimeout);
+
+                this.http = builder.Build();
             }
         }
 
