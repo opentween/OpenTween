@@ -1,0 +1,57 @@
+name: Build reproducible zip archive
+
+on:
+  push:
+    branches: ['develop', 'release']
+  pull_request:
+
+env:
+  NUGET_PACKAGES: ${{ github.workspace }}/.nuget/packages
+
+jobs:
+  build:
+    uses: ./.github/workflows/build.yml
+    with:
+      # package のビルド時は *.pdb を生成しない (https://github.com/opentween/OpenTween/pull/256)
+      msbuild_args: /p:DebugType=None
+
+  package:
+    runs-on: windows-2022
+    needs: [build]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          ref: '${{ github.event.pull_request.head.sha }}'
+
+      - name: Add msbuild to PATH
+        uses: microsoft/setup-msbuild@v1.1
+
+      - name: Set configuration env
+        shell: pwsh
+        run: |
+          if ($env:GITHUB_REF -eq 'refs/heads/release') {
+            echo 'CONFIGURATION=Release' >> $env:GITHUB_ENV
+          } else {
+            echo 'CONFIGURATION=Debug' >> $env:GITHUB_ENV
+          }
+
+      - name: Restore build result
+        uses: actions/download-artifact@v3
+        with:
+          name: build
+
+      - name: Build package
+        shell: powershell # runtime-versionを取得するため従来のPowershellを使用する
+        run: |
+          $env:PATH = $env:PATH + ';C:\Program Files\Microsoft Visual Studio\2022\Enterprise\Msbuild\Current\Bin\Roslyn\'
+          $binDir = '.\OpenTween\bin\' + $env:CONFIGURATION + '\net48\'
+          $destPath = 'OpenTween.zip'
+          .\tools\build-zip-archive.ps1 -BinDir $binDir -DestPath $destPath
+
+      - name: Upload build result
+        uses: actions/upload-artifact@v3
+        with:
+          name: package
+          path: |
+            ./OpenTween.zip
