@@ -554,12 +554,6 @@ namespace OpenTween
 
             this.ignoreConfigSave = false;
             this.TweenMain_Resize(this, EventArgs.Empty);
-
-            if (this.settings.IsFirstRun)
-            {
-                // 初回起動時だけ右下のメニューを目立たせる
-                this.HashStripSplitButton.ShowDropDown();
-            }
         }
 
         private void TweenMain_Activated(object sender, EventArgs e)
@@ -7953,6 +7947,12 @@ namespace OpenTween
         {
             this.NotifyIcon1.Visible = true;
             this.StartTimers();
+
+            if (this.settings.IsFirstRun)
+            {
+                // 初回起動時だけ右下のメニューを目立たせる
+                this.HashStripSplitButton.ShowDropDown();
+            }
 
             if (this.IsNetworkAvailable())
             {
