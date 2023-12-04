@@ -359,7 +359,6 @@ namespace OpenTween
             var imgazyobizinet = this.thumbGenerator.ImgAzyobuziNet;
             imgazyobizinet.Enabled = this.settings.Common.EnableImgAzyobuziNet;
             imgazyobizinet.DisabledInDM = this.settings.Common.ImgAzyobuziNetDisabledInDM;
-            imgazyobizinet.AutoUpdate = true;
 
             Thumbnail.Services.TonTwitterCom.GetApiConnection = () => this.tw.Api.Connection;
 
@@ -7979,6 +7978,7 @@ namespace OpenTween
         private async void TweenMain_Shown(object sender, EventArgs e)
         {
             this.NotifyIcon1.Visible = true;
+            this.StartTimers();
 
             if (this.IsNetworkAvailable())
             {
@@ -8059,8 +8059,14 @@ namespace OpenTween
             }
 
             this.initial = false;
+        }
 
-            this.timelineScheduler.Enabled = true;
+        private void StartTimers()
+        {
+            if (!this.StopRefreshAllMenuItem.Checked)
+                this.timelineScheduler.Enabled = true;
+
+            this.thumbGenerator.ImgAzyobuziNet.AutoUpdate = true;
         }
 
         private async Task DoGetFollowersMenu()
