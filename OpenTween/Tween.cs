@@ -326,33 +326,7 @@ namespace OpenTween
             // 現在の DPI と設定保存時の DPI との比を取得する
             var configScaleFactor = this.settings.Local.GetConfigScaleFactor(this.CurrentAutoScaleDimensions);
 
-            // 認証関連
-            var account = this.settings.Common.SelectedAccount;
-            if (account != null)
-                this.tw.Initialize(account.GetTwitterAppToken(), account.Token, account.TokenSecret, account.Username, account.UserId);
-            else
-                this.tw.Initialize(TwitterAppToken.GetDefault(), "", "", "", 0L);
-
             this.initial = true;
-
-            this.tw.RestrictFavCheck = this.settings.Common.RestrictFavCheck;
-            this.tw.ReadOwnPost = this.settings.Common.ReadOwnPost;
-
-            // アクセストークンが有効であるか確認する
-            // ここが Twitter API への最初のアクセスになるようにすること
-            try
-            {
-                this.tw.VerifyCredentials();
-            }
-            catch (WebApiException ex)
-            {
-                MessageBox.Show(
-                    this,
-                    string.Format(Properties.Resources.StartupAuthError_Text, ex.Message),
-                    ApplicationSettings.ApplicationName,
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Warning);
-            }
 
             // サムネイル関連の初期化
             // プロキシ設定等の通信まわりの初期化が済んでから処理する
@@ -8066,6 +8040,8 @@ namespace OpenTween
             if (!this.StopRefreshAllMenuItem.Checked)
                 this.timelineScheduler.Enabled = true;
 
+            this.selectionDebouncer.Enabled = true;
+            this.saveConfigDebouncer.Enabled = true;
             this.thumbGenerator.ImgAzyobuziNet.AutoUpdate = true;
         }
 
