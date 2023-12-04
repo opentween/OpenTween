@@ -1,3 +1,0 @@
-# MSBuild response file for AppVeyor build
-
-/warnaserror /p:DebugType=None

@@ -57,6 +57,7 @@ init:
 
 before_build:
   - nuget restore
+  - ps: Set-Content .\msbuild.rsp "/warnaserror /p:DebugType=None"
 
 test:
   assemblies:
