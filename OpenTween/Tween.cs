@@ -264,202 +264,6 @@ namespace OpenTween
 
         private readonly HookGlobalHotkey hookGlobalHotkey;
 
-        private void TweenMain_Activated(object sender, EventArgs e)
-        {
-            // 画面がアクティブになったら、発言欄の背景色戻す
-            if (this.StatusText.Focused)
-            {
-                this.StatusText_Enter(this.StatusText, System.EventArgs.Empty);
-            }
-        }
-
-        private bool disposed = false;
-
-        /// <summary>
-        /// 使用中のリソースをすべてクリーンアップします。
-        /// </summary>
-        /// <param name="disposing">マネージ リソースが破棄される場合 true、破棄されない場合は false です。</param>
-        protected override void Dispose(bool disposing)
-        {
-            base.Dispose(disposing);
-
-            if (this.disposed)
-                return;
-
-            if (disposing)
-            {
-                this.components?.Dispose();
-
-                // 後始末
-                this.SearchDialog.Dispose();
-                this.urlDialog.Dispose();
-                this.themeManager.Dispose();
-                this.sfTab.Dispose();
-
-                this.timelineScheduler.Dispose();
-                this.workerCts.Cancel();
-                this.thumbnailTokenSource?.Dispose();
-
-                this.hookGlobalHotkey.Dispose();
-            }
-
-            // 終了時にRemoveHandlerしておかないとメモリリークする
-            // http://msdn.microsoft.com/ja-jp/library/microsoft.win32.systemevents.powermodechanged.aspx
-            Microsoft.Win32.SystemEvents.PowerModeChanged -= this.SystemEvents_PowerModeChanged;
-            Microsoft.Win32.SystemEvents.TimeChanged -= this.SystemEvents_TimeChanged;
-
-            this.disposed = true;
-        }
-
-        private void InitColumns(ListView list, bool startup)
-        {
-            this.InitColumnText();
-
-            ColumnHeader[]? columns = null;
-            try
-            {
-                if (this.Use2ColumnsMode)
-                {
-                    columns = new[]
-                    {
-                        new ColumnHeader(), // アイコン
-                        new ColumnHeader(), // 本文
-                    };
-
-                    columns[0].Text = this.columnText[0];
-                    columns[1].Text = this.columnText[2];
-
-                    if (startup)
-                    {
-                        var widthScaleFactor = this.CurrentAutoScaleDimensions.Width / this.settings.Local.ScaleDimension.Width;
-
-                        columns[0].Width = ScaleBy(widthScaleFactor, this.settings.Local.ColumnsWidth[0]);
-                        columns[1].Width = ScaleBy(widthScaleFactor, this.settings.Local.ColumnsWidth[2]);
-                        columns[0].DisplayIndex = 0;
-                        columns[1].DisplayIndex = 1;
-                    }
-                    else
-                    {
-                        var idx = 0;
-                        foreach (var curListColumn in this.CurrentListView.Columns.Cast<ColumnHeader>())
-                        {
-                            columns[idx].Width = curListColumn.Width;
-                            columns[idx].DisplayIndex = curListColumn.DisplayIndex;
-                            idx++;
-                        }
-                    }
-                }
-                else
-                {
-                    columns = new[]
-                    {
-                        new ColumnHeader(), // アイコン
-                        new ColumnHeader(), // ニックネーム
-                        new ColumnHeader(), // 本文
-                        new ColumnHeader(), // 日付
-                        new ColumnHeader(), // ユーザID
-                        new ColumnHeader(), // 未読
-                        new ColumnHeader(), // マーク＆プロテクト
-                        new ColumnHeader(), // ソース
-                    };
-
-                    foreach (var i in Enumerable.Range(0, columns.Length))
-                        columns[i].Text = this.columnText[i];
-
-                    if (startup)
-                    {
-                        var widthScaleFactor = this.CurrentAutoScaleDimensions.Width / this.settings.Local.ScaleDimension.Width;
-
-                        foreach (var (column, index) in columns.WithIndex())
-                        {
-                            column.Width = ScaleBy(widthScaleFactor, this.settings.Local.ColumnsWidth[index]);
-                            column.DisplayIndex = this.settings.Local.ColumnsOrder[index];
-                        }
-                    }
-                    else
-                    {
-                        var idx = 0;
-                        foreach (var curListColumn in this.CurrentListView.Columns.Cast<ColumnHeader>())
-                        {
-                            columns[idx].Width = curListColumn.Width;
-                            columns[idx].DisplayIndex = curListColumn.DisplayIndex;
-                            idx++;
-                        }
-                    }
-                }
-
-                list.Columns.AddRange(columns);
-
-                columns = null;
-            }
-            finally
-            {
-                if (columns != null)
-                {
-                    foreach (var column in columns)
-                        column?.Dispose();
-                }
-            }
-        }
-
-        private void InitColumnText()
-        {
-            this.columnText[0] = "";
-            this.columnText[1] = Properties.Resources.AddNewTabText2;
-            this.columnText[2] = Properties.Resources.AddNewTabText3;
-            this.columnText[3] = Properties.Resources.AddNewTabText4_2;
-            this.columnText[4] = Properties.Resources.AddNewTabText5;
-            this.columnText[5] = "";
-            this.columnText[6] = "";
-            this.columnText[7] = "Source";
-
-            this.columnOrgText[0] = "";
-            this.columnOrgText[1] = Properties.Resources.AddNewTabText2;
-            this.columnOrgText[2] = Properties.Resources.AddNewTabText3;
-            this.columnOrgText[3] = Properties.Resources.AddNewTabText4_2;
-            this.columnOrgText[4] = Properties.Resources.AddNewTabText5;
-            this.columnOrgText[5] = "";
-            this.columnOrgText[6] = "";
-            this.columnOrgText[7] = "Source";
-
-            var c = this.statuses.SortMode switch
-            {
-                ComparerMode.Nickname => 1, // ニックネーム
-                ComparerMode.Data => 2, // 本文
-                ComparerMode.Id => 3, // 時刻=発言Id
-                ComparerMode.Name => 4, // 名前
-                ComparerMode.Source => 7, // Source
-                _ => 0,
-            };
-
-            if (this.Use2ColumnsMode)
-            {
-                if (this.statuses.SortOrder == SortOrder.Descending)
-                {
-                    // U+25BE BLACK DOWN-POINTING SMALL TRIANGLE
-                    this.columnText[2] = this.columnOrgText[2] + "▾";
-                }
-                else
-                {
-                    // U+25B4 BLACK UP-POINTING SMALL TRIANGLE
-                    this.columnText[2] = this.columnOrgText[2] + "▴";
-                }
-            }
-            else
-            {
-                if (this.statuses.SortOrder == SortOrder.Descending)
-                {
-                    // U+25BE BLACK DOWN-POINTING SMALL TRIANGLE
-                    this.columnText[c] = this.columnOrgText[c] + "▾";
-                }
-                else
-                {
-                    // U+25B4 BLACK UP-POINTING SMALL TRIANGLE
-                    this.columnText[c] = this.columnOrgText[c] + "▴";
-                }
-            }
-        }
-
         public TweenMain(
             SettingManager settingManager,
             TabInformations tabInfo,
@@ -782,6 +586,202 @@ namespace OpenTween
             {
                 // 初回起動時だけ右下のメニューを目立たせる
                 this.HashStripSplitButton.ShowDropDown();
+            }
+        }
+
+        private void TweenMain_Activated(object sender, EventArgs e)
+        {
+            // 画面がアクティブになったら、発言欄の背景色戻す
+            if (this.StatusText.Focused)
+            {
+                this.StatusText_Enter(this.StatusText, System.EventArgs.Empty);
+            }
+        }
+
+        private bool disposed = false;
+
+        /// <summary>
+        /// 使用中のリソースをすべてクリーンアップします。
+        /// </summary>
+        /// <param name="disposing">マネージ リソースが破棄される場合 true、破棄されない場合は false です。</param>
+        protected override void Dispose(bool disposing)
+        {
+            base.Dispose(disposing);
+
+            if (this.disposed)
+                return;
+
+            if (disposing)
+            {
+                this.components?.Dispose();
+
+                // 後始末
+                this.SearchDialog.Dispose();
+                this.urlDialog.Dispose();
+                this.themeManager.Dispose();
+                this.sfTab.Dispose();
+
+                this.timelineScheduler.Dispose();
+                this.workerCts.Cancel();
+                this.thumbnailTokenSource?.Dispose();
+
+                this.hookGlobalHotkey.Dispose();
+            }
+
+            // 終了時にRemoveHandlerしておかないとメモリリークする
+            // http://msdn.microsoft.com/ja-jp/library/microsoft.win32.systemevents.powermodechanged.aspx
+            Microsoft.Win32.SystemEvents.PowerModeChanged -= this.SystemEvents_PowerModeChanged;
+            Microsoft.Win32.SystemEvents.TimeChanged -= this.SystemEvents_TimeChanged;
+
+            this.disposed = true;
+        }
+
+        private void InitColumns(ListView list, bool startup)
+        {
+            this.InitColumnText();
+
+            ColumnHeader[]? columns = null;
+            try
+            {
+                if (this.Use2ColumnsMode)
+                {
+                    columns = new[]
+                    {
+                        new ColumnHeader(), // アイコン
+                        new ColumnHeader(), // 本文
+                    };
+
+                    columns[0].Text = this.columnText[0];
+                    columns[1].Text = this.columnText[2];
+
+                    if (startup)
+                    {
+                        var widthScaleFactor = this.CurrentAutoScaleDimensions.Width / this.settings.Local.ScaleDimension.Width;
+
+                        columns[0].Width = ScaleBy(widthScaleFactor, this.settings.Local.ColumnsWidth[0]);
+                        columns[1].Width = ScaleBy(widthScaleFactor, this.settings.Local.ColumnsWidth[2]);
+                        columns[0].DisplayIndex = 0;
+                        columns[1].DisplayIndex = 1;
+                    }
+                    else
+                    {
+                        var idx = 0;
+                        foreach (var curListColumn in this.CurrentListView.Columns.Cast<ColumnHeader>())
+                        {
+                            columns[idx].Width = curListColumn.Width;
+                            columns[idx].DisplayIndex = curListColumn.DisplayIndex;
+                            idx++;
+                        }
+                    }
+                }
+                else
+                {
+                    columns = new[]
+                    {
+                        new ColumnHeader(), // アイコン
+                        new ColumnHeader(), // ニックネーム
+                        new ColumnHeader(), // 本文
+                        new ColumnHeader(), // 日付
+                        new ColumnHeader(), // ユーザID
+                        new ColumnHeader(), // 未読
+                        new ColumnHeader(), // マーク＆プロテクト
+                        new ColumnHeader(), // ソース
+                    };
+
+                    foreach (var i in Enumerable.Range(0, columns.Length))
+                        columns[i].Text = this.columnText[i];
+
+                    if (startup)
+                    {
+                        var widthScaleFactor = this.CurrentAutoScaleDimensions.Width / this.settings.Local.ScaleDimension.Width;
+
+                        foreach (var (column, index) in columns.WithIndex())
+                        {
+                            column.Width = ScaleBy(widthScaleFactor, this.settings.Local.ColumnsWidth[index]);
+                            column.DisplayIndex = this.settings.Local.ColumnsOrder[index];
+                        }
+                    }
+                    else
+                    {
+                        var idx = 0;
+                        foreach (var curListColumn in this.CurrentListView.Columns.Cast<ColumnHeader>())
+                        {
+                            columns[idx].Width = curListColumn.Width;
+                            columns[idx].DisplayIndex = curListColumn.DisplayIndex;
+                            idx++;
+                        }
+                    }
+                }
+
+                list.Columns.AddRange(columns);
+
+                columns = null;
+            }
+            finally
+            {
+                if (columns != null)
+                {
+                    foreach (var column in columns)
+                        column?.Dispose();
+                }
+            }
+        }
+
+        private void InitColumnText()
+        {
+            this.columnText[0] = "";
+            this.columnText[1] = Properties.Resources.AddNewTabText2;
+            this.columnText[2] = Properties.Resources.AddNewTabText3;
+            this.columnText[3] = Properties.Resources.AddNewTabText4_2;
+            this.columnText[4] = Properties.Resources.AddNewTabText5;
+            this.columnText[5] = "";
+            this.columnText[6] = "";
+            this.columnText[7] = "Source";
+
+            this.columnOrgText[0] = "";
+            this.columnOrgText[1] = Properties.Resources.AddNewTabText2;
+            this.columnOrgText[2] = Properties.Resources.AddNewTabText3;
+            this.columnOrgText[3] = Properties.Resources.AddNewTabText4_2;
+            this.columnOrgText[4] = Properties.Resources.AddNewTabText5;
+            this.columnOrgText[5] = "";
+            this.columnOrgText[6] = "";
+            this.columnOrgText[7] = "Source";
+
+            var c = this.statuses.SortMode switch
+            {
+                ComparerMode.Nickname => 1, // ニックネーム
+                ComparerMode.Data => 2, // 本文
+                ComparerMode.Id => 3, // 時刻=発言Id
+                ComparerMode.Name => 4, // 名前
+                ComparerMode.Source => 7, // Source
+                _ => 0,
+            };
+
+            if (this.Use2ColumnsMode)
+            {
+                if (this.statuses.SortOrder == SortOrder.Descending)
+                {
+                    // U+25BE BLACK DOWN-POINTING SMALL TRIANGLE
+                    this.columnText[2] = this.columnOrgText[2] + "▾";
+                }
+                else
+                {
+                    // U+25B4 BLACK UP-POINTING SMALL TRIANGLE
+                    this.columnText[2] = this.columnOrgText[2] + "▴";
+                }
+            }
+            else
+            {
+                if (this.statuses.SortOrder == SortOrder.Descending)
+                {
+                    // U+25BE BLACK DOWN-POINTING SMALL TRIANGLE
+                    this.columnText[c] = this.columnOrgText[c] + "▾";
+                }
+                else
+                {
+                    // U+25B4 BLACK UP-POINTING SMALL TRIANGLE
+                    this.columnText[c] = this.columnOrgText[c] + "▴";
+                }
             }
         }
 
