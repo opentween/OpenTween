@@ -25,7 +25,12 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using OpenTween.Api;
 using OpenTween.Api.DataModel;
+using OpenTween.Connection;
+using OpenTween.Models;
+using OpenTween.Setting;
+using OpenTween.Thumbnail;
 using Xunit;
 using Xunit.Extensions;
 
@@ -33,6 +38,27 @@ namespace OpenTween
 {
     public class TweenMainTest
     {
+        [WinFormsFact]
+        public void Initialize_Test()
+        {
+            var settings = new SettingManager("");
+            var tabinfo = new TabInformations();
+            using var twitterApi = new TwitterApi();
+            using var twitter = new Twitter(twitterApi);
+            using var imageCache = new ImageCache();
+            using var iconAssets = new IconAssetsManager();
+            var thumbnailGenerator = new ThumbnailGenerator(new(autoupdate: false));
+            var twitterAppToken = new TwitterAppToken
+            {
+                AuthType = APIAuthType.OAuth1,
+                OAuth1CustomConsumerKey = ApiKey.Create("aaa"),
+                OAuth1CustomConsumerSecret = ApiKey.Create("bbb"),
+            };
+            twitter.Initialize(twitterAppToken, "", "", "", 0L);
+
+            using var tweenMain = new TweenMain(settings, tabinfo, twitter, imageCache, iconAssets, thumbnailGenerator);
+        }
+
         [Fact]
         public void GetUrlFromDataObject_XMozUrlTest()
         {
