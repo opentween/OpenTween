@@ -306,7 +306,6 @@ namespace OpenTween
             this.InitializeShortcuts();
 
             this.ignoreConfigSave = true;
-            this.Visible = false;
 
             this.TraceOutToolStripMenuItem.Checked = MyCommon.TraceFlag;
 
@@ -522,9 +521,9 @@ namespace OpenTween
             this.SetMainWindowTitle();
             this.SetNotifyIconText();
 
-            if (!this.settings.Common.MinimizeToTray || this.WindowState != FormWindowState.Minimized)
+            if (this.settings.Common.MinimizeToTray && this.WindowState == FormWindowState.Minimized)
             {
-                this.Visible = true;
+                this.Visible = false;
             }
 
             // タイマー設定
