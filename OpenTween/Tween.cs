@@ -552,7 +552,7 @@ namespace OpenTween
             this.TimerRefreshIcon.Enabled = false;
 
             this.ignoreConfigSave = false;
-            this.TweenMain_Resize(this, EventArgs.Empty);
+            this.ApplyLayoutFromSettings();
         }
 
         private void TweenMain_Activated(object sender, EventArgs e)
@@ -7180,56 +7180,56 @@ namespace OpenTween
             {
                 this.Visible = false;
             }
-            if (this.initialLayout && this.settings.Local != null && this.WindowState == FormWindowState.Normal && this.Visible)
-            {
-                // 現在の DPI と設定保存時の DPI との比を取得する
-                var configScaleFactor = this.settings.Local.GetConfigScaleFactor(this.CurrentAutoScaleDimensions);
-
-                this.ClientSize = ScaleBy(configScaleFactor, this.settings.Local.FormSize);
-
-                // Splitterの位置設定
-                var splitterDistance = ScaleBy(configScaleFactor.Height, this.settings.Local.SplitterDistance);
-                if (splitterDistance > this.SplitContainer1.Panel1MinSize &&
-                    splitterDistance < this.SplitContainer1.Height - this.SplitContainer1.Panel2MinSize - this.SplitContainer1.SplitterWidth)
-                {
-                    this.SplitContainer1.SplitterDistance = splitterDistance;
-                }
-
-                // 発言欄複数行
-                this.StatusText.Multiline = this.settings.Local.StatusMultiline;
-                if (this.StatusText.Multiline)
-                {
-                    var statusTextHeight = ScaleBy(configScaleFactor.Height, this.settings.Local.StatusTextHeight);
-                    var dis = this.SplitContainer2.Height - statusTextHeight - this.SplitContainer2.SplitterWidth;
-                    if (dis > this.SplitContainer2.Panel1MinSize && dis < this.SplitContainer2.Height - this.SplitContainer2.Panel2MinSize - this.SplitContainer2.SplitterWidth)
-                    {
-                        this.SplitContainer2.SplitterDistance = this.SplitContainer2.Height - statusTextHeight - this.SplitContainer2.SplitterWidth;
-                    }
-                    this.StatusText.Height = statusTextHeight;
-                }
-                else
-                {
-                    if (this.SplitContainer2.Height - this.SplitContainer2.Panel2MinSize - this.SplitContainer2.SplitterWidth > 0)
-                    {
-                        this.SplitContainer2.SplitterDistance = this.SplitContainer2.Height - this.SplitContainer2.Panel2MinSize - this.SplitContainer2.SplitterWidth;
-                    }
-                }
-
-                var previewDistance = ScaleBy(configScaleFactor.Width, this.settings.Local.PreviewDistance);
-                if (previewDistance > this.SplitContainer3.Panel1MinSize && previewDistance < this.SplitContainer3.Width - this.SplitContainer3.Panel2MinSize - this.SplitContainer3.SplitterWidth)
-                {
-                    this.SplitContainer3.SplitterDistance = previewDistance;
-                }
-
-                // Panel2Collapsed は SplitterDistance の設定を終えるまで true にしない
-                this.SplitContainer3.Panel2Collapsed = true;
-
-                this.initialLayout = false;
-            }
             if (this.WindowState != FormWindowState.Minimized)
             {
                 this.formWindowState = this.WindowState;
             }
+        }
+
+        private void ApplyLayoutFromSettings()
+        {
+            // 現在の DPI と設定保存時の DPI との比を取得する
+            var configScaleFactor = this.settings.Local.GetConfigScaleFactor(this.CurrentAutoScaleDimensions);
+
+            this.ClientSize = ScaleBy(configScaleFactor, this.settings.Local.FormSize);
+
+            // Splitterの位置設定
+            var splitterDistance = ScaleBy(configScaleFactor.Height, this.settings.Local.SplitterDistance);
+            if (splitterDistance > this.SplitContainer1.Panel1MinSize &&
+                splitterDistance < this.SplitContainer1.Height - this.SplitContainer1.Panel2MinSize - this.SplitContainer1.SplitterWidth)
+            {
+                this.SplitContainer1.SplitterDistance = splitterDistance;
+            }
+
+            // 発言欄複数行
+            this.StatusText.Multiline = this.settings.Local.StatusMultiline;
+            if (this.StatusText.Multiline)
+            {
+                var statusTextHeight = ScaleBy(configScaleFactor.Height, this.settings.Local.StatusTextHeight);
+                var dis = this.SplitContainer2.Height - statusTextHeight - this.SplitContainer2.SplitterWidth;
+                if (dis > this.SplitContainer2.Panel1MinSize && dis < this.SplitContainer2.Height - this.SplitContainer2.Panel2MinSize - this.SplitContainer2.SplitterWidth)
+                {
+                    this.SplitContainer2.SplitterDistance = this.SplitContainer2.Height - statusTextHeight - this.SplitContainer2.SplitterWidth;
+                }
+                this.StatusText.Height = statusTextHeight;
+            }
+            else
+            {
+                if (this.SplitContainer2.Height - this.SplitContainer2.Panel2MinSize - this.SplitContainer2.SplitterWidth > 0)
+                {
+                    this.SplitContainer2.SplitterDistance = this.SplitContainer2.Height - this.SplitContainer2.Panel2MinSize - this.SplitContainer2.SplitterWidth;
+                }
+            }
+
+            var previewDistance = ScaleBy(configScaleFactor.Width, this.settings.Local.PreviewDistance);
+            if (previewDistance > this.SplitContainer3.Panel1MinSize && previewDistance < this.SplitContainer3.Width - this.SplitContainer3.Panel2MinSize - this.SplitContainer3.SplitterWidth)
+            {
+                this.SplitContainer3.SplitterDistance = previewDistance;
+            }
+
+            // Panel2Collapsed は SplitterDistance の設定を終えるまで true にしない
+            this.SplitContainer3.Panel2Collapsed = true;
+            this.initialLayout = false;
         }
 
         private void PlaySoundMenuItem_CheckedChanged(object sender, EventArgs e)
