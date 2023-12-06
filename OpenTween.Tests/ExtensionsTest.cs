@@ -26,6 +26,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 using Moq;
 using Xunit;
 
@@ -123,6 +124,60 @@ namespace OpenTween
             Assert.Throws<ArgumentOutOfRangeException>(() => "abc".GetCodepointCount(0, 4));
             Assert.Throws<ArgumentOutOfRangeException>(() => "abc".GetCodepointCount(4, 5));
             Assert.Throws<ArgumentOutOfRangeException>(() => "abc".GetCodepointCount(2, 1));
+        }
+
+        [WinFormsFact]
+        public async Task TryInvoke_InvokeNotRequiredTest()
+        {
+            var tcs = new TaskCompletionSource<int>();
+            using var control = new Control();
+            control.CreateControl();
+
+            var uiThreadId = Thread.CurrentThread.ManagedThreadId;
+            var ret = control.TryInvoke(() =>
+            {
+                Assert.Equal(uiThreadId, Thread.CurrentThread.ManagedThreadId);
+                tcs.SetResult(1);
+            });
+            Assert.True(ret);
+
+            await tcs.Task;
+        }
+
+        [WinFormsFact]
+        public async Task TryInvoke_InvokeRequiredTest()
+        {
+            var tcs = new TaskCompletionSource<int>();
+            using var control = new Control();
+            control.CreateControl();
+
+            var uiThreadId = Thread.CurrentThread.ManagedThreadId;
+            await Task.Run(() =>
+            {
+                var workerThreadId = Thread.CurrentThread.ManagedThreadId;
+                var ret = control.TryInvoke(() =>
+                {
+                    Assert.NotEqual(workerThreadId, Thread.CurrentThread.ManagedThreadId);
+                    Assert.Equal(uiThreadId, Thread.CurrentThread.ManagedThreadId);
+                    tcs.SetResult(1);
+                });
+                Assert.True(ret);
+            });
+
+            await tcs.Task;
+        }
+
+        [WinFormsFact]
+        public void TryInvoke_DisposedTest()
+        {
+            var control = new Control();
+            control.CreateControl();
+            control.Dispose();
+
+            var ret = control.TryInvoke(
+                () => Assert.Fail("should not be called")
+            );
+            Assert.False(ret);
         }
 
         [Fact]
