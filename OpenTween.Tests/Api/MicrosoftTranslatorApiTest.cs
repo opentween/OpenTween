@@ -114,7 +114,7 @@ namespace OpenTween.Api
         [Fact]
         public async Task UpdateAccessTokenIfExpired_FirstCallTest()
         {
-            var mock = new Mock<MicrosoftTranslatorApi>(ApiKey.Create("fake_api_key"), null);
+            var mock = new Mock<MicrosoftTranslatorApi>(ApiKey.Create("fake_api_key"), null!);
             mock.Setup(x => x.GetAccessTokenAsync())
                 .ReturnsAsync(("1234abcd", TimeSpan.FromSeconds(1000)));
 
@@ -132,7 +132,7 @@ namespace OpenTween.Api
         [Fact]
         public async Task UpdateAccessTokenIfExpired_NotExpiredTest()
         {
-            var mock = new Mock<MicrosoftTranslatorApi>(ApiKey.Create("fake_api_key"), null);
+            var mock = new Mock<MicrosoftTranslatorApi>(ApiKey.Create("fake_api_key"), null!);
 
             var translateApi = mock.Object;
             translateApi.AccessToken = "1234abcd";
@@ -147,7 +147,7 @@ namespace OpenTween.Api
         [Fact]
         public async Task UpdateAccessTokenIfExpired_ExpiredTest()
         {
-            var mock = new Mock<MicrosoftTranslatorApi>(ApiKey.Create("fake_api_key"), null);
+            var mock = new Mock<MicrosoftTranslatorApi>(ApiKey.Create("fake_api_key"), null!);
             mock.Setup(x => x.GetAccessTokenAsync())
                 .ReturnsAsync(("5678efgh", TimeSpan.FromSeconds(1000)));
 
