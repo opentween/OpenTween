@@ -49,10 +49,10 @@ jobs:
         shell: pwsh
         run: |
           $altCoverVersion = '8.6.61'
-          $xunitVersion = '2.4.2'
+          $xunitVersion = '2.6.2'
           $targetFramework = 'net48'
           $altCoverPath = "$($env:NUGET_PACKAGES)\altcover\$($altCoverVersion)\tools\net472\AltCover.exe"
-          $xunitPath = "$($env:NUGET_PACKAGES)\xunit.runner.console\$($xunitVersion)\tools\net472\xunit.console.exe"
+          $xunitPath = "$($env:NUGET_PACKAGES)\xunit.runner.console\$($xunitVersion)\tools\net481\xunit.console.exe"
 
           $p = Start-Process `
             -FilePath $altCoverPath `
