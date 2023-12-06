@@ -230,7 +230,7 @@ namespace OpenTween.Models
                     continue;
 
                 if (this.ContainsTab(tab.TabName))
-                    tab.TabName = this.MakeTabName("MyTab");
+                    tab.TabName = this.MakeTabName(tab.TabName);
 
                 this.AddTab(tab);
             }

@@ -1,6 +1,5 @@
 ﻿// OpenTween - Client of Twitter
-// Copyright (c) 2012 the40san <http://sourceforge.jp/users/the40san/>
-//           (c) 2014 kim_upsilon (@kim_upsilon) <https://upsilo.net/~upsilon/>
+// Copyright (c) 2023 kim_upsilon (@kim_upsilon) <https://upsilo.net/~upsilon/>
 // All rights reserved.
 //
 // This file is part of OpenTween.
@@ -21,37 +20,22 @@
 // Boston, MA 02110-1301, USA.
 
 using System;
-using System.Net;
-using System.Net.Http;
+using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Web;
+using OpenTween.Setting;
 using Xunit;
-using Xunit.Extensions;
 
 namespace OpenTween
 {
-    /// <summary>
-    /// Bingクラスのテストクラス
-    /// </summary>
-    public class BingTest
+    public class ApplicationContainerTest
     {
-        [Fact]
+        [WinFormsFact]
         public void Initialize_Test()
-            => new Bing();
-
-        [Theory]
-        [InlineData("af", 0)]
-        [InlineData("sq", 1)]
-        [InlineData("ja", 67)]
-        public void GetLanguageEnumFromIndex_Test(string expected, int index)
-            => Assert.Equal(expected, Bing.GetLanguageEnumFromIndex(index));
-
-        [Theory]
-        [InlineData(0, "af")]
-        [InlineData(1, "sq")]
-        [InlineData(67, "ja")]
-        public void GetIndexFromLanguageEnum_Test(int expected, string lang)
-            => Assert.Equal(expected, Bing.GetIndexFromLanguageEnum(lang));
+        {
+            var settingManager = new SettingManager("");
+            using var container = new ApplicationContainer(settingManager);
+        }
     }
 }

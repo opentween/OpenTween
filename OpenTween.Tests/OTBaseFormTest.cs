@@ -125,5 +125,28 @@ namespace OpenTween
 
             Assert.Equal(40, scrollBar.Width);
         }
+
+        [WinFormsFact]
+        public void ScaleChildControl_ImageListTest()
+        {
+            using var imageList = new ImageList() { ImageSize = new(16, 16) };
+            OTBaseForm.ScaleChildControl(imageList, new SizeF(2.0f, 2.0f));
+
+            Assert.Equal(new(32, 32), imageList.ImageSize);
+        }
+
+        [Fact]
+        public void ScaleBy_SizeTest()
+        {
+            var factor = new SizeF(2.0f, 2.0f);
+            Assert.Equal(new(32, 32), OTBaseForm.ScaleBy(factor, new(16, 16)));
+        }
+
+        [Fact]
+        public void ScaleBy_IntegerTest()
+        {
+            var factor = 2.0f;
+            Assert.Equal(32, OTBaseForm.ScaleBy(factor, 16));
+        }
     }
 }

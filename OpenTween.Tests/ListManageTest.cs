@@ -1,5 +1,5 @@
 ﻿// OpenTween - Client of Twitter
-// Copyright (c) 2015 kim_upsilon (@kim_upsilon) <https://upsilo.net/~upsilon/>
+// Copyright (c) 2023 kim_upsilon (@kim_upsilon) <https://upsilo.net/~upsilon/>
 // All rights reserved.
 //
 // This file is part of OpenTween.
@@ -24,35 +24,19 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Windows.Forms;
+using OpenTween.Api;
 using Xunit;
 
 namespace OpenTween
 {
-    public class MouseWheelMessageFilterTest
+    public class ListManageTest
     {
         [WinFormsFact]
         public void Initialize_Test()
         {
-            using var filter = new MouseWheelMessageFilter();
-        }
-
-        [Fact]
-        public void ParseMessage_MinusTest()
-        {
-            const int WM_MOUSEWHEEL = 0x020A;
-
-            var message = new Message
-            {
-                Msg = WM_MOUSEWHEEL,
-                LParam = (IntPtr)0xffffffffff29ff22,
-                WParam = (IntPtr)0xffffffffff880000,
-            };
-            var ret = MouseWheelMessageFilter.ParseMessage(message);
-
-            Assert.Equal(-222, ret.ScreenLocation.X); // (short)0xff29
-            Assert.Equal(-215, ret.ScreenLocation.Y); // (short)0xff22
-            Assert.Equal(-120, ret.WheelDelta); // (short)0xff88
+            using var twitterApi = new TwitterApi();
+            using var twitter = new Twitter(twitterApi);
+            using var dialog = new ListManage(twitter);
         }
     }
 }

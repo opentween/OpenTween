@@ -32,6 +32,12 @@ namespace OpenTween
 {
     public class TweetDetailsViewTest
     {
+        [WinFormsFact]
+        public void Initialize_Test()
+        {
+            using var detailsView = new TweetDetailsView();
+        }
+
         [Fact]
         public void FormatQuoteTweetHtml_PostClassTest()
         {
