@@ -42,7 +42,7 @@ namespace OpenTween.Api.GraphQL
     {
         private static readonly Uri EndpointUri = new("https://twitter.com/i/api/graphql/tTsjMKyhajZvK4q76mpIBg/CreateTweet");
 
-        required public string TweetText { get; set; }
+        public required string TweetText { get; set; }
 
         public TwitterStatusId? InReplyToTweetId { get; set; }
 
