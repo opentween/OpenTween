@@ -327,7 +327,7 @@ namespace OpenTween.Models
             };
             var tabinfo = this.CreateInstance();
             tabinfo.LoadTabsFromSettings(settingTabs);
-            Assert.Equal(1, tabinfo.Tabs.Count);
+            Assert.Single(tabinfo.Tabs);
 
             var tab = (PublicSearchTabModel)tabinfo.Tabs["hoge"];
             Assert.Equal("aaa", tab.SearchWords);
@@ -430,7 +430,7 @@ namespace OpenTween.Models
         public void AddDefaultTabs_Test()
         {
             var tabinfo = this.CreateInstance();
-            Assert.Equal(0, tabinfo.Tabs.Count);
+            Assert.Empty(tabinfo.Tabs);
 
             tabinfo.AddDefaultTabs();
 

@@ -83,8 +83,7 @@ namespace OpenTween.Connection
                 ["bbbb"] = "2222",
             };
 
-            var result = await apiConnection.GetAsync<string>(endpoint, param, endpointName: "/hoge/tetete")
-                .ConfigureAwait(false);
+            var result = await apiConnection.GetAsync<string>(endpoint, param, endpointName: "/hoge/tetete");
             Assert.Equal("hogehoge", result);
 
             Assert.Equal(0, mockHandler.QueueCount);
@@ -122,8 +121,7 @@ namespace OpenTween.Connection
                 ["bbbb"] = "2222",
             };
 
-            await apiConnection.GetAsync<string>(endpoint, param, endpointName: "/hoge/tetete")
-                .ConfigureAwait(false);
+            await apiConnection.GetAsync<string>(endpoint, param, endpointName: "/hoge/tetete");
 
             Assert.Equal(0, mockHandler.QueueCount);
         }
@@ -160,8 +158,7 @@ namespace OpenTween.Connection
 
             var endpoint = new Uri("hoge/tetete.json", UriKind.Relative);
 
-            await apiConnection.GetAsync<string>(endpoint, null, endpointName: "/hoge/tetete")
-                .ConfigureAwait(false);
+            await apiConnection.GetAsync<string>(endpoint, null, endpointName: "/hoge/tetete");
 
             Assert.Equal(TwitterApiAccessLevel.ReadWriteAndDirectMessage, apiStatus.AccessLevel);
             Assert.Equal(new ApiLimit(150, 100, new DateTimeUtc(2013, 1, 1, 0, 0, 0)), apiStatus.AccessLimit["/hoge/tetete"]);
@@ -187,8 +184,9 @@ namespace OpenTween.Connection
 
             var endpoint = new Uri("hoge/tetete.json", UriKind.Relative);
 
-            var exception = await Assert.ThrowsAsync<TwitterApiException>(() => apiConnection.GetAsync<string>(endpoint, null, endpointName: "/hoge/tetete"))
-                .ConfigureAwait(false);
+            var exception = await Assert.ThrowsAsync<TwitterApiException>(
+                () => apiConnection.GetAsync<string>(endpoint, null, endpointName: "/hoge/tetete")
+            );
 
             // エラーレスポンスの読み込みに失敗した場合はステータスコードをそのままメッセージに使用する
             Assert.Equal("BadGateway", exception.Message);
@@ -215,8 +213,9 @@ namespace OpenTween.Connection
 
             var endpoint = new Uri("hoge/tetete.json", UriKind.Relative);
 
-            var exception = await Assert.ThrowsAsync<TwitterApiException>(() => apiConnection.GetAsync<string>(endpoint, null, endpointName: "/hoge/tetete"))
-                .ConfigureAwait(false);
+            var exception = await Assert.ThrowsAsync<TwitterApiException>(
+                () => apiConnection.GetAsync<string>(endpoint, null, endpointName: "/hoge/tetete")
+            );
 
             // エラーレスポンスの JSON に含まれるエラーコードに基づいてメッセージを出力する
             Assert.Equal("DuplicateStatus", exception.Message);
@@ -260,13 +259,12 @@ namespace OpenTween.Connection
                 ["bbbb"] = "2222",
             };
 
-            var stream = await apiConnection.GetStreamAsync(endpoint, param)
-                .ConfigureAwait(false);
+            var stream = await apiConnection.GetStreamAsync(endpoint, param);
 
             using (var memoryStream = new MemoryStream())
             {
                 // 内容の比較のために MemoryStream にコピー
-                await stream.CopyToAsync(memoryStream).ConfigureAwait(false);
+                await stream.CopyToAsync(memoryStream);
 
                 Assert.Equal(image.Stream.ToArray(), memoryStream.ToArray());
             }
@@ -288,8 +286,7 @@ namespace OpenTween.Connection
                 Assert.Equal("https://api.twitter.com/1.1/hoge/tetete.json",
                     x.RequestUri.AbsoluteUri);
 
-                var body = await x.Content.ReadAsStringAsync()
-                    .ConfigureAwait(false);
+                var body = await x.Content.ReadAsStringAsync();
                 var query = HttpUtility.ParseQueryString(body);
 
                 Assert.Equal("1111", query["aaaa"]);
@@ -308,10 +305,9 @@ namespace OpenTween.Connection
                 ["bbbb"] = "2222",
             };
 
-            var result = await apiConnection.PostLazyAsync<string>(endpoint, param)
-                .ConfigureAwait(false);
+            var result = await apiConnection.PostLazyAsync<string>(endpoint, param);
 
-            Assert.Equal("hogehoge", await result.LoadJsonAsync().ConfigureAwait(false));
+            Assert.Equal("hogehoge", await result.LoadJsonAsync());
 
             Assert.Equal(0, mockHandler.QueueCount);
         }
@@ -360,7 +356,7 @@ namespace OpenTween.Connection
                     .Concat(image.Stream.ToArray())
                     .Concat(Encoding.UTF8.GetBytes($"\r\n--{boundary}--\r\n"));
 
-                Assert.Equal(expected, await x.Content.ReadAsByteArrayAsync().ConfigureAwait(false));
+                Assert.Equal(expected, await x.Content.ReadAsByteArrayAsync());
 
                 return new HttpResponseMessage(HttpStatusCode.OK)
                 {
@@ -379,10 +375,9 @@ namespace OpenTween.Connection
                 ["media1"] = media,
             };
 
-            var result = await apiConnection.PostLazyAsync<string>(endpoint, param, mediaParam)
-                .ConfigureAwait(false);
+            var result = await apiConnection.PostLazyAsync<string>(endpoint, param, mediaParam);
 
-            Assert.Equal("hogehoge", await result.LoadJsonAsync().ConfigureAwait(false));
+            Assert.Equal("hogehoge", await result.LoadJsonAsync());
 
             Assert.Equal(0, mockHandler.QueueCount);
         }
@@ -415,7 +410,7 @@ namespace OpenTween.Connection
 
                 var expected = Encoding.UTF8.GetBytes(expectedText);
 
-                Assert.Equal(expected, await x.Content.ReadAsByteArrayAsync().ConfigureAwait(false));
+                Assert.Equal(expected, await x.Content.ReadAsByteArrayAsync());
 
                 return new HttpResponseMessage(HttpStatusCode.OK)
                 {
@@ -425,10 +420,9 @@ namespace OpenTween.Connection
 
             var endpoint = new Uri("hoge/tetete.json", UriKind.Relative);
 
-            var result = await apiConnection.PostLazyAsync<string>(endpoint, param: null, media: null)
-                .ConfigureAwait(false);
+            var result = await apiConnection.PostLazyAsync<string>(endpoint, param: null, media: null);
 
-            Assert.Equal("hogehoge", await result.LoadJsonAsync().ConfigureAwait(false));
+            Assert.Equal("hogehoge", await result.LoadJsonAsync());
 
             Assert.Equal(0, mockHandler.QueueCount);
         }
@@ -449,8 +443,7 @@ namespace OpenTween.Connection
 
                 Assert.Equal("application/json; charset=utf-8", x.Content.Headers.ContentType.ToString());
 
-                var body = await x.Content.ReadAsStringAsync()
-                    .ConfigureAwait(false);
+                var body = await x.Content.ReadAsStringAsync();
 
                 Assert.Equal("""{"aaaa": 1111}""", body);
 
@@ -462,8 +455,7 @@ namespace OpenTween.Connection
 
             var endpoint = new Uri("hoge/tetete.json", UriKind.Relative);
 
-            var response = await apiConnection.PostJsonAsync(endpoint, """{"aaaa": 1111}""")
-                .ConfigureAwait(false);
+            var response = await apiConnection.PostJsonAsync(endpoint, """{"aaaa": 1111}""");
 
             Assert.Equal(@"{""ok"":true}", response);
             Assert.Equal(0, mockHandler.QueueCount);
@@ -485,8 +477,7 @@ namespace OpenTween.Connection
 
                 Assert.Equal("application/json; charset=utf-8", x.Content.Headers.ContentType.ToString());
 
-                var body = await x.Content.ReadAsStringAsync()
-                    .ConfigureAwait(false);
+                var body = await x.Content.ReadAsStringAsync();
 
                 Assert.Equal("""{"aaaa": 1111}""", body);
 
@@ -497,12 +488,8 @@ namespace OpenTween.Connection
             });
 
             var endpoint = new Uri("hoge/tetete.json", UriKind.Relative);
-
-            var response = await apiConnection.PostJsonAsync<string>(endpoint, """{"aaaa": 1111}""")
-                .ConfigureAwait(false);
-
-            var result = await response.LoadJsonAsync()
-                .ConfigureAwait(false);
+            var response = await apiConnection.PostJsonAsync<string>(endpoint, """{"aaaa": 1111}""");
+            var result = await response.LoadJsonAsync();
 
             Assert.Equal("hogehoge", result);
 
@@ -528,8 +515,7 @@ namespace OpenTween.Connection
 
             var endpoint = new Uri("hoge/tetete.json", UriKind.Relative);
 
-            await apiConnection.DeleteAsync(endpoint)
-                .ConfigureAwait(false);
+            await apiConnection.DeleteAsync(endpoint);
 
             Assert.Equal(0, mockHandler.QueueCount);
         }

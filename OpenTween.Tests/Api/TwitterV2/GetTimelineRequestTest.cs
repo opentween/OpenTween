@@ -57,7 +57,7 @@ namespace OpenTween.Api.TwitterV2
                 UntilId = new("900"),
             };
 
-            await request.Send(mock.Object).ConfigureAwait(false);
+            await request.Send(mock.Object);
 
             mock.VerifyAll();
         }

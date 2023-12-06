@@ -55,7 +55,7 @@ namespace OpenTween.Api.GraphQL
                 ScreenName = "opentween",
             };
 
-            var user = await request.Send(mock.Object).ConfigureAwait(false);
+            var user = await request.Send(mock.Object);
             Assert.Equal("514241801", user.ToTwitterUser().IdStr);
 
             mock.VerifyAll();

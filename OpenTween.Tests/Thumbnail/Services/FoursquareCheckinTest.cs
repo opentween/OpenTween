@@ -212,8 +212,7 @@ namespace OpenTween.Thumbnail.Services
             var service = new FoursquareCheckin(http, ApiKey.Create("%e%INVALID_API_KEY"), ApiKey.Create("%e%INVALID_API_KEY"));
 
             var post = new PostClass();
-            var thumb = await service.GetThumbnailInfoAsync("https://www.swarmapp.com/c/xxxxxxxx", post, CancellationToken.None)
-                .ConfigureAwait(false);
+            var thumb = await service.GetThumbnailInfoAsync("https://www.swarmapp.com/c/xxxxxxxx", post, CancellationToken.None);
 
             Assert.Null(thumb);
         }

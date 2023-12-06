@@ -56,7 +56,7 @@ namespace OpenTween.Api.GraphQL
                 TweetText = "tetete",
             };
 
-            var status = await request.Send(mock.Object).ConfigureAwait(false);
+            var status = await request.Send(mock.Object);
             Assert.Equal("1680534146492317696", status.IdStr);
 
             mock.VerifyAll();
@@ -83,7 +83,7 @@ namespace OpenTween.Api.GraphQL
                 InReplyToTweetId = new("12345"),
                 ExcludeReplyUserIds = new[] { "11111", "22222" },
             };
-            await request.Send(mock.Object).ConfigureAwait(false);
+            await request.Send(mock.Object);
             mock.VerifyAll();
         }
 
@@ -107,7 +107,7 @@ namespace OpenTween.Api.GraphQL
                 TweetText = "tetete",
                 MediaIds = new[] { "11111", "22222" },
             };
-            await request.Send(mock.Object).ConfigureAwait(false);
+            await request.Send(mock.Object);
             mock.VerifyAll();
         }
     }

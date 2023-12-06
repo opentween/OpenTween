@@ -36,8 +36,7 @@ namespace OpenTween.Connection
         {
             var requestUri = new Uri("http://example.com/api?aaa=1&bbb=2");
 
-            var actual = await OAuthHandler.GetParameters(requestUri, content: null)
-                .ConfigureAwait(false);
+            var actual = await OAuthHandler.GetParameters(requestUri, content: null);
             var expected = new[]
             {
                 new KeyValuePair<string, string>("aaa", "1"),
@@ -58,8 +57,7 @@ namespace OpenTween.Connection
             };
 
             using var content = new FormUrlEncodedContent(formParams);
-            var actual = await OAuthHandler.GetParameters(requestUri, content)
-                .ConfigureAwait(false);
+            var actual = await OAuthHandler.GetParameters(requestUri, content);
 
             var expected = new[]
             {
@@ -81,8 +79,7 @@ namespace OpenTween.Connection
             content.Add(paramA, "aaa");
             content.Add(paramB, "bbb");
 
-            var actual = await OAuthHandler.GetParameters(requestUri, content)
-                .ConfigureAwait(false);
+            var actual = await OAuthHandler.GetParameters(requestUri, content);
 
             // multipart/form-data のリクエストではパラメータを署名対象にしない
             Assert.Empty(actual);

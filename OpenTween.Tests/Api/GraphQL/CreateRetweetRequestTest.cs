@@ -54,7 +54,7 @@ namespace OpenTween.Api.GraphQL
                 TweetId = new("12345"),
             };
 
-            var tweetId = await request.Send(mock.Object).ConfigureAwait(false);
+            var tweetId = await request.Send(mock.Object);
             Assert.Equal("1617128268548964354", tweetId.Id);
 
             mock.VerifyAll();

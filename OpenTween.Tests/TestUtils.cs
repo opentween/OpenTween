@@ -68,7 +68,7 @@ namespace OpenTween
                 await testCode().ConfigureAwait(false);
 
                 if (raisedEvent != null)
-                    throw new Xunit.Sdk.RaisesException(typeof(void), raisedEvent.GetType());
+                    throw Xunit.Sdk.RaisesException.ForIncorrectType(typeof(void), raisedEvent.GetType());
             }
             finally
             {
@@ -81,7 +81,7 @@ namespace OpenTween
             void Handler(object s, PropertyChangedEventArgs e)
             {
                 if (s == @object && e.PropertyName == propertyName)
-                    throw new Xunit.Sdk.PropertyChangedException(propertyName);
+                    throw Xunit.Sdk.PropertyChangedException.ForUnsetProperty(propertyName);
             }
 
             try

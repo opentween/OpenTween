@@ -41,7 +41,7 @@ namespace OpenTween.Api.GraphQL
 
         private static readonly Uri EndpointUri = new("https://twitter.com/i/api/graphql/xc8f1g7BYqr6VTzTbvNlGw/UserByScreenName");
 
-        required public string ScreenName { get; set; }
+        public required string ScreenName { get; set; }
 
         public Dictionary<string, string> CreateParameters()
         {

@@ -346,7 +346,7 @@ namespace OpenTween
             Assert.False(startInfo.UseShellExecute);
         }
 
-        public static readonly TheoryData<int[], (int, int)[]> ToRangeChunkTestCase = new()
+        public static readonly TheoryData<int[], (int Start, int End)[]> ToRangeChunkTestCase = new()
         {
             {
                 new[] { 1 },

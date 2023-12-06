@@ -102,8 +102,7 @@ namespace OpenTween.Thumbnail.Services
         {
             var service = new Tinami(ApiKey.Create("%e%INVALID_API_KEY"), null);
 
-            var thumbinfo = await service.GetThumbnailInfoAsync("http://www.tinami.com/view/12345", new PostClass(), CancellationToken.None)
-                .ConfigureAwait(false);
+            var thumbinfo = await service.GetThumbnailInfoAsync("http://www.tinami.com/view/12345", new PostClass(), CancellationToken.None);
 
             Assert.Null(thumbinfo);
         }

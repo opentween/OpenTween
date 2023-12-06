@@ -42,7 +42,7 @@ namespace OpenTween.Thumbnail.Services
         [InlineData("https://youtu.be/aaaaa", "aaaaa")]
         [InlineData("https://youtu.be/aaaaa?t=123", "aaaaa")]
         [InlineData("https://www.youtube.com/channel/aaaaa", null)] // チャンネルページ
-        public void UrlPatternRegex_Test(string testUrl, string expected)
+        public void UrlPatternRegex_Test(string testUrl, string? expected)
         {
             var match = Youtube.UrlPatternRegex.Match(testUrl);
 

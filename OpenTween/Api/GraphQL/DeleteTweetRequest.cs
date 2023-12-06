@@ -36,7 +36,7 @@ namespace OpenTween.Api.GraphQL
     {
         private static readonly Uri EndpointUri = new("https://twitter.com/i/api/graphql/VaenaVgh5q5ih7kvyVjgtg/DeleteTweet");
 
-        required public TwitterStatusId TweetId { get; set; }
+        public required TwitterStatusId TweetId { get; set; }
 
         public string CreateRequestBody()
         {

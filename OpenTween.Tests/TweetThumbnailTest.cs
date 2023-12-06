@@ -83,8 +83,7 @@ namespace OpenTween
                 Media = new() { new("http://example.com/abcd") },
             };
 
-            await tweetThumbnail.PrepareThumbnails(post, CancellationToken.None)
-                .ConfigureAwait(false);
+            await tweetThumbnail.PrepareThumbnails(post, CancellationToken.None);
 
             Assert.True(tweetThumbnail.ThumbnailAvailable);
             Assert.Single(tweetThumbnail.Thumbnails);
@@ -108,8 +107,7 @@ namespace OpenTween
                 Media = new() { new("http://hoge.example.com/") },
             };
 
-            await tweetThumbnail.PrepareThumbnails(post, CancellationToken.None)
-                .ConfigureAwait(false);
+            await tweetThumbnail.PrepareThumbnails(post, CancellationToken.None);
 
             Assert.False(tweetThumbnail.ThumbnailAvailable);
             Assert.Throws<InvalidOperationException>(() => tweetThumbnail.Thumbnails);
@@ -246,8 +244,7 @@ namespace OpenTween
                 Media = new() { new("http://example.com/abcd"), new("http://example.com/efgh") },
             };
 
-            await tweetThumbnail.PrepareThumbnails(post, CancellationToken.None)
-                .ConfigureAwait(false);
+            await tweetThumbnail.PrepareThumbnails(post, CancellationToken.None);
 
             Assert.Equal(2, tweetThumbnail.Thumbnails.Length);
             Assert.Equal(0, tweetThumbnail.SelectedIndex);
@@ -291,8 +288,7 @@ namespace OpenTween
                 Media = new() { new("http://example.com/abcd") },
             };
 
-            await tweetThumbnail.PrepareThumbnails(post, CancellationToken.None)
-                .ConfigureAwait(false);
+            await tweetThumbnail.PrepareThumbnails(post, CancellationToken.None);
 
             Assert.Equal("http://img.example.com/abcd.png", tweetThumbnail.CurrentThumbnail.ThumbnailImageUrl);
             Assert.Equal(
@@ -316,8 +312,7 @@ namespace OpenTween
                 Media = new() { new("http://example.com/abcd") },
             };
 
-            await tweetThumbnail.PrepareThumbnails(post, CancellationToken.None)
-                .ConfigureAwait(false);
+            await tweetThumbnail.PrepareThumbnails(post, CancellationToken.None);
 
             Assert.Equal("http://img.example.com/abcd.png", tweetThumbnail.CurrentThumbnail.ThumbnailImageUrl);
             Assert.Equal(
@@ -341,8 +336,7 @@ namespace OpenTween
                 Media = new() { new("http://example.com/abcd"), new("http://example.com/efgh") },
             };
 
-            await tweetThumbnail.PrepareThumbnails(post, CancellationToken.None)
-                .ConfigureAwait(false);
+            await tweetThumbnail.PrepareThumbnails(post, CancellationToken.None);
 
             Assert.Equal(2, tweetThumbnail.Thumbnails.Length);
             Assert.Equal(0, tweetThumbnail.SelectedIndex);

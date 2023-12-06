@@ -51,7 +51,7 @@ namespace OpenTween.Api.GraphQL
                 SourceTweetId = new("12345"),
             };
 
-            await request.Send(mock.Object).ConfigureAwait(false);
+            await request.Send(mock.Object);
 
             mock.VerifyAll();
         }
