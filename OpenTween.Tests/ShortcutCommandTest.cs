@@ -139,7 +139,7 @@ namespace OpenTween
 
             Assert.False(invoked);
 
-            await shortcut.RunCommand().ConfigureAwait(false);
+            await shortcut.RunCommand();
 
             Assert.True(invoked);
         }
@@ -152,13 +152,13 @@ namespace OpenTween
             var shortcut = ShortcutCommand.Create(Keys.F5)
                 .Do(async () =>
                 {
-                    await Task.Delay(100).ConfigureAwait(false);
+                    await Task.Delay(100);
                     invoked = true;
                 });
 
             Assert.False(invoked);
 
-            await shortcut.RunCommand().ConfigureAwait(false);
+            await shortcut.RunCommand();
 
             Assert.True(invoked);
         }

@@ -91,8 +91,7 @@ namespace OpenTween.Thumbnail.Services
                 var service = new Tumblr(ApiKey.Create("fake_api_key"), http);
 
                 var url = "http://hoge.tumblr.com/post/1234567/tetetete";
-                await service.GetThumbnailInfoAsync(url, new PostClass(), CancellationToken.None)
-                    .ConfigureAwait(false);
+                await service.GetThumbnailInfoAsync(url, new PostClass(), CancellationToken.None);
             }
 
             Assert.Equal(0, handler.QueueCount);
@@ -131,8 +130,7 @@ namespace OpenTween.Thumbnail.Services
 
                 // Tumblrのカスタムドメイン名を使ってるっぽいURL
                 var url = "http://tumblr.example.com/post/1234567/tetetete";
-                await service.GetThumbnailInfoAsync(url, new PostClass(), CancellationToken.None)
-                    .ConfigureAwait(false);
+                await service.GetThumbnailInfoAsync(url, new PostClass(), CancellationToken.None);
             }
 
             Assert.Equal(0, handler.QueueCount);
@@ -147,8 +145,7 @@ namespace OpenTween.Thumbnail.Services
             var service = new Tumblr(ApiKey.Create("%e%INVALID_API_KEY"), http);
 
             var url = "http://hoge.tumblr.com/post/1234567/tetetete";
-            var thumb = await service.GetThumbnailInfoAsync(url, new PostClass(), CancellationToken.None)
-                .ConfigureAwait(false);
+            var thumb = await service.GetThumbnailInfoAsync(url, new PostClass(), CancellationToken.None);
             Assert.Null(thumb);
         }
     }

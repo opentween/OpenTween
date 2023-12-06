@@ -56,7 +56,7 @@ namespace OpenTween.Api.GraphQL
                 FocalTweetId = new("1619433164757413894"),
             };
 
-            var tweets = await request.Send(mock.Object).ConfigureAwait(false);
+            var tweets = await request.Send(mock.Object);
             Assert.Equal("1619433164757413894", tweets.Single().ToTwitterStatus().IdStr);
 
             mock.VerifyAll();

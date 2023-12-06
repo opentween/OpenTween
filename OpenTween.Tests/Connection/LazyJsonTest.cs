@@ -47,8 +47,7 @@ namespace OpenTween.Connection
             // この時点ではまだレスポンスボディは読まれない
             Assert.Equal(0, bodyStream.Position);
 
-            var result = await lazyJson.LoadJsonAsync()
-                .ConfigureAwait(false);
+            var result = await lazyJson.LoadJsonAsync();
 
             Assert.Equal("hogehoge", result);
         }
@@ -66,8 +65,9 @@ namespace OpenTween.Connection
             // この時点ではまだレスポンスボディは読まれない
             Assert.Equal(0, bodyStream.Position);
 
-            var exception = await Assert.ThrowsAnyAsync<WebApiException>(() => lazyJson.LoadJsonAsync())
-                .ConfigureAwait(false);
+            var exception = await Assert.ThrowsAnyAsync<WebApiException>(
+                () => lazyJson.LoadJsonAsync()
+            );
 
             Assert.IsType<SerializationException>(exception.InnerException);
         }
@@ -86,8 +86,7 @@ namespace OpenTween.Connection
 
             // レスポンスボディを読まずに破棄
             await Task.FromResult(lazyJson)
-                .IgnoreResponse()
-                .ConfigureAwait(false);
+                .IgnoreResponse();
 
             Assert.True(bodyStream.IsDisposed);
         }

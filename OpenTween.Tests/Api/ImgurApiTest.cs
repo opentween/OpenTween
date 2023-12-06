@@ -86,8 +86,7 @@ namespace OpenTween.Api
 
             var imgurApi = new ImgurApi(ApiKey.Create("fake_api_key"), http);
             using var mediaItem = TestUtils.CreateDummyMediaItem();
-            var uploadedUrl = await imgurApi.UploadFileAsync(mediaItem, "てすと")
-                .ConfigureAwait(false);
+            var uploadedUrl = await imgurApi.UploadFileAsync(mediaItem, "てすと");
             Assert.Equal("https://i.imgur.com/aaaaaaa.png", uploadedUrl);
 
             Assert.Equal(0, mockHandler.QueueCount);

@@ -60,8 +60,7 @@ namespace OpenTween.Api
 
             bitly.EndUserAccessToken = "hogehoge";
 
-            var result = await bitly.ShortenAsync(new Uri("http://www.example.com/"), "bit.ly")
-                .ConfigureAwait(false);
+            var result = await bitly.ShortenAsync(new Uri("http://www.example.com/"), "bit.ly");
             Assert.Equal("http://bit.ly/foo", result.OriginalString);
 
             Assert.Equal(0, mockHandler.QueueCount);
@@ -96,8 +95,7 @@ namespace OpenTween.Api
             bitly.EndUserLoginName = "username";
             bitly.EndUserApiKey = "hogehoge";
 
-            var result = await bitly.ShortenAsync(new Uri("http://www.example.com/"), "bit.ly")
-                .ConfigureAwait(false);
+            var result = await bitly.ShortenAsync(new Uri("http://www.example.com/"), "bit.ly");
             Assert.Equal("http://bit.ly/foo", result.OriginalString);
 
             Assert.Equal(0, mockHandler.QueueCount);
@@ -122,8 +120,7 @@ namespace OpenTween.Api
                     x.Headers.Authorization.Parameter
                 );
 
-                var body = await x.Content.ReadAsStringAsync()
-                    .ConfigureAwait(false);
+                var body = await x.Content.ReadAsStringAsync();
                 var query = HttpUtility.ParseQueryString(body);
 
                 Assert.Equal("password", query["grant_type"]);
@@ -136,8 +133,7 @@ namespace OpenTween.Api
                 };
             });
 
-            var result = await bitly.GetAccessTokenAsync("hogehoge", "tetete")
-                .ConfigureAwait(false);
+            var result = await bitly.GetAccessTokenAsync("hogehoge", "tetete");
             Assert.Equal("abcdefg", result);
 
             Assert.Equal(0, mockHandler.QueueCount);
@@ -158,8 +154,7 @@ namespace OpenTween.Api
                 };
             });
 
-            await Assert.ThrowsAsync<WebApiException>(() => bitly.GetAccessTokenAsync("hogehoge", "tetete"))
-                .ConfigureAwait(false);
+            await Assert.ThrowsAsync<WebApiException>(() => bitly.GetAccessTokenAsync("hogehoge", "tetete"));
 
             Assert.Equal(0, mockHandler.QueueCount);
         }
