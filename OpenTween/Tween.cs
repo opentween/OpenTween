@@ -264,6 +264,297 @@ namespace OpenTween
 
         private readonly HookGlobalHotkey hookGlobalHotkey;
 
+        public TweenMain(
+            SettingManager settingManager,
+            TabInformations tabInfo,
+            Twitter twitter,
+            ImageCache imageCache,
+            IconAssetsManager iconAssets,
+            ThumbnailGenerator thumbGenerator
+        )
+        {
+            this.settings = settingManager;
+            this.statuses = tabInfo;
+            this.tw = twitter;
+            this.iconCache = imageCache;
+            this.iconAssets = iconAssets;
+            this.thumbGenerator = thumbGenerator;
+
+            this.InitializeComponent();
+
+            if (!this.DesignMode)
+            {
+                // デザイナでの編集時にレイアウトが縦方向に数pxずれる問題の対策
+                this.StatusText.Dock = DockStyle.Fill;
+            }
+
+            this.hookGlobalHotkey = new HookGlobalHotkey(this);
+
+            this.hookGlobalHotkey.HotkeyPressed += this.HookGlobalHotkey_HotkeyPressed;
+            this.gh.NotifyClicked += this.GrowlHelper_Callback;
+
+            // メイリオフォント指定時にタブの最小幅が広くなる問題の対策
+            this.ListTab.HandleCreated += (s, e) => NativeMethods.SetMinTabWidth((TabControl)s, 40);
+
+            this.ImageSelector.Visible = false;
+            this.ImageSelector.Enabled = false;
+            this.ImageSelector.FilePickDialog = this.OpenFileDialog1;
+
+            this.workerProgress = new Progress<string>(x => this.StatusLabel.Text = x);
+
+            this.ReplaceAppName();
+            this.InitializeShortcuts();
+
+            this.ignoreConfigSave = true;
+
+            this.TraceOutToolStripMenuItem.Checked = MyCommon.TraceFlag;
+
+            Microsoft.Win32.SystemEvents.PowerModeChanged += this.SystemEvents_PowerModeChanged;
+
+            Regex.CacheSize = 100;
+
+            // アイコン設定
+            this.Icon = this.iconAssets.IconMain; // メインフォーム（TweenMain）
+            this.NotifyIcon1.Icon = this.iconAssets.IconTray; // タスクトレイ
+            this.TabImage.Images.Add(this.iconAssets.IconTab); // タブ見出し
+
+            // <<<<<<<<<設定関連>>>>>>>>>
+            // 設定読み出し
+            this.LoadConfig();
+
+            // 現在の DPI と設定保存時の DPI との比を取得する
+            var configScaleFactor = this.settings.Local.GetConfigScaleFactor(this.CurrentAutoScaleDimensions);
+
+            this.initial = true;
+
+            // サムネイル関連の初期化
+            // プロキシ設定等の通信まわりの初期化が済んでから処理する
+            var imgazyobizinet = this.thumbGenerator.ImgAzyobuziNet;
+            imgazyobizinet.Enabled = this.settings.Common.EnableImgAzyobuziNet;
+            imgazyobizinet.DisabledInDM = this.settings.Common.ImgAzyobuziNetDisabledInDM;
+
+            Thumbnail.Services.TonTwitterCom.GetApiConnection = () => this.tw.Api.Connection;
+
+            // 画像投稿サービス
+            this.ImageSelector.Model.InitializeServices(this.tw, this.tw.Configuration);
+            this.ImageSelector.Model.SelectMediaService(this.settings.Common.UseImageServiceName, this.settings.Common.UseImageService);
+
+            this.tweetThumbnail1.Model.Initialize(this.thumbGenerator);
+
+            // ハッシュタグ/@id関連
+            this.AtIdSupl = new AtIdSupplement(this.settings.AtIdList.AtIdList, "@");
+            this.HashSupl = new AtIdSupplement(this.settings.Common.HashTags, "#");
+            this.HashMgr = new HashtagManage(this.HashSupl,
+                                    this.settings.Common.HashTags.ToArray(),
+                                    this.settings.Common.HashSelected,
+                                    this.settings.Common.HashIsPermanent,
+                                    this.settings.Common.HashIsHead,
+                                    this.settings.Common.HashIsNotAddToAtReply);
+            if (!MyCommon.IsNullOrEmpty(this.HashMgr.UseHash) && this.HashMgr.IsPermanent) this.HashStripSplitButton.Text = this.HashMgr.UseHash;
+
+            // フォント＆文字色＆背景色保持
+            this.themeManager = new(this.settings.Local);
+            this.tweetDetailsView.Initialize(this, this.iconCache, this.themeManager);
+
+            // StringFormatオブジェクトへの事前設定
+            this.sfTab.Alignment = StringAlignment.Center;
+            this.sfTab.LineAlignment = StringAlignment.Center;
+
+            this.InitDetailHtmlFormat();
+            this.tweetDetailsView.ClearPostBrowser();
+
+            this.recommendedStatusFooter = " [TWNv" + Regex.Replace(MyCommon.FileVersion.Replace(".", ""), "^0*", "") + "]";
+
+            this.history.Add(new StatusTextHistory(""));
+            this.hisIdx = 0;
+            this.inReplyTo = null;
+
+            // 各種ダイアログ設定
+            this.SearchDialog.Owner = this;
+            this.urlDialog.Owner = this;
+
+            // 新着バルーン通知のチェック状態設定
+            this.NewPostPopMenuItem.Checked = this.settings.Common.NewAllPop;
+            this.NotifyFileMenuItem.Checked = this.NewPostPopMenuItem.Checked;
+
+            // 新着取得時のリストスクロールをするか。trueならスクロールしない
+            this.ListLockMenuItem.Checked = this.settings.Common.ListLock;
+            this.LockListFileMenuItem.Checked = this.settings.Common.ListLock;
+            // サウンド再生（タブ別設定より優先）
+            this.PlaySoundMenuItem.Checked = this.settings.Common.PlaySound;
+            this.PlaySoundFileMenuItem.Checked = this.settings.Common.PlaySound;
+
+            // ウィンドウ設定
+            this.ClientSize = ScaleBy(configScaleFactor, this.settings.Local.FormSize);
+            this.mySize = this.ClientSize; // サイズ保持（最小化・最大化されたまま終了した場合の対応用）
+            this.myLoc = this.settings.Local.FormLocation;
+            // タイトルバー領域
+            if (this.WindowState != FormWindowState.Minimized)
+            {
+                var tbarRect = new Rectangle(this.myLoc, new Size(this.mySize.Width, SystemInformation.CaptionHeight));
+                var outOfScreen = true;
+                if (Screen.AllScreens.Length == 1) // ハングするとの報告
+                {
+                    foreach (var scr in Screen.AllScreens)
+                    {
+                        if (!Rectangle.Intersect(tbarRect, scr.Bounds).IsEmpty)
+                        {
+                            outOfScreen = false;
+                            break;
+                        }
+                    }
+
+                    if (outOfScreen)
+                        this.myLoc = new Point(0, 0);
+                }
+                this.DesktopLocation = this.myLoc;
+            }
+            this.TopMost = this.settings.Common.AlwaysTop;
+            this.mySpDis = ScaleBy(configScaleFactor.Height, this.settings.Local.SplitterDistance);
+            this.mySpDis2 = ScaleBy(configScaleFactor.Height, this.settings.Local.StatusTextHeight);
+            this.mySpDis3 = ScaleBy(configScaleFactor.Width, this.settings.Local.PreviewDistance);
+
+            this.PlaySoundMenuItem.Checked = this.settings.Common.PlaySound;
+            this.PlaySoundFileMenuItem.Checked = this.settings.Common.PlaySound;
+            // 入力欄
+            this.StatusText.Font = this.themeManager.FontInputFont;
+            this.StatusText.ForeColor = this.themeManager.ColorInputFont;
+
+            // SplitContainer2.Panel2MinSize を一行表示の入力欄の高さに合わせる (MS UI Gothic 12pt (96dpi) の場合は 19px)
+            this.StatusText.Multiline = false; // this.settings.Local.StatusMultiline の設定は後で反映される
+            this.SplitContainer2.Panel2MinSize = this.StatusText.Height;
+
+            // 必要であれば、発言一覧と発言詳細部・入力欄の上下を入れ替える
+            this.SplitContainer1.IsPanelInverted = !this.settings.Common.StatusAreaAtBottom;
+
+            // 全新着通知のチェック状態により、Reply＆DMの新着通知有効無効切り替え（タブ別設定にするため削除予定）
+            if (this.settings.Common.UnreadManage == false)
+            {
+                this.ReadedStripMenuItem.Enabled = false;
+                this.UnreadStripMenuItem.Enabled = false;
+            }
+
+            // リンク先URL表示部の初期化（画面左下）
+            this.StatusLabelUrl.Text = "";
+            // 状態表示部の初期化（画面右下）
+            this.StatusLabel.Text = "";
+            this.StatusLabel.AutoToolTip = false;
+            this.StatusLabel.ToolTipText = "";
+            // 文字カウンタ初期化
+            this.lblLen.Text = this.GetRestStatusCount(this.FormatStatusTextExtended("")).ToString();
+
+            this.JumpReadOpMenuItem.ShortcutKeyDisplayString = "Space";
+            this.CopySTOTMenuItem.ShortcutKeyDisplayString = "Ctrl+C";
+            this.CopyURLMenuItem.ShortcutKeyDisplayString = "Ctrl+Shift+C";
+            this.CopyUserIdStripMenuItem.ShortcutKeyDisplayString = "Shift+Alt+C";
+
+            // SourceLinkLabel のテキストが SplitContainer2.Panel2.AccessibleName にセットされるのを防ぐ
+            // （タブオーダー順で SourceLinkLabel の次にある PostBrowser が TabStop = false となっているため、
+            // さらに次のコントロールである SplitContainer2.Panel2 の AccessibleName がデフォルトで SourceLinkLabel のテキストになってしまう)
+            this.SplitContainer2.Panel2.AccessibleName = "";
+
+            ////////////////////////////////////////////////////////////////////////////////
+            var sortOrder = (SortOrder)this.settings.Common.SortOrder;
+            var mode = this.settings.Common.SortColumn switch
+            {
+                // 0:アイコン,5:未読マーク,6:プロテクト・フィルターマーク
+                0 or 5 or 6 => ComparerMode.Id, // Idソートに読み替え
+                1 => ComparerMode.Nickname, // ニックネーム
+                2 => ComparerMode.Data, // 本文
+                3 => ComparerMode.Id, // 時刻=発言Id
+                4 => ComparerMode.Name, // 名前
+                7 => ComparerMode.Source, // Source
+                _ => ComparerMode.Id,
+            };
+            this.statuses.SetSortMode(mode, sortOrder);
+            ////////////////////////////////////////////////////////////////////////////////
+
+            this.ApplyListViewIconSize(this.settings.Common.IconSize);
+
+            // <<<<<<<<タブ関連>>>>>>>
+            foreach (var tab in this.statuses.Tabs)
+            {
+                if (!this.AddNewTab(tab, startup: true))
+                    throw new TabException(Properties.Resources.TweenMain_LoadText1);
+            }
+
+            this.ListTabSelect(this.ListTab.SelectedTab);
+
+            // タブの位置を調整する
+            this.SetTabAlignment();
+
+            MyCommon.TwitterApiInfo.AccessLimitUpdated += this.TwitterApiStatus_AccessLimitUpdated;
+            Microsoft.Win32.SystemEvents.TimeChanged += this.SystemEvents_TimeChanged;
+
+            if (this.settings.Common.TabIconDisp)
+            {
+                this.ListTab.DrawMode = TabDrawMode.Normal;
+            }
+            else
+            {
+                this.ListTab.DrawMode = TabDrawMode.OwnerDrawFixed;
+                this.ListTab.DrawItem += this.ListTab_DrawItem;
+                this.ListTab.ImageList = null;
+            }
+
+            if (this.settings.Common.HotkeyEnabled)
+            {
+                // グローバルホットキーの登録
+                var modKey = HookGlobalHotkey.ModKeys.None;
+                if ((this.settings.Common.HotkeyModifier & Keys.Alt) == Keys.Alt)
+                    modKey |= HookGlobalHotkey.ModKeys.Alt;
+                if ((this.settings.Common.HotkeyModifier & Keys.Control) == Keys.Control)
+                    modKey |= HookGlobalHotkey.ModKeys.Ctrl;
+                if ((this.settings.Common.HotkeyModifier & Keys.Shift) == Keys.Shift)
+                    modKey |= HookGlobalHotkey.ModKeys.Shift;
+                if ((this.settings.Common.HotkeyModifier & Keys.LWin) == Keys.LWin)
+                    modKey |= HookGlobalHotkey.ModKeys.Win;
+
+                this.hookGlobalHotkey.RegisterOriginalHotkey(this.settings.Common.HotkeyKey, this.settings.Common.HotkeyValue, modKey);
+            }
+
+            if (this.settings.Common.IsUseNotifyGrowl)
+                this.gh.RegisterGrowl();
+
+            this.StatusLabel.Text = Properties.Resources.Form1_LoadText1;       // 画面右下の状態表示を変更
+
+            this.SetMainWindowTitle();
+            this.SetNotifyIconText();
+
+            if (this.settings.Common.MinimizeToTray && this.WindowState == FormWindowState.Minimized)
+            {
+                this.Visible = false;
+            }
+
+            // タイマー設定
+
+            this.timelineScheduler.UpdateFunc[TimelineSchedulerTaskType.Home] = () => this.InvokeAsync(() => this.RefreshTabAsync<HomeTabModel>());
+            this.timelineScheduler.UpdateFunc[TimelineSchedulerTaskType.Mention] = () => this.InvokeAsync(() => this.RefreshTabAsync<MentionsTabModel>());
+            this.timelineScheduler.UpdateFunc[TimelineSchedulerTaskType.Dm] = () => this.InvokeAsync(() => this.RefreshTabAsync<DirectMessagesTabModel>());
+            this.timelineScheduler.UpdateFunc[TimelineSchedulerTaskType.PublicSearch] = () => this.InvokeAsync(() => this.RefreshTabAsync<PublicSearchTabModel>());
+            this.timelineScheduler.UpdateFunc[TimelineSchedulerTaskType.User] = () => this.InvokeAsync(() => this.RefreshTabAsync<UserTimelineTabModel>());
+            this.timelineScheduler.UpdateFunc[TimelineSchedulerTaskType.List] = () => this.InvokeAsync(() => this.RefreshTabAsync<ListTimelineTabModel>());
+            this.timelineScheduler.UpdateFunc[TimelineSchedulerTaskType.Config] = () => this.InvokeAsync(() => Task.WhenAll(new[]
+            {
+                this.DoGetFollowersMenu(),
+                this.RefreshBlockIdsAsync(),
+                this.RefreshMuteUserIdsAsync(),
+                this.RefreshNoRetweetIdsAsync(),
+                this.RefreshTwitterConfigurationAsync(),
+            }));
+            this.RefreshTimelineScheduler();
+
+            this.selectionDebouncer = DebounceTimer.Create(() => this.InvokeAsync(() => this.UpdateSelectedPost()), TimeSpan.FromMilliseconds(100), leading: true);
+            this.saveConfigDebouncer = DebounceTimer.Create(() => this.InvokeAsync(() => this.SaveConfigsAll(ifModified: true)), TimeSpan.FromSeconds(1));
+
+            // 更新中アイコンアニメーション間隔
+            this.TimerRefreshIcon.Interval = 200;
+            this.TimerRefreshIcon.Enabled = false;
+
+            this.ignoreConfigSave = false;
+            this.ApplyLayoutFromSettings();
+        }
+
         private void TweenMain_Activated(object sender, EventArgs e)
         {
             // 画面がアクティブになったら、発言欄の背景色戻す
@@ -457,331 +748,6 @@ namespace OpenTween
                     // U+25B4 BLACK UP-POINTING SMALL TRIANGLE
                     this.columnText[c] = this.columnOrgText[c] + "▴";
                 }
-            }
-        }
-
-        public TweenMain(
-            SettingManager settingManager,
-            TabInformations tabInfo,
-            Twitter twitter,
-            ImageCache imageCache,
-            IconAssetsManager iconAssets,
-            ThumbnailGenerator thumbGenerator
-        )
-        {
-            this.settings = settingManager;
-            this.statuses = tabInfo;
-            this.tw = twitter;
-            this.iconCache = imageCache;
-            this.iconAssets = iconAssets;
-            this.thumbGenerator = thumbGenerator;
-
-            this.InitializeComponent();
-
-            if (!this.DesignMode)
-            {
-                // デザイナでの編集時にレイアウトが縦方向に数pxずれる問題の対策
-                this.StatusText.Dock = DockStyle.Fill;
-            }
-
-            this.hookGlobalHotkey = new HookGlobalHotkey(this);
-
-            this.hookGlobalHotkey.HotkeyPressed += this.HookGlobalHotkey_HotkeyPressed;
-            this.gh.NotifyClicked += this.GrowlHelper_Callback;
-
-            // メイリオフォント指定時にタブの最小幅が広くなる問題の対策
-            this.ListTab.HandleCreated += (s, e) => NativeMethods.SetMinTabWidth((TabControl)s, 40);
-
-            this.ImageSelector.Visible = false;
-            this.ImageSelector.Enabled = false;
-            this.ImageSelector.FilePickDialog = this.OpenFileDialog1;
-
-            this.workerProgress = new Progress<string>(x => this.StatusLabel.Text = x);
-
-            this.ReplaceAppName();
-            this.InitializeShortcuts();
-
-            this.ignoreConfigSave = true;
-            this.Visible = false;
-
-            this.TraceOutToolStripMenuItem.Checked = MyCommon.TraceFlag;
-
-            Microsoft.Win32.SystemEvents.PowerModeChanged += this.SystemEvents_PowerModeChanged;
-
-            Regex.CacheSize = 100;
-
-            // アイコン設定
-            this.Icon = this.iconAssets.IconMain; // メインフォーム（TweenMain）
-            this.NotifyIcon1.Icon = this.iconAssets.IconTray; // タスクトレイ
-            this.TabImage.Images.Add(this.iconAssets.IconTab); // タブ見出し
-
-            // <<<<<<<<<設定関連>>>>>>>>>
-            // 設定読み出し
-            this.LoadConfig();
-
-            // 現在の DPI と設定保存時の DPI との比を取得する
-            var configScaleFactor = this.settings.Local.GetConfigScaleFactor(this.CurrentAutoScaleDimensions);
-
-            // 認証関連
-            var account = this.settings.Common.SelectedAccount;
-            if (account != null)
-                this.tw.Initialize(account.GetTwitterAppToken(), account.Token, account.TokenSecret, account.Username, account.UserId);
-            else
-                this.tw.Initialize(TwitterAppToken.GetDefault(), "", "", "", 0L);
-
-            this.initial = true;
-
-            this.tw.RestrictFavCheck = this.settings.Common.RestrictFavCheck;
-            this.tw.ReadOwnPost = this.settings.Common.ReadOwnPost;
-
-            // アクセストークンが有効であるか確認する
-            // ここが Twitter API への最初のアクセスになるようにすること
-            try
-            {
-                this.tw.VerifyCredentials();
-            }
-            catch (WebApiException ex)
-            {
-                MessageBox.Show(
-                    this,
-                    string.Format(Properties.Resources.StartupAuthError_Text, ex.Message),
-                    ApplicationSettings.ApplicationName,
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Warning);
-            }
-
-            // サムネイル関連の初期化
-            // プロキシ設定等の通信まわりの初期化が済んでから処理する
-            var imgazyobizinet = this.thumbGenerator.ImgAzyobuziNet;
-            imgazyobizinet.Enabled = this.settings.Common.EnableImgAzyobuziNet;
-            imgazyobizinet.DisabledInDM = this.settings.Common.ImgAzyobuziNetDisabledInDM;
-            imgazyobizinet.AutoUpdate = true;
-
-            Thumbnail.Services.TonTwitterCom.GetApiConnection = () => this.tw.Api.Connection;
-
-            // 画像投稿サービス
-            this.ImageSelector.Model.InitializeServices(this.tw, this.tw.Configuration);
-            this.ImageSelector.Model.SelectMediaService(this.settings.Common.UseImageServiceName, this.settings.Common.UseImageService);
-
-            this.tweetThumbnail1.Model.Initialize(this.thumbGenerator);
-
-            // ハッシュタグ/@id関連
-            this.AtIdSupl = new AtIdSupplement(this.settings.AtIdList.AtIdList, "@");
-            this.HashSupl = new AtIdSupplement(this.settings.Common.HashTags, "#");
-            this.HashMgr = new HashtagManage(this.HashSupl,
-                                    this.settings.Common.HashTags.ToArray(),
-                                    this.settings.Common.HashSelected,
-                                    this.settings.Common.HashIsPermanent,
-                                    this.settings.Common.HashIsHead,
-                                    this.settings.Common.HashIsNotAddToAtReply);
-            if (!MyCommon.IsNullOrEmpty(this.HashMgr.UseHash) && this.HashMgr.IsPermanent) this.HashStripSplitButton.Text = this.HashMgr.UseHash;
-
-            // フォント＆文字色＆背景色保持
-            this.themeManager = new(this.settings.Local);
-            this.tweetDetailsView.Initialize(this, this.iconCache, this.themeManager);
-
-            // StringFormatオブジェクトへの事前設定
-            this.sfTab.Alignment = StringAlignment.Center;
-            this.sfTab.LineAlignment = StringAlignment.Center;
-
-            this.InitDetailHtmlFormat();
-            this.tweetDetailsView.ClearPostBrowser();
-
-            this.recommendedStatusFooter = " [TWNv" + Regex.Replace(MyCommon.FileVersion.Replace(".", ""), "^0*", "") + "]";
-
-            this.history.Add(new StatusTextHistory(""));
-            this.hisIdx = 0;
-            this.inReplyTo = null;
-
-            // 各種ダイアログ設定
-            this.SearchDialog.Owner = this;
-            this.urlDialog.Owner = this;
-
-            // 新着バルーン通知のチェック状態設定
-            this.NewPostPopMenuItem.Checked = this.settings.Common.NewAllPop;
-            this.NotifyFileMenuItem.Checked = this.NewPostPopMenuItem.Checked;
-
-            // 新着取得時のリストスクロールをするか。trueならスクロールしない
-            this.ListLockMenuItem.Checked = this.settings.Common.ListLock;
-            this.LockListFileMenuItem.Checked = this.settings.Common.ListLock;
-            // サウンド再生（タブ別設定より優先）
-            this.PlaySoundMenuItem.Checked = this.settings.Common.PlaySound;
-            this.PlaySoundFileMenuItem.Checked = this.settings.Common.PlaySound;
-
-            // ウィンドウ設定
-            this.ClientSize = ScaleBy(configScaleFactor, this.settings.Local.FormSize);
-            this.mySize = this.ClientSize; // サイズ保持（最小化・最大化されたまま終了した場合の対応用）
-            this.myLoc = this.settings.Local.FormLocation;
-            // タイトルバー領域
-            if (this.WindowState != FormWindowState.Minimized)
-            {
-                var tbarRect = new Rectangle(this.myLoc, new Size(this.mySize.Width, SystemInformation.CaptionHeight));
-                var outOfScreen = true;
-                if (Screen.AllScreens.Length == 1) // ハングするとの報告
-                {
-                    foreach (var scr in Screen.AllScreens)
-                    {
-                        if (!Rectangle.Intersect(tbarRect, scr.Bounds).IsEmpty)
-                        {
-                            outOfScreen = false;
-                            break;
-                        }
-                    }
-
-                    if (outOfScreen)
-                        this.myLoc = new Point(0, 0);
-                }
-                this.DesktopLocation = this.myLoc;
-            }
-            this.TopMost = this.settings.Common.AlwaysTop;
-            this.mySpDis = ScaleBy(configScaleFactor.Height, this.settings.Local.SplitterDistance);
-            this.mySpDis2 = ScaleBy(configScaleFactor.Height, this.settings.Local.StatusTextHeight);
-            this.mySpDis3 = ScaleBy(configScaleFactor.Width, this.settings.Local.PreviewDistance);
-
-            this.PlaySoundMenuItem.Checked = this.settings.Common.PlaySound;
-            this.PlaySoundFileMenuItem.Checked = this.settings.Common.PlaySound;
-            // 入力欄
-            this.StatusText.Font = this.themeManager.FontInputFont;
-            this.StatusText.ForeColor = this.themeManager.ColorInputFont;
-
-            // SplitContainer2.Panel2MinSize を一行表示の入力欄の高さに合わせる (MS UI Gothic 12pt (96dpi) の場合は 19px)
-            this.StatusText.Multiline = false; // this.settings.Local.StatusMultiline の設定は後で反映される
-            this.SplitContainer2.Panel2MinSize = this.StatusText.Height;
-
-            // 必要であれば、発言一覧と発言詳細部・入力欄の上下を入れ替える
-            this.SplitContainer1.IsPanelInverted = !this.settings.Common.StatusAreaAtBottom;
-
-            // 全新着通知のチェック状態により、Reply＆DMの新着通知有効無効切り替え（タブ別設定にするため削除予定）
-            if (this.settings.Common.UnreadManage == false)
-            {
-                this.ReadedStripMenuItem.Enabled = false;
-                this.UnreadStripMenuItem.Enabled = false;
-            }
-
-            // リンク先URL表示部の初期化（画面左下）
-            this.StatusLabelUrl.Text = "";
-            // 状態表示部の初期化（画面右下）
-            this.StatusLabel.Text = "";
-            this.StatusLabel.AutoToolTip = false;
-            this.StatusLabel.ToolTipText = "";
-            // 文字カウンタ初期化
-            this.lblLen.Text = this.GetRestStatusCount(this.FormatStatusTextExtended("")).ToString();
-
-            this.JumpReadOpMenuItem.ShortcutKeyDisplayString = "Space";
-            this.CopySTOTMenuItem.ShortcutKeyDisplayString = "Ctrl+C";
-            this.CopyURLMenuItem.ShortcutKeyDisplayString = "Ctrl+Shift+C";
-            this.CopyUserIdStripMenuItem.ShortcutKeyDisplayString = "Shift+Alt+C";
-
-            // SourceLinkLabel のテキストが SplitContainer2.Panel2.AccessibleName にセットされるのを防ぐ
-            // （タブオーダー順で SourceLinkLabel の次にある PostBrowser が TabStop = false となっているため、
-            // さらに次のコントロールである SplitContainer2.Panel2 の AccessibleName がデフォルトで SourceLinkLabel のテキストになってしまう)
-            this.SplitContainer2.Panel2.AccessibleName = "";
-
-            ////////////////////////////////////////////////////////////////////////////////
-            var sortOrder = (SortOrder)this.settings.Common.SortOrder;
-            var mode = this.settings.Common.SortColumn switch
-            {
-                // 0:アイコン,5:未読マーク,6:プロテクト・フィルターマーク
-                0 or 5 or 6 => ComparerMode.Id, // Idソートに読み替え
-                1 => ComparerMode.Nickname, // ニックネーム
-                2 => ComparerMode.Data, // 本文
-                3 => ComparerMode.Id, // 時刻=発言Id
-                4 => ComparerMode.Name, // 名前
-                7 => ComparerMode.Source, // Source
-                _ => ComparerMode.Id,
-            };
-            this.statuses.SetSortMode(mode, sortOrder);
-            ////////////////////////////////////////////////////////////////////////////////
-
-            this.ApplyListViewIconSize(this.settings.Common.IconSize);
-
-            // <<<<<<<<タブ関連>>>>>>>
-            foreach (var tab in this.statuses.Tabs)
-            {
-                if (!this.AddNewTab(tab, startup: true))
-                    throw new TabException(Properties.Resources.TweenMain_LoadText1);
-            }
-
-            this.ListTabSelect(this.ListTab.SelectedTab);
-
-            // タブの位置を調整する
-            this.SetTabAlignment();
-
-            MyCommon.TwitterApiInfo.AccessLimitUpdated += this.TwitterApiStatus_AccessLimitUpdated;
-            Microsoft.Win32.SystemEvents.TimeChanged += this.SystemEvents_TimeChanged;
-
-            if (this.settings.Common.TabIconDisp)
-            {
-                this.ListTab.DrawMode = TabDrawMode.Normal;
-            }
-            else
-            {
-                this.ListTab.DrawMode = TabDrawMode.OwnerDrawFixed;
-                this.ListTab.DrawItem += this.ListTab_DrawItem;
-                this.ListTab.ImageList = null;
-            }
-
-            if (this.settings.Common.HotkeyEnabled)
-            {
-                // グローバルホットキーの登録
-                var modKey = HookGlobalHotkey.ModKeys.None;
-                if ((this.settings.Common.HotkeyModifier & Keys.Alt) == Keys.Alt)
-                    modKey |= HookGlobalHotkey.ModKeys.Alt;
-                if ((this.settings.Common.HotkeyModifier & Keys.Control) == Keys.Control)
-                    modKey |= HookGlobalHotkey.ModKeys.Ctrl;
-                if ((this.settings.Common.HotkeyModifier & Keys.Shift) == Keys.Shift)
-                    modKey |= HookGlobalHotkey.ModKeys.Shift;
-                if ((this.settings.Common.HotkeyModifier & Keys.LWin) == Keys.LWin)
-                    modKey |= HookGlobalHotkey.ModKeys.Win;
-
-                this.hookGlobalHotkey.RegisterOriginalHotkey(this.settings.Common.HotkeyKey, this.settings.Common.HotkeyValue, modKey);
-            }
-
-            if (this.settings.Common.IsUseNotifyGrowl)
-                this.gh.RegisterGrowl();
-
-            this.StatusLabel.Text = Properties.Resources.Form1_LoadText1;       // 画面右下の状態表示を変更
-
-            this.SetMainWindowTitle();
-            this.SetNotifyIconText();
-
-            if (!this.settings.Common.MinimizeToTray || this.WindowState != FormWindowState.Minimized)
-            {
-                this.Visible = true;
-            }
-
-            // タイマー設定
-
-            this.timelineScheduler.UpdateFunc[TimelineSchedulerTaskType.Home] = () => this.InvokeAsync(() => this.RefreshTabAsync<HomeTabModel>());
-            this.timelineScheduler.UpdateFunc[TimelineSchedulerTaskType.Mention] = () => this.InvokeAsync(() => this.RefreshTabAsync<MentionsTabModel>());
-            this.timelineScheduler.UpdateFunc[TimelineSchedulerTaskType.Dm] = () => this.InvokeAsync(() => this.RefreshTabAsync<DirectMessagesTabModel>());
-            this.timelineScheduler.UpdateFunc[TimelineSchedulerTaskType.PublicSearch] = () => this.InvokeAsync(() => this.RefreshTabAsync<PublicSearchTabModel>());
-            this.timelineScheduler.UpdateFunc[TimelineSchedulerTaskType.User] = () => this.InvokeAsync(() => this.RefreshTabAsync<UserTimelineTabModel>());
-            this.timelineScheduler.UpdateFunc[TimelineSchedulerTaskType.List] = () => this.InvokeAsync(() => this.RefreshTabAsync<ListTimelineTabModel>());
-            this.timelineScheduler.UpdateFunc[TimelineSchedulerTaskType.Config] = () => this.InvokeAsync(() => Task.WhenAll(new[]
-            {
-                this.DoGetFollowersMenu(),
-                this.RefreshBlockIdsAsync(),
-                this.RefreshMuteUserIdsAsync(),
-                this.RefreshNoRetweetIdsAsync(),
-                this.RefreshTwitterConfigurationAsync(),
-            }));
-            this.RefreshTimelineScheduler();
-
-            this.selectionDebouncer = DebounceTimer.Create(() => this.InvokeAsync(() => this.UpdateSelectedPost()), TimeSpan.FromMilliseconds(100), leading: true);
-            this.saveConfigDebouncer = DebounceTimer.Create(() => this.InvokeAsync(() => this.SaveConfigsAll(ifModified: true)), TimeSpan.FromSeconds(1));
-
-            // 更新中アイコンアニメーション間隔
-            this.TimerRefreshIcon.Interval = 200;
-            this.TimerRefreshIcon.Enabled = false;
-
-            this.ignoreConfigSave = false;
-            this.TweenMain_Resize(this, EventArgs.Empty);
-
-            if (this.settings.IsFirstRun)
-            {
-                // 初回起動時だけ右下のメニューを目立たせる
-                this.HashStripSplitButton.ShowDropDown();
             }
         }
 
@@ -7214,56 +7180,56 @@ namespace OpenTween
             {
                 this.Visible = false;
             }
-            if (this.initialLayout && this.settings.Local != null && this.WindowState == FormWindowState.Normal && this.Visible)
-            {
-                // 現在の DPI と設定保存時の DPI との比を取得する
-                var configScaleFactor = this.settings.Local.GetConfigScaleFactor(this.CurrentAutoScaleDimensions);
-
-                this.ClientSize = ScaleBy(configScaleFactor, this.settings.Local.FormSize);
-
-                // Splitterの位置設定
-                var splitterDistance = ScaleBy(configScaleFactor.Height, this.settings.Local.SplitterDistance);
-                if (splitterDistance > this.SplitContainer1.Panel1MinSize &&
-                    splitterDistance < this.SplitContainer1.Height - this.SplitContainer1.Panel2MinSize - this.SplitContainer1.SplitterWidth)
-                {
-                    this.SplitContainer1.SplitterDistance = splitterDistance;
-                }
-
-                // 発言欄複数行
-                this.StatusText.Multiline = this.settings.Local.StatusMultiline;
-                if (this.StatusText.Multiline)
-                {
-                    var statusTextHeight = ScaleBy(configScaleFactor.Height, this.settings.Local.StatusTextHeight);
-                    var dis = this.SplitContainer2.Height - statusTextHeight - this.SplitContainer2.SplitterWidth;
-                    if (dis > this.SplitContainer2.Panel1MinSize && dis < this.SplitContainer2.Height - this.SplitContainer2.Panel2MinSize - this.SplitContainer2.SplitterWidth)
-                    {
-                        this.SplitContainer2.SplitterDistance = this.SplitContainer2.Height - statusTextHeight - this.SplitContainer2.SplitterWidth;
-                    }
-                    this.StatusText.Height = statusTextHeight;
-                }
-                else
-                {
-                    if (this.SplitContainer2.Height - this.SplitContainer2.Panel2MinSize - this.SplitContainer2.SplitterWidth > 0)
-                    {
-                        this.SplitContainer2.SplitterDistance = this.SplitContainer2.Height - this.SplitContainer2.Panel2MinSize - this.SplitContainer2.SplitterWidth;
-                    }
-                }
-
-                var previewDistance = ScaleBy(configScaleFactor.Width, this.settings.Local.PreviewDistance);
-                if (previewDistance > this.SplitContainer3.Panel1MinSize && previewDistance < this.SplitContainer3.Width - this.SplitContainer3.Panel2MinSize - this.SplitContainer3.SplitterWidth)
-                {
-                    this.SplitContainer3.SplitterDistance = previewDistance;
-                }
-
-                // Panel2Collapsed は SplitterDistance の設定を終えるまで true にしない
-                this.SplitContainer3.Panel2Collapsed = true;
-
-                this.initialLayout = false;
-            }
             if (this.WindowState != FormWindowState.Minimized)
             {
                 this.formWindowState = this.WindowState;
             }
+        }
+
+        private void ApplyLayoutFromSettings()
+        {
+            // 現在の DPI と設定保存時の DPI との比を取得する
+            var configScaleFactor = this.settings.Local.GetConfigScaleFactor(this.CurrentAutoScaleDimensions);
+
+            this.ClientSize = ScaleBy(configScaleFactor, this.settings.Local.FormSize);
+
+            // Splitterの位置設定
+            var splitterDistance = ScaleBy(configScaleFactor.Height, this.settings.Local.SplitterDistance);
+            if (splitterDistance > this.SplitContainer1.Panel1MinSize &&
+                splitterDistance < this.SplitContainer1.Height - this.SplitContainer1.Panel2MinSize - this.SplitContainer1.SplitterWidth)
+            {
+                this.SplitContainer1.SplitterDistance = splitterDistance;
+            }
+
+            // 発言欄複数行
+            this.StatusText.Multiline = this.settings.Local.StatusMultiline;
+            if (this.StatusText.Multiline)
+            {
+                var statusTextHeight = ScaleBy(configScaleFactor.Height, this.settings.Local.StatusTextHeight);
+                var dis = this.SplitContainer2.Height - statusTextHeight - this.SplitContainer2.SplitterWidth;
+                if (dis > this.SplitContainer2.Panel1MinSize && dis < this.SplitContainer2.Height - this.SplitContainer2.Panel2MinSize - this.SplitContainer2.SplitterWidth)
+                {
+                    this.SplitContainer2.SplitterDistance = this.SplitContainer2.Height - statusTextHeight - this.SplitContainer2.SplitterWidth;
+                }
+                this.StatusText.Height = statusTextHeight;
+            }
+            else
+            {
+                if (this.SplitContainer2.Height - this.SplitContainer2.Panel2MinSize - this.SplitContainer2.SplitterWidth > 0)
+                {
+                    this.SplitContainer2.SplitterDistance = this.SplitContainer2.Height - this.SplitContainer2.Panel2MinSize - this.SplitContainer2.SplitterWidth;
+                }
+            }
+
+            var previewDistance = ScaleBy(configScaleFactor.Width, this.settings.Local.PreviewDistance);
+            if (previewDistance > this.SplitContainer3.Panel1MinSize && previewDistance < this.SplitContainer3.Width - this.SplitContainer3.Panel2MinSize - this.SplitContainer3.SplitterWidth)
+            {
+                this.SplitContainer3.SplitterDistance = previewDistance;
+            }
+
+            // Panel2Collapsed は SplitterDistance の設定を終えるまで true にしない
+            this.SplitContainer3.Panel2Collapsed = true;
+            this.initialLayout = false;
         }
 
         private void PlaySoundMenuItem_CheckedChanged(object sender, EventArgs e)
@@ -7979,6 +7945,13 @@ namespace OpenTween
         private async void TweenMain_Shown(object sender, EventArgs e)
         {
             this.NotifyIcon1.Visible = true;
+            this.StartTimers();
+
+            if (this.settings.IsFirstRun)
+            {
+                // 初回起動時だけ右下のメニューを目立たせる
+                this.HashStripSplitButton.ShowDropDown();
+            }
 
             if (this.IsNetworkAvailable())
             {
@@ -8059,8 +8032,16 @@ namespace OpenTween
             }
 
             this.initial = false;
+        }
 
-            this.timelineScheduler.Enabled = true;
+        private void StartTimers()
+        {
+            if (!this.StopRefreshAllMenuItem.Checked)
+                this.timelineScheduler.Enabled = true;
+
+            this.selectionDebouncer.Enabled = true;
+            this.saveConfigDebouncer.Enabled = true;
+            this.thumbGenerator.ImgAzyobuziNet.AutoUpdate = true;
         }
 
         private async Task DoGetFollowersMenu()

@@ -62,6 +62,8 @@ namespace OpenTween
                 using var debouncing = new TestDebounceTimer(Callback, interval, leading: false, trailing: true);
                 var mockTimer = debouncing.MockTimer;
 
+                debouncing.Enabled = true;
+
                 Assert.Equal(0, count);
                 Assert.False(mockTimer.IsTimerRunning);
 
@@ -119,6 +121,8 @@ namespace OpenTween
                 using var debouncing = new TestDebounceTimer(Callback, interval, leading: false, trailing: true);
                 var mockTimer = debouncing.MockTimer;
 
+                debouncing.Enabled = true;
+
                 Assert.Equal(0, count);
                 Assert.False(mockTimer.IsTimerRunning);
 
@@ -158,6 +162,8 @@ namespace OpenTween
                 var maxWait = TimeSpan.MaxValue;
                 using var debouncing = new TestDebounceTimer(Callback, interval, leading: false, trailing: true);
                 var mockTimer = debouncing.MockTimer;
+
+                debouncing.Enabled = true;
 
                 Assert.Equal(0, count);
                 Assert.False(mockTimer.IsTimerRunning);
@@ -214,6 +220,8 @@ namespace OpenTween
                 var maxWait = TimeSpan.MaxValue;
                 using var debouncing = new TestDebounceTimer(Callback, interval, leading: true, trailing: true);
                 var mockTimer = debouncing.MockTimer;
+
+                debouncing.Enabled = true;
 
                 Assert.Equal(0, count);
                 Assert.False(mockTimer.IsTimerRunning);
@@ -272,6 +280,8 @@ namespace OpenTween
                 using var debouncing = new TestDebounceTimer(Callback, interval, leading: true, trailing: true);
                 var mockTimer = debouncing.MockTimer;
 
+                debouncing.Enabled = true;
+
                 Assert.Equal(0, count);
                 Assert.False(mockTimer.IsTimerRunning);
 
@@ -311,6 +321,8 @@ namespace OpenTween
                 var maxWait = TimeSpan.MaxValue;
                 using var debouncing = new TestDebounceTimer(Callback, interval, leading: true, trailing: true);
                 var mockTimer = debouncing.MockTimer;
+
+                debouncing.Enabled = true;
 
                 Assert.Equal(0, count);
                 Assert.False(mockTimer.IsTimerRunning);
@@ -385,6 +397,8 @@ namespace OpenTween
                 using var debouncing = new TestDebounceTimer(Callback, interval, leading: false, trailing: true);
                 var mockTimer = debouncing.MockTimer;
 
+                debouncing.Enabled = true;
+
                 Assert.Equal(0, count);
                 Assert.False(mockTimer.IsTimerRunning);
 
@@ -415,6 +429,49 @@ namespace OpenTween
 
                 // timer
                 Assert.Equal(1, count);
+                Assert.False(mockTimer.IsTimerRunning);
+            }
+        }
+
+        [Fact]
+        public async Task Call_DisabledTest()
+        {
+            using (TestUtils.FreezeTime(new DateTimeUtc(2022, 1, 1, 0, 0, 0)))
+            {
+                static Task Callback()
+                    => Task.CompletedTask;
+
+                var interval = TimeSpan.FromMinutes(2);
+                var maxWait = TimeSpan.MaxValue;
+                using var debouncing = new TestDebounceTimer(Callback, interval, leading: false, trailing: true);
+                var mockTimer = debouncing.MockTimer;
+
+                debouncing.Enabled = false;
+
+                await debouncing.Call();
+                Assert.False(mockTimer.IsTimerRunning);
+            }
+        }
+
+        [Fact]
+        public async Task DisabledWhileTimerIsRunning()
+        {
+            using (TestUtils.FreezeTime(new DateTimeUtc(2022, 1, 1, 0, 0, 0)))
+            {
+                static Task Callback()
+                    => Task.CompletedTask;
+
+                var interval = TimeSpan.FromMinutes(2);
+                var maxWait = TimeSpan.MaxValue;
+                using var debouncing = new TestDebounceTimer(Callback, interval, leading: false, trailing: true);
+                var mockTimer = debouncing.MockTimer;
+
+                debouncing.Enabled = true;
+
+                await debouncing.Call();
+                Assert.True(mockTimer.IsTimerRunning);
+
+                debouncing.Enabled = false;
                 Assert.False(mockTimer.IsTimerRunning);
             }
         }
