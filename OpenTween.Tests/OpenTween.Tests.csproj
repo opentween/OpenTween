@@ -26,7 +26,7 @@
     <ProjectReference Include="..\OpenTween\OpenTween.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="altcover" Version="8.6.61" />
+    <PackageReference Include="altcover" Version="8.6.95" />
     <PackageReference Include="Moq" Version="4.20.70" />
     <PackageReference Include="StyleCop.Analyzers" Version="1.2.0-beta.507">
       <PrivateAssets>all</PrivateAssets>

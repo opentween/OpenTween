@@ -48,7 +48,7 @@ jobs:
       - name: Run tests
         shell: pwsh
         run: |
-          $altCoverVersion = '8.6.61'
+          $altCoverVersion = '8.6.95'
           $xunitVersion = '2.6.2'
           $targetFramework = 'net48'
           $altCoverPath = "$($env:NUGET_PACKAGES)\altcover\$($altCoverVersion)\tools\net472\AltCover.exe"
