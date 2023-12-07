@@ -96,8 +96,7 @@ jobs:
             exit $p.ExitCode
           }
 
-      - name: Upload test results to codecov
-        shell: pwsh
-        run: |
-          Invoke-WebRequest -Uri https://uploader.codecov.io/latest/windows/codecov.exe -Outfile codecov.exe
-          .\codecov.exe -f coverage.xml
+      - uses: codecov/codecov-action@v3
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          fail_ci_if_error: true
