@@ -598,6 +598,7 @@ namespace OpenTween
             // http://msdn.microsoft.com/ja-jp/library/microsoft.win32.systemevents.powermodechanged.aspx
             Microsoft.Win32.SystemEvents.PowerModeChanged -= this.SystemEvents_PowerModeChanged;
             Microsoft.Win32.SystemEvents.TimeChanged -= this.SystemEvents_TimeChanged;
+            MyCommon.TwitterApiInfo.AccessLimitUpdated -= this.TwitterApiStatus_AccessLimitUpdated;
 
             this.disposed = true;
         }
