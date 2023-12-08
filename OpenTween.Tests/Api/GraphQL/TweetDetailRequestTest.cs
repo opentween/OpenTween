@@ -19,14 +19,9 @@
 // the Free Software Foundation, Inc., 51 Franklin Street - Fifth Floor,
 // Boston, MA 02110-1301, USA.
 
-using System;
-using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Moq;
-using OpenTween.Api.TwitterV2;
 using OpenTween.Connection;
 using Xunit;
 
@@ -37,19 +32,21 @@ namespace OpenTween.Api.GraphQL
         [Fact]
         public async Task Send_Test()
         {
-            using var responseStream = File.OpenRead("Resources/Responses/TweetDetail.json");
+            using var apiResponse = await TestUtils.CreateApiResponse("Resources/Responses/TweetDetail.json");
 
-            var mock = new Mock<IApiConnectionLegacy>();
+            var mock = new Mock<IApiConnection>();
             mock.Setup(x =>
-                    x.GetStreamAsync(It.IsAny<Uri>(), It.IsAny<IDictionary<string, string>>(), It.IsAny<string>())
+                    x.SendAsync(It.IsAny<IHttpRequest>())
                 )
-                .Callback<Uri, IDictionary<string, string>, string>((url, param, endpointName) =>
+                .Callback<IHttpRequest>(x =>
                 {
-                    Assert.Equal(new("https://twitter.com/i/api/graphql/-Ls3CrSQNo2fRKH6i6Na1A/TweetDetail"), url);
-                    Assert.Contains(@"""focalTweetId"":""1619433164757413894""", param["variables"]);
-                    Assert.Equal("TweetDetail", endpointName);
+                    var request = Assert.IsType<GetRequest>(x);
+                    Assert.Equal(new("https://twitter.com/i/api/graphql/-Ls3CrSQNo2fRKH6i6Na1A/TweetDetail"), request.RequestUri);
+                    var query = request.Query!;
+                    Assert.Contains(@"""focalTweetId"":""1619433164757413894""", query["variables"]);
+                    Assert.Equal("TweetDetail", request.EndpointName);
                 })
-                .ReturnsAsync(responseStream);
+                .ReturnsAsync(apiResponse);
 
             var request = new TweetDetailRequest
             {
