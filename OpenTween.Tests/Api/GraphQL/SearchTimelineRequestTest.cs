@@ -19,11 +19,6 @@
 // the Free Software Foundation, Inc., 51 Franklin Street - Fifth Floor,
 // Boston, MA 02110-1301, USA.
 
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Moq;
 using OpenTween.Connection;
@@ -36,21 +31,23 @@ namespace OpenTween.Api.GraphQL
         [Fact]
         public async Task Send_Test()
         {
-            using var responseStream = File.OpenRead("Resources/Responses/SearchTimeline_SimpleTweet.json");
+            using var apiResponse = await TestUtils.CreateApiResponse("Resources/Responses/SearchTimeline_SimpleTweet.json");
 
-            var mock = new Mock<IApiConnectionLegacy>();
+            var mock = new Mock<IApiConnection>();
             mock.Setup(x =>
-                    x.GetStreamAsync(It.IsAny<Uri>(), It.IsAny<IDictionary<string, string>>(), It.IsAny<string>())
+                    x.SendAsync(It.IsAny<IHttpRequest>())
                 )
-                .Callback<Uri, IDictionary<string, string>, string>((url, param, endpointName) =>
+                .Callback<IHttpRequest>(x =>
                 {
-                    Assert.Equal(new("https://twitter.com/i/api/graphql/lZ0GCEojmtQfiUQa5oJSEw/SearchTimeline"), url);
-                    Assert.Equal(2, param.Count);
-                    Assert.Equal("""{"rawQuery":"#OpenTween","count":20,"product":"Latest"}""", param["variables"]);
-                    Assert.True(param.ContainsKey("features"));
-                    Assert.Equal("SearchTimeline", endpointName);
+                    var request = Assert.IsType<GetRequest>(x);
+                    Assert.Equal(new("https://twitter.com/i/api/graphql/lZ0GCEojmtQfiUQa5oJSEw/SearchTimeline"), request.RequestUri);
+                    var query = request.Query!;
+                    Assert.Equal(2, query.Count);
+                    Assert.Equal("""{"rawQuery":"#OpenTween","count":20,"product":"Latest"}""", query["variables"]);
+                    Assert.True(query.ContainsKey("features"));
+                    Assert.Equal("SearchTimeline", request.EndpointName);
                 })
-                .ReturnsAsync(responseStream);
+                .ReturnsAsync(apiResponse);
 
             var request = new SearchTimelineRequest(rawQuery: "#OpenTween")
             {
@@ -68,21 +65,23 @@ namespace OpenTween.Api.GraphQL
         [Fact]
         public async Task Send_RequestCursor_Test()
         {
-            using var responseStream = File.OpenRead("Resources/Responses/SearchTimeline_SimpleTweet.json");
+            using var apiResponse = await TestUtils.CreateApiResponse("Resources/Responses/SearchTimeline_SimpleTweet.json");
 
-            var mock = new Mock<IApiConnectionLegacy>();
+            var mock = new Mock<IApiConnection>();
             mock.Setup(x =>
-                    x.GetStreamAsync(It.IsAny<Uri>(), It.IsAny<IDictionary<string, string>>(), It.IsAny<string>())
+                    x.SendAsync(It.IsAny<IHttpRequest>())
                 )
-                .Callback<Uri, IDictionary<string, string>, string>((url, param, endpointName) =>
+                .Callback<IHttpRequest>(x =>
                 {
-                    Assert.Equal(new("https://twitter.com/i/api/graphql/lZ0GCEojmtQfiUQa5oJSEw/SearchTimeline"), url);
-                    Assert.Equal(2, param.Count);
-                    Assert.Equal("""{"rawQuery":"#OpenTween","count":20,"product":"Latest","cursor":"aaa"}""", param["variables"]);
-                    Assert.True(param.ContainsKey("features"));
-                    Assert.Equal("SearchTimeline", endpointName);
+                    var request = Assert.IsType<GetRequest>(x);
+                    Assert.Equal(new("https://twitter.com/i/api/graphql/lZ0GCEojmtQfiUQa5oJSEw/SearchTimeline"), request.RequestUri);
+                    var query = request.Query!;
+                    Assert.Equal(2, query.Count);
+                    Assert.Equal("""{"rawQuery":"#OpenTween","count":20,"product":"Latest","cursor":"aaa"}""", query["variables"]);
+                    Assert.True(query.ContainsKey("features"));
+                    Assert.Equal("SearchTimeline", request.EndpointName);
                 })
-                .ReturnsAsync(responseStream);
+                .ReturnsAsync(apiResponse);
 
             var request = new SearchTimelineRequest(rawQuery: "#OpenTween")
             {
