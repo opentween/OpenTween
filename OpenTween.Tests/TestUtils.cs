@@ -20,16 +20,16 @@
 // Boston, MA 02110-1301, USA.
 
 using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
-using System.Linq;
+using System.Net;
+using System.Net.Http;
 using System.Reflection;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using OpenTween.Connection;
 using Xunit;
 
 namespace OpenTween
@@ -152,6 +152,22 @@ namespace OpenTween
 
         public static DateTimeUtc LocalTime(int year, int month, int day, int hour, int minute, int second)
             => new(new DateTimeOffset(year, month, day, hour, minute, second, TimeZoneInfo.Local.BaseUtcOffset));
+
+        public static async Task<ApiResponse> CreateApiResponse(string path)
+        {
+            byte[] buffer;
+            using (var stream = new FileStream(path, FileMode.Open, FileAccess.Read))
+            {
+                buffer = new byte[stream.Length];
+                await stream.ReadAsync(buffer, 0, buffer.Length);
+            }
+            var responseMessage = new HttpResponseMessage
+            {
+                StatusCode = HttpStatusCode.OK,
+                Content = new ByteArrayContent(buffer),
+            };
+            return new ApiResponse(responseMessage);
+        }
     }
 }
 

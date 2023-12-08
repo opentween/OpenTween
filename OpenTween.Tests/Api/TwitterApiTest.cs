@@ -84,7 +84,7 @@ namespace OpenTween.Api
         [Fact]
         public async Task StatusesHomeTimeline_Test()
         {
-            var mock = new Mock<IApiConnection>();
+            var mock = new Mock<IApiConnectionLegacy>();
             mock.Setup(x =>
                 x.GetAsync<TwitterStatus[]>(
                     new Uri("statuses/home_timeline.json", UriKind.Relative),
@@ -112,7 +112,7 @@ namespace OpenTween.Api
         [Fact]
         public async Task StatusesMentionsTimeline_Test()
         {
-            var mock = new Mock<IApiConnection>();
+            var mock = new Mock<IApiConnectionLegacy>();
             mock.Setup(x =>
                 x.GetAsync<TwitterStatus[]>(
                     new Uri("statuses/mentions_timeline.json", UriKind.Relative),
@@ -140,7 +140,7 @@ namespace OpenTween.Api
         [Fact]
         public async Task StatusesUserTimeline_Test()
         {
-            var mock = new Mock<IApiConnection>();
+            var mock = new Mock<IApiConnectionLegacy>();
             mock.Setup(x =>
                 x.GetAsync<TwitterStatus[]>(
                     new Uri("statuses/user_timeline.json", UriKind.Relative),
@@ -170,7 +170,7 @@ namespace OpenTween.Api
         [Fact]
         public async Task StatusesShow_Test()
         {
-            var mock = new Mock<IApiConnection>();
+            var mock = new Mock<IApiConnectionLegacy>();
             mock.Setup(x =>
                 x.GetAsync<TwitterStatus>(
                     new Uri("statuses/show.json", UriKind.Relative),
@@ -196,7 +196,7 @@ namespace OpenTween.Api
         [Fact]
         public async Task StatusesLookup_Test()
         {
-            var mock = new Mock<IApiConnection>();
+            var mock = new Mock<IApiConnectionLegacy>();
             mock.Setup(x =>
                 x.GetAsync<TwitterStatus[]>(
                     new Uri("statuses/lookup.json", UriKind.Relative),
@@ -223,7 +223,7 @@ namespace OpenTween.Api
         [Fact]
         public async Task StatusesUpdate_Test()
         {
-            var mock = new Mock<IApiConnection>();
+            var mock = new Mock<IApiConnectionLegacy>();
             mock.Setup(x =>
                 x.PostLazyAsync<TwitterStatus>(
                     new Uri("statuses/update.json", UriKind.Relative),
@@ -261,7 +261,7 @@ namespace OpenTween.Api
         [Fact]
         public async Task StatusesUpdate_ExcludeReplyUserIdsEmptyTest()
         {
-            var mock = new Mock<IApiConnection>();
+            var mock = new Mock<IApiConnectionLegacy>();
             mock.Setup(x =>
                 x.PostLazyAsync<TwitterStatus>(
                     new Uri("statuses/update.json", UriKind.Relative),
@@ -288,7 +288,7 @@ namespace OpenTween.Api
         [Fact]
         public async Task StatusesDestroy_Test()
         {
-            var mock = new Mock<IApiConnection>();
+            var mock = new Mock<IApiConnectionLegacy>();
             mock.Setup(x =>
                 x.PostLazyAsync<TwitterStatus>(
                     new Uri("statuses/destroy.json", UriKind.Relative),
@@ -308,7 +308,7 @@ namespace OpenTween.Api
         [Fact]
         public async Task StatusesRetweet_Test()
         {
-            var mock = new Mock<IApiConnection>();
+            var mock = new Mock<IApiConnectionLegacy>();
             mock.Setup(x =>
                 x.PostLazyAsync<TwitterStatus>(
                     new Uri("statuses/retweet.json", UriKind.Relative),
@@ -334,7 +334,7 @@ namespace OpenTween.Api
         [Fact]
         public async Task SearchTweets_Test()
         {
-            var mock = new Mock<IApiConnection>();
+            var mock = new Mock<IApiConnectionLegacy>();
             mock.Setup(x =>
                 x.GetAsync<TwitterSearchResult>(
                     new Uri("search/tweets.json", UriKind.Relative),
@@ -365,7 +365,7 @@ namespace OpenTween.Api
         [Fact]
         public async Task ListsOwnerships_Test()
         {
-            var mock = new Mock<IApiConnection>();
+            var mock = new Mock<IApiConnectionLegacy>();
             mock.Setup(x =>
                 x.GetAsync<TwitterLists>(
                     new Uri("lists/ownerships.json", UriKind.Relative),
@@ -390,7 +390,7 @@ namespace OpenTween.Api
         [Fact]
         public async Task ListsSubscriptions_Test()
         {
-            var mock = new Mock<IApiConnection>();
+            var mock = new Mock<IApiConnectionLegacy>();
             mock.Setup(x =>
                 x.GetAsync<TwitterLists>(
                     new Uri("lists/subscriptions.json", UriKind.Relative),
@@ -415,7 +415,7 @@ namespace OpenTween.Api
         [Fact]
         public async Task ListsMemberships_Test()
         {
-            var mock = new Mock<IApiConnection>();
+            var mock = new Mock<IApiConnectionLegacy>();
             mock.Setup(x =>
                 x.GetAsync<TwitterLists>(
                     new Uri("lists/memberships.json", UriKind.Relative),
@@ -441,7 +441,7 @@ namespace OpenTween.Api
         [Fact]
         public async Task ListsCreate_Test()
         {
-            var mock = new Mock<IApiConnection>();
+            var mock = new Mock<IApiConnectionLegacy>();
             mock.Setup(x =>
                 x.PostLazyAsync<TwitterList>(
                     new Uri("lists/create.json", UriKind.Relative),
@@ -466,7 +466,7 @@ namespace OpenTween.Api
         [Fact]
         public async Task ListsUpdate_Test()
         {
-            var mock = new Mock<IApiConnection>();
+            var mock = new Mock<IApiConnectionLegacy>();
             mock.Setup(x =>
                 x.PostLazyAsync<TwitterList>(
                     new Uri("lists/update.json", UriKind.Relative),
@@ -492,7 +492,7 @@ namespace OpenTween.Api
         [Fact]
         public async Task ListsDestroy_Test()
         {
-            var mock = new Mock<IApiConnection>();
+            var mock = new Mock<IApiConnectionLegacy>();
             mock.Setup(x =>
                 x.PostLazyAsync<TwitterList>(
                     new Uri("lists/destroy.json", UriKind.Relative),
@@ -515,7 +515,7 @@ namespace OpenTween.Api
         [Fact]
         public async Task ListsStatuses_Test()
         {
-            var mock = new Mock<IApiConnection>();
+            var mock = new Mock<IApiConnectionLegacy>();
             mock.Setup(x =>
                 x.GetAsync<TwitterStatus[]>(
                     new Uri("lists/statuses.json", UriKind.Relative),
@@ -545,7 +545,7 @@ namespace OpenTween.Api
         [Fact]
         public async Task ListsMembers_Test()
         {
-            var mock = new Mock<IApiConnection>();
+            var mock = new Mock<IApiConnectionLegacy>();
             mock.Setup(x =>
                 x.GetAsync<TwitterUsers>(
                     new Uri("lists/members.json", UriKind.Relative),
@@ -572,7 +572,7 @@ namespace OpenTween.Api
         [Fact]
         public async Task ListsMembersShow_Test()
         {
-            var mock = new Mock<IApiConnection>();
+            var mock = new Mock<IApiConnectionLegacy>();
             mock.Setup(x =>
                 x.GetAsync<TwitterUser>(
                     new Uri("lists/members/show.json", UriKind.Relative),
@@ -599,7 +599,7 @@ namespace OpenTween.Api
         [Fact]
         public async Task ListsMembersCreate_Test()
         {
-            var mock = new Mock<IApiConnection>();
+            var mock = new Mock<IApiConnectionLegacy>();
             mock.Setup(x =>
                 x.PostLazyAsync<TwitterUser>(
                     new Uri("lists/members/create.json", UriKind.Relative),
@@ -626,7 +626,7 @@ namespace OpenTween.Api
         [Fact]
         public async Task ListsMembersDestroy_Test()
         {
-            var mock = new Mock<IApiConnection>();
+            var mock = new Mock<IApiConnectionLegacy>();
             mock.Setup(x =>
                 x.PostLazyAsync<TwitterUser>(
                     new Uri("lists/members/destroy.json", UriKind.Relative),
@@ -653,7 +653,7 @@ namespace OpenTween.Api
         [Fact]
         public async Task DirectMessagesEventsList_Test()
         {
-            var mock = new Mock<IApiConnection>();
+            var mock = new Mock<IApiConnectionLegacy>();
             mock.Setup(x =>
                 x.GetAsync<TwitterMessageEventList>(
                     new Uri("direct_messages/events/list.json", UriKind.Relative),
@@ -677,7 +677,7 @@ namespace OpenTween.Api
         [Fact]
         public async Task DirectMessagesEventsNew_Test()
         {
-            var mock = new Mock<IApiConnection>();
+            var mock = new Mock<IApiConnectionLegacy>();
             var responseText = """
                 {
                   "event": {
@@ -717,7 +717,7 @@ namespace OpenTween.Api
         [Fact]
         public async Task DirectMessagesEventsDestroy_Test()
         {
-            var mock = new Mock<IApiConnection>();
+            var mock = new Mock<IApiConnectionLegacy>();
             mock.Setup(x =>
                 x.DeleteAsync(
                     new Uri("direct_messages/events/destroy.json?id=100", UriKind.Relative))
@@ -735,7 +735,7 @@ namespace OpenTween.Api
         [Fact]
         public async Task UsersShow_Test()
         {
-            var mock = new Mock<IApiConnection>();
+            var mock = new Mock<IApiConnectionLegacy>();
             mock.Setup(x =>
                 x.GetAsync<TwitterUser>(
                     new Uri("users/show.json", UriKind.Relative),
@@ -761,7 +761,7 @@ namespace OpenTween.Api
         [Fact]
         public async Task UsersLookup_Test()
         {
-            var mock = new Mock<IApiConnection>();
+            var mock = new Mock<IApiConnectionLegacy>();
             mock.Setup(x =>
                 x.GetAsync<TwitterUser[]>(
                     new Uri("users/lookup.json", UriKind.Relative),
@@ -787,7 +787,7 @@ namespace OpenTween.Api
         [Fact]
         public async Task UsersReportSpam_Test()
         {
-            var mock = new Mock<IApiConnection>();
+            var mock = new Mock<IApiConnectionLegacy>();
             mock.Setup(x =>
                 x.PostLazyAsync<TwitterUser>(
                     new Uri("users/report_spam.json", UriKind.Relative),
@@ -811,7 +811,7 @@ namespace OpenTween.Api
         [Fact]
         public async Task FavoritesList_Test()
         {
-            var mock = new Mock<IApiConnection>();
+            var mock = new Mock<IApiConnectionLegacy>();
             mock.Setup(x =>
                 x.GetAsync<TwitterStatus[]>(
                     new Uri("favorites/list.json", UriKind.Relative),
@@ -839,7 +839,7 @@ namespace OpenTween.Api
         [Fact]
         public async Task FavoritesCreate_Test()
         {
-            var mock = new Mock<IApiConnection>();
+            var mock = new Mock<IApiConnectionLegacy>();
             mock.Setup(x =>
                 x.PostLazyAsync<TwitterStatus>(
                     new Uri("favorites/create.json", UriKind.Relative),
@@ -863,7 +863,7 @@ namespace OpenTween.Api
         [Fact]
         public async Task FavoritesDestroy_Test()
         {
-            var mock = new Mock<IApiConnection>();
+            var mock = new Mock<IApiConnectionLegacy>();
             mock.Setup(x =>
                 x.PostLazyAsync<TwitterStatus>(
                     new Uri("favorites/destroy.json", UriKind.Relative),
@@ -887,7 +887,7 @@ namespace OpenTween.Api
         [Fact]
         public async Task FriendshipsShow_Test()
         {
-            var mock = new Mock<IApiConnection>();
+            var mock = new Mock<IApiConnectionLegacy>();
             mock.Setup(x =>
                 x.GetAsync<TwitterFriendship>(
                     new Uri("friendships/show.json", UriKind.Relative),
@@ -907,7 +907,7 @@ namespace OpenTween.Api
         [Fact]
         public async Task FriendshipsCreate_Test()
         {
-            var mock = new Mock<IApiConnection>();
+            var mock = new Mock<IApiConnectionLegacy>();
             mock.Setup(x =>
                 x.PostLazyAsync<TwitterFriendship>(
                     new Uri("friendships/create.json", UriKind.Relative),
@@ -927,7 +927,7 @@ namespace OpenTween.Api
         [Fact]
         public async Task FriendshipsDestroy_Test()
         {
-            var mock = new Mock<IApiConnection>();
+            var mock = new Mock<IApiConnectionLegacy>();
             mock.Setup(x =>
                 x.PostLazyAsync<TwitterFriendship>(
                     new Uri("friendships/destroy.json", UriKind.Relative),
@@ -947,7 +947,7 @@ namespace OpenTween.Api
         [Fact]
         public async Task NoRetweetIds_Test()
         {
-            var mock = new Mock<IApiConnection>();
+            var mock = new Mock<IApiConnectionLegacy>();
             mock.Setup(x =>
                 x.GetAsync<long[]>(
                     new Uri("friendships/no_retweets/ids.json", UriKind.Relative),
@@ -967,7 +967,7 @@ namespace OpenTween.Api
         [Fact]
         public async Task FollowersIds_Test()
         {
-            var mock = new Mock<IApiConnection>();
+            var mock = new Mock<IApiConnectionLegacy>();
             mock.Setup(x =>
                 x.GetAsync<TwitterIds>(
                     new Uri("followers/ids.json", UriKind.Relative),
@@ -987,7 +987,7 @@ namespace OpenTween.Api
         [Fact]
         public async Task MutesUsersIds_Test()
         {
-            var mock = new Mock<IApiConnection>();
+            var mock = new Mock<IApiConnectionLegacy>();
             mock.Setup(x =>
                 x.GetAsync<TwitterIds>(
                     new Uri("mutes/users/ids.json", UriKind.Relative),
@@ -1007,7 +1007,7 @@ namespace OpenTween.Api
         [Fact]
         public async Task BlocksIds_Test()
         {
-            var mock = new Mock<IApiConnection>();
+            var mock = new Mock<IApiConnectionLegacy>();
             mock.Setup(x =>
                 x.GetAsync<TwitterIds>(
                     new Uri("blocks/ids.json", UriKind.Relative),
@@ -1027,7 +1027,7 @@ namespace OpenTween.Api
         [Fact]
         public async Task BlocksCreate_Test()
         {
-            var mock = new Mock<IApiConnection>();
+            var mock = new Mock<IApiConnectionLegacy>();
             mock.Setup(x =>
                 x.PostLazyAsync<TwitterUser>(
                     new Uri("blocks/create.json", UriKind.Relative),
@@ -1051,7 +1051,7 @@ namespace OpenTween.Api
         [Fact]
         public async Task BlocksDestroy_Test()
         {
-            var mock = new Mock<IApiConnection>();
+            var mock = new Mock<IApiConnectionLegacy>();
             mock.Setup(x =>
                 x.PostLazyAsync<TwitterUser>(
                     new Uri("blocks/destroy.json", UriKind.Relative),
@@ -1075,7 +1075,7 @@ namespace OpenTween.Api
         [Fact]
         public async Task AccountVerifyCredentials_Test()
         {
-            var mock = new Mock<IApiConnection>();
+            var mock = new Mock<IApiConnectionLegacy>();
             mock.Setup(x =>
                 x.GetAsync<TwitterUser>(
                     new Uri("account/verify_credentials.json", UriKind.Relative),
@@ -1107,7 +1107,7 @@ namespace OpenTween.Api
         [Fact]
         public async Task AccountUpdateProfile_Test()
         {
-            var mock = new Mock<IApiConnection>();
+            var mock = new Mock<IApiConnectionLegacy>();
             mock.Setup(x =>
                 x.PostLazyAsync<TwitterUser>(
                     new Uri("account/update_profile.json", UriKind.Relative),
@@ -1138,7 +1138,7 @@ namespace OpenTween.Api
         {
             using var image = TestUtils.CreateDummyImage();
             using var media = new MemoryImageMediaItem(image);
-            var mock = new Mock<IApiConnection>();
+            var mock = new Mock<IApiConnectionLegacy>();
             mock.Setup(x =>
                 x.PostLazyAsync<TwitterUser>(
                     new Uri("account/update_profile_image.json", UriKind.Relative),
@@ -1164,7 +1164,7 @@ namespace OpenTween.Api
         [Fact]
         public async Task ApplicationRateLimitStatus_Test()
         {
-            var mock = new Mock<IApiConnection>();
+            var mock = new Mock<IApiConnectionLegacy>();
             mock.Setup(x =>
                 x.GetAsync<TwitterRateLimits>(
                     new Uri("application/rate_limit_status.json", UriKind.Relative),
@@ -1184,7 +1184,7 @@ namespace OpenTween.Api
         [Fact]
         public async Task Configuration_Test()
         {
-            var mock = new Mock<IApiConnection>();
+            var mock = new Mock<IApiConnectionLegacy>();
             mock.Setup(x =>
                 x.GetAsync<TwitterConfiguration>(
                     new Uri("help/configuration.json", UriKind.Relative),
@@ -1204,7 +1204,7 @@ namespace OpenTween.Api
         [Fact]
         public async Task MediaUploadInit_Test()
         {
-            var mock = new Mock<IApiConnection>();
+            var mock = new Mock<IApiConnectionLegacy>();
             mock.Setup(x =>
                 x.PostLazyAsync<TwitterUploadMediaInit>(
                     new Uri("https://upload.twitter.com/1.1/media/upload.json", UriKind.Absolute),
@@ -1232,7 +1232,7 @@ namespace OpenTween.Api
         {
             using var image = TestUtils.CreateDummyImage();
             using var media = new MemoryImageMediaItem(image);
-            var mock = new Mock<IApiConnection>();
+            var mock = new Mock<IApiConnectionLegacy>();
             mock.Setup(x =>
                 x.PostAsync(
                     new Uri("https://upload.twitter.com/1.1/media/upload.json", UriKind.Absolute),
@@ -1257,7 +1257,7 @@ namespace OpenTween.Api
         [Fact]
         public async Task MediaUploadFinalize_Test()
         {
-            var mock = new Mock<IApiConnection>();
+            var mock = new Mock<IApiConnectionLegacy>();
             mock.Setup(x =>
                 x.PostLazyAsync<TwitterUploadMediaResult>(
                     new Uri("https://upload.twitter.com/1.1/media/upload.json", UriKind.Absolute),
@@ -1281,7 +1281,7 @@ namespace OpenTween.Api
         [Fact]
         public async Task MediaUploadStatus_Test()
         {
-            var mock = new Mock<IApiConnection>();
+            var mock = new Mock<IApiConnectionLegacy>();
             mock.Setup(x =>
                 x.GetAsync<TwitterUploadMediaResult>(
                     new Uri("https://upload.twitter.com/1.1/media/upload.json", UriKind.Absolute),
@@ -1305,7 +1305,7 @@ namespace OpenTween.Api
         [Fact]
         public async Task MediaMetadataCreate_Test()
         {
-            var mock = new Mock<IApiConnection>();
+            var mock = new Mock<IApiConnectionLegacy>();
             mock.Setup(x =>
                 x.PostJsonAsync(
                     new Uri("https://upload.twitter.com/1.1/media/metadata/create.json", UriKind.Absolute),

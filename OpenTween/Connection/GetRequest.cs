@@ -23,33 +23,34 @@
 
 using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using OpenTween.Connection;
-using OpenTween.Models;
+using System.Net.Http;
 
-namespace OpenTween.Api.GraphQL
+namespace OpenTween.Connection
 {
-    public class DeleteRetweetRequest
+    public class GetRequest : IHttpRequest
     {
-        private static readonly Uri EndpointUri = new("https://twitter.com/i/api/graphql/iQtK4dl5hBmXewYZuEOKVw/DeleteRetweet");
+        public required Uri RequestUri { get; set; }
 
-        public required TwitterStatusId SourceTweetId { get; set; }
+        public IDictionary<string, string>? Query { get; set; }
 
-        public string CreateRequestBody()
+        public string? EndpointName { get; set; }
+
+        public HttpRequestMessage CreateMessage(Uri baseUri)
+            => new()
+            {
+                Method = HttpMethod.Get,
+                RequestUri = BuildUriWithQuery(new(baseUri, this.RequestUri), this.Query),
+            };
+
+        public static Uri BuildUriWithQuery(Uri uri, IEnumerable<KeyValuePair<string, string>>? query)
         {
-            return $$"""
-            {"variables":{"source_tweet_id":"{{JsonUtils.EscapeJsonString(this.SourceTweetId.Id)}}","dark_request":false},"queryId":"iQtK4dl5hBmXewYZuEOKVw"}
-            """;
-        }
+            if (query == null)
+                return uri;
 
-        public async Task Send(IApiConnectionLegacy apiConnection)
-        {
-            var json = this.CreateRequestBody();
-            var responseText = await apiConnection.PostJsonAsync(EndpointUri, json);
-            ErrorResponse.ThrowIfError(responseText);
+            if (!MyCommon.IsNullOrEmpty(uri.Query))
+                throw new NotSupportedException("Merging uri query is not supported");
+
+            return new Uri(uri, "?" + MyCommon.BuildQueryString(query));
         }
     }
 }

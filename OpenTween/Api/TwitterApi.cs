@@ -41,9 +41,9 @@ namespace OpenTween.Api
 
         public string CurrentScreenName { get; private set; } = "";
 
-        public IApiConnection Connection => this.ApiConnection ?? throw new InvalidOperationException();
+        public IApiConnectionLegacy Connection => this.ApiConnection ?? throw new InvalidOperationException();
 
-        internal IApiConnection? ApiConnection;
+        internal IApiConnectionLegacy? ApiConnection;
 
         public TwitterAppToken AppToken { get; private set; } = TwitterAppToken.GetDefault();
 

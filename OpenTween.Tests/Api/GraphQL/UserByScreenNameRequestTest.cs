@@ -19,11 +19,6 @@
 // the Free Software Foundation, Inc., 51 Franklin Street - Fifth Floor,
 // Boston, MA 02110-1301, USA.
 
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Moq;
 using OpenTween.Connection;
@@ -36,19 +31,21 @@ namespace OpenTween.Api.GraphQL
         [Fact]
         public async Task Send_Test()
         {
-            using var responseStream = File.OpenRead("Resources/Responses/UserByScreenName.json");
+            using var apiResponse = await TestUtils.CreateApiResponse("Resources/Responses/UserByScreenName.json");
 
             var mock = new Mock<IApiConnection>();
             mock.Setup(x =>
-                    x.GetStreamAsync(It.IsAny<Uri>(), It.IsAny<IDictionary<string, string>>(), It.IsAny<string>())
+                    x.SendAsync(It.IsAny<IHttpRequest>())
                 )
-                .Callback<Uri, IDictionary<string, string>, string>((url, param, endpointName) =>
+                .Callback<IHttpRequest>(x =>
                 {
-                    Assert.Equal(new("https://twitter.com/i/api/graphql/xc8f1g7BYqr6VTzTbvNlGw/UserByScreenName"), url);
-                    Assert.Contains(@"""screen_name"":""opentween""", param["variables"]);
-                    Assert.Equal("UserByScreenName", endpointName);
+                    var request = Assert.IsType<GetRequest>(x);
+                    Assert.Equal(new("https://twitter.com/i/api/graphql/xc8f1g7BYqr6VTzTbvNlGw/UserByScreenName"), request.RequestUri);
+                    var query = request.Query!;
+                    Assert.Contains(@"""screen_name"":""opentween""", query["variables"]);
+                    Assert.Equal("UserByScreenName", request.EndpointName);
                 })
-                .ReturnsAsync(responseStream);
+                .ReturnsAsync(apiResponse);
 
             var request = new UserByScreenNameRequest
             {
@@ -64,13 +61,13 @@ namespace OpenTween.Api.GraphQL
         [Fact]
         public async Task Send_UserUnavailableTest()
         {
-            using var responseStream = File.OpenRead("Resources/Responses/UserByScreenName_Suspended.json");
+            using var apiResponse = await TestUtils.CreateApiResponse("Resources/Responses/UserByScreenName_Suspended.json");
 
             var mock = new Mock<IApiConnection>();
             mock.Setup(x =>
-                    x.GetStreamAsync(It.IsAny<Uri>(), It.IsAny<IDictionary<string, string>>(), It.IsAny<string>())
+                    x.SendAsync(It.IsAny<IHttpRequest>())
                 )
-                .ReturnsAsync(responseStream);
+                .ReturnsAsync(apiResponse);
 
             var request = new UserByScreenNameRequest
             {

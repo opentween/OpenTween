@@ -38,7 +38,7 @@ namespace OpenTween.Api.GraphQL
         {
             var responseText = File.ReadAllText("Resources/Responses/CreateRetweet.json");
 
-            var mock = new Mock<IApiConnection>();
+            var mock = new Mock<IApiConnectionLegacy>();
             mock.Setup(x =>
                     x.PostJsonAsync(It.IsAny<Uri>(), It.IsAny<string>())
                 )

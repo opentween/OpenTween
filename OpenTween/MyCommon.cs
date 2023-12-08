@@ -719,9 +719,11 @@ namespace OpenTween
         }
 
         public static T CreateDataFromJson<T>(string content)
+            => MyCommon.CreateDataFromJson<T>(Encoding.UTF8.GetBytes(content));
+
+        public static T CreateDataFromJson<T>(byte[] bytes)
         {
-            var buf = Encoding.Unicode.GetBytes(content);
-            using var stream = new MemoryStream(buf);
+            using var stream = new MemoryStream(bytes);
             var settings = new DataContractJsonSerializerSettings
             {
                 UseSimpleDictionaryFormat = true,

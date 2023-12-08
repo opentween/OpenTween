@@ -36,7 +36,7 @@ namespace OpenTween.Api.GraphQL
         [Fact]
         public async Task Send_Test()
         {
-            var mock = new Mock<IApiConnection>();
+            var mock = new Mock<IApiConnectionLegacy>();
             mock.Setup(x =>
                     x.PostJsonAsync(It.IsAny<Uri>(), It.IsAny<string>())
                 )

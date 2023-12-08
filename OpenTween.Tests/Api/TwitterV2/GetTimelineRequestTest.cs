@@ -34,7 +34,7 @@ namespace OpenTween.Api.TwitterV2
         [Fact]
         public async Task StatusesMentionsTimeline_Test()
         {
-            var mock = new Mock<IApiConnection>();
+            var mock = new Mock<IApiConnectionLegacy>();
             mock.Setup(x =>
                 x.GetAsync<TwitterV2TweetIds>(
                     new Uri("/2/users/100/timelines/reverse_chronological", UriKind.Relative),

@@ -69,7 +69,7 @@ namespace OpenTween.Api.TwitterV2
             return param;
         }
 
-        public Task<TwitterV2TweetIds> Send(IApiConnection apiConnection)
+        public Task<TwitterV2TweetIds> Send(IApiConnectionLegacy apiConnection)
         {
             var uri = this.CreateEndpointUri();
             var param = this.CreateParameters();
