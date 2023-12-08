@@ -40,7 +40,7 @@ namespace OpenTween.Thumbnail.Services
     /// </summary>
     public class TonTwitterCom : IThumbnailService
     {
-        internal static Func<IApiConnection>? GetApiConnection;
+        internal static Func<IApiConnectionLegacy>? GetApiConnection;
 
         public override Task<ThumbnailInfo?> GetThumbnailInfoAsync(string url, PostClass post, CancellationToken token)
         {

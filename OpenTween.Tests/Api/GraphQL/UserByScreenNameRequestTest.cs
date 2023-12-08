@@ -38,7 +38,7 @@ namespace OpenTween.Api.GraphQL
         {
             using var responseStream = File.OpenRead("Resources/Responses/UserByScreenName.json");
 
-            var mock = new Mock<IApiConnection>();
+            var mock = new Mock<IApiConnectionLegacy>();
             mock.Setup(x =>
                     x.GetStreamAsync(It.IsAny<Uri>(), It.IsAny<IDictionary<string, string>>(), It.IsAny<string>())
                 )
@@ -66,7 +66,7 @@ namespace OpenTween.Api.GraphQL
         {
             using var responseStream = File.OpenRead("Resources/Responses/UserByScreenName_Suspended.json");
 
-            var mock = new Mock<IApiConnection>();
+            var mock = new Mock<IApiConnectionLegacy>();
             mock.Setup(x =>
                     x.GetStreamAsync(It.IsAny<Uri>(), It.IsAny<IDictionary<string, string>>(), It.IsAny<string>())
                 )

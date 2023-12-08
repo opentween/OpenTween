@@ -86,7 +86,7 @@ namespace OpenTween.Api.GraphQL
             };
         }
 
-        public async Task<TimelineResponse> Send(IApiConnection apiConnection)
+        public async Task<TimelineResponse> Send(IApiConnectionLegacy apiConnection)
         {
             var param = this.CreateParameters();
 

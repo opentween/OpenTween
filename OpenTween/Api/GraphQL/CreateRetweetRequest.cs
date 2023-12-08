@@ -49,7 +49,7 @@ namespace OpenTween.Api.GraphQL
             """;
         }
 
-        public async Task<TwitterStatusId> Send(IApiConnection apiConnection)
+        public async Task<TwitterStatusId> Send(IApiConnectionLegacy apiConnection)
         {
             var json = this.CreateRequestBody();
             var response = await apiConnection.PostJsonAsync(EndpointUri, json);

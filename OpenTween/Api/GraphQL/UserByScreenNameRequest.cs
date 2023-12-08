@@ -59,7 +59,7 @@ namespace OpenTween.Api.GraphQL
             };
         }
 
-        public async Task<TwitterGraphqlUser> Send(IApiConnection apiConnection)
+        public async Task<TwitterGraphqlUser> Send(IApiConnectionLegacy apiConnection)
         {
             var param = this.CreateParameters();
 

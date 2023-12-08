@@ -38,7 +38,7 @@ namespace OpenTween.Api.GraphQL
         {
             var responseText = File.ReadAllText("Resources/Responses/CreateTweet_CircleTweet.json");
 
-            var mock = new Mock<IApiConnection>();
+            var mock = new Mock<IApiConnectionLegacy>();
             mock.Setup(x =>
                     x.PostJsonAsync(It.IsAny<Uri>(), It.IsAny<string>())
                 )
@@ -67,7 +67,7 @@ namespace OpenTween.Api.GraphQL
         {
             var responseText = File.ReadAllText("Resources/Responses/CreateTweet_CircleTweet.json");
 
-            var mock = new Mock<IApiConnection>();
+            var mock = new Mock<IApiConnectionLegacy>();
             mock.Setup(x =>
                     x.PostJsonAsync(It.IsAny<Uri>(), It.IsAny<string>())
                 )
@@ -92,7 +92,7 @@ namespace OpenTween.Api.GraphQL
         {
             var responseText = File.ReadAllText("Resources/Responses/CreateTweet_CircleTweet.json");
 
-            var mock = new Mock<IApiConnection>();
+            var mock = new Mock<IApiConnectionLegacy>();
             mock.Setup(x =>
                     x.PostJsonAsync(It.IsAny<Uri>(), It.IsAny<string>())
                 )

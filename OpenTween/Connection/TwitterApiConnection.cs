@@ -39,7 +39,7 @@ using OpenTween.Api.DataModel;
 
 namespace OpenTween.Connection
 {
-    public class TwitterApiConnection : IApiConnection, IDisposable
+    public class TwitterApiConnection : IApiConnectionLegacy, IDisposable
     {
         public static Uri RestApiBase { get; set; } = new("https://api.twitter.com/1.1/");
 

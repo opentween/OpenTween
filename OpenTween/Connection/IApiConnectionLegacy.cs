@@ -30,7 +30,7 @@ using System.Threading.Tasks;
 
 namespace OpenTween.Connection
 {
-    public interface IApiConnection : IDisposable
+    public interface IApiConnectionLegacy : IDisposable
     {
         Task<T> GetAsync<T>(Uri uri, IDictionary<string, string>? param, string? endpointName);
 
