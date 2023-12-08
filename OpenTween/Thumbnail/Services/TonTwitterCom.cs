@@ -40,7 +40,7 @@ namespace OpenTween.Thumbnail.Services
     /// </summary>
     public class TonTwitterCom : IThumbnailService
     {
-        internal static Func<IApiConnectionLegacy>? GetApiConnection;
+        internal static Func<IApiConnection>? GetApiConnection;
 
         public override Task<ThumbnailInfo?> GetThumbnailInfoAsync(string url, PostClass post, CancellationToken token)
         {
@@ -53,8 +53,9 @@ namespace OpenTween.Thumbnail.Services
                     return null;
 
                 var largeUrl = url + ":large";
+                var apiConnection = GetApiConnection();
 
-                return new TonTwitterCom.Thumbnail
+                return new TonTwitterCom.Thumbnail(apiConnection)
                 {
                     MediaPageUrl = largeUrl,
                     ThumbnailImageUrl = url,
@@ -67,22 +68,31 @@ namespace OpenTween.Thumbnail.Services
 
         public class Thumbnail : ThumbnailInfo
         {
+            private readonly IApiConnection apiConnection;
+
+            public Thumbnail(IApiConnection apiConnection)
+                => this.apiConnection = apiConnection;
+
             public override Task<MemoryImage> LoadThumbnailImageAsync(HttpClient http, CancellationToken cancellationToken)
             {
-                return Task.Run(
-                    async () =>
+                return Task.Run(async () =>
+                {
+                    var request = new GetRequest
                     {
-                        var apiConnection = TonTwitterCom.GetApiConnection!();
+                        RequestUri = new(this.ThumbnailImageUrl),
+                    };
 
-                        using var imageStream = await apiConnection.GetStreamAsync(new Uri(this.ThumbnailImageUrl), null)
-                            .ConfigureAwait(false);
+                    using var response = await this.apiConnection.SendAsync(request)
+                        .ConfigureAwait(false);
 
-                        cancellationToken.ThrowIfCancellationRequested();
+                    var imageBytes = await response.ReadAsBytes()
+                        .ConfigureAwait(false);
 
-                        return await MemoryImage.CopyFromStreamAsync(imageStream)
-                            .ConfigureAwait(false);
-                    },
-                    cancellationToken);
+                    cancellationToken.ThrowIfCancellationRequested();
+
+                    return MemoryImage.CopyFromBytes(imageBytes);
+                },
+                cancellationToken);
             }
         }
     }
