@@ -135,8 +135,16 @@ namespace OpenTween
 
         [Theory]
         [MemberData(nameof(CreateDataFromJsonTestCase))]
-        public void CreateDataFromJsonTest<T>(string json, T expected)
+        public void CreateDataFromJson_StringTest<T>(string json, T expected)
             => Assert.Equal(expected, MyCommon.CreateDataFromJson<T>(json));
+
+        [Theory]
+        [MemberData(nameof(CreateDataFromJsonTestCase))]
+        public void CreateDataFromJson_BytesTest<T>(string json, T expected)
+        {
+            var jsonBytes = Encoding.UTF8.GetBytes(json);
+            Assert.Equal(expected, MyCommon.CreateDataFromJson<T>(jsonBytes));
+        }
 
         [Theory]
         [InlineData("hoge123@example.com", true)]

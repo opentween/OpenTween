@@ -39,7 +39,7 @@ using OpenTween.Api.DataModel;
 
 namespace OpenTween.Connection
 {
-    public class TwitterApiConnection : IApiConnectionLegacy, IDisposable
+    public class TwitterApiConnection : IApiConnection, IApiConnectionLegacy, IDisposable
     {
         public static Uri RestApiBase { get; set; } = new("https://api.twitter.com/1.1/");
 
@@ -98,42 +98,34 @@ namespace OpenTween.Connection
             this.HttpStreaming.Timeout = Timeout.InfiniteTimeSpan;
         }
 
-        public async Task<T> GetAsync<T>(Uri uri, IDictionary<string, string>? param, string? endpointName)
+        public async Task<ApiResponse> SendAsync(IHttpRequest request)
         {
+            var endpointName = request.EndpointName;
+
             // レートリミット規制中はAPIリクエストを送信せずに直ちにエラーを発生させる
             if (endpointName != null)
                 this.ThrowIfRateLimitExceeded(endpointName);
 
-            var requestUri = new Uri(RestApiBase, uri);
+            using var requestMessage = request.CreateMessage(RestApiBase);
 
-            if (param != null)
-                requestUri = new Uri(requestUri, "?" + MyCommon.BuildQueryString(param));
-
-            var request = new HttpRequestMessage(HttpMethod.Get, requestUri);
-
+            HttpResponseMessage? responseMessage = null;
             try
             {
-                using var response = await this.Http.SendAsync(request, HttpCompletionOption.ResponseHeadersRead)
-                    .ConfigureAwait(false);
+                responseMessage = await HandleTimeout(
+                    (token) => this.Http.SendAsync(requestMessage, HttpCompletionOption.ResponseHeadersRead, token),
+                    Networking.DefaultTimeout
+                );
 
                 if (endpointName != null)
-                    MyCommon.TwitterApiInfo.UpdateFromHeader(response.Headers, endpointName);
+                    MyCommon.TwitterApiInfo.UpdateFromHeader(responseMessage.Headers, endpointName);
 
-                await TwitterApiConnection.CheckStatusCode(response)
+                await TwitterApiConnection.CheckStatusCode(responseMessage)
                     .ConfigureAwait(false);
 
-                using var content = response.Content;
-                var responseText = await content.ReadAsStringAsync()
-                    .ConfigureAwait(false);
+                var response = new ApiResponse(responseMessage);
+                responseMessage = null; // responseMessage は ApiResponse で使用するため破棄されないようにする
 
-                try
-                {
-                    return MyCommon.CreateDataFromJson<T>(responseText);
-                }
-                catch (SerializationException ex)
-                {
-                    throw TwitterApiException.CreateFromException(ex, responseText);
-                }
+                return response;
             }
             catch (HttpRequestException ex)
             {
@@ -143,6 +135,26 @@ namespace OpenTween.Connection
             {
                 throw TwitterApiException.CreateFromException(ex);
             }
+            finally
+            {
+                responseMessage?.Dispose();
+            }
+        }
+
+        public async Task<T> GetAsync<T>(Uri uri, IDictionary<string, string>? param, string? endpointName)
+        {
+            var request = new GetRequest
+            {
+                RequestUri = uri,
+                Query = param,
+                EndpointName = endpointName,
+            };
+
+            using var response = await this.SendAsync(request)
+                .ConfigureAwait(false);
+
+            return await response.ReadAsJson<T>()
+                .ConfigureAwait(false);
         }
 
         /// <summary>
@@ -440,6 +452,38 @@ namespace OpenTween.Connection
             {
                 throw TwitterApiException.CreateFromException(ex);
             }
+        }
+
+        public static async Task<T> HandleTimeout<T>(Func<CancellationToken, Task<T>> func, TimeSpan timeout)
+        {
+            using var cts = new CancellationTokenSource();
+            var cancellactionToken = cts.Token;
+
+            var task = Task.Run(() => func(cancellactionToken), cancellactionToken);
+            var timeoutTask = Task.Delay(timeout);
+
+            if (await Task.WhenAny(task, timeoutTask) == timeoutTask)
+            {
+                // タイムアウト
+
+                // キャンセル後のタスクで発生した例外は無視する
+                static async Task IgnoreExceptions(Task task)
+                {
+                    try
+                    {
+                        await task.ConfigureAwait(false);
+                    }
+                    catch
+                    {
+                    }
+                }
+                _ = IgnoreExceptions(task);
+                cts.Cancel();
+
+                throw new OperationCanceledException("Timeout", cancellactionToken);
+            }
+
+            return await task;
         }
 
         protected static async Task CheckStatusCode(HttpResponseMessage response)

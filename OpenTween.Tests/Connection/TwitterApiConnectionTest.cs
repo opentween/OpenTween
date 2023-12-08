@@ -29,6 +29,7 @@ using System.Net.Http.Headers;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Web;
 using Moq;
@@ -127,7 +128,50 @@ namespace OpenTween.Connection
         }
 
         [Fact]
-        public async Task GetAsync_UpdateRateLimitTest()
+        public async Task SendAsync_Test()
+        {
+            using var mockHandler = new HttpMessageHandlerMock();
+            using var http = new HttpClient(mockHandler);
+            using var apiConnection = new TwitterApiConnection(ApiKey.Create(""), ApiKey.Create(""), "", "");
+            apiConnection.Http = http;
+
+            mockHandler.Enqueue(x =>
+            {
+                Assert.Equal(HttpMethod.Get, x.Method);
+                Assert.Equal("https://api.twitter.com/1.1/hoge/tetete.json",
+                    x.RequestUri.GetLeftPart(UriPartial.Path));
+
+                var query = HttpUtility.ParseQueryString(x.RequestUri.Query);
+
+                Assert.Equal("1111", query["aaaa"]);
+                Assert.Equal("2222", query["bbbb"]);
+
+                return new HttpResponseMessage(HttpStatusCode.OK)
+                {
+                    Content = new StringContent("\"hogehoge\""),
+                };
+            });
+
+            var request = new GetRequest
+            {
+                RequestUri = new("hoge/tetete.json", UriKind.Relative),
+                Query = new Dictionary<string, string>
+                {
+                    ["aaaa"] = "1111",
+                    ["bbbb"] = "2222",
+                },
+                EndpointName = "/hoge/tetete",
+            };
+
+            using var response = await apiConnection.SendAsync(request);
+
+            Assert.Equal("hogehoge", await response.ReadAsJson<string>());
+
+            Assert.Equal(0, mockHandler.QueueCount);
+        }
+
+        [Fact]
+        public async Task SendAsync_UpdateRateLimitTest()
         {
             using var mockHandler = new HttpMessageHandlerMock();
             using var http = new HttpClient(mockHandler);
@@ -144,10 +188,10 @@ namespace OpenTween.Connection
                 {
                     Headers =
                     {
-                            { "X-Rate-Limit-Limit", "150" },
-                            { "X-Rate-Limit-Remaining", "100" },
-                            { "X-Rate-Limit-Reset", "1356998400" },
-                            { "X-Access-Level", "read-write-directmessages" },
+                        { "X-Rate-Limit-Limit", "150" },
+                        { "X-Rate-Limit-Remaining", "100" },
+                        { "X-Rate-Limit-Reset", "1356998400" },
+                        { "X-Access-Level", "read-write-directmessages" },
                     },
                     Content = new StringContent("\"hogehoge\""),
                 };
@@ -156,9 +200,13 @@ namespace OpenTween.Connection
             var apiStatus = new TwitterApiStatus();
             MyCommon.TwitterApiInfo = apiStatus;
 
-            var endpoint = new Uri("hoge/tetete.json", UriKind.Relative);
+            var request = new GetRequest
+            {
+                RequestUri = new("hoge/tetete.json", UriKind.Relative),
+                EndpointName = "/hoge/tetete",
+            };
 
-            await apiConnection.GetAsync<string>(endpoint, null, endpointName: "/hoge/tetete");
+            using var response = await apiConnection.SendAsync(request);
 
             Assert.Equal(TwitterApiAccessLevel.ReadWriteAndDirectMessage, apiStatus.AccessLevel);
             Assert.Equal(new ApiLimit(150, 100, new DateTimeUtc(2013, 1, 1, 0, 0, 0)), apiStatus.AccessLimit["/hoge/tetete"]);
@@ -167,7 +215,7 @@ namespace OpenTween.Connection
         }
 
         [Fact]
-        public async Task GetAsync_ErrorStatusTest()
+        public async Task SendAsync_ErrorStatusTest()
         {
             using var mockHandler = new HttpMessageHandlerMock();
             using var http = new HttpClient(mockHandler);
@@ -182,10 +230,13 @@ namespace OpenTween.Connection
                 };
             });
 
-            var endpoint = new Uri("hoge/tetete.json", UriKind.Relative);
+            var request = new GetRequest
+            {
+                RequestUri = new("hoge/tetete.json", UriKind.Relative),
+            };
 
             var exception = await Assert.ThrowsAsync<TwitterApiException>(
-                () => apiConnection.GetAsync<string>(endpoint, null, endpointName: "/hoge/tetete")
+                () => apiConnection.SendAsync(request)
             );
 
             // エラーレスポンスの読み込みに失敗した場合はステータスコードをそのままメッセージに使用する
@@ -196,7 +247,7 @@ namespace OpenTween.Connection
         }
 
         [Fact]
-        public async Task GetAsync_ErrorJsonTest()
+        public async Task SendAsync_ErrorJsonTest()
         {
             using var mockHandler = new HttpMessageHandlerMock();
             using var http = new HttpClient(mockHandler);
@@ -211,10 +262,13 @@ namespace OpenTween.Connection
                 };
             });
 
-            var endpoint = new Uri("hoge/tetete.json", UriKind.Relative);
+            var request = new GetRequest
+            {
+                RequestUri = new("hoge/tetete.json", UriKind.Relative),
+            };
 
             var exception = await Assert.ThrowsAsync<TwitterApiException>(
-                () => apiConnection.GetAsync<string>(endpoint, null, endpointName: "/hoge/tetete")
+                () => apiConnection.SendAsync(request)
             );
 
             // エラーレスポンスの JSON に含まれるエラーコードに基づいてメッセージを出力する
@@ -518,6 +572,77 @@ namespace OpenTween.Connection
             await apiConnection.DeleteAsync(endpoint);
 
             Assert.Equal(0, mockHandler.QueueCount);
+        }
+
+        [Fact]
+        public async Task HandleTimeout_SuccessTest()
+        {
+            static async Task<int> AsyncFunc(CancellationToken token)
+            {
+                await Task.Delay(10);
+                token.ThrowIfCancellationRequested();
+                return 1;
+            }
+
+            var timeout = TimeSpan.FromMilliseconds(200);
+            var ret = await TwitterApiConnection.HandleTimeout(AsyncFunc, timeout);
+
+            Assert.Equal(1, ret);
+        }
+
+        [Fact]
+        public async Task HandleTimeout_TimeoutTest()
+        {
+            var tcs = new TaskCompletionSource<bool>();
+
+            async Task<int> AsyncFunc(CancellationToken token)
+            {
+                await Task.Delay(200);
+                tcs.SetResult(token.IsCancellationRequested);
+                return 1;
+            }
+
+            var timeout = TimeSpan.FromMilliseconds(10);
+            await Assert.ThrowsAsync<OperationCanceledException>(
+                () => TwitterApiConnection.HandleTimeout(AsyncFunc, timeout)
+            );
+
+            var cancelRequested = await tcs.Task;
+            Assert.True(cancelRequested);
+        }
+
+        [Fact]
+        public async Task HandleTimeout_ThrowExceptionAfterTimeoutTest()
+        {
+            var tcs = new TaskCompletionSource<int>();
+
+            async Task<int> AsyncFunc(CancellationToken token)
+            {
+                await Task.Delay(100);
+                tcs.SetResult(1);
+                throw new Exception();
+            }
+
+            var timeout = TimeSpan.FromMilliseconds(10);
+            await Assert.ThrowsAsync<OperationCanceledException>(
+                () => TwitterApiConnection.HandleTimeout(AsyncFunc, timeout)
+            );
+
+            // キャンセル後に AsyncFunc で発生した例外が無視される（UnobservedTaskException イベントを発生させない）ことをチェックする
+            var error = false;
+            void UnobservedExceptionHandler(object s, UnobservedTaskExceptionEventArgs e)
+                => error = true;
+
+            TaskScheduler.UnobservedTaskException += UnobservedExceptionHandler;
+
+            await tcs.Task;
+            await Task.Delay(10);
+            GC.Collect(); // UnobservedTaskException は Task のデストラクタで呼ばれるため強制的に GC を実行する
+            await Task.Delay(10);
+
+            Assert.False(error);
+
+            TaskScheduler.UnobservedTaskException -= UnobservedExceptionHandler;
         }
     }
 }
