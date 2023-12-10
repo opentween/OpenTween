@@ -1,0 +1,14 @@
+{
+  "data": {
+    "unretweet": {
+      "source_tweet_results": {
+        "result": {
+          "rest_id": "1234567890123456789",
+          "legacy": {
+            "full_text": "foo"
+          }
+        }
+      }
+    }
+  }
+}

@@ -23,14 +23,9 @@
 
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Runtime.Serialization;
-using System.Runtime.Serialization.Json;
-using System.Text;
 using System.Threading.Tasks;
-using System.Xml;
-using System.Xml.Linq;
 using System.Xml.XPath;
 using OpenTween.Api.DataModel;
 using OpenTween.Connection;
@@ -153,14 +148,20 @@ namespace OpenTween.Api.GraphQL
             return JsonUtils.SerializeJsonByDataContract(body);
         }
 
-        public async Task<TwitterStatus> Send(IApiConnectionLegacy apiConnection)
+        public async Task<TwitterStatus> Send(IApiConnection apiConnection)
         {
-            var json = this.CreateRequestBody();
-            var response = await apiConnection.PostJsonAsync(EndpointUri, json);
-            var responseBytes = Encoding.UTF8.GetBytes(response);
-            using var jsonReader = JsonReaderWriterFactory.CreateJsonReader(responseBytes, XmlDictionaryReaderQuotas.Max);
+            var request = new PostJsonRequest
+            {
+                RequestUri = EndpointUri,
+                JsonString = this.CreateRequestBody(),
+            };
 
-            var rootElm = XElement.Load(jsonReader);
+            using var response = await apiConnection.SendAsync(request)
+                .ConfigureAwait(false);
+
+            var rootElm = await response.ReadAsJsonXml()
+                .ConfigureAwait(false);
+
             ErrorResponse.ThrowIfError(rootElm);
 
             var tweetElm = rootElm.XPathSelectElement("/data/create_tweet/tweet_results/result") ?? throw CreateParseError();
