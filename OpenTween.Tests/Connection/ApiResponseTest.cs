@@ -146,5 +146,19 @@ namespace OpenTween.Connection
 
             Assert.Equal(new() { Foo = 123 }, await lazyJson.LoadJsonAsync());
         }
+
+        [Fact]
+        public async Task ReadAsString_Test()
+        {
+            using var responseContent = new StringContent("foo");
+            using var responseMessage = new HttpResponseMessage
+            {
+                StatusCode = HttpStatusCode.OK,
+                Content = responseContent,
+            };
+            using var response = new ApiResponse(responseMessage);
+
+            Assert.Equal("foo", await response.ReadAsString());
+        }
     }
 }

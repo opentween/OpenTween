@@ -105,5 +105,13 @@ namespace OpenTween.Connection
 
             return new(this.responseMessage);
         }
+
+        public async Task<string> ReadAsString()
+        {
+            using var content = this.responseMessage.Content;
+
+            return await content.ReadAsStringAsync()
+                .ConfigureAwait(false);
+        }
     }
 }
