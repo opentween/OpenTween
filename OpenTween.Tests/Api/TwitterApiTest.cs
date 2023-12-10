@@ -59,8 +59,9 @@ namespace OpenTween.Api
             Assert.IsType<TwitterApiConnection>(twitterApi.ApiConnection);
 
             var apiConnection = (TwitterApiConnection)twitterApi.ApiConnection!;
-            Assert.Equal("*** AccessToken ***", apiConnection.AccessToken);
-            Assert.Equal("*** AccessSecret ***", apiConnection.AccessSecret);
+            var credential = Assert.IsType<TwitterCredentialOAuth1>(apiConnection.Credential);
+            Assert.Equal("*** AccessToken ***", credential.Token);
+            Assert.Equal("*** AccessSecret ***", credential.TokenSecret);
 
             Assert.Equal(100L, twitterApi.CurrentUserId);
             Assert.Equal("hogehoge", twitterApi.CurrentScreenName);
@@ -74,8 +75,9 @@ namespace OpenTween.Api
             Assert.IsType<TwitterApiConnection>(twitterApi.ApiConnection);
 
             apiConnection = (TwitterApiConnection)twitterApi.ApiConnection!;
-            Assert.Equal("*** AccessToken2 ***", apiConnection.AccessToken);
-            Assert.Equal("*** AccessSecret2 ***", apiConnection.AccessSecret);
+            credential = Assert.IsType<TwitterCredentialOAuth1>(apiConnection.Credential);
+            Assert.Equal("*** AccessToken2 ***", credential.Token);
+            Assert.Equal("*** AccessSecret2 ***", credential.TokenSecret);
 
             Assert.Equal(200L, twitterApi.CurrentUserId);
             Assert.Equal("foobar", twitterApi.CurrentScreenName);

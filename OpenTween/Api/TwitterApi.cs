@@ -62,13 +62,13 @@ namespace OpenTween.Api
         }
 
         public void Initialize(string accessToken, string accessSecret, long userId, string screenName)
-            => this.Initialize(this.AppToken, accessToken, accessSecret, userId, screenName);
+            => this.Initialize(new TwitterCredentialOAuth1(this.AppToken, accessToken, accessSecret), userId, screenName);
 
-        public void Initialize(TwitterAppToken appToken, string accessToken, string accessSecret, long userId, string screenName)
+        public void Initialize(ITwitterCredential credential, long userId, string screenName)
         {
-            this.AppToken = appToken;
+            this.AppToken = credential.AppToken;
 
-            var newInstance = new TwitterApiConnection(this.AppToken, accessToken, accessSecret);
+            var newInstance = new TwitterApiConnection(credential);
             var oldInstance = Interlocked.Exchange(ref this.ApiConnection, newInstance);
             oldInstance?.Dispose();
 

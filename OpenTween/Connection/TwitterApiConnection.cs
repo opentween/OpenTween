@@ -52,35 +52,20 @@ namespace OpenTween.Connection
 
         public bool IsDisposed { get; private set; } = false;
 
-        public string AccessToken { get; }
-
-        public string AccessSecret { get; }
-
         internal HttpClient Http;
         internal HttpClient HttpUpload;
         internal HttpClient HttpStreaming;
 
-        private readonly TwitterAppToken appToken;
+        internal ITwitterCredential Credential { get; }
 
-        public TwitterApiConnection(ApiKey consumerKey, ApiKey consumerSecret, string accessToken, string accessSecret)
-            : this(
-                new()
-                {
-                    AuthType = APIAuthType.OAuth1,
-                    OAuth1CustomConsumerKey = consumerKey,
-                    OAuth1CustomConsumerSecret = consumerSecret,
-                },
-                accessToken,
-                accessSecret
-            )
+        public TwitterApiConnection()
+            : this(new TwitterCredentialNone())
         {
         }
 
-        public TwitterApiConnection(TwitterAppToken appToken, string accessToken, string accessSecret)
+        public TwitterApiConnection(ITwitterCredential credential)
         {
-            this.appToken = appToken;
-            this.AccessToken = accessToken;
-            this.AccessSecret = accessSecret;
+            this.Credential = credential;
 
             this.InitializeHttpClients();
             Networking.WebProxyChanged += this.Networking_WebProxyChanged;
@@ -89,12 +74,12 @@ namespace OpenTween.Connection
         [MemberNotNull(nameof(Http), nameof(HttpUpload), nameof(HttpStreaming))]
         private void InitializeHttpClients()
         {
-            this.Http = InitializeHttpClient(this.appToken, this.AccessToken, this.AccessSecret);
+            this.Http = InitializeHttpClient(this.Credential);
 
-            this.HttpUpload = InitializeHttpClient(this.appToken, this.AccessToken, this.AccessSecret);
+            this.HttpUpload = InitializeHttpClient(this.Credential);
             this.HttpUpload.Timeout = Networking.UploadImageTimeout;
 
-            this.HttpStreaming = InitializeHttpClient(this.appToken, this.AccessToken, this.AccessSecret, disableGzip: true);
+            this.HttpStreaming = InitializeHttpClient(this.Credential, disableGzip: true);
             this.HttpStreaming.Timeout = Timeout.InfiniteTimeSpan;
         }
 
@@ -500,14 +485,29 @@ namespace OpenTween.Connection
         {
             var uri = new Uri(RestApiBase, authServiceProvider);
 
-            return OAuthEchoHandler.CreateHandler(
-                innerHandler,
-                uri,
-                this.appToken.OAuth1ConsumerKey,
-                this.appToken.OAuth1ConsumerSecret,
-                this.AccessToken,
-                this.AccessSecret,
-                realm);
+            if (this.Credential is TwitterCredentialOAuth1 oauthCredential)
+            {
+                return OAuthEchoHandler.CreateHandler(
+                    innerHandler,
+                    uri,
+                    oauthCredential.AppToken.OAuth1ConsumerKey,
+                    oauthCredential.AppToken.OAuth1ConsumerSecret,
+                    oauthCredential.Token,
+                    oauthCredential.TokenSecret,
+                    realm);
+            }
+            else
+            {
+                // MobipictureApi クラス向けの暫定対応
+                return OAuthEchoHandler.CreateHandler(
+                    innerHandler,
+                    uri,
+                    ApiKey.Create(""),
+                    ApiKey.Create(""),
+                    "",
+                    "",
+                    realm);
+            }
         }
 
         public void Dispose()
@@ -538,19 +538,20 @@ namespace OpenTween.Connection
         private void Networking_WebProxyChanged(object sender, EventArgs e)
             => this.InitializeHttpClients();
 
-        public static async Task<(string Token, string TokenSecret)> GetRequestTokenAsync(TwitterAppToken appToken)
+        public static async Task<TwitterCredentialOAuth1> GetRequestTokenAsync(TwitterAppToken appToken)
         {
+            var emptyCredential = new TwitterCredentialOAuth1(appToken, "", "");
             var param = new Dictionary<string, string>
             {
                 ["oauth_callback"] = "oob",
             };
-            var response = await GetOAuthTokenAsync(new Uri("https://api.twitter.com/oauth/request_token"), param, appToken, oauthToken: null)
+            var response = await GetOAuthTokenAsync(new Uri("https://api.twitter.com/oauth/request_token"), param, emptyCredential)
                 .ConfigureAwait(false);
 
-            return (response["oauth_token"], response["oauth_token_secret"]);
+            return new(appToken, response["oauth_token"], response["oauth_token_secret"]);
         }
 
-        public static Uri GetAuthorizeUri((string Token, string TokenSecret) requestToken, string? screenName = null)
+        public static Uri GetAuthorizeUri(TwitterCredentialOAuth1 requestToken, string? screenName = null)
         {
             var param = new Dictionary<string, string>
             {
@@ -563,13 +564,13 @@ namespace OpenTween.Connection
             return new Uri("https://api.twitter.com/oauth/authorize?" + MyCommon.BuildQueryString(param));
         }
 
-        public static async Task<IDictionary<string, string>> GetAccessTokenAsync(TwitterAppToken appToken, (string Token, string TokenSecret) requestToken, string verifier)
+        public static async Task<IDictionary<string, string>> GetAccessTokenAsync(TwitterCredentialOAuth1 credential, string verifier)
         {
             var param = new Dictionary<string, string>
             {
                 ["oauth_verifier"] = verifier,
             };
-            var response = await GetOAuthTokenAsync(new Uri("https://api.twitter.com/oauth/access_token"), param, appToken, requestToken)
+            var response = await GetOAuthTokenAsync(new Uri("https://api.twitter.com/oauth/access_token"), param, credential)
                 .ConfigureAwait(false);
 
             return response;
@@ -578,14 +579,10 @@ namespace OpenTween.Connection
         private static async Task<IDictionary<string, string>> GetOAuthTokenAsync(
             Uri uri,
             IDictionary<string, string> param,
-            TwitterAppToken appToken,
-            (string Token, string TokenSecret)? oauthToken)
+            TwitterCredentialOAuth1 credential
+        )
         {
-            HttpClient authorizeClient;
-            if (oauthToken != null)
-                authorizeClient = InitializeHttpClient(appToken.OAuth1ConsumerKey, appToken.OAuth1ConsumerSecret, oauthToken.Value.Token, oauthToken.Value.TokenSecret);
-            else
-                authorizeClient = InitializeHttpClient(appToken.OAuth1ConsumerKey, appToken.OAuth1ConsumerSecret, "", "");
+            using var authorizeClient = InitializeHttpClient(credential);
 
             var requestUri = new Uri(uri, "?" + MyCommon.BuildQueryString(param));
 
@@ -617,7 +614,7 @@ namespace OpenTween.Connection
             }
         }
 
-        private static HttpClient InitializeHttpClient(ApiKey consumerKey, ApiKey consumerSecret, string accessToken, string accessSecret, bool disableGzip = false)
+        private static HttpClient InitializeHttpClient(ITwitterCredential credential, bool disableGzip = false)
         {
             var builder = Networking.CreateHttpClientBuilder();
 
@@ -629,31 +626,7 @@ namespace OpenTween.Connection
                     x.AutomaticDecompression = DecompressionMethods.None;
             });
 
-            builder.AddHandler(x => new OAuthHandler(x, consumerKey, consumerSecret, accessToken, accessSecret));
-
-            return builder.Build();
-        }
-
-        private static HttpClient InitializeHttpClient(TwitterAppToken appToken, string accessToken, string accessSecret, bool disableGzip = false)
-        {
-            var builder = Networking.CreateHttpClientBuilder();
-
-            builder.SetupHttpClientHandler(x =>
-            {
-                x.CachePolicy = new RequestCachePolicy(RequestCacheLevel.BypassCache);
-
-                if (disableGzip)
-                    x.AutomaticDecompression = DecompressionMethods.None;
-            });
-
-            builder.AddHandler(x => appToken.AuthType switch
-            {
-                APIAuthType.OAuth1
-                    => new OAuthHandler(x, appToken.OAuth1ConsumerKey, appToken.OAuth1ConsumerSecret, accessToken, accessSecret),
-                APIAuthType.TwitterComCookie
-                    => new TwitterComCookieHandler(x, appToken.TwitterComCookie),
-                _ => throw new NotImplementedException(),
-            });
+            builder.AddHandler(x => credential.CreateHttpHandler(x));
 
             return builder.Build();
         }

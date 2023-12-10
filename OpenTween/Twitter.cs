@@ -228,15 +228,14 @@ namespace OpenTween
             this.Api.Initialize(token, tokenSecret, userId, username);
         }
 
-        public void Initialize(TwitterAppToken appToken, string token, string tokenSecret, string username, long userId)
+        public void Initialize(ITwitterCredential credential, string username, long userId)
         {
             // OAuth認証
-            if (MyCommon.IsNullOrEmpty(token) || MyCommon.IsNullOrEmpty(tokenSecret) || MyCommon.IsNullOrEmpty(username))
-            {
+            if (credential is TwitterCredentialNone)
                 Twitter.AccountState = MyCommon.ACCOUNT_STATE.Invalid;
-            }
+
             this.ResetApiStatus();
-            this.Api.Initialize(appToken, token, tokenSecret, userId, username);
+            this.Api.Initialize(credential, userId, username);
         }
 
         public async Task<PostClass?> PostStatus(PostStatusParams param)

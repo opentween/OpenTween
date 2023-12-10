@@ -195,7 +195,7 @@ namespace OpenTween
                         };
 
                         using var twitterApi = new TwitterApi();
-                        twitterApi.Initialize(appToken, "", "", 0L, "");
+                        twitterApi.Initialize(new TwitterCredentialCookie(appToken), 0L, "");
                         var twitterUser = await twitterApi.AccountVerifyCredentials();
                         newAccount.UserId = twitterUser.Id;
                         newAccount.Username = twitterUser.ScreenName;
@@ -294,7 +294,7 @@ namespace OpenTween
             if (MyCommon.IsNullOrEmpty(pin))
                 return null; // キャンセルされた場合
 
-            var accessTokenResponse = await TwitterApiConnection.GetAccessTokenAsync(appToken, requestToken, pin);
+            var accessTokenResponse = await TwitterApiConnection.GetAccessTokenAsync(requestToken, pin);
 
             return new UserAccount
             {

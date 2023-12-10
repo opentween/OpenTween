@@ -2555,9 +2555,9 @@ namespace OpenTween
 
                     var account = this.settings.Common.SelectedAccount;
                     if (account != null)
-                        this.tw.Initialize(account.GetTwitterAppToken(), account.Token, account.TokenSecret, account.Username, account.UserId);
+                        this.tw.Initialize(account.GetTwitterCredential(), account.Username, account.UserId);
                     else
-                        this.tw.Initialize(TwitterAppToken.GetDefault(), "", "", "", 0L);
+                        this.tw.Initialize(new TwitterCredentialNone(), "", 0L);
 
                     this.tw.RestrictFavCheck = this.settings.Common.RestrictFavCheck;
                     this.tw.ReadOwnPost = this.settings.Common.ReadOwnPost;
