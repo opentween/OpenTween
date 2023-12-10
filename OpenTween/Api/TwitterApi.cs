@@ -41,28 +41,14 @@ namespace OpenTween.Api
 
         public string CurrentScreenName { get; private set; } = "";
 
-        public IApiConnectionLegacy Connection => this.ApiConnection ?? throw new InvalidOperationException();
+        public IApiConnectionLegacy Connection => this.ApiConnection;
 
-        internal IApiConnectionLegacy? ApiConnection;
+        internal IApiConnectionLegacy ApiConnection;
 
         public TwitterAppToken AppToken { get; private set; } = TwitterAppToken.GetDefault();
 
         public TwitterApi()
-        {
-        }
-
-        public TwitterApi(ApiKey consumerKey, ApiKey consumerSecret)
-        {
-            this.AppToken = new()
-            {
-                AuthType = APIAuthType.OAuth1,
-                OAuth1CustomConsumerKey = consumerKey,
-                OAuth1CustomConsumerSecret = consumerSecret,
-            };
-        }
-
-        public void Initialize(string accessToken, string accessSecret, long userId, string screenName)
-            => this.Initialize(new TwitterCredentialOAuth1(this.AppToken, accessToken, accessSecret), userId, screenName);
+            => this.ApiConnection = new TwitterApiConnection(new TwitterCredentialNone());
 
         public void Initialize(ITwitterCredential credential, long userId, string screenName)
         {

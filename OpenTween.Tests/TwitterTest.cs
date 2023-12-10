@@ -224,7 +224,7 @@ namespace OpenTween
         [Fact]
         public void GetTextLengthRemain_Test()
         {
-            using var twitterApi = new TwitterApi(ApiKey.Create(""), ApiKey.Create(""));
+            using var twitterApi = new TwitterApi();
             using var twitter = new Twitter(twitterApi);
 
             Assert.Equal(280, twitter.GetTextLengthRemain(""));
@@ -234,7 +234,7 @@ namespace OpenTween
         [Fact]
         public void GetTextLengthRemain_DirectMessageTest()
         {
-            using var twitterApi = new TwitterApi(ApiKey.Create(""), ApiKey.Create(""));
+            using var twitterApi = new TwitterApi();
             using var twitter = new Twitter(twitterApi);
 
             // 2015年8月から DM の文字数上限が 10,000 文字に変更された
@@ -255,7 +255,7 @@ namespace OpenTween
         [Fact]
         public void GetTextLengthRemain_UrlTest()
         {
-            using var twitterApi = new TwitterApi(ApiKey.Create(""), ApiKey.Create(""));
+            using var twitterApi = new TwitterApi();
             using var twitter = new Twitter(twitterApi);
 
             // t.co に短縮される分の文字数を考慮
@@ -272,7 +272,7 @@ namespace OpenTween
         [Fact]
         public void GetTextLengthRemain_UrlWithoutSchemeTest()
         {
-            using var twitterApi = new TwitterApi(ApiKey.Create(""), ApiKey.Create(""));
+            using var twitterApi = new TwitterApi();
             using var twitter = new Twitter(twitterApi);
 
             // t.co に短縮される分の文字数を考慮
@@ -290,7 +290,7 @@ namespace OpenTween
         [Fact]
         public void GetTextLengthRemain_SurrogatePairTest()
         {
-            using var twitterApi = new TwitterApi(ApiKey.Create(""), ApiKey.Create(""));
+            using var twitterApi = new TwitterApi();
             using var twitter = new Twitter(twitterApi);
 
             Assert.Equal(278, twitter.GetTextLengthRemain("🍣"));
@@ -300,7 +300,7 @@ namespace OpenTween
         [Fact]
         public void GetTextLengthRemain_EmojiTest()
         {
-            using var twitterApi = new TwitterApi(ApiKey.Create(""), ApiKey.Create(""));
+            using var twitterApi = new TwitterApi();
             using var twitter = new Twitter(twitterApi);
 
             // 絵文字の文字数カウントの仕様変更に対するテストケース
@@ -320,7 +320,7 @@ namespace OpenTween
         [Fact]
         public void GetTextLengthRemain_BrokenSurrogateTest()
         {
-            using var twitterApi = new TwitterApi(ApiKey.Create(""), ApiKey.Create(""));
+            using var twitterApi = new TwitterApi();
             using var twitter = new Twitter(twitterApi);
 
             // 投稿欄に IME から絵文字を入力すると HighSurrogate のみ入力された状態で TextChanged イベントが呼ばれることがある

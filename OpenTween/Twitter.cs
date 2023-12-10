@@ -217,17 +217,6 @@ namespace OpenTween
             this.UpdateUserStats(user);
         }
 
-        public void Initialize(string token, string tokenSecret, string username, long userId)
-        {
-            // OAuth認証
-            if (MyCommon.IsNullOrEmpty(token) || MyCommon.IsNullOrEmpty(tokenSecret) || MyCommon.IsNullOrEmpty(username))
-            {
-                Twitter.AccountState = MyCommon.ACCOUNT_STATE.Invalid;
-            }
-            this.ResetApiStatus();
-            this.Api.Initialize(token, tokenSecret, userId, username);
-        }
-
         public void Initialize(ITwitterCredential credential, string username, long userId)
         {
             // OAuth認証

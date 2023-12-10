@@ -48,7 +48,6 @@ namespace OpenTween
             using var imageCache = new ImageCache();
             using var iconAssets = new IconAssetsManager();
             var thumbnailGenerator = new ThumbnailGenerator(new(autoupdate: false));
-            twitter.Initialize(new TwitterCredentialNone(), "", 0L);
 
             using var tweenMain = new TweenMain(settings, tabinfo, twitter, imageCache, iconAssets, thumbnailGenerator);
         }
