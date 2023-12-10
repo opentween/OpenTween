@@ -38,6 +38,7 @@ namespace OpenTween.Connection
         public bool IsDisposed { get; private set; }
 
         private readonly HttpResponseMessage responseMessage;
+        private bool preventDisposeResponse;
 
         public ApiResponse(HttpResponseMessage responseMessage)
             => this.responseMessage = responseMessage;
@@ -47,7 +48,9 @@ namespace OpenTween.Connection
             if (this.IsDisposed)
                 return;
 
-            this.responseMessage.Dispose();
+            if (!this.preventDisposeResponse)
+                this.responseMessage.Dispose();
+
             this.IsDisposed = true;
         }
 
@@ -94,6 +97,21 @@ namespace OpenTween.Connection
                 var responseText = Encoding.UTF8.GetString(responseBytes);
                 throw new TwitterApiException("Invalid JSON", ex) { ResponseText = responseText };
             }
+        }
+
+        public LazyJson<T> ReadAsLazyJson<T>()
+        {
+            this.preventDisposeResponse = true;
+
+            return new(this.responseMessage);
+        }
+
+        public async Task<string> ReadAsString()
+        {
+            using var content = this.responseMessage.Content;
+
+            return await content.ReadAsStringAsync()
+                .ConfigureAwait(false);
         }
     }
 }

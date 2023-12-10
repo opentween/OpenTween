@@ -19,43 +19,30 @@
 // the Free Software Foundation, Inc., 51 Franklin Street - Fifth Floor,
 // Boston, MA 02110-1301, USA.
 
-#nullable enable
-
 using System;
+using System.Net.Http;
 using System.Threading.Tasks;
-using OpenTween.Connection;
-using OpenTween.Models;
+using Xunit;
 
-namespace OpenTween.Api.GraphQL
+namespace OpenTween.Connection
 {
-    public class DeleteRetweetRequest
+    public class PostJsonRequestTest
     {
-        private static readonly Uri EndpointUri = new("https://twitter.com/i/api/graphql/iQtK4dl5hBmXewYZuEOKVw/DeleteRetweet");
-
-        public required TwitterStatusId SourceTweetId { get; set; }
-
-        public string CreateRequestBody()
-        {
-            return $$"""
-            {"variables":{"source_tweet_id":"{{JsonUtils.EscapeJsonString(this.SourceTweetId.Id)}}","dark_request":false},"queryId":"iQtK4dl5hBmXewYZuEOKVw"}
-            """;
-        }
-
-        public async Task Send(IApiConnection apiConnection)
+        [Fact]
+        public async Task CreateMessage_Test()
         {
             var request = new PostJsonRequest
             {
-                RequestUri = EndpointUri,
-                JsonString = this.CreateRequestBody(),
+                RequestUri = new("aaa/bbb.json", UriKind.Relative),
+                JsonString = """{"foo":12345}""",
             };
 
-            using var response = await apiConnection.SendAsync(request)
-                .ConfigureAwait(false);
+            var baseUri = new Uri("https://example.com/v1/");
+            using var requestMessage = request.CreateMessage(baseUri);
 
-            var rootElm = await response.ReadAsJsonXml()
-                .ConfigureAwait(false);
-
-            ErrorResponse.ThrowIfError(rootElm);
+            Assert.Equal(HttpMethod.Post, requestMessage.Method);
+            Assert.Equal(new("https://example.com/v1/aaa/bbb.json"), requestMessage.RequestUri);
+            Assert.Equal("""{"foo":12345}""", await requestMessage.Content.ReadAsStringAsync());
         }
     }
 }

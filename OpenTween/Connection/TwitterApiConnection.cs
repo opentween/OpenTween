@@ -368,67 +368,31 @@ namespace OpenTween.Connection
 
         public async Task<string> PostJsonAsync(Uri uri, string json)
         {
-            var requestUri = new Uri(RestApiBase, uri);
-            using var request = new HttpRequestMessage(HttpMethod.Post, requestUri);
-
-            using var postContent = new StringContent(json, Encoding.UTF8, "application/json");
-            request.Content = postContent;
-
-            try
+            var request = new PostJsonRequest
             {
-                using var response = await this.Http.SendAsync(request)
-                    .ConfigureAwait(false);
+                RequestUri = uri,
+                JsonString = json,
+            };
 
-                await TwitterApiConnection.CheckStatusCode(response)
-                    .ConfigureAwait(false);
+            using var response = await this.SendAsync(request)
+                .ConfigureAwait(false);
 
-                return await response.Content.ReadAsStringAsync()
-                    .ConfigureAwait(false);
-            }
-            catch (HttpRequestException ex)
-            {
-                throw TwitterApiException.CreateFromException(ex);
-            }
-            catch (OperationCanceledException ex)
-            {
-                throw TwitterApiException.CreateFromException(ex);
-            }
+            return await response.ReadAsString()
+                .ConfigureAwait(false);
         }
 
         public async Task<LazyJson<T>> PostJsonAsync<T>(Uri uri, string json)
         {
-            var requestUri = new Uri(RestApiBase, uri);
-            var request = new HttpRequestMessage(HttpMethod.Post, requestUri);
-
-            using var postContent = new StringContent(json, Encoding.UTF8, "application/json");
-            request.Content = postContent;
-
-            HttpResponseMessage? response = null;
-            try
+            var request = new PostJsonRequest
             {
-                response = await this.Http.SendAsync(request, HttpCompletionOption.ResponseHeadersRead)
-                    .ConfigureAwait(false);
+                RequestUri = uri,
+                JsonString = json,
+            };
 
-                await TwitterApiConnection.CheckStatusCode(response)
-                    .ConfigureAwait(false);
+            using var response = await this.SendAsync(request)
+                .ConfigureAwait(false);
 
-                var result = new LazyJson<T>(response);
-                response = null;
-
-                return result;
-            }
-            catch (HttpRequestException ex)
-            {
-                throw TwitterApiException.CreateFromException(ex);
-            }
-            catch (OperationCanceledException ex)
-            {
-                throw TwitterApiException.CreateFromException(ex);
-            }
-            finally
-            {
-                response?.Dispose();
-            }
+            return response.ReadAsLazyJson<T>();
         }
 
         public async Task DeleteAsync(Uri uri)

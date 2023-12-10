@@ -22,10 +22,6 @@
 #nullable enable
 
 using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using OpenTween.Connection;
 using OpenTween.Models;
@@ -45,11 +41,21 @@ namespace OpenTween.Api.GraphQL
             """;
         }
 
-        public async Task Send(IApiConnectionLegacy apiConnection)
+        public async Task Send(IApiConnection apiConnection)
         {
-            var json = this.CreateRequestBody();
-            var responseText = await apiConnection.PostJsonAsync(EndpointUri, json);
-            ErrorResponse.ThrowIfError(responseText);
+            var request = new PostJsonRequest
+            {
+                RequestUri = EndpointUri,
+                JsonString = this.CreateRequestBody(),
+            };
+
+            using var response = await apiConnection.SendAsync(request)
+                .ConfigureAwait(false);
+
+            var rootElm = await response.ReadAsJsonXml()
+                .ConfigureAwait(false);
+
+            ErrorResponse.ThrowIfError(rootElm);
         }
     }
 }

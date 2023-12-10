@@ -115,5 +115,50 @@ namespace OpenTween.Connection
             );
             Assert.Equal("### Invalid JSON Response ###", ex.ResponseText);
         }
+
+        [Fact]
+        public async Task ReadAsLazyJson_Test()
+        {
+            using var responseContent = new StringContent("""{"foo":123}""");
+            using var responseMessage = new HttpResponseMessage
+            {
+                StatusCode = HttpStatusCode.OK,
+                Content = responseContent,
+            };
+            using var response = new ApiResponse(responseMessage);
+
+            using var lazyJson = response.ReadAsLazyJson<TestJson>();
+            Assert.Equal(new() { Foo = 123 }, await lazyJson.LoadJsonAsync());
+        }
+
+        [Fact]
+        public async Task ReadAsLazyJson_DisposeTest()
+        {
+            using var responseContent = new StringContent("""{"foo":123}""");
+            using var responseMessage = new HttpResponseMessage
+            {
+                StatusCode = HttpStatusCode.OK,
+                Content = responseContent,
+            };
+            using var response = new ApiResponse(responseMessage);
+            using var lazyJson = response.ReadAsLazyJson<TestJson>();
+            response.Dispose(); // ApiResponse を先に破棄しても LazyJson に影響しないことをテストする
+
+            Assert.Equal(new() { Foo = 123 }, await lazyJson.LoadJsonAsync());
+        }
+
+        [Fact]
+        public async Task ReadAsString_Test()
+        {
+            using var responseContent = new StringContent("foo");
+            using var responseMessage = new HttpResponseMessage
+            {
+                StatusCode = HttpStatusCode.OK,
+                Content = responseContent,
+            };
+            using var response = new ApiResponse(responseMessage);
+
+            Assert.Equal("foo", await response.ReadAsString());
+        }
     }
 }

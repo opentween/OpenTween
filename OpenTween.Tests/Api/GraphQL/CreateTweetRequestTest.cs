@@ -19,11 +19,6 @@
 // the Free Software Foundation, Inc., 51 Franklin Street - Fifth Floor,
 // Boston, MA 02110-1301, USA.
 
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Moq;
 using OpenTween.Connection;
@@ -36,20 +31,21 @@ namespace OpenTween.Api.GraphQL
         [Fact]
         public async Task Send_Test()
         {
-            var responseText = File.ReadAllText("Resources/Responses/CreateTweet_CircleTweet.json");
+            using var apiResponse = await TestUtils.CreateApiResponse("Resources/Responses/CreateTweet_CircleTweet.json");
 
-            var mock = new Mock<IApiConnectionLegacy>();
+            var mock = new Mock<IApiConnection>();
             mock.Setup(x =>
-                    x.PostJsonAsync(It.IsAny<Uri>(), It.IsAny<string>())
+                    x.SendAsync(It.IsAny<IHttpRequest>())
                 )
-                .Callback<Uri, string>((url, json) =>
+                .Callback<IHttpRequest>(x =>
                 {
-                    Assert.Equal(new("https://twitter.com/i/api/graphql/tTsjMKyhajZvK4q76mpIBg/CreateTweet"), url);
-                    Assert.Contains(@"""tweet_text"":""tetete""", json);
-                    Assert.DoesNotContain(@"""reply"":", json);
-                    Assert.DoesNotContain(@"""media"":", json);
+                    var request = Assert.IsType<PostJsonRequest>(x);
+                    Assert.Equal(new("https://twitter.com/i/api/graphql/tTsjMKyhajZvK4q76mpIBg/CreateTweet"), request.RequestUri);
+                    Assert.Contains(@"""tweet_text"":""tetete""", request.JsonString);
+                    Assert.DoesNotContain(@"""reply"":", request.JsonString);
+                    Assert.DoesNotContain(@"""media"":", request.JsonString);
                 })
-                .ReturnsAsync(responseText);
+                .ReturnsAsync(apiResponse);
 
             var request = new CreateTweetRequest
             {
@@ -65,17 +61,18 @@ namespace OpenTween.Api.GraphQL
         [Fact]
         public async Task Send_ReplyTest()
         {
-            var responseText = File.ReadAllText("Resources/Responses/CreateTweet_CircleTweet.json");
+            using var apiResponse = await TestUtils.CreateApiResponse("Resources/Responses/CreateTweet_CircleTweet.json");
 
-            var mock = new Mock<IApiConnectionLegacy>();
+            var mock = new Mock<IApiConnection>();
             mock.Setup(x =>
-                    x.PostJsonAsync(It.IsAny<Uri>(), It.IsAny<string>())
+                    x.SendAsync(It.IsAny<IHttpRequest>())
                 )
-                .Callback<Uri, string>((url, json) =>
+                .Callback<IHttpRequest>(x =>
                 {
-                    Assert.Contains(@"""reply"":{""exclude_reply_user_ids"":[""11111"",""22222""],""in_reply_to_tweet_id"":""12345""}", json);
+                    var request = Assert.IsType<PostJsonRequest>(x);
+                    Assert.Contains(@"""reply"":{""exclude_reply_user_ids"":[""11111"",""22222""],""in_reply_to_tweet_id"":""12345""}", request.JsonString);
                 })
-                .ReturnsAsync(responseText);
+                .ReturnsAsync(apiResponse);
 
             var request = new CreateTweetRequest
             {
@@ -90,17 +87,18 @@ namespace OpenTween.Api.GraphQL
         [Fact]
         public async Task Send_MediaTest()
         {
-            var responseText = File.ReadAllText("Resources/Responses/CreateTweet_CircleTweet.json");
+            using var apiResponse = await TestUtils.CreateApiResponse("Resources/Responses/CreateTweet_CircleTweet.json");
 
-            var mock = new Mock<IApiConnectionLegacy>();
+            var mock = new Mock<IApiConnection>();
             mock.Setup(x =>
-                    x.PostJsonAsync(It.IsAny<Uri>(), It.IsAny<string>())
+                    x.SendAsync(It.IsAny<IHttpRequest>())
                 )
-                .Callback<Uri, string>((url, json) =>
+                .Callback<IHttpRequest>(x =>
                 {
-                    Assert.Contains(@"""media"":{""media_entities"":[{""media_id"":""11111"",""tagged_users"":[]},{""media_id"":""22222"",""tagged_users"":[]}],""possibly_sensitive"":false}", json);
+                    var request = Assert.IsType<PostJsonRequest>(x);
+                    Assert.Contains(@"""media"":{""media_entities"":[{""media_id"":""11111"",""tagged_users"":[]},{""media_id"":""22222"",""tagged_users"":[]}],""possibly_sensitive"":false}", request.JsonString);
                 })
-                .ReturnsAsync(responseText);
+                .ReturnsAsync(apiResponse);
 
             var request = new CreateTweetRequest
             {
