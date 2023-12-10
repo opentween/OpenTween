@@ -27,8 +27,8 @@ namespace OpenTween.Connection
 {
     public class TwitterCredentialNone : ITwitterCredential
     {
-        public TwitterAppToken AppToken
-            => TwitterAppToken.GetDefault();
+        public APIAuthType AuthType
+            => APIAuthType.None;
 
         public HttpMessageHandler CreateHttpHandler(HttpMessageHandler innerHandler)
             => innerHandler;

@@ -455,6 +455,7 @@ namespace OpenTween
 
     public enum APIAuthType
     {
+        None,
         OAuth1,
         TwitterComCookie,
     }

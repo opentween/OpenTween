@@ -27,6 +27,9 @@ namespace OpenTween.Connection
 {
     public class TwitterCredentialCookie : ITwitterCredential
     {
+        public APIAuthType AuthType
+            => APIAuthType.TwitterComCookie;
+
         public TwitterAppToken AppToken { get; }
 
         public TwitterCredentialCookie(TwitterAppToken appToken)

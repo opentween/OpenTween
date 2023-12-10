@@ -1212,7 +1212,7 @@ namespace OpenTween
             var status = new PostStatusParams();
 
             var statusTextCompat = this.FormatStatusText(this.StatusText.Text);
-            if (this.GetRestStatusCount(statusTextCompat) >= 0 && this.tw.Api.AppToken.AuthType == APIAuthType.OAuth1)
+            if (this.GetRestStatusCount(statusTextCompat) >= 0 && this.tw.Api.AuthType == APIAuthType.OAuth1)
             {
                 // auto_populate_reply_metadata や attachment_url を使用しなくても 140 字以内に
                 // 収まる場合はこれらのオプションを使用せずに投稿する
@@ -7047,7 +7047,7 @@ namespace OpenTween
 
             if (endpointName == null)
             {
-                var authByCookie = this.tw.Api.AppToken.AuthType == APIAuthType.TwitterComCookie;
+                var authByCookie = this.tw.Api.AuthType == APIAuthType.TwitterComCookie;
 
                 // 表示中のタブに応じて更新
                 endpointName = tabType switch

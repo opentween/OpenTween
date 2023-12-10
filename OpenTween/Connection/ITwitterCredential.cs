@@ -27,7 +27,7 @@ namespace OpenTween.Connection
 {
     public interface ITwitterCredential
     {
-        TwitterAppToken AppToken { get; }
+        APIAuthType AuthType { get; }
 
         HttpMessageHandler CreateHttpHandler(HttpMessageHandler innerHandler);
     }

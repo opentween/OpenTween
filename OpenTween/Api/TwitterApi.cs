@@ -45,14 +45,14 @@ namespace OpenTween.Api
 
         internal IApiConnectionLegacy ApiConnection;
 
-        public TwitterAppToken AppToken { get; private set; } = TwitterAppToken.GetDefault();
+        public APIAuthType AuthType { get; private set; } = APIAuthType.None;
 
         public TwitterApi()
             => this.ApiConnection = new TwitterApiConnection(new TwitterCredentialNone());
 
         public void Initialize(ITwitterCredential credential, long userId, string screenName)
         {
-            this.AppToken = credential.AppToken;
+            this.AuthType = credential.AuthType;
 
             var newInstance = new TwitterApiConnection(credential);
             var oldInstance = Interlocked.Exchange(ref this.ApiConnection, newInstance);
