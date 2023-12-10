@@ -51,10 +51,9 @@ namespace OpenTween
         [Fact]
         public void SelectedMediaServiceIndex_Test()
         {
-            using var twitterApi = new TwitterApi(ApiKey.Create(""), ApiKey.Create(""));
+            using var twitterApi = new TwitterApi();
             using var twitter = new Twitter(twitterApi);
             using var mediaSelector = new MediaSelector();
-            twitter.Initialize("", "", "", 0L);
             mediaSelector.InitializeServices(twitter, TwitterConfiguration.DefaultConfiguration());
 
             Assert.Equal("Twitter", mediaSelector.MediaServices[0].Key);
@@ -70,10 +69,9 @@ namespace OpenTween
         [Fact]
         public void SelectMediaService_TwitterTest()
         {
-            using var twitterApi = new TwitterApi(ApiKey.Create(""), ApiKey.Create(""));
+            using var twitterApi = new TwitterApi();
             using var twitter = new Twitter(twitterApi);
             using var mediaSelector = new MediaSelector();
-            twitter.Initialize("", "", "", 0L);
             mediaSelector.InitializeServices(twitter, TwitterConfiguration.DefaultConfiguration());
             mediaSelector.SelectMediaService("Twitter");
 
@@ -89,10 +87,9 @@ namespace OpenTween
         [Fact]
         public void SelectMediaService_ImgurTest()
         {
-            using var twitterApi = new TwitterApi(ApiKey.Create(""), ApiKey.Create(""));
+            using var twitterApi = new TwitterApi();
             using var twitter = new Twitter(twitterApi);
             using var mediaSelector = new MediaSelector();
-            twitter.Initialize("", "", "", 0L);
             mediaSelector.InitializeServices(twitter, TwitterConfiguration.DefaultConfiguration());
             mediaSelector.SelectMediaService("Imgur");
 
@@ -106,10 +103,9 @@ namespace OpenTween
         [Fact]
         public void AddMediaItem_FilePath_SingleTest()
         {
-            using var twitterApi = new TwitterApi(ApiKey.Create(""), ApiKey.Create(""));
+            using var twitterApi = new TwitterApi();
             using var twitter = new Twitter(twitterApi);
             using var mediaSelector = new MediaSelector();
-            twitter.Initialize("", "", "", 0L);
             mediaSelector.InitializeServices(twitter, TwitterConfiguration.DefaultConfiguration());
             mediaSelector.SelectMediaService("Twitter");
 
@@ -132,10 +128,9 @@ namespace OpenTween
         [Fact]
         public void AddMediaItem_MemoryImageTest()
         {
-            using var twitterApi = new TwitterApi(ApiKey.Create(""), ApiKey.Create(""));
+            using var twitterApi = new TwitterApi();
             using var twitter = new Twitter(twitterApi);
             using var mediaSelector = new MediaSelector();
-            twitter.Initialize("", "", "", 0L);
             mediaSelector.InitializeServices(twitter, TwitterConfiguration.DefaultConfiguration());
             mediaSelector.SelectMediaService("Twitter");
 
@@ -160,10 +155,9 @@ namespace OpenTween
         [Fact]
         public void AddMediaItem_FilePath_MultipleTest()
         {
-            using var twitterApi = new TwitterApi(ApiKey.Create(""), ApiKey.Create(""));
+            using var twitterApi = new TwitterApi();
             using var twitter = new Twitter(twitterApi);
             using var mediaSelector = new MediaSelector();
-            twitter.Initialize("", "", "", 0L);
             mediaSelector.InitializeServices(twitter, TwitterConfiguration.DefaultConfiguration());
             mediaSelector.SelectMediaService("Twitter");
 
@@ -186,10 +180,9 @@ namespace OpenTween
         [Fact]
         public void ClearMediaItems_Test()
         {
-            using var twitterApi = new TwitterApi(ApiKey.Create(""), ApiKey.Create(""));
+            using var twitterApi = new TwitterApi();
             using var twitter = new Twitter(twitterApi);
             using var mediaSelector = new MediaSelector();
-            twitter.Initialize("", "", "", 0L);
             mediaSelector.InitializeServices(twitter, TwitterConfiguration.DefaultConfiguration());
             mediaSelector.SelectMediaService("Twitter");
 
@@ -207,10 +200,9 @@ namespace OpenTween
         [Fact]
         public void DetachMediaItems_Test()
         {
-            using var twitterApi = new TwitterApi(ApiKey.Create(""), ApiKey.Create(""));
+            using var twitterApi = new TwitterApi();
             using var twitter = new Twitter(twitterApi);
             using var mediaSelector = new MediaSelector();
-            twitter.Initialize("", "", "", 0L);
             mediaSelector.InitializeServices(twitter, TwitterConfiguration.DefaultConfiguration());
             mediaSelector.SelectMediaService("Twitter");
 
@@ -230,10 +222,9 @@ namespace OpenTween
         [Fact]
         public void SelectedMediaItemChange_Test()
         {
-            using var twitterApi = new TwitterApi(ApiKey.Create(""), ApiKey.Create(""));
+            using var twitterApi = new TwitterApi();
             using var twitter = new Twitter(twitterApi);
             using var mediaSelector = new MediaSelector();
-            twitter.Initialize("", "", "", 0L);
             mediaSelector.InitializeServices(twitter, TwitterConfiguration.DefaultConfiguration());
             mediaSelector.SelectMediaService("Twitter");
 
@@ -268,10 +259,9 @@ namespace OpenTween
         [Fact]
         public void SelectedMediaItemChange_DisposeTest()
         {
-            using var twitterApi = new TwitterApi(ApiKey.Create(""), ApiKey.Create(""));
+            using var twitterApi = new TwitterApi();
             using var twitter = new Twitter(twitterApi);
             using var mediaSelector = new MediaSelector();
-            twitter.Initialize("", "", "", 0L);
             mediaSelector.InitializeServices(twitter, TwitterConfiguration.DefaultConfiguration());
             mediaSelector.SelectMediaService("Twitter");
 
@@ -292,10 +282,9 @@ namespace OpenTween
         [Fact]
         public void SetSelectedMediaAltText_Test()
         {
-            using var twitterApi = new TwitterApi(ApiKey.Create(""), ApiKey.Create(""));
+            using var twitterApi = new TwitterApi();
             using var twitter = new Twitter(twitterApi);
             using var mediaSelector = new MediaSelector();
-            twitter.Initialize("", "", "", 0L);
             mediaSelector.InitializeServices(twitter, TwitterConfiguration.DefaultConfiguration());
             mediaSelector.SelectMediaService("Twitter");
 
@@ -317,10 +306,9 @@ namespace OpenTween
         [Fact]
         public void Validate_PassTest()
         {
-            using var twitterApi = new TwitterApi(ApiKey.Create(""), ApiKey.Create(""));
+            using var twitterApi = new TwitterApi();
             using var twitter = new Twitter(twitterApi);
             using var mediaSelector = new MediaSelector();
-            twitter.Initialize("", "", "", 0L);
             mediaSelector.InitializeServices(twitter, TwitterConfiguration.DefaultConfiguration());
             mediaSelector.SelectMediaService("Twitter");
 
@@ -333,10 +321,9 @@ namespace OpenTween
         [Fact]
         public void Validate_EmptyErrorTest()
         {
-            using var twitterApi = new TwitterApi(ApiKey.Create(""), ApiKey.Create(""));
+            using var twitterApi = new TwitterApi();
             using var twitter = new Twitter(twitterApi);
             using var mediaSelector = new MediaSelector();
-            twitter.Initialize("", "", "", 0L);
             mediaSelector.InitializeServices(twitter, TwitterConfiguration.DefaultConfiguration());
             mediaSelector.SelectMediaService("Twitter");
 
@@ -350,10 +337,9 @@ namespace OpenTween
         [Fact]
         public void Validate_ServiceNotSelectedErrorTest()
         {
-            using var twitterApi = new TwitterApi(ApiKey.Create(""), ApiKey.Create(""));
+            using var twitterApi = new TwitterApi();
             using var twitter = new Twitter(twitterApi);
             using var mediaSelector = new MediaSelector();
-            twitter.Initialize("", "", "", 0L);
             mediaSelector.InitializeServices(twitter, TwitterConfiguration.DefaultConfiguration());
 
             using var mediaItem = TestUtils.CreateDummyMediaItem();
@@ -368,10 +354,9 @@ namespace OpenTween
         [Fact]
         public void Validate_ExtensionErrorTest()
         {
-            using var twitterApi = new TwitterApi(ApiKey.Create(""), ApiKey.Create(""));
+            using var twitterApi = new TwitterApi();
             using var twitter = new Twitter(twitterApi);
             using var mediaSelector = new MediaSelector();
-            twitter.Initialize("", "", "", 0L);
             mediaSelector.InitializeServices(twitter, TwitterConfiguration.DefaultConfiguration());
             mediaSelector.SelectMediaService("Twitter");
 
@@ -391,10 +376,9 @@ namespace OpenTween
         [Fact]
         public void Validate_FileSizeErrorTest()
         {
-            using var twitterApi = new TwitterApi(ApiKey.Create(""), ApiKey.Create(""));
+            using var twitterApi = new TwitterApi();
             using var twitter = new Twitter(twitterApi);
             using var mediaSelector = new MediaSelector();
-            twitter.Initialize("", "", "", 0L);
             mediaSelector.InitializeServices(twitter, TwitterConfiguration.DefaultConfiguration());
             mediaSelector.SelectMediaService("Twitter");
 
@@ -414,7 +398,7 @@ namespace OpenTween
         [Fact]
         public void MoveSelectedMediaItemToPrevious_Test()
         {
-            using var twitterApi = new TwitterApi(ApiKey.Create(""), ApiKey.Create(""));
+            using var twitterApi = new TwitterApi();
             using var twitter = new Twitter(twitterApi);
             using var mediaSelector = new MediaSelector();
 
@@ -430,7 +414,7 @@ namespace OpenTween
         [Fact]
         public void MoveSelectedMediaItemToNext_Test()
         {
-            using var twitterApi = new TwitterApi(ApiKey.Create(""), ApiKey.Create(""));
+            using var twitterApi = new TwitterApi();
             using var twitter = new Twitter(twitterApi);
             using var mediaSelector = new MediaSelector();
 
@@ -446,7 +430,7 @@ namespace OpenTween
         [Fact]
         public void RemoveSelectedMediaItem_Test()
         {
-            using var twitterApi = new TwitterApi(ApiKey.Create(""), ApiKey.Create(""));
+            using var twitterApi = new TwitterApi();
             using var twitter = new Twitter(twitterApi);
             using var mediaSelector = new MediaSelector();
 

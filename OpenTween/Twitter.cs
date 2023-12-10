@@ -217,26 +217,14 @@ namespace OpenTween
             this.UpdateUserStats(user);
         }
 
-        public void Initialize(string token, string tokenSecret, string username, long userId)
+        public void Initialize(ITwitterCredential credential, string username, long userId)
         {
             // OAuth認証
-            if (MyCommon.IsNullOrEmpty(token) || MyCommon.IsNullOrEmpty(tokenSecret) || MyCommon.IsNullOrEmpty(username))
-            {
+            if (credential is TwitterCredentialNone)
                 Twitter.AccountState = MyCommon.ACCOUNT_STATE.Invalid;
-            }
-            this.ResetApiStatus();
-            this.Api.Initialize(token, tokenSecret, userId, username);
-        }
 
-        public void Initialize(TwitterAppToken appToken, string token, string tokenSecret, string username, long userId)
-        {
-            // OAuth認証
-            if (MyCommon.IsNullOrEmpty(token) || MyCommon.IsNullOrEmpty(tokenSecret) || MyCommon.IsNullOrEmpty(username))
-            {
-                Twitter.AccountState = MyCommon.ACCOUNT_STATE.Invalid;
-            }
             this.ResetApiStatus();
-            this.Api.Initialize(appToken, token, tokenSecret, userId, username);
+            this.Api.Initialize(credential, userId, username);
         }
 
         public async Task<PostClass?> PostStatus(PostStatusParams param)
@@ -254,7 +242,7 @@ namespace OpenTween
 
             TwitterStatus status;
 
-            if (this.Api.AppToken.AuthType == APIAuthType.TwitterComCookie)
+            if (this.Api.AuthType == APIAuthType.TwitterComCookie)
             {
                 var request = new CreateTweetRequest
                 {
@@ -299,7 +287,7 @@ namespace OpenTween
 
         public async Task DeleteTweet(TwitterStatusId tweetId)
         {
-            if (this.Api.AppToken.AuthType == APIAuthType.TwitterComCookie)
+            if (this.Api.AuthType == APIAuthType.TwitterComCookie)
             {
                 var request = new DeleteTweetRequest
                 {
@@ -405,7 +393,7 @@ namespace OpenTween
 
             var target = post.RetweetedId ?? id;  // 再RTの場合は元発言をRT
 
-            if (this.Api.AppToken.AuthType == APIAuthType.TwitterComCookie)
+            if (this.Api.AuthType == APIAuthType.TwitterComCookie)
             {
                 var request = new CreateRetweetRequest
                 {
@@ -447,7 +435,7 @@ namespace OpenTween
             if (post.RetweetedId == null)
                 throw new ArgumentException("post is not retweeted status", nameof(post));
 
-            if (this.Api.AppToken.AuthType == APIAuthType.TwitterComCookie)
+            if (this.Api.AuthType == APIAuthType.TwitterComCookie)
             {
                 var request = new DeleteRetweetRequest
                 {
@@ -464,7 +452,7 @@ namespace OpenTween
 
         public async Task<TwitterUser> GetUserInfo(string screenName)
         {
-            if (this.Api.AppToken.AuthType == APIAuthType.TwitterComCookie)
+            if (this.Api.AuthType == APIAuthType.TwitterComCookie)
             {
                 var request = new UserByScreenNameRequest
                 {
@@ -667,7 +655,7 @@ namespace OpenTween
             var count = GetApiResultCount(MyCommon.WORKERTYPE.UserTimeline, more, false);
 
             TwitterStatus[] statuses;
-            if (this.Api.AppToken.AuthType == APIAuthType.TwitterComCookie)
+            if (this.Api.AuthType == APIAuthType.TwitterComCookie)
             {
                 var userId = tab.UserId;
                 if (MyCommon.IsNullOrEmpty(userId))
@@ -723,7 +711,7 @@ namespace OpenTween
             this.CheckAccountState();
 
             TwitterStatus status;
-            if (this.Api.AppToken.AuthType == APIAuthType.TwitterComCookie)
+            if (this.Api.AuthType == APIAuthType.TwitterComCookie)
             {
                 var request = new TweetDetailRequest
                 {
@@ -879,7 +867,7 @@ namespace OpenTween
             var count = GetApiResultCount(MyCommon.WORKERTYPE.List, more, startup);
 
             TwitterStatus[] statuses;
-            if (this.Api.AppToken.AuthType == APIAuthType.TwitterComCookie)
+            if (this.Api.AuthType == APIAuthType.TwitterComCookie)
             {
                 var request = new ListLatestTweetsTimelineRequest(tab.ListInfo.Id.ToString())
                 {
@@ -1089,7 +1077,7 @@ namespace OpenTween
             var count = GetApiResultCount(MyCommon.WORKERTYPE.PublicSearch, more, false);
 
             TwitterStatus[] statuses;
-            if (this.Api.AppToken.AuthType == APIAuthType.TwitterComCookie)
+            if (this.Api.AuthType == APIAuthType.TwitterComCookie)
             {
                 var request = new SearchTimelineRequest(tab.SearchWords)
                 {
@@ -1436,12 +1424,6 @@ namespace OpenTween
 
         public string[] GetHashList()
             => this.postFactory.GetReceivedHashtags();
-
-        public string AccessToken
-            => ((TwitterApiConnection)this.Api.Connection).AccessToken;
-
-        public string AccessTokenSecret
-            => ((TwitterApiConnection)this.Api.Connection).AccessSecret;
 
         private void CheckAccountState()
         {

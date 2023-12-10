@@ -1212,7 +1212,7 @@ namespace OpenTween
             var status = new PostStatusParams();
 
             var statusTextCompat = this.FormatStatusText(this.StatusText.Text);
-            if (this.GetRestStatusCount(statusTextCompat) >= 0 && this.tw.Api.AppToken.AuthType == APIAuthType.OAuth1)
+            if (this.GetRestStatusCount(statusTextCompat) >= 0 && this.tw.Api.AuthType == APIAuthType.OAuth1)
             {
                 // auto_populate_reply_metadata や attachment_url を使用しなくても 140 字以内に
                 // 収まる場合はこれらのオプションを使用せずに投稿する
@@ -2555,9 +2555,9 @@ namespace OpenTween
 
                     var account = this.settings.Common.SelectedAccount;
                     if (account != null)
-                        this.tw.Initialize(account.GetTwitterAppToken(), account.Token, account.TokenSecret, account.Username, account.UserId);
+                        this.tw.Initialize(account.GetTwitterCredential(), account.Username, account.UserId);
                     else
-                        this.tw.Initialize(TwitterAppToken.GetDefault(), "", "", "", 0L);
+                        this.tw.Initialize(new TwitterCredentialNone(), "", 0L);
 
                     this.tw.RestrictFavCheck = this.settings.Common.RestrictFavCheck;
                     this.tw.ReadOwnPost = this.settings.Common.ReadOwnPost;
@@ -5695,10 +5695,6 @@ namespace OpenTween
             this.ModifySettingCommon = false;
             lock (this.syncObject)
             {
-                this.settings.Common.UserName = this.tw.Username;
-                this.settings.Common.UserId = this.tw.UserId;
-                this.settings.Common.Token = this.tw.AccessToken;
-                this.settings.Common.TokenSecret = this.tw.AccessTokenSecret;
                 this.settings.Common.SortOrder = (int)this.statuses.SortOrder;
                 this.settings.Common.SortColumn = this.statuses.SortMode switch
                 {
@@ -7051,7 +7047,7 @@ namespace OpenTween
 
             if (endpointName == null)
             {
-                var authByCookie = this.tw.Api.AppToken.AuthType == APIAuthType.TwitterComCookie;
+                var authByCookie = this.tw.Api.AuthType == APIAuthType.TwitterComCookie;
 
                 // 表示中のタブに応じて更新
                 endpointName = tabType switch
