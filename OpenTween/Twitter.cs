@@ -1437,12 +1437,6 @@ namespace OpenTween
         public string[] GetHashList()
             => this.postFactory.GetReceivedHashtags();
 
-        public string AccessToken
-            => ((TwitterApiConnection)this.Api.Connection).AccessToken;
-
-        public string AccessTokenSecret
-            => ((TwitterApiConnection)this.Api.Connection).AccessSecret;
-
         private void CheckAccountState()
         {
             if (Twitter.AccountState != MyCommon.ACCOUNT_STATE.Valid)

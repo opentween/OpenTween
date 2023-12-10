@@ -5695,10 +5695,6 @@ namespace OpenTween
             this.ModifySettingCommon = false;
             lock (this.syncObject)
             {
-                this.settings.Common.UserName = this.tw.Username;
-                this.settings.Common.UserId = this.tw.UserId;
-                this.settings.Common.Token = this.tw.AccessToken;
-                this.settings.Common.TokenSecret = this.tw.AccessTokenSecret;
                 this.settings.Common.SortOrder = (int)this.statuses.SortOrder;
                 this.settings.Common.SortColumn = this.statuses.SortMode switch
                 {
