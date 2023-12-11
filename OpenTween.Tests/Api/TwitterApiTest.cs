@@ -721,10 +721,15 @@ namespace OpenTween.Api
         {
             var mock = new Mock<IApiConnectionLegacy>();
             mock.Setup(x =>
-                x.DeleteAsync(
-                    new Uri("direct_messages/events/destroy.json?id=100", UriKind.Relative))
-            )
-            .Returns(Task.CompletedTask);
+                x.SendAsync(
+                    It.Is<DeleteRequest>(r =>
+                        r.RequestUri == new Uri("direct_messages/events/destroy.json", UriKind.Relative) &&
+                        r.Query != null &&
+                        r.Query.Count == 1 &&
+                        r.Query["id"] == "100"
+                    )
+                )
+            );
 
             using var twitterApi = new TwitterApi();
             twitterApi.ApiConnection = mock.Object;

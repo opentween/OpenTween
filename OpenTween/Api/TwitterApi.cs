@@ -468,18 +468,20 @@ namespace OpenTween.Api
             return response.ReadAsLazyJson<TwitterMessageEventSingle>();
         }
 
-        public Task DirectMessagesEventsDestroy(TwitterDirectMessageId eventId)
+        public async Task DirectMessagesEventsDestroy(TwitterDirectMessageId eventId)
         {
-            var endpoint = new Uri("direct_messages/events/destroy.json", UriKind.Relative);
-            var param = new Dictionary<string, string>
+            var request = new DeleteRequest
             {
-                ["id"] = eventId.Id,
+                RequestUri = new("direct_messages/events/destroy.json", UriKind.Relative),
+                Query = new Dictionary<string, string>
+                {
+                    ["id"] = eventId.Id,
+                },
             };
 
-            // なぜか application/x-www-form-urlencoded でパラメーターを送ると Bad Request になる謎仕様
-            endpoint = new Uri(endpoint.OriginalString + "?" + MyCommon.BuildQueryString(param), UriKind.Relative);
-
-            return this.Connection.DeleteAsync(endpoint);
+            await this.Connection.SendAsync(request)
+                .IgnoreResponse()
+                .ConfigureAwait(false);
         }
 
         public Task<TwitterUser> UsersShow(string screenName)
