@@ -425,10 +425,8 @@ namespace OpenTween.Api
             return this.Connection.GetAsync<TwitterMessageEventList>(endpoint, param, "/direct_messages/events/list");
         }
 
-        public Task<LazyJson<TwitterMessageEventSingle>> DirectMessagesEventsNew(long recipientId, string text, long? mediaId = null)
+        public async Task<LazyJson<TwitterMessageEventSingle>> DirectMessagesEventsNew(long recipientId, string text, long? mediaId = null)
         {
-            var endpoint = new Uri("direct_messages/events/new.json", UriKind.Relative);
-
             var attachment = "";
             if (mediaId != null)
             {
@@ -458,21 +456,32 @@ namespace OpenTween.Api
                 }
                 """;
 
-            return this.Connection.PostJsonAsync<TwitterMessageEventSingle>(endpoint, json);
-        }
-
-        public Task DirectMessagesEventsDestroy(TwitterDirectMessageId eventId)
-        {
-            var endpoint = new Uri("direct_messages/events/destroy.json", UriKind.Relative);
-            var param = new Dictionary<string, string>
+            var request = new PostJsonRequest
             {
-                ["id"] = eventId.Id,
+                RequestUri = new("direct_messages/events/new.json", UriKind.Relative),
+                JsonString = json,
             };
 
-            // なぜか application/x-www-form-urlencoded でパラメーターを送ると Bad Request になる謎仕様
-            endpoint = new Uri(endpoint.OriginalString + "?" + MyCommon.BuildQueryString(param), UriKind.Relative);
+            var response = await this.Connection.SendAsync(request)
+                .ConfigureAwait(false);
 
-            return this.Connection.DeleteAsync(endpoint);
+            return response.ReadAsLazyJson<TwitterMessageEventSingle>();
+        }
+
+        public async Task DirectMessagesEventsDestroy(TwitterDirectMessageId eventId)
+        {
+            var request = new DeleteRequest
+            {
+                RequestUri = new("direct_messages/events/destroy.json", UriKind.Relative),
+                Query = new Dictionary<string, string>
+                {
+                    ["id"] = eventId.Id,
+                },
+            };
+
+            await this.Connection.SendAsync(request)
+                .IgnoreResponse()
+                .ConfigureAwait(false);
         }
 
         public Task<TwitterUser> UsersShow(string screenName)
@@ -792,14 +801,18 @@ namespace OpenTween.Api
             return this.Connection.GetAsync<TwitterUploadMediaResult>(endpoint, param, endpointName: null);
         }
 
-        public Task MediaMetadataCreate(long mediaId, string altText)
+        public async Task MediaMetadataCreate(long mediaId, string altText)
         {
-            var endpoint = new Uri("https://upload.twitter.com/1.1/media/metadata/create.json");
-
             var escapedAltText = JsonUtils.EscapeJsonString(altText);
-            var json = $$$"""{"media_id": "{{{mediaId}}}", "alt_text": {"text": "{{{escapedAltText}}}"}}""";
+            var request = new PostJsonRequest
+            {
+                RequestUri = new("https://upload.twitter.com/1.1/media/metadata/create.json"),
+                JsonString = $$$"""{"media_id": "{{{mediaId}}}", "alt_text": {"text": "{{{escapedAltText}}}"}}""",
+            };
 
-            return this.Connection.PostJsonAsync(endpoint, json);
+            await this.Connection.SendAsync(request)
+                .IgnoreResponse()
+                .ConfigureAwait(false);
         }
 
         public OAuthEchoHandler CreateOAuthEchoHandler(HttpMessageHandler innerHandler, Uri authServiceProvider, Uri? realm = null)

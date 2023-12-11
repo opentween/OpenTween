@@ -1,5 +1,5 @@
 ﻿// OpenTween - Client of Twitter
-// Copyright (c) 2016 kim_upsilon (@kim_upsilon) <https://upsilo.net/~upsilon/>
+// Copyright (c) 2023 kim_upsilon (@kim_upsilon) <https://upsilo.net/~upsilon/>
 // All rights reserved.
 //
 // This file is part of OpenTween.
@@ -19,25 +19,32 @@
 // the Free Software Foundation, Inc., 51 Franklin Street - Fifth Floor,
 // Boston, MA 02110-1301, USA.
 
-#nullable enable
-
 using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Net.Http;
+using Xunit;
 
 namespace OpenTween.Connection
 {
-    public interface IApiConnectionLegacy : IApiConnection, IDisposable
+    public class DeleteRequestTest
     {
-        Task<T> GetAsync<T>(Uri uri, IDictionary<string, string>? param, string? endpointName);
+        [Fact]
+        public void CreateMessage_Test()
+        {
+            var request = new DeleteRequest
+            {
+                RequestUri = new("hoge/aaa.json", UriKind.Relative),
+                Query = new Dictionary<string, string>
+                {
+                    ["id"] = "12345",
+                },
+            };
 
-        Task<LazyJson<T>> PostLazyAsync<T>(Uri uri, IDictionary<string, string>? param);
+            var baseUri = new Uri("https://example.com/v1/");
+            using var requestMessage = request.CreateMessage(baseUri);
 
-        Task<LazyJson<T>> PostLazyAsync<T>(Uri uri, IDictionary<string, string>? param, IDictionary<string, IMediaItem>? media);
-
-        Task PostAsync(Uri uri, IDictionary<string, string>? param, IDictionary<string, IMediaItem>? media);
+            Assert.Equal(HttpMethod.Delete, requestMessage.Method);
+            Assert.Equal(new("https://example.com/v1/hoge/aaa.json?id=12345"), requestMessage.RequestUri);
+        }
     }
 }

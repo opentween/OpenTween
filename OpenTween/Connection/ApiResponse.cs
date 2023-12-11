@@ -114,4 +114,13 @@ namespace OpenTween.Connection
                 .ConfigureAwait(false);
         }
     }
+
+    public static class ApiResponseTaskExtension
+    {
+        public static async Task IgnoreResponse(this Task<ApiResponse> task)
+        {
+            using var response = await task.ConfigureAwait(false);
+            // レスポンスボディを読み込まず破棄する
+        }
+    }
 }
