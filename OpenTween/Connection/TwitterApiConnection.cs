@@ -173,35 +173,6 @@ namespace OpenTween.Connection
             return response.ReadAsLazyJson<T>();
         }
 
-        public async Task<LazyJson<T>> PostLazyAsync<T>(Uri uri, IDictionary<string, string>? param, IDictionary<string, IMediaItem>? media)
-        {
-            var request = new PostMultipartRequest
-            {
-                RequestUri = uri,
-                Query = param,
-                Media = media,
-            };
-
-            using var response = await this.SendAsync(request)
-                .ConfigureAwait(false);
-
-            return response.ReadAsLazyJson<T>();
-        }
-
-        public async Task PostAsync(Uri uri, IDictionary<string, string>? param, IDictionary<string, IMediaItem>? media)
-        {
-            var request = new PostMultipartRequest
-            {
-                RequestUri = uri,
-                Query = param,
-                Media = media,
-            };
-
-            await this.SendAsync(request)
-                .IgnoreResponse()
-                .ConfigureAwait(false);
-        }
-
         public static async Task<T> HandleTimeout<T>(Func<CancellationToken, Task<T>> func, TimeSpan timeout)
         {
             using var cts = new CancellationTokenSource();

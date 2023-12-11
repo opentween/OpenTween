@@ -35,9 +35,5 @@ namespace OpenTween.Connection
         Task<T> GetAsync<T>(Uri uri, IDictionary<string, string>? param, string? endpointName);
 
         Task<LazyJson<T>> PostLazyAsync<T>(Uri uri, IDictionary<string, string>? param);
-
-        Task<LazyJson<T>> PostLazyAsync<T>(Uri uri, IDictionary<string, string>? param, IDictionary<string, IMediaItem>? media);
-
-        Task PostAsync(Uri uri, IDictionary<string, string>? param, IDictionary<string, IMediaItem>? media);
     }
 }
