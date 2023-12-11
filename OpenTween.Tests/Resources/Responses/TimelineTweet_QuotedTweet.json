@@ -1,0 +1,252 @@
+{
+  "itemType": "TimelineTweet",
+  "__typename": "TimelineTweet",
+  "tweet_results": {
+    "result": {
+      "__typename": "Tweet",
+      "rest_id": "1588614645866147840",
+      "has_birdwatch_notes": false,
+      "core": {
+        "user_results": {
+          "result": {
+            "__typename": "User",
+            "id": "VXNlcjo0MDQ4MDY2NA==",
+            "rest_id": "40480664",
+            "affiliates_highlighted_label": {},
+            "has_graduated_access": false,
+            "is_blue_verified": false,
+            "profile_image_shape": "Circle",
+            "legacy": {
+              "can_dm": true,
+              "can_media_tag": true,
+              "created_at": "Sat May 16 15:20:01 +0000 2009",
+              "default_profile": false,
+              "default_profile_image": false,
+              "description": "",
+              "entities": {
+                "description": {
+                  "urls": []
+                },
+                "url": {
+                  "urls": [
+                    {
+                      "display_url": "m.upsilo.net/@upsilon",
+                      "expanded_url": "https://m.upsilo.net/@upsilon",
+                      "url": "https://t.co/vNMmyHHh15",
+                      "indices": [
+                        0,
+                        23
+                      ]
+                    }
+                  ]
+                }
+              },
+              "fast_followers_count": 0,
+              "favourites_count": 215369,
+              "followers_count": 1287,
+              "friends_count": 1,
+              "has_custom_timelines": false,
+              "is_translator": false,
+              "listed_count": 92,
+              "location": "Funabashi, Chiba, Japan",
+              "media_count": 876,
+              "name": "upsilon",
+              "needs_phone_verification": false,
+              "normal_followers_count": 1287,
+              "pinned_tweet_ids_str": [],
+              "possibly_sensitive": false,
+              "profile_banner_url": "https://pbs.twimg.com/profile_banners/40480664/1349188016",
+              "profile_image_url_https": "https://pbs.twimg.com/profile_images/719076434/____normal.png",
+              "profile_interstitial_type": "",
+              "screen_name": "kim_upsilon",
+              "statuses_count": 10081,
+              "translator_type": "regular",
+              "url": "https://t.co/vNMmyHHh15",
+              "verified": false,
+              "want_retweets": false,
+              "withheld_in_countries": []
+            }
+          }
+        }
+      },
+      "unmention_data": {},
+      "unified_card": {
+        "card_fetch_state": "NoCard"
+      },
+      "edit_control": {
+        "edit_tweet_ids": [
+          "1588614645866147840"
+        ],
+        "editable_until_msecs": "1667592021000",
+        "is_edit_eligible": false,
+        "edits_remaining": "5"
+      },
+      "is_translatable": true,
+      "views": {
+        "state": "Enabled"
+      },
+      "source": "<a href=\"https://www.opentween.org/\" rel=\"nofollow\">OpenTween (dev)</a>",
+      "quoted_status_result": {
+        "result": {
+          "__typename": "Tweet",
+          "rest_id": "1583108196868116480",
+          "has_birdwatch_notes": false,
+          "core": {
+            "user_results": {
+              "result": {
+                "__typename": "User",
+                "id": "VXNlcjo0MDQ4MDY2NA==",
+                "rest_id": "40480664",
+                "affiliates_highlighted_label": {},
+                "has_graduated_access": false,
+                "is_blue_verified": false,
+                "profile_image_shape": "Circle",
+                "legacy": {
+                  "can_dm": true,
+                  "can_media_tag": true,
+                  "created_at": "Sat May 16 15:20:01 +0000 2009",
+                  "default_profile": false,
+                  "default_profile_image": false,
+                  "description": "",
+                  "entities": {
+                    "description": {
+                      "urls": []
+                    },
+                    "url": {
+                      "urls": [
+                        {
+                          "display_url": "m.upsilo.net/@upsilon",
+                          "expanded_url": "https://m.upsilo.net/@upsilon",
+                          "url": "https://t.co/vNMmyHHh15",
+                          "indices": [
+                            0,
+                            23
+                          ]
+                        }
+                      ]
+                    }
+                  },
+                  "fast_followers_count": 0,
+                  "favourites_count": 215369,
+                  "followers_count": 1287,
+                  "friends_count": 1,
+                  "has_custom_timelines": false,
+                  "is_translator": false,
+                  "listed_count": 92,
+                  "location": "Funabashi, Chiba, Japan",
+                  "media_count": 876,
+                  "name": "upsilon",
+                  "needs_phone_verification": false,
+                  "normal_followers_count": 1287,
+                  "pinned_tweet_ids_str": [],
+                  "possibly_sensitive": false,
+                  "profile_banner_url": "https://pbs.twimg.com/profile_banners/40480664/1349188016",
+                  "profile_image_url_https": "https://pbs.twimg.com/profile_images/719076434/____normal.png",
+                  "profile_interstitial_type": "",
+                  "screen_name": "kim_upsilon",
+                  "statuses_count": 10081,
+                  "translator_type": "regular",
+                  "url": "https://t.co/vNMmyHHh15",
+                  "verified": false,
+                  "want_retweets": false,
+                  "withheld_in_countries": []
+                }
+              }
+            }
+          },
+          "unmention_data": {},
+          "edit_control": {
+            "edit_tweet_ids": [
+              "1583108196868116480"
+            ],
+            "editable_until_msecs": "1666279181000",
+            "is_edit_eligible": true,
+            "edits_remaining": "5"
+          },
+          "is_translatable": true,
+          "views": {
+            "state": "Enabled"
+          },
+          "source": "<a href=\"https://www.opentween.org/\" rel=\"nofollow\">OpenTween (dev)</a>",
+          "legacy": {
+            "bookmark_count": 0,
+            "bookmarked": false,
+            "created_at": "Thu Oct 20 14:49:41 +0000 2022",
+            "conversation_id_str": "1583108196868116480",
+            "display_text_range": [
+              0,
+              97
+            ],
+            "entities": {
+              "user_mentions": [],
+              "urls": [],
+              "hashtags": [],
+              "symbols": []
+            },
+            "favorite_count": 2,
+            "favorited": false,
+            "full_text": "AppVeyorでビルドした時と自分の開発環境でビルドした時でなぜか sgen.exe の出力が異なって生成物のハッシュ値が一致しなくなる問題に悩み中。Reproducible Buildむずい",
+            "is_quote_status": false,
+            "lang": "ja",
+            "quote_count": 1,
+            "reply_count": 0,
+            "retweet_count": 0,
+            "retweeted": false,
+            "user_id_str": "40480664",
+            "id_str": "1583108196868116480"
+          }
+        }
+      },
+      "legacy": {
+        "bookmark_count": 0,
+        "bookmarked": false,
+        "created_at": "Fri Nov 04 19:30:21 +0000 2022",
+        "conversation_id_str": "1588614645866147840",
+        "display_text_range": [
+          0,
+          63
+        ],
+        "entities": {
+          "user_mentions": [],
+          "urls": [
+            {
+              "display_url": "twitter.com/kim_upsilon/st…",
+              "expanded_url": "https://twitter.com/kim_upsilon/status/1583108196868116480",
+              "url": "https://t.co/mb89Ecojqd",
+              "indices": [
+                40,
+                63
+              ]
+            }
+          ],
+          "hashtags": [],
+          "symbols": []
+        },
+        "favorite_count": 2,
+        "favorited": false,
+        "full_text": "これ結局原因が分からないまま sgen.exe を使うのを止めることで解決した https://t.co/mb89Ecojqd",
+        "is_quote_status": true,
+        "lang": "ja",
+        "possibly_sensitive": false,
+        "possibly_sensitive_editable": true,
+        "quote_count": 0,
+        "quoted_status_id_str": "1583108196868116480",
+        "quoted_status_permalink": {
+          "url": "https://t.co/mb89Ecojqd",
+          "expanded": "https://twitter.com/kim_upsilon/status/1583108196868116480",
+          "display": "twitter.com/kim_upsilon/st…"
+        },
+        "reply_count": 1,
+        "retweet_count": 0,
+        "retweeted": false,
+        "user_id_str": "40480664",
+        "id_str": "1588614645866147840"
+      },
+      "quick_promote_eligibility": {
+        "eligibility": "IneligibleNotProfessional"
+      }
+    }
+  },
+  "tweetDisplayType": "SelfThread",
+  "hasModeratedReplies": false
+}
