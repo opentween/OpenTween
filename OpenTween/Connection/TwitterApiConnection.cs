@@ -353,25 +353,14 @@ namespace OpenTween.Connection
 
         public async Task DeleteAsync(Uri uri)
         {
-            var requestUri = new Uri(RestApiBase, uri);
-            using var request = new HttpRequestMessage(HttpMethod.Delete, requestUri);
+            var request = new DeleteRequest
+            {
+                RequestUri = uri,
+            };
 
-            try
-            {
-                using var response = await this.Http.SendAsync(request, HttpCompletionOption.ResponseHeadersRead)
-                    .ConfigureAwait(false);
-
-                await TwitterApiConnection.CheckStatusCode(response)
-                    .ConfigureAwait(false);
-            }
-            catch (HttpRequestException ex)
-            {
-                throw TwitterApiException.CreateFromException(ex);
-            }
-            catch (OperationCanceledException ex)
-            {
-                throw TwitterApiException.CreateFromException(ex);
-            }
+            await this.SendAsync(request)
+                .IgnoreResponse()
+                .ConfigureAwait(false);
         }
 
         public static async Task<T> HandleTimeout<T>(Func<CancellationToken, Task<T>> func, TimeSpan timeout)
