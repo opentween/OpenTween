@@ -140,6 +140,34 @@ namespace OpenTween.Api.GraphQL
         }
 
         [Fact]
+        public void ToStatus_WithTwitterPostFactory_QuotedTweet_Test()
+        {
+            var rootElm = this.LoadResponseDocument("TimelineTweet_QuotedTweet.json");
+            var timelineTweet = new TimelineTweet(rootElm);
+            var status = timelineTweet.ToTwitterStatus();
+            var postFactory = new TwitterPostFactory(this.CreateTabInfo());
+            var post = postFactory.CreateFromStatus(status, selfUserId: 1L, new HashSet<long>());
+
+            Assert.Equal("1588614645866147840", post.StatusId.Id);
+            var quotedPostId = Assert.Single(post.QuoteStatusIds);
+            Assert.Equal("1583108196868116480", quotedPostId.Id);
+        }
+
+        [Fact]
+        public void ToStatus_WithTwitterPostFactory_QuotedTweet_Tombstone_Test()
+        {
+            var rootElm = this.LoadResponseDocument("TimelineTweet_QuotedTweet_Tombstone.json");
+            var timelineTweet = new TimelineTweet(rootElm);
+            var status = timelineTweet.ToTwitterStatus();
+            var postFactory = new TwitterPostFactory(this.CreateTabInfo());
+            var post = postFactory.CreateFromStatus(status, selfUserId: 1L, new HashSet<long>());
+
+            Assert.Equal("1614653321310253057", post.StatusId.Id);
+            var quotedPostId = Assert.Single(post.QuoteStatusIds);
+            Assert.Equal("1614650279194136576", quotedPostId.Id);
+        }
+
+        [Fact]
         public void ToStatus_WithTwitterPostFactory_PromotedTweet_Test()
         {
             var rootElm = this.LoadResponseDocument("TimelineTweet_PromotedTweet.json");

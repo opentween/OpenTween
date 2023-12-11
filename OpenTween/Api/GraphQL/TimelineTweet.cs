@@ -92,7 +92,7 @@ namespace OpenTween.Api.GraphQL
 
         public static TwitterStatus ParseTweetUnion(XElement tweetUnionElm)
         {
-            var tweetElm = tweetUnionElm.Element("__typename")?.Value switch
+            var tweetElm = GetTweetTypeName(tweetUnionElm) switch
             {
                 "Tweet" => tweetUnionElm,
                 "TweetWithVisibilityResults" => tweetUnionElm.Element("tweet") ?? throw CreateParseError(),
@@ -102,12 +102,18 @@ namespace OpenTween.Api.GraphQL
             return TimelineTweet.ParseTweet(tweetElm);
         }
 
+        public static string GetTweetTypeName(XElement tweetUnionElm)
+            => tweetUnionElm.Element("__typename")?.Value ?? throw CreateParseError();
+
         public static TwitterStatus ParseTweet(XElement tweetElm)
         {
             var tweetLegacyElm = tweetElm.Element("legacy") ?? throw CreateParseError();
             var userElm = tweetElm.Element("core")?.Element("user_results")?.Element("result") ?? throw CreateParseError();
             var retweetedTweetElm = tweetLegacyElm.Element("retweeted_status_result")?.Element("result");
             var user = new TwitterGraphqlUser(userElm);
+            var quotedTweetElm = tweetElm.Element("quoted_status_result")?.Element("result") ?? null;
+            var quotedStatusPermalink = tweetLegacyElm.Element("quoted_status_permalink") ?? null;
+            var isQuotedTweetTombstone = quotedTweetElm != null && GetTweetTypeName(quotedTweetElm) == "TweetTombstone";
 
             static string GetText(XElement elm, string name)
                 => elm.Element(name)?.Value ?? throw CreateParseError();
@@ -168,6 +174,15 @@ namespace OpenTween.Api.GraphQL
                 },
                 User = user.ToTwitterUser(),
                 RetweetedStatus = retweetedTweetElm != null ? TimelineTweet.ParseTweetUnion(retweetedTweetElm) : null,
+                IsQuoteStatus = GetTextOrNull(tweetLegacyElm, "is_quote_status") == "true",
+                QuotedStatus = quotedTweetElm != null && !isQuotedTweetTombstone ? TimelineTweet.ParseTweetUnion(quotedTweetElm) : null,
+                QuotedStatusIdStr = GetTextOrNull(tweetLegacyElm, "quoted_status_id_str"),
+                QuotedStatusPermalink = quotedStatusPermalink == null ? null : new()
+                {
+                    Url = GetText(quotedStatusPermalink, "url"),
+                    Expanded = GetText(quotedStatusPermalink, "expanded"),
+                    Display = GetText(quotedStatusPermalink, "display"),
+                },
             };
         }
 
