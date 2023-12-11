@@ -23,23 +23,20 @@
 
 using System;
 using System.Collections.Generic;
-using System.Net.Http;
 
 namespace OpenTween.Connection
 {
-    public class GetRequest : IHttpRequest
+    public static class UriQueryBuilder
     {
-        public required Uri RequestUri { get; set; }
+        public static Uri Build(Uri uri, IEnumerable<KeyValuePair<string, string>>? query)
+        {
+            if (query == null)
+                return uri;
 
-        public IDictionary<string, string>? Query { get; set; }
+            if (!MyCommon.IsNullOrEmpty(uri.Query))
+                throw new NotSupportedException("Merging uri query is not supported");
 
-        public string? EndpointName { get; set; }
-
-        public HttpRequestMessage CreateMessage(Uri baseUri)
-            => new()
-            {
-                Method = HttpMethod.Get,
-                RequestUri = UriQueryBuilder.Build(new(baseUri, this.RequestUri), this.Query),
-            };
+            return new(uri, "?" + MyCommon.BuildQueryString(query));
+        }
     }
 }
