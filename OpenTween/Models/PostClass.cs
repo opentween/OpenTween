@@ -117,60 +117,12 @@ namespace OpenTween.Models
 
         public bool IsPromoted { get; set; }
 
-        /// <summary>
-        /// <see cref="PostClass"/> に含まれる t.co の展開後の URL を保持するクラス
-        /// </summary>
-        public class ExpandedUrlInfo : ICloneable
+        public record ExpandedUrlInfo(
+            string Url,
+            string ExpandedUrl
+        )
         {
-            public static bool AutoExpand { get; set; } = true;
-
-            /// <summary>展開前の t.co ドメインの URL</summary>
-            public string Url { get; }
-
-            /// <summary>展開後の URL</summary>
-            /// <remarks>
-            /// <see cref="ShortUrl"/> による展開が完了するまでは Entity に含まれる expanded_url の値を返します
-            /// </remarks>
-            public string ExpandedUrl => this.expandedUrl;
-
-            /// <summary><see cref="ShortUrl"/> による展開を行うタスク</summary>
-            public Task ExpandTask { get; private set; }
-
-            /// <summary><see cref="DeepExpandAsync"/> による展開が完了したか否か</summary>
-            public bool ExpandedCompleted => this.ExpandTask.IsCompleted;
-
-            protected string expandedUrl;
-
-            public ExpandedUrlInfo(string url, string expandedUrl)
-                : this(url, expandedUrl, deepExpand: true)
-            {
-            }
-
-            public ExpandedUrlInfo(string url, string expandedUrl, bool deepExpand)
-            {
-                this.Url = url;
-                this.expandedUrl = expandedUrl;
-
-                if (AutoExpand && deepExpand)
-                    this.ExpandTask = this.DeepExpandAsync();
-                else
-                    this.ExpandTask = Task.CompletedTask;
-            }
-
-            protected virtual async Task DeepExpandAsync()
-            {
-                var origUrl = this.expandedUrl;
-                var newUrl = await ShortUrl.Instance.ExpandUrlAsync(origUrl)
-                    .ConfigureAwait(false);
-
-                Interlocked.CompareExchange(ref this.expandedUrl, newUrl, origUrl);
-            }
-
-            public ExpandedUrlInfo Clone()
-                => new(this.Url, this.ExpandedUrl, deepExpand: false);
-
-            object ICloneable.Clone()
-                => this.Clone();
+            public bool ExpandCompleted { get; init; }
         }
 
         [Flags]
@@ -333,7 +285,7 @@ namespace OpenTween.Models
 
             foreach (var urlInfo in this.ExpandedUrls)
             {
-                if (!urlInfo.ExpandedCompleted)
+                if (!urlInfo.ExpandCompleted)
                     completedAll = false;
 
                 var tcoUrl = urlInfo.Url;

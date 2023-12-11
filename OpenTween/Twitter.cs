@@ -173,12 +173,14 @@ namespace OpenTween
         private long[] noRTId = Array.Empty<long>();
 
         private readonly TwitterPostFactory postFactory;
+        private readonly PostUrlExpander urlExpander;
 
         private string? previousStatusId = null;
 
         public Twitter(TwitterApi api)
         {
             this.postFactory = new(TabInformations.GetInstance());
+            this.urlExpander = new(ShortUrl.Instance);
 
             this.Api = api;
             this.Configuration = TwitterConfiguration.DefaultConfiguration();
@@ -752,7 +754,12 @@ namespace OpenTween
             => this.CreatePostsFromStatusData(status, favTweet: false);
 
         private PostClass CreatePostsFromStatusData(TwitterStatus status, bool favTweet)
-            => this.postFactory.CreateFromStatus(status, this.UserId, this.followerId, favTweet);
+        {
+            var post = this.postFactory.CreateFromStatus(status, this.UserId, this.followerId, favTweet);
+            _ = this.urlExpander.Expand(post);
+
+            return post;
+        }
 
         private PostId? CreatePostsFromJson(TwitterStatus[] items, MyCommon.WORKERTYPE gType, TabModel? tab, bool read)
         {
@@ -1195,6 +1202,7 @@ namespace OpenTween
             foreach (var eventItem in events)
             {
                 var post = this.postFactory.CreateFromDirectMessageEvent(eventItem, users, apps, this.UserId);
+                _ = this.urlExpander.Expand(post);
 
                 post.IsRead = read;
                 if (post.IsMe && !read && this.ReadOwnPost)
