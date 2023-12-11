@@ -326,7 +326,7 @@ namespace OpenTween.Connection
             using var mockHandler = new HttpMessageHandlerMock();
             using var http = new HttpClient(mockHandler);
             using var apiConnection = new TwitterApiConnection();
-            apiConnection.HttpUpload = http;
+            apiConnection.Http = http;
 
             using var image = TestUtils.CreateDummyImage();
             using var media = new MemoryImageMediaItem(image);
@@ -396,7 +396,7 @@ namespace OpenTween.Connection
             using var mockHandler = new HttpMessageHandlerMock();
             using var http = new HttpClient(mockHandler);
             using var apiConnection = new TwitterApiConnection();
-            apiConnection.HttpUpload = http;
+            apiConnection.Http = http;
 
             mockHandler.Enqueue(async x =>
             {
