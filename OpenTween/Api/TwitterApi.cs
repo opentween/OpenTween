@@ -713,21 +713,27 @@ namespace OpenTween.Api
             return this.Connection.PostLazyAsync<TwitterUser>(endpoint, param);
         }
 
-        public Task<LazyJson<TwitterUser>> AccountUpdateProfileImage(IMediaItem image)
+        public async Task<LazyJson<TwitterUser>> AccountUpdateProfileImage(IMediaItem image)
         {
-            var endpoint = new Uri("account/update_profile_image.json", UriKind.Relative);
-            var param = new Dictionary<string, string>
+            var request = new PostMultipartRequest
             {
-                ["include_entities"] = "true",
-                ["include_ext_alt_text"] = "true",
-                ["tweet_mode"] = "extended",
-            };
-            var paramMedia = new Dictionary<string, IMediaItem>
-            {
-                ["image"] = image,
+                RequestUri = new("account/update_profile_image.json", UriKind.Relative),
+                Query = new Dictionary<string, string>
+                {
+                    ["include_entities"] = "true",
+                    ["include_ext_alt_text"] = "true",
+                    ["tweet_mode"] = "extended",
+                },
+                Media = new Dictionary<string, IMediaItem>
+                {
+                    ["image"] = image,
+                },
             };
 
-            return this.Connection.PostLazyAsync<TwitterUser>(endpoint, param, paramMedia);
+            using var response = await this.Connection.SendAsync(request)
+                .ConfigureAwait(false);
+
+            return response.ReadAsLazyJson<TwitterUser>();
         }
 
         public Task<TwitterRateLimits> ApplicationRateLimitStatus()
@@ -760,21 +766,26 @@ namespace OpenTween.Api
             return this.Connection.PostLazyAsync<TwitterUploadMediaInit>(endpoint, param);
         }
 
-        public Task MediaUploadAppend(long mediaId, int segmentIndex, IMediaItem media)
+        public async Task MediaUploadAppend(long mediaId, int segmentIndex, IMediaItem media)
         {
-            var endpoint = new Uri("https://upload.twitter.com/1.1/media/upload.json");
-            var param = new Dictionary<string, string>
+            var request = new PostMultipartRequest
             {
-                ["command"] = "APPEND",
-                ["media_id"] = mediaId.ToString(),
-                ["segment_index"] = segmentIndex.ToString(),
-            };
-            var paramMedia = new Dictionary<string, IMediaItem>
-            {
-                ["media"] = media,
+                RequestUri = new("https://upload.twitter.com/1.1/media/upload.json"),
+                Query = new Dictionary<string, string>
+                {
+                    ["command"] = "APPEND",
+                    ["media_id"] = mediaId.ToString(),
+                    ["segment_index"] = segmentIndex.ToString(),
+                },
+                Media = new Dictionary<string, IMediaItem>
+                {
+                    ["media"] = media,
+                },
             };
 
-            return this.Connection.PostAsync(endpoint, param, paramMedia);
+            await this.Connection.SendAsync(request)
+                .IgnoreResponse()
+                .ConfigureAwait(false);
         }
 
         public Task<LazyJson<TwitterUploadMediaResult>> MediaUploadFinalize(long mediaId)

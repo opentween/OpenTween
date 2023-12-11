@@ -1143,21 +1143,35 @@ namespace OpenTween.Api
         [Fact]
         public async Task AccountUpdateProfileImage_Test()
         {
+            using var responseMessage = new HttpResponseMessage(HttpStatusCode.OK);
             using var image = TestUtils.CreateDummyImage();
             using var media = new MemoryImageMediaItem(image);
+
+            Func<PostMultipartRequest, bool> verifyRequest = r =>
+            {
+                Assert.Equal(new("account/update_profile_image.json", UriKind.Relative), r.RequestUri);
+                var expectedQuery = new Dictionary<string, string>
+                {
+                    ["include_entities"] = "true",
+                    ["include_ext_alt_text"] = "true",
+                    ["tweet_mode"] = "extended",
+                };
+                Assert.Equal(expectedQuery, r.Query);
+                var expectedMedia = new Dictionary<string, IMediaItem>
+                {
+                    ["image"] = media,
+                };
+                Assert.Equal(expectedMedia, r.Media);
+                return true;
+            };
+
             var mock = new Mock<IApiConnectionLegacy>();
             mock.Setup(x =>
-                x.PostLazyAsync<TwitterUser>(
-                    new Uri("account/update_profile_image.json", UriKind.Relative),
-                    new Dictionary<string, string>
-                    {
-                            { "include_entities", "true" },
-                            { "include_ext_alt_text", "true" },
-                            { "tweet_mode", "extended" },
-                    },
-                    new Dictionary<string, IMediaItem> { { "image", media } })
+                x.SendAsync(
+                    It.Is<PostMultipartRequest>(r => verifyRequest(r))
+                )
             )
-            .ReturnsAsync(LazyJson.Create(new TwitterUser()));
+            .ReturnsAsync(new ApiResponse(responseMessage));
 
             using var twitterApi = new TwitterApi();
             twitterApi.ApiConnection = mock.Object;
@@ -1237,21 +1251,35 @@ namespace OpenTween.Api
         [Fact]
         public async Task MediaUploadAppend_Test()
         {
+            using var responseMessage = new HttpResponseMessage(HttpStatusCode.OK);
             using var image = TestUtils.CreateDummyImage();
             using var media = new MemoryImageMediaItem(image);
+
+            Func<PostMultipartRequest, bool> verifyRequest = r =>
+            {
+                Assert.Equal(new("https://upload.twitter.com/1.1/media/upload.json"), r.RequestUri);
+                var expectedQuery = new Dictionary<string, string>
+                {
+                    ["command"] = "APPEND",
+                    ["media_id"] = "11111",
+                    ["segment_index"] = "1",
+                };
+                Assert.Equal(expectedQuery, r.Query);
+                var expectedMedia = new Dictionary<string, IMediaItem>
+                {
+                    ["media"] = media,
+                };
+                Assert.Equal(expectedMedia, r.Media);
+                return true;
+            };
+
             var mock = new Mock<IApiConnectionLegacy>();
             mock.Setup(x =>
-                x.PostAsync(
-                    new Uri("https://upload.twitter.com/1.1/media/upload.json", UriKind.Absolute),
-                    new Dictionary<string, string>
-                    {
-                            { "command", "APPEND" },
-                            { "media_id", "11111" },
-                            { "segment_index", "1" },
-                    },
-                    new Dictionary<string, IMediaItem> { { "media", media } })
+                x.SendAsync(
+                    It.Is<PostMultipartRequest>(r => verifyRequest(r))
+                )
             )
-            .Returns(Task.CompletedTask);
+            .ReturnsAsync(new ApiResponse(responseMessage));
 
             using var twitterApi = new TwitterApi();
             twitterApi.ApiConnection = mock.Object;
