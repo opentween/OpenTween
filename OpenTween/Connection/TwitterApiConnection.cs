@@ -54,7 +54,6 @@ namespace OpenTween.Connection
 
         internal HttpClient Http;
         internal HttpClient HttpUpload;
-        internal HttpClient HttpStreaming;
 
         internal ITwitterCredential Credential { get; }
 
@@ -71,16 +70,13 @@ namespace OpenTween.Connection
             Networking.WebProxyChanged += this.Networking_WebProxyChanged;
         }
 
-        [MemberNotNull(nameof(Http), nameof(HttpUpload), nameof(HttpStreaming))]
+        [MemberNotNull(nameof(Http), nameof(HttpUpload))]
         private void InitializeHttpClients()
         {
             this.Http = InitializeHttpClient(this.Credential);
 
             this.HttpUpload = InitializeHttpClient(this.Credential);
             this.HttpUpload.Timeout = Networking.UploadImageTimeout;
-
-            this.HttpStreaming = InitializeHttpClient(this.Credential, disableGzip: true);
-            this.HttpStreaming.Timeout = Timeout.InfiniteTimeSpan;
         }
 
         public async Task<ApiResponse> SendAsync(IHttpRequest request)
@@ -161,35 +157,6 @@ namespace OpenTween.Connection
                     },
                 };
                 throw new TwitterApiException(0, error, "");
-            }
-        }
-
-        public async Task<Stream> GetStreamingStreamAsync(Uri uri, IDictionary<string, string>? param)
-        {
-            var requestUri = new Uri(RestApiBase, uri);
-
-            if (param != null)
-                requestUri = new Uri(requestUri, "?" + MyCommon.BuildQueryString(param));
-
-            try
-            {
-                var request = new HttpRequestMessage(HttpMethod.Get, requestUri);
-                var response = await this.HttpStreaming.SendAsync(request, HttpCompletionOption.ResponseHeadersRead)
-                    .ConfigureAwait(false);
-
-                await TwitterApiConnection.CheckStatusCode(response)
-                    .ConfigureAwait(false);
-
-                return await response.Content.ReadAsStreamAsync()
-                    .ConfigureAwait(false);
-            }
-            catch (HttpRequestException ex)
-            {
-                throw TwitterApiException.CreateFromException(ex);
-            }
-            catch (OperationCanceledException ex)
-            {
-                throw TwitterApiException.CreateFromException(ex);
             }
         }
 
@@ -438,7 +405,6 @@ namespace OpenTween.Connection
                 Networking.WebProxyChanged -= this.Networking_WebProxyChanged;
                 this.Http.Dispose();
                 this.HttpUpload.Dispose();
-                this.HttpStreaming.Dispose();
             }
         }
 
@@ -524,17 +490,13 @@ namespace OpenTween.Connection
             }
         }
 
-        private static HttpClient InitializeHttpClient(ITwitterCredential credential, bool disableGzip = false)
+        private static HttpClient InitializeHttpClient(ITwitterCredential credential)
         {
             var builder = Networking.CreateHttpClientBuilder();
 
-            builder.SetupHttpClientHandler(x =>
-            {
-                x.CachePolicy = new RequestCachePolicy(RequestCacheLevel.BypassCache);
-
-                if (disableGzip)
-                    x.AutomaticDecompression = DecompressionMethods.None;
-            });
+            builder.SetupHttpClientHandler(
+                x => x.CachePolicy = new RequestCachePolicy(RequestCacheLevel.BypassCache)
+            );
 
             builder.AddHandler(x => credential.CreateHttpHandler(x));
 
