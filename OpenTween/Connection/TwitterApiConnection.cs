@@ -164,44 +164,6 @@ namespace OpenTween.Connection
             }
         }
 
-        public Task<Stream> GetStreamAsync(Uri uri, IDictionary<string, string>? param)
-            => this.GetStreamAsync(uri, param, null);
-
-        public async Task<Stream> GetStreamAsync(Uri uri, IDictionary<string, string>? param, string? endpointName)
-        {
-            // レートリミット規制中はAPIリクエストを送信せずに直ちにエラーを発生させる
-            if (endpointName != null)
-                this.ThrowIfRateLimitExceeded(endpointName);
-
-            var requestUri = new Uri(RestApiBase, uri);
-
-            if (param != null)
-                requestUri = new Uri(requestUri, "?" + MyCommon.BuildQueryString(param));
-
-            try
-            {
-                var response = await this.Http.GetAsync(requestUri)
-                    .ConfigureAwait(false);
-
-                if (endpointName != null)
-                    MyCommon.TwitterApiInfo.UpdateFromHeader(response.Headers, endpointName);
-
-                await TwitterApiConnection.CheckStatusCode(response)
-                    .ConfigureAwait(false);
-
-                return await response.Content.ReadAsStreamAsync()
-                    .ConfigureAwait(false);
-            }
-            catch (HttpRequestException ex)
-            {
-                throw TwitterApiException.CreateFromException(ex);
-            }
-            catch (OperationCanceledException ex)
-            {
-                throw TwitterApiException.CreateFromException(ex);
-            }
-        }
-
         public async Task<Stream> GetStreamingStreamAsync(Uri uri, IDictionary<string, string>? param)
         {
             var requestUri = new Uri(RestApiBase, uri);
