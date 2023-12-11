@@ -165,38 +165,16 @@ namespace OpenTween.Connection
 
         public async Task<LazyJson<T>> PostLazyAsync<T>(Uri uri, IDictionary<string, string>? param)
         {
-            var requestUri = new Uri(RestApiBase, uri);
-            var request = new HttpRequestMessage(HttpMethod.Post, requestUri);
-
-            using var postContent = new FormUrlEncodedContent(param);
-            request.Content = postContent;
-
-            HttpResponseMessage? response = null;
-            try
+            var request = new PostRequest
             {
-                response = await this.Http.SendAsync(request, HttpCompletionOption.ResponseHeadersRead)
-                    .ConfigureAwait(false);
+                RequestUri = uri,
+                Query = param,
+            };
 
-                await TwitterApiConnection.CheckStatusCode(response)
-                    .ConfigureAwait(false);
+            using var response = await this.SendAsync(request)
+                .ConfigureAwait(false);
 
-                var result = new LazyJson<T>(response);
-                response = null;
-
-                return result;
-            }
-            catch (HttpRequestException ex)
-            {
-                throw TwitterApiException.CreateFromException(ex);
-            }
-            catch (OperationCanceledException ex)
-            {
-                throw TwitterApiException.CreateFromException(ex);
-            }
-            finally
-            {
-                response?.Dispose();
-            }
+            return response.ReadAsLazyJson<T>();
         }
 
         public async Task<LazyJson<T>> PostLazyAsync<T>(Uri uri, IDictionary<string, string>? param, IDictionary<string, IMediaItem>? media)
