@@ -351,18 +351,6 @@ namespace OpenTween.Connection
             }
         }
 
-        public async Task DeleteAsync(Uri uri)
-        {
-            var request = new DeleteRequest
-            {
-                RequestUri = uri,
-            };
-
-            await this.SendAsync(request)
-                .IgnoreResponse()
-                .ConfigureAwait(false);
-        }
-
         public static async Task<T> HandleTimeout<T>(Func<CancellationToken, Task<T>> func, TimeSpan timeout)
         {
             using var cts = new CancellationTokenSource();
