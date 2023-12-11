@@ -23,6 +23,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Net.Http;
 using System.Reflection;
 using System.Runtime.InteropServices;
@@ -674,8 +675,9 @@ namespace OpenTween.Api
         [Fact]
         public async Task DirectMessagesEventsNew_Test()
         {
+            using var responseMessage = new HttpResponseMessage(HttpStatusCode.OK);
             var mock = new Mock<IApiConnectionLegacy>();
-            var responseText = """
+            var requestJson = """
                 {
                   "event": {
                     "type": "message_create",
@@ -697,11 +699,14 @@ namespace OpenTween.Api
                 }
                 """;
             mock.Setup(x =>
-                x.PostJsonAsync<TwitterMessageEventSingle>(
-                    new Uri("direct_messages/events/new.json", UriKind.Relative),
-                    responseText)
+                x.SendAsync(
+                    It.Is<PostJsonRequest>(r =>
+                        r.RequestUri == new Uri("direct_messages/events/new.json", UriKind.Relative) &&
+                        r.JsonString == requestJson
+                    )
+                )
             )
-            .ReturnsAsync(LazyJson.Create(new TwitterMessageEventSingle()));
+            .ReturnsAsync(new ApiResponse(responseMessage));
 
             using var twitterApi = new TwitterApi();
             twitterApi.ApiConnection = mock.Object;
@@ -1304,11 +1309,13 @@ namespace OpenTween.Api
         {
             var mock = new Mock<IApiConnectionLegacy>();
             mock.Setup(x =>
-                x.PostJsonAsync(
-                    new Uri("https://upload.twitter.com/1.1/media/metadata/create.json", UriKind.Absolute),
-                    """{"media_id": "12345", "alt_text": {"text": "hogehoge"}}""")
-            )
-            .ReturnsAsync("");
+                x.SendAsync(
+                    It.Is<PostJsonRequest>(r =>
+                        r.RequestUri == new Uri("https://upload.twitter.com/1.1/media/metadata/create.json") &&
+                        r.JsonString == """{"media_id": "12345", "alt_text": {"text": "hogehoge"}}"""
+                    )
+                )
+            );
 
             using var twitterApi = new TwitterApi();
             twitterApi.ApiConnection = mock.Object;

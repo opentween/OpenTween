@@ -425,10 +425,8 @@ namespace OpenTween.Api
             return this.Connection.GetAsync<TwitterMessageEventList>(endpoint, param, "/direct_messages/events/list");
         }
 
-        public Task<LazyJson<TwitterMessageEventSingle>> DirectMessagesEventsNew(long recipientId, string text, long? mediaId = null)
+        public async Task<LazyJson<TwitterMessageEventSingle>> DirectMessagesEventsNew(long recipientId, string text, long? mediaId = null)
         {
-            var endpoint = new Uri("direct_messages/events/new.json", UriKind.Relative);
-
             var attachment = "";
             if (mediaId != null)
             {
@@ -458,7 +456,16 @@ namespace OpenTween.Api
                 }
                 """;
 
-            return this.Connection.PostJsonAsync<TwitterMessageEventSingle>(endpoint, json);
+            var request = new PostJsonRequest
+            {
+                RequestUri = new("direct_messages/events/new.json", UriKind.Relative),
+                JsonString = json,
+            };
+
+            var response = await this.Connection.SendAsync(request)
+                .ConfigureAwait(false);
+
+            return response.ReadAsLazyJson<TwitterMessageEventSingle>();
         }
 
         public Task DirectMessagesEventsDestroy(TwitterDirectMessageId eventId)
@@ -792,14 +799,18 @@ namespace OpenTween.Api
             return this.Connection.GetAsync<TwitterUploadMediaResult>(endpoint, param, endpointName: null);
         }
 
-        public Task MediaMetadataCreate(long mediaId, string altText)
+        public async Task MediaMetadataCreate(long mediaId, string altText)
         {
-            var endpoint = new Uri("https://upload.twitter.com/1.1/media/metadata/create.json");
-
             var escapedAltText = JsonUtils.EscapeJsonString(altText);
-            var json = $$$"""{"media_id": "{{{mediaId}}}", "alt_text": {"text": "{{{escapedAltText}}}"}}""";
+            var request = new PostJsonRequest
+            {
+                RequestUri = new("https://upload.twitter.com/1.1/media/metadata/create.json"),
+                JsonString = $$$"""{"media_id": "{{{mediaId}}}", "alt_text": {"text": "{{{escapedAltText}}}"}}""",
+            };
 
-            return this.Connection.PostJsonAsync(endpoint, json);
+            await this.Connection.SendAsync(request)
+                .IgnoreResponse()
+                .ConfigureAwait(false);
         }
 
         public OAuthEchoHandler CreateOAuthEchoHandler(HttpMessageHandler innerHandler, Uri authServiceProvider, Uri? realm = null)
