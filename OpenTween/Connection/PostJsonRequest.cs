@@ -35,6 +35,8 @@ namespace OpenTween.Connection
 
         public string? EndpointName { get; set; }
 
+        public TimeSpan Timeout { get; set; } = Networking.DefaultTimeout;
+
         public HttpRequestMessage CreateMessage(Uri baseUri)
             => new()
             {

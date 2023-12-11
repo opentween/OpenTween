@@ -75,6 +75,9 @@ namespace OpenTween.Connection
         {
             this.Http = InitializeHttpClient(this.Credential);
 
+            // タイムアウト設定は IHttpRequest.Timeout でリクエスト毎に制御する
+            this.Http.Timeout = Timeout.InfiniteTimeSpan;
+
             this.HttpUpload = InitializeHttpClient(this.Credential);
             this.HttpUpload.Timeout = Networking.UploadImageTimeout;
         }
@@ -94,7 +97,7 @@ namespace OpenTween.Connection
             {
                 responseMessage = await HandleTimeout(
                     (token) => this.Http.SendAsync(requestMessage, HttpCompletionOption.ResponseHeadersRead, token),
-                    Networking.DefaultTimeout
+                    request.Timeout
                 );
 
                 if (endpointName != null)
