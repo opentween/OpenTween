@@ -351,35 +351,6 @@ namespace OpenTween.Connection
             }
         }
 
-        public async Task<string> PostJsonAsync(Uri uri, string json)
-        {
-            var request = new PostJsonRequest
-            {
-                RequestUri = uri,
-                JsonString = json,
-            };
-
-            using var response = await this.SendAsync(request)
-                .ConfigureAwait(false);
-
-            return await response.ReadAsString()
-                .ConfigureAwait(false);
-        }
-
-        public async Task<LazyJson<T>> PostJsonAsync<T>(Uri uri, string json)
-        {
-            var request = new PostJsonRequest
-            {
-                RequestUri = uri,
-                JsonString = json,
-            };
-
-            using var response = await this.SendAsync(request)
-                .ConfigureAwait(false);
-
-            return response.ReadAsLazyJson<T>();
-        }
-
         public async Task DeleteAsync(Uri uri)
         {
             var requestUri = new Uri(RestApiBase, uri);
