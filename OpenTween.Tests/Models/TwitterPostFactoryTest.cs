@@ -32,9 +32,6 @@ namespace OpenTween.Models
 
         private readonly Random random = new();
 
-        public TwitterPostFactoryTest()
-            => PostClass.ExpandedUrlInfo.AutoExpand = false;
-
         private TabInformations CreateTabinfo()
         {
             var tabinfo = new TabInformations();
