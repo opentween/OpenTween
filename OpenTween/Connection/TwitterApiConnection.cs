@@ -159,20 +159,6 @@ namespace OpenTween.Connection
             }
         }
 
-        public async Task<LazyJson<T>> PostLazyAsync<T>(Uri uri, IDictionary<string, string>? param)
-        {
-            var request = new PostRequest
-            {
-                RequestUri = uri,
-                Query = param,
-            };
-
-            using var response = await this.SendAsync(request)
-                .ConfigureAwait(false);
-
-            return response.ReadAsLazyJson<T>();
-        }
-
         public static async Task<T> HandleTimeout<T>(Func<CancellationToken, Task<T>> func, TimeSpan timeout)
         {
             using var cts = new CancellationTokenSource();

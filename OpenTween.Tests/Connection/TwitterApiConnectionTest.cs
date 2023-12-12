@@ -281,46 +281,6 @@ namespace OpenTween.Connection
         }
 
         [Fact]
-        public async Task PostLazyAsync_Test()
-        {
-            using var mockHandler = new HttpMessageHandlerMock();
-            using var http = new HttpClient(mockHandler);
-            using var apiConnection = new TwitterApiConnection();
-            apiConnection.Http = http;
-
-            mockHandler.Enqueue(async x =>
-            {
-                Assert.Equal(HttpMethod.Post, x.Method);
-                Assert.Equal("https://api.twitter.com/1.1/hoge/tetete.json",
-                    x.RequestUri.AbsoluteUri);
-
-                var body = await x.Content.ReadAsStringAsync();
-                var query = HttpUtility.ParseQueryString(body);
-
-                Assert.Equal("1111", query["aaaa"]);
-                Assert.Equal("2222", query["bbbb"]);
-
-                return new HttpResponseMessage(HttpStatusCode.OK)
-                {
-                    Content = new StringContent("\"hogehoge\""),
-                };
-            });
-
-            var endpoint = new Uri("hoge/tetete.json", UriKind.Relative);
-            var param = new Dictionary<string, string>
-            {
-                ["aaaa"] = "1111",
-                ["bbbb"] = "2222",
-            };
-
-            var result = await apiConnection.PostLazyAsync<string>(endpoint, param);
-
-            Assert.Equal("hogehoge", await result.LoadJsonAsync());
-
-            Assert.Equal(0, mockHandler.QueueCount);
-        }
-
-        [Fact]
         public async Task HandleTimeout_SuccessTest()
         {
             static async Task<int> AsyncFunc(CancellationToken token)
