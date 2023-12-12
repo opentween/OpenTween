@@ -79,6 +79,28 @@ namespace OpenTween.Api
             Assert.Equal("foobar", twitterApi.CurrentScreenName);
         }
 
+        private Mock<IApiConnectionLegacy> CreateApiConnectionMock<T>(Action<T> verifyRequest)
+            where T : IHttpRequest
+        {
+            Func<T, bool> verifyRequestWrapper = r =>
+            {
+                verifyRequest(r);
+                // Assert メソッドを使用する想定のため、失敗した場合は例外が発生しここまで到達しない
+                return true;
+            };
+
+            var responseMessage = new HttpResponseMessage(HttpStatusCode.OK);
+            var mock = new Mock<IApiConnectionLegacy>();
+            mock.Setup(x =>
+                x.SendAsync(
+                    It.Is<T>(r => verifyRequestWrapper(r))
+                )
+            )
+            .ReturnsAsync(new ApiResponse(responseMessage));
+
+            return mock;
+        }
+
         [Fact]
         public async Task StatusesHomeTimeline_Test()
         {
@@ -675,8 +697,6 @@ namespace OpenTween.Api
         [Fact]
         public async Task DirectMessagesEventsNew_Test()
         {
-            using var responseMessage = new HttpResponseMessage(HttpStatusCode.OK);
-            var mock = new Mock<IApiConnectionLegacy>();
             var requestJson = """
                 {
                   "event": {
@@ -698,15 +718,12 @@ namespace OpenTween.Api
                   }
                 }
                 """;
-            mock.Setup(x =>
-                x.SendAsync(
-                    It.Is<PostJsonRequest>(r =>
-                        r.RequestUri == new Uri("direct_messages/events/new.json", UriKind.Relative) &&
-                        r.JsonString == requestJson
-                    )
-                )
-            )
-            .ReturnsAsync(new ApiResponse(responseMessage));
+
+            var mock = this.CreateApiConnectionMock<PostJsonRequest>(r =>
+            {
+                Assert.Equal(new("direct_messages/events/new.json", UriKind.Relative), r.RequestUri);
+                Assert.Equal(requestJson, r.JsonString);
+            });
 
             using var twitterApi = new TwitterApi();
             twitterApi.ApiConnection = mock.Object;
@@ -719,17 +736,15 @@ namespace OpenTween.Api
         [Fact]
         public async Task DirectMessagesEventsDestroy_Test()
         {
-            var mock = new Mock<IApiConnectionLegacy>();
-            mock.Setup(x =>
-                x.SendAsync(
-                    It.Is<DeleteRequest>(r =>
-                        r.RequestUri == new Uri("direct_messages/events/destroy.json", UriKind.Relative) &&
-                        r.Query != null &&
-                        r.Query.Count == 1 &&
-                        r.Query["id"] == "100"
-                    )
-                )
-            );
+            var mock = this.CreateApiConnectionMock<DeleteRequest>(r =>
+            {
+                Assert.Equal(new("direct_messages/events/destroy.json", UriKind.Relative), r.RequestUri);
+                var expectedQuery = new Dictionary<string, string>
+                {
+                    ["id"] = "100",
+                };
+                Assert.Equal(expectedQuery, r.Query);
+            });
 
             using var twitterApi = new TwitterApi();
             twitterApi.ApiConnection = mock.Object;
@@ -1143,11 +1158,10 @@ namespace OpenTween.Api
         [Fact]
         public async Task AccountUpdateProfileImage_Test()
         {
-            using var responseMessage = new HttpResponseMessage(HttpStatusCode.OK);
             using var image = TestUtils.CreateDummyImage();
             using var media = new MemoryImageMediaItem(image);
 
-            Func<PostMultipartRequest, bool> verifyRequest = r =>
+            var mock = this.CreateApiConnectionMock<PostMultipartRequest>(r =>
             {
                 Assert.Equal(new("account/update_profile_image.json", UriKind.Relative), r.RequestUri);
                 var expectedQuery = new Dictionary<string, string>
@@ -1162,16 +1176,7 @@ namespace OpenTween.Api
                     ["image"] = media,
                 };
                 Assert.Equal(expectedMedia, r.Media);
-                return true;
-            };
-
-            var mock = new Mock<IApiConnectionLegacy>();
-            mock.Setup(x =>
-                x.SendAsync(
-                    It.Is<PostMultipartRequest>(r => verifyRequest(r))
-                )
-            )
-            .ReturnsAsync(new ApiResponse(responseMessage));
+            });
 
             using var twitterApi = new TwitterApi();
             twitterApi.ApiConnection = mock.Object;
@@ -1251,11 +1256,10 @@ namespace OpenTween.Api
         [Fact]
         public async Task MediaUploadAppend_Test()
         {
-            using var responseMessage = new HttpResponseMessage(HttpStatusCode.OK);
             using var image = TestUtils.CreateDummyImage();
             using var media = new MemoryImageMediaItem(image);
 
-            Func<PostMultipartRequest, bool> verifyRequest = r =>
+            var mock = this.CreateApiConnectionMock<PostMultipartRequest>(r =>
             {
                 Assert.Equal(new("https://upload.twitter.com/1.1/media/upload.json"), r.RequestUri);
                 var expectedQuery = new Dictionary<string, string>
@@ -1270,16 +1274,7 @@ namespace OpenTween.Api
                     ["media"] = media,
                 };
                 Assert.Equal(expectedMedia, r.Media);
-                return true;
-            };
-
-            var mock = new Mock<IApiConnectionLegacy>();
-            mock.Setup(x =>
-                x.SendAsync(
-                    It.Is<PostMultipartRequest>(r => verifyRequest(r))
-                )
-            )
-            .ReturnsAsync(new ApiResponse(responseMessage));
+            });
 
             using var twitterApi = new TwitterApi();
             twitterApi.ApiConnection = mock.Object;
@@ -1340,15 +1335,11 @@ namespace OpenTween.Api
         [Fact]
         public async Task MediaMetadataCreate_Test()
         {
-            var mock = new Mock<IApiConnectionLegacy>();
-            mock.Setup(x =>
-                x.SendAsync(
-                    It.Is<PostJsonRequest>(r =>
-                        r.RequestUri == new Uri("https://upload.twitter.com/1.1/media/metadata/create.json") &&
-                        r.JsonString == """{"media_id": "12345", "alt_text": {"text": "hogehoge"}}"""
-                    )
-                )
-            );
+            var mock = this.CreateApiConnectionMock<PostJsonRequest>(r =>
+            {
+                Assert.Equal(new("https://upload.twitter.com/1.1/media/metadata/create.json"), r.RequestUri);
+                Assert.Equal("""{"media_id": "12345", "alt_text": {"text": "hogehoge"}}""", r.JsonString);
+            });
 
             using var twitterApi = new TwitterApi();
             twitterApi.ApiConnection = mock.Object;
