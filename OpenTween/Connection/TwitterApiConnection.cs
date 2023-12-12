@@ -121,22 +121,6 @@ namespace OpenTween.Connection
             }
         }
 
-        public async Task<T> GetAsync<T>(Uri uri, IDictionary<string, string>? param, string? endpointName)
-        {
-            var request = new GetRequest
-            {
-                RequestUri = uri,
-                Query = param,
-                EndpointName = endpointName,
-            };
-
-            using var response = await this.SendAsync(request)
-                .ConfigureAwait(false);
-
-            return await response.ReadAsJson<T>()
-                .ConfigureAwait(false);
-        }
-
         /// <summary>
         /// 指定されたエンドポイントがレートリミット規制中であれば例外を発生させる
         /// </summary>
