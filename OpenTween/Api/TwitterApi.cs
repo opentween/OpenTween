@@ -152,7 +152,7 @@ namespace OpenTween.Api
             return this.Connection.GetAsync<TwitterStatus[]>(endpoint, param, "/statuses/lookup");
         }
 
-        public Task<LazyJson<TwitterStatus>> StatusesUpdate(
+        public async Task<LazyJson<TwitterStatus>> StatusesUpdate(
             string status,
             TwitterStatusId? replyToId,
             IReadOnlyList<long>? mediaIds,
@@ -160,7 +160,6 @@ namespace OpenTween.Api
             IReadOnlyList<long>? excludeReplyUserIds = null,
             string? attachmentUrl = null)
         {
-            var endpoint = new Uri("statuses/update.json", UriKind.Relative);
             var param = new Dictionary<string, string>
             {
                 ["status"] = status,
@@ -180,32 +179,53 @@ namespace OpenTween.Api
             if (attachmentUrl != null)
                 param["attachment_url"] = attachmentUrl;
 
-            return this.Connection.PostLazyAsync<TwitterStatus>(endpoint, param);
-        }
-
-        public Task<LazyJson<TwitterStatus>> StatusesDestroy(TwitterStatusId statusId)
-        {
-            var endpoint = new Uri("statuses/destroy.json", UriKind.Relative);
-            var param = new Dictionary<string, string>
+            var request = new PostRequest
             {
-                ["id"] = statusId.Id,
+                RequestUri = new("statuses/update.json", UriKind.Relative),
+                Query = param,
             };
 
-            return this.Connection.PostLazyAsync<TwitterStatus>(endpoint, param);
+            using var response = await this.Connection.SendAsync(request)
+                .ConfigureAwait(false);
+
+            return response.ReadAsLazyJson<TwitterStatus>();
         }
 
-        public Task<LazyJson<TwitterStatus>> StatusesRetweet(TwitterStatusId statusId)
+        public async Task<LazyJson<TwitterStatus>> StatusesDestroy(TwitterStatusId statusId)
         {
-            var endpoint = new Uri("statuses/retweet.json", UriKind.Relative);
-            var param = new Dictionary<string, string>
+            var request = new PostRequest
             {
-                ["id"] = statusId.Id,
-                ["include_entities"] = "true",
-                ["include_ext_alt_text"] = "true",
-                ["tweet_mode"] = "extended",
+                RequestUri = new("statuses/destroy.json", UriKind.Relative),
+                Query = new Dictionary<string, string>
+                {
+                    ["id"] = statusId.Id,
+                },
             };
 
-            return this.Connection.PostLazyAsync<TwitterStatus>(endpoint, param);
+            using var response = await this.Connection.SendAsync(request)
+                .ConfigureAwait(false);
+
+            return response.ReadAsLazyJson<TwitterStatus>();
+        }
+
+        public async Task<LazyJson<TwitterStatus>> StatusesRetweet(TwitterStatusId statusId)
+        {
+            var request = new PostRequest
+            {
+                RequestUri = new("statuses/retweet.json", UriKind.Relative),
+                Query = new Dictionary<string, string>
+                {
+                    ["id"] = statusId.Id,
+                    ["include_entities"] = "true",
+                    ["include_ext_alt_text"] = "true",
+                    ["tweet_mode"] = "extended",
+                },
+            };
+
+            using var response = await this.Connection.SendAsync(request)
+                .ConfigureAwait(false);
+
+            return response.ReadAsLazyJson<TwitterStatus>();
         }
 
         public Task<TwitterSearchResult> SearchTweets(string query, string? lang = null, int? count = null, TwitterStatusId? maxId = null, TwitterStatusId? sinceId = null)
@@ -282,9 +302,8 @@ namespace OpenTween.Api
             return this.Connection.GetAsync<TwitterLists>(endpoint, param, "/lists/memberships");
         }
 
-        public Task<LazyJson<TwitterList>> ListsCreate(string name, string? description = null, bool? @private = null)
+        public async Task<LazyJson<TwitterList>> ListsCreate(string name, string? description = null, bool? @private = null)
         {
-            var endpoint = new Uri("lists/create.json", UriKind.Relative);
             var param = new Dictionary<string, string>
             {
                 ["name"] = name,
@@ -295,12 +314,20 @@ namespace OpenTween.Api
             if (@private != null)
                 param["mode"] = @private.Value ? "private" : "public";
 
-            return this.Connection.PostLazyAsync<TwitterList>(endpoint, param);
+            var request = new PostRequest
+            {
+                RequestUri = new("lists/create.json", UriKind.Relative),
+                Query = param,
+            };
+
+            using var response = await this.Connection.SendAsync(request)
+                .ConfigureAwait(false);
+
+            return response.ReadAsLazyJson<TwitterList>();
         }
 
-        public Task<LazyJson<TwitterList>> ListsUpdate(long listId, string? name = null, string? description = null, bool? @private = null)
+        public async Task<LazyJson<TwitterList>> ListsUpdate(long listId, string? name = null, string? description = null, bool? @private = null)
         {
-            var endpoint = new Uri("lists/update.json", UriKind.Relative);
             var param = new Dictionary<string, string>
             {
                 ["list_id"] = listId.ToString(),
@@ -313,18 +340,33 @@ namespace OpenTween.Api
             if (@private != null)
                 param["mode"] = @private.Value ? "private" : "public";
 
-            return this.Connection.PostLazyAsync<TwitterList>(endpoint, param);
-        }
-
-        public Task<LazyJson<TwitterList>> ListsDestroy(long listId)
-        {
-            var endpoint = new Uri("lists/destroy.json", UriKind.Relative);
-            var param = new Dictionary<string, string>
+            var request = new PostRequest
             {
-                ["list_id"] = listId.ToString(),
+                RequestUri = new("lists/update.json", UriKind.Relative),
+                Query = param,
             };
 
-            return this.Connection.PostLazyAsync<TwitterList>(endpoint, param);
+            using var response = await this.Connection.SendAsync(request)
+                .ConfigureAwait(false);
+
+            return response.ReadAsLazyJson<TwitterList>();
+        }
+
+        public async Task<LazyJson<TwitterList>> ListsDestroy(long listId)
+        {
+            var request = new PostRequest
+            {
+                RequestUri = new("lists/destroy.json", UriKind.Relative),
+                Query = new Dictionary<string, string>
+                {
+                    ["list_id"] = listId.ToString(),
+                },
+            };
+
+            using var response = await this.Connection.SendAsync(request)
+                .ConfigureAwait(false);
+
+            return response.ReadAsLazyJson<TwitterList>();
         }
 
         public Task<TwitterStatus[]> ListsStatuses(long listId, int? count = null, TwitterStatusId? maxId = null, TwitterStatusId? sinceId = null, bool? includeRTs = null)
@@ -382,34 +424,46 @@ namespace OpenTween.Api
             return this.Connection.GetAsync<TwitterUser>(endpoint, param, "/lists/members/show");
         }
 
-        public Task<LazyJson<TwitterUser>> ListsMembersCreate(long listId, string screenName)
+        public async Task<LazyJson<TwitterUser>> ListsMembersCreate(long listId, string screenName)
         {
-            var endpoint = new Uri("lists/members/create.json", UriKind.Relative);
-            var param = new Dictionary<string, string>
+            var request = new PostRequest
             {
-                ["list_id"] = listId.ToString(),
-                ["screen_name"] = screenName,
-                ["include_entities"] = "true",
-                ["include_ext_alt_text"] = "true",
-                ["tweet_mode"] = "extended",
+                RequestUri = new("lists/members/create.json", UriKind.Relative),
+                Query = new Dictionary<string, string>
+                {
+                    ["list_id"] = listId.ToString(),
+                    ["screen_name"] = screenName,
+                    ["include_entities"] = "true",
+                    ["include_ext_alt_text"] = "true",
+                    ["tweet_mode"] = "extended",
+                },
             };
 
-            return this.Connection.PostLazyAsync<TwitterUser>(endpoint, param);
+            using var response = await this.Connection.SendAsync(request)
+                .ConfigureAwait(false);
+
+            return response.ReadAsLazyJson<TwitterUser>();
         }
 
-        public Task<LazyJson<TwitterUser>> ListsMembersDestroy(long listId, string screenName)
+        public async Task<LazyJson<TwitterUser>> ListsMembersDestroy(long listId, string screenName)
         {
-            var endpoint = new Uri("lists/members/destroy.json", UriKind.Relative);
-            var param = new Dictionary<string, string>
+            var request = new PostRequest
             {
-                ["list_id"] = listId.ToString(),
-                ["screen_name"] = screenName,
-                ["include_entities"] = "true",
-                ["include_ext_alt_text"] = "true",
-                ["tweet_mode"] = "extended",
+                RequestUri = new("lists/members/destroy.json", UriKind.Relative),
+                Query = new Dictionary<string, string>
+                {
+                    ["list_id"] = listId.ToString(),
+                    ["screen_name"] = screenName,
+                    ["include_entities"] = "true",
+                    ["include_ext_alt_text"] = "true",
+                    ["tweet_mode"] = "extended",
+                },
             };
 
-            return this.Connection.PostLazyAsync<TwitterUser>(endpoint, param);
+            using var response = await this.Connection.SendAsync(request)
+                .ConfigureAwait(false);
+
+            return response.ReadAsLazyJson<TwitterUser>();
         }
 
         public Task<TwitterMessageEventList> DirectMessagesEventsList(int? count = null, string? cursor = null)
@@ -512,16 +566,22 @@ namespace OpenTween.Api
             return this.Connection.GetAsync<TwitterUser[]>(endpoint, param, "/users/lookup");
         }
 
-        public Task<LazyJson<TwitterUser>> UsersReportSpam(string screenName)
+        public async Task<LazyJson<TwitterUser>> UsersReportSpam(string screenName)
         {
-            var endpoint = new Uri("users/report_spam.json", UriKind.Relative);
-            var param = new Dictionary<string, string>
+            var request = new PostRequest
             {
-                ["screen_name"] = screenName,
-                ["tweet_mode"] = "extended",
+                RequestUri = new("users/report_spam.json", UriKind.Relative),
+                Query = new Dictionary<string, string>
+                {
+                    ["screen_name"] = screenName,
+                    ["tweet_mode"] = "extended",
+                },
             };
 
-            return this.Connection.PostLazyAsync<TwitterUser>(endpoint, param);
+            using var response = await this.Connection.SendAsync(request)
+                .ConfigureAwait(false);
+
+            return response.ReadAsLazyJson<TwitterUser>();
         }
 
         public Task<TwitterStatus[]> FavoritesList(int? count = null, long? maxId = null, long? sinceId = null)
@@ -544,28 +604,40 @@ namespace OpenTween.Api
             return this.Connection.GetAsync<TwitterStatus[]>(endpoint, param, "/favorites/list");
         }
 
-        public Task<LazyJson<TwitterStatus>> FavoritesCreate(TwitterStatusId statusId)
+        public async Task<LazyJson<TwitterStatus>> FavoritesCreate(TwitterStatusId statusId)
         {
-            var endpoint = new Uri("favorites/create.json", UriKind.Relative);
-            var param = new Dictionary<string, string>
+            var request = new PostRequest
             {
-                ["id"] = statusId.Id,
-                ["tweet_mode"] = "extended",
+                RequestUri = new("favorites/create.json", UriKind.Relative),
+                Query = new Dictionary<string, string>
+                {
+                    ["id"] = statusId.Id,
+                    ["tweet_mode"] = "extended",
+                },
             };
 
-            return this.Connection.PostLazyAsync<TwitterStatus>(endpoint, param);
+            using var response = await this.Connection.SendAsync(request)
+                .ConfigureAwait(false);
+
+            return response.ReadAsLazyJson<TwitterStatus>();
         }
 
-        public Task<LazyJson<TwitterStatus>> FavoritesDestroy(TwitterStatusId statusId)
+        public async Task<LazyJson<TwitterStatus>> FavoritesDestroy(TwitterStatusId statusId)
         {
-            var endpoint = new Uri("favorites/destroy.json", UriKind.Relative);
-            var param = new Dictionary<string, string>
+            var request = new PostRequest
             {
-                ["id"] = statusId.Id,
-                ["tweet_mode"] = "extended",
+                RequestUri = new("favorites/destroy.json", UriKind.Relative),
+                Query = new Dictionary<string, string>
+                {
+                    ["id"] = statusId.Id,
+                    ["tweet_mode"] = "extended",
+                },
             };
 
-            return this.Connection.PostLazyAsync<TwitterStatus>(endpoint, param);
+            using var response = await this.Connection.SendAsync(request)
+                .ConfigureAwait(false);
+
+            return response.ReadAsLazyJson<TwitterStatus>();
         }
 
         public Task<TwitterFriendship> FriendshipsShow(string sourceScreenName, string targetScreenName)
@@ -580,26 +652,38 @@ namespace OpenTween.Api
             return this.Connection.GetAsync<TwitterFriendship>(endpoint, param, "/friendships/show");
         }
 
-        public Task<LazyJson<TwitterFriendship>> FriendshipsCreate(string screenName)
+        public async Task<LazyJson<TwitterFriendship>> FriendshipsCreate(string screenName)
         {
-            var endpoint = new Uri("friendships/create.json", UriKind.Relative);
-            var param = new Dictionary<string, string>
+            var request = new PostRequest
             {
-                ["screen_name"] = screenName,
+                RequestUri = new("friendships/create.json", UriKind.Relative),
+                Query = new Dictionary<string, string>
+                {
+                    ["screen_name"] = screenName,
+                },
             };
 
-            return this.Connection.PostLazyAsync<TwitterFriendship>(endpoint, param);
+            using var response = await this.Connection.SendAsync(request)
+                .ConfigureAwait(false);
+
+            return response.ReadAsLazyJson<TwitterFriendship>();
         }
 
-        public Task<LazyJson<TwitterFriendship>> FriendshipsDestroy(string screenName)
+        public async Task<LazyJson<TwitterFriendship>> FriendshipsDestroy(string screenName)
         {
-            var endpoint = new Uri("friendships/destroy.json", UriKind.Relative);
-            var param = new Dictionary<string, string>
+            var request = new PostRequest
             {
-                ["screen_name"] = screenName,
+                RequestUri = new("friendships/destroy.json", UriKind.Relative),
+                Query = new Dictionary<string, string>
+                {
+                    ["screen_name"] = screenName,
+                },
             };
 
-            return this.Connection.PostLazyAsync<TwitterFriendship>(endpoint, param);
+            using var response = await this.Connection.SendAsync(request)
+                .ConfigureAwait(false);
+
+            return response.ReadAsLazyJson<TwitterFriendship>();
         }
 
         public Task<long[]> NoRetweetIds()
@@ -642,28 +726,40 @@ namespace OpenTween.Api
             return this.Connection.GetAsync<TwitterIds>(endpoint, param, "/blocks/ids");
         }
 
-        public Task<LazyJson<TwitterUser>> BlocksCreate(string screenName)
+        public async Task<LazyJson<TwitterUser>> BlocksCreate(string screenName)
         {
-            var endpoint = new Uri("blocks/create.json", UriKind.Relative);
-            var param = new Dictionary<string, string>
+            var request = new PostRequest
             {
-                ["screen_name"] = screenName,
-                ["tweet_mode"] = "extended",
+                RequestUri = new("blocks/create.json", UriKind.Relative),
+                Query = new Dictionary<string, string>
+                {
+                    ["screen_name"] = screenName,
+                    ["tweet_mode"] = "extended",
+                },
             };
 
-            return this.Connection.PostLazyAsync<TwitterUser>(endpoint, param);
+            using var response = await this.Connection.SendAsync(request)
+                .ConfigureAwait(false);
+
+            return response.ReadAsLazyJson<TwitterUser>();
         }
 
-        public Task<LazyJson<TwitterUser>> BlocksDestroy(string screenName)
+        public async Task<LazyJson<TwitterUser>> BlocksDestroy(string screenName)
         {
-            var endpoint = new Uri("blocks/destroy.json", UriKind.Relative);
-            var param = new Dictionary<string, string>
+            var request = new PostRequest
             {
-                ["screen_name"] = screenName,
-                ["tweet_mode"] = "extended",
+                RequestUri = new("blocks/destroy.json", UriKind.Relative),
+                Query = new Dictionary<string, string>
+                {
+                    ["screen_name"] = screenName,
+                    ["tweet_mode"] = "extended",
+                },
             };
 
-            return this.Connection.PostLazyAsync<TwitterUser>(endpoint, param);
+            using var response = await this.Connection.SendAsync(request)
+                .ConfigureAwait(false);
+
+            return response.ReadAsLazyJson<TwitterUser>();
         }
 
         public async Task<TwitterUser> AccountVerifyCredentials()
@@ -685,9 +781,8 @@ namespace OpenTween.Api
             return user;
         }
 
-        public Task<LazyJson<TwitterUser>> AccountUpdateProfile(string name, string url, string? location, string? description)
+        public async Task<LazyJson<TwitterUser>> AccountUpdateProfile(string name, string url, string? location, string? description)
         {
-            var endpoint = new Uri("account/update_profile.json", UriKind.Relative);
             var param = new Dictionary<string, string>
             {
                 ["include_entities"] = "true",
@@ -710,7 +805,16 @@ namespace OpenTween.Api
                 param["description"] = escapedDescription;
             }
 
-            return this.Connection.PostLazyAsync<TwitterUser>(endpoint, param);
+            var request = new PostRequest
+            {
+                RequestUri = new("account/update_profile.json", UriKind.Relative),
+                Query = param,
+            };
+
+            using var response = await this.Connection.SendAsync(request)
+                .ConfigureAwait(false);
+
+            return response.ReadAsLazyJson<TwitterUser>();
         }
 
         public async Task<LazyJson<TwitterUser>> AccountUpdateProfileImage(IMediaItem image)
@@ -750,9 +854,8 @@ namespace OpenTween.Api
             return this.Connection.GetAsync<TwitterConfiguration>(endpoint, null, "/help/configuration");
         }
 
-        public Task<LazyJson<TwitterUploadMediaInit>> MediaUploadInit(long totalBytes, string mediaType, string? mediaCategory = null)
+        public async Task<LazyJson<TwitterUploadMediaInit>> MediaUploadInit(long totalBytes, string mediaType, string? mediaCategory = null)
         {
-            var endpoint = new Uri("https://upload.twitter.com/1.1/media/upload.json");
             var param = new Dictionary<string, string>
             {
                 ["command"] = "INIT",
@@ -763,7 +866,16 @@ namespace OpenTween.Api
             if (mediaCategory != null)
                 param["media_category"] = mediaCategory;
 
-            return this.Connection.PostLazyAsync<TwitterUploadMediaInit>(endpoint, param);
+            var request = new PostRequest
+            {
+                RequestUri = new("https://upload.twitter.com/1.1/media/upload.json"),
+                Query = param,
+            };
+
+            using var response = await this.Connection.SendAsync(request)
+                .ConfigureAwait(false);
+
+            return response.ReadAsLazyJson<TwitterUploadMediaInit>();
         }
 
         public async Task MediaUploadAppend(long mediaId, int segmentIndex, IMediaItem media)
@@ -788,16 +900,22 @@ namespace OpenTween.Api
                 .ConfigureAwait(false);
         }
 
-        public Task<LazyJson<TwitterUploadMediaResult>> MediaUploadFinalize(long mediaId)
+        public async Task<LazyJson<TwitterUploadMediaResult>> MediaUploadFinalize(long mediaId)
         {
-            var endpoint = new Uri("https://upload.twitter.com/1.1/media/upload.json");
-            var param = new Dictionary<string, string>
+            var request = new PostRequest
             {
-                ["command"] = "FINALIZE",
-                ["media_id"] = mediaId.ToString(),
+                RequestUri = new("https://upload.twitter.com/1.1/media/upload.json"),
+                Query = new Dictionary<string, string>
+                {
+                    ["command"] = "FINALIZE",
+                    ["media_id"] = mediaId.ToString(),
+                },
             };
 
-            return this.Connection.PostLazyAsync<TwitterUploadMediaResult>(endpoint, param);
+            using var response = await this.Connection.SendAsync(request)
+                .ConfigureAwait(false);
+
+            return response.ReadAsLazyJson<TwitterUploadMediaResult>();
         }
 
         public Task<TwitterUploadMediaResult> MediaUploadStatus(long mediaId)
