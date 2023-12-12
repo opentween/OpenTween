@@ -46,14 +46,6 @@ namespace OpenTween.Connection
         public LazyJson(HttpResponseMessage response)
             => this.Response = response;
 
-        internal LazyJson(T instance)
-        {
-            this.Response = null;
-
-            this.instance = instance;
-            this.completed = true;
-        }
-
         public async Task<T> LoadJsonAsync()
         {
             if (this.completed)
@@ -78,12 +70,6 @@ namespace OpenTween.Connection
 
         public void Dispose()
             => this.Response?.Dispose();
-    }
-
-    public static class LazyJson
-    {
-        public static LazyJson<T> Create<T>(T instance)
-            => new(instance);
     }
 
     public static class LazyJsonTaskExtension
