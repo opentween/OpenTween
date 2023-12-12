@@ -22,27 +22,21 @@
 #nullable enable
 
 using System;
-using System.Net.Http;
-using System.Text;
+using System.Collections.Generic;
 
 namespace OpenTween.Connection
 {
-    public class PostJsonRequest : IHttpRequest
+    public static class UriQueryBuilder
     {
-        public required Uri RequestUri { get; set; }
+        public static Uri Build(Uri uri, IEnumerable<KeyValuePair<string, string>>? query)
+        {
+            if (query == null)
+                return uri;
 
-        public required string JsonString { get; set; }
+            if (!MyCommon.IsNullOrEmpty(uri.Query))
+                throw new NotSupportedException("Merging uri query is not supported");
 
-        public string? EndpointName { get; set; }
-
-        public TimeSpan Timeout { get; set; } = Networking.DefaultTimeout;
-
-        public HttpRequestMessage CreateMessage(Uri baseUri)
-            => new()
-            {
-                Method = HttpMethod.Post,
-                RequestUri = new(baseUri, this.RequestUri),
-                Content = new StringContent(this.JsonString, Encoding.UTF8, "application/json"),
-            };
+            return new(uri, "?" + MyCommon.BuildQueryString(query));
+        }
     }
 }

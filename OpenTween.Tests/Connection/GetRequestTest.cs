@@ -46,36 +46,5 @@ namespace OpenTween.Connection
             Assert.Equal(HttpMethod.Get, requestMessage.Method);
             Assert.Equal(new("https://api.twitter.com/v1/statuses/show.json?id=12345"), requestMessage.RequestUri);
         }
-
-        [Fact]
-        public void BuildUriWithQuery_Test()
-        {
-            var uri = new Uri("https://example.com/hoge");
-            var query = new Dictionary<string, string>
-            {
-                ["foo"] = "bar",
-            };
-            Assert.Equal(new("https://example.com/hoge?foo=bar"), GetRequest.BuildUriWithQuery(uri, query));
-        }
-
-        [Fact]
-        public void BuildUriWithQuery_NullTest()
-        {
-            var uri = new Uri("https://example.com/hoge");
-            Assert.Equal(new("https://example.com/hoge"), GetRequest.BuildUriWithQuery(uri, null));
-        }
-
-        [Fact]
-        public void BuildUriWithQuery_CannotMergeTest()
-        {
-            var uri = new Uri("https://example.com/hoge?aaa=111");
-            var query = new Dictionary<string, string>
-            {
-                ["bbb"] = "222",
-            };
-            Assert.Throws<NotSupportedException>(
-                () => GetRequest.BuildUriWithQuery(uri, query)
-            );
-        }
     }
 }

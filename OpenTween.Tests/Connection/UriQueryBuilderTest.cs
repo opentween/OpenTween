@@ -19,30 +19,43 @@
 // the Free Software Foundation, Inc., 51 Franklin Street - Fifth Floor,
 // Boston, MA 02110-1301, USA.
 
-#nullable enable
-
 using System;
-using System.Net.Http;
-using System.Text;
+using System.Collections.Generic;
+using Xunit;
 
 namespace OpenTween.Connection
 {
-    public class PostJsonRequest : IHttpRequest
+    public class UriQueryBuilderTest
     {
-        public required Uri RequestUri { get; set; }
-
-        public required string JsonString { get; set; }
-
-        public string? EndpointName { get; set; }
-
-        public TimeSpan Timeout { get; set; } = Networking.DefaultTimeout;
-
-        public HttpRequestMessage CreateMessage(Uri baseUri)
-            => new()
+        [Fact]
+        public void Build_Test()
+        {
+            var uri = new Uri("https://example.com/hoge");
+            var query = new Dictionary<string, string>
             {
-                Method = HttpMethod.Post,
-                RequestUri = new(baseUri, this.RequestUri),
-                Content = new StringContent(this.JsonString, Encoding.UTF8, "application/json"),
+                ["foo"] = "bar",
             };
+            Assert.Equal(new("https://example.com/hoge?foo=bar"), UriQueryBuilder.Build(uri, query));
+        }
+
+        [Fact]
+        public void Build_NullTest()
+        {
+            var uri = new Uri("https://example.com/hoge");
+            Assert.Equal(new("https://example.com/hoge"), UriQueryBuilder.Build(uri, null));
+        }
+
+        [Fact]
+        public void Build_CannotMergeTest()
+        {
+            var uri = new Uri("https://example.com/hoge?aaa=111");
+            var query = new Dictionary<string, string>
+            {
+                ["bbb"] = "222",
+            };
+            Assert.Throws<NotSupportedException>(
+                () => UriQueryBuilder.Build(uri, query)
+            );
+        }
     }
 }

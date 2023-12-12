@@ -30,6 +30,8 @@ namespace OpenTween.Connection
     {
         string? EndpointName { get; }
 
+        TimeSpan Timeout { get; }
+
         HttpRequestMessage CreateMessage(Uri baseUri);
     }
 }

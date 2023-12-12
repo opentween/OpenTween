@@ -35,22 +35,13 @@ namespace OpenTween.Connection
 
         public string? EndpointName { get; set; }
 
+        public TimeSpan Timeout { get; set; } = Networking.DefaultTimeout;
+
         public HttpRequestMessage CreateMessage(Uri baseUri)
             => new()
             {
                 Method = HttpMethod.Get,
-                RequestUri = BuildUriWithQuery(new(baseUri, this.RequestUri), this.Query),
+                RequestUri = UriQueryBuilder.Build(new(baseUri, this.RequestUri), this.Query),
             };
-
-        public static Uri BuildUriWithQuery(Uri uri, IEnumerable<KeyValuePair<string, string>>? query)
-        {
-            if (query == null)
-                return uri;
-
-            if (!MyCommon.IsNullOrEmpty(uri.Query))
-                throw new NotSupportedException("Merging uri query is not supported");
-
-            return new Uri(uri, "?" + MyCommon.BuildQueryString(query));
-        }
     }
 }
