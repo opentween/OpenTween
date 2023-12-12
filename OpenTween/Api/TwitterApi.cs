@@ -41,9 +41,9 @@ namespace OpenTween.Api
 
         public string CurrentScreenName { get; private set; } = "";
 
-        public IApiConnectionLegacy Connection => this.ApiConnection;
+        public IApiConnection Connection => this.ApiConnection;
 
-        internal IApiConnectionLegacy ApiConnection;
+        internal IApiConnection ApiConnection;
 
         public APIAuthType AuthType { get; private set; } = APIAuthType.None;
 

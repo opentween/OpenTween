@@ -79,11 +79,11 @@ namespace OpenTween.Api
             Assert.Equal("foobar", twitterApi.CurrentScreenName);
         }
 
-        private Mock<IApiConnectionLegacy> CreateApiConnectionMock<T>(Action<T> verifyRequest)
+        private Mock<IApiConnection> CreateApiConnectionMock<T>(Action<T> verifyRequest)
             where T : IHttpRequest
             => this.CreateApiConnectionMock(verifyRequest, "");
 
-        private Mock<IApiConnectionLegacy> CreateApiConnectionMock<T>(Action<T> verifyRequest, string responseText)
+        private Mock<IApiConnection> CreateApiConnectionMock<T>(Action<T> verifyRequest, string responseText)
             where T : IHttpRequest
         {
             Func<T, bool> verifyRequestWrapper = r =>
@@ -97,7 +97,7 @@ namespace OpenTween.Api
             {
                 Content = new StringContent(responseText),
             };
-            var mock = new Mock<IApiConnectionLegacy>();
+            var mock = new Mock<IApiConnection>();
             mock.Setup(x =>
                 x.SendAsync(
                     It.Is<T>(r => verifyRequestWrapper(r))
