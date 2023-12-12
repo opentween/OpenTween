@@ -1,5 +1,5 @@
 ﻿// OpenTween - Client of Twitter
-// Copyright (c) 2016 kim_upsilon (@kim_upsilon) <https://upsilo.net/~upsilon/>
+// Copyright (c) 2023 kim_upsilon (@kim_upsilon) <https://upsilo.net/~upsilon/>
 // All rights reserved.
 //
 // This file is part of OpenTween.
@@ -23,21 +23,26 @@
 
 using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Net.Http;
 
 namespace OpenTween.Connection
 {
-    public interface IApiConnectionLegacy : IApiConnection, IDisposable
+    public class PostRequest : IHttpRequest
     {
-        Task<T> GetAsync<T>(Uri uri, IDictionary<string, string>? param, string? endpointName);
+        public required Uri RequestUri { get; set; }
 
-        Task<LazyJson<T>> PostLazyAsync<T>(Uri uri, IDictionary<string, string>? param);
+        public IDictionary<string, string>? Query { get; set; }
 
-        Task<LazyJson<T>> PostLazyAsync<T>(Uri uri, IDictionary<string, string>? param, IDictionary<string, IMediaItem>? media);
+        public string? EndpointName { get; set; }
 
-        Task PostAsync(Uri uri, IDictionary<string, string>? param, IDictionary<string, IMediaItem>? media);
+        public TimeSpan Timeout { get; set; } = Networking.DefaultTimeout;
+
+        public HttpRequestMessage CreateMessage(Uri baseUri)
+            => new()
+            {
+                Method = HttpMethod.Post,
+                RequestUri = new(baseUri, this.RequestUri),
+                Content = this.Query != null ? new FormUrlEncodedContent(this.Query) : null,
+            };
     }
 }

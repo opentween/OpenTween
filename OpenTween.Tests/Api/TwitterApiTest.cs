@@ -79,25 +79,56 @@ namespace OpenTween.Api
             Assert.Equal("foobar", twitterApi.CurrentScreenName);
         }
 
+        private Mock<IApiConnection> CreateApiConnectionMock<T>(Action<T> verifyRequest)
+            where T : IHttpRequest
+            => this.CreateApiConnectionMock(verifyRequest, "");
+
+        private Mock<IApiConnection> CreateApiConnectionMock<T>(Action<T> verifyRequest, string responseText)
+            where T : IHttpRequest
+        {
+            Func<T, bool> verifyRequestWrapper = r =>
+            {
+                verifyRequest(r);
+                // Assert メソッドを使用する想定のため、失敗した場合は例外が発生しここまで到達しない
+                return true;
+            };
+
+            var responseMessage = new HttpResponseMessage(HttpStatusCode.OK)
+            {
+                Content = new StringContent(responseText),
+            };
+            var mock = new Mock<IApiConnection>();
+            mock.Setup(x =>
+                x.SendAsync(
+                    It.Is<T>(r => verifyRequestWrapper(r))
+                )
+            )
+            .ReturnsAsync(new ApiResponse(responseMessage));
+
+            return mock;
+        }
+
         [Fact]
         public async Task StatusesHomeTimeline_Test()
         {
-            var mock = new Mock<IApiConnectionLegacy>();
-            mock.Setup(x =>
-                x.GetAsync<TwitterStatus[]>(
-                    new Uri("statuses/home_timeline.json", UriKind.Relative),
-                    new Dictionary<string, string>
+            var mock = this.CreateApiConnectionMock<GetRequest>(
+                r =>
+                {
+                    Assert.Equal(new("statuses/home_timeline.json", UriKind.Relative), r.RequestUri);
+                    var expectedQuery = new Dictionary<string, string>
                     {
-                            { "include_entities", "true" },
-                            { "include_ext_alt_text", "true" },
-                            { "tweet_mode", "extended" },
-                            { "count", "200" },
-                            { "max_id", "900" },
-                            { "since_id", "100" },
-                    },
-                    "/statuses/home_timeline")
-            )
-            .ReturnsAsync(Array.Empty<TwitterStatus>());
+                        ["include_entities"] = "true",
+                        ["include_ext_alt_text"] = "true",
+                        ["tweet_mode"] = "extended",
+                        ["count"] = "200",
+                        ["max_id"] = "900",
+                        ["since_id"] = "100",
+                    };
+                    Assert.Equal(expectedQuery, r.Query);
+                    Assert.Equal("/statuses/home_timeline", r.EndpointName);
+                },
+                JsonUtils.SerializeJsonByDataContract(Array.Empty<TwitterStatus>())
+            );
 
             using var twitterApi = new TwitterApi();
             twitterApi.ApiConnection = mock.Object;
@@ -110,22 +141,24 @@ namespace OpenTween.Api
         [Fact]
         public async Task StatusesMentionsTimeline_Test()
         {
-            var mock = new Mock<IApiConnectionLegacy>();
-            mock.Setup(x =>
-                x.GetAsync<TwitterStatus[]>(
-                    new Uri("statuses/mentions_timeline.json", UriKind.Relative),
-                    new Dictionary<string, string>
+            var mock = this.CreateApiConnectionMock<GetRequest>(
+                r =>
+                {
+                    Assert.Equal(new("statuses/mentions_timeline.json", UriKind.Relative), r.RequestUri);
+                    var expectedQuery = new Dictionary<string, string>
                     {
-                            { "include_entities", "true" },
-                            { "include_ext_alt_text", "true" },
-                            { "tweet_mode", "extended" },
-                            { "count", "200" },
-                            { "max_id", "900" },
-                            { "since_id", "100" },
-                    },
-                    "/statuses/mentions_timeline")
-            )
-            .ReturnsAsync(Array.Empty<TwitterStatus>());
+                        ["include_entities"] = "true",
+                        ["include_ext_alt_text"] = "true",
+                        ["tweet_mode"] = "extended",
+                        ["count"] = "200",
+                        ["max_id"] = "900",
+                        ["since_id"] = "100",
+                    };
+                    Assert.Equal(expectedQuery, r.Query);
+                    Assert.Equal("/statuses/mentions_timeline", r.EndpointName);
+                },
+                JsonUtils.SerializeJsonByDataContract(Array.Empty<TwitterStatus>())
+            );
 
             using var twitterApi = new TwitterApi();
             twitterApi.ApiConnection = mock.Object;
@@ -138,24 +171,26 @@ namespace OpenTween.Api
         [Fact]
         public async Task StatusesUserTimeline_Test()
         {
-            var mock = new Mock<IApiConnectionLegacy>();
-            mock.Setup(x =>
-                x.GetAsync<TwitterStatus[]>(
-                    new Uri("statuses/user_timeline.json", UriKind.Relative),
-                    new Dictionary<string, string>
+            var mock = this.CreateApiConnectionMock<GetRequest>(
+                r =>
+                {
+                    Assert.Equal(new("statuses/user_timeline.json", UriKind.Relative), r.RequestUri);
+                    var expectedQuery = new Dictionary<string, string>
                     {
-                            { "screen_name", "twitterapi" },
-                            { "include_rts", "true" },
-                            { "include_entities", "true" },
-                            { "include_ext_alt_text", "true" },
-                            { "tweet_mode", "extended" },
-                            { "count", "200" },
-                            { "max_id", "900" },
-                            { "since_id", "100" },
-                    },
-                    "/statuses/user_timeline")
-            )
-            .ReturnsAsync(Array.Empty<TwitterStatus>());
+                        ["screen_name"] = "twitterapi",
+                        ["include_rts"] = "true",
+                        ["include_entities"] = "true",
+                        ["include_ext_alt_text"] = "true",
+                        ["tweet_mode"] = "extended",
+                        ["count"] = "200",
+                        ["max_id"] = "900",
+                        ["since_id"] = "100",
+                    };
+                    Assert.Equal(expectedQuery, r.Query);
+                    Assert.Equal("/statuses/user_timeline", r.EndpointName);
+                },
+                JsonUtils.SerializeJsonByDataContract(Array.Empty<TwitterStatus>())
+            );
 
             using var twitterApi = new TwitterApi();
             twitterApi.ApiConnection = mock.Object;
@@ -168,20 +203,22 @@ namespace OpenTween.Api
         [Fact]
         public async Task StatusesShow_Test()
         {
-            var mock = new Mock<IApiConnectionLegacy>();
-            mock.Setup(x =>
-                x.GetAsync<TwitterStatus>(
-                    new Uri("statuses/show.json", UriKind.Relative),
-                    new Dictionary<string, string>
+            var mock = this.CreateApiConnectionMock<GetRequest>(
+                r =>
+                {
+                    Assert.Equal(new("statuses/show.json", UriKind.Relative), r.RequestUri);
+                    var expectedQuery = new Dictionary<string, string>
                     {
-                            { "id", "100" },
-                            { "include_entities", "true" },
-                            { "include_ext_alt_text", "true" },
-                            { "tweet_mode", "extended" },
-                    },
-                    "/statuses/show/:id")
-            )
-            .ReturnsAsync(new TwitterStatus { Id = 100L });
+                        ["id"] = "100",
+                        ["include_entities"] = "true",
+                        ["include_ext_alt_text"] = "true",
+                        ["tweet_mode"] = "extended",
+                    };
+                    Assert.Equal(expectedQuery, r.Query);
+                    Assert.Equal("/statuses/show/:id", r.EndpointName);
+                },
+                JsonUtils.SerializeJsonByDataContract(new TwitterStatus())
+            );
 
             using var twitterApi = new TwitterApi();
             twitterApi.ApiConnection = mock.Object;
@@ -194,21 +231,22 @@ namespace OpenTween.Api
         [Fact]
         public async Task StatusesLookup_Test()
         {
-            var mock = new Mock<IApiConnectionLegacy>();
-            mock.Setup(x =>
-                x.GetAsync<TwitterStatus[]>(
-                    new Uri("statuses/lookup.json", UriKind.Relative),
-                    new Dictionary<string, string>
+            var mock = this.CreateApiConnectionMock<GetRequest>(
+                r =>
+                {
+                    Assert.Equal(new("statuses/lookup.json", UriKind.Relative), r.RequestUri);
+                    var expectedQuery = new Dictionary<string, string>
                     {
-                        { "id", "100,200" },
-                        { "include_entities", "true" },
-                        { "include_ext_alt_text", "true" },
-                        { "tweet_mode", "extended" },
-                    },
-                    "/statuses/lookup"
-                )
-            )
-            .ReturnsAsync(Array.Empty<TwitterStatus>());
+                        ["id"] = "100,200",
+                        ["include_entities"] = "true",
+                        ["include_ext_alt_text"] = "true",
+                        ["tweet_mode"] = "extended",
+                    };
+                    Assert.Equal(expectedQuery, r.Query);
+                    Assert.Equal("/statuses/lookup", r.EndpointName);
+                },
+                JsonUtils.SerializeJsonByDataContract(Array.Empty<TwitterStatus>())
+            );
 
             using var twitterApi = new TwitterApi();
             twitterApi.ApiConnection = mock.Object;
@@ -221,24 +259,23 @@ namespace OpenTween.Api
         [Fact]
         public async Task StatusesUpdate_Test()
         {
-            var mock = new Mock<IApiConnectionLegacy>();
-            mock.Setup(x =>
-                x.PostLazyAsync<TwitterStatus>(
-                    new Uri("statuses/update.json", UriKind.Relative),
-                    new Dictionary<string, string>
-                    {
-                            { "status", "hogehoge" },
-                            { "include_entities", "true" },
-                            { "include_ext_alt_text", "true" },
-                            { "tweet_mode", "extended" },
-                            { "in_reply_to_status_id", "100" },
-                            { "media_ids", "10,20" },
-                            { "auto_populate_reply_metadata", "true" },
-                            { "exclude_reply_user_ids", "100,200" },
-                            { "attachment_url", "https://twitter.com/twitterapi/status/22634515958" },
-                    })
-            )
-            .ReturnsAsync(LazyJson.Create(new TwitterStatus()));
+            var mock = this.CreateApiConnectionMock<PostRequest>(r =>
+            {
+                Assert.Equal(new("statuses/update.json", UriKind.Relative), r.RequestUri);
+                var expectedQuery = new Dictionary<string, string>
+                {
+                    ["status"] = "hogehoge",
+                    ["include_entities"] = "true",
+                    ["include_ext_alt_text"] = "true",
+                    ["tweet_mode"] = "extended",
+                    ["in_reply_to_status_id"] = "100",
+                    ["media_ids"] = "10,20",
+                    ["auto_populate_reply_metadata"] = "true",
+                    ["exclude_reply_user_ids"] = "100,200",
+                    ["attachment_url"] = "https://twitter.com/twitterapi/status/22634515958",
+                };
+                Assert.Equal(expectedQuery, r.Query);
+            });
 
             using var twitterApi = new TwitterApi();
             twitterApi.ApiConnection = mock.Object;
@@ -259,20 +296,19 @@ namespace OpenTween.Api
         [Fact]
         public async Task StatusesUpdate_ExcludeReplyUserIdsEmptyTest()
         {
-            var mock = new Mock<IApiConnectionLegacy>();
-            mock.Setup(x =>
-                x.PostLazyAsync<TwitterStatus>(
-                    new Uri("statuses/update.json", UriKind.Relative),
-                    new Dictionary<string, string>
-                    {
-                        { "status", "hogehoge" },
-                        { "include_entities", "true" },
-                        { "include_ext_alt_text", "true" },
-                        { "tweet_mode", "extended" },
-                        // exclude_reply_user_ids は空の場合には送信されない
-                    })
-            )
-            .ReturnsAsync(LazyJson.Create(new TwitterStatus()));
+            var mock = this.CreateApiConnectionMock<PostRequest>(r =>
+            {
+                Assert.Equal(new("statuses/update.json", UriKind.Relative), r.RequestUri);
+                var expectedQuery = new Dictionary<string, string>
+                {
+                    ["status"] = "hogehoge",
+                    ["include_entities"] = "true",
+                    ["include_ext_alt_text"] = "true",
+                    ["tweet_mode"] = "extended",
+                    // exclude_reply_user_ids は空の場合には送信されない
+                };
+                Assert.Equal(expectedQuery, r.Query);
+            });
 
             using var twitterApi = new TwitterApi();
             twitterApi.ApiConnection = mock.Object;
@@ -286,13 +322,15 @@ namespace OpenTween.Api
         [Fact]
         public async Task StatusesDestroy_Test()
         {
-            var mock = new Mock<IApiConnectionLegacy>();
-            mock.Setup(x =>
-                x.PostLazyAsync<TwitterStatus>(
-                    new Uri("statuses/destroy.json", UriKind.Relative),
-                    new Dictionary<string, string> { { "id", "100" } })
-            )
-            .ReturnsAsync(LazyJson.Create(new TwitterStatus { Id = 100L }));
+            var mock = this.CreateApiConnectionMock<PostRequest>(r =>
+            {
+                Assert.Equal(new("statuses/destroy.json", UriKind.Relative), r.RequestUri);
+                var expectedQuery = new Dictionary<string, string>
+                {
+                    ["id"] = "100",
+                };
+                Assert.Equal(expectedQuery, r.Query);
+            });
 
             using var twitterApi = new TwitterApi();
             twitterApi.ApiConnection = mock.Object;
@@ -306,19 +344,18 @@ namespace OpenTween.Api
         [Fact]
         public async Task StatusesRetweet_Test()
         {
-            var mock = new Mock<IApiConnectionLegacy>();
-            mock.Setup(x =>
-                x.PostLazyAsync<TwitterStatus>(
-                    new Uri("statuses/retweet.json", UriKind.Relative),
-                    new Dictionary<string, string>
-                    {
-                            { "id", "100" },
-                            { "include_entities", "true" },
-                            { "include_ext_alt_text", "true" },
-                            { "tweet_mode", "extended" },
-                    })
-            )
-            .ReturnsAsync(LazyJson.Create(new TwitterStatus()));
+            var mock = this.CreateApiConnectionMock<PostRequest>(r =>
+            {
+                Assert.Equal(new("statuses/retweet.json", UriKind.Relative), r.RequestUri);
+                var expectedQuery = new Dictionary<string, string>
+                {
+                    ["id"] = "100",
+                    ["include_entities"] = "true",
+                    ["include_ext_alt_text"] = "true",
+                    ["tweet_mode"] = "extended",
+                };
+                Assert.Equal(expectedQuery, r.Query);
+            });
 
             using var twitterApi = new TwitterApi();
             twitterApi.ApiConnection = mock.Object;
@@ -332,25 +369,27 @@ namespace OpenTween.Api
         [Fact]
         public async Task SearchTweets_Test()
         {
-            var mock = new Mock<IApiConnectionLegacy>();
-            mock.Setup(x =>
-                x.GetAsync<TwitterSearchResult>(
-                    new Uri("search/tweets.json", UriKind.Relative),
-                    new Dictionary<string, string>
+            var mock = this.CreateApiConnectionMock<GetRequest>(
+                r =>
+                {
+                    Assert.Equal(new("search/tweets.json", UriKind.Relative), r.RequestUri);
+                    var expectedQuery = new Dictionary<string, string>
                     {
-                            { "q", "from:twitterapi" },
-                            { "result_type", "recent" },
-                            { "include_entities", "true" },
-                            { "include_ext_alt_text", "true" },
-                            { "tweet_mode", "extended" },
-                            { "lang", "en" },
-                            { "count", "200" },
-                            { "max_id", "900" },
-                            { "since_id", "100" },
-                    },
-                    "/search/tweets")
-            )
-            .ReturnsAsync(new TwitterSearchResult());
+                        ["q"] = "from:twitterapi",
+                        ["result_type"] = "recent",
+                        ["include_entities"] = "true",
+                        ["include_ext_alt_text"] = "true",
+                        ["tweet_mode"] = "extended",
+                        ["lang"] = "en",
+                        ["count"] = "200",
+                        ["max_id"] = "900",
+                        ["since_id"] = "100",
+                    };
+                    Assert.Equal(expectedQuery, r.Query);
+                    Assert.Equal("/search/tweets", r.EndpointName);
+                },
+                JsonUtils.SerializeJsonByDataContract(new TwitterSearchResult())
+            );
 
             using var twitterApi = new TwitterApi();
             twitterApi.ApiConnection = mock.Object;
@@ -363,19 +402,21 @@ namespace OpenTween.Api
         [Fact]
         public async Task ListsOwnerships_Test()
         {
-            var mock = new Mock<IApiConnectionLegacy>();
-            mock.Setup(x =>
-                x.GetAsync<TwitterLists>(
-                    new Uri("lists/ownerships.json", UriKind.Relative),
-                    new Dictionary<string, string>
+            var mock = this.CreateApiConnectionMock<GetRequest>(
+                r =>
+                {
+                    Assert.Equal(new("lists/ownerships.json", UriKind.Relative), r.RequestUri);
+                    var expectedQuery = new Dictionary<string, string>
                     {
-                            { "screen_name", "twitterapi" },
-                            { "cursor", "-1" },
-                            { "count", "100" },
-                    },
-                    "/lists/ownerships")
-            )
-            .ReturnsAsync(new TwitterLists());
+                        ["screen_name"] = "twitterapi",
+                        ["cursor"] = "-1",
+                        ["count"] = "100",
+                    };
+                    Assert.Equal(expectedQuery, r.Query);
+                    Assert.Equal("/lists/ownerships", r.EndpointName);
+                },
+                JsonUtils.SerializeJsonByDataContract(new TwitterLists())
+            );
 
             using var twitterApi = new TwitterApi();
             twitterApi.ApiConnection = mock.Object;
@@ -388,19 +429,21 @@ namespace OpenTween.Api
         [Fact]
         public async Task ListsSubscriptions_Test()
         {
-            var mock = new Mock<IApiConnectionLegacy>();
-            mock.Setup(x =>
-                x.GetAsync<TwitterLists>(
-                    new Uri("lists/subscriptions.json", UriKind.Relative),
-                    new Dictionary<string, string>
+            var mock = this.CreateApiConnectionMock<GetRequest>(
+                r =>
+                {
+                    Assert.Equal(new("lists/subscriptions.json", UriKind.Relative), r.RequestUri);
+                    var expectedQuery = new Dictionary<string, string>
                     {
-                            { "screen_name", "twitterapi" },
-                            { "cursor", "-1" },
-                            { "count", "100" },
-                    },
-                    "/lists/subscriptions")
-            )
-            .ReturnsAsync(new TwitterLists());
+                        ["screen_name"] = "twitterapi",
+                        ["cursor"] = "-1",
+                        ["count"] = "100",
+                    };
+                    Assert.Equal(expectedQuery, r.Query);
+                    Assert.Equal("/lists/subscriptions", r.EndpointName);
+                },
+                JsonUtils.SerializeJsonByDataContract(new TwitterLists())
+            );
 
             using var twitterApi = new TwitterApi();
             twitterApi.ApiConnection = mock.Object;
@@ -413,20 +456,22 @@ namespace OpenTween.Api
         [Fact]
         public async Task ListsMemberships_Test()
         {
-            var mock = new Mock<IApiConnectionLegacy>();
-            mock.Setup(x =>
-                x.GetAsync<TwitterLists>(
-                    new Uri("lists/memberships.json", UriKind.Relative),
-                    new Dictionary<string, string>
+            var mock = this.CreateApiConnectionMock<GetRequest>(
+                r =>
+                {
+                    Assert.Equal(new("lists/memberships.json", UriKind.Relative), r.RequestUri);
+                    var expectedQuery = new Dictionary<string, string>
                     {
-                            { "screen_name", "twitterapi" },
-                            { "cursor", "-1" },
-                            { "count", "100" },
-                            { "filter_to_owned_lists", "true" },
-                    },
-                    "/lists/memberships")
-            )
-            .ReturnsAsync(new TwitterLists());
+                        ["screen_name"] = "twitterapi",
+                        ["cursor"] = "-1",
+                        ["count"] = "100",
+                        ["filter_to_owned_lists"] = "true",
+                    };
+                    Assert.Equal(expectedQuery, r.Query);
+                    Assert.Equal("/lists/memberships", r.EndpointName);
+                },
+                JsonUtils.SerializeJsonByDataContract(new TwitterLists())
+            );
 
             using var twitterApi = new TwitterApi();
             twitterApi.ApiConnection = mock.Object;
@@ -439,18 +484,17 @@ namespace OpenTween.Api
         [Fact]
         public async Task ListsCreate_Test()
         {
-            var mock = new Mock<IApiConnectionLegacy>();
-            mock.Setup(x =>
-                x.PostLazyAsync<TwitterList>(
-                    new Uri("lists/create.json", UriKind.Relative),
-                    new Dictionary<string, string>
-                    {
-                            { "name", "hogehoge" },
-                            { "description", "aaaa" },
-                            { "mode", "private" },
-                    })
-            )
-            .ReturnsAsync(LazyJson.Create(new TwitterList()));
+            var mock = this.CreateApiConnectionMock<PostRequest>(r =>
+            {
+                Assert.Equal(new("lists/create.json", UriKind.Relative), r.RequestUri);
+                var expectedQuery = new Dictionary<string, string>
+                {
+                    ["name"] = "hogehoge",
+                    ["description"] = "aaaa",
+                    ["mode"] = "private",
+                };
+                Assert.Equal(expectedQuery, r.Query);
+            });
 
             using var twitterApi = new TwitterApi();
             twitterApi.ApiConnection = mock.Object;
@@ -464,19 +508,18 @@ namespace OpenTween.Api
         [Fact]
         public async Task ListsUpdate_Test()
         {
-            var mock = new Mock<IApiConnectionLegacy>();
-            mock.Setup(x =>
-                x.PostLazyAsync<TwitterList>(
-                    new Uri("lists/update.json", UriKind.Relative),
-                    new Dictionary<string, string>
-                    {
-                            { "list_id", "12345" },
-                            { "name", "hogehoge" },
-                            { "description", "aaaa" },
-                            { "mode", "private" },
-                    })
-            )
-            .ReturnsAsync(LazyJson.Create(new TwitterList()));
+            var mock = this.CreateApiConnectionMock<PostRequest>(r =>
+            {
+                Assert.Equal(new("lists/update.json", UriKind.Relative), r.RequestUri);
+                var expectedQuery = new Dictionary<string, string>
+                {
+                    ["list_id"] = "12345",
+                    ["name"] = "hogehoge",
+                    ["description"] = "aaaa",
+                    ["mode"] = "private",
+                };
+                Assert.Equal(expectedQuery, r.Query);
+            });
 
             using var twitterApi = new TwitterApi();
             twitterApi.ApiConnection = mock.Object;
@@ -490,16 +533,15 @@ namespace OpenTween.Api
         [Fact]
         public async Task ListsDestroy_Test()
         {
-            var mock = new Mock<IApiConnectionLegacy>();
-            mock.Setup(x =>
-                x.PostLazyAsync<TwitterList>(
-                    new Uri("lists/destroy.json", UriKind.Relative),
-                    new Dictionary<string, string>
-                    {
-                            { "list_id", "12345" },
-                    })
-            )
-            .ReturnsAsync(LazyJson.Create(new TwitterList()));
+            var mock = this.CreateApiConnectionMock<PostRequest>(r =>
+            {
+                Assert.Equal(new("lists/destroy.json", UriKind.Relative), r.RequestUri);
+                var expectedQuery = new Dictionary<string, string>
+                {
+                    ["list_id"] = "12345",
+                };
+                Assert.Equal(expectedQuery, r.Query);
+            });
 
             using var twitterApi = new TwitterApi();
             twitterApi.ApiConnection = mock.Object;
@@ -513,24 +555,26 @@ namespace OpenTween.Api
         [Fact]
         public async Task ListsStatuses_Test()
         {
-            var mock = new Mock<IApiConnectionLegacy>();
-            mock.Setup(x =>
-                x.GetAsync<TwitterStatus[]>(
-                    new Uri("lists/statuses.json", UriKind.Relative),
-                    new Dictionary<string, string>
+            var mock = this.CreateApiConnectionMock<GetRequest>(
+                r =>
+                {
+                    Assert.Equal(new("lists/statuses.json", UriKind.Relative), r.RequestUri);
+                    var expectedQuery = new Dictionary<string, string>
                     {
-                            { "list_id", "12345" },
-                            { "include_entities", "true" },
-                            { "include_ext_alt_text", "true" },
-                            { "tweet_mode", "extended" },
-                            { "count", "200" },
-                            { "max_id", "900" },
-                            { "since_id", "100" },
-                            { "include_rts", "true" },
-                    },
-                    "/lists/statuses")
-            )
-            .ReturnsAsync(Array.Empty<TwitterStatus>());
+                        ["list_id"] = "12345",
+                        ["include_entities"] = "true",
+                        ["include_ext_alt_text"] = "true",
+                        ["tweet_mode"] = "extended",
+                        ["count"] = "200",
+                        ["max_id"] = "900",
+                        ["since_id"] = "100",
+                        ["include_rts"] = "true",
+                    };
+                    Assert.Equal(expectedQuery, r.Query);
+                    Assert.Equal("/lists/statuses", r.EndpointName);
+                },
+                JsonUtils.SerializeJsonByDataContract(Array.Empty<TwitterStatus>())
+            );
 
             using var twitterApi = new TwitterApi();
             twitterApi.ApiConnection = mock.Object;
@@ -543,21 +587,23 @@ namespace OpenTween.Api
         [Fact]
         public async Task ListsMembers_Test()
         {
-            var mock = new Mock<IApiConnectionLegacy>();
-            mock.Setup(x =>
-                x.GetAsync<TwitterUsers>(
-                    new Uri("lists/members.json", UriKind.Relative),
-                    new Dictionary<string, string>
+            var mock = this.CreateApiConnectionMock<GetRequest>(
+                r =>
+                {
+                    Assert.Equal(new("lists/members.json", UriKind.Relative), r.RequestUri);
+                    var expectedQuery = new Dictionary<string, string>
                     {
-                            { "list_id", "12345" },
-                            { "include_entities", "true" },
-                            { "include_ext_alt_text", "true" },
-                            { "tweet_mode", "extended" },
-                            { "cursor", "-1" },
-                    },
-                    "/lists/members")
-            )
-            .ReturnsAsync(new TwitterUsers());
+                        ["list_id"] = "12345",
+                        ["include_entities"] = "true",
+                        ["include_ext_alt_text"] = "true",
+                        ["tweet_mode"] = "extended",
+                        ["cursor"] = "-1",
+                    };
+                    Assert.Equal(expectedQuery, r.Query);
+                    Assert.Equal("/lists/members", r.EndpointName);
+                },
+                JsonUtils.SerializeJsonByDataContract(Array.Empty<TwitterUser>())
+            );
 
             using var twitterApi = new TwitterApi();
             twitterApi.ApiConnection = mock.Object;
@@ -570,21 +616,23 @@ namespace OpenTween.Api
         [Fact]
         public async Task ListsMembersShow_Test()
         {
-            var mock = new Mock<IApiConnectionLegacy>();
-            mock.Setup(x =>
-                x.GetAsync<TwitterUser>(
-                    new Uri("lists/members/show.json", UriKind.Relative),
-                    new Dictionary<string, string>
+            var mock = this.CreateApiConnectionMock<GetRequest>(
+                r =>
+                {
+                    Assert.Equal(new("lists/members/show.json", UriKind.Relative), r.RequestUri);
+                    var expectedQuery = new Dictionary<string, string>
                     {
-                            { "list_id", "12345" },
-                            { "screen_name", "twitterapi" },
-                            { "include_entities", "true" },
-                            { "include_ext_alt_text", "true" },
-                            { "tweet_mode", "extended" },
-                    },
-                    "/lists/members/show")
-            )
-            .ReturnsAsync(new TwitterUser());
+                        ["list_id"] = "12345",
+                        ["screen_name"] = "twitterapi",
+                        ["include_entities"] = "true",
+                        ["include_ext_alt_text"] = "true",
+                        ["tweet_mode"] = "extended",
+                    };
+                    Assert.Equal(expectedQuery, r.Query);
+                    Assert.Equal("/lists/members/show", r.EndpointName);
+                },
+                JsonUtils.SerializeJsonByDataContract(new TwitterUser())
+            );
 
             using var twitterApi = new TwitterApi();
             twitterApi.ApiConnection = mock.Object;
@@ -597,20 +645,19 @@ namespace OpenTween.Api
         [Fact]
         public async Task ListsMembersCreate_Test()
         {
-            var mock = new Mock<IApiConnectionLegacy>();
-            mock.Setup(x =>
-                x.PostLazyAsync<TwitterUser>(
-                    new Uri("lists/members/create.json", UriKind.Relative),
-                    new Dictionary<string, string>
-                    {
-                            { "list_id", "12345" },
-                            { "screen_name", "twitterapi" },
-                            { "include_entities", "true" },
-                            { "include_ext_alt_text", "true" },
-                            { "tweet_mode", "extended" },
-                    })
-            )
-            .ReturnsAsync(LazyJson.Create(new TwitterUser()));
+            var mock = this.CreateApiConnectionMock<PostRequest>(r =>
+            {
+                Assert.Equal(new("lists/members/create.json", UriKind.Relative), r.RequestUri);
+                var expectedQuery = new Dictionary<string, string>
+                {
+                    ["list_id"] = "12345",
+                    ["screen_name"] = "twitterapi",
+                    ["include_entities"] = "true",
+                    ["include_ext_alt_text"] = "true",
+                    ["tweet_mode"] = "extended",
+                };
+                Assert.Equal(expectedQuery, r.Query);
+            });
 
             using var twitterApi = new TwitterApi();
             twitterApi.ApiConnection = mock.Object;
@@ -624,20 +671,19 @@ namespace OpenTween.Api
         [Fact]
         public async Task ListsMembersDestroy_Test()
         {
-            var mock = new Mock<IApiConnectionLegacy>();
-            mock.Setup(x =>
-                x.PostLazyAsync<TwitterUser>(
-                    new Uri("lists/members/destroy.json", UriKind.Relative),
-                    new Dictionary<string, string>
-                    {
-                            { "list_id", "12345" },
-                            { "screen_name", "twitterapi" },
-                            { "include_entities", "true" },
-                            { "include_ext_alt_text", "true" },
-                            { "tweet_mode", "extended" },
-                    })
-            )
-            .ReturnsAsync(LazyJson.Create(new TwitterUser()));
+            var mock = this.CreateApiConnectionMock<PostRequest>(r =>
+            {
+                Assert.Equal(new("lists/members/destroy.json", UriKind.Relative), r.RequestUri);
+                var expectedQuery = new Dictionary<string, string>
+                {
+                    ["list_id"] = "12345",
+                    ["screen_name"] = "twitterapi",
+                    ["include_entities"] = "true",
+                    ["include_ext_alt_text"] = "true",
+                    ["tweet_mode"] = "extended",
+                };
+                Assert.Equal(expectedQuery, r.Query);
+            });
 
             using var twitterApi = new TwitterApi();
             twitterApi.ApiConnection = mock.Object;
@@ -651,18 +697,20 @@ namespace OpenTween.Api
         [Fact]
         public async Task DirectMessagesEventsList_Test()
         {
-            var mock = new Mock<IApiConnectionLegacy>();
-            mock.Setup(x =>
-                x.GetAsync<TwitterMessageEventList>(
-                    new Uri("direct_messages/events/list.json", UriKind.Relative),
-                    new Dictionary<string, string>
+            var mock = this.CreateApiConnectionMock<GetRequest>(
+                r =>
+                {
+                    Assert.Equal(new("direct_messages/events/list.json", UriKind.Relative), r.RequestUri);
+                    var expectedQuery = new Dictionary<string, string>
                     {
-                            { "count", "50" },
-                            { "cursor", "12345abcdefg" },
-                    },
-                    "/direct_messages/events/list")
-            )
-            .ReturnsAsync(new TwitterMessageEventList());
+                        ["count"] = "50",
+                        ["cursor"] = "12345abcdefg",
+                    };
+                    Assert.Equal(expectedQuery, r.Query);
+                    Assert.Equal("/direct_messages/events/list", r.EndpointName);
+                },
+                JsonUtils.SerializeJsonByDataContract(new TwitterMessageEventList())
+            );
 
             using var twitterApi = new TwitterApi();
             twitterApi.ApiConnection = mock.Object;
@@ -675,8 +723,6 @@ namespace OpenTween.Api
         [Fact]
         public async Task DirectMessagesEventsNew_Test()
         {
-            using var responseMessage = new HttpResponseMessage(HttpStatusCode.OK);
-            var mock = new Mock<IApiConnectionLegacy>();
             var requestJson = """
                 {
                   "event": {
@@ -698,15 +744,12 @@ namespace OpenTween.Api
                   }
                 }
                 """;
-            mock.Setup(x =>
-                x.SendAsync(
-                    It.Is<PostJsonRequest>(r =>
-                        r.RequestUri == new Uri("direct_messages/events/new.json", UriKind.Relative) &&
-                        r.JsonString == requestJson
-                    )
-                )
-            )
-            .ReturnsAsync(new ApiResponse(responseMessage));
+
+            var mock = this.CreateApiConnectionMock<PostJsonRequest>(r =>
+            {
+                Assert.Equal(new("direct_messages/events/new.json", UriKind.Relative), r.RequestUri);
+                Assert.Equal(requestJson, r.JsonString);
+            });
 
             using var twitterApi = new TwitterApi();
             twitterApi.ApiConnection = mock.Object;
@@ -719,17 +762,15 @@ namespace OpenTween.Api
         [Fact]
         public async Task DirectMessagesEventsDestroy_Test()
         {
-            var mock = new Mock<IApiConnectionLegacy>();
-            mock.Setup(x =>
-                x.SendAsync(
-                    It.Is<DeleteRequest>(r =>
-                        r.RequestUri == new Uri("direct_messages/events/destroy.json", UriKind.Relative) &&
-                        r.Query != null &&
-                        r.Query.Count == 1 &&
-                        r.Query["id"] == "100"
-                    )
-                )
-            );
+            var mock = this.CreateApiConnectionMock<DeleteRequest>(r =>
+            {
+                Assert.Equal(new("direct_messages/events/destroy.json", UriKind.Relative), r.RequestUri);
+                var expectedQuery = new Dictionary<string, string>
+                {
+                    ["id"] = "100",
+                };
+                Assert.Equal(expectedQuery, r.Query);
+            });
 
             using var twitterApi = new TwitterApi();
             twitterApi.ApiConnection = mock.Object;
@@ -742,20 +783,22 @@ namespace OpenTween.Api
         [Fact]
         public async Task UsersShow_Test()
         {
-            var mock = new Mock<IApiConnectionLegacy>();
-            mock.Setup(x =>
-                x.GetAsync<TwitterUser>(
-                    new Uri("users/show.json", UriKind.Relative),
-                    new Dictionary<string, string>
+            var mock = this.CreateApiConnectionMock<GetRequest>(
+                r =>
+                {
+                    Assert.Equal(new("users/show.json", UriKind.Relative), r.RequestUri);
+                    var expectedQuery = new Dictionary<string, string>
                     {
-                            { "screen_name", "twitterapi" },
-                            { "include_entities", "true" },
-                            { "include_ext_alt_text", "true" },
-                            { "tweet_mode", "extended" },
-                    },
-                    "/users/show/:id")
-            )
-            .ReturnsAsync(new TwitterUser { ScreenName = "twitterapi" });
+                        ["screen_name"] = "twitterapi",
+                        ["include_entities"] = "true",
+                        ["include_ext_alt_text"] = "true",
+                        ["tweet_mode"] = "extended",
+                    };
+                    Assert.Equal(expectedQuery, r.Query);
+                    Assert.Equal("/users/show/:id", r.EndpointName);
+                },
+                JsonUtils.SerializeJsonByDataContract(new TwitterUser())
+            );
 
             using var twitterApi = new TwitterApi();
             twitterApi.ApiConnection = mock.Object;
@@ -768,20 +811,22 @@ namespace OpenTween.Api
         [Fact]
         public async Task UsersLookup_Test()
         {
-            var mock = new Mock<IApiConnectionLegacy>();
-            mock.Setup(x =>
-                x.GetAsync<TwitterUser[]>(
-                    new Uri("users/lookup.json", UriKind.Relative),
-                    new Dictionary<string, string>
+            var mock = this.CreateApiConnectionMock<GetRequest>(
+                r =>
+                {
+                    Assert.Equal(new("users/lookup.json", UriKind.Relative), r.RequestUri);
+                    var expectedQuery = new Dictionary<string, string>
                     {
-                            { "user_id", "11111,22222" },
-                            { "include_entities", "true" },
-                            { "include_ext_alt_text", "true" },
-                            { "tweet_mode", "extended" },
-                    },
-                    "/users/lookup")
-            )
-            .ReturnsAsync(Array.Empty<TwitterUser>());
+                        ["user_id"] = "11111,22222",
+                        ["include_entities"] = "true",
+                        ["include_ext_alt_text"] = "true",
+                        ["tweet_mode"] = "extended",
+                    };
+                    Assert.Equal(expectedQuery, r.Query);
+                    Assert.Equal("/users/lookup", r.EndpointName);
+                },
+                JsonUtils.SerializeJsonByDataContract(Array.Empty<TwitterUser>())
+            );
 
             using var twitterApi = new TwitterApi();
             twitterApi.ApiConnection = mock.Object;
@@ -794,17 +839,16 @@ namespace OpenTween.Api
         [Fact]
         public async Task UsersReportSpam_Test()
         {
-            var mock = new Mock<IApiConnectionLegacy>();
-            mock.Setup(x =>
-                x.PostLazyAsync<TwitterUser>(
-                    new Uri("users/report_spam.json", UriKind.Relative),
-                    new Dictionary<string, string>
-                    {
-                            { "screen_name", "twitterapi" },
-                            { "tweet_mode", "extended" },
-                    })
-            )
-            .ReturnsAsync(LazyJson.Create(new TwitterUser { ScreenName = "twitterapi" }));
+            var mock = this.CreateApiConnectionMock<PostRequest>(r =>
+            {
+                Assert.Equal(new("users/report_spam.json", UriKind.Relative), r.RequestUri);
+                var expectedQuery = new Dictionary<string, string>
+                {
+                    ["screen_name"] = "twitterapi",
+                    ["tweet_mode"] = "extended",
+                };
+                Assert.Equal(expectedQuery, r.Query);
+            });
 
             using var twitterApi = new TwitterApi();
             twitterApi.ApiConnection = mock.Object;
@@ -818,22 +862,24 @@ namespace OpenTween.Api
         [Fact]
         public async Task FavoritesList_Test()
         {
-            var mock = new Mock<IApiConnectionLegacy>();
-            mock.Setup(x =>
-                x.GetAsync<TwitterStatus[]>(
-                    new Uri("favorites/list.json", UriKind.Relative),
-                    new Dictionary<string, string>
+            var mock = this.CreateApiConnectionMock<GetRequest>(
+                r =>
+                {
+                    Assert.Equal(new("favorites/list.json", UriKind.Relative), r.RequestUri);
+                    var expectedQuery = new Dictionary<string, string>
                     {
-                            { "include_entities", "true" },
-                            { "include_ext_alt_text", "true" },
-                            { "tweet_mode", "extended" },
-                            { "count", "200" },
-                            { "max_id", "900" },
-                            { "since_id", "100" },
-                    },
-                    "/favorites/list")
-            )
-            .ReturnsAsync(Array.Empty<TwitterStatus>());
+                        ["include_entities"] = "true",
+                        ["include_ext_alt_text"] = "true",
+                        ["tweet_mode"] = "extended",
+                        ["count"] = "200",
+                        ["max_id"] = "900",
+                        ["since_id"] = "100",
+                    };
+                    Assert.Equal(expectedQuery, r.Query);
+                    Assert.Equal("/favorites/list", r.EndpointName);
+                },
+                JsonUtils.SerializeJsonByDataContract(new TwitterStatus())
+            );
 
             using var twitterApi = new TwitterApi();
             twitterApi.ApiConnection = mock.Object;
@@ -846,17 +892,16 @@ namespace OpenTween.Api
         [Fact]
         public async Task FavoritesCreate_Test()
         {
-            var mock = new Mock<IApiConnectionLegacy>();
-            mock.Setup(x =>
-                x.PostLazyAsync<TwitterStatus>(
-                    new Uri("favorites/create.json", UriKind.Relative),
-                    new Dictionary<string, string>
-                    {
-                            { "id", "100" },
-                            { "tweet_mode", "extended" },
-                    })
-            )
-            .ReturnsAsync(LazyJson.Create(new TwitterStatus { Id = 100L }));
+            var mock = this.CreateApiConnectionMock<PostRequest>(r =>
+            {
+                Assert.Equal(new("favorites/create.json", UriKind.Relative), r.RequestUri);
+                var expectedQuery = new Dictionary<string, string>
+                {
+                    ["id"] = "100",
+                    ["tweet_mode"] = "extended",
+                };
+                Assert.Equal(expectedQuery, r.Query);
+            });
 
             using var twitterApi = new TwitterApi();
             twitterApi.ApiConnection = mock.Object;
@@ -870,17 +915,16 @@ namespace OpenTween.Api
         [Fact]
         public async Task FavoritesDestroy_Test()
         {
-            var mock = new Mock<IApiConnectionLegacy>();
-            mock.Setup(x =>
-                x.PostLazyAsync<TwitterStatus>(
-                    new Uri("favorites/destroy.json", UriKind.Relative),
-                    new Dictionary<string, string>
-                    {
-                            { "id", "100" },
-                            { "tweet_mode", "extended" },
-                    })
-            )
-            .ReturnsAsync(LazyJson.Create(new TwitterStatus { Id = 100L }));
+            var mock = this.CreateApiConnectionMock<PostRequest>(r =>
+            {
+                Assert.Equal(new("favorites/destroy.json", UriKind.Relative), r.RequestUri);
+                var expectedQuery = new Dictionary<string, string>
+                {
+                    ["id"] = "100",
+                    ["tweet_mode"] = "extended",
+                };
+                Assert.Equal(expectedQuery, r.Query);
+            });
 
             using var twitterApi = new TwitterApi();
             twitterApi.ApiConnection = mock.Object;
@@ -894,14 +938,20 @@ namespace OpenTween.Api
         [Fact]
         public async Task FriendshipsShow_Test()
         {
-            var mock = new Mock<IApiConnectionLegacy>();
-            mock.Setup(x =>
-                x.GetAsync<TwitterFriendship>(
-                    new Uri("friendships/show.json", UriKind.Relative),
-                    new Dictionary<string, string> { { "source_screen_name", "twitter" }, { "target_screen_name", "twitterapi" } },
-                    "/friendships/show")
-            )
-            .ReturnsAsync(new TwitterFriendship());
+            var mock = this.CreateApiConnectionMock<GetRequest>(
+                r =>
+                {
+                    Assert.Equal(new("friendships/show.json", UriKind.Relative), r.RequestUri);
+                    var expectedQuery = new Dictionary<string, string>
+                    {
+                        ["source_screen_name"] = "twitter",
+                        ["target_screen_name"] = "twitterapi",
+                    };
+                    Assert.Equal(expectedQuery, r.Query);
+                    Assert.Equal("/friendships/show", r.EndpointName);
+                },
+                JsonUtils.SerializeJsonByDataContract(new TwitterFriendship())
+            );
 
             using var twitterApi = new TwitterApi();
             twitterApi.ApiConnection = mock.Object;
@@ -914,13 +964,15 @@ namespace OpenTween.Api
         [Fact]
         public async Task FriendshipsCreate_Test()
         {
-            var mock = new Mock<IApiConnectionLegacy>();
-            mock.Setup(x =>
-                x.PostLazyAsync<TwitterFriendship>(
-                    new Uri("friendships/create.json", UriKind.Relative),
-                    new Dictionary<string, string> { { "screen_name", "twitterapi" } })
-            )
-            .ReturnsAsync(LazyJson.Create(new TwitterFriendship()));
+            var mock = this.CreateApiConnectionMock<PostRequest>(r =>
+            {
+                Assert.Equal(new("friendships/create.json", UriKind.Relative), r.RequestUri);
+                var expectedQuery = new Dictionary<string, string>
+                {
+                    ["screen_name"] = "twitterapi",
+                };
+                Assert.Equal(expectedQuery, r.Query);
+            });
 
             using var twitterApi = new TwitterApi();
             twitterApi.ApiConnection = mock.Object;
@@ -934,13 +986,15 @@ namespace OpenTween.Api
         [Fact]
         public async Task FriendshipsDestroy_Test()
         {
-            var mock = new Mock<IApiConnectionLegacy>();
-            mock.Setup(x =>
-                x.PostLazyAsync<TwitterFriendship>(
-                    new Uri("friendships/destroy.json", UriKind.Relative),
-                    new Dictionary<string, string> { { "screen_name", "twitterapi" } })
-            )
-            .ReturnsAsync(LazyJson.Create(new TwitterFriendship()));
+            var mock = this.CreateApiConnectionMock<PostRequest>(r =>
+            {
+                Assert.Equal(new("friendships/destroy.json", UriKind.Relative), r.RequestUri);
+                var expectedQuery = new Dictionary<string, string>
+                {
+                    ["screen_name"] = "twitterapi",
+                };
+                Assert.Equal(expectedQuery, r.Query);
+            });
 
             using var twitterApi = new TwitterApi();
             twitterApi.ApiConnection = mock.Object;
@@ -954,14 +1008,15 @@ namespace OpenTween.Api
         [Fact]
         public async Task NoRetweetIds_Test()
         {
-            var mock = new Mock<IApiConnectionLegacy>();
-            mock.Setup(x =>
-                x.GetAsync<long[]>(
-                    new Uri("friendships/no_retweets/ids.json", UriKind.Relative),
-                    null,
-                    "/friendships/no_retweets/ids")
-            )
-            .ReturnsAsync(Array.Empty<long>());
+            var mock = this.CreateApiConnectionMock<GetRequest>(
+                r =>
+                {
+                    Assert.Equal(new("friendships/no_retweets/ids.json", UriKind.Relative), r.RequestUri);
+                    Assert.Null(r.Query);
+                    Assert.Equal("/friendships/no_retweets/ids", r.EndpointName);
+                },
+                JsonUtils.SerializeJsonByDataContract(Array.Empty<long>())
+            );
 
             using var twitterApi = new TwitterApi();
             twitterApi.ApiConnection = mock.Object;
@@ -974,14 +1029,19 @@ namespace OpenTween.Api
         [Fact]
         public async Task FollowersIds_Test()
         {
-            var mock = new Mock<IApiConnectionLegacy>();
-            mock.Setup(x =>
-                x.GetAsync<TwitterIds>(
-                    new Uri("followers/ids.json", UriKind.Relative),
-                    new Dictionary<string, string> { { "cursor", "-1" } },
-                    "/followers/ids")
-            )
-            .ReturnsAsync(new TwitterIds());
+            var mock = this.CreateApiConnectionMock<GetRequest>(
+                r =>
+                {
+                    Assert.Equal(new("followers/ids.json", UriKind.Relative), r.RequestUri);
+                    var expectedQuery = new Dictionary<string, string>
+                    {
+                        ["cursor"] = "-1",
+                    };
+                    Assert.Equal(expectedQuery, r.Query);
+                    Assert.Equal("/followers/ids", r.EndpointName);
+                },
+                JsonUtils.SerializeJsonByDataContract(new TwitterIds())
+            );
 
             using var twitterApi = new TwitterApi();
             twitterApi.ApiConnection = mock.Object;
@@ -994,14 +1054,19 @@ namespace OpenTween.Api
         [Fact]
         public async Task MutesUsersIds_Test()
         {
-            var mock = new Mock<IApiConnectionLegacy>();
-            mock.Setup(x =>
-                x.GetAsync<TwitterIds>(
-                    new Uri("mutes/users/ids.json", UriKind.Relative),
-                    new Dictionary<string, string> { { "cursor", "-1" } },
-                    "/mutes/users/ids")
-            )
-            .ReturnsAsync(new TwitterIds());
+            var mock = this.CreateApiConnectionMock<GetRequest>(
+                r =>
+                {
+                    Assert.Equal(new("mutes/users/ids.json", UriKind.Relative), r.RequestUri);
+                    var expectedQuery = new Dictionary<string, string>
+                    {
+                        ["cursor"] = "-1",
+                    };
+                    Assert.Equal(expectedQuery, r.Query);
+                    Assert.Equal("/mutes/users/ids", r.EndpointName);
+                },
+                JsonUtils.SerializeJsonByDataContract(new TwitterIds())
+            );
 
             using var twitterApi = new TwitterApi();
             twitterApi.ApiConnection = mock.Object;
@@ -1014,14 +1079,19 @@ namespace OpenTween.Api
         [Fact]
         public async Task BlocksIds_Test()
         {
-            var mock = new Mock<IApiConnectionLegacy>();
-            mock.Setup(x =>
-                x.GetAsync<TwitterIds>(
-                    new Uri("blocks/ids.json", UriKind.Relative),
-                    new Dictionary<string, string> { { "cursor", "-1" } },
-                    "/blocks/ids")
-            )
-            .ReturnsAsync(new TwitterIds());
+            var mock = this.CreateApiConnectionMock<GetRequest>(
+                r =>
+                {
+                    Assert.Equal(new("blocks/ids.json", UriKind.Relative), r.RequestUri);
+                    var expectedQuery = new Dictionary<string, string>
+                    {
+                        ["cursor"] = "-1",
+                    };
+                    Assert.Equal(expectedQuery, r.Query);
+                    Assert.Equal("/blocks/ids", r.EndpointName);
+                },
+                JsonUtils.SerializeJsonByDataContract(new TwitterIds())
+            );
 
             using var twitterApi = new TwitterApi();
             twitterApi.ApiConnection = mock.Object;
@@ -1034,17 +1104,16 @@ namespace OpenTween.Api
         [Fact]
         public async Task BlocksCreate_Test()
         {
-            var mock = new Mock<IApiConnectionLegacy>();
-            mock.Setup(x =>
-                x.PostLazyAsync<TwitterUser>(
-                    new Uri("blocks/create.json", UriKind.Relative),
-                    new Dictionary<string, string>
-                    {
-                            { "screen_name", "twitterapi" },
-                            { "tweet_mode", "extended" },
-                    })
-            )
-            .ReturnsAsync(LazyJson.Create(new TwitterUser()));
+            var mock = this.CreateApiConnectionMock<PostRequest>(r =>
+            {
+                Assert.Equal(new("blocks/create.json", UriKind.Relative), r.RequestUri);
+                var expectedQuery = new Dictionary<string, string>
+                {
+                    ["screen_name"] = "twitterapi",
+                    ["tweet_mode"] = "extended",
+                };
+                Assert.Equal(expectedQuery, r.Query);
+            });
 
             using var twitterApi = new TwitterApi();
             twitterApi.ApiConnection = mock.Object;
@@ -1058,17 +1127,16 @@ namespace OpenTween.Api
         [Fact]
         public async Task BlocksDestroy_Test()
         {
-            var mock = new Mock<IApiConnectionLegacy>();
-            mock.Setup(x =>
-                x.PostLazyAsync<TwitterUser>(
-                    new Uri("blocks/destroy.json", UriKind.Relative),
-                    new Dictionary<string, string>
-                    {
-                            { "screen_name", "twitterapi" },
-                            { "tweet_mode", "extended" },
-                    })
-            )
-            .ReturnsAsync(LazyJson.Create(new TwitterUser()));
+            var mock = this.CreateApiConnectionMock<PostRequest>(r =>
+            {
+                Assert.Equal(new("blocks/destroy.json", UriKind.Relative), r.RequestUri);
+                var expectedQuery = new Dictionary<string, string>
+                {
+                    ["screen_name"] = "twitterapi",
+                    ["tweet_mode"] = "extended",
+                };
+                Assert.Equal(expectedQuery, r.Query);
+            });
 
             using var twitterApi = new TwitterApi();
             twitterApi.ApiConnection = mock.Object;
@@ -1082,23 +1150,25 @@ namespace OpenTween.Api
         [Fact]
         public async Task AccountVerifyCredentials_Test()
         {
-            var mock = new Mock<IApiConnectionLegacy>();
-            mock.Setup(x =>
-                x.GetAsync<TwitterUser>(
-                    new Uri("account/verify_credentials.json", UriKind.Relative),
-                    new Dictionary<string, string>
+            var mock = this.CreateApiConnectionMock<GetRequest>(
+                r =>
+                {
+                    Assert.Equal(new("account/verify_credentials.json", UriKind.Relative), r.RequestUri);
+                    var expectedQuery = new Dictionary<string, string>
                     {
-                            { "include_entities", "true" },
-                            { "include_ext_alt_text", "true" },
-                            { "tweet_mode", "extended" },
-                    },
-                    "/account/verify_credentials")
-            )
-            .ReturnsAsync(new TwitterUser
-            {
-                Id = 100L,
-                ScreenName = "opentween",
-            });
+                        { "include_entities", "true" },
+                        { "include_ext_alt_text", "true" },
+                        { "tweet_mode", "extended" },
+                    };
+                    Assert.Equal(expectedQuery, r.Query);
+                    Assert.Equal("/account/verify_credentials", r.EndpointName);
+                },
+                JsonUtils.SerializeJsonByDataContract(new TwitterUser
+                {
+                    Id = 100L,
+                    ScreenName = "opentween",
+                })
+            );
 
             using var twitterApi = new TwitterApi();
             twitterApi.ApiConnection = mock.Object;
@@ -1114,22 +1184,21 @@ namespace OpenTween.Api
         [Fact]
         public async Task AccountUpdateProfile_Test()
         {
-            var mock = new Mock<IApiConnectionLegacy>();
-            mock.Setup(x =>
-                x.PostLazyAsync<TwitterUser>(
-                    new Uri("account/update_profile.json", UriKind.Relative),
-                    new Dictionary<string, string>
-                    {
-                            { "include_entities", "true" },
-                            { "include_ext_alt_text", "true" },
-                            { "tweet_mode", "extended" },
-                            { "name", "Name" },
-                            { "url", "http://example.com/" },
-                            { "location", "Location" },
-                            { "description", "&lt;script&gt;alert(1)&lt;/script&gt;" },
-                    })
-            )
-            .ReturnsAsync(LazyJson.Create(new TwitterUser()));
+            var mock = this.CreateApiConnectionMock<PostRequest>(r =>
+            {
+                Assert.Equal(new("account/update_profile.json", UriKind.Relative), r.RequestUri);
+                var expectedQuery = new Dictionary<string, string>
+                {
+                    ["include_entities"] = "true",
+                    ["include_ext_alt_text"] = "true",
+                    ["tweet_mode"] = "extended",
+                    ["name"] = "Name",
+                    ["url"] = "http://example.com/",
+                    ["location"] = "Location",
+                    ["description"] = "&lt;script&gt;alert(1)&lt;/script&gt;",
+                };
+                Assert.Equal(expectedQuery, r.Query);
+            });
 
             using var twitterApi = new TwitterApi();
             twitterApi.ApiConnection = mock.Object;
@@ -1145,19 +1214,23 @@ namespace OpenTween.Api
         {
             using var image = TestUtils.CreateDummyImage();
             using var media = new MemoryImageMediaItem(image);
-            var mock = new Mock<IApiConnectionLegacy>();
-            mock.Setup(x =>
-                x.PostLazyAsync<TwitterUser>(
-                    new Uri("account/update_profile_image.json", UriKind.Relative),
-                    new Dictionary<string, string>
-                    {
-                            { "include_entities", "true" },
-                            { "include_ext_alt_text", "true" },
-                            { "tweet_mode", "extended" },
-                    },
-                    new Dictionary<string, IMediaItem> { { "image", media } })
-            )
-            .ReturnsAsync(LazyJson.Create(new TwitterUser()));
+
+            var mock = this.CreateApiConnectionMock<PostMultipartRequest>(r =>
+            {
+                Assert.Equal(new("account/update_profile_image.json", UriKind.Relative), r.RequestUri);
+                var expectedQuery = new Dictionary<string, string>
+                {
+                    ["include_entities"] = "true",
+                    ["include_ext_alt_text"] = "true",
+                    ["tweet_mode"] = "extended",
+                };
+                Assert.Equal(expectedQuery, r.Query);
+                var expectedMedia = new Dictionary<string, IMediaItem>
+                {
+                    ["image"] = media,
+                };
+                Assert.Equal(expectedMedia, r.Media);
+            });
 
             using var twitterApi = new TwitterApi();
             twitterApi.ApiConnection = mock.Object;
@@ -1171,14 +1244,15 @@ namespace OpenTween.Api
         [Fact]
         public async Task ApplicationRateLimitStatus_Test()
         {
-            var mock = new Mock<IApiConnectionLegacy>();
-            mock.Setup(x =>
-                x.GetAsync<TwitterRateLimits>(
-                    new Uri("application/rate_limit_status.json", UriKind.Relative),
-                    null,
-                    "/application/rate_limit_status")
-            )
-            .ReturnsAsync(new TwitterRateLimits());
+            var mock = this.CreateApiConnectionMock<GetRequest>(
+                r =>
+                {
+                    Assert.Equal(new("application/rate_limit_status.json", UriKind.Relative), r.RequestUri);
+                    Assert.Null(r.Query);
+                    Assert.Equal("/application/rate_limit_status", r.EndpointName);
+                },
+                JsonUtils.SerializeJsonByDataContract(new TwitterRateLimits())
+            );
 
             using var twitterApi = new TwitterApi();
             twitterApi.ApiConnection = mock.Object;
@@ -1191,14 +1265,15 @@ namespace OpenTween.Api
         [Fact]
         public async Task Configuration_Test()
         {
-            var mock = new Mock<IApiConnectionLegacy>();
-            mock.Setup(x =>
-                x.GetAsync<TwitterConfiguration>(
-                    new Uri("help/configuration.json", UriKind.Relative),
-                    null,
-                    "/help/configuration")
-            )
-            .ReturnsAsync(new TwitterConfiguration());
+            var mock = this.CreateApiConnectionMock<GetRequest>(
+                r =>
+                {
+                    Assert.Equal(new("help/configuration.json", UriKind.Relative), r.RequestUri);
+                    Assert.Null(r.Query);
+                    Assert.Equal("/help/configuration", r.EndpointName);
+                },
+                JsonUtils.SerializeJsonByDataContract(new TwitterConfiguration())
+            );
 
             using var twitterApi = new TwitterApi();
             twitterApi.ApiConnection = mock.Object;
@@ -1211,19 +1286,18 @@ namespace OpenTween.Api
         [Fact]
         public async Task MediaUploadInit_Test()
         {
-            var mock = new Mock<IApiConnectionLegacy>();
-            mock.Setup(x =>
-                x.PostLazyAsync<TwitterUploadMediaInit>(
-                    new Uri("https://upload.twitter.com/1.1/media/upload.json", UriKind.Absolute),
-                    new Dictionary<string, string>
-                    {
-                            { "command", "INIT" },
-                            { "total_bytes", "123456" },
-                            { "media_type", "image/png" },
-                            { "media_category", "dm_image" },
-                    })
-            )
-            .ReturnsAsync(LazyJson.Create(new TwitterUploadMediaInit()));
+            var mock = this.CreateApiConnectionMock<PostRequest>(r =>
+            {
+                Assert.Equal(new("https://upload.twitter.com/1.1/media/upload.json"), r.RequestUri);
+                var expectedQuery = new Dictionary<string, string>
+                {
+                    ["command"] = "INIT",
+                    ["total_bytes"] = "123456",
+                    ["media_type"] = "image/png",
+                    ["media_category"] = "dm_image",
+                };
+                Assert.Equal(expectedQuery, r.Query);
+            });
 
             using var twitterApi = new TwitterApi();
             twitterApi.ApiConnection = mock.Object;
@@ -1239,19 +1313,23 @@ namespace OpenTween.Api
         {
             using var image = TestUtils.CreateDummyImage();
             using var media = new MemoryImageMediaItem(image);
-            var mock = new Mock<IApiConnectionLegacy>();
-            mock.Setup(x =>
-                x.PostAsync(
-                    new Uri("https://upload.twitter.com/1.1/media/upload.json", UriKind.Absolute),
-                    new Dictionary<string, string>
-                    {
-                            { "command", "APPEND" },
-                            { "media_id", "11111" },
-                            { "segment_index", "1" },
-                    },
-                    new Dictionary<string, IMediaItem> { { "media", media } })
-            )
-            .Returns(Task.CompletedTask);
+
+            var mock = this.CreateApiConnectionMock<PostMultipartRequest>(r =>
+            {
+                Assert.Equal(new("https://upload.twitter.com/1.1/media/upload.json"), r.RequestUri);
+                var expectedQuery = new Dictionary<string, string>
+                {
+                    ["command"] = "APPEND",
+                    ["media_id"] = "11111",
+                    ["segment_index"] = "1",
+                };
+                Assert.Equal(expectedQuery, r.Query);
+                var expectedMedia = new Dictionary<string, IMediaItem>
+                {
+                    ["media"] = media,
+                };
+                Assert.Equal(expectedMedia, r.Media);
+            });
 
             using var twitterApi = new TwitterApi();
             twitterApi.ApiConnection = mock.Object;
@@ -1264,17 +1342,16 @@ namespace OpenTween.Api
         [Fact]
         public async Task MediaUploadFinalize_Test()
         {
-            var mock = new Mock<IApiConnectionLegacy>();
-            mock.Setup(x =>
-                x.PostLazyAsync<TwitterUploadMediaResult>(
-                    new Uri("https://upload.twitter.com/1.1/media/upload.json", UriKind.Absolute),
-                    new Dictionary<string, string>
-                    {
-                            { "command", "FINALIZE" },
-                            { "media_id", "11111" },
-                    })
-            )
-            .ReturnsAsync(LazyJson.Create(new TwitterUploadMediaResult()));
+            var mock = this.CreateApiConnectionMock<PostRequest>(r =>
+            {
+                Assert.Equal(new("https://upload.twitter.com/1.1/media/upload.json"), r.RequestUri);
+                var expectedQuery = new Dictionary<string, string>
+                {
+                    ["command"] = "FINALIZE",
+                    ["media_id"] = "11111",
+                };
+                Assert.Equal(expectedQuery, r.Query);
+            });
 
             using var twitterApi = new TwitterApi();
             twitterApi.ApiConnection = mock.Object;
@@ -1288,18 +1365,19 @@ namespace OpenTween.Api
         [Fact]
         public async Task MediaUploadStatus_Test()
         {
-            var mock = new Mock<IApiConnectionLegacy>();
-            mock.Setup(x =>
-                x.GetAsync<TwitterUploadMediaResult>(
-                    new Uri("https://upload.twitter.com/1.1/media/upload.json", UriKind.Absolute),
-                    new Dictionary<string, string>
+            var mock = this.CreateApiConnectionMock<GetRequest>(
+                r =>
+                {
+                    Assert.Equal(new("https://upload.twitter.com/1.1/media/upload.json"), r.RequestUri);
+                    var expectedQuery = new Dictionary<string, string>
                     {
-                            { "command", "STATUS" },
-                            { "media_id", "11111" },
-                    },
-                    null)
-            )
-            .ReturnsAsync(new TwitterUploadMediaResult());
+                        ["command"] = "STATUS",
+                        ["media_id"] = "11111",
+                    };
+                    Assert.Equal(expectedQuery, r.Query);
+                },
+                JsonUtils.SerializeJsonByDataContract(new TwitterUploadMediaResult())
+            );
 
             using var twitterApi = new TwitterApi();
             twitterApi.ApiConnection = mock.Object;
@@ -1312,15 +1390,11 @@ namespace OpenTween.Api
         [Fact]
         public async Task MediaMetadataCreate_Test()
         {
-            var mock = new Mock<IApiConnectionLegacy>();
-            mock.Setup(x =>
-                x.SendAsync(
-                    It.Is<PostJsonRequest>(r =>
-                        r.RequestUri == new Uri("https://upload.twitter.com/1.1/media/metadata/create.json") &&
-                        r.JsonString == """{"media_id": "12345", "alt_text": {"text": "hogehoge"}}"""
-                    )
-                )
-            );
+            var mock = this.CreateApiConnectionMock<PostJsonRequest>(r =>
+            {
+                Assert.Equal(new("https://upload.twitter.com/1.1/media/metadata/create.json"), r.RequestUri);
+                Assert.Equal("""{"media_id": "12345", "alt_text": {"text": "hogehoge"}}""", r.JsonString);
+            });
 
             using var twitterApi = new TwitterApi();
             twitterApi.ApiConnection = mock.Object;

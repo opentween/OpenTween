@@ -21,6 +21,8 @@
 
 using System;
 using System.Collections.Generic;
+using System.Net;
+using System.Net.Http;
 using System.Threading.Tasks;
 using Moq;
 using OpenTween.Api.DataModel;
@@ -32,23 +34,36 @@ namespace OpenTween.Api.TwitterV2
     public class GetTimelineRequestTest
     {
         [Fact]
-        public async Task StatusesMentionsTimeline_Test()
+        public async Task Send_Test()
         {
-            var mock = new Mock<IApiConnectionLegacy>();
+            Func<GetRequest, bool> verifyRequest = r =>
+            {
+                Assert.Equal(new("/2/users/100/timelines/reverse_chronological", UriKind.Relative), r.RequestUri);
+                var expectedQuery = new Dictionary<string, string>
+                {
+                    { "tweet.fields", "id" },
+                    { "max_results", "200" },
+                    { "until_id", "900" },
+                    { "since_id", "100" },
+                };
+                Assert.Equal(expectedQuery, r.Query);
+                Assert.Equal("/2/users/:id/timelines/reverse_chronological", r.EndpointName);
+                return true;
+            };
+
+            using var responseMessage = new HttpResponseMessage(HttpStatusCode.OK)
+            {
+                Content = new StringContent(
+                    JsonUtils.SerializeJsonByDataContract(new TwitterV2TweetIds())
+                ),
+            };
+            var mock = new Mock<IApiConnection>();
             mock.Setup(x =>
-                x.GetAsync<TwitterV2TweetIds>(
-                    new Uri("/2/users/100/timelines/reverse_chronological", UriKind.Relative),
-                    new Dictionary<string, string>
-                    {
-                        { "tweet.fields", "id" },
-                        { "max_results", "200" },
-                        { "until_id", "900" },
-                        { "since_id", "100" },
-                    },
-                    "/2/users/:id/timelines/reverse_chronological"
+                x.SendAsync(
+                    It.Is<GetRequest>(r => verifyRequest(r))
                 )
             )
-            .ReturnsAsync(new TwitterV2TweetIds());
+            .ReturnsAsync(new ApiResponse(responseMessage));
 
             var request = new GetTimelineRequest(userId: 100L)
             {

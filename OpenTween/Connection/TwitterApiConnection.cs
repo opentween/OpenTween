@@ -39,7 +39,7 @@ using OpenTween.Api.DataModel;
 
 namespace OpenTween.Connection
 {
-    public class TwitterApiConnection : IApiConnection, IApiConnectionLegacy, IDisposable
+    public class TwitterApiConnection : IApiConnection, IDisposable
     {
         public static Uri RestApiBase { get; set; } = new("https://api.twitter.com/1.1/");
 
@@ -53,7 +53,6 @@ namespace OpenTween.Connection
         public bool IsDisposed { get; private set; } = false;
 
         internal HttpClient Http;
-        internal HttpClient HttpUpload;
 
         internal ITwitterCredential Credential { get; }
 
@@ -70,16 +69,13 @@ namespace OpenTween.Connection
             Networking.WebProxyChanged += this.Networking_WebProxyChanged;
         }
 
-        [MemberNotNull(nameof(Http), nameof(HttpUpload))]
+        [MemberNotNull(nameof(Http))]
         private void InitializeHttpClients()
         {
             this.Http = InitializeHttpClient(this.Credential);
 
             // タイムアウト設定は IHttpRequest.Timeout でリクエスト毎に制御する
             this.Http.Timeout = Timeout.InfiniteTimeSpan;
-
-            this.HttpUpload = InitializeHttpClient(this.Credential);
-            this.HttpUpload.Timeout = Networking.UploadImageTimeout;
         }
 
         public async Task<ApiResponse> SendAsync(IHttpRequest request)
@@ -125,22 +121,6 @@ namespace OpenTween.Connection
             }
         }
 
-        public async Task<T> GetAsync<T>(Uri uri, IDictionary<string, string>? param, string? endpointName)
-        {
-            var request = new GetRequest
-            {
-                RequestUri = uri,
-                Query = param,
-                EndpointName = endpointName,
-            };
-
-            using var response = await this.SendAsync(request)
-                .ConfigureAwait(false);
-
-            return await response.ReadAsJson<T>()
-                .ConfigureAwait(false);
-        }
-
         /// <summary>
         /// 指定されたエンドポイントがレートリミット規制中であれば例外を発生させる
         /// </summary>
@@ -160,126 +140,6 @@ namespace OpenTween.Connection
                     },
                 };
                 throw new TwitterApiException(0, error, "");
-            }
-        }
-
-        public async Task<LazyJson<T>> PostLazyAsync<T>(Uri uri, IDictionary<string, string>? param)
-        {
-            var requestUri = new Uri(RestApiBase, uri);
-            var request = new HttpRequestMessage(HttpMethod.Post, requestUri);
-
-            using var postContent = new FormUrlEncodedContent(param);
-            request.Content = postContent;
-
-            HttpResponseMessage? response = null;
-            try
-            {
-                response = await this.Http.SendAsync(request, HttpCompletionOption.ResponseHeadersRead)
-                    .ConfigureAwait(false);
-
-                await TwitterApiConnection.CheckStatusCode(response)
-                    .ConfigureAwait(false);
-
-                var result = new LazyJson<T>(response);
-                response = null;
-
-                return result;
-            }
-            catch (HttpRequestException ex)
-            {
-                throw TwitterApiException.CreateFromException(ex);
-            }
-            catch (OperationCanceledException ex)
-            {
-                throw TwitterApiException.CreateFromException(ex);
-            }
-            finally
-            {
-                response?.Dispose();
-            }
-        }
-
-        public async Task<LazyJson<T>> PostLazyAsync<T>(Uri uri, IDictionary<string, string>? param, IDictionary<string, IMediaItem>? media)
-        {
-            var requestUri = new Uri(RestApiBase, uri);
-            var request = new HttpRequestMessage(HttpMethod.Post, requestUri);
-
-            using var postContent = new MultipartFormDataContent();
-            if (param != null)
-            {
-                foreach (var (key, value) in param)
-                    postContent.Add(new StringContent(value), key);
-            }
-            if (media != null)
-            {
-                foreach (var (key, value) in media)
-                    postContent.Add(new StreamContent(value.OpenRead()), key, value.Name);
-            }
-
-            request.Content = postContent;
-
-            HttpResponseMessage? response = null;
-            try
-            {
-                response = await this.HttpUpload.SendAsync(request, HttpCompletionOption.ResponseHeadersRead)
-                    .ConfigureAwait(false);
-
-                await TwitterApiConnection.CheckStatusCode(response)
-                    .ConfigureAwait(false);
-
-                var result = new LazyJson<T>(response);
-                response = null;
-
-                return result;
-            }
-            catch (HttpRequestException ex)
-            {
-                throw TwitterApiException.CreateFromException(ex);
-            }
-            catch (OperationCanceledException ex)
-            {
-                throw TwitterApiException.CreateFromException(ex);
-            }
-            finally
-            {
-                response?.Dispose();
-            }
-        }
-
-        public async Task PostAsync(Uri uri, IDictionary<string, string>? param, IDictionary<string, IMediaItem>? media)
-        {
-            var requestUri = new Uri(RestApiBase, uri);
-            var request = new HttpRequestMessage(HttpMethod.Post, requestUri);
-
-            using var postContent = new MultipartFormDataContent();
-            if (param != null)
-            {
-                foreach (var (key, value) in param)
-                    postContent.Add(new StringContent(value), key);
-            }
-            if (media != null)
-            {
-                foreach (var (key, value) in media)
-                    postContent.Add(new StreamContent(value.OpenRead()), key, value.Name);
-            }
-
-            request.Content = postContent;
-
-            try
-            {
-                using var response = await this.HttpUpload.SendAsync(request, HttpCompletionOption.ResponseHeadersRead)
-                    .ConfigureAwait(false);
-
-                await TwitterApiConnection.CheckStatusCode(response)
-                    .ConfigureAwait(false);
-            }
-            catch (HttpRequestException ex)
-            {
-                throw TwitterApiException.CreateFromException(ex);
-            }
-            catch (OperationCanceledException ex)
-            {
-                throw TwitterApiException.CreateFromException(ex);
             }
         }
 
@@ -407,7 +267,6 @@ namespace OpenTween.Connection
             {
                 Networking.WebProxyChanged -= this.Networking_WebProxyChanged;
                 this.Http.Dispose();
-                this.HttpUpload.Dispose();
             }
         }
 
