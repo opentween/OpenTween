@@ -3531,7 +3531,7 @@ namespace OpenTween
         /// <summary>
         /// ツイート投稿前のフッター付与などの前処理を行います
         /// </summary>
-        private string FormatStatusText(string statusText)
+        internal string FormatStatusText(string statusText)
         {
             statusText = statusText.Replace("\r\n", "\n");
 
