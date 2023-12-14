@@ -24,6 +24,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using OpenTween.Api;
 using OpenTween.Api.DataModel;
@@ -38,8 +39,11 @@ namespace OpenTween
 {
     public class TweenMainTest
     {
-        [WinFormsFact]
-        public void Initialize_Test()
+        private record TestContext(
+            SettingManager Settings
+        );
+
+        private void UsingTweenMain(Action<TweenMain, TestContext> func)
         {
             var settings = new SettingManager("");
             var tabinfo = new TabInformations();
@@ -50,6 +54,224 @@ namespace OpenTween
             var thumbnailGenerator = new ThumbnailGenerator(new(autoupdate: false));
 
             using var tweenMain = new TweenMain(settings, tabinfo, twitter, imageCache, iconAssets, thumbnailGenerator);
+            var context = new TestContext(settings);
+
+            func(tweenMain, context);
+        }
+
+        [WinFormsFact]
+        public void Initialize_Test()
+            => this.UsingTweenMain((_, _) => { });
+
+        [WinFormsFact]
+        public void FormatStatusText_NewLineTest()
+        {
+            this.UsingTweenMain((tweenMain, _) =>
+            {
+                Assert.Equal("aaa\nbbb", tweenMain.FormatStatusText("aaa\r\nbbb"));
+            });
+        }
+
+        [WinFormsFact]
+        public void FormatStatusText_NewLineInDMTest()
+        {
+            this.UsingTweenMain((tweenMain, _) =>
+            {
+                // DM にも適用する
+                Assert.Equal("D opentween aaa\nbbb", tweenMain.FormatStatusText("D opentween aaa\r\nbbb"));
+            });
+        }
+
+        [WinFormsFact]
+        public void FormatStatusText_SeparateUrlAndFullwidthCharacter_EnabledTest()
+        {
+            this.UsingTweenMain((tweenMain, context) =>
+            {
+                tweenMain.SeparateUrlAndFullwidthCharacter = true;
+                Assert.Equal("https://example.com/ あああ", tweenMain.FormatStatusText("https://example.com/あああ"));
+            });
+        }
+
+        [WinFormsFact]
+        public void FormatStatusText_SeparateUrlAndFullwidthCharacter_DisabledTest()
+        {
+            this.UsingTweenMain((tweenMain, context) =>
+            {
+                tweenMain.SeparateUrlAndFullwidthCharacter = false;
+                Assert.Equal("https://example.com/あああ", tweenMain.FormatStatusText("https://example.com/あああ"));
+            });
+        }
+
+        [WinFormsFact]
+        public void FormatStatusText_ReplaceFullwidthSpace_EnabledTest()
+        {
+            this.UsingTweenMain((tweenMain, context) =>
+            {
+                context.Settings.Common.WideSpaceConvert = true;
+                Assert.Equal("aaa bbb", tweenMain.FormatStatusText("aaa　bbb"));
+            });
+        }
+
+        [WinFormsFact]
+        public void FormatStatusText_ReplaceFullwidthSpaceInDM_EnabledTest()
+        {
+            this.UsingTweenMain((tweenMain, context) =>
+            {
+                context.Settings.Common.WideSpaceConvert = true;
+
+                // DM にも適用する
+                Assert.Equal("D opentween aaa bbb", tweenMain.FormatStatusText("D opentween aaa　bbb"));
+            });
+        }
+
+        [WinFormsFact]
+        public void FormatStatusText_ReplaceFullwidthSpace_DisabledTest()
+        {
+            this.UsingTweenMain((tweenMain, context) =>
+            {
+                context.Settings.Common.WideSpaceConvert = false;
+                Assert.Equal("aaa　bbb", tweenMain.FormatStatusText("aaa　bbb"));
+            });
+        }
+
+        [WinFormsFact]
+        public void FormatStatusText_UseRecommendedFooter_Test()
+        {
+            this.UsingTweenMain((tweenMain, context) =>
+            {
+                context.Settings.Local.UseRecommendStatus = true;
+                Assert.Matches(new Regex(@"^aaa \[TWNv\d+\]$"), tweenMain.FormatStatusText("aaa"));
+            });
+        }
+
+        [WinFormsFact]
+        public void FormatStatusText_CustomFooterText_Test()
+        {
+            this.UsingTweenMain((tweenMain, context) =>
+            {
+                context.Settings.Local.StatusText = "foo";
+                Assert.Equal("aaa foo", tweenMain.FormatStatusText("aaa"));
+            });
+        }
+
+        [WinFormsFact]
+        public void FormatStatusText_DisableFooterIfSendingDM_Test()
+        {
+            this.UsingTweenMain((tweenMain, context) =>
+            {
+                context.Settings.Local.StatusText = "foo";
+
+                // DM の場合はフッターを無効化する
+                Assert.Equal("D opentween aaa", tweenMain.FormatStatusText("D opentween aaa"));
+            });
+        }
+
+        [WinFormsFact]
+        public void FormatStatusText_DisableFooterIfContainsUnofficialRT_Test()
+        {
+            this.UsingTweenMain((tweenMain, context) =>
+            {
+                context.Settings.Local.StatusText = "foo";
+
+                // 非公式 RT を含む場合はフッターを無効化する
+                Assert.Equal("aaa RT @foo: bbb", tweenMain.FormatStatusText("aaa RT @foo: bbb"));
+            });
+        }
+
+        [WinFormsFact]
+        public void FormatStatusText_DisableFooterIfPostByEnterAndPressedShiftKey_Test()
+        {
+            this.UsingTweenMain((tweenMain, context) =>
+            {
+                context.Settings.Common.PostCtrlEnter = false;
+                context.Settings.Common.PostShiftEnter = false; // Enter で投稿する設定
+                context.Settings.Local.StatusText = "foo";
+                context.Settings.Local.StatusMultiline = false; // 単一行モード
+
+                // Shift キーが押されている場合はフッターを無効化する
+                Assert.Equal("aaa", tweenMain.FormatStatusText("aaa", modifierKeys: Keys.Shift));
+            });
+        }
+
+        [WinFormsFact]
+        public void FormatStatusText_DisableFooterIfPostByEnterAndPressedCtrlKeyAndMultilineMode_Test()
+        {
+            this.UsingTweenMain((tweenMain, context) =>
+            {
+                context.Settings.Common.PostCtrlEnter = false;
+                context.Settings.Common.PostShiftEnter = false; // Enter で投稿する設定
+                context.Settings.Local.StatusText = "foo";
+                context.Settings.Local.StatusMultiline = true; // 複数行モード
+
+                // Ctrl キーが押されている場合はフッターを無効化する
+                Assert.Equal("aaa", tweenMain.FormatStatusText("aaa", modifierKeys: Keys.Control));
+            });
+        }
+
+        [WinFormsFact]
+        public void FormatStatusText_DisableFooterIfPostByShiftEnterAndPressedControlKey_Test()
+        {
+            this.UsingTweenMain((tweenMain, context) =>
+            {
+                context.Settings.Common.PostCtrlEnter = false;
+                context.Settings.Common.PostShiftEnter = true; // Shift+Enter で投稿する設定
+                context.Settings.Local.StatusText = "foo";
+
+                // Ctrl キーが押されている場合はフッターを無効化する
+                Assert.Equal("aaa", tweenMain.FormatStatusText("aaa", modifierKeys: Keys.Control));
+            });
+        }
+
+        [WinFormsFact]
+        public void FormatStatusText_EnableFooterIfPostByShiftEnter_Test()
+        {
+            this.UsingTweenMain((tweenMain, context) =>
+            {
+                context.Settings.Common.PostCtrlEnter = false;
+                context.Settings.Common.PostShiftEnter = true; // Shift+Enter で投稿する設定
+                context.Settings.Local.StatusText = "foo";
+
+                // Shift+Enter で投稿する場合、Ctrl キーが押されていなければフッターを付ける
+                Assert.Equal("aaa foo", tweenMain.FormatStatusText("aaa", modifierKeys: Keys.Shift));
+            });
+        }
+
+        [WinFormsFact]
+        public void FormatStatusText_DisableFooterIfPostByCtrlEnterAndPressedShiftKey_Test()
+        {
+            this.UsingTweenMain((tweenMain, context) =>
+            {
+                context.Settings.Common.PostCtrlEnter = true; // Ctrl+Enter で投稿する設定
+                context.Settings.Common.PostShiftEnter = false;
+                context.Settings.Local.StatusText = "foo";
+
+                // Shift キーが押されている場合はフッターを無効化する
+                Assert.Equal("aaa", tweenMain.FormatStatusText("aaa", modifierKeys: Keys.Shift));
+            });
+        }
+
+        [WinFormsFact]
+        public void FormatStatusText_EnableFooterIfPostByCtrlEnter_Test()
+        {
+            this.UsingTweenMain((tweenMain, context) =>
+            {
+                context.Settings.Common.PostCtrlEnter = true; // Ctrl+Enter で投稿する設定
+                context.Settings.Common.PostShiftEnter = false;
+                context.Settings.Local.StatusText = "foo";
+
+                // Ctrl+Enter で投稿する場合、Shift キーが押されていなければフッターを付ける
+                Assert.Equal("aaa foo", tweenMain.FormatStatusText("aaa", modifierKeys: Keys.Control));
+            });
+        }
+
+        [WinFormsFact]
+        public void FormatStatusText_PreventSmsCommand_Test()
+        {
+            this.UsingTweenMain((tweenMain, context) =>
+            {
+                // 「D+」などから始まる文字列をツイートしようとすると SMS コマンドと誤認されてエラーが返される問題の回避策
+                Assert.Equal("\u200bd+aaaa", tweenMain.FormatStatusText("d+aaaa"));
+            });
         }
 
         [Fact]

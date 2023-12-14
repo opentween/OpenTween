@@ -757,20 +757,11 @@ namespace OpenTween
         /// </summary>
         /// <param name="keys">状態を調べるキー</param>
         /// <returns><paramref name="keys"/> で指定された修飾キーがすべて押されている状態であれば true。それ以外であれば false。</returns>
-        public static bool IsKeyDown(params Keys[] keys)
-            => MyCommon.IsKeyDownInternal(Control.ModifierKeys, keys);
+        public static bool IsKeyDown(Keys keys)
+            => MyCommon.IsKeyDown(Control.ModifierKeys, keys);
 
-        internal static bool IsKeyDownInternal(Keys modifierKeys, Keys[] targetKeys)
-        {
-            foreach (var key in targetKeys)
-            {
-                if ((modifierKeys & key) != key)
-                {
-                    return false;
-                }
-            }
-            return true;
-        }
+        public static bool IsKeyDown(Keys modifierKeys, Keys targetKeys)
+            => (modifierKeys & targetKeys) == targetKeys;
 
         /// <summary>
         /// アプリケーションのアセンブリ名を取得します。

@@ -208,7 +208,9 @@ namespace OpenTween
         private readonly DebounceTimer saveConfigDebouncer;
 
         private readonly string recommendedStatusFooter;
-        private bool urlMultibyteSplit = false;
+
+        internal bool SeparateUrlAndFullwidthCharacter { get; set; } = false;
+
         private bool preventSmsCommand = true;
 
         // URL短縮のUndo用
@@ -3528,14 +3530,17 @@ namespace OpenTween
             return this.FormatStatusText(statusText);
         }
 
+        internal string FormatStatusText(string statusText)
+            => this.FormatStatusText(statusText, Control.ModifierKeys);
+
         /// <summary>
         /// ツイート投稿前のフッター付与などの前処理を行います
         /// </summary>
-        private string FormatStatusText(string statusText)
+        internal string FormatStatusText(string statusText, Keys modifierKeys)
         {
             statusText = statusText.Replace("\r\n", "\n");
 
-            if (this.urlMultibyteSplit)
+            if (this.SeparateUrlAndFullwidthCharacter)
             {
                 // URLと全角文字の切り離し
                 statusText = Regex.Replace(statusText, @"https?:\/\/[-_.!~*'()a-zA-Z0-9;\/?:\@&=+\$,%#^]+", "$& ");
@@ -3554,14 +3559,14 @@ namespace OpenTween
             bool disableFooter;
             if (this.settings.Common.PostShiftEnter)
             {
-                disableFooter = MyCommon.IsKeyDown(Keys.Control);
+                disableFooter = MyCommon.IsKeyDown(modifierKeys, Keys.Control);
             }
             else
             {
-                if (this.StatusText.Multiline && !this.settings.Common.PostCtrlEnter)
-                    disableFooter = MyCommon.IsKeyDown(Keys.Control);
+                if (this.settings.Local.StatusMultiline && !this.settings.Common.PostCtrlEnter)
+                    disableFooter = MyCommon.IsKeyDown(modifierKeys, Keys.Control);
                 else
-                    disableFooter = MyCommon.IsKeyDown(Keys.Shift);
+                    disableFooter = MyCommon.IsKeyDown(modifierKeys, Keys.Shift);
             }
 
             if (statusText.Contains("RT @"))
@@ -8186,14 +8191,14 @@ namespace OpenTween
 
         private void MenuItemHelp_DropDownOpening(object sender, EventArgs e)
         {
-            if (MyCommon.DebugBuild || MyCommon.IsKeyDown(Keys.CapsLock, Keys.Control, Keys.Shift))
+            if (MyCommon.DebugBuild || MyCommon.IsKeyDown(Keys.CapsLock | Keys.Control | Keys.Shift))
                 this.DebugModeToolStripMenuItem.Visible = true;
             else
                 this.DebugModeToolStripMenuItem.Visible = false;
         }
 
         private void UrlMultibyteSplitMenuItem_CheckedChanged(object sender, EventArgs e)
-            => this.urlMultibyteSplit = ((ToolStripMenuItem)sender).Checked;
+            => this.SeparateUrlAndFullwidthCharacter = ((ToolStripMenuItem)sender).Checked;
 
         private void PreventSmsCommandMenuItem_CheckedChanged(object sender, EventArgs e)
             => this.preventSmsCommand = ((ToolStripMenuItem)sender).Checked;
@@ -8215,7 +8220,7 @@ namespace OpenTween
 
         private void PostModeMenuItem_DropDownOpening(object sender, EventArgs e)
         {
-            this.UrlMultibyteSplitMenuItem.Checked = this.urlMultibyteSplit;
+            this.UrlMultibyteSplitMenuItem.Checked = this.SeparateUrlAndFullwidthCharacter;
             this.PreventSmsCommandMenuItem.Checked = this.preventSmsCommand;
             this.UrlAutoShortenMenuItem.Checked = this.settings.Common.UrlConvertAuto;
             this.IdeographicSpaceToSpaceMenuItem.Checked = this.settings.Common.WideSpaceConvert;
@@ -8225,7 +8230,7 @@ namespace OpenTween
 
         private void ContextMenuPostMode_Opening(object sender, CancelEventArgs e)
         {
-            this.UrlMultibyteSplitPullDownMenuItem.Checked = this.urlMultibyteSplit;
+            this.UrlMultibyteSplitPullDownMenuItem.Checked = this.SeparateUrlAndFullwidthCharacter;
             this.PreventSmsCommandPullDownMenuItem.Checked = this.preventSmsCommand;
             this.UrlAutoShortenPullDownMenuItem.Checked = this.settings.Common.UrlConvertAuto;
             this.IdeographicSpaceToSpacePullDownMenuItem.Checked = this.settings.Common.WideSpaceConvert;
