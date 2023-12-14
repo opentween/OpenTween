@@ -83,6 +83,26 @@ namespace OpenTween
         }
 
         [WinFormsFact]
+        public void FormatStatusText_SeparateUrlAndFullwidthCharacter_EnabledTest()
+        {
+            this.UsingTweenMain((tweenMain, context) =>
+            {
+                tweenMain.SeparateUrlAndFullwidthCharacter = true;
+                Assert.Equal("https://example.com/ あああ", tweenMain.FormatStatusText("https://example.com/あああ"));
+            });
+        }
+
+        [WinFormsFact]
+        public void FormatStatusText_SeparateUrlAndFullwidthCharacter_DisabledTest()
+        {
+            this.UsingTweenMain((tweenMain, context) =>
+            {
+                tweenMain.SeparateUrlAndFullwidthCharacter = false;
+                Assert.Equal("https://example.com/あああ", tweenMain.FormatStatusText("https://example.com/あああ"));
+            });
+        }
+
+        [WinFormsFact]
         public void FormatStatusText_ReplaceFullwidthSpace_EnabledTest()
         {
             this.UsingTweenMain((tweenMain, context) =>

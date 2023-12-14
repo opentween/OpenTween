@@ -208,7 +208,9 @@ namespace OpenTween
         private readonly DebounceTimer saveConfigDebouncer;
 
         private readonly string recommendedStatusFooter;
-        private bool urlMultibyteSplit = false;
+
+        internal bool SeparateUrlAndFullwidthCharacter { get; set; } = false;
+
         private bool preventSmsCommand = true;
 
         // URL短縮のUndo用
@@ -3535,7 +3537,7 @@ namespace OpenTween
         {
             statusText = statusText.Replace("\r\n", "\n");
 
-            if (this.urlMultibyteSplit)
+            if (this.SeparateUrlAndFullwidthCharacter)
             {
                 // URLと全角文字の切り離し
                 statusText = Regex.Replace(statusText, @"https?:\/\/[-_.!~*'()a-zA-Z0-9;\/?:\@&=+\$,%#^]+", "$& ");
@@ -8193,7 +8195,7 @@ namespace OpenTween
         }
 
         private void UrlMultibyteSplitMenuItem_CheckedChanged(object sender, EventArgs e)
-            => this.urlMultibyteSplit = ((ToolStripMenuItem)sender).Checked;
+            => this.SeparateUrlAndFullwidthCharacter = ((ToolStripMenuItem)sender).Checked;
 
         private void PreventSmsCommandMenuItem_CheckedChanged(object sender, EventArgs e)
             => this.preventSmsCommand = ((ToolStripMenuItem)sender).Checked;
@@ -8215,7 +8217,7 @@ namespace OpenTween
 
         private void PostModeMenuItem_DropDownOpening(object sender, EventArgs e)
         {
-            this.UrlMultibyteSplitMenuItem.Checked = this.urlMultibyteSplit;
+            this.UrlMultibyteSplitMenuItem.Checked = this.SeparateUrlAndFullwidthCharacter;
             this.PreventSmsCommandMenuItem.Checked = this.preventSmsCommand;
             this.UrlAutoShortenMenuItem.Checked = this.settings.Common.UrlConvertAuto;
             this.IdeographicSpaceToSpaceMenuItem.Checked = this.settings.Common.WideSpaceConvert;
@@ -8225,7 +8227,7 @@ namespace OpenTween
 
         private void ContextMenuPostMode_Opening(object sender, CancelEventArgs e)
         {
-            this.UrlMultibyteSplitPullDownMenuItem.Checked = this.urlMultibyteSplit;
+            this.UrlMultibyteSplitPullDownMenuItem.Checked = this.SeparateUrlAndFullwidthCharacter;
             this.PreventSmsCommandPullDownMenuItem.Checked = this.preventSmsCommand;
             this.UrlAutoShortenPullDownMenuItem.Checked = this.settings.Common.UrlConvertAuto;
             this.IdeographicSpaceToSpacePullDownMenuItem.Checked = this.settings.Common.WideSpaceConvert;
