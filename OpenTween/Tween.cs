@@ -8188,7 +8188,7 @@ namespace OpenTween
 
         private void MenuItemHelp_DropDownOpening(object sender, EventArgs e)
         {
-            if (MyCommon.DebugBuild || MyCommon.IsKeyDown(Keys.CapsLock, Keys.Control, Keys.Shift))
+            if (MyCommon.DebugBuild || MyCommon.IsKeyDown(Keys.CapsLock | Keys.Control | Keys.Shift))
                 this.DebugModeToolStripMenuItem.Visible = true;
             else
                 this.DebugModeToolStripMenuItem.Visible = false;
