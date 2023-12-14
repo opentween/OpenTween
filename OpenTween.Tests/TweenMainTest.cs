@@ -179,6 +179,92 @@ namespace OpenTween
         }
 
         [WinFormsFact]
+        public void FormatStatusText_DisableFooterIfPostByEnterAndPressedShiftKey_Test()
+        {
+            this.UsingTweenMain((tweenMain, context) =>
+            {
+                context.Settings.Common.PostCtrlEnter = false;
+                context.Settings.Common.PostShiftEnter = false; // Enter で投稿する設定
+                context.Settings.Local.StatusText = "foo";
+                context.Settings.Local.StatusMultiline = false; // 単一行モード
+
+                // Shift キーが押されている場合はフッターを無効化する
+                Assert.Equal("aaa", tweenMain.FormatStatusText("aaa", modifierKeys: Keys.Shift));
+            });
+        }
+
+        [WinFormsFact]
+        public void FormatStatusText_DisableFooterIfPostByEnterAndPressedCtrlKeyAndMultilineMode_Test()
+        {
+            this.UsingTweenMain((tweenMain, context) =>
+            {
+                context.Settings.Common.PostCtrlEnter = false;
+                context.Settings.Common.PostShiftEnter = false; // Enter で投稿する設定
+                context.Settings.Local.StatusText = "foo";
+                context.Settings.Local.StatusMultiline = true; // 複数行モード
+
+                // Ctrl キーが押されている場合はフッターを無効化する
+                Assert.Equal("aaa", tweenMain.FormatStatusText("aaa", modifierKeys: Keys.Control));
+            });
+        }
+
+        [WinFormsFact]
+        public void FormatStatusText_DisableFooterIfPostByShiftEnterAndPressedControlKey_Test()
+        {
+            this.UsingTweenMain((tweenMain, context) =>
+            {
+                context.Settings.Common.PostCtrlEnter = false;
+                context.Settings.Common.PostShiftEnter = true; // Shift+Enter で投稿する設定
+                context.Settings.Local.StatusText = "foo";
+
+                // Ctrl キーが押されている場合はフッターを無効化する
+                Assert.Equal("aaa", tweenMain.FormatStatusText("aaa", modifierKeys: Keys.Control));
+            });
+        }
+
+        [WinFormsFact]
+        public void FormatStatusText_EnableFooterIfPostByShiftEnter_Test()
+        {
+            this.UsingTweenMain((tweenMain, context) =>
+            {
+                context.Settings.Common.PostCtrlEnter = false;
+                context.Settings.Common.PostShiftEnter = true; // Shift+Enter で投稿する設定
+                context.Settings.Local.StatusText = "foo";
+
+                // Shift+Enter で投稿する場合、Ctrl キーが押されていなければフッターを付ける
+                Assert.Equal("aaa foo", tweenMain.FormatStatusText("aaa", modifierKeys: Keys.Shift));
+            });
+        }
+
+        [WinFormsFact]
+        public void FormatStatusText_DisableFooterIfPostByCtrlEnterAndPressedShiftKey_Test()
+        {
+            this.UsingTweenMain((tweenMain, context) =>
+            {
+                context.Settings.Common.PostCtrlEnter = true; // Ctrl+Enter で投稿する設定
+                context.Settings.Common.PostShiftEnter = false;
+                context.Settings.Local.StatusText = "foo";
+
+                // Shift キーが押されている場合はフッターを無効化する
+                Assert.Equal("aaa", tweenMain.FormatStatusText("aaa", modifierKeys: Keys.Shift));
+            });
+        }
+
+        [WinFormsFact]
+        public void FormatStatusText_EnableFooterIfPostByCtrlEnter_Test()
+        {
+            this.UsingTweenMain((tweenMain, context) =>
+            {
+                context.Settings.Common.PostCtrlEnter = true; // Ctrl+Enter で投稿する設定
+                context.Settings.Common.PostShiftEnter = false;
+                context.Settings.Local.StatusText = "foo";
+
+                // Ctrl+Enter で投稿する場合、Shift キーが押されていなければフッターを付ける
+                Assert.Equal("aaa foo", tweenMain.FormatStatusText("aaa", modifierKeys: Keys.Control));
+            });
+        }
+
+        [WinFormsFact]
         public void FormatStatusText_PreventSmsCommand_Test()
         {
             this.UsingTweenMain((tweenMain, context) =>

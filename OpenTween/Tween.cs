@@ -3530,10 +3530,13 @@ namespace OpenTween
             return this.FormatStatusText(statusText);
         }
 
+        internal string FormatStatusText(string statusText)
+            => this.FormatStatusText(statusText, Control.ModifierKeys);
+
         /// <summary>
         /// ツイート投稿前のフッター付与などの前処理を行います
         /// </summary>
-        internal string FormatStatusText(string statusText)
+        internal string FormatStatusText(string statusText, Keys modifierKeys)
         {
             statusText = statusText.Replace("\r\n", "\n");
 
@@ -3556,14 +3559,14 @@ namespace OpenTween
             bool disableFooter;
             if (this.settings.Common.PostShiftEnter)
             {
-                disableFooter = MyCommon.IsKeyDown(Keys.Control);
+                disableFooter = MyCommon.IsKeyDown(modifierKeys, Keys.Control);
             }
             else
             {
-                if (this.StatusText.Multiline && !this.settings.Common.PostCtrlEnter)
-                    disableFooter = MyCommon.IsKeyDown(Keys.Control);
+                if (this.settings.Local.StatusMultiline && !this.settings.Common.PostCtrlEnter)
+                    disableFooter = MyCommon.IsKeyDown(modifierKeys, Keys.Control);
                 else
-                    disableFooter = MyCommon.IsKeyDown(Keys.Shift);
+                    disableFooter = MyCommon.IsKeyDown(modifierKeys, Keys.Shift);
             }
 
             if (statusText.Contains("RT @"))
