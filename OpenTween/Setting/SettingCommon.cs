@@ -398,6 +398,20 @@ namespace OpenTween
             };
         }
 
+        public ITwitterCredential GetTwitterCredential()
+        {
+            var appToken = this.GetTwitterAppToken();
+
+            return appToken.AuthType switch
+            {
+                APIAuthType.OAuth1
+                    => new TwitterCredentialOAuth1(appToken, this.TwitterOAuth1ConsumerKey, this.TwitterOAuth1ConsumerSecret),
+                APIAuthType.TwitterComCookie
+                    => new TwitterCredentialCookie(appToken),
+                _ => new TwitterCredentialNone(),
+            };
+        }
+
         private string Encrypt(string password)
         {
             if (MyCommon.IsNullOrEmpty(password)) password = "";
@@ -441,6 +455,7 @@ namespace OpenTween
 
     public enum APIAuthType
     {
+        None,
         OAuth1,
         TwitterComCookie,
     }

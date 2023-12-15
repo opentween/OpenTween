@@ -208,7 +208,9 @@ namespace OpenTween
         private readonly DebounceTimer saveConfigDebouncer;
 
         private readonly string recommendedStatusFooter;
-        private bool urlMultibyteSplit = false;
+
+        internal bool SeparateUrlAndFullwidthCharacter { get; set; } = false;
+
         private bool preventSmsCommand = true;
 
         // URL短縮のUndo用
@@ -264,202 +266,6 @@ namespace OpenTween
 
         private readonly HookGlobalHotkey hookGlobalHotkey;
 
-        private void TweenMain_Activated(object sender, EventArgs e)
-        {
-            // 画面がアクティブになったら、発言欄の背景色戻す
-            if (this.StatusText.Focused)
-            {
-                this.StatusText_Enter(this.StatusText, System.EventArgs.Empty);
-            }
-        }
-
-        private bool disposed = false;
-
-        /// <summary>
-        /// 使用中のリソースをすべてクリーンアップします。
-        /// </summary>
-        /// <param name="disposing">マネージ リソースが破棄される場合 true、破棄されない場合は false です。</param>
-        protected override void Dispose(bool disposing)
-        {
-            base.Dispose(disposing);
-
-            if (this.disposed)
-                return;
-
-            if (disposing)
-            {
-                this.components?.Dispose();
-
-                // 後始末
-                this.SearchDialog.Dispose();
-                this.urlDialog.Dispose();
-                this.themeManager.Dispose();
-                this.sfTab.Dispose();
-
-                this.timelineScheduler.Dispose();
-                this.workerCts.Cancel();
-                this.thumbnailTokenSource?.Dispose();
-
-                this.hookGlobalHotkey.Dispose();
-            }
-
-            // 終了時にRemoveHandlerしておかないとメモリリークする
-            // http://msdn.microsoft.com/ja-jp/library/microsoft.win32.systemevents.powermodechanged.aspx
-            Microsoft.Win32.SystemEvents.PowerModeChanged -= this.SystemEvents_PowerModeChanged;
-            Microsoft.Win32.SystemEvents.TimeChanged -= this.SystemEvents_TimeChanged;
-
-            this.disposed = true;
-        }
-
-        private void InitColumns(ListView list, bool startup)
-        {
-            this.InitColumnText();
-
-            ColumnHeader[]? columns = null;
-            try
-            {
-                if (this.Use2ColumnsMode)
-                {
-                    columns = new[]
-                    {
-                        new ColumnHeader(), // アイコン
-                        new ColumnHeader(), // 本文
-                    };
-
-                    columns[0].Text = this.columnText[0];
-                    columns[1].Text = this.columnText[2];
-
-                    if (startup)
-                    {
-                        var widthScaleFactor = this.CurrentAutoScaleDimensions.Width / this.settings.Local.ScaleDimension.Width;
-
-                        columns[0].Width = ScaleBy(widthScaleFactor, this.settings.Local.ColumnsWidth[0]);
-                        columns[1].Width = ScaleBy(widthScaleFactor, this.settings.Local.ColumnsWidth[2]);
-                        columns[0].DisplayIndex = 0;
-                        columns[1].DisplayIndex = 1;
-                    }
-                    else
-                    {
-                        var idx = 0;
-                        foreach (var curListColumn in this.CurrentListView.Columns.Cast<ColumnHeader>())
-                        {
-                            columns[idx].Width = curListColumn.Width;
-                            columns[idx].DisplayIndex = curListColumn.DisplayIndex;
-                            idx++;
-                        }
-                    }
-                }
-                else
-                {
-                    columns = new[]
-                    {
-                        new ColumnHeader(), // アイコン
-                        new ColumnHeader(), // ニックネーム
-                        new ColumnHeader(), // 本文
-                        new ColumnHeader(), // 日付
-                        new ColumnHeader(), // ユーザID
-                        new ColumnHeader(), // 未読
-                        new ColumnHeader(), // マーク＆プロテクト
-                        new ColumnHeader(), // ソース
-                    };
-
-                    foreach (var i in Enumerable.Range(0, columns.Length))
-                        columns[i].Text = this.columnText[i];
-
-                    if (startup)
-                    {
-                        var widthScaleFactor = this.CurrentAutoScaleDimensions.Width / this.settings.Local.ScaleDimension.Width;
-
-                        foreach (var (column, index) in columns.WithIndex())
-                        {
-                            column.Width = ScaleBy(widthScaleFactor, this.settings.Local.ColumnsWidth[index]);
-                            column.DisplayIndex = this.settings.Local.ColumnsOrder[index];
-                        }
-                    }
-                    else
-                    {
-                        var idx = 0;
-                        foreach (var curListColumn in this.CurrentListView.Columns.Cast<ColumnHeader>())
-                        {
-                            columns[idx].Width = curListColumn.Width;
-                            columns[idx].DisplayIndex = curListColumn.DisplayIndex;
-                            idx++;
-                        }
-                    }
-                }
-
-                list.Columns.AddRange(columns);
-
-                columns = null;
-            }
-            finally
-            {
-                if (columns != null)
-                {
-                    foreach (var column in columns)
-                        column?.Dispose();
-                }
-            }
-        }
-
-        private void InitColumnText()
-        {
-            this.columnText[0] = "";
-            this.columnText[1] = Properties.Resources.AddNewTabText2;
-            this.columnText[2] = Properties.Resources.AddNewTabText3;
-            this.columnText[3] = Properties.Resources.AddNewTabText4_2;
-            this.columnText[4] = Properties.Resources.AddNewTabText5;
-            this.columnText[5] = "";
-            this.columnText[6] = "";
-            this.columnText[7] = "Source";
-
-            this.columnOrgText[0] = "";
-            this.columnOrgText[1] = Properties.Resources.AddNewTabText2;
-            this.columnOrgText[2] = Properties.Resources.AddNewTabText3;
-            this.columnOrgText[3] = Properties.Resources.AddNewTabText4_2;
-            this.columnOrgText[4] = Properties.Resources.AddNewTabText5;
-            this.columnOrgText[5] = "";
-            this.columnOrgText[6] = "";
-            this.columnOrgText[7] = "Source";
-
-            var c = this.statuses.SortMode switch
-            {
-                ComparerMode.Nickname => 1, // ニックネーム
-                ComparerMode.Data => 2, // 本文
-                ComparerMode.Id => 3, // 時刻=発言Id
-                ComparerMode.Name => 4, // 名前
-                ComparerMode.Source => 7, // Source
-                _ => 0,
-            };
-
-            if (this.Use2ColumnsMode)
-            {
-                if (this.statuses.SortOrder == SortOrder.Descending)
-                {
-                    // U+25BE BLACK DOWN-POINTING SMALL TRIANGLE
-                    this.columnText[2] = this.columnOrgText[2] + "▾";
-                }
-                else
-                {
-                    // U+25B4 BLACK UP-POINTING SMALL TRIANGLE
-                    this.columnText[2] = this.columnOrgText[2] + "▴";
-                }
-            }
-            else
-            {
-                if (this.statuses.SortOrder == SortOrder.Descending)
-                {
-                    // U+25BE BLACK DOWN-POINTING SMALL TRIANGLE
-                    this.columnText[c] = this.columnOrgText[c] + "▾";
-                }
-                else
-                {
-                    // U+25B4 BLACK UP-POINTING SMALL TRIANGLE
-                    this.columnText[c] = this.columnOrgText[c] + "▴";
-                }
-            }
-        }
-
         public TweenMain(
             SettingManager settingManager,
             TabInformations tabInfo,
@@ -502,7 +308,6 @@ namespace OpenTween
             this.InitializeShortcuts();
 
             this.ignoreConfigSave = true;
-            this.Visible = false;
 
             this.TraceOutToolStripMenuItem.Checked = MyCommon.TraceFlag;
 
@@ -522,40 +327,13 @@ namespace OpenTween
             // 現在の DPI と設定保存時の DPI との比を取得する
             var configScaleFactor = this.settings.Local.GetConfigScaleFactor(this.CurrentAutoScaleDimensions);
 
-            // 認証関連
-            var account = this.settings.Common.SelectedAccount;
-            if (account != null)
-                this.tw.Initialize(account.GetTwitterAppToken(), account.Token, account.TokenSecret, account.Username, account.UserId);
-            else
-                this.tw.Initialize(TwitterAppToken.GetDefault(), "", "", "", 0L);
-
             this.initial = true;
-
-            this.tw.RestrictFavCheck = this.settings.Common.RestrictFavCheck;
-            this.tw.ReadOwnPost = this.settings.Common.ReadOwnPost;
-
-            // アクセストークンが有効であるか確認する
-            // ここが Twitter API への最初のアクセスになるようにすること
-            try
-            {
-                this.tw.VerifyCredentials();
-            }
-            catch (WebApiException ex)
-            {
-                MessageBox.Show(
-                    this,
-                    string.Format(Properties.Resources.StartupAuthError_Text, ex.Message),
-                    ApplicationSettings.ApplicationName,
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Warning);
-            }
 
             // サムネイル関連の初期化
             // プロキシ設定等の通信まわりの初期化が済んでから処理する
             var imgazyobizinet = this.thumbGenerator.ImgAzyobuziNet;
             imgazyobizinet.Enabled = this.settings.Common.EnableImgAzyobuziNet;
             imgazyobizinet.DisabledInDM = this.settings.Common.ImgAzyobuziNetDisabledInDM;
-            imgazyobizinet.AutoUpdate = true;
 
             Thumbnail.Services.TonTwitterCom.GetApiConnection = () => this.tw.Api.Connection;
 
@@ -745,9 +523,9 @@ namespace OpenTween
             this.SetMainWindowTitle();
             this.SetNotifyIconText();
 
-            if (!this.settings.Common.MinimizeToTray || this.WindowState != FormWindowState.Minimized)
+            if (this.settings.Common.MinimizeToTray && this.WindowState == FormWindowState.Minimized)
             {
-                this.Visible = true;
+                this.Visible = false;
             }
 
             // タイマー設定
@@ -776,12 +554,203 @@ namespace OpenTween
             this.TimerRefreshIcon.Enabled = false;
 
             this.ignoreConfigSave = false;
-            this.TweenMain_Resize(this, EventArgs.Empty);
+            this.ApplyLayoutFromSettings();
+        }
 
-            if (this.settings.IsFirstRun)
+        private void TweenMain_Activated(object sender, EventArgs e)
+        {
+            // 画面がアクティブになったら、発言欄の背景色戻す
+            if (this.StatusText.Focused)
             {
-                // 初回起動時だけ右下のメニューを目立たせる
-                this.HashStripSplitButton.ShowDropDown();
+                this.StatusText_Enter(this.StatusText, System.EventArgs.Empty);
+            }
+        }
+
+        private bool disposed = false;
+
+        /// <summary>
+        /// 使用中のリソースをすべてクリーンアップします。
+        /// </summary>
+        /// <param name="disposing">マネージ リソースが破棄される場合 true、破棄されない場合は false です。</param>
+        protected override void Dispose(bool disposing)
+        {
+            base.Dispose(disposing);
+
+            if (this.disposed)
+                return;
+
+            if (disposing)
+            {
+                this.components?.Dispose();
+
+                // 後始末
+                this.SearchDialog.Dispose();
+                this.urlDialog.Dispose();
+                this.themeManager.Dispose();
+                this.sfTab.Dispose();
+
+                this.timelineScheduler.Dispose();
+                this.workerCts.Cancel();
+                this.thumbnailTokenSource?.Dispose();
+
+                this.hookGlobalHotkey.Dispose();
+            }
+
+            // 終了時にRemoveHandlerしておかないとメモリリークする
+            // http://msdn.microsoft.com/ja-jp/library/microsoft.win32.systemevents.powermodechanged.aspx
+            Microsoft.Win32.SystemEvents.PowerModeChanged -= this.SystemEvents_PowerModeChanged;
+            Microsoft.Win32.SystemEvents.TimeChanged -= this.SystemEvents_TimeChanged;
+            MyCommon.TwitterApiInfo.AccessLimitUpdated -= this.TwitterApiStatus_AccessLimitUpdated;
+
+            this.disposed = true;
+        }
+
+        private void InitColumns(ListView list, bool startup)
+        {
+            this.InitColumnText();
+
+            ColumnHeader[]? columns = null;
+            try
+            {
+                if (this.Use2ColumnsMode)
+                {
+                    columns = new[]
+                    {
+                        new ColumnHeader(), // アイコン
+                        new ColumnHeader(), // 本文
+                    };
+
+                    columns[0].Text = this.columnText[0];
+                    columns[1].Text = this.columnText[2];
+
+                    if (startup)
+                    {
+                        var widthScaleFactor = this.CurrentAutoScaleDimensions.Width / this.settings.Local.ScaleDimension.Width;
+
+                        columns[0].Width = ScaleBy(widthScaleFactor, this.settings.Local.ColumnsWidth[0]);
+                        columns[1].Width = ScaleBy(widthScaleFactor, this.settings.Local.ColumnsWidth[2]);
+                        columns[0].DisplayIndex = 0;
+                        columns[1].DisplayIndex = 1;
+                    }
+                    else
+                    {
+                        var idx = 0;
+                        foreach (var curListColumn in this.CurrentListView.Columns.Cast<ColumnHeader>())
+                        {
+                            columns[idx].Width = curListColumn.Width;
+                            columns[idx].DisplayIndex = curListColumn.DisplayIndex;
+                            idx++;
+                        }
+                    }
+                }
+                else
+                {
+                    columns = new[]
+                    {
+                        new ColumnHeader(), // アイコン
+                        new ColumnHeader(), // ニックネーム
+                        new ColumnHeader(), // 本文
+                        new ColumnHeader(), // 日付
+                        new ColumnHeader(), // ユーザID
+                        new ColumnHeader(), // 未読
+                        new ColumnHeader(), // マーク＆プロテクト
+                        new ColumnHeader(), // ソース
+                    };
+
+                    foreach (var i in Enumerable.Range(0, columns.Length))
+                        columns[i].Text = this.columnText[i];
+
+                    if (startup)
+                    {
+                        var widthScaleFactor = this.CurrentAutoScaleDimensions.Width / this.settings.Local.ScaleDimension.Width;
+
+                        foreach (var (column, index) in columns.WithIndex())
+                        {
+                            column.Width = ScaleBy(widthScaleFactor, this.settings.Local.ColumnsWidth[index]);
+                            column.DisplayIndex = this.settings.Local.ColumnsOrder[index];
+                        }
+                    }
+                    else
+                    {
+                        var idx = 0;
+                        foreach (var curListColumn in this.CurrentListView.Columns.Cast<ColumnHeader>())
+                        {
+                            columns[idx].Width = curListColumn.Width;
+                            columns[idx].DisplayIndex = curListColumn.DisplayIndex;
+                            idx++;
+                        }
+                    }
+                }
+
+                list.Columns.AddRange(columns);
+
+                columns = null;
+            }
+            finally
+            {
+                if (columns != null)
+                {
+                    foreach (var column in columns)
+                        column?.Dispose();
+                }
+            }
+        }
+
+        private void InitColumnText()
+        {
+            this.columnText[0] = "";
+            this.columnText[1] = Properties.Resources.AddNewTabText2;
+            this.columnText[2] = Properties.Resources.AddNewTabText3;
+            this.columnText[3] = Properties.Resources.AddNewTabText4_2;
+            this.columnText[4] = Properties.Resources.AddNewTabText5;
+            this.columnText[5] = "";
+            this.columnText[6] = "";
+            this.columnText[7] = "Source";
+
+            this.columnOrgText[0] = "";
+            this.columnOrgText[1] = Properties.Resources.AddNewTabText2;
+            this.columnOrgText[2] = Properties.Resources.AddNewTabText3;
+            this.columnOrgText[3] = Properties.Resources.AddNewTabText4_2;
+            this.columnOrgText[4] = Properties.Resources.AddNewTabText5;
+            this.columnOrgText[5] = "";
+            this.columnOrgText[6] = "";
+            this.columnOrgText[7] = "Source";
+
+            var c = this.statuses.SortMode switch
+            {
+                ComparerMode.Nickname => 1, // ニックネーム
+                ComparerMode.Data => 2, // 本文
+                ComparerMode.Id => 3, // 時刻=発言Id
+                ComparerMode.Name => 4, // 名前
+                ComparerMode.Source => 7, // Source
+                _ => 0,
+            };
+
+            if (this.Use2ColumnsMode)
+            {
+                if (this.statuses.SortOrder == SortOrder.Descending)
+                {
+                    // U+25BE BLACK DOWN-POINTING SMALL TRIANGLE
+                    this.columnText[2] = this.columnOrgText[2] + "▾";
+                }
+                else
+                {
+                    // U+25B4 BLACK UP-POINTING SMALL TRIANGLE
+                    this.columnText[2] = this.columnOrgText[2] + "▴";
+                }
+            }
+            else
+            {
+                if (this.statuses.SortOrder == SortOrder.Descending)
+                {
+                    // U+25BE BLACK DOWN-POINTING SMALL TRIANGLE
+                    this.columnText[c] = this.columnOrgText[c] + "▾";
+                }
+                else
+                {
+                    // U+25B4 BLACK UP-POINTING SMALL TRIANGLE
+                    this.columnText[c] = this.columnOrgText[c] + "▴";
+                }
             }
         }
 
@@ -1245,7 +1214,7 @@ namespace OpenTween
             var status = new PostStatusParams();
 
             var statusTextCompat = this.FormatStatusText(this.StatusText.Text);
-            if (this.GetRestStatusCount(statusTextCompat) >= 0 && this.tw.Api.AppToken.AuthType == APIAuthType.OAuth1)
+            if (this.GetRestStatusCount(statusTextCompat) >= 0 && this.tw.Api.AuthType == APIAuthType.OAuth1)
             {
                 // auto_populate_reply_metadata や attachment_url を使用しなくても 140 字以内に
                 // 収まる場合はこれらのオプションを使用せずに投稿する
@@ -2588,9 +2557,9 @@ namespace OpenTween
 
                     var account = this.settings.Common.SelectedAccount;
                     if (account != null)
-                        this.tw.Initialize(account.GetTwitterAppToken(), account.Token, account.TokenSecret, account.Username, account.UserId);
+                        this.tw.Initialize(account.GetTwitterCredential(), account.Username, account.UserId);
                     else
-                        this.tw.Initialize(TwitterAppToken.GetDefault(), "", "", "", 0L);
+                        this.tw.Initialize(new TwitterCredentialNone(), "", 0L);
 
                     this.tw.RestrictFavCheck = this.settings.Common.RestrictFavCheck;
                     this.tw.ReadOwnPost = this.settings.Common.ReadOwnPost;
@@ -3561,14 +3530,17 @@ namespace OpenTween
             return this.FormatStatusText(statusText);
         }
 
+        internal string FormatStatusText(string statusText)
+            => this.FormatStatusText(statusText, Control.ModifierKeys);
+
         /// <summary>
         /// ツイート投稿前のフッター付与などの前処理を行います
         /// </summary>
-        private string FormatStatusText(string statusText)
+        internal string FormatStatusText(string statusText, Keys modifierKeys)
         {
             statusText = statusText.Replace("\r\n", "\n");
 
-            if (this.urlMultibyteSplit)
+            if (this.SeparateUrlAndFullwidthCharacter)
             {
                 // URLと全角文字の切り離し
                 statusText = Regex.Replace(statusText, @"https?:\/\/[-_.!~*'()a-zA-Z0-9;\/?:\@&=+\$,%#^]+", "$& ");
@@ -3587,14 +3559,14 @@ namespace OpenTween
             bool disableFooter;
             if (this.settings.Common.PostShiftEnter)
             {
-                disableFooter = MyCommon.IsKeyDown(Keys.Control);
+                disableFooter = MyCommon.IsKeyDown(modifierKeys, Keys.Control);
             }
             else
             {
-                if (this.StatusText.Multiline && !this.settings.Common.PostCtrlEnter)
-                    disableFooter = MyCommon.IsKeyDown(Keys.Control);
+                if (this.settings.Local.StatusMultiline && !this.settings.Common.PostCtrlEnter)
+                    disableFooter = MyCommon.IsKeyDown(modifierKeys, Keys.Control);
                 else
-                    disableFooter = MyCommon.IsKeyDown(Keys.Shift);
+                    disableFooter = MyCommon.IsKeyDown(modifierKeys, Keys.Shift);
             }
 
             if (statusText.Contains("RT @"))
@@ -5728,10 +5700,6 @@ namespace OpenTween
             this.ModifySettingCommon = false;
             lock (this.syncObject)
             {
-                this.settings.Common.UserName = this.tw.Username;
-                this.settings.Common.UserId = this.tw.UserId;
-                this.settings.Common.Token = this.tw.AccessToken;
-                this.settings.Common.TokenSecret = this.tw.AccessTokenSecret;
                 this.settings.Common.SortOrder = (int)this.statuses.SortOrder;
                 this.settings.Common.SortColumn = this.statuses.SortMode switch
                 {
@@ -7084,7 +7052,7 @@ namespace OpenTween
 
             if (endpointName == null)
             {
-                var authByCookie = this.tw.Api.AppToken.AuthType == APIAuthType.TwitterComCookie;
+                var authByCookie = this.tw.Api.AuthType == APIAuthType.TwitterComCookie;
 
                 // 表示中のタブに応じて更新
                 endpointName = tabType switch
@@ -7214,56 +7182,56 @@ namespace OpenTween
             {
                 this.Visible = false;
             }
-            if (this.initialLayout && this.settings.Local != null && this.WindowState == FormWindowState.Normal && this.Visible)
-            {
-                // 現在の DPI と設定保存時の DPI との比を取得する
-                var configScaleFactor = this.settings.Local.GetConfigScaleFactor(this.CurrentAutoScaleDimensions);
-
-                this.ClientSize = ScaleBy(configScaleFactor, this.settings.Local.FormSize);
-
-                // Splitterの位置設定
-                var splitterDistance = ScaleBy(configScaleFactor.Height, this.settings.Local.SplitterDistance);
-                if (splitterDistance > this.SplitContainer1.Panel1MinSize &&
-                    splitterDistance < this.SplitContainer1.Height - this.SplitContainer1.Panel2MinSize - this.SplitContainer1.SplitterWidth)
-                {
-                    this.SplitContainer1.SplitterDistance = splitterDistance;
-                }
-
-                // 発言欄複数行
-                this.StatusText.Multiline = this.settings.Local.StatusMultiline;
-                if (this.StatusText.Multiline)
-                {
-                    var statusTextHeight = ScaleBy(configScaleFactor.Height, this.settings.Local.StatusTextHeight);
-                    var dis = this.SplitContainer2.Height - statusTextHeight - this.SplitContainer2.SplitterWidth;
-                    if (dis > this.SplitContainer2.Panel1MinSize && dis < this.SplitContainer2.Height - this.SplitContainer2.Panel2MinSize - this.SplitContainer2.SplitterWidth)
-                    {
-                        this.SplitContainer2.SplitterDistance = this.SplitContainer2.Height - statusTextHeight - this.SplitContainer2.SplitterWidth;
-                    }
-                    this.StatusText.Height = statusTextHeight;
-                }
-                else
-                {
-                    if (this.SplitContainer2.Height - this.SplitContainer2.Panel2MinSize - this.SplitContainer2.SplitterWidth > 0)
-                    {
-                        this.SplitContainer2.SplitterDistance = this.SplitContainer2.Height - this.SplitContainer2.Panel2MinSize - this.SplitContainer2.SplitterWidth;
-                    }
-                }
-
-                var previewDistance = ScaleBy(configScaleFactor.Width, this.settings.Local.PreviewDistance);
-                if (previewDistance > this.SplitContainer3.Panel1MinSize && previewDistance < this.SplitContainer3.Width - this.SplitContainer3.Panel2MinSize - this.SplitContainer3.SplitterWidth)
-                {
-                    this.SplitContainer3.SplitterDistance = previewDistance;
-                }
-
-                // Panel2Collapsed は SplitterDistance の設定を終えるまで true にしない
-                this.SplitContainer3.Panel2Collapsed = true;
-
-                this.initialLayout = false;
-            }
             if (this.WindowState != FormWindowState.Minimized)
             {
                 this.formWindowState = this.WindowState;
             }
+        }
+
+        private void ApplyLayoutFromSettings()
+        {
+            // 現在の DPI と設定保存時の DPI との比を取得する
+            var configScaleFactor = this.settings.Local.GetConfigScaleFactor(this.CurrentAutoScaleDimensions);
+
+            this.ClientSize = ScaleBy(configScaleFactor, this.settings.Local.FormSize);
+
+            // Splitterの位置設定
+            var splitterDistance = ScaleBy(configScaleFactor.Height, this.settings.Local.SplitterDistance);
+            if (splitterDistance > this.SplitContainer1.Panel1MinSize &&
+                splitterDistance < this.SplitContainer1.Height - this.SplitContainer1.Panel2MinSize - this.SplitContainer1.SplitterWidth)
+            {
+                this.SplitContainer1.SplitterDistance = splitterDistance;
+            }
+
+            // 発言欄複数行
+            this.StatusText.Multiline = this.settings.Local.StatusMultiline;
+            if (this.StatusText.Multiline)
+            {
+                var statusTextHeight = ScaleBy(configScaleFactor.Height, this.settings.Local.StatusTextHeight);
+                var dis = this.SplitContainer2.Height - statusTextHeight - this.SplitContainer2.SplitterWidth;
+                if (dis > this.SplitContainer2.Panel1MinSize && dis < this.SplitContainer2.Height - this.SplitContainer2.Panel2MinSize - this.SplitContainer2.SplitterWidth)
+                {
+                    this.SplitContainer2.SplitterDistance = this.SplitContainer2.Height - statusTextHeight - this.SplitContainer2.SplitterWidth;
+                }
+                this.StatusText.Height = statusTextHeight;
+            }
+            else
+            {
+                if (this.SplitContainer2.Height - this.SplitContainer2.Panel2MinSize - this.SplitContainer2.SplitterWidth > 0)
+                {
+                    this.SplitContainer2.SplitterDistance = this.SplitContainer2.Height - this.SplitContainer2.Panel2MinSize - this.SplitContainer2.SplitterWidth;
+                }
+            }
+
+            var previewDistance = ScaleBy(configScaleFactor.Width, this.settings.Local.PreviewDistance);
+            if (previewDistance > this.SplitContainer3.Panel1MinSize && previewDistance < this.SplitContainer3.Width - this.SplitContainer3.Panel2MinSize - this.SplitContainer3.SplitterWidth)
+            {
+                this.SplitContainer3.SplitterDistance = previewDistance;
+            }
+
+            // Panel2Collapsed は SplitterDistance の設定を終えるまで true にしない
+            this.SplitContainer3.Panel2Collapsed = true;
+            this.initialLayout = false;
         }
 
         private void PlaySoundMenuItem_CheckedChanged(object sender, EventArgs e)
@@ -7979,6 +7947,13 @@ namespace OpenTween
         private async void TweenMain_Shown(object sender, EventArgs e)
         {
             this.NotifyIcon1.Visible = true;
+            this.StartTimers();
+
+            if (this.settings.IsFirstRun)
+            {
+                // 初回起動時だけ右下のメニューを目立たせる
+                this.HashStripSplitButton.ShowDropDown();
+            }
 
             if (this.IsNetworkAvailable())
             {
@@ -8059,8 +8034,16 @@ namespace OpenTween
             }
 
             this.initial = false;
+        }
 
-            this.timelineScheduler.Enabled = true;
+        private void StartTimers()
+        {
+            if (!this.StopRefreshAllMenuItem.Checked)
+                this.timelineScheduler.Enabled = true;
+
+            this.selectionDebouncer.Enabled = true;
+            this.saveConfigDebouncer.Enabled = true;
+            this.thumbGenerator.ImgAzyobuziNet.AutoUpdate = true;
         }
 
         private async Task DoGetFollowersMenu()
@@ -8208,14 +8191,14 @@ namespace OpenTween
 
         private void MenuItemHelp_DropDownOpening(object sender, EventArgs e)
         {
-            if (MyCommon.DebugBuild || MyCommon.IsKeyDown(Keys.CapsLock, Keys.Control, Keys.Shift))
+            if (MyCommon.DebugBuild || MyCommon.IsKeyDown(Keys.CapsLock | Keys.Control | Keys.Shift))
                 this.DebugModeToolStripMenuItem.Visible = true;
             else
                 this.DebugModeToolStripMenuItem.Visible = false;
         }
 
         private void UrlMultibyteSplitMenuItem_CheckedChanged(object sender, EventArgs e)
-            => this.urlMultibyteSplit = ((ToolStripMenuItem)sender).Checked;
+            => this.SeparateUrlAndFullwidthCharacter = ((ToolStripMenuItem)sender).Checked;
 
         private void PreventSmsCommandMenuItem_CheckedChanged(object sender, EventArgs e)
             => this.preventSmsCommand = ((ToolStripMenuItem)sender).Checked;
@@ -8237,7 +8220,7 @@ namespace OpenTween
 
         private void PostModeMenuItem_DropDownOpening(object sender, EventArgs e)
         {
-            this.UrlMultibyteSplitMenuItem.Checked = this.urlMultibyteSplit;
+            this.UrlMultibyteSplitMenuItem.Checked = this.SeparateUrlAndFullwidthCharacter;
             this.PreventSmsCommandMenuItem.Checked = this.preventSmsCommand;
             this.UrlAutoShortenMenuItem.Checked = this.settings.Common.UrlConvertAuto;
             this.IdeographicSpaceToSpaceMenuItem.Checked = this.settings.Common.WideSpaceConvert;
@@ -8247,7 +8230,7 @@ namespace OpenTween
 
         private void ContextMenuPostMode_Opening(object sender, CancelEventArgs e)
         {
-            this.UrlMultibyteSplitPullDownMenuItem.Checked = this.urlMultibyteSplit;
+            this.UrlMultibyteSplitPullDownMenuItem.Checked = this.SeparateUrlAndFullwidthCharacter;
             this.PreventSmsCommandPullDownMenuItem.Checked = this.preventSmsCommand;
             this.UrlAutoShortenPullDownMenuItem.Checked = this.settings.Common.UrlConvertAuto;
             this.IdeographicSpaceToSpacePullDownMenuItem.Checked = this.settings.Common.WideSpaceConvert;

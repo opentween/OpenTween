@@ -87,7 +87,7 @@ namespace OpenTween.Connection
         {
             DefaultTimeout = TimeSpan.FromSeconds(20);
             UploadImageTimeout = TimeSpan.FromSeconds(60);
-            globalHttpClient = CreateHttpClient(new HttpClientHandler());
+            globalHttpClient = CreateHttpClientBuilder().Build();
         }
 
         /// <summary>
@@ -134,50 +134,39 @@ namespace OpenTween.Connection
         }
 
         /// <summary>
-        /// OpenTween で必要な設定を施した HttpClientHandler インスタンスを生成します
-        /// </summary>
-        [SuppressMessage("Microsoft.Reliability", "CA2000:DisposeObjectsBeforeLosingScope")]
-        public static WebRequestHandler CreateHttpClientHandler()
-        {
-            var handler = new WebRequestHandler
-            {
-                UseCookies = false,
-                AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate,
-                ReadWriteTimeout = (int)DefaultTimeout.TotalMilliseconds,
-            };
-
-            if (Networking.Proxy != null)
-            {
-                handler.UseProxy = true;
-                handler.Proxy = Networking.Proxy;
-            }
-            else
-            {
-                handler.UseProxy = false;
-            }
-
-            return handler;
-        }
-
-        /// <summary>
-        /// OpenTween で必要な設定を施した HttpClient インスタンスを生成します
+        /// OpenTween のユーザー設定を適用した <see cref="HttpClientBuilder"/> を返します
         /// </summary>
         /// <remarks>
         /// 通常は Networking.Http を使用すべきです。
         /// このメソッドを使用する場合は、WebProxyChanged イベントが発生する度に HttpClient を生成し直すように実装してください。
         /// </remarks>
-        [SuppressMessage("Microsoft.Reliability", "CA2000:DisposeObjectsBeforeLosingScope")]
-        public static HttpClient CreateHttpClient(HttpMessageHandler handler)
+        public static HttpClientBuilder CreateHttpClientBuilder()
         {
-            HttpClient client;
-            if (ForceIPv4)
-                client = new HttpClient(new ForceIPv4Handler(handler));
-            else
-                client = new HttpClient(handler);
+            var builder = new HttpClientBuilder();
 
-            client.Timeout = Networking.DefaultTimeout;
+            builder.SetupHttpClientHandler(x =>
+            {
+                x.UseCookies = false;
+                x.AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate;
+                x.ReadWriteTimeout = (int)DefaultTimeout.TotalMilliseconds;
 
-            return client;
+                if (Networking.Proxy != null)
+                {
+                    x.UseProxy = true;
+                    x.Proxy = Networking.Proxy;
+                }
+                else
+                {
+                    x.UseProxy = false;
+                }
+            });
+
+            builder.SetupHttpClient(x => x.Timeout = Networking.DefaultTimeout);
+
+            if (forceIPv4)
+                builder.AddHandler(x => new ForceIPv4Handler(x));
+
+            return builder;
         }
 
         public static string GetUserAgentString(bool fakeMSIE = false)
@@ -200,7 +189,7 @@ namespace OpenTween.Connection
         [SuppressMessage("Microsoft.Reliability", "CA2000:DisposeObjectsBeforeLosingScope")]
         private static void OnWebProxyChanged(EventArgs e)
         {
-            var newClient = Networking.CreateHttpClient(Networking.CreateHttpClientHandler());
+            var newClient = Networking.CreateHttpClientBuilder().Build();
             var oldClient = Interlocked.Exchange(ref globalHttpClient, newClient);
             oldClient.Dispose();
 

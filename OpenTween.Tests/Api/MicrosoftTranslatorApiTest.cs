@@ -60,8 +60,7 @@ namespace OpenTween.Api
                 Assert.Equal("ja", query["to"]);
                 Assert.Equal("en", query["from"]);
 
-                var requestBody = await x.Content.ReadAsByteArrayAsync()
-                    .ConfigureAwait(false);
+                var requestBody = await x.Content.ReadAsByteArrayAsync();
 
                 using (var jsonReader = JsonReaderWriterFactory.CreateJsonReader(requestBody, XmlDictionaryReaderQuotas.Max))
                 {
@@ -88,8 +87,7 @@ namespace OpenTween.Api
                 };
             });
 
-            var result = await translateApi.TranslateAsync("hogehoge", langTo: "ja", langFrom: "en")
-                .ConfigureAwait(false);
+            var result = await translateApi.TranslateAsync("hogehoge", langTo: "ja", langFrom: "en");
             Assert.Equal("ほげほげ", result);
 
             mock.Verify(x => x.GetAccessTokenAsync(), Times.Once());
@@ -116,14 +114,13 @@ namespace OpenTween.Api
         [Fact]
         public async Task UpdateAccessTokenIfExpired_FirstCallTest()
         {
-            var mock = new Mock<MicrosoftTranslatorApi>(ApiKey.Create("fake_api_key"), null);
+            var mock = new Mock<MicrosoftTranslatorApi>(ApiKey.Create("fake_api_key"), null!);
             mock.Setup(x => x.GetAccessTokenAsync())
                 .ReturnsAsync(("1234abcd", TimeSpan.FromSeconds(1000)));
 
             var translateApi = mock.Object;
 
-            await translateApi.UpdateAccessTokenIfExpired()
-                .ConfigureAwait(false);
+            await translateApi.UpdateAccessTokenIfExpired();
 
             Assert.Equal("1234abcd", translateApi.AccessToken);
 
@@ -135,14 +132,13 @@ namespace OpenTween.Api
         [Fact]
         public async Task UpdateAccessTokenIfExpired_NotExpiredTest()
         {
-            var mock = new Mock<MicrosoftTranslatorApi>(ApiKey.Create("fake_api_key"), null);
+            var mock = new Mock<MicrosoftTranslatorApi>(ApiKey.Create("fake_api_key"), null!);
 
             var translateApi = mock.Object;
             translateApi.AccessToken = "1234abcd";
             translateApi.RefreshAccessTokenAt = DateTimeUtc.Now + TimeSpan.FromMinutes(3);
 
-            await translateApi.UpdateAccessTokenIfExpired()
-                .ConfigureAwait(false);
+            await translateApi.UpdateAccessTokenIfExpired();
 
             // RefreshAccessTokenAt の時刻を過ぎるまでは GetAccessTokenAsync は呼ばれない
             mock.Verify(x => x.GetAccessTokenAsync(), Times.Never());
@@ -151,7 +147,7 @@ namespace OpenTween.Api
         [Fact]
         public async Task UpdateAccessTokenIfExpired_ExpiredTest()
         {
-            var mock = new Mock<MicrosoftTranslatorApi>(ApiKey.Create("fake_api_key"), null);
+            var mock = new Mock<MicrosoftTranslatorApi>(ApiKey.Create("fake_api_key"), null!);
             mock.Setup(x => x.GetAccessTokenAsync())
                 .ReturnsAsync(("5678efgh", TimeSpan.FromSeconds(1000)));
 
@@ -159,8 +155,7 @@ namespace OpenTween.Api
             translateApi.AccessToken = "1234abcd";
             translateApi.RefreshAccessTokenAt = DateTimeUtc.Now - TimeSpan.FromMinutes(3);
 
-            await translateApi.UpdateAccessTokenIfExpired()
-                .ConfigureAwait(false);
+            await translateApi.UpdateAccessTokenIfExpired();
 
             Assert.Equal("5678efgh", translateApi.AccessToken);
 
@@ -190,8 +185,7 @@ namespace OpenTween.Api
                 };
             });
 
-            var result = await translateApi.GetAccessTokenAsync()
-                .ConfigureAwait(false);
+            var result = await translateApi.GetAccessTokenAsync();
 
             var expectedToken = (@"ACCESS_TOKEN", TimeSpan.FromMinutes(10));
             Assert.Equal(expectedToken, result);

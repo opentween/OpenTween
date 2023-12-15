@@ -101,8 +101,7 @@ namespace OpenTween.Thumbnail.Services
             var mediaUrl = "https://pbs.twimg.com/media/DYlFv51VwAUdqWr?format=jpg&name=large";
 
             var service = new PbsTwimgCom();
-            var thumb = await service.GetThumbnailInfoAsync(mediaUrl, new PostClass(), CancellationToken.None)
-                .ConfigureAwait(false);
+            var thumb = await service.GetThumbnailInfoAsync(mediaUrl, new PostClass(), CancellationToken.None);
 
             Assert.NotNull(thumb);
             Assert.Equal("https://pbs.twimg.com/media/DYlFv51VwAUdqWr?format=jpg&name=large", thumb!.ThumbnailImageUrl);
@@ -115,8 +114,7 @@ namespace OpenTween.Thumbnail.Services
             var mediaUrl = "https://pbs.twimg.com/media/DYlFv51VwAUdqWr.jpg";
 
             var service = new PbsTwimgCom();
-            var thumb = await service.GetThumbnailInfoAsync(mediaUrl, new PostClass(), CancellationToken.None)
-                .ConfigureAwait(false);
+            var thumb = await service.GetThumbnailInfoAsync(mediaUrl, new PostClass(), CancellationToken.None);
 
             Assert.NotNull(thumb);
             Assert.Equal("https://pbs.twimg.com/media/DYlFv51VwAUdqWr?format=jpg&name=large", thumb!.ThumbnailImageUrl);

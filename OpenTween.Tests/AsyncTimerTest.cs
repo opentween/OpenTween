@@ -86,7 +86,7 @@ namespace OpenTween
                 var timeout = Task.Delay(1000);
                 Assert.NotEqual(timeout, await Task.WhenAny(tcs.Task, timeout));
 
-                Assert.IsType<ApplicationException>(tcs.Task.Result);
+                Assert.IsType<ApplicationException>(await tcs.Task);
             }
             finally
             {

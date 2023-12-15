@@ -69,12 +69,20 @@ namespace OpenTween.Api.TwitterV2
             return param;
         }
 
-        public Task<TwitterV2TweetIds> Send(IApiConnection apiConnection)
+        public async Task<TwitterV2TweetIds> Send(IApiConnection apiConnection)
         {
-            var uri = this.CreateEndpointUri();
-            var param = this.CreateParameters();
+            var request = new GetRequest
+            {
+                RequestUri = this.CreateEndpointUri(),
+                Query = this.CreateParameters(),
+                EndpointName = EndpointName,
+            };
 
-            return apiConnection.GetAsync<TwitterV2TweetIds>(uri, param, EndpointName);
+            using var response = await apiConnection.SendAsync(request)
+                .ConfigureAwait(false);
+
+            return await response.ReadAsJson<TwitterV2TweetIds>()
+                .ConfigureAwait(false);
         }
     }
 }

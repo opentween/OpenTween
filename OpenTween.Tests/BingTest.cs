@@ -36,6 +36,10 @@ namespace OpenTween
     /// </summary>
     public class BingTest
     {
+        [Fact]
+        public void Initialize_Test()
+            => new Bing();
+
         [Theory]
         [InlineData("af", 0)]
         [InlineData("sq", 1)]

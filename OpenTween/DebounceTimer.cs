@@ -39,9 +39,25 @@ namespace OpenTween
         private readonly Func<Task> timerCallback;
         private readonly object lockObject = new();
 
+        private bool enabled = false;
         private DateTimeUtc lastCall;
         private bool calledSinceLastInvoke;
         private bool refreshTimerEnabled;
+
+        public bool Enabled
+        {
+            get => this.enabled;
+            set
+            {
+                if (value == this.enabled)
+                    return;
+
+                this.enabled = value;
+
+                if (!value)
+                    this.debouncingTimer.Change(Timeout.InfiniteTimeSpan, Timeout.InfiniteTimeSpan);
+            }
+        }
 
         public TimeSpan Interval { get; }
 
@@ -66,6 +82,9 @@ namespace OpenTween
 
         public async Task Call()
         {
+            if (!this.Enabled)
+                return;
+
             bool startTimer, invoke;
             lock (this.lockObject)
             {

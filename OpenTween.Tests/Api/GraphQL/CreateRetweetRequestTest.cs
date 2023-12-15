@@ -19,11 +19,6 @@
 // the Free Software Foundation, Inc., 51 Franklin Street - Fifth Floor,
 // Boston, MA 02110-1301, USA.
 
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Moq;
 using OpenTween.Connection;
@@ -36,25 +31,26 @@ namespace OpenTween.Api.GraphQL
         [Fact]
         public async Task Send_Test()
         {
-            var responseText = File.ReadAllText("Resources/Responses/CreateRetweet.json");
+            using var apiResponse = await TestUtils.CreateApiResponse("Resources/Responses/CreateRetweet.json");
 
             var mock = new Mock<IApiConnection>();
             mock.Setup(x =>
-                    x.PostJsonAsync(It.IsAny<Uri>(), It.IsAny<string>())
+                    x.SendAsync(It.IsAny<IHttpRequest>())
                 )
-                .Callback<Uri, string>((url, json) =>
+                .Callback<IHttpRequest>(x =>
                 {
-                    Assert.Equal(new("https://twitter.com/i/api/graphql/ojPdsZsimiJrUGLR1sjUtA/CreateRetweet"), url);
-                    Assert.Contains(@"""tweet_id"":""12345""", json);
+                    var request = Assert.IsType<PostJsonRequest>(x);
+                    Assert.Equal(new("https://twitter.com/i/api/graphql/ojPdsZsimiJrUGLR1sjUtA/CreateRetweet"), request.RequestUri);
+                    Assert.Contains(@"""tweet_id"":""12345""", request.JsonString);
                 })
-                .ReturnsAsync(responseText);
+                .ReturnsAsync(apiResponse);
 
             var request = new CreateRetweetRequest
             {
                 TweetId = new("12345"),
             };
 
-            var tweetId = await request.Send(mock.Object).ConfigureAwait(false);
+            var tweetId = await request.Send(mock.Object);
             Assert.Equal("1617128268548964354", tweetId.Id);
 
             mock.VerifyAll();

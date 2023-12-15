@@ -31,6 +31,12 @@ namespace OpenTween
 {
     public class MouseWheelMessageFilterTest
     {
+        [WinFormsFact]
+        public void Initialize_Test()
+        {
+            using var filter = new MouseWheelMessageFilter();
+        }
+
         [Fact]
         public void ParseMessage_MinusTest()
         {

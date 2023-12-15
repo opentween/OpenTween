@@ -106,18 +106,6 @@ namespace OpenTween
                     return true;
             }
 
-            if (ex is TaskCanceledException cancelEx)
-            {
-                // ton.twitter.com の画像でタイムアウトした場合、try-catch で例外がキャッチできない
-                // https://osdn.net/ticket/browse.php?group_id=6526&tid=37433
-                var stackTrace = new StackTrace(cancelEx);
-                var lastFrameMethod = stackTrace.GetFrame(stackTrace.FrameCount - 1).GetMethod();
-                var matchClass = lastFrameMethod.ReflectedType == typeof(TwitterApiConnection);
-                var matchMethod = lastFrameMethod.Name == nameof(TwitterApiConnection.GetStreamAsync);
-                if (matchClass && matchMethod)
-                    return true;
-            }
-
             return false;
         }
     }

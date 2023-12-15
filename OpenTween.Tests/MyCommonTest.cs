@@ -135,8 +135,16 @@ namespace OpenTween
 
         [Theory]
         [MemberData(nameof(CreateDataFromJsonTestCase))]
-        public void CreateDataFromJsonTest<T>(string json, T expected)
+        public void CreateDataFromJson_StringTest<T>(string json, T expected)
             => Assert.Equal(expected, MyCommon.CreateDataFromJson<T>(json));
+
+        [Theory]
+        [MemberData(nameof(CreateDataFromJsonTestCase))]
+        public void CreateDataFromJson_BytesTest<T>(string json, T expected)
+        {
+            var jsonBytes = Encoding.UTF8.GetBytes(json);
+            Assert.Equal(expected, MyCommon.CreateDataFromJson<T>(jsonBytes));
+        }
 
         [Theory]
         [InlineData("hoge123@example.com", true)]
@@ -149,14 +157,14 @@ namespace OpenTween
             => Assert.Equal(expected, MyCommon.IsValidEmail(email));
 
         [Theory]
-        [InlineData(Keys.Shift, new[] { Keys.Shift }, true)]
-        [InlineData(Keys.Shift, new[] { Keys.Control }, false)]
-        [InlineData(Keys.Control | Keys.Alt, new[] { Keys.Control }, true)]
-        [InlineData(Keys.Control | Keys.Alt, new[] { Keys.Alt }, true)]
-        [InlineData(Keys.Control | Keys.Alt, new[] { Keys.Control, Keys.Alt }, true)]
-        [InlineData(Keys.Control | Keys.Alt, new[] { Keys.Shift }, false)]
-        public void IsKeyDownTest(Keys modifierKeys, Keys[] checkKeys, bool expected)
-            => Assert.Equal(expected, MyCommon.IsKeyDownInternal(modifierKeys, checkKeys));
+        [InlineData(Keys.Shift, Keys.Shift, true)]
+        [InlineData(Keys.Shift, Keys.Control, false)]
+        [InlineData(Keys.Control | Keys.Alt, Keys.Control, true)]
+        [InlineData(Keys.Control | Keys.Alt, Keys.Alt, true)]
+        [InlineData(Keys.Control | Keys.Alt, Keys.Control | Keys.Alt, true)]
+        [InlineData(Keys.Control | Keys.Alt, Keys.Shift, false)]
+        public void IsKeyDownTest(Keys modifierKeys, Keys checkKeys, bool expected)
+            => Assert.Equal(expected, MyCommon.IsKeyDown(modifierKeys, checkKeys));
 
         [Fact]
         public void GetAssemblyNameTest()
@@ -346,7 +354,7 @@ namespace OpenTween
             Assert.False(startInfo.UseShellExecute);
         }
 
-        public static readonly TheoryData<int[], (int, int)[]> ToRangeChunkTestCase = new()
+        public static readonly TheoryData<int[], (int Start, int End)[]> ToRangeChunkTestCase = new()
         {
             {
                 new[] { 1 },

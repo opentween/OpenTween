@@ -310,6 +310,61 @@ namespace OpenTween.Models
         public void SelectTab_NotExistTest()
             => Assert.Throws<ArgumentException>(() => this.tabinfo.SelectTab("INVALID"));
 
+        [Fact]
+        public void LoadTabsFromSettings_Test()
+        {
+            var settingTabs = new SettingTabs
+            {
+                Tabs =
+                {
+                    new()
+                    {
+                        TabName = "hoge",
+                        TabType = MyCommon.TabUsageType.PublicSearch,
+                        SearchWords = "aaa",
+                    },
+                },
+            };
+            var tabinfo = this.CreateInstance();
+            tabinfo.LoadTabsFromSettings(settingTabs);
+            Assert.Single(tabinfo.Tabs);
+
+            var tab = (PublicSearchTabModel)tabinfo.Tabs["hoge"];
+            Assert.Equal("aaa", tab.SearchWords);
+        }
+
+        [Fact]
+        public void LoadTabsFromSettings_DuplicateTabNameTest()
+        {
+            var settingTabs = new SettingTabs
+            {
+                Tabs =
+                {
+                    new()
+                    {
+                        TabName = "hoge",
+                        TabType = MyCommon.TabUsageType.PublicSearch,
+                        SearchWords = "aaa",
+                    },
+                    new()
+                    {
+                        TabName = "hoge", // 重複したタブ名
+                        TabType = MyCommon.TabUsageType.PublicSearch,
+                        SearchWords = "bbb",
+                    },
+                },
+            };
+            var tabinfo = this.CreateInstance();
+            tabinfo.LoadTabsFromSettings(settingTabs);
+            Assert.Equal(2, tabinfo.Tabs.Count);
+
+            var tab1 = (PublicSearchTabModel)tabinfo.Tabs["hoge"];
+            Assert.Equal("aaa", tab1.SearchWords);
+
+            var tab2 = (PublicSearchTabModel)tabinfo.Tabs["hoge2"];
+            Assert.Equal("bbb", tab2.SearchWords);
+        }
+
         [Theory]
         [InlineData(MyCommon.TabUsageType.Home, typeof(HomeTabModel))]
         [InlineData(MyCommon.TabUsageType.Mentions, typeof(MentionsTabModel))]
@@ -375,7 +430,7 @@ namespace OpenTween.Models
         public void AddDefaultTabs_Test()
         {
             var tabinfo = this.CreateInstance();
-            Assert.Equal(0, tabinfo.Tabs.Count);
+            Assert.Empty(tabinfo.Tabs);
 
             tabinfo.AddDefaultTabs();
 

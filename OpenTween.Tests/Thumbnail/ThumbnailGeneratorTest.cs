@@ -39,7 +39,7 @@ namespace OpenTween.Thumbnail
         [InlineData("https://www.instagram.com/hogehoge/p/aaaaaaaaaaa/", "aaaaaaaaaaa")] // ユーザー名付き
         [InlineData("https://www.instagram.com/p/aaaaaaaaaaa/?utm_medium=copy_link", "aaaaaaaaaaa")] // トラッキングパラメータ付き
         [InlineData("https://www.instagram.com/hogehoge/", null)] // プロフィールページ
-        public void InstagramPattern_IsMatchTest(string testUrl, string expected)
+        public void InstagramPattern_IsMatchTest(string testUrl, string? expected)
         {
             var match = ThumbnailGenerator.InstagramPattern.Match(testUrl);
 

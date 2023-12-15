@@ -29,6 +29,7 @@ using System.Net.Http.Headers;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Web;
 using Moq;
@@ -52,11 +53,11 @@ namespace OpenTween.Connection
         }
 
         [Fact]
-        public async Task GetAsync_Test()
+        public async Task SendAsync_Test()
         {
             using var mockHandler = new HttpMessageHandlerMock();
             using var http = new HttpClient(mockHandler);
-            using var apiConnection = new TwitterApiConnection(ApiKey.Create(""), ApiKey.Create(""), "", "");
+            using var apiConnection = new TwitterApiConnection();
             apiConnection.Http = http;
 
             mockHandler.Enqueue(x =>
@@ -76,64 +77,30 @@ namespace OpenTween.Connection
                 };
             });
 
-            var endpoint = new Uri("hoge/tetete.json", UriKind.Relative);
-            var param = new Dictionary<string, string>
+            var request = new GetRequest
             {
-                ["aaaa"] = "1111",
-                ["bbbb"] = "2222",
-            };
-
-            var result = await apiConnection.GetAsync<string>(endpoint, param, endpointName: "/hoge/tetete")
-                .ConfigureAwait(false);
-            Assert.Equal("hogehoge", result);
-
-            Assert.Equal(0, mockHandler.QueueCount);
-        }
-
-        [Fact]
-        public async Task GetAsync_AbsoluteUriTest()
-        {
-            using var mockHandler = new HttpMessageHandlerMock();
-            using var http = new HttpClient(mockHandler);
-            using var apiConnection = new TwitterApiConnection(ApiKey.Create(""), ApiKey.Create(""), "", "");
-            apiConnection.Http = http;
-
-            mockHandler.Enqueue(x =>
-            {
-                Assert.Equal(HttpMethod.Get, x.Method);
-                Assert.Equal("http://example.com/hoge/tetete.json",
-                    x.RequestUri.GetLeftPart(UriPartial.Path));
-
-                var query = HttpUtility.ParseQueryString(x.RequestUri.Query);
-
-                Assert.Equal("1111", query["aaaa"]);
-                Assert.Equal("2222", query["bbbb"]);
-
-                return new HttpResponseMessage(HttpStatusCode.OK)
+                RequestUri = new("hoge/tetete.json", UriKind.Relative),
+                Query = new Dictionary<string, string>
                 {
-                    Content = new StringContent("\"hogehoge\""),
-                };
-            });
-
-            var endpoint = new Uri("http://example.com/hoge/tetete.json", UriKind.Absolute);
-            var param = new Dictionary<string, string>
-            {
-                ["aaaa"] = "1111",
-                ["bbbb"] = "2222",
+                    ["aaaa"] = "1111",
+                    ["bbbb"] = "2222",
+                },
+                EndpointName = "/hoge/tetete",
             };
 
-            await apiConnection.GetAsync<string>(endpoint, param, endpointName: "/hoge/tetete")
-                .ConfigureAwait(false);
+            using var response = await apiConnection.SendAsync(request);
+
+            Assert.Equal("hogehoge", await response.ReadAsJson<string>());
 
             Assert.Equal(0, mockHandler.QueueCount);
         }
 
         [Fact]
-        public async Task GetAsync_UpdateRateLimitTest()
+        public async Task SendAsync_UpdateRateLimitTest()
         {
             using var mockHandler = new HttpMessageHandlerMock();
             using var http = new HttpClient(mockHandler);
-            using var apiConnection = new TwitterApiConnection(ApiKey.Create(""), ApiKey.Create(""), "", "");
+            using var apiConnection = new TwitterApiConnection();
             apiConnection.Http = http;
 
             mockHandler.Enqueue(x =>
@@ -146,10 +113,10 @@ namespace OpenTween.Connection
                 {
                     Headers =
                     {
-                            { "X-Rate-Limit-Limit", "150" },
-                            { "X-Rate-Limit-Remaining", "100" },
-                            { "X-Rate-Limit-Reset", "1356998400" },
-                            { "X-Access-Level", "read-write-directmessages" },
+                        { "X-Rate-Limit-Limit", "150" },
+                        { "X-Rate-Limit-Remaining", "100" },
+                        { "X-Rate-Limit-Reset", "1356998400" },
+                        { "X-Access-Level", "read-write-directmessages" },
                     },
                     Content = new StringContent("\"hogehoge\""),
                 };
@@ -158,10 +125,13 @@ namespace OpenTween.Connection
             var apiStatus = new TwitterApiStatus();
             MyCommon.TwitterApiInfo = apiStatus;
 
-            var endpoint = new Uri("hoge/tetete.json", UriKind.Relative);
+            var request = new GetRequest
+            {
+                RequestUri = new("hoge/tetete.json", UriKind.Relative),
+                EndpointName = "/hoge/tetete",
+            };
 
-            await apiConnection.GetAsync<string>(endpoint, null, endpointName: "/hoge/tetete")
-                .ConfigureAwait(false);
+            using var response = await apiConnection.SendAsync(request);
 
             Assert.Equal(TwitterApiAccessLevel.ReadWriteAndDirectMessage, apiStatus.AccessLevel);
             Assert.Equal(new ApiLimit(150, 100, new DateTimeUtc(2013, 1, 1, 0, 0, 0)), apiStatus.AccessLimit["/hoge/tetete"]);
@@ -170,11 +140,11 @@ namespace OpenTween.Connection
         }
 
         [Fact]
-        public async Task GetAsync_ErrorStatusTest()
+        public async Task SendAsync_ErrorStatusTest()
         {
             using var mockHandler = new HttpMessageHandlerMock();
             using var http = new HttpClient(mockHandler);
-            using var apiConnection = new TwitterApiConnection(ApiKey.Create(""), ApiKey.Create(""), "", "");
+            using var apiConnection = new TwitterApiConnection();
             apiConnection.Http = http;
 
             mockHandler.Enqueue(x =>
@@ -185,10 +155,14 @@ namespace OpenTween.Connection
                 };
             });
 
-            var endpoint = new Uri("hoge/tetete.json", UriKind.Relative);
+            var request = new GetRequest
+            {
+                RequestUri = new("hoge/tetete.json", UriKind.Relative),
+            };
 
-            var exception = await Assert.ThrowsAsync<TwitterApiException>(() => apiConnection.GetAsync<string>(endpoint, null, endpointName: "/hoge/tetete"))
-                .ConfigureAwait(false);
+            var exception = await Assert.ThrowsAsync<TwitterApiException>(
+                () => apiConnection.SendAsync(request)
+            );
 
             // エラーレスポンスの読み込みに失敗した場合はステータスコードをそのままメッセージに使用する
             Assert.Equal("BadGateway", exception.Message);
@@ -198,11 +172,11 @@ namespace OpenTween.Connection
         }
 
         [Fact]
-        public async Task GetAsync_ErrorJsonTest()
+        public async Task SendAsync_ErrorJsonTest()
         {
             using var mockHandler = new HttpMessageHandlerMock();
             using var http = new HttpClient(mockHandler);
-            using var apiConnection = new TwitterApiConnection(ApiKey.Create(""), ApiKey.Create(""), "", "");
+            using var apiConnection = new TwitterApiConnection();
             apiConnection.Http = http;
 
             mockHandler.Enqueue(x =>
@@ -213,10 +187,14 @@ namespace OpenTween.Connection
                 };
             });
 
-            var endpoint = new Uri("hoge/tetete.json", UriKind.Relative);
+            var request = new GetRequest
+            {
+                RequestUri = new("hoge/tetete.json", UriKind.Relative),
+            };
 
-            var exception = await Assert.ThrowsAsync<TwitterApiException>(() => apiConnection.GetAsync<string>(endpoint, null, endpointName: "/hoge/tetete"))
-                .ConfigureAwait(false);
+            var exception = await Assert.ThrowsAsync<TwitterApiException>(
+                () => apiConnection.SendAsync(request)
+            );
 
             // エラーレスポンスの JSON に含まれるエラーコードに基づいてメッセージを出力する
             Assert.Equal("DuplicateStatus", exception.Message);
@@ -228,310 +206,74 @@ namespace OpenTween.Connection
         }
 
         [Fact]
-        public async Task GetStreamAsync_Test()
+        public async Task HandleTimeout_SuccessTest()
         {
-            using var mockHandler = new HttpMessageHandlerMock();
-            using var http = new HttpClient(mockHandler);
-            using var apiConnection = new TwitterApiConnection(ApiKey.Create(""), ApiKey.Create(""), "", "");
-            using var image = TestUtils.CreateDummyImage();
-            apiConnection.Http = http;
-
-            mockHandler.Enqueue(x =>
+            static async Task<int> AsyncFunc(CancellationToken token)
             {
-                Assert.Equal(HttpMethod.Get, x.Method);
-                Assert.Equal("https://api.twitter.com/1.1/hoge/tetete.json",
-                    x.RequestUri.GetLeftPart(UriPartial.Path));
-
-                var query = HttpUtility.ParseQueryString(x.RequestUri.Query);
-
-                Assert.Equal("1111", query["aaaa"]);
-                Assert.Equal("2222", query["bbbb"]);
-
-                return new HttpResponseMessage(HttpStatusCode.OK)
-                {
-                    Content = new ByteArrayContent(image.Stream.ToArray()),
-                };
-            });
-
-            var endpoint = new Uri("hoge/tetete.json", UriKind.Relative);
-            var param = new Dictionary<string, string>
-            {
-                ["aaaa"] = "1111",
-                ["bbbb"] = "2222",
-            };
-
-            var stream = await apiConnection.GetStreamAsync(endpoint, param)
-                .ConfigureAwait(false);
-
-            using (var memoryStream = new MemoryStream())
-            {
-                // 内容の比較のために MemoryStream にコピー
-                await stream.CopyToAsync(memoryStream).ConfigureAwait(false);
-
-                Assert.Equal(image.Stream.ToArray(), memoryStream.ToArray());
+                await Task.Delay(10);
+                token.ThrowIfCancellationRequested();
+                return 1;
             }
 
-            Assert.Equal(0, mockHandler.QueueCount);
+            var timeout = TimeSpan.FromMilliseconds(200);
+            var ret = await TwitterApiConnection.HandleTimeout(AsyncFunc, timeout);
+
+            Assert.Equal(1, ret);
         }
 
         [Fact]
-        public async Task PostLazyAsync_Test()
+        public async Task HandleTimeout_TimeoutTest()
         {
-            using var mockHandler = new HttpMessageHandlerMock();
-            using var http = new HttpClient(mockHandler);
-            using var apiConnection = new TwitterApiConnection(ApiKey.Create(""), ApiKey.Create(""), "", "");
-            apiConnection.Http = http;
+            var tcs = new TaskCompletionSource<bool>();
 
-            mockHandler.Enqueue(async x =>
+            async Task<int> AsyncFunc(CancellationToken token)
             {
-                Assert.Equal(HttpMethod.Post, x.Method);
-                Assert.Equal("https://api.twitter.com/1.1/hoge/tetete.json",
-                    x.RequestUri.AbsoluteUri);
+                await Task.Delay(200);
+                tcs.SetResult(token.IsCancellationRequested);
+                return 1;
+            }
 
-                var body = await x.Content.ReadAsStringAsync()
-                    .ConfigureAwait(false);
-                var query = HttpUtility.ParseQueryString(body);
+            var timeout = TimeSpan.FromMilliseconds(10);
+            await Assert.ThrowsAsync<OperationCanceledException>(
+                () => TwitterApiConnection.HandleTimeout(AsyncFunc, timeout)
+            );
 
-                Assert.Equal("1111", query["aaaa"]);
-                Assert.Equal("2222", query["bbbb"]);
-
-                return new HttpResponseMessage(HttpStatusCode.OK)
-                {
-                    Content = new StringContent("\"hogehoge\""),
-                };
-            });
-
-            var endpoint = new Uri("hoge/tetete.json", UriKind.Relative);
-            var param = new Dictionary<string, string>
-            {
-                ["aaaa"] = "1111",
-                ["bbbb"] = "2222",
-            };
-
-            var result = await apiConnection.PostLazyAsync<string>(endpoint, param)
-                .ConfigureAwait(false);
-
-            Assert.Equal("hogehoge", await result.LoadJsonAsync().ConfigureAwait(false));
-
-            Assert.Equal(0, mockHandler.QueueCount);
+            var cancelRequested = await tcs.Task;
+            Assert.True(cancelRequested);
         }
 
         [Fact]
-        public async Task PostLazyAsync_MultipartTest()
+        public async Task HandleTimeout_ThrowExceptionAfterTimeoutTest()
         {
-            using var mockHandler = new HttpMessageHandlerMock();
-            using var http = new HttpClient(mockHandler);
-            using var apiConnection = new TwitterApiConnection(ApiKey.Create(""), ApiKey.Create(""), "", "");
-            apiConnection.HttpUpload = http;
+            var tcs = new TaskCompletionSource<int>();
 
-            using var image = TestUtils.CreateDummyImage();
-            using var media = new MemoryImageMediaItem(image);
-
-            mockHandler.Enqueue(async x =>
+            async Task<int> AsyncFunc(CancellationToken token)
             {
-                Assert.Equal(HttpMethod.Post, x.Method);
-                Assert.Equal("https://api.twitter.com/1.1/hoge/tetete.json",
-                    x.RequestUri.AbsoluteUri);
+                await Task.Delay(100);
+                tcs.SetResult(1);
+                throw new Exception();
+            }
 
-                Assert.IsType<MultipartFormDataContent>(x.Content);
+            var timeout = TimeSpan.FromMilliseconds(10);
+            await Assert.ThrowsAsync<OperationCanceledException>(
+                () => TwitterApiConnection.HandleTimeout(AsyncFunc, timeout)
+            );
 
-                var boundary = x.Content.Headers.ContentType.Parameters.Cast<NameValueHeaderValue>()
-                    .First(y => y.Name == "boundary").Value;
+            // キャンセル後に AsyncFunc で発生した例外が無視される（UnobservedTaskException イベントを発生させない）ことをチェックする
+            var error = false;
+            void UnobservedExceptionHandler(object s, UnobservedTaskExceptionEventArgs e)
+                => error = true;
 
-                // 前後のダブルクオーテーションを除去
-                boundary = boundary.Substring(1, boundary.Length - 2);
+            TaskScheduler.UnobservedTaskException += UnobservedExceptionHandler;
 
-                var expectedText =
-                    $"--{boundary}\r\n" +
-                    "Content-Type: text/plain; charset=utf-8\r\n" +
-                    "Content-Disposition: form-data; name=aaaa\r\n" +
-                    "\r\n" +
-                    "1111\r\n" +
-                    $"--{boundary}\r\n" +
-                    "Content-Type: text/plain; charset=utf-8\r\n" +
-                    "Content-Disposition: form-data; name=bbbb\r\n" +
-                    "\r\n" +
-                    "2222\r\n" +
-                    $"--{boundary}\r\n" +
-                    $"Content-Disposition: form-data; name=media1; filename={media.Name}; filename*=utf-8''{media.Name}\r\n" +
-                    "\r\n";
+            await tcs.Task;
+            await Task.Delay(10);
+            GC.Collect(); // UnobservedTaskException は Task のデストラクタで呼ばれるため強制的に GC を実行する
+            await Task.Delay(10);
 
-                var expected = Encoding.UTF8.GetBytes(expectedText)
-                    .Concat(image.Stream.ToArray())
-                    .Concat(Encoding.UTF8.GetBytes($"\r\n--{boundary}--\r\n"));
+            Assert.False(error);
 
-                Assert.Equal(expected, await x.Content.ReadAsByteArrayAsync().ConfigureAwait(false));
-
-                return new HttpResponseMessage(HttpStatusCode.OK)
-                {
-                    Content = new StringContent("\"hogehoge\""),
-                };
-            });
-
-            var endpoint = new Uri("hoge/tetete.json", UriKind.Relative);
-            var param = new Dictionary<string, string>
-            {
-                ["aaaa"] = "1111",
-                ["bbbb"] = "2222",
-            };
-            var mediaParam = new Dictionary<string, IMediaItem>
-            {
-                ["media1"] = media,
-            };
-
-            var result = await apiConnection.PostLazyAsync<string>(endpoint, param, mediaParam)
-                .ConfigureAwait(false);
-
-            Assert.Equal("hogehoge", await result.LoadJsonAsync().ConfigureAwait(false));
-
-            Assert.Equal(0, mockHandler.QueueCount);
-        }
-
-        [Fact]
-        public async Task PostLazyAsync_Multipart_NullTest()
-        {
-            using var mockHandler = new HttpMessageHandlerMock();
-            using var http = new HttpClient(mockHandler);
-            using var apiConnection = new TwitterApiConnection(ApiKey.Create(""), ApiKey.Create(""), "", "");
-            apiConnection.HttpUpload = http;
-
-            mockHandler.Enqueue(async x =>
-            {
-                Assert.Equal(HttpMethod.Post, x.Method);
-                Assert.Equal("https://api.twitter.com/1.1/hoge/tetete.json",
-                    x.RequestUri.AbsoluteUri);
-
-                Assert.IsType<MultipartFormDataContent>(x.Content);
-
-                var boundary = x.Content.Headers.ContentType.Parameters.Cast<NameValueHeaderValue>()
-                    .First(y => y.Name == "boundary").Value;
-
-                // 前後のダブルクオーテーションを除去
-                boundary = boundary.Substring(1, boundary.Length - 2);
-
-                var expectedText =
-                    $"--{boundary}\r\n" +
-                    $"\r\n--{boundary}--\r\n";
-
-                var expected = Encoding.UTF8.GetBytes(expectedText);
-
-                Assert.Equal(expected, await x.Content.ReadAsByteArrayAsync().ConfigureAwait(false));
-
-                return new HttpResponseMessage(HttpStatusCode.OK)
-                {
-                    Content = new StringContent("\"hogehoge\""),
-                };
-            });
-
-            var endpoint = new Uri("hoge/tetete.json", UriKind.Relative);
-
-            var result = await apiConnection.PostLazyAsync<string>(endpoint, param: null, media: null)
-                .ConfigureAwait(false);
-
-            Assert.Equal("hogehoge", await result.LoadJsonAsync().ConfigureAwait(false));
-
-            Assert.Equal(0, mockHandler.QueueCount);
-        }
-
-        [Fact]
-        public async Task PostJsonAsync_Test()
-        {
-            using var mockHandler = new HttpMessageHandlerMock();
-            using var http = new HttpClient(mockHandler);
-            using var apiConnection = new TwitterApiConnection(ApiKey.Create(""), ApiKey.Create(""), "", "");
-            apiConnection.Http = http;
-
-            mockHandler.Enqueue(async x =>
-            {
-                Assert.Equal(HttpMethod.Post, x.Method);
-                Assert.Equal("https://api.twitter.com/1.1/hoge/tetete.json",
-                    x.RequestUri.AbsoluteUri);
-
-                Assert.Equal("application/json; charset=utf-8", x.Content.Headers.ContentType.ToString());
-
-                var body = await x.Content.ReadAsStringAsync()
-                    .ConfigureAwait(false);
-
-                Assert.Equal("""{"aaaa": 1111}""", body);
-
-                return new HttpResponseMessage(HttpStatusCode.OK)
-                {
-                    Content = new StringContent(@"{""ok"":true}"),
-                };
-            });
-
-            var endpoint = new Uri("hoge/tetete.json", UriKind.Relative);
-
-            var response = await apiConnection.PostJsonAsync(endpoint, """{"aaaa": 1111}""")
-                .ConfigureAwait(false);
-
-            Assert.Equal(@"{""ok"":true}", response);
-            Assert.Equal(0, mockHandler.QueueCount);
-        }
-
-        [Fact]
-        public async Task PostJsonAsync_T_Test()
-        {
-            using var mockHandler = new HttpMessageHandlerMock();
-            using var http = new HttpClient(mockHandler);
-            using var apiConnection = new TwitterApiConnection(ApiKey.Create(""), ApiKey.Create(""), "", "");
-            apiConnection.Http = http;
-
-            mockHandler.Enqueue(async x =>
-            {
-                Assert.Equal(HttpMethod.Post, x.Method);
-                Assert.Equal("https://api.twitter.com/1.1/hoge/tetete.json",
-                    x.RequestUri.AbsoluteUri);
-
-                Assert.Equal("application/json; charset=utf-8", x.Content.Headers.ContentType.ToString());
-
-                var body = await x.Content.ReadAsStringAsync()
-                    .ConfigureAwait(false);
-
-                Assert.Equal("""{"aaaa": 1111}""", body);
-
-                return new HttpResponseMessage(HttpStatusCode.OK)
-                {
-                    Content = new StringContent("\"hogehoge\""),
-                };
-            });
-
-            var endpoint = new Uri("hoge/tetete.json", UriKind.Relative);
-
-            var response = await apiConnection.PostJsonAsync<string>(endpoint, """{"aaaa": 1111}""")
-                .ConfigureAwait(false);
-
-            var result = await response.LoadJsonAsync()
-                .ConfigureAwait(false);
-
-            Assert.Equal("hogehoge", result);
-
-            Assert.Equal(0, mockHandler.QueueCount);
-        }
-
-        [Fact]
-        public async Task DeleteAsync_Test()
-        {
-            using var mockHandler = new HttpMessageHandlerMock();
-            using var http = new HttpClient(mockHandler);
-            using var apiConnection = new TwitterApiConnection(ApiKey.Create(""), ApiKey.Create(""), "", "");
-            apiConnection.Http = http;
-
-            mockHandler.Enqueue(x =>
-            {
-                Assert.Equal(HttpMethod.Delete, x.Method);
-                Assert.Equal("https://api.twitter.com/1.1/hoge/tetete.json",
-                    x.RequestUri.AbsoluteUri);
-
-                return new HttpResponseMessage(HttpStatusCode.NoContent);
-            });
-
-            var endpoint = new Uri("hoge/tetete.json", UriKind.Relative);
-
-            await apiConnection.DeleteAsync(endpoint)
-                .ConfigureAwait(false);
-
-            Assert.Equal(0, mockHandler.QueueCount);
+            TaskScheduler.UnobservedTaskException -= UnobservedExceptionHandler;
         }
     }
 }

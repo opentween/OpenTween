@@ -23,14 +23,7 @@
 
 using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Runtime.Serialization.Json;
-using System.Text;
 using System.Threading.Tasks;
-using System.Xml;
-using System.Xml.Linq;
-using System.Xml.XPath;
 using OpenTween.Connection;
 using OpenTween.Models;
 
@@ -42,7 +35,7 @@ namespace OpenTween.Api.GraphQL
 
         private static readonly Uri EndpointUri = new("https://twitter.com/i/api/graphql/-Ls3CrSQNo2fRKH6i6Na1A/TweetDetail");
 
-        required public TwitterStatusId FocalTweetId { get; set; }
+        public required TwitterStatusId FocalTweetId { get; set; }
 
         public Dictionary<string, string> CreateParameters()
         {
@@ -62,24 +55,18 @@ namespace OpenTween.Api.GraphQL
 
         public async Task<TimelineTweet[]> Send(IApiConnection apiConnection)
         {
-            var param = this.CreateParameters();
+            var request = new GetRequest
+            {
+                RequestUri = EndpointUri,
+                Query = this.CreateParameters(),
+                EndpointName = EndpointName,
+            };
 
-            XElement rootElm;
-            try
-            {
-                using var stream = await apiConnection.GetStreamAsync(EndpointUri, param, EndpointName);
-                using var jsonReader = JsonReaderWriterFactory.CreateJsonReader(stream, XmlDictionaryReaderQuotas.Max);
-                rootElm = XElement.Load(jsonReader);
-            }
-            catch (IOException ex)
-            {
-                throw new WebApiException("IO Error", ex);
-            }
-            catch (NotSupportedException ex)
-            {
-                // NotSupportedException: Stream does not support reading. のエラーが時々報告される
-                throw new WebApiException("Stream Error", ex);
-            }
+            using var response = await apiConnection.SendAsync(request)
+                .ConfigureAwait(false);
+
+            var rootElm = await response.ReadAsJsonXml()
+                .ConfigureAwait(false);
 
             ErrorResponse.ThrowIfError(rootElm);
 

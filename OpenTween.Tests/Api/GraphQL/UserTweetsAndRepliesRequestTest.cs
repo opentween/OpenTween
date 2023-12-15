@@ -19,11 +19,6 @@
 // the Free Software Foundation, Inc., 51 Franklin Street - Fifth Floor,
 // Boston, MA 02110-1301, USA.
 
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Moq;
 using OpenTween.Connection;
@@ -36,28 +31,30 @@ namespace OpenTween.Api.GraphQL
         [Fact]
         public async Task Send_Test()
         {
-            using var responseStream = File.OpenRead("Resources/Responses/UserTweetsAndReplies_SimpleTweet.json");
+            using var apiResponse = await TestUtils.CreateApiResponse("Resources/Responses/UserTweetsAndReplies_SimpleTweet.json");
 
             var mock = new Mock<IApiConnection>();
             mock.Setup(x =>
-                    x.GetStreamAsync(It.IsAny<Uri>(), It.IsAny<IDictionary<string, string>>(), It.IsAny<string>())
+                    x.SendAsync(It.IsAny<IHttpRequest>())
                 )
-                .Callback<Uri, IDictionary<string, string>, string>((url, param, endpointName) =>
+                .Callback<IHttpRequest>(x =>
                 {
-                    Assert.Equal(new("https://twitter.com/i/api/graphql/YlkSUg0mRBx7-EkxCvc-bw/UserTweetsAndReplies"), url);
-                    Assert.Equal(2, param.Count);
-                    Assert.Equal("""{"userId":"40480664","count":20,"includePromotedContent":true,"withCommunity":true,"withVoice":true,"withV2Timeline":true}""", param["variables"]);
-                    Assert.True(param.ContainsKey("features"));
-                    Assert.Equal("UserTweetsAndReplies", endpointName);
+                    var request = Assert.IsType<GetRequest>(x);
+                    Assert.Equal(new("https://twitter.com/i/api/graphql/YlkSUg0mRBx7-EkxCvc-bw/UserTweetsAndReplies"), request.RequestUri);
+                    var query = request.Query!;
+                    Assert.Equal(2, query.Count);
+                    Assert.Equal("""{"userId":"40480664","count":20,"includePromotedContent":true,"withCommunity":true,"withVoice":true,"withV2Timeline":true}""", query["variables"]);
+                    Assert.True(query.ContainsKey("features"));
+                    Assert.Equal("UserTweetsAndReplies", request.EndpointName);
                 })
-                .ReturnsAsync(responseStream);
+                .ReturnsAsync(apiResponse);
 
             var request = new UserTweetsAndRepliesRequest(userId: "40480664")
             {
                 Count = 20,
             };
 
-            var response = await request.Send(mock.Object).ConfigureAwait(false);
+            var response = await request.Send(mock.Object);
             Assert.Single(response.Tweets);
             Assert.Equal("DAABCgABF_tTnZvAJxEKAAIWes8rE1oQAAgAAwAAAAEAAA", response.CursorTop);
             Assert.Equal("DAABCgABF_tTnZu__-0KAAIWZa6KTRoAAwgAAwAAAAIAAA", response.CursorBottom);
@@ -68,21 +65,23 @@ namespace OpenTween.Api.GraphQL
         [Fact]
         public async Task Send_RequestCursor_Test()
         {
-            using var responseStream = File.OpenRead("Resources/Responses/UserTweetsAndReplies_SimpleTweet.json");
+            using var apiResponse = await TestUtils.CreateApiResponse("Resources/Responses/UserTweetsAndReplies_SimpleTweet.json");
 
             var mock = new Mock<IApiConnection>();
             mock.Setup(x =>
-                    x.GetStreamAsync(It.IsAny<Uri>(), It.IsAny<IDictionary<string, string>>(), It.IsAny<string>())
+                    x.SendAsync(It.IsAny<IHttpRequest>())
                 )
-                .Callback<Uri, IDictionary<string, string>, string>((url, param, endpointName) =>
+                .Callback<IHttpRequest>(x =>
                 {
-                    Assert.Equal(new("https://twitter.com/i/api/graphql/YlkSUg0mRBx7-EkxCvc-bw/UserTweetsAndReplies"), url);
-                    Assert.Equal(2, param.Count);
-                    Assert.Equal("""{"userId":"40480664","count":20,"includePromotedContent":true,"withCommunity":true,"withVoice":true,"withV2Timeline":true,"cursor":"aaa"}""", param["variables"]);
-                    Assert.True(param.ContainsKey("features"));
-                    Assert.Equal("UserTweetsAndReplies", endpointName);
+                    var request = Assert.IsType<GetRequest>(x);
+                    Assert.Equal(new("https://twitter.com/i/api/graphql/YlkSUg0mRBx7-EkxCvc-bw/UserTweetsAndReplies"), request.RequestUri);
+                    var query = request.Query!;
+                    Assert.Equal(2, query.Count);
+                    Assert.Equal("""{"userId":"40480664","count":20,"includePromotedContent":true,"withCommunity":true,"withVoice":true,"withV2Timeline":true,"cursor":"aaa"}""", query["variables"]);
+                    Assert.True(query.ContainsKey("features"));
+                    Assert.Equal("UserTweetsAndReplies", request.EndpointName);
                 })
-                .ReturnsAsync(responseStream);
+                .ReturnsAsync(apiResponse);
 
             var request = new UserTweetsAndRepliesRequest(userId: "40480664")
             {
@@ -90,7 +89,7 @@ namespace OpenTween.Api.GraphQL
                 Cursor = "aaa",
             };
 
-            await request.Send(mock.Object).ConfigureAwait(false);
+            await request.Send(mock.Object);
             mock.VerifyAll();
         }
     }

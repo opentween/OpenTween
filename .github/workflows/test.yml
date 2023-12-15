@@ -1,0 +1,102 @@
+name: Run tests
+
+on:
+  push:
+    branches: ['develop', 'release']
+  pull_request:
+
+env:
+  NUGET_PACKAGES: ${{ github.workspace }}/.nuget/packages
+
+jobs:
+  build:
+    uses: ./.github/workflows/build.yml
+
+  test:
+    runs-on: windows-2022
+    needs: [build]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+
+      - name: Add msbuild to PATH
+        uses: microsoft/setup-msbuild@v1.1
+
+      - name: Set configuration env
+        shell: pwsh
+        run: |
+          if ($env:GITHUB_REF -eq 'refs/heads/release') {
+            echo 'CONFIGURATION=Release' >> $env:GITHUB_ENV
+          } else {
+            echo 'CONFIGURATION=Debug' >> $env:GITHUB_ENV
+          }
+
+      - uses: actions/cache@v3
+        with:
+          path: ${{ github.workspace }}/.nuget/packages
+          key: nuget-${{ hashFiles('*/*.csproj') }}
+          restore-keys: |
+            nuget-
+
+      - name: Restore build result
+        uses: actions/download-artifact@v3
+        with:
+          name: build
+
+      - name: Run tests
+        shell: pwsh
+        run: |
+          $altCoverVersion = '8.6.95'
+          $xunitVersion = '2.6.2'
+          $targetFramework = 'net48'
+          $altCoverPath = "$($env:NUGET_PACKAGES)\altcover\$($altCoverVersion)\tools\net472\AltCover.exe"
+          $xunitPath = "$($env:NUGET_PACKAGES)\xunit.runner.console\$($xunitVersion)\tools\net481\xunit.console.exe"
+
+          $p = Start-Process `
+            -FilePath $altCoverPath `
+            -ArgumentList (
+              '--inputDirectory',
+              ".\OpenTween.Tests\bin\$($env:CONFIGURATION)\$($targetFramework)",
+              '--outputDirectory',
+              '.\__Instrumented\',
+              '--assemblyFilter',
+              '?^OpenTween(?!\.Tests)',
+              '--typeFilter',
+              '?^OpenTween\.',
+              '--fileFilter',
+              '\.Designer\.cs',
+              '--visibleBranches'
+            ) `
+            -NoNewWindow `
+            -PassThru `
+            -Wait
+
+          if ($p.ExitCode -ne 0) {
+            exit $p.ExitCode
+          }
+
+          $p = Start-Process `
+            -FilePath $altCoverPath `
+            -ArgumentList (
+              'runner',
+              '--recorderDirectory',
+              '.\__Instrumented\',
+              '--executable',
+              $xunitPath,
+              '--',
+              '.\__Instrumented\OpenTween.Tests.dll'
+            ) `
+            -NoNewWindow `
+            -PassThru `
+            -Wait
+
+          if ($p.ExitCode -ne 0) {
+            exit $p.ExitCode
+          }
+
+      - uses: codecov/codecov-action@v3
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          fail_ci_if_error: true

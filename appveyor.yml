@@ -1,4 +1,4 @@
-version: 3.8.0.{build}
+version: 3.9.0.{build}
 
 os: Visual Studio 2022
 
@@ -57,22 +57,14 @@ init:
 
 before_build:
   - nuget restore
+  - ps: Set-Content .\msbuild.rsp "/warnaserror /p:DebugType=None"
 
-test_script:
-  - cmd: |
-      set altCoverVersion=8.6.61
-      set xunitVersion=2.4.2
-      set targetFramework=net48
-      set nugetPackages=%UserProfile%\.nuget\packages
-
-      %nugetPackages%\altcover\%altCoverVersion%\tools\net472\AltCover.exe --inputDirectory .\OpenTween.Tests\bin\%CONFIGURATION%\%targetFramework%\ --outputDirectory .\__Instrumented\ --assemblyFilter "?^OpenTween(?!\.Tests)" --typeFilter "?^OpenTween\." --fileFilter "\.Designer\.cs" --visibleBranches
-
-      %nugetPackages%\altcover\%altCoverVersion%\tools\net472\AltCover.exe runner --recorderDirectory .\__Instrumented\ --executable %nugetPackages%\xunit.runner.console\%xunitVersion%\tools\net472\xunit.console.exe -- .\__Instrumented\OpenTween.Tests.dll
+test:
+  assemblies:
+    only:
+      - OpenTween.Tests.dll
 
 after_test:
-  - ps: |
-      Invoke-WebRequest -Uri https://uploader.codecov.io/latest/windows/codecov.exe -Outfile codecov.exe
-      .\codecov.exe -f coverage.xml
   - ps: |
       $env:PATH = $env:PATH + ';C:\Program Files\Microsoft Visual Studio\2022\Community\Msbuild\Current\Bin\Roslyn\;C:\Program Files (x86)\Microsoft SDKs\Windows\v10.0A\bin\NETFX 4.8 Tools\'
       $binDir = '.\OpenTween\bin\' + $env:CONFIGURATION + '\net48\'

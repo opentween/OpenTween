@@ -719,9 +719,11 @@ namespace OpenTween
         }
 
         public static T CreateDataFromJson<T>(string content)
+            => MyCommon.CreateDataFromJson<T>(Encoding.UTF8.GetBytes(content));
+
+        public static T CreateDataFromJson<T>(byte[] bytes)
         {
-            var buf = Encoding.Unicode.GetBytes(content);
-            using var stream = new MemoryStream(buf);
+            using var stream = new MemoryStream(bytes);
             var settings = new DataContractJsonSerializerSettings
             {
                 UseSimpleDictionaryFormat = true,
@@ -755,20 +757,11 @@ namespace OpenTween
         /// </summary>
         /// <param name="keys">状態を調べるキー</param>
         /// <returns><paramref name="keys"/> で指定された修飾キーがすべて押されている状態であれば true。それ以外であれば false。</returns>
-        public static bool IsKeyDown(params Keys[] keys)
-            => MyCommon.IsKeyDownInternal(Control.ModifierKeys, keys);
+        public static bool IsKeyDown(Keys keys)
+            => MyCommon.IsKeyDown(Control.ModifierKeys, keys);
 
-        internal static bool IsKeyDownInternal(Keys modifierKeys, Keys[] targetKeys)
-        {
-            foreach (var key in targetKeys)
-            {
-                if ((modifierKeys & key) != key)
-                {
-                    return false;
-                }
-            }
-            return true;
-        }
+        public static bool IsKeyDown(Keys modifierKeys, Keys targetKeys)
+            => (modifierKeys & targetKeys) == targetKeys;
 
         /// <summary>
         /// アプリケーションのアセンブリ名を取得します。

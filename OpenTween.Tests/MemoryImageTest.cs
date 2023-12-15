@@ -37,7 +37,7 @@ namespace OpenTween
         public async Task ImageFormat_GifTest()
         {
             using var imgStream = File.OpenRead("Resources/re.gif");
-            using var image = await MemoryImage.CopyFromStreamAsync(imgStream).ConfigureAwait(false);
+            using var image = await MemoryImage.CopyFromStreamAsync(imgStream);
             Assert.Equal(ImageFormat.Gif, image.ImageFormat);
             Assert.Equal(".gif", image.ImageFormatExt);
         }
@@ -58,8 +58,7 @@ namespace OpenTween
         {
             using var stream = File.OpenRead("Resources/re.gif");
             using var memstream = new MemoryStream();
-            await stream.CopyToAsync(memstream)
-                .ConfigureAwait(false);
+            await stream.CopyToAsync(memstream);
 
             stream.Seek(0, SeekOrigin.Begin);
 
@@ -72,13 +71,11 @@ namespace OpenTween
         {
             using var stream = File.OpenRead("Resources/re.gif");
             using var memstream = new MemoryStream();
-            await stream.CopyToAsync(memstream)
-                .ConfigureAwait(false);
+            await stream.CopyToAsync(memstream);
 
             stream.Seek(0, SeekOrigin.Begin);
 
-            using var image = await MemoryImage.CopyFromStreamAsync(stream)
-                .ConfigureAwait(false);
+            using var image = await MemoryImage.CopyFromStreamAsync(stream);
             Assert.Equal(memstream.ToArray(), image.Stream.ToArray());
         }
 
@@ -87,8 +84,7 @@ namespace OpenTween
         {
             using var stream = File.OpenRead("Resources/re.gif");
             using var memstream = new MemoryStream();
-            await stream.CopyToAsync(memstream)
-                .ConfigureAwait(false);
+            await stream.CopyToAsync(memstream);
             var imageBytes = memstream.ToArray();
 
             using var image = MemoryImage.CopyFromBytes(imageBytes);
@@ -121,10 +117,10 @@ namespace OpenTween
         public async Task Equals_Test()
         {
             using var imgStream1 = File.OpenRead("Resources/re.gif");
-            using var image1 = await MemoryImage.CopyFromStreamAsync(imgStream1).ConfigureAwait(false);
+            using var image1 = await MemoryImage.CopyFromStreamAsync(imgStream1);
 
             using var imgStream2 = File.OpenRead("Resources/re.gif");
-            using var image2 = await MemoryImage.CopyFromStreamAsync(imgStream2).ConfigureAwait(false);
+            using var image2 = await MemoryImage.CopyFromStreamAsync(imgStream2);
             Assert.True(image1.Equals(image2));
             Assert.True(image2.Equals(image1));
 

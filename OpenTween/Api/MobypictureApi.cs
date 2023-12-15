@@ -53,9 +53,11 @@ namespace OpenTween.Api
         {
             this.apiKey = apiKey;
 
-            var handler = twitterApi.CreateOAuthEchoHandler(AuthServiceProvider, OAuthRealm);
-            this.http = Networking.CreateHttpClient(handler);
-            this.http.Timeout = Networking.UploadImageTimeout;
+            var builder = Networking.CreateHttpClientBuilder();
+            builder.SetupHttpClient(x => x.Timeout = Networking.UploadImageTimeout);
+            builder.AddHandler(x => twitterApi.CreateOAuthEchoHandler(x, AuthServiceProvider, OAuthRealm));
+
+            this.http = builder.Build();
         }
 
         public MobypictureApi(ApiKey apiKey, HttpClient http)

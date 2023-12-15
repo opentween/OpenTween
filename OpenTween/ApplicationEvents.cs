@@ -94,6 +94,8 @@ namespace OpenTween
                     return 1; // 設定が完了しなかったため終了
             }
 
+            SetupTwitter(container.Twitter, settings);
+
             Application.Run(container.MainForm);
 
             return 0;
@@ -135,6 +137,34 @@ namespace OpenTween
 
             settings.SaveAll();
             return true;
+        }
+
+        private static void SetupTwitter(Twitter tw, SettingManager settings)
+        {
+            var account = settings.Common.SelectedAccount;
+            if (account != null)
+                tw.Initialize(account.GetTwitterCredential(), account.Username, account.UserId);
+            else
+                tw.Initialize(new TwitterCredentialNone(), "", 0L);
+
+            tw.RestrictFavCheck = settings.Common.RestrictFavCheck;
+            tw.ReadOwnPost = settings.Common.ReadOwnPost;
+
+            // アクセストークンが有効であるか確認する
+            // ここが Twitter API への最初のアクセスになるようにすること
+            try
+            {
+                tw.VerifyCredentials();
+            }
+            catch (WebApiException ex)
+            {
+                MessageBox.Show(
+                    string.Format(Properties.Resources.StartupAuthError_Text, ex.Message),
+                    ApplicationSettings.ApplicationName,
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning
+                );
+            }
         }
     }
 }

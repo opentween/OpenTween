@@ -58,8 +58,7 @@ namespace OpenTween.Api
 
             var mobypictureApi = new MobypictureApi(ApiKey.Create("fake_api_key"), http);
             using var mediaItem = TestUtils.CreateDummyMediaItem();
-            var uploadedUrl = await mobypictureApi.UploadFileAsync(mediaItem, "てすと")
-                .ConfigureAwait(false);
+            var uploadedUrl = await mobypictureApi.UploadFileAsync(mediaItem, "てすと");
             Assert.Equal("https://www.mobypicture.com/user/OpenTween/view/00000000", uploadedUrl);
 
             Assert.Equal(0, mockHandler.QueueCount);
