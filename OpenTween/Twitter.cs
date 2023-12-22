@@ -260,7 +260,7 @@ namespace OpenTween
             }
             else
             {
-                var response = await this.Api.StatusesUpdate(
+                using var response = await this.Api.StatusesUpdate(
                         param.Text,
                         param.InReplyToStatusId?.ToTwitterStatusId(),
                         param.MediaIds,
@@ -317,7 +317,7 @@ namespace OpenTween
                 _ => "application/octet-stream",
             };
 
-            var initResponse = await this.Api.MediaUploadInit(item.Size, mediaType, mediaCategory)
+            using var initResponse = await this.Api.MediaUploadInit(item.Size, mediaType, mediaCategory)
                 .ConfigureAwait(false);
 
             var initMedia = await initResponse.LoadJsonAsync()
@@ -328,7 +328,7 @@ namespace OpenTween
             await this.Api.MediaUploadAppend(mediaId, 0, item)
                 .ConfigureAwait(false);
 
-            var response = await this.Api.MediaUploadFinalize(mediaId)
+            using var response = await this.Api.MediaUploadFinalize(mediaId)
                 .ConfigureAwait(false);
 
             var media = await response.LoadJsonAsync()
@@ -374,7 +374,7 @@ namespace OpenTween
             var recipient = await this.GetUserInfo(recipientName)
                 .ConfigureAwait(false);
 
-            var response = await this.Api.DirectMessagesEventsNew(recipient.Id, body, mediaId)
+            using var response = await this.Api.DirectMessagesEventsNew(recipient.Id, body, mediaId)
                 .ConfigureAwait(false);
 
             var messageEventSingle = await response.LoadJsonAsync()
@@ -405,7 +405,7 @@ namespace OpenTween
                 return null;
             }
 
-            var response = await this.Api.StatusesRetweet(target.ToTwitterStatusId())
+            using var response = await this.Api.StatusesRetweet(target.ToTwitterStatusId())
                 .ConfigureAwait(false);
 
             var status = await response.LoadJsonAsync()
@@ -1324,7 +1324,7 @@ namespace OpenTween
 
         public async Task<ListElement> EditList(long listId, string new_name, bool isPrivate, string description)
         {
-            var response = await this.Api.ListsUpdate(listId, new_name, description, isPrivate)
+            using var response = await this.Api.ListsUpdate(listId, new_name, description, isPrivate)
                 .ConfigureAwait(false);
 
             var list = await response.LoadJsonAsync()
@@ -1349,7 +1349,7 @@ namespace OpenTween
         {
             this.CheckAccountState();
 
-            var response = await this.Api.ListsCreate(listName, description, isPrivate)
+            using var response = await this.Api.ListsCreate(listName, description, isPrivate)
                 .ConfigureAwait(false);
 
             var list = await response.LoadJsonAsync()
