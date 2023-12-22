@@ -640,7 +640,7 @@ namespace OpenTween.Api
                 JsonString = json,
             };
 
-            var response = await this.Connection.SendAsync(request)
+            using var response = await this.Connection.SendAsync(request)
                 .ConfigureAwait(false);
 
             return response.ReadAsLazyJson<TwitterMessageEventSingle>();
