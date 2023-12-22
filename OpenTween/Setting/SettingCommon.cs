@@ -354,7 +354,7 @@ namespace OpenTween
         public string Username = "";
         public long UserId = 0;
 
-        public APIAuthType TwitterAuthType { get; set; }
+        public APIAuthType TwitterAuthType { get; set; } = APIAuthType.OAuth1;
 
         public string TwitterOAuth1ConsumerKey { get; set; } = "";
 
@@ -405,7 +405,7 @@ namespace OpenTween
             return appToken.AuthType switch
             {
                 APIAuthType.OAuth1
-                    => new TwitterCredentialOAuth1(appToken, this.TwitterOAuth1ConsumerKey, this.TwitterOAuth1ConsumerSecret),
+                    => new TwitterCredentialOAuth1(appToken, this.Token, this.TokenSecret),
                 APIAuthType.TwitterComCookie
                     => new TwitterCredentialCookie(appToken),
                 _ => new TwitterCredentialNone(),
