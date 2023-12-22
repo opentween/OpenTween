@@ -527,7 +527,7 @@ namespace OpenTween
                     {
                         try
                         {
-                            var response = await this.twitterApi.AccountUpdateProfile(
+                            using var response = await this.twitterApi.AccountUpdateProfile(
                                 this.TextBoxName.Text,
                                 this.TextBoxWeb.Text,
                                 this.TextBoxLocation.Text,
