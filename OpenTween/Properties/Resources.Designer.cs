@@ -580,6 +580,8 @@ namespace OpenTween.Properties {
         /// <summary>
         ///   更新履歴
         ///
+        ///==== Unreleased
+        ///
         ///==== Ver 3.10.1(2023/12/23)
         /// * FIX: OAuth 1.0a によるAPIアクセスに失敗する不具合を修正
         ///
@@ -595,7 +597,7 @@ namespace OpenTween.Properties {
         ///   - この問題が起きるユーザーのツイートが含まれているとタイムラインの読み込みに失敗する問題も改善されます
         ///
         ///==== Ver 3.8.0(2023/11/29)
-        /// * NEW: graphqlエンドポイントを使用した [残りの文字列は切り詰められました]&quot;; に類似しているローカライズされた文字列を検索します。
+        /// * NEW:  [残りの文字列は切り詰められました]&quot;; に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string ChangeLog {
             get {
