@@ -1,0 +1,40 @@
+{
+  "data": {
+    "search_by_raw_query": {
+      "search_timeline": {
+        "timeline": {
+          "instructions": [
+            {
+              "type": "TimelineReplaceEntry",
+              "entry_id_to_replace": "cursor-top-9223372036854775807",
+              "entry": {
+                "entryId": "cursor-top-9223372036854775807",
+                "sortIndex": "9223372036854775807",
+                "content": {
+                  "entryType": "TimelineTimelineCursor",
+                  "__typename": "TimelineTimelineCursor",
+                  "value": "DAADDAABCgABFnlh4hraMAYKAAIOTm0DEhTAAQAIAAIAAAABCAADAAAAAQgABAAAAAAKAAUX8j3ezIBOIAoABhfyPd7Mf9jwAAA",
+                  "cursorType": "Top"
+                }
+              }
+            },
+            {
+              "type": "TimelineReplaceEntry",
+              "entry_id_to_replace": "cursor-bottom-0",
+              "entry": {
+                "entryId": "cursor-bottom-0",
+                "sortIndex": "0",
+                "content": {
+                  "entryType": "TimelineTimelineCursor",
+                  "__typename": "TimelineTimelineCursor",
+                  "value": "DAADDAABCgABFnlh4hraMAYKAAIOTm0DEhTAAQAIAAIAAAACCAADAAAAAQgABAAAAAAKAAUX8j3ezIBOIAoABhfyPd7Mf9jwAAA",
+                  "cursorType": "Bottom"
+                }
+              }
+            }
+          ]
+        }
+      }
+    }
+  }
+}

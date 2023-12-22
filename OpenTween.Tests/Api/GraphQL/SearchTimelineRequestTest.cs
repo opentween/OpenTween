@@ -63,6 +63,28 @@ namespace OpenTween.Api.GraphQL
         }
 
         [Fact]
+        public async Task Send_ReplaceCursorTest()
+        {
+            using var apiResponse = await TestUtils.CreateApiResponse("Resources/Responses/SearchTimeline_ReplaceCursor.json");
+
+            var mock = new Mock<IApiConnection>();
+            mock.Setup(x => x.SendAsync(It.IsAny<IHttpRequest>()))
+                .ReturnsAsync(apiResponse);
+
+            var request = new SearchTimelineRequest(rawQuery: "#OpenTween")
+            {
+                Count = 20,
+            };
+
+            var response = await request.Send(mock.Object);
+            Assert.Empty(response.Tweets);
+            Assert.Equal("DAADDAABCgABFnlh4hraMAYKAAIOTm0DEhTAAQAIAAIAAAABCAADAAAAAQgABAAAAAAKAAUX8j3ezIBOIAoABhfyPd7Mf9jwAAA", response.CursorTop);
+            Assert.Equal("DAADDAABCgABFnlh4hraMAYKAAIOTm0DEhTAAQAIAAIAAAACCAADAAAAAQgABAAAAAAKAAUX8j3ezIBOIAoABhfyPd7Mf9jwAAA", response.CursorBottom);
+
+            mock.VerifyAll();
+        }
+
+        [Fact]
         public async Task Send_RequestCursor_Test()
         {
             using var apiResponse = await TestUtils.CreateApiResponse("Resources/Responses/SearchTimeline_SimpleTweet.json");
