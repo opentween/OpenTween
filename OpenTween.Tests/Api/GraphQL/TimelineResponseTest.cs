@@ -1,5 +1,5 @@
 ﻿// OpenTween - Client of Twitter
-// Copyright (c) 2023 kim_upsilon (@kim_upsilon) <https://upsilo.net/~upsilon/>
+// Copyright (c) 2024 kim_upsilon (@kim_upsilon) <https://upsilo.net/~upsilon/>
 // All rights reserved.
 //
 // This file is part of OpenTween.
@@ -19,23 +19,23 @@
 // the Free Software Foundation, Inc., 51 Franklin Street - Fifth Floor,
 // Boston, MA 02110-1301, USA.
 
-#nullable enable
-
-using System.Linq;
-using OpenTween.Api.DataModel;
+using System.Threading.Tasks;
+using Xunit;
 
 namespace OpenTween.Api.GraphQL
 {
-    public record TimelineResponse(
-        TimelineTweet[] Tweets,
-        string? CursorTop,
-        string? CursorBottom
-    )
+    public class TimelineResponseTest
     {
-        public TwitterStatus[] ToTwitterStatuses()
-            => this.Tweets
-                .Where(x => !x.IsTombstone)
-                .Select(x => x.ToTwitterStatus())
-                .ToArray();
+        [Fact]
+        public async Task ToTwitterStatuses_Test()
+        {
+            using var apiResponse = await TestUtils.CreateApiResponse("Resources/Responses/SearchTimeline_SimpleTweet.json");
+            var tweets = TimelineTweet.ExtractTimelineTweets(await apiResponse.ReadAsJsonXml());
+            var timelineResponse = new TimelineResponse(tweets, "", "");
+
+            var statuses = timelineResponse.ToTwitterStatuses();
+            Assert.Single(statuses);
+            Assert.Equal("1619433164757413894", statuses[0].IdStr);
+        }
     }
 }
