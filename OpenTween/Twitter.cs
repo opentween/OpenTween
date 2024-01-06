@@ -677,9 +677,7 @@ namespace OpenTween
                 var response = await request.Send(this.Api.Connection)
                     .ConfigureAwait(false);
 
-                statuses = response.Tweets
-                    .Where(x => !x.IsTombstone)
-                    .Select(x => x.ToTwitterStatus())
+                statuses = response.ToTwitterStatuses()
                     .Where(x => x.User.IdStr == userId) // リプライツリーに含まれる他ユーザーのツイートを除外
                     .ToArray();
 
@@ -884,12 +882,10 @@ namespace OpenTween
                 var response = await request.Send(this.Api.Connection)
                     .ConfigureAwait(false);
 
-                var convertedStatuses = response.Tweets
-                    .Where(x => !x.IsTombstone)
-                    .Select(x => x.ToTwitterStatus());
+                var convertedStatuses = response.ToTwitterStatuses();
 
                 if (!SettingManager.Instance.Common.IsListsIncludeRts)
-                    convertedStatuses = convertedStatuses.Where(x => x.RetweetedStatus == null);
+                    convertedStatuses = convertedStatuses.Where(x => x.RetweetedStatus == null).ToArray();
 
                 statuses = convertedStatuses.ToArray();
                 tab.CursorBottom = response.CursorBottom;
@@ -1073,10 +1069,24 @@ namespace OpenTween
             else
                 query += $" from:{targetPost.ScreenName} to:{targetPost.ScreenName}";
 
-            var statuses = await this.Api.SearchTweets(query, count: 100)
-                .ConfigureAwait(false);
+            TwitterStatus[] statuses;
+            if (this.Api.AuthType == APIAuthType.TwitterComCookie)
+            {
+                var request = new SearchTimelineRequest(query);
+                var response = await request.Send(this.Api.Connection)
+                    .ConfigureAwait(false);
 
-            return statuses.Statuses.Select(x => this.CreatePostsFromStatusData(x)).ToArray();
+                statuses = response.ToTwitterStatuses();
+            }
+            else
+            {
+                var response = await this.Api.SearchTweets(query, count: 100)
+                    .ConfigureAwait(false);
+
+                statuses = response.Statuses;
+            }
+
+            return statuses.Select(x => this.CreatePostsFromStatusData(x)).ToArray();
         }
 
         public async Task GetSearch(bool read, PublicSearchTabModel tab, bool more)
@@ -1094,10 +1104,7 @@ namespace OpenTween
                 var response = await request.Send(this.Api.Connection)
                     .ConfigureAwait(false);
 
-                statuses = response.Tweets
-                    .Where(x => !x.IsTombstone)
-                    .Select(x => x.ToTwitterStatus())
-                    .ToArray();
+                statuses = response.ToTwitterStatuses();
 
                 tab.CursorBottom = response.CursorBottom;
 

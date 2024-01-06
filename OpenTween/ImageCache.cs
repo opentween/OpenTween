@@ -56,25 +56,11 @@ namespace OpenTween
             this.InnerDictionary = new LRUCacheDictionary<string, Task<MemoryImage>>(trimLimit: 300, autoTrimCount: 100);
             this.InnerDictionary.CacheRemoved += (s, e) =>
             {
-                // まだ参照されている場合もあるのでDisposeはファイナライザ任せ
                 this.CacheRemoveCount++;
 
+                // まだ参照されている場合もあるのでDisposeはファイナライザ任せ
                 var task = e.Item.Value;
-                if (task.Status != TaskStatus.RanToCompletion || task.IsFaulted)
-                {
-                    // Task の例外がハンドルされないまま破棄されると AggregateException が発生するため try-catch で処理する Task を挟む
-                    static async Task HandleException<T>(Task<T> t)
-                    {
-                        try
-                        {
-                            _ = await t.ConfigureAwait(false);
-                        }
-                        catch
-                        {
-                        }
-                    }
-                    _ = HandleException(task);
-                }
+                _ = AsyncExceptionBoundary.IgnoreException(task);
             };
 
             this.cancelTokenSource = new CancellationTokenSource();

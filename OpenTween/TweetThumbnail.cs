@@ -156,27 +156,7 @@ namespace OpenTween
         private void DisposeImages()
         {
             var oldImageTasks = this.loadImageTasks.OfType<Task<MemoryImage>>().ToArray();
-
-            static async Task DisposeTaskResults(Task<MemoryImage>[] tasks)
-            {
-                try
-                {
-                    await Task.WhenAll(tasks).ConfigureAwait(false);
-                }
-                catch
-                {
-                }
-
-                foreach (var task in tasks)
-                {
-                    if (task.IsFaulted || task.IsCanceled)
-                        continue;
-
-                    task.Result.Dispose();
-                }
-            }
-
-            _ = DisposeTaskResults(oldImageTasks);
+            _ = AsyncExceptionBoundary.IgnoreExceptionAndDispose(oldImageTasks);
         }
     }
 }
