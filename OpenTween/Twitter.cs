@@ -1073,10 +1073,27 @@ namespace OpenTween
             else
                 query += $" from:{targetPost.ScreenName} to:{targetPost.ScreenName}";
 
-            var statuses = await this.Api.SearchTweets(query, count: 100)
-                .ConfigureAwait(false);
+            TwitterStatus[] statuses;
+            if (this.Api.AuthType == APIAuthType.TwitterComCookie)
+            {
+                var request = new SearchTimelineRequest(query);
+                var response = await request.Send(this.Api.Connection)
+                    .ConfigureAwait(false);
 
-            return statuses.Statuses.Select(x => this.CreatePostsFromStatusData(x)).ToArray();
+                statuses = response.Tweets
+                    .Where(x => !x.IsTombstone)
+                    .Select(x => x.ToTwitterStatus())
+                    .ToArray();
+            }
+            else
+            {
+                var response = await this.Api.SearchTweets(query, count: 100)
+                    .ConfigureAwait(false);
+
+                statuses = response.Statuses;
+            }
+
+            return statuses.Select(x => this.CreatePostsFromStatusData(x)).ToArray();
         }
 
         public async Task GetSearch(bool read, PublicSearchTabModel tab, bool more)
