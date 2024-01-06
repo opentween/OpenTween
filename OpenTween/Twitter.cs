@@ -677,9 +677,7 @@ namespace OpenTween
                 var response = await request.Send(this.Api.Connection)
                     .ConfigureAwait(false);
 
-                statuses = response.Tweets
-                    .Where(x => !x.IsTombstone)
-                    .Select(x => x.ToTwitterStatus())
+                statuses = response.ToTwitterStatuses()
                     .Where(x => x.User.IdStr == userId) // リプライツリーに含まれる他ユーザーのツイートを除外
                     .ToArray();
 
@@ -884,12 +882,10 @@ namespace OpenTween
                 var response = await request.Send(this.Api.Connection)
                     .ConfigureAwait(false);
 
-                var convertedStatuses = response.Tweets
-                    .Where(x => !x.IsTombstone)
-                    .Select(x => x.ToTwitterStatus());
+                var convertedStatuses = response.ToTwitterStatuses();
 
                 if (!SettingManager.Instance.Common.IsListsIncludeRts)
-                    convertedStatuses = convertedStatuses.Where(x => x.RetweetedStatus == null);
+                    convertedStatuses = convertedStatuses.Where(x => x.RetweetedStatus == null).ToArray();
 
                 statuses = convertedStatuses.ToArray();
                 tab.CursorBottom = response.CursorBottom;
@@ -1080,10 +1076,7 @@ namespace OpenTween
                 var response = await request.Send(this.Api.Connection)
                     .ConfigureAwait(false);
 
-                statuses = response.Tweets
-                    .Where(x => !x.IsTombstone)
-                    .Select(x => x.ToTwitterStatus())
-                    .ToArray();
+                statuses = response.ToTwitterStatuses();
             }
             else
             {
@@ -1111,10 +1104,7 @@ namespace OpenTween
                 var response = await request.Send(this.Api.Connection)
                     .ConfigureAwait(false);
 
-                statuses = response.Tweets
-                    .Where(x => !x.IsTombstone)
-                    .Select(x => x.ToTwitterStatus())
-                    .ToArray();
+                statuses = response.ToTwitterStatuses();
 
                 tab.CursorBottom = response.CursorBottom;
 
