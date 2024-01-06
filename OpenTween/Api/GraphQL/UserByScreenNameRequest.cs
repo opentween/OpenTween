@@ -71,20 +71,33 @@ namespace OpenTween.Api.GraphQL
 
             ErrorResponse.ThrowIfError(rootElm);
 
-            var userElm = rootElm.XPathSelectElement("/data/user/result");
-            this.ThrowIfUserUnavailable(userElm);
+            try
+            {
+                var userElm = rootElm.XPathSelectElement("/data/user/result");
+                this.ThrowIfUserUnavailable(userElm);
 
-            return new(userElm);
+                return new(userElm);
+            }
+            catch (WebApiException ex)
+            {
+                ex.ResponseText = JsonUtils.JsonXmlToString(rootElm);
+                throw;
+            }
         }
 
-        private void ThrowIfUserUnavailable(XElement userElm)
+        private void ThrowIfUserUnavailable(XElement? userElm)
         {
+            if (userElm == null)
+            {
+                var errorText = "User is not available.";
+                throw new WebApiException(errorText);
+            }
+
             var typeName = userElm.Element("__typename")?.Value;
             if (typeName == "UserUnavailable")
             {
                 var errorText = userElm.Element("message")?.Value ?? "User is not available.";
-                var json = JsonUtils.JsonXmlToString(userElm);
-                throw new WebApiException(errorText, json);
+                throw new WebApiException(errorText);
             }
         }
     }
