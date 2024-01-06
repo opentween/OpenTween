@@ -81,5 +81,30 @@ namespace OpenTween.Api.GraphQL
 
             mock.VerifyAll();
         }
+
+        [Fact]
+        public async Task Send_EmptyTest()
+        {
+            // ユーザーが存在しない場合にエラー情報を含まない空のオブジェクトが返されることがある
+            using var apiResponse = await TestUtils.CreateApiResponse("Resources/Responses/UserByScreenName_Empty.json");
+
+            var mock = new Mock<IApiConnection>();
+            mock.Setup(x =>
+                    x.SendAsync(It.IsAny<IHttpRequest>())
+                )
+                .ReturnsAsync(apiResponse);
+
+            var request = new UserByScreenNameRequest
+            {
+                ScreenName = "==INVALID==",
+            };
+
+            var ex = await Assert.ThrowsAsync<WebApiException>(
+                () => request.Send(mock.Object)
+            );
+            Assert.Equal("User is not available.", ex.Message);
+
+            mock.VerifyAll();
+        }
     }
 }
