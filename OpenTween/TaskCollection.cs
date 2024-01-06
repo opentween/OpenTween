@@ -59,21 +59,13 @@ namespace OpenTween
 
         private Task WrapAsyncFunc(Func<Task> func, bool runOnThreadPool)
         {
-            async Task TaskExceptionBoundary(Func<Task> func)
-            {
-                try
-                {
-                    await func();
-                }
-                catch (Exception ex) when (this.ignoreExceptionFunc(ex))
-                {
-                }
-            }
+            Task WrappedFunc()
+                => AsyncExceptionBoundary.Wrap(func, this.ignoreExceptionFunc);
 
             if (runOnThreadPool)
-                return Task.Run(() => TaskExceptionBoundary(func));
+                return Task.Run(WrappedFunc);
             else
-                return TaskExceptionBoundary(func);
+                return WrappedFunc();
         }
     }
 }

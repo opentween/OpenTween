@@ -156,17 +156,7 @@ namespace OpenTween.Connection
                 // タイムアウト
 
                 // キャンセル後のタスクで発生した例外は無視する
-                static async Task IgnoreExceptions(Task task)
-                {
-                    try
-                    {
-                        await task.ConfigureAwait(false);
-                    }
-                    catch
-                    {
-                    }
-                }
-                _ = IgnoreExceptions(task);
+                _ = AsyncExceptionBoundary.IgnoreExceptionAndDispose(task);
                 cts.Cancel();
 
                 throw new OperationCanceledException("Timeout", cancellactionToken);
