@@ -98,27 +98,7 @@ namespace OpenTween
 
         private readonly object syncObject = new(); // ロック用
 
-        private const string DetailHtmlFormatHead =
-            """<head><meta http-equiv="X-UA-Compatible" content="IE=8">"""
-            + """<style type="text/css"><!-- """
-            + "body, p, pre {margin: 0;} "
-            + """body {font-family: "%FONT_FAMILY%", "Segoe UI Emoji", sans-serif; font-size: %FONT_SIZE%pt; background-color:rgb(%BG_COLOR%); word-wrap: break-word; color:rgb(%FONT_COLOR%);} """
-            + "pre {font-family: inherit;} "
-            + "a:link, a:visited, a:active, a:hover {color:rgb(%LINK_COLOR%); } "
-            + "img.emoji {width: 1em; height: 1em; margin: 0 .05em 0 .1em; vertical-align: -0.1em; border: none;} "
-            + ".quote-tweet {border: 1px solid #ccc; margin: 1em; padding: 0.5em;} "
-            + ".quote-tweet.reply {border-color: rgb(%BG_REPLY_COLOR%);} "
-            + ".quote-tweet-link {color: inherit !important; text-decoration: none;}"
-            + "--></style>"
-            + "</head>";
-
-        private const string DetailHtmlFormatTemplateMono =
-            $"<html>{DetailHtmlFormatHead}<body><pre>%CONTENT_HTML%</pre></body></html>";
-
-        private const string DetailHtmlFormatTemplateNormal =
-            $"<html>{DetailHtmlFormatHead}<body><p>%CONTENT_HTML%</p></body></html>";
-
-        private string detailHtmlFormatPreparedTemplate = null!;
+        private readonly DetailsHtmlBuilder detailsHtmlBuilder = new();
 
         private bool myStatusError = false;
         private bool myStatusOnline = false;
@@ -356,13 +336,13 @@ namespace OpenTween
 
             // フォント＆文字色＆背景色保持
             this.themeManager = new(this.settings.Local);
-            this.tweetDetailsView.Initialize(this, this.iconCache, this.themeManager);
+            this.tweetDetailsView.Initialize(this, this.iconCache, this.themeManager, this.detailsHtmlBuilder);
 
             // StringFormatオブジェクトへの事前設定
             this.sfTab.Alignment = StringAlignment.Center;
             this.sfTab.LineAlignment = StringAlignment.Center;
 
-            this.InitDetailHtmlFormat();
+            this.detailsHtmlBuilder.Prepare(this.settings.Common, this.themeManager);
             this.tweetDetailsView.ClearPostBrowser();
 
             this.recommendedStatusFooter = " [TWNv" + Regex.Replace(MyCommon.FileVersion.Replace(".", ""), "^0*", "") + "]";
@@ -752,22 +732,6 @@ namespace OpenTween
                     this.columnText[c] = this.columnOrgText[c] + "▴";
                 }
             }
-        }
-
-        private void InitDetailHtmlFormat()
-        {
-            var htmlTemplate = this.settings.Common.IsMonospace ? DetailHtmlFormatTemplateMono : DetailHtmlFormatTemplateNormal;
-
-            static string ColorToRGBString(Color color)
-                => $"{color.R},{color.G},{color.B}";
-
-            this.detailHtmlFormatPreparedTemplate = htmlTemplate
-                .Replace("%FONT_FAMILY%", this.themeManager.FontDetail.Name)
-                .Replace("%FONT_SIZE%", this.themeManager.FontDetail.Size.ToString())
-                .Replace("%FONT_COLOR%", ColorToRGBString(this.themeManager.ColorDetail))
-                .Replace("%LINK_COLOR%", ColorToRGBString(this.themeManager.ColorDetailLink))
-                .Replace("%BG_COLOR%", ColorToRGBString(this.themeManager.ColorDetailBackcolor))
-                .Replace("%BG_REPLY_COLOR%", ColorToRGBString(this.themeManager.ColorAtTo));
         }
 
         private void ListTab_DrawItem(object sender, DrawItemEventArgs e)
@@ -2652,7 +2616,7 @@ namespace OpenTween
 
                     try
                     {
-                        this.InitDetailHtmlFormat();
+                        this.detailsHtmlBuilder.Prepare(this.settings.Common, this.themeManager);
                     }
                     catch (Exception ex)
                     {
@@ -4161,9 +4125,6 @@ namespace OpenTween
 
             this.DispSelectedPost();
         }
-
-        public string CreateDetailHtml(string orgdata)
-            => this.detailHtmlFormatPreparedTemplate.Replace("%CONTENT_HTML%", orgdata);
 
         private void DispSelectedPost()
             => this.DispSelectedPost(false);
@@ -9006,7 +8967,7 @@ namespace OpenTween
 
         private async Task DoShowUserStatus(TwitterUser user)
         {
-            using var userDialog = new UserInfoDialog(this, this.tw.Api);
+            using var userDialog = new UserInfoDialog(this, this.tw.Api, this.detailsHtmlBuilder);
             var showUserTask = userDialog.ShowUserAsync(user);
             userDialog.ShowDialog(this);
 
