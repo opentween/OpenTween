@@ -140,10 +140,7 @@ namespace OpenTween
         private readonly ThumbnailGenerator thumbGenerator;
 
         /// <summary>発言履歴</summary>
-        private readonly List<StatusTextHistory> history = new();
-
-        /// <summary>発言履歴カレントインデックス</summary>
-        private int hisIdx;
+        private readonly StatusTextHistory history = new();
 
         // 発言投稿時のAPI引数（発言編集時に設定。手書きreplyでは設定されない）
 
@@ -238,11 +235,6 @@ namespace OpenTween
             NextSearch,
             PrevSearch,
         }
-
-        private readonly record struct StatusTextHistory(
-            string Status,
-            (PostId StatusId, string ScreenName)? InReplyTo = null
-        );
 
         private readonly HookGlobalHotkey hookGlobalHotkey;
 
@@ -347,8 +339,6 @@ namespace OpenTween
 
             this.recommendedStatusFooter = " [TWNv" + Regex.Replace(MyCommon.FileVersion.Replace(".", ""), "^0*", "") + "]";
 
-            this.history.Add(new StatusTextHistory(""));
-            this.hisIdx = 0;
             this.inReplyTo = null;
 
             // 各種ダイアログ設定
@@ -1098,14 +1088,8 @@ namespace OpenTween
 
         private void StatusTextHistoryBack()
         {
-            if (!string.IsNullOrWhiteSpace(this.StatusText.Text))
-                this.history[this.hisIdx] = new StatusTextHistory(this.StatusText.Text, this.inReplyTo);
-
-            this.hisIdx -= 1;
-            if (this.hisIdx < 0)
-                this.hisIdx = 0;
-
-            var historyItem = this.history[this.hisIdx];
+            this.history.SetCurrentItem(this.StatusText.Text, this.inReplyTo);
+            var historyItem = this.history.Back();
             this.inReplyTo = historyItem.InReplyTo;
             this.StatusText.Text = historyItem.Status;
             this.StatusText.SelectionStart = this.StatusText.Text.Length;
@@ -1113,14 +1097,8 @@ namespace OpenTween
 
         private void StatusTextHistoryForward()
         {
-            if (!string.IsNullOrWhiteSpace(this.StatusText.Text))
-                this.history[this.hisIdx] = new StatusTextHistory(this.StatusText.Text, this.inReplyTo);
-
-            this.hisIdx += 1;
-            if (this.hisIdx > this.history.Count - 1)
-                this.hisIdx = this.history.Count - 1;
-
-            var historyItem = this.history[this.hisIdx];
+            this.history.SetCurrentItem(this.StatusText.Text, this.inReplyTo);
+            var historyItem = this.history.Forward();
             this.inReplyTo = historyItem.InReplyTo;
             this.StatusText.Text = historyItem.Status;
             this.StatusText.SelectionStart = this.StatusText.Text.Length;
@@ -1163,8 +1141,6 @@ namespace OpenTween
                 if (ret != DialogResult.OK)
                     return;
             }
-
-            this.history[this.history.Count - 1] = new StatusTextHistory(this.StatusText.Text, this.inReplyTo);
 
             if (this.settings.Common.Nicoms)
             {
@@ -1225,10 +1201,10 @@ namespace OpenTween
                 uploadService = this.ImageSelector.Model.GetService(serviceName);
             }
 
+            this.history.AddLast(this.StatusText.Text, this.inReplyTo);
+
             this.inReplyTo = null;
             this.StatusText.Text = "";
-            this.history.Add(new StatusTextHistory(""));
-            this.hisIdx = this.history.Count - 1;
             if (!this.settings.Common.FocusLockToStatusText)
                 this.CurrentListView.Focus();
             this.urlUndoBuffer = null;
@@ -6903,8 +6879,8 @@ namespace OpenTween
                     ttl.Append("Ver:").Append(MyCommon.GetReadableVersion());
                     break;
                 case MyCommon.DispTitleEnum.Post:
-                    if (this.history != null && this.history.Count > 1)
-                        ttl.Append(this.history[this.history.Count - 2].Status.Replace("\r\n", " "));
+                    if (this.history.Peek() is { } lastItem)
+                        ttl.Append(lastItem.Status.Replace("\r\n", " "));
                     break;
                 case MyCommon.DispTitleEnum.UnreadRepCount:
                     ttl.AppendFormat(Properties.Resources.SetMainWindowTitleText1, this.statuses.MentionTab.UnreadCount + this.statuses.DirectMessageTab.UnreadCount);
