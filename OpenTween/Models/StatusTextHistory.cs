@@ -68,11 +68,10 @@ namespace OpenTween.Models
             return this.items[this.historyIndex];
         }
 
-        public void SetLastItem(string text, (PostId StatusId, string ScreenName)? inReplyTo)
-            => this.items[this.items.Count - 1] = new(text, inReplyTo);
-
-        public void AddLast()
+        public void AddLast(string text, (PostId StatusId, string ScreenName)? inReplyTo)
         {
+            this.items[this.items.Count - 1] = new(text, inReplyTo);
+
             this.items.Add(new(""));
             this.historyIndex = this.items.Count - 1;
         }

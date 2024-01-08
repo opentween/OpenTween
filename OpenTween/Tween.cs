@@ -1140,8 +1140,6 @@ namespace OpenTween
                     return;
             }
 
-            this.history.SetLastItem(this.StatusText.Text, this.inReplyTo);
-
             if (this.settings.Common.Nicoms)
             {
                 this.StatusText.SelectionStart = this.StatusText.Text.Length;
@@ -1201,9 +1199,10 @@ namespace OpenTween
                 uploadService = this.ImageSelector.Model.GetService(serviceName);
             }
 
+            this.history.AddLast(this.StatusText.Text, this.inReplyTo);
+
             this.inReplyTo = null;
             this.StatusText.Text = "";
-            this.history.AddLast();
             if (!this.settings.Common.FocusLockToStatusText)
                 this.CurrentListView.Focus();
             this.urlUndoBuffer = null;
