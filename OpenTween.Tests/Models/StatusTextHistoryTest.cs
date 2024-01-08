@@ -35,12 +35,22 @@ namespace OpenTween.Models
         }
 
         [Fact]
+        public void SetCurrentItem_Test()
+        {
+            var history = new StatusTextHistory();
+            history.SetCurrentItem("@hoge aaa", (new TwitterStatusId("111"), "hoge"));
+            Assert.Single(history.Items);
+            Assert.Equal(new("@hoge aaa", (new TwitterStatusId("111"), "hoge")), history.Items[0]);
+            Assert.Equal(0, history.HistoryIndex);
+        }
+
+        [Fact]
         public void Back_NoItemsTest()
         {
             var history = new StatusTextHistory();
-            history.Back("@hoge aaa", (new TwitterStatusId("111"), "hoge"));
+            history.Back();
             Assert.Single(history.Items);
-            Assert.Equal(new("@hoge aaa", (new TwitterStatusId("111"), "hoge")), history.Items[0]);
+            Assert.Equal(new("", null), history.Items[0]);
             Assert.Equal(0, history.HistoryIndex);
         }
 
@@ -49,11 +59,11 @@ namespace OpenTween.Models
         {
             var history = new StatusTextHistory();
             history.AddLast("@hoge aaa", (new TwitterStatusId("111"), "hoge"));
-            history.Back("@foo bbb", (new TwitterStatusId("222"), "foo"));
+            history.Back();
 
             Assert.Equal(2, history.Items.Count);
             Assert.Equal(new("@hoge aaa", (new TwitterStatusId("111"), "hoge")), history.Items[0]);
-            Assert.Equal(new("@foo bbb", (new TwitterStatusId("222"), "foo")), history.Items[1]);
+            Assert.Equal(new("", null), history.Items[1]);
             Assert.Equal(0, history.HistoryIndex);
         }
 
@@ -61,9 +71,9 @@ namespace OpenTween.Models
         public void Forward_NoItemsTest()
         {
             var history = new StatusTextHistory();
-            history.Forward("@hoge aaa", (new TwitterStatusId("111"), "hoge"));
+            history.Forward();
             Assert.Single(history.Items);
-            Assert.Equal(new("@hoge aaa", (new TwitterStatusId("111"), "hoge")), history.Items[0]);
+            Assert.Equal(new("", null), history.Items[0]);
             Assert.Equal(0, history.HistoryIndex);
         }
 
@@ -72,12 +82,12 @@ namespace OpenTween.Models
         {
             var history = new StatusTextHistory();
             history.AddLast("@hoge aaa", (new TwitterStatusId("111"), "hoge"));
-            history.Back("@foo bbb", (new TwitterStatusId("222"), "foo"));
-            history.Forward("@hoge aaa 123", (new TwitterStatusId("111"), "hoge"));
+            history.Back();
+            history.Forward();
 
             Assert.Equal(2, history.Items.Count);
-            Assert.Equal(new("@hoge aaa 123", (new TwitterStatusId("111"), "hoge")), history.Items[0]);
-            Assert.Equal(new("@foo bbb", (new TwitterStatusId("222"), "foo")), history.Items[1]);
+            Assert.Equal(new("@hoge aaa", (new TwitterStatusId("111"), "hoge")), history.Items[0]);
+            Assert.Equal(new("", null), history.Items[1]);
             Assert.Equal(1, history.HistoryIndex);
         }
 

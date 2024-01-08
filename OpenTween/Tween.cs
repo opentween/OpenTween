@@ -1088,7 +1088,8 @@ namespace OpenTween
 
         private void StatusTextHistoryBack()
         {
-            var historyItem = this.history.Back(this.StatusText.Text, this.inReplyTo);
+            this.history.SetCurrentItem(this.StatusText.Text, this.inReplyTo);
+            var historyItem = this.history.Back();
             this.inReplyTo = historyItem.InReplyTo;
             this.StatusText.Text = historyItem.Status;
             this.StatusText.SelectionStart = this.StatusText.Text.Length;
@@ -1096,7 +1097,8 @@ namespace OpenTween
 
         private void StatusTextHistoryForward()
         {
-            var historyItem = this.history.Forward(this.StatusText.Text, this.inReplyTo);
+            this.history.SetCurrentItem(this.StatusText.Text, this.inReplyTo);
+            var historyItem = this.history.Forward();
             this.inReplyTo = historyItem.InReplyTo;
             this.StatusText.Text = historyItem.Status;
             this.StatusText.SelectionStart = this.StatusText.Text.Length;

@@ -44,36 +44,35 @@ namespace OpenTween.Models
         public StatusTextHistory()
             => this.items.Add(new(""));
 
-        public HistoryItem Back(string text, (PostId StatusId, string ScreenName)? inReplyTo)
+        public void SetCurrentItem(string text, (PostId StatusId, string ScreenName)? inReplyTo)
         {
             if (!string.IsNullOrWhiteSpace(text))
                 this.items[this.historyIndex] = new(text, inReplyTo);
+        }
 
-            this.historyIndex -= 1;
-            if (this.historyIndex < 0)
-                this.historyIndex = 0;
+        public HistoryItem Back()
+        {
+            if (this.historyIndex > 0)
+                this.historyIndex--;
 
             return this.items[this.historyIndex];
         }
 
-        public HistoryItem Forward(string text, (PostId StatusId, string ScreenName)? inReplyTo)
+        public HistoryItem Forward()
         {
-            if (!string.IsNullOrWhiteSpace(text))
-                this.items[this.historyIndex] = new(text, inReplyTo);
-
-            this.historyIndex += 1;
-            if (this.historyIndex > this.items.Count - 1)
-                this.historyIndex = this.items.Count - 1;
+            if (this.historyIndex < this.items.Count - 1)
+                this.historyIndex++;
 
             return this.items[this.historyIndex];
         }
 
         public void AddLast(string text, (PostId StatusId, string ScreenName)? inReplyTo)
         {
-            this.items[this.items.Count - 1] = new(text, inReplyTo);
+            this.historyIndex = this.items.Count - 1;
+            this.SetCurrentItem(text, inReplyTo);
 
             this.items.Add(new(""));
-            this.historyIndex = this.items.Count - 1;
+            this.historyIndex++;
         }
 
         public HistoryItem? Peek()
