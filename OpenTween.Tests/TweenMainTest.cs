@@ -23,6 +23,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
@@ -54,6 +55,11 @@ namespace OpenTween
             using var imageCache = new ImageCache();
             using var iconAssets = new IconAssetsManager();
             var thumbnailGenerator = new ThumbnailGenerator(new(autoupdate: false));
+
+            // TabInformation.GetInstance() で取得できるようにする
+            var field = typeof(TabInformations).GetField("Instance",
+                BindingFlags.NonPublic | BindingFlags.Static | BindingFlags.SetField);
+            field.SetValue(null, tabinfo);
 
             using var tweenMain = new TweenMain(settings, tabinfo, twitter, imageCache, iconAssets, thumbnailGenerator);
             var context = new TestContext(settings, tabinfo);
@@ -171,6 +177,36 @@ namespace OpenTween
 
                 Assert.IsType<Button>(panel.Controls[2]);
                 Assert.IsType<Label>(panel.Controls[3]);
+            });
+        }
+
+        [WinFormsFact]
+        public void RefreshTimeline_Test()
+        {
+            this.UsingTweenMain((tweenMain, context) =>
+            {
+                var tabPage = tweenMain.ListTab.TabPages[0];
+                Assert.Equal("Recent", tabPage.Text);
+
+                var listView = (DetailsListView)tabPage.Controls[0];
+                Assert.Equal(0, listView.VirtualListSize);
+
+                var post = new PostClass
+                {
+                    StatusId = new TwitterStatusId("100"),
+                    Text = "hoge",
+                    UserId = 111L,
+                    ScreenName = "opentween",
+                    CreatedAt = new(2024, 1, 1, 0, 0, 0),
+                };
+                context.TabInfo.AddPost(post);
+                context.TabInfo.DistributePosts();
+                tweenMain.RefreshTimeline();
+
+                Assert.Equal(1, listView.VirtualListSize);
+
+                var listItem = listView.Items[0];
+                Assert.Equal("opentween", listItem.SubItems[4].Text);
             });
         }
 
