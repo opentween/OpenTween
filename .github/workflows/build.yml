@@ -14,12 +14,12 @@ jobs:
     runs-on: windows-2022
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           ref: ${{ github.event.pull_request.head.sha }}
 
       - name: Add msbuild to PATH
-        uses: microsoft/setup-msbuild@v1.1
+        uses: microsoft/setup-msbuild@v1
 
       - name: Set configuration env
         shell: pwsh
@@ -43,7 +43,7 @@ jobs:
           msbuild /target:restore,build "/p:Configuration=$($env:CONFIGURATION)" /verbosity:minimal ${{ inputs.msbuild_args }}
 
       - name: Upload build result
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: build
           path: |
