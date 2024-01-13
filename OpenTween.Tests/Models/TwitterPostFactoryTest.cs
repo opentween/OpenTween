@@ -287,6 +287,27 @@ namespace OpenTween.Models
         }
 
         [Fact]
+        public void GetReceivedHashtags_Test()
+        {
+            var factory = new TwitterPostFactory(this.CreateTabinfo());
+            var status = this.CreateStatus();
+            status.FullText = "hoge #OpenTween";
+            status.Entities.Hashtags = new[]
+            {
+                new TwitterEntityHashtag
+                {
+                    Indices = new[] { 5, 15 },
+                    Text = "OpenTween",
+                },
+            };
+
+            _ = factory.CreateFromStatus(status, selfUserId: 20000L, followerIds: EmptyIdSet);
+
+            Assert.Equal(new[] { "#OpenTween" }, factory.GetReceivedHashtags());
+            Assert.Empty(factory.GetReceivedHashtags());
+        }
+
+        [Fact]
         public void CreateFromStatus_MediaAltTest()
         {
             var factory = new TwitterPostFactory(this.CreateTabinfo());

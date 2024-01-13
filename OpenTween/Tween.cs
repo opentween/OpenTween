@@ -811,7 +811,7 @@ namespace OpenTween
             _ = this.saveConfigDebouncer.Call();
         }
 
-        private void RefreshTimeline()
+        internal void RefreshTimeline()
         {
             var curListView = this.CurrentListView;
 

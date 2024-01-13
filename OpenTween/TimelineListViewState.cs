@@ -78,8 +78,8 @@ namespace OpenTween
 
         public void Save(bool lockScroll)
         {
-            this.savedScrollState = this.SaveListViewScroll(lockScroll);
-            this.savedSelectionState = this.SaveListViewSelection();
+            this.savedScrollState = this.GetListViewScroll(lockScroll);
+            this.savedSelectionState = this.GetListViewSelection();
         }
 
         public void Restore(bool forceScroll = false)
@@ -97,7 +97,7 @@ namespace OpenTween
         /// <summary>
         /// <see cref="ListView"/> のスクロール位置に関する情報を <see cref="ListViewScroll"/> として返します
         /// </summary>
-        private ListViewScroll SaveListViewScroll(bool lockScroll)
+        internal ListViewScroll GetListViewScroll(bool lockScroll)
         {
             var lockMode = this.GetScrollLockMode(lockScroll);
             PostId? topItemStatusId = null;
@@ -117,7 +117,7 @@ namespace OpenTween
             };
         }
 
-        private ScrollLockMode GetScrollLockMode(bool lockScroll)
+        internal ScrollLockMode GetScrollLockMode(bool lockScroll)
         {
             if (this.tab.SortMode == ComparerMode.Id)
             {
@@ -159,7 +159,7 @@ namespace OpenTween
         /// <summary>
         /// <see cref="ListView"/> の選択状態を <see cref="ListViewSelection"/> として返します
         /// </summary>
-        private ListViewSelection SaveListViewSelection()
+        internal ListViewSelection GetListViewSelection()
         {
             if (this.listView.VirtualListSize == 0)
             {
@@ -194,9 +194,9 @@ namespace OpenTween
         }
 
         /// <summary>
-        /// <see cref="SaveListViewScroll"/> によって保存されたスクロール位置を復元します
+        /// <see cref="GetListViewScroll"/> によって保存されたスクロール位置を復元します
         /// </summary>
-        private void RestoreListViewScroll(ListViewScroll listScroll, bool forceScroll)
+        internal void RestoreListViewScroll(ListViewScroll listScroll, bool forceScroll)
         {
             if (this.listView.VirtualListSize == 0)
                 return;
@@ -236,9 +236,9 @@ namespace OpenTween
         }
 
         /// <summary>
-        /// <see cref="SaveListViewSelection"/> によって保存された選択状態を復元します
+        /// <see cref="GetListViewSelection"/> によって保存された選択状態を復元します
         /// </summary>
-        private void RestoreListViewSelection(ListViewSelection listSelection)
+        internal void RestoreListViewSelection(ListViewSelection listSelection)
         {
             var invalidateBounds = (Rectangle?)null;
 
