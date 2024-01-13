@@ -181,6 +181,37 @@ namespace OpenTween
         }
 
         [WinFormsFact]
+        public void RemoveSpecifiedTab_Test()
+        {
+            this.UsingTweenMain((tweenMain, context) =>
+            {
+                Assert.Equal(4, tweenMain.ListTab.TabPages.Count);
+
+                var tab = new PublicSearchTabModel("hoge")
+                {
+                    SearchWords = "#OpenTween",
+                    SearchLang = "ja",
+                };
+                context.TabInfo.AddTab(tab);
+                tweenMain.AddNewTab(tab, startup: false);
+                Assert.Equal(5, tweenMain.ListTab.TabPages.Count);
+
+                var tabPage = tweenMain.ListTab.TabPages[4];
+                var listView = (DetailsListView)tabPage.Controls[0];
+                var searchPanel = (Panel)tabPage.Controls[1];
+                Assert.Equal("hoge", tabPage.Text);
+
+                tweenMain.RemoveSpecifiedTab("hoge", confirm: false);
+
+                Assert.Equal(4, tweenMain.ListTab.TabPages.Count);
+                Assert.False(context.TabInfo.ContainsTab("hoge"));
+                Assert.True(tabPage.IsDisposed);
+                Assert.True(listView.IsDisposed);
+                Assert.True(searchPanel.IsDisposed);
+            });
+        }
+
+        [WinFormsFact]
         public void RefreshTimeline_Test()
         {
             this.UsingTweenMain((tweenMain, context) =>
