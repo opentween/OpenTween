@@ -32,6 +32,7 @@ using System.Windows.Forms;
 using OpenTween.Connection;
 using OpenTween.Setting;
 using OpenTween.SocialProtocol;
+using OpenTween.SocialProtocol.Twitter;
 
 namespace OpenTween
 {
@@ -148,7 +149,7 @@ namespace OpenTween
             // ここが Twitter API への最初のアクセスになるようにすること
             try
             {
-                accounts.Primary.VerifyCredentials();
+                ((TwitterAccount)accounts.Primary).Legacy.VerifyCredentials();
             }
             catch (WebApiException ex)
             {

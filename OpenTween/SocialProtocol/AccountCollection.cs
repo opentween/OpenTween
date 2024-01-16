@@ -24,40 +24,36 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using OpenTween.SocialProtocol.Twitter;
 
 namespace OpenTween.SocialProtocol
 {
     public sealed class AccountCollection : IDisposable
     {
-        private Dictionary<Guid, Twitter> accounts = new();
+        private Dictionary<Guid, ISocialAccount> accounts = new();
         private Guid? primaryId;
-        private readonly Twitter emptyAccount = new(new());
+        private readonly ISocialAccount emptyAccount = new TwitterAccount(Guid.Empty);
 
         public bool IsDisposed { get; private set; }
 
-        public Twitter Primary
+        public ISocialAccount Primary
             => this.primaryId != null ? this.accounts[this.primaryId.Value] : this.emptyAccount;
 
-        public Twitter[] Items
+        public ISocialAccount[] Items
             => this.accounts.Values.ToArray();
 
         public void LoadFromSettings(SettingCommon settingCommon)
         {
             var oldAccounts = this.accounts;
-            var newAccounts = new Dictionary<Guid, Twitter>();
+            var newAccounts = new Dictionary<Guid, ISocialAccount>();
 
             foreach (var accountSettings in settingCommon.UserAccounts)
             {
                 var accountKey = accountSettings.UniqueKey;
                 if (!oldAccounts.TryGetValue(accountKey, out var account))
-                    account = new(new());
+                    account = new TwitterAccount(accountKey);
 
-                var credential = accountSettings.GetTwitterCredential();
-                account.Initialize(credential, accountSettings.Username, accountSettings.UserId);
-
-                account.RestrictFavCheck = settingCommon.RestrictFavCheck;
-                account.ReadOwnPost = settingCommon.ReadOwnPost;
-
+                account.Initialize(accountSettings, settingCommon);
                 newAccounts[accountKey] = account;
             }
 
@@ -82,7 +78,7 @@ namespace OpenTween.SocialProtocol
             this.IsDisposed = true;
         }
 
-        private void DisposeAccounts(IEnumerable<Twitter> accounts)
+        private void DisposeAccounts(IEnumerable<ISocialAccount> accounts)
         {
             foreach (var account in accounts)
                 account.Dispose();

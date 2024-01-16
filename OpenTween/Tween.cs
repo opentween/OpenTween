@@ -60,6 +60,7 @@ using OpenTween.Models;
 using OpenTween.OpenTweenCustomControl;
 using OpenTween.Setting;
 using OpenTween.SocialProtocol;
+using OpenTween.SocialProtocol.Twitter;
 using OpenTween.Thumbnail;
 
 namespace OpenTween
@@ -113,7 +114,7 @@ namespace OpenTween
         private readonly AccountCollection accounts;
 
 #pragma warning disable SA1300
-        private Twitter tw => this.accounts.Primary; // AccountCollection への移行用
+        private Twitter tw => ((TwitterAccount)this.accounts.Primary).Legacy; // AccountCollection への移行用
 #pragma warning restore SA1300
 
         // Growl呼び出し部

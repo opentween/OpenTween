@@ -20,6 +20,7 @@
 // Boston, MA 02110-1301, USA.
 
 using System;
+using OpenTween.SocialProtocol.Twitter;
 using Xunit;
 
 namespace OpenTween.SocialProtocol
@@ -90,7 +91,7 @@ namespace OpenTween.SocialProtocol
 
             // 欠けている ID は削除される
             Assert.Empty(accounts.Items);
-            Assert.Equal(APIAuthType.None, accounts.Primary.Api.AuthType);
+            Assert.Equal(APIAuthType.None, ((TwitterAccount)accounts.Primary).AuthType);
             Assert.True(accountItem1.IsDisposed);
         }
 
