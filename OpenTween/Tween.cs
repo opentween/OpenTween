@@ -59,6 +59,7 @@ using OpenTween.MediaUploadServices;
 using OpenTween.Models;
 using OpenTween.OpenTweenCustomControl;
 using OpenTween.Setting;
+using OpenTween.SocialProtocol;
 using OpenTween.Thumbnail;
 
 namespace OpenTween
@@ -108,8 +109,12 @@ namespace OpenTween
         // 設定ファイル
         private readonly SettingManager settings;
 
-        // twitter解析部
-        private readonly Twitter tw;
+        // ユーザーアカウント
+        private readonly AccountCollection accounts;
+
+#pragma warning disable SA1300
+        private Twitter tw => this.accounts.Primary; // AccountCollection への移行用
+#pragma warning restore SA1300
 
         // Growl呼び出し部
         private readonly GrowlHelper gh = new(ApplicationSettings.ApplicationName);
@@ -241,7 +246,7 @@ namespace OpenTween
         public TweenMain(
             SettingManager settingManager,
             TabInformations tabInfo,
-            Twitter twitter,
+            AccountCollection accounts,
             ImageCache imageCache,
             IconAssetsManager iconAssets,
             ThumbnailGenerator thumbGenerator
@@ -249,7 +254,7 @@ namespace OpenTween
         {
             this.settings = settingManager;
             this.statuses = tabInfo;
-            this.tw = twitter;
+            this.accounts = accounts;
             this.iconCache = imageCache;
             this.iconAssets = iconAssets;
             this.thumbGenerator = thumbGenerator;
@@ -2492,18 +2497,7 @@ namespace OpenTween
                 {
                     this.settings.ApplySettings();
 
-                    if (MyCommon.IsNullOrEmpty(this.settings.Common.Token))
-                        this.tw.ClearAuthInfo();
-
-                    var account = this.settings.Common.SelectedAccount;
-                    if (account != null)
-                        this.tw.Initialize(account.GetTwitterCredential(), account.Username, account.UserId);
-                    else
-                        this.tw.Initialize(new TwitterCredentialNone(), "", 0L);
-
-                    this.tw.RestrictFavCheck = this.settings.Common.RestrictFavCheck;
-                    this.tw.ReadOwnPost = this.settings.Common.ReadOwnPost;
-
+                    this.accounts.LoadFromSettings(this.settings.Common);
                     this.ImageSelector.Model.InitializeServices(this.tw, this.tw.Configuration);
 
                     try

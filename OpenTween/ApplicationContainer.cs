@@ -22,9 +22,9 @@
 #nullable enable
 
 using System;
-using OpenTween.Api;
 using OpenTween.Models;
 using OpenTween.Setting;
+using OpenTween.SocialProtocol;
 using OpenTween.Thumbnail;
 using OpenTween.Thumbnail.Services;
 
@@ -41,11 +41,8 @@ namespace OpenTween
         public CultureService CultureService
             => this.cultureServiceLazy.Value;
 
-        public TwitterApi TwitterApi
-            => this.twitterApiLazy.Value;
-
-        public Twitter Twitter
-            => this.twitterLazy.Value;
+        public AccountCollection AccountCollection
+            => this.accountCollectionLazy.Value;
 
         public ImageCache ImageCache
             => this.imageCacheLazy.Value;
@@ -63,8 +60,7 @@ namespace OpenTween
             => this.mainFormLazy.Value;
 
         private readonly Lazy<CultureService> cultureServiceLazy;
-        private readonly DisposableLazy<TwitterApi> twitterApiLazy;
-        private readonly DisposableLazy<Twitter> twitterLazy;
+        private readonly DisposableLazy<AccountCollection> accountCollectionLazy;
         private readonly DisposableLazy<ImageCache> imageCacheLazy;
         private readonly DisposableLazy<IconAssetsManager> iconAssetsManagerLazy;
         private readonly DisposableLazy<ImgAzyobuziNet> imgAzyobuziNetLazy;
@@ -77,8 +73,7 @@ namespace OpenTween
             SettingManager.Instance = settings;
 
             this.cultureServiceLazy = new(this.CreateCultureService);
-            this.twitterApiLazy = new(this.CreateTwitterApi);
-            this.twitterLazy = new(this.CreateTwitter);
+            this.accountCollectionLazy = new(this.CreateAccountCollection);
             this.imageCacheLazy = new(this.CreateImageCache);
             this.iconAssetsManagerLazy = new(this.CreateIconAssetsManager);
             this.imgAzyobuziNetLazy = new(this.CreateImgAzyobuziNet);
@@ -89,11 +84,8 @@ namespace OpenTween
         private CultureService CreateCultureService()
             => new(this.Settings.Common);
 
-        private TwitterApi CreateTwitterApi()
+        private AccountCollection CreateAccountCollection()
             => new();
-
-        private Twitter CreateTwitter()
-            => new(this.TwitterApi);
 
         private ImageCache CreateImageCache()
             => new();
@@ -108,7 +100,7 @@ namespace OpenTween
             => new(this.ImgAzyobuziNet);
 
         private TweenMain CreateTweenMain()
-            => new(this.Settings, this.TabInfo, this.Twitter, this.ImageCache, this.IconAssetsManager, this.ThumbnailGenerator);
+            => new(this.Settings, this.TabInfo, this.AccountCollection, this.ImageCache, this.IconAssetsManager, this.ThumbnailGenerator);
 
         public void Dispose()
         {
@@ -118,8 +110,7 @@ namespace OpenTween
             this.IsDisposed = true;
             this.mainFormLazy.Dispose();
             this.imgAzyobuziNetLazy.Dispose();
-            this.twitterLazy.Dispose();
-            this.twitterApiLazy.Dispose();
+            this.accountCollectionLazy.Dispose();
             this.iconAssetsManagerLazy.Dispose();
             this.imageCacheLazy.Dispose();
         }

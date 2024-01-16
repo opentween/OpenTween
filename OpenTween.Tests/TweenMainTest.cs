@@ -27,12 +27,11 @@ using System.Reflection;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
-using OpenTween.Api;
 using OpenTween.Api.DataModel;
-using OpenTween.Connection;
 using OpenTween.Models;
 using OpenTween.OpenTweenCustomControl;
 using OpenTween.Setting;
+using OpenTween.SocialProtocol;
 using OpenTween.Thumbnail;
 using Xunit;
 using Xunit.Extensions;
@@ -50,8 +49,7 @@ namespace OpenTween
         {
             var settings = new SettingManager("");
             var tabinfo = new TabInformations();
-            using var twitterApi = new TwitterApi();
-            using var twitter = new Twitter(twitterApi);
+            using var accounts = new AccountCollection();
             using var imageCache = new ImageCache();
             using var iconAssets = new IconAssetsManager();
             var thumbnailGenerator = new ThumbnailGenerator(new(autoupdate: false));
@@ -61,7 +59,7 @@ namespace OpenTween
                 BindingFlags.NonPublic | BindingFlags.Static | BindingFlags.SetField);
             field.SetValue(null, tabinfo);
 
-            using var tweenMain = new TweenMain(settings, tabinfo, twitter, imageCache, iconAssets, thumbnailGenerator);
+            using var tweenMain = new TweenMain(settings, tabinfo, accounts, imageCache, iconAssets, thumbnailGenerator);
             var context = new TestContext(settings, tabinfo);
 
             func(tweenMain, context);
