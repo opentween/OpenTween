@@ -580,6 +580,8 @@ namespace OpenTween.Properties {
         /// <summary>
         ///   更新履歴
         ///
+        ///==== Unreleased
+        ///
         ///==== Ver 3.12.0(2024/01/20)
         /// * NEW: graphqlエンドポイントを使用したホームタイムラインの取得に対応
         ///
@@ -596,8 +598,7 @@ namespace OpenTween.Properties {
         /// * FIX: APIリクエストがタイムアウトした場合のキャンセル処理を改善
         ///
         ///==== Ver 3.9.0(2023/12/03)
-        /// * NEW: graphqlエンドポイントに対するレートリミットの表示に対応
-        /// * CHG: タ [残りの文字列は切り詰められました]&quot;; に類似しているローカライズされた文字列を検索します。
+        /// * NEW: graphqlエンドポイントに対するレートリミ [残りの文字列は切り詰められました]&quot;; に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string ChangeLog {
             get {
