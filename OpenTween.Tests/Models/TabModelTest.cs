@@ -674,6 +674,88 @@ namespace OpenTween.Models
         }
 
         [Fact]
+        public void IndexOf_SingleFoundTest()
+        {
+            var tab = new PublicSearchTabModel("search");
+
+            tab.AddPostQueue(new()
+            {
+                StatusId = new TwitterStatusId("100"),
+                CreatedAtForSorting = new(2023, 1, 1, 0, 0, 0),
+                TextFromApi = "aaa",
+            });
+            tab.SetSortMode(ComparerMode.Id, SortOrder.Ascending);
+            tab.AddSubmit();
+
+            Assert.Equal(0, tab.IndexOf(new TwitterStatusId("100")));
+        }
+
+        [Fact]
+        public void IndexOf_SingleNotFoundTest()
+        {
+            var tab = new PublicSearchTabModel("search");
+
+            tab.AddPostQueue(new()
+            {
+                StatusId = new TwitterStatusId("100"),
+                CreatedAtForSorting = new(2023, 1, 1, 0, 0, 0),
+                TextFromApi = "aaa",
+            });
+            tab.SetSortMode(ComparerMode.Id, SortOrder.Ascending);
+            tab.AddSubmit();
+
+            Assert.Equal(-1, tab.IndexOf(new TwitterStatusId("200")));
+        }
+
+        [Fact]
+        public void IndexOf_MultipleFoundTest()
+        {
+            var tab = new PublicSearchTabModel("search");
+
+            tab.AddPostQueue(new()
+            {
+                StatusId = new TwitterStatusId("100"),
+                CreatedAtForSorting = new(2023, 1, 1, 0, 0, 0),
+                TextFromApi = "aaa",
+            });
+            tab.AddPostQueue(new()
+            {
+                StatusId = new TwitterStatusId("200"),
+                CreatedAtForSorting = new(2023, 1, 1, 0, 0, 1),
+                TextFromApi = "bbb",
+            });
+            tab.SetSortMode(ComparerMode.Id, SortOrder.Ascending);
+            tab.AddSubmit();
+
+            var actual = tab.IndexOf(new[] { new TwitterStatusId("200"), new TwitterStatusId("100") });
+            Assert.Equal(new[] { 1, 0 }, actual);
+        }
+
+        [Fact]
+        public void IndexOf_MultiplePartiallyFoundTest()
+        {
+            var tab = new PublicSearchTabModel("search");
+
+            tab.AddPostQueue(new()
+            {
+                StatusId = new TwitterStatusId("100"),
+                CreatedAtForSorting = new(2023, 1, 1, 0, 0, 0),
+                TextFromApi = "aaa",
+            });
+            tab.AddPostQueue(new()
+            {
+                StatusId = new TwitterStatusId("200"),
+                CreatedAtForSorting = new(2023, 1, 1, 0, 0, 1),
+                TextFromApi = "bbb",
+            });
+            tab.SetSortMode(ComparerMode.Id, SortOrder.Ascending);
+            tab.AddSubmit();
+
+            var actual = tab.IndexOf(new[] { new TwitterStatusId("100"), new TwitterStatusId("999") });
+            Assert.Equal(new[] { 0, -1 }, actual);
+        }
+
+        [Fact]
         public void SearchPostsAll_Test()
         {
             var tab = new PublicSearchTabModel("search");

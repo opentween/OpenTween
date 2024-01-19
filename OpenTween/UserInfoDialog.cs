@@ -44,6 +44,7 @@ using System.Windows.Forms;
 using OpenTween.Api;
 using OpenTween.Api.DataModel;
 using OpenTween.Connection;
+using OpenTween.Models;
 
 namespace OpenTween
 {
@@ -54,11 +55,13 @@ namespace OpenTween
 
         private readonly TweenMain mainForm;
         private readonly TwitterApi twitterApi;
+        private readonly DetailsHtmlBuilder detailsHtmlBuilder;
 
-        public UserInfoDialog(TweenMain mainForm, TwitterApi twitterApi)
+        public UserInfoDialog(TweenMain mainForm, TwitterApi twitterApi, DetailsHtmlBuilder detailsHtmlBuilder)
         {
             this.mainForm = mainForm;
             this.twitterApi = twitterApi;
+            this.detailsHtmlBuilder = detailsHtmlBuilder;
 
             this.InitializeComponent();
 
@@ -183,7 +186,7 @@ namespace OpenTween
                     .Concat(TweetExtractor.ExtractEmojiEntities(descriptionText));
 
                 var html = TweetFormatter.AutoLinkHtml(descriptionText, mergedEntities);
-                html = this.mainForm.CreateDetailHtml(html);
+                html = this.detailsHtmlBuilder.Build(html);
 
                 if (cancellationToken.IsCancellationRequested)
                     return;
@@ -192,7 +195,7 @@ namespace OpenTween
             }
             else
             {
-                this.DescriptionBrowser.DocumentText = this.mainForm.CreateDetailHtml("");
+                this.DescriptionBrowser.DocumentText = this.detailsHtmlBuilder.Build("");
             }
         }
 
@@ -263,7 +266,7 @@ namespace OpenTween
                 var mergedEntities = entities.Concat(TweetExtractor.ExtractEmojiEntities(status.FullText));
 
                 var html = TweetFormatter.AutoLinkHtml(status.FullText, mergedEntities);
-                html = this.mainForm.CreateDetailHtml(html +
+                html = this.detailsHtmlBuilder.Build(html +
                     " Posted at " + MyCommon.DateTimeParse(status.CreatedAt).ToLocalTimeString() +
                     " via " + status.Source);
 
@@ -274,7 +277,7 @@ namespace OpenTween
             }
             else
             {
-                this.RecentPostBrowser.DocumentText = this.mainForm.CreateDetailHtml(Properties.Resources.ShowUserInfo2);
+                this.RecentPostBrowser.DocumentText = this.detailsHtmlBuilder.Build(Properties.Resources.ShowUserInfo2);
             }
         }
 

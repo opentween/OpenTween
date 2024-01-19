@@ -17,12 +17,12 @@ jobs:
     needs: [build]
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           ref: ${{ github.event.pull_request.head.sha }}
 
       - name: Add msbuild to PATH
-        uses: microsoft/setup-msbuild@v1.1
+        uses: microsoft/setup-msbuild@v1
 
       - name: Set configuration env
         shell: pwsh
@@ -41,7 +41,7 @@ jobs:
             nuget-
 
       - name: Restore build result
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: build
 
@@ -96,7 +96,7 @@ jobs:
             exit $p.ExitCode
           }
 
-      - uses: codecov/codecov-action@v3
+      - uses: codecov/codecov-action@v4.0.0-beta.3
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
           fail_ci_if_error: true

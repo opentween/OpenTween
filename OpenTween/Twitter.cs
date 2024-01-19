@@ -595,7 +595,24 @@ namespace OpenTween
             var count = GetApiResultCount(MyCommon.WORKERTYPE.Timeline, more, startup);
 
             TwitterStatus[] statuses;
-            if (SettingManager.Instance.Common.EnableTwitterV2Api)
+            if (this.Api.AuthType == APIAuthType.TwitterComCookie)
+            {
+                var request = new HomeLatestTimelineRequest
+                {
+                    Count = count,
+                    Cursor = more ? tab.CursorBottom : tab.CursorTop,
+                };
+                var response = await request.Send(this.Api.Connection)
+                    .ConfigureAwait(false);
+
+                statuses = response.ToTwitterStatuses();
+
+                tab.CursorBottom = response.CursorBottom;
+
+                if (!more)
+                    tab.CursorTop = response.CursorTop;
+            }
+            else if (SettingManager.Instance.Common.EnableTwitterV2Api)
             {
                 var request = new GetTimelineRequest(this.UserId)
                 {

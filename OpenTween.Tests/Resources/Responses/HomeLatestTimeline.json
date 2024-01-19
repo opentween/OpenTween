@@ -1,0 +1,654 @@
+{
+  "data": {
+    "home": {
+      "home_timeline_urt": {
+        "instructions": [
+          {
+            "type": "TimelineAddEntries",
+            "entries": [
+              {
+                "entryId": "tweet-1619438689213419520",
+                "sortIndex": "1748345505739440127",
+                "content": {
+                  "entryType": "TimelineTimelineItem",
+                  "__typename": "TimelineTimelineItem",
+                  "itemContent": {
+                    "itemType": "TimelineTweet",
+                    "__typename": "TimelineTweet",
+                    "tweet_results": {
+                      "result": {
+                        "__typename": "Tweet",
+                        "rest_id": "1619438689213419520",
+                        "core": {
+                          "user_results": {
+                            "result": {
+                              "__typename": "User",
+                              "id": "VXNlcjo3NzE4NzExMjQ=",
+                              "rest_id": "771871124",
+                              "affiliates_highlighted_label": {
+                                "label": {
+                                  "badge": {
+                                    "url": "https://pbs.twimg.com/semantic_core_img/1428827730364096519/4ZXpTBhS?format=png&name=orig"
+                                  },
+                                  "description": "Automated",
+                                  "longDescription": {
+                                    "text": "Automated by @opentween",
+                                    "entities": [
+                                      {
+                                        "fromIndex": 13,
+                                        "toIndex": 23,
+                                        "ref": {
+                                          "type": "TimelineRichTextMention",
+                                          "screen_name": "opentween",
+                                          "mention_results": {
+                                            "result": {
+                                              "__typename": "User",
+                                              "legacy": {
+                                                "screen_name": "opentween"
+                                              },
+                                              "rest_id": "514241801"
+                                            }
+                                          }
+                                        }
+                                      }
+                                    ]
+                                  },
+                                  "userLabelType": "AutomatedLabel"
+                                }
+                              },
+                              "has_graduated_access": true,
+                              "is_blue_verified": false,
+                              "profile_image_shape": "Circle",
+                              "legacy": {
+                                "following": true,
+                                "can_dm": false,
+                                "can_media_tag": true,
+                                "created_at": "Tue Aug 21 17:03:01 +0000 2012",
+                                "default_profile": true,
+                                "default_profile_image": true,
+                                "description": "最新の開発版OpenTweenは https://t.co/a0mUFAT58Y から試せます",
+                                "entities": {
+                                  "description": {
+                                    "urls": [
+                                      {
+                                        "display_url": "ci.appveyor.com/project/upsilo…",
+                                        "expanded_url": "https://ci.appveyor.com/project/upsilon/opentween/build/artifacts?branch=master",
+                                        "url": "https://t.co/a0mUFAT58Y",
+                                        "indices": [
+                                          17,
+                                          40
+                                        ]
+                                      }
+                                    ]
+                                  }
+                                },
+                                "fast_followers_count": 0,
+                                "favourites_count": 0,
+                                "followers_count": 40,
+                                "friends_count": 0,
+                                "has_custom_timelines": false,
+                                "is_translator": false,
+                                "listed_count": 0,
+                                "location": "",
+                                "media_count": 0,
+                                "name": "OpenTween 新着コミット",
+                                "normal_followers_count": 40,
+                                "pinned_tweet_ids_str": [],
+                                "possibly_sensitive": false,
+                                "profile_image_url_https": "https://abs.twimg.com/sticky/default_profile_images/default_profile_normal.png",
+                                "profile_interstitial_type": "",
+                                "screen_name": "OpenTweenCommit",
+                                "statuses_count": 1991,
+                                "translator_type": "none",
+                                "verified": false,
+                                "want_retweets": true,
+                                "withheld_in_countries": []
+                              }
+                            }
+                          }
+                        },
+                        "card": {
+                          "rest_id": "https://t.co/TBwXmNGlWs",
+                          "legacy": {
+                            "binding_values": [
+                              {
+                                "key": "photo_image_full_size_large",
+                                "value": {
+                                  "image_value": {
+                                    "height": 419,
+                                    "width": 800,
+                                    "url": "https://pbs.twimg.com/card_img/1747139186337964032/Uh3I5jzF?format=jpg&name=800x419"
+                                  },
+                                  "type": "IMAGE"
+                                }
+                              },
+                              {
+                                "key": "thumbnail_image",
+                                "value": {
+                                  "image_value": {
+                                    "height": 200,
+                                    "width": 400,
+                                    "url": "https://pbs.twimg.com/card_img/1747139186337964032/Uh3I5jzF?format=jpg&name=400x400"
+                                  },
+                                  "type": "IMAGE"
+                                }
+                              },
+                              {
+                                "key": "domain",
+                                "value": {
+                                  "string_value": "github.com",
+                                  "type": "STRING"
+                                }
+                              },
+                              {
+                                "key": "thumbnail_image_large",
+                                "value": {
+                                  "image_value": {
+                                    "height": 300,
+                                    "width": 600,
+                                    "url": "https://pbs.twimg.com/card_img/1747139186337964032/Uh3I5jzF?format=jpg&name=600x600"
+                                  },
+                                  "type": "IMAGE"
+                                }
+                              },
+                              {
+                                "key": "summary_photo_image_small",
+                                "value": {
+                                  "image_value": {
+                                    "height": 202,
+                                    "width": 386,
+                                    "url": "https://pbs.twimg.com/card_img/1747139186337964032/Uh3I5jzF?format=jpg&name=386x202"
+                                  },
+                                  "type": "IMAGE"
+                                }
+                              },
+                              {
+                                "key": "thumbnail_image_original",
+                                "value": {
+                                  "image_value": {
+                                    "height": 600,
+                                    "width": 1200,
+                                    "url": "https://pbs.twimg.com/card_img/1747139186337964032/Uh3I5jzF?format=jpg&name=orig"
+                                  },
+                                  "type": "IMAGE"
+                                }
+                              },
+                              {
+                                "key": "site",
+                                "value": {
+                                  "scribe_key": "publisher_id",
+                                  "type": "USER",
+                                  "user_value": {
+                                    "id_str": "13334762",
+                                    "path": []
+                                  }
+                                }
+                              },
+                              {
+                                "key": "photo_image_full_size_small",
+                                "value": {
+                                  "image_value": {
+                                    "height": 202,
+                                    "width": 386,
+                                    "url": "https://pbs.twimg.com/card_img/1747139186337964032/Uh3I5jzF?format=jpg&name=386x202"
+                                  },
+                                  "type": "IMAGE"
+                                }
+                              },
+                              {
+                                "key": "summary_photo_image_large",
+                                "value": {
+                                  "image_value": {
+                                    "height": 419,
+                                    "width": 800,
+                                    "url": "https://pbs.twimg.com/card_img/1747139186337964032/Uh3I5jzF?format=jpg&name=800x419"
+                                  },
+                                  "type": "IMAGE"
+                                }
+                              },
+                              {
+                                "key": "thumbnail_image_small",
+                                "value": {
+                                  "image_value": {
+                                    "height": 72,
+                                    "width": 144,
+                                    "url": "https://pbs.twimg.com/card_img/1747139186337964032/Uh3I5jzF?format=jpg&name=144x144"
+                                  },
+                                  "type": "IMAGE"
+                                }
+                              },
+                              {
+                                "key": "thumbnail_image_x_large",
+                                "value": {
+                                  "image_value": {
+                                    "height": 600,
+                                    "width": 1200,
+                                    "url": "https://pbs.twimg.com/card_img/1747139186337964032/Uh3I5jzF?format=png&name=2048x2048_2_exp"
+                                  },
+                                  "type": "IMAGE"
+                                }
+                              },
+                              {
+                                "key": "photo_image_full_size_original",
+                                "value": {
+                                  "image_value": {
+                                    "height": 600,
+                                    "width": 1200,
+                                    "url": "https://pbs.twimg.com/card_img/1747139186337964032/Uh3I5jzF?format=jpg&name=orig"
+                                  },
+                                  "type": "IMAGE"
+                                }
+                              },
+                              {
+                                "key": "vanity_url",
+                                "value": {
+                                  "scribe_key": "vanity_url",
+                                  "string_value": "github.com",
+                                  "type": "STRING"
+                                }
+                              },
+                              {
+                                "key": "photo_image_full_size",
+                                "value": {
+                                  "image_value": {
+                                    "height": 314,
+                                    "width": 600,
+                                    "url": "https://pbs.twimg.com/card_img/1747139186337964032/Uh3I5jzF?format=jpg&name=600x314"
+                                  },
+                                  "type": "IMAGE"
+                                }
+                              },
+                              {
+                                "key": "thumbnail_image_color",
+                                "value": {
+                                  "image_color_value": {
+                                    "palette": [
+                                      {
+                                        "rgb": {
+                                          "blue": 255,
+                                          "green": 255,
+                                          "red": 255
+                                        },
+                                        "percentage": 92.66
+                                      },
+                                      {
+                                        "rgb": {
+                                          "blue": 1,
+                                          "green": 135,
+                                          "red": 23
+                                        },
+                                        "percentage": 3.14
+                                      },
+                                      {
+                                        "rgb": {
+                                          "blue": 120,
+                                          "green": 115,
+                                          "red": 111
+                                        },
+                                        "percentage": 2.31
+                                      },
+                                      {
+                                        "rgb": {
+                                          "blue": 105,
+                                          "green": 184,
+                                          "red": 118
+                                        },
+                                        "percentage": 1.7
+                                      }
+                                    ]
+                                  },
+                                  "type": "IMAGE_COLOR"
+                                }
+                              },
+                              {
+                                "key": "title",
+                                "value": {
+                                  "string_value": "バージョン v3.4.1-dev 開発開始 · opentween/OpenTween@41ae9b4",
+                                  "type": "STRING"
+                                }
+                              },
+                              {
+                                "key": "summary_photo_image_color",
+                                "value": {
+                                  "image_color_value": {
+                                    "palette": [
+                                      {
+                                        "rgb": {
+                                          "blue": 255,
+                                          "green": 255,
+                                          "red": 255
+                                        },
+                                        "percentage": 92.66
+                                      },
+                                      {
+                                        "rgb": {
+                                          "blue": 1,
+                                          "green": 135,
+                                          "red": 23
+                                        },
+                                        "percentage": 3.14
+                                      },
+                                      {
+                                        "rgb": {
+                                          "blue": 120,
+                                          "green": 115,
+                                          "red": 111
+                                        },
+                                        "percentage": 2.31
+                                      },
+                                      {
+                                        "rgb": {
+                                          "blue": 105,
+                                          "green": 184,
+                                          "red": 118
+                                        },
+                                        "percentage": 1.7
+                                      }
+                                    ]
+                                  },
+                                  "type": "IMAGE_COLOR"
+                                }
+                              },
+                              {
+                                "key": "summary_photo_image_x_large",
+                                "value": {
+                                  "image_value": {
+                                    "height": 600,
+                                    "width": 1200,
+                                    "url": "https://pbs.twimg.com/card_img/1747139186337964032/Uh3I5jzF?format=png&name=2048x2048_2_exp"
+                                  },
+                                  "type": "IMAGE"
+                                }
+                              },
+                              {
+                                "key": "summary_photo_image",
+                                "value": {
+                                  "image_value": {
+                                    "height": 314,
+                                    "width": 600,
+                                    "url": "https://pbs.twimg.com/card_img/1747139186337964032/Uh3I5jzF?format=jpg&name=600x314"
+                                  },
+                                  "type": "IMAGE"
+                                }
+                              },
+                              {
+                                "key": "photo_image_full_size_color",
+                                "value": {
+                                  "image_color_value": {
+                                    "palette": [
+                                      {
+                                        "rgb": {
+                                          "blue": 255,
+                                          "green": 255,
+                                          "red": 255
+                                        },
+                                        "percentage": 92.66
+                                      },
+                                      {
+                                        "rgb": {
+                                          "blue": 1,
+                                          "green": 135,
+                                          "red": 23
+                                        },
+                                        "percentage": 3.14
+                                      },
+                                      {
+                                        "rgb": {
+                                          "blue": 120,
+                                          "green": 115,
+                                          "red": 111
+                                        },
+                                        "percentage": 2.31
+                                      },
+                                      {
+                                        "rgb": {
+                                          "blue": 105,
+                                          "green": 184,
+                                          "red": 118
+                                        },
+                                        "percentage": 1.7
+                                      }
+                                    ]
+                                  },
+                                  "type": "IMAGE_COLOR"
+                                }
+                              },
+                              {
+                                "key": "photo_image_full_size_x_large",
+                                "value": {
+                                  "image_value": {
+                                    "height": 600,
+                                    "width": 1200,
+                                    "url": "https://pbs.twimg.com/card_img/1747139186337964032/Uh3I5jzF?format=png&name=2048x2048_2_exp"
+                                  },
+                                  "type": "IMAGE"
+                                }
+                              },
+                              {
+                                "key": "card_url",
+                                "value": {
+                                  "scribe_key": "card_url",
+                                  "string_value": "https://t.co/TBwXmNGlWs",
+                                  "type": "STRING"
+                                }
+                              },
+                              {
+                                "key": "summary_photo_image_original",
+                                "value": {
+                                  "image_value": {
+                                    "height": 600,
+                                    "width": 1200,
+                                    "url": "https://pbs.twimg.com/card_img/1747139186337964032/Uh3I5jzF?format=jpg&name=orig"
+                                  },
+                                  "type": "IMAGE"
+                                }
+                              }
+                            ],
+                            "card_platform": {
+                              "platform": {
+                                "audience": {
+                                  "name": "production"
+                                },
+                                "device": {
+                                  "name": "Swift",
+                                  "version": "12"
+                                }
+                              }
+                            },
+                            "name": "summary_large_image",
+                            "url": "https://t.co/TBwXmNGlWs",
+                            "user_refs_results": [
+                              {
+                                "result": {
+                                  "__typename": "User",
+                                  "id": "VXNlcjoxMzMzNDc2Mg==",
+                                  "rest_id": "13334762",
+                                  "affiliates_highlighted_label": {},
+                                  "has_graduated_access": true,
+                                  "is_blue_verified": true,
+                                  "profile_image_shape": "Square",
+                                  "legacy": {
+                                    "can_dm": false,
+                                    "can_media_tag": true,
+                                    "created_at": "Mon Feb 11 04:41:50 +0000 2008",
+                                    "default_profile": false,
+                                    "default_profile_image": false,
+                                    "description": "The AI-powered developer platform to build, scale, and deliver secure software.",
+                                    "entities": {
+                                      "description": {
+                                        "urls": []
+                                      },
+                                      "url": {
+                                        "urls": [
+                                          {
+                                            "display_url": "github.com",
+                                            "expanded_url": "http://github.com",
+                                            "url": "https://t.co/bbJgfyzcJR",
+                                            "indices": [
+                                              0,
+                                              23
+                                            ]
+                                          }
+                                        ]
+                                      }
+                                    },
+                                    "fast_followers_count": 0,
+                                    "favourites_count": 8192,
+                                    "followers_count": 2550121,
+                                    "friends_count": 336,
+                                    "has_custom_timelines": true,
+                                    "is_translator": false,
+                                    "listed_count": 18221,
+                                    "location": "San Francisco, CA",
+                                    "media_count": 2228,
+                                    "name": "GitHub",
+                                    "normal_followers_count": 2550121,
+                                    "pinned_tweet_ids_str": [],
+                                    "possibly_sensitive": false,
+                                    "profile_banner_url": "https://pbs.twimg.com/profile_banners/13334762/1692114901",
+                                    "profile_image_url_https": "https://pbs.twimg.com/profile_images/1633247750010830848/8zfRrYjA_normal.png",
+                                    "profile_interstitial_type": "",
+                                    "screen_name": "github",
+                                    "statuses_count": 8812,
+                                    "translator_type": "none",
+                                    "url": "https://t.co/bbJgfyzcJR",
+                                    "verified": false,
+                                    "verified_type": "Business",
+                                    "want_retweets": false,
+                                    "withheld_in_countries": []
+                                  }
+                                }
+                              }
+                            ]
+                          }
+                        },
+                        "unmention_data": {},
+                        "unified_card": {
+                          "card_fetch_state": "NoCard"
+                        },
+                        "edit_control": {
+                          "edit_tweet_ids": [
+                            "1619438689213419520"
+                          ],
+                          "editable_until_msecs": "1674941045000",
+                          "is_edit_eligible": true,
+                          "edits_remaining": "5"
+                        },
+                        "is_translatable": true,
+                        "views": {
+                          "count": "263",
+                          "state": "EnabledWithCount"
+                        },
+                        "source": "<a href=\"https://ifttt.com\" rel=\"nofollow\">IFTTT</a>",
+                        "legacy": {
+                          "bookmark_count": 0,
+                          "bookmarked": false,
+                          "created_at": "Sat Jan 28 20:54:05 +0000 2023",
+                          "conversation_id_str": "1619438689213419520",
+                          "display_text_range": [
+                            0,
+                            50
+                          ],
+                          "entities": {
+                            "hashtags": [],
+                            "symbols": [],
+                            "timestamps": [],
+                            "urls": [
+                              {
+                                "display_url": "github.com/opentween/Open…",
+                                "expanded_url": "https://github.com/opentween/OpenTween/commit/41ae9b439d3477baf7fb582b12faab9f6979761f",
+                                "url": "https://t.co/TBwXmNGlWs",
+                                "indices": [
+                                  27,
+                                  50
+                                ]
+                              }
+                            ],
+                            "user_mentions": []
+                          },
+                          "favorite_count": 1,
+                          "favorited": false,
+                          "full_text": "バージョン v3.4.1-dev 開発開始\n     https://t.co/TBwXmNGlWs",
+                          "is_quote_status": false,
+                          "lang": "ja",
+                          "possibly_sensitive": false,
+                          "possibly_sensitive_editable": true,
+                          "quote_count": 0,
+                          "reply_count": 0,
+                          "retweet_count": 1,
+                          "retweeted": false,
+                          "user_id_str": "771871124",
+                          "id_str": "1619438689213419520"
+                        }
+                      }
+                    },
+                    "tweetDisplayType": "Tweet"
+                  },
+                  "clientEventInfo": {
+                    "component": "following_in_network",
+                    "element": "tweet",
+                    "details": {
+                      "timelinesDetails": {
+                        "injectionType": "FollowingInNetwork",
+                        "controllerData": "DAACDAABDAABCgABAQAABEoCAAEKAAIAAAAAAAEBAAoACTxaHRTrD0CCCAALAAAAAQ8ADAMAAAALAQACSgQAAAEAAQEKAA6nR6O27vdKZwoAEPS7WmhJVraiAAAAAA=="
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "entryId": "cursor-top-1748345505739440129",
+                "sortIndex": "1748345505739440129",
+                "content": {
+                  "entryType": "TimelineTimelineCursor",
+                  "__typename": "TimelineTimelineCursor",
+                  "value": "DAABCgABGENe-W5AJxEKAAIWeWboXhcQAAgAAwAAAAEAAA",
+                  "cursorType": "Top"
+                }
+              },
+              {
+                "entryId": "cursor-bottom-1748345505739440028",
+                "sortIndex": "1748345505739440028",
+                "content": {
+                  "entryType": "TimelineTimelineCursor",
+                  "__typename": "TimelineTimelineCursor",
+                  "value": "DAABCgABGENe-W4__5oKAAIWK_5v3BcQAAgAAwAAAAIAAA",
+                  "cursorType": "Bottom"
+                }
+              }
+            ]
+          }
+        ],
+        "responseObjects": {
+          "feedbackActions": [
+            {
+              "key": "-1938325421",
+              "value": {
+                "feedbackType": "Dismiss",
+                "prompt": "See less often",
+                "feedbackUrl": "/1.1/onboarding/fatigue.json?flow_name=premium-plus-upsell-prompt&fatigue_group_name=PremiumPlusUpsellFatigueGroup&action_name=dismiss&scribe_name=dismiss&display_location=home_latest&served_time_secs=1705673025&injection_type=inline_message",
+                "hasUndoAction": false
+              }
+            },
+            {
+              "key": "575125400",
+              "value": {
+                "feedbackType": "SeeFewer",
+                "prompt": "See less often",
+                "confirmation": "OK. You won’t see these as much.",
+                "encodedFeedbackRequest": "LBUEHBUeOQwAAAA=",
+                "hasUndoAction": true,
+                "icon": "Frown"
+              }
+            }
+          ]
+        },
+        "metadata": {
+          "scribeConfig": {
+            "page": "following"
+          }
+        }
+      }
+    }
+  }
+}

@@ -45,6 +45,10 @@ namespace OpenTween.Models
 
         public PostId? OldestId { get; set; }
 
+        public string? CursorTop { get; set; }
+
+        public string? CursorBottom { get; set; }
+
         public int TweetsPerHour => this.tweetsPerHour;
 
         // 流速計測用

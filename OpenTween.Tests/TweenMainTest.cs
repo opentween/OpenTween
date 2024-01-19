@@ -23,14 +23,15 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
-using OpenTween.Api;
 using OpenTween.Api.DataModel;
-using OpenTween.Connection;
 using OpenTween.Models;
+using OpenTween.OpenTweenCustomControl;
 using OpenTween.Setting;
+using OpenTween.SocialProtocol;
 using OpenTween.Thumbnail;
 using Xunit;
 using Xunit.Extensions;
@@ -40,21 +41,26 @@ namespace OpenTween
     public class TweenMainTest
     {
         private record TestContext(
-            SettingManager Settings
+            SettingManager Settings,
+            TabInformations TabInfo
         );
 
         private void UsingTweenMain(Action<TweenMain, TestContext> func)
         {
             var settings = new SettingManager("");
             var tabinfo = new TabInformations();
-            using var twitterApi = new TwitterApi();
-            using var twitter = new Twitter(twitterApi);
+            using var accounts = new AccountCollection();
             using var imageCache = new ImageCache();
             using var iconAssets = new IconAssetsManager();
             var thumbnailGenerator = new ThumbnailGenerator(new(autoupdate: false));
 
-            using var tweenMain = new TweenMain(settings, tabinfo, twitter, imageCache, iconAssets, thumbnailGenerator);
-            var context = new TestContext(settings);
+            // TabInformation.GetInstance() で取得できるようにする
+            var field = typeof(TabInformations).GetField("Instance",
+                BindingFlags.NonPublic | BindingFlags.Static | BindingFlags.SetField);
+            field.SetValue(null, tabinfo);
+
+            using var tweenMain = new TweenMain(settings, tabinfo, accounts, imageCache, iconAssets, thumbnailGenerator);
+            var context = new TestContext(settings, tabinfo);
 
             func(tweenMain, context);
         }
@@ -62,6 +68,176 @@ namespace OpenTween
         [WinFormsFact]
         public void Initialize_Test()
             => this.UsingTweenMain((_, _) => { });
+
+        [WinFormsFact]
+        public void AddNewTab_FilterTabTest()
+        {
+            this.UsingTweenMain((tweenMain, context) =>
+            {
+                Assert.Equal(4, tweenMain.ListTab.TabPages.Count);
+
+                var tab = new FilterTabModel("hoge");
+                context.TabInfo.AddTab(tab);
+                tweenMain.AddNewTab(tab, startup: false);
+
+                Assert.Equal(5, tweenMain.ListTab.TabPages.Count);
+
+                var tabPage = tweenMain.ListTab.TabPages[4];
+                Assert.Equal("hoge", tabPage.Text);
+                Assert.Single(tabPage.Controls);
+                Assert.IsType<DetailsListView>(tabPage.Controls[0]);
+            });
+        }
+
+        [WinFormsFact]
+        public void AddNewTab_UserTimelineTabTest()
+        {
+            this.UsingTweenMain((tweenMain, context) =>
+            {
+                Assert.Equal(4, tweenMain.ListTab.TabPages.Count);
+
+                var tab = new UserTimelineTabModel("hoge", "twitterapi");
+                context.TabInfo.AddTab(tab);
+                tweenMain.AddNewTab(tab, startup: false);
+
+                Assert.Equal(5, tweenMain.ListTab.TabPages.Count);
+
+                var tabPage = tweenMain.ListTab.TabPages[4];
+                Assert.Equal("hoge", tabPage.Text);
+                Assert.Equal(2, tabPage.Controls.Count);
+                Assert.IsType<DetailsListView>(tabPage.Controls[0]);
+
+                var label = Assert.IsType<Label>(tabPage.Controls[1]);
+                Assert.Equal("twitterapi's Timeline", label.Text);
+            });
+        }
+
+        [WinFormsFact]
+        public void AddNewTab_ListTimelineTabTest()
+        {
+            this.UsingTweenMain((tweenMain, context) =>
+            {
+                Assert.Equal(4, tweenMain.ListTab.TabPages.Count);
+
+                var list = new ListElement
+                {
+                    Id = 12345L,
+                    Name = "tetete",
+                    Username = "opentween",
+                    IsPublic = false,
+                };
+                var tab = new ListTimelineTabModel("hoge", list);
+                context.TabInfo.AddTab(tab);
+                tweenMain.AddNewTab(tab, startup: false);
+
+                Assert.Equal(5, tweenMain.ListTab.TabPages.Count);
+
+                var tabPage = tweenMain.ListTab.TabPages[4];
+                Assert.Equal("hoge", tabPage.Text);
+                Assert.Equal(2, tabPage.Controls.Count);
+                Assert.IsType<DetailsListView>(tabPage.Controls[0]);
+
+                var label = Assert.IsType<Label>(tabPage.Controls[1]);
+                Assert.Equal("@opentween/tetete [Protected]", label.Text);
+            });
+        }
+
+        [WinFormsFact]
+        public void AddNewTab_PublicSearchTabTest()
+        {
+            this.UsingTweenMain((tweenMain, context) =>
+            {
+                Assert.Equal(4, tweenMain.ListTab.TabPages.Count);
+
+                var tab = new PublicSearchTabModel("hoge")
+                {
+                    SearchWords = "#OpenTween",
+                    SearchLang = "ja",
+                };
+                context.TabInfo.AddTab(tab);
+                tweenMain.AddNewTab(tab, startup: false);
+
+                Assert.Equal(5, tweenMain.ListTab.TabPages.Count);
+
+                var tabPage = tweenMain.ListTab.TabPages[4];
+                Assert.Equal("hoge", tabPage.Text);
+                Assert.Equal(2, tabPage.Controls.Count);
+                Assert.IsType<DetailsListView>(tabPage.Controls[0]);
+
+                var panel = Assert.IsType<Panel>(tabPage.Controls[1]);
+                Assert.Equal(4, panel.Controls.Count);
+
+                var comboSearchWord = Assert.IsType<ComboBox>(panel.Controls[0]);
+                Assert.Equal("#OpenTween", comboSearchWord.Text);
+
+                var comboSearchLang = Assert.IsType<ComboBox>(panel.Controls[1]);
+                Assert.Equal("ja", comboSearchLang.Text);
+
+                Assert.IsType<Button>(panel.Controls[2]);
+                Assert.IsType<Label>(panel.Controls[3]);
+            });
+        }
+
+        [WinFormsFact]
+        public void RemoveSpecifiedTab_Test()
+        {
+            this.UsingTweenMain((tweenMain, context) =>
+            {
+                Assert.Equal(4, tweenMain.ListTab.TabPages.Count);
+
+                var tab = new PublicSearchTabModel("hoge")
+                {
+                    SearchWords = "#OpenTween",
+                    SearchLang = "ja",
+                };
+                context.TabInfo.AddTab(tab);
+                tweenMain.AddNewTab(tab, startup: false);
+                Assert.Equal(5, tweenMain.ListTab.TabPages.Count);
+
+                var tabPage = tweenMain.ListTab.TabPages[4];
+                var listView = (DetailsListView)tabPage.Controls[0];
+                var searchPanel = (Panel)tabPage.Controls[1];
+                Assert.Equal("hoge", tabPage.Text);
+
+                tweenMain.RemoveSpecifiedTab("hoge", confirm: false);
+
+                Assert.Equal(4, tweenMain.ListTab.TabPages.Count);
+                Assert.False(context.TabInfo.ContainsTab("hoge"));
+                Assert.True(tabPage.IsDisposed);
+                Assert.True(listView.IsDisposed);
+                Assert.True(searchPanel.IsDisposed);
+            });
+        }
+
+        [WinFormsFact]
+        public void RefreshTimeline_Test()
+        {
+            this.UsingTweenMain((tweenMain, context) =>
+            {
+                var tabPage = tweenMain.ListTab.TabPages[0];
+                Assert.Equal("Recent", tabPage.Text);
+
+                var listView = (DetailsListView)tabPage.Controls[0];
+                Assert.Equal(0, listView.VirtualListSize);
+
+                var post = new PostClass
+                {
+                    StatusId = new TwitterStatusId("100"),
+                    Text = "hoge",
+                    UserId = 111L,
+                    ScreenName = "opentween",
+                    CreatedAt = new(2024, 1, 1, 0, 0, 0),
+                };
+                context.TabInfo.AddPost(post);
+                context.TabInfo.DistributePosts();
+                tweenMain.RefreshTimeline();
+
+                Assert.Equal(1, listView.VirtualListSize);
+
+                var listItem = listView.Items[0];
+                Assert.Equal("opentween", listItem.SubItems[4].Text);
+            });
+        }
 
         [WinFormsFact]
         public void FormatStatusText_NewLineTest()

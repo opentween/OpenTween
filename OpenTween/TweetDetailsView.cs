@@ -54,6 +54,9 @@ namespace OpenTween
         private ImageCache IconCache
             => this.iconCache ?? throw this.NotInitializedException();
 
+        private DetailsHtmlBuilder HtmlBuilder
+            => this.detailsHtmlBuilder ?? throw this.NotInitializedException();
+
         /// <summary><see cref="PostClass"/> のダンプを表示するか</summary>
         [Browsable(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
@@ -86,6 +89,7 @@ namespace OpenTween
         private TweenMain? owner;
         private ImageCache? iconCache;
         private ThemeManager? themeManager;
+        private DetailsHtmlBuilder? detailsHtmlBuilder;
 
         public TweetDetailsView()
         {
@@ -102,18 +106,19 @@ namespace OpenTween
             this.PostBrowser.AllowWebBrowserDrop = false;  // COMException を回避するため、ActiveX の初期化が終わってから設定する
         }
 
-        public void Initialize(TweenMain owner, ImageCache iconCache, ThemeManager themeManager)
+        public void Initialize(TweenMain owner, ImageCache iconCache, ThemeManager themeManager, DetailsHtmlBuilder detailsHtmlBuilder)
         {
             this.owner = owner;
             this.iconCache = iconCache;
             this.themeManager = themeManager;
+            this.detailsHtmlBuilder = detailsHtmlBuilder;
         }
 
         private Exception NotInitializedException()
             => new InvalidOperationException("Cannot call before initialization");
 
         public void ClearPostBrowser()
-            => this.PostBrowser.DocumentText = this.Owner.CreateDetailHtml("");
+            => this.PostBrowser.DocumentText = this.HtmlBuilder.Build("");
 
         public async Task ShowPostDetails(PostClass post)
         {
@@ -208,14 +213,14 @@ namespace OpenTween
                 }
                 sb.Append("-----End PostClass Dump<br>");
 
-                this.PostBrowser.DocumentText = this.Owner.CreateDetailHtml(sb.ToString());
+                this.PostBrowser.DocumentText = this.HtmlBuilder.Build(sb.ToString());
                 return;
             }
 
             using (ControlTransaction.Update(this.PostBrowser))
             {
                 this.PostBrowser.DocumentText =
-                    this.Owner.CreateDetailHtml(post.IsDeleted ? "(DELETED)" : post.Text);
+                    this.HtmlBuilder.Build(post.IsDeleted ? "(DELETED)" : post.Text);
 
                 this.PostBrowser.Document.Window.ScrollTo(0, 0);
             }
@@ -331,7 +336,7 @@ namespace OpenTween
             var body = post.Text + string.Concat(loadingQuoteHtml) + loadingReplyHtml;
 
             using (ControlTransaction.Update(this.PostBrowser))
-                this.PostBrowser.DocumentText = this.Owner.CreateDetailHtml(body);
+                this.PostBrowser.DocumentText = this.HtmlBuilder.Build(body);
 
             // 引用ツイートを読み込み
             var loadTweetTasks = quoteStatusIds.Select(x => this.CreateQuoteTweetHtml(x, isReply: false)).ToList();
@@ -348,7 +353,7 @@ namespace OpenTween
             body = post.Text + string.Concat(quoteHtmls);
 
             using (ControlTransaction.Update(this.PostBrowser))
-                this.PostBrowser.DocumentText = this.Owner.CreateDetailHtml(body);
+                this.PostBrowser.DocumentText = this.HtmlBuilder.Build(body);
         }
 
         private async Task<string> CreateQuoteTweetHtml(PostId statusId, bool isReply)
@@ -422,7 +427,7 @@ namespace OpenTween
                     langFrom: null,
                     langTo: SettingManager.Instance.Common.TranslateLanguage);
 
-                this.PostBrowser.DocumentText = this.Owner.CreateDetailHtml(translatedText);
+                this.PostBrowser.DocumentText = this.HtmlBuilder.Build(translatedText);
             }
             catch (WebApiException e)
             {

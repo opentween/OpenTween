@@ -107,6 +107,6 @@ namespace OpenTween
                 .ConfigureAwait(false);
 
         public override string ToString()
-            => $"@{this.Username}/{this.Name} [{(this.IsPublic ? "public" : "Protected")}]";
+            => $"@{this.Username}/{this.Name} [{(this.IsPublic ? "Public" : "Protected")}]";
     }
 }
