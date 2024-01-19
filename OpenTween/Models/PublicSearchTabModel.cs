@@ -99,12 +99,14 @@ namespace OpenTween.Models
         }
 
         /// <summary>
-        /// タブ更新時に使用する SinceId, OldestId をリセットする
+        /// 差分更新用の cursor をリセットする（検索条件が変更された時に使用する）
         /// </summary>
         public void ResetFetchIds()
         {
             this.SinceId = null;
             this.OldestId = null;
+            this.CursorTop = null;
+            this.CursorBottom = null;
         }
     }
 }
