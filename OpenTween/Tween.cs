@@ -6996,8 +6996,10 @@ namespace OpenTween
                 // 表示中のタブに応じて更新
                 endpointName = tabType switch
                 {
-                    MyCommon.TabUsageType.Home => "/statuses/home_timeline",
-                    MyCommon.TabUsageType.UserDefined => "/statuses/home_timeline",
+                    MyCommon.TabUsageType.Home =>
+                        authByCookie ? HomeLatestTimelineRequest.EndpointName : "/statuses/home_timeline",
+                    MyCommon.TabUsageType.UserDefined =>
+                        authByCookie ? HomeLatestTimelineRequest.EndpointName : "/statuses/home_timeline",
                     MyCommon.TabUsageType.Mentions => "/statuses/mentions_timeline",
                     MyCommon.TabUsageType.Favorites => "/favorites/list",
                     MyCommon.TabUsageType.DirectMessage => "/direct_messages/events/list",
@@ -7007,7 +7009,8 @@ namespace OpenTween
                         authByCookie ? ListLatestTweetsTimelineRequest.EndpointName : "/lists/statuses",
                     MyCommon.TabUsageType.PublicSearch =>
                         authByCookie ? SearchTimelineRequest.EndpointName : "/search/tweets",
-                    MyCommon.TabUsageType.Related => "/statuses/show/:id",
+                    MyCommon.TabUsageType.Related =>
+                        authByCookie ? TweetDetailRequest.EndpointName : "/statuses/show/:id",
                     _ => null,
                 };
                 this.toolStripApiGauge.ApiEndpoint = endpointName;
