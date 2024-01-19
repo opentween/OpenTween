@@ -1113,7 +1113,12 @@ namespace OpenTween
             TwitterStatus[] statuses;
             if (this.Api.AuthType == APIAuthType.TwitterComCookie)
             {
-                var request = new SearchTimelineRequest(tab.SearchWords)
+                var query = tab.SearchWords;
+
+                if (!MyCommon.IsNullOrEmpty(tab.SearchLang))
+                    query = $"({query}) lang:{tab.SearchLang}";
+
+                var request = new SearchTimelineRequest(query)
                 {
                     Count = count,
                     Cursor = more ? tab.CursorBottom : tab.CursorTop,
