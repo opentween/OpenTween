@@ -21,6 +21,7 @@
 
 using System.Threading.Tasks;
 using Moq;
+using OpenTween.Api.DataModel;
 using OpenTween.Connection;
 using Xunit;
 
@@ -90,6 +91,33 @@ namespace OpenTween.Api.GraphQL
             };
 
             await request.Send(mock.Object);
+            mock.VerifyAll();
+        }
+
+        [Fact]
+        public async Task Send_RateLimitTest()
+        {
+            using var apiResponse = await TestUtils.CreateApiResponse("Resources/Responses/HomeLatestTimeline_RateLimit.json");
+
+            var mock = new Mock<IApiConnection>();
+            mock.Setup(x =>
+                    x.SendAsync(It.IsAny<IHttpRequest>())
+                )
+                .Callback<IHttpRequest>(x =>
+                {
+                    var request = Assert.IsType<GetRequest>(x);
+                    Assert.Equal(new("https://twitter.com/i/api/graphql/lAKISuk_McyDUlhS2Zmv4A/HomeLatestTimeline"), request.RequestUri);
+                })
+                .ReturnsAsync(apiResponse);
+
+            var request = new HomeLatestTimelineRequest();
+
+            var ex = await Assert.ThrowsAsync<TwitterApiException>(
+                () => request.Send(mock.Object)
+            );
+            var errorItem = Assert.Single(ex.Errors);
+            Assert.Equal(TwitterErrorCode.RateLimit, errorItem.Code);
+
             mock.VerifyAll();
         }
     }

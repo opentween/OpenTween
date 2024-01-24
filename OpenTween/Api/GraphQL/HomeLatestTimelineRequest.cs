@@ -72,6 +72,9 @@ namespace OpenTween.Api.GraphQL
             ErrorResponse.ThrowIfError(rootElm);
 
             var tweets = TimelineTweet.ExtractTimelineTweets(rootElm);
+            if (tweets.Length == 0)
+                ErrorResponse.ThrowIfContainsRateLimitMessage(rootElm);
+
             var cursorTop = rootElm.XPathSelectElement("//content[__typename[text()='TimelineTimelineCursor']][cursorType[text()='Top']]/value")?.Value;
             var cursorBottom = rootElm.XPathSelectElement("//content[__typename[text()='TimelineTimelineCursor']][cursorType[text()='Bottom']]/value")?.Value;
 
