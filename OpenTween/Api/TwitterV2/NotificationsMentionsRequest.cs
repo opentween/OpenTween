@@ -151,7 +151,6 @@ namespace OpenTween.Api.TwitterV2
                 statuses.Add(tweet);
             }
 
-            var tweets = TimelineTweet.ExtractTimelineTweets(rootElm);
             var cursorTop = rootElm.XPathSelectElement("//content/operation/cursor[cursorType[text()='Top']]/value")?.Value;
             var cursorBottom = rootElm.XPathSelectElement("//content/operation/cursor[cursorType[text()='Bottom']]/value")?.Value;
 
