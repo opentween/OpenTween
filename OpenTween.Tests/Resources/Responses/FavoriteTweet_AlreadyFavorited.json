@@ -1,0 +1,33 @@
+{
+  "errors": [
+    {
+      "message": "Authorization: Actor (uid: 1234567890) has already favorited tweet (tweetId: 1234567890123456789)",
+      "locations": [
+        {
+          "line": 2,
+          "column": 3
+        }
+      ],
+      "path": [
+        "favorite_tweet"
+      ],
+      "extensions": {
+        "name": "AuthorizationError",
+        "source": "Client",
+        "code": 139,
+        "kind": "Permissions",
+        "tracing": {
+          "trace_id": "87bbb9c871e092a6"
+        }
+      },
+      "code": 139,
+      "kind": "Permissions",
+      "name": "AuthorizationError",
+      "source": "Client",
+      "tracing": {
+        "trace_id": "87bbb9c871e092a6"
+      }
+    }
+  ],
+  "data": {}
+}

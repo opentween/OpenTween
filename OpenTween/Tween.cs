@@ -1381,17 +1381,9 @@ namespace OpenTween
                 try
                 {
                     var twitterStatusId = (post.RetweetedId ?? post.StatusId).ToTwitterStatusId();
-                    try
-                    {
-                        await this.tw.Api.FavoritesCreate(twitterStatusId)
-                            .IgnoreResponse()
-                            .ConfigureAwait(false);
-                    }
-                    catch (TwitterApiException ex)
-                        when (ex.Errors.All(x => x.Code == TwitterErrorCode.AlreadyFavorited))
-                    {
-                        // エラーコード 139 のみの場合は成功と見なす
-                    }
+
+                    await this.tw.PostFavAdd(twitterStatusId)
+                        .ConfigureAwait(false);
 
                     if (this.settings.Common.RestrictFavCheck)
                     {
@@ -1511,9 +1503,7 @@ namespace OpenTween
 
                     try
                     {
-                        await this.tw.Api.FavoritesDestroy(twitterStatusId)
-                            .IgnoreResponse()
-                            .ConfigureAwait(false);
+                        await this.tw.PostFavRemove(twitterStatusId);
                     }
                     catch (WebApiException)
                     {
