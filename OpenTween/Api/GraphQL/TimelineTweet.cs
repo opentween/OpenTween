@@ -23,6 +23,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -38,10 +39,10 @@ namespace OpenTween.Api.GraphQL
 
         public XElement Element { get; }
 
-        public bool IsTombstone
-            => this.tombstoneElm != null;
+        public bool IsAvailable
+            => this.resultElm != null && !this.IsTombstoneResult(this.resultElm);
 
-        private readonly XElement? tombstoneElm;
+        private readonly XElement? resultElm;
 
         public TimelineTweet(XElement element)
         {
@@ -50,19 +51,22 @@ namespace OpenTween.Api.GraphQL
                 throw new ArgumentException($"Invalid itemType: {typeName}", nameof(element));
 
             this.Element = element;
-            this.tombstoneElm = this.TryGetTombstoneElm();
+            this.resultElm = this.TryGetResultElm();
         }
 
-        private XElement? TryGetTombstoneElm()
-            => this.Element.XPathSelectElement("tweet_results/result[__typename[text()='TweetTombstone']]");
+        private XElement? TryGetResultElm()
+            => this.Element.XPathSelectElement("tweet_results/result");
+
+        private bool IsTombstoneResult([NotNullWhen(true)]XElement? resultElm)
+            => resultElm?.Element("__typename")?.Value == "TweetTombstone";
 
         public TwitterStatus ToTwitterStatus()
         {
-            this.ThrowIfTweetIsTombstone();
+            this.ThrowIfTweetIsNotAvailable();
 
             try
             {
-                var resultElm = this.Element.Element("tweet_results")?.Element("result") ?? throw CreateParseError();
+                var resultElm = this.resultElm ?? throw CreateParseError();
                 var status = TimelineTweet.ParseTweetUnion(resultElm);
 
                 if (this.Element.Element("promotedMetadata") != null)
@@ -78,12 +82,15 @@ namespace OpenTween.Api.GraphQL
             }
         }
 
-        public void ThrowIfTweetIsTombstone()
+        public void ThrowIfTweetIsNotAvailable()
         {
-            if (this.tombstoneElm == null)
+            if (this.IsAvailable)
                 return;
 
-            var tombstoneText = this.tombstoneElm.XPathSelectElement("tombstone/text/text")?.Value;
+            string? tombstoneText = null;
+            if (this.IsTombstoneResult(this.resultElm))
+                tombstoneText = this.resultElm.XPathSelectElement("tombstone/text/text")?.Value;
+
             var message = tombstoneText ?? "Tweet is not available";
             var json = JsonUtils.JsonXmlToString(this.Element);
 
