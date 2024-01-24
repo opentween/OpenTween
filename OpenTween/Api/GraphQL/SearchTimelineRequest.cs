@@ -24,7 +24,6 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using System.Xml.XPath;
 using OpenTween.Connection;
 
 namespace OpenTween.Api.GraphQL
@@ -95,13 +94,7 @@ namespace OpenTween.Api.GraphQL
             var rootElm = await response.ReadAsJsonXml()
                 .ConfigureAwait(false);
 
-            ErrorResponse.ThrowIfError(rootElm);
-
-            var tweets = TimelineTweet.ExtractTimelineTweets(rootElm);
-            var cursorTop = rootElm.XPathSelectElement("//content[__typename[text()='TimelineTimelineCursor']][cursorType[text()='Top']]/value")?.Value;
-            var cursorBottom = rootElm.XPathSelectElement("//content[__typename[text()='TimelineTimelineCursor']][cursorType[text()='Bottom']]/value")?.Value;
-
-            return new(tweets, cursorTop, cursorBottom);
+            return TimelineResponseParser.Parse(rootElm);
         }
     }
 }

@@ -1,0 +1,68 @@
+{
+  "data": {
+    "home": {
+      "home_timeline_urt": {
+        "instructions": [
+          {
+            "type": "TimelineAddEntries",
+            "entries": [
+              {
+                "entryId": "messageprompt-1682783911",
+                "sortIndex": "1749988213990096896",
+                "content": {
+                  "entryType": "TimelineTimelineItem",
+                  "__typename": "TimelineTimelineItem",
+                  "itemContent": {
+                    "itemType": "TimelineMessagePrompt",
+                    "__typename": "TimelineMessagePrompt",
+                    "content": {
+                      "contentType": "TimelineInlinePrompt",
+                      "headerText": "Unlock more posts by subscribing",
+                      "bodyText": "You have reached the limit for seeing posts today. Subscribe to see more posts every day.",
+                      "primaryButtonAction": {
+                        "text": "Subscribe",
+                        "action": {
+                          "url": "https://twitter.com/i/twitter_blue_sign_up",
+                          "dismissOnClick": false
+                        }
+                      }
+                    }
+                  },
+                  "clientEventInfo": {
+                    "component": "verified_prompt",
+                    "element": "message"
+                  }
+                }
+              },
+              {
+                "entryId": "cursor-top-1749988213990096897",
+                "sortIndex": "1749988213990096897",
+                "content": {
+                  "entryType": "TimelineTimelineCursor",
+                  "__typename": "TimelineTimelineCursor",
+                  "value": "DAABCgABGEk1AkAAJxEKAAIYSJVb2ltBzQgAAwAAAAEAAA",
+                  "cursorType": "Top"
+                }
+              },
+              {
+                "entryId": "cursor-bottom-1749988213990096895",
+                "sortIndex": "1749988213990096895",
+                "content": {
+                  "entryType": "TimelineTimelineCursor",
+                  "__typename": "TimelineTimelineCursor",
+                  "value": "DAABCgABGEk1Aj____0KAAIYSJVb2ltBzQgAAwAAAAIAAA",
+                  "cursorType": "Bottom"
+                }
+              }
+            ]
+          }
+        ],
+        "metadata": {
+          "scribeConfig": {
+            "page": "following"
+          }
+        }
+      }
+    }
+  }
+}
