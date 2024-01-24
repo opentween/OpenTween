@@ -474,6 +474,54 @@ namespace OpenTween
             }
         }
 
+        public async Task PostFavAdd(TwitterStatusId statusId)
+        {
+            if (this.Api.AuthType == APIAuthType.TwitterComCookie)
+            {
+                var request = new FavoriteTweetRequest
+                {
+                    TweetId = statusId,
+                };
+
+                await request.Send(this.Api.Connection)
+                    .ConfigureAwait(false);
+            }
+            else
+            {
+                try
+                {
+                    await this.Api.FavoritesCreate(statusId)
+                        .IgnoreResponse()
+                        .ConfigureAwait(false);
+                }
+                catch (TwitterApiException ex)
+                    when (ex.Errors.All(x => x.Code == TwitterErrorCode.AlreadyFavorited))
+                {
+                    // エラーコード 139 のみの場合は成功と見なす
+                }
+            }
+        }
+
+        public async Task PostFavRemove(TwitterStatusId statusId)
+        {
+            if (this.Api.AuthType == APIAuthType.TwitterComCookie)
+            {
+                var request = new UnfavoriteTweetRequest
+                {
+                    TweetId = statusId,
+                };
+
+                await request.Send(this.Api.Connection)
+                    .ConfigureAwait(false);
+            }
+            else
+            {
+                await this.Api.FavoritesDestroy(statusId)
+                    .IgnoreResponse()
+                    .ConfigureAwait(false);
+            }
+        }
+
         public string Username
             => this.Api.CurrentScreenName;
 

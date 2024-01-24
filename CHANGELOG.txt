@@ -2,6 +2,7 @@
 
 ==== Unreleased
  * NEW: Cookie使用時のReplyタブの更新に対応（/statuses/mentions_timeline.json 廃止に伴う対応）
+ * NEW: Cookie使用時のFav追加・削除に対応
  * FIX: Cookie使用時にツイート検索の言語指定が効かない不具合を修正
  * FIX: ツイート検索のキーワードを後から変更すると検索結果が表示されない不具合を修正
  * FIX: Cookie使用時にステータスバーにRecentタブのレートリミットが表示されない不具合を修正
