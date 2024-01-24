@@ -1,0 +1,732 @@
+{
+  "globalObjects": {
+    "users": {
+      "771871124": {
+        "id": 771871124,
+        "id_str": "771871124",
+        "name": "OpenTween 新着コミット",
+        "screen_name": "OpenTweenCommit",
+        "location": null,
+        "description": "最新の開発版OpenTweenは https://t.co/a0mUFAT58Y から試せます",
+        "url": null,
+        "entities": {
+          "description": {
+            "urls": [
+              {
+                "url": "https://t.co/a0mUFAT58Y",
+                "expanded_url": "https://ci.appveyor.com/project/upsilon/opentween/build/artifacts?branch=master",
+                "display_url": "ci.appveyor.com/project/upsilo…",
+                "indices": [
+                  17,
+                  40
+                ]
+              }
+            ]
+          }
+        },
+        "protected": false,
+        "followers_count": 40,
+        "friends_count": 0,
+        "listed_count": 0,
+        "created_at": "Tue Aug 21 17:03:01 +0000 2012",
+        "favourites_count": 0,
+        "utc_offset": null,
+        "time_zone": null,
+        "geo_enabled": false,
+        "verified": false,
+        "statuses_count": 1991,
+        "lang": null,
+        "contributors_enabled": false,
+        "is_translator": false,
+        "is_translation_enabled": false,
+        "profile_background_color": "C0DEED",
+        "profile_background_image_url": "http://abs.twimg.com/images/themes/theme1/bg.png",
+        "profile_background_image_url_https": "https://abs.twimg.com/images/themes/theme1/bg.png",
+        "profile_background_tile": false,
+        "profile_image_url": "http://abs.twimg.com/sticky/default_profile_images/default_profile_normal.png",
+        "profile_image_url_https": "https://abs.twimg.com/sticky/default_profile_images/default_profile_normal.png",
+        "profile_link_color": "1DA1F2",
+        "profile_sidebar_border_color": "C0DEED",
+        "profile_sidebar_fill_color": "DDEEF6",
+        "profile_text_color": "333333",
+        "profile_use_background_image": true,
+        "default_profile": true,
+        "default_profile_image": true,
+        "following": null,
+        "follow_request_sent": null,
+        "notifications": null,
+        "blocking": null,
+        "translator_type": "none",
+        "withheld_in_countries": [],
+        "ext_is_blue_verified": false
+      },
+      "40480664": {
+        "id": 40480664,
+        "id_str": "40480664",
+        "name": "upsilon",
+        "screen_name": "kim_upsilon",
+        "location": "Funabashi, Chiba, Japan",
+        "description": null,
+        "url": "https://t.co/vNMmyHHh15",
+        "entities": {
+          "url": {
+            "urls": [
+              {
+                "url": "https://t.co/vNMmyHHh15",
+                "expanded_url": "https://m.upsilo.net/@upsilon",
+                "display_url": "m.upsilo.net/@upsilon",
+                "indices": [
+                  0,
+                  23
+                ]
+              }
+            ]
+          },
+          "description": {
+            "urls": []
+          }
+        },
+        "protected": false,
+        "followers_count": 1281,
+        "friends_count": 1,
+        "listed_count": 90,
+        "created_at": "Sat May 16 15:20:01 +0000 2009",
+        "favourites_count": 215079,
+        "utc_offset": null,
+        "time_zone": null,
+        "geo_enabled": true,
+        "verified": false,
+        "statuses_count": 10081,
+        "lang": null,
+        "contributors_enabled": false,
+        "is_translator": false,
+        "is_translation_enabled": false,
+        "profile_background_color": "CFEB81",
+        "profile_background_image_url": "http://abs.twimg.com/images/themes/theme1/bg.png",
+        "profile_background_image_url_https": "https://abs.twimg.com/images/themes/theme1/bg.png",
+        "profile_background_tile": false,
+        "profile_image_url": "http://pbs.twimg.com/profile_images/719076434/____normal.png",
+        "profile_image_url_https": "https://pbs.twimg.com/profile_images/719076434/____normal.png",
+        "profile_banner_url": "https://pbs.twimg.com/profile_banners/40480664/1349188016",
+        "profile_link_color": "999900",
+        "profile_sidebar_border_color": "FFFFFF",
+        "profile_sidebar_fill_color": "99FF99",
+        "profile_text_color": "336666",
+        "profile_use_background_image": false,
+        "default_profile": false,
+        "default_profile_image": false,
+        "following": false,
+        "follow_request_sent": null,
+        "notifications": null,
+        "blocking": false,
+        "blocked_by": false,
+        "want_retweets": false,
+        "profile_interstitial_type": "",
+        "translator_type": "regular",
+        "withheld_in_countries": [],
+        "followed_by": false,
+        "ext_is_blue_verified": false,
+        "ext_highlighted_label": {}
+      }
+    },
+    "tweets": {
+      "1748671085438988794": {
+        "created_at": "Sat Jan 20 11:37:30 +0000 2024",
+        "id": 1748671085438988800,
+        "id_str": "1748671085438988794",
+        "full_text": "@OpenTweenCommit test",
+        "truncated": false,
+        "display_text_range": [
+          17,
+          21
+        ],
+        "entities": {
+          "hashtags": [],
+          "symbols": [],
+          "user_mentions": [
+            {
+              "screen_name": "OpenTweenCommit",
+              "name": "OpenTween 新着コミット",
+              "id": 771871124,
+              "id_str": "771871124",
+              "indices": [
+                0,
+                16
+              ]
+            }
+          ],
+          "urls": []
+        },
+        "source": "<a href=\"https://mobile.twitter.com\" rel=\"nofollow\">Twitter Web App</a>",
+        "in_reply_to_status_id": 1617562124569526300,
+        "in_reply_to_status_id_str": "1617562124569526279",
+        "in_reply_to_user_id": 771871124,
+        "in_reply_to_user_id_str": "771871124",
+        "in_reply_to_screen_name": "OpenTweenCommit",
+        "user_id": 40480664,
+        "user_id_str": "40480664",
+        "geo": null,
+        "coordinates": null,
+        "place": null,
+        "contributors": null,
+        "is_quote_status": false,
+        "retweet_count": 0,
+        "favorite_count": 0,
+        "reply_count": 0,
+        "quote_count": 0,
+        "conversation_id": 1617562124569526300,
+        "conversation_id_str": "1617562124569526279",
+        "conversation_muted": false,
+        "favorited": false,
+        "retweeted": false,
+        "lang": "en",
+        "ext": {
+          "superFollowMetadata": {
+            "r": {
+              "ok": {}
+            },
+            "ttl": -1
+          }
+        }
+      },
+      "1617562124569526279": {
+        "created_at": "Mon Jan 23 16:37:18 +0000 2023",
+        "id": 1617562124569526300,
+        "id_str": "1617562124569526279",
+        "full_text": "Merge pull request #195 from opentween/reorder-in-mediaselector\n     https://t.co/U8OpWWyVD6",
+        "truncated": false,
+        "display_text_range": [
+          0,
+          92
+        ],
+        "entities": {
+          "hashtags": [],
+          "symbols": [],
+          "user_mentions": [],
+          "urls": [
+            {
+              "url": "https://t.co/U8OpWWyVD6",
+              "expanded_url": "https://github.com/opentween/OpenTween/commit/73079c5ca9bd1c3b9e35613b5050f5ba984b4ccc",
+              "display_url": "github.com/opentween/Open…",
+              "indices": [
+                69,
+                92
+              ]
+            }
+          ]
+        },
+        "source": "<a href=\"https://ifttt.com\" rel=\"nofollow\">IFTTT</a>",
+        "in_reply_to_status_id": null,
+        "in_reply_to_status_id_str": null,
+        "in_reply_to_user_id": null,
+        "in_reply_to_user_id_str": null,
+        "in_reply_to_screen_name": null,
+        "user_id": 771871124,
+        "user_id_str": "771871124",
+        "geo": null,
+        "coordinates": null,
+        "place": null,
+        "contributors": null,
+        "is_quote_status": false,
+        "retweet_count": 0,
+        "favorite_count": 0,
+        "reply_count": 1,
+        "quote_count": 0,
+        "conversation_id": 1617562124569526300,
+        "conversation_id_str": "1617562124569526279",
+        "conversation_muted": false,
+        "favorited": false,
+        "retweeted": false,
+        "possibly_sensitive": false,
+        "card": {
+          "name": "summary_large_image",
+          "url": "https://t.co/U8OpWWyVD6",
+          "card_type_url": "http://card-type-url-is-deprecated.invalid",
+          "binding_values": {
+            "vanity_url": {
+              "type": "STRING",
+              "string_value": "github.com",
+              "scribe_key": "vanity_url"
+            },
+            "domain": {
+              "type": "STRING",
+              "string_value": "github.com"
+            },
+            "site": {
+              "type": "USER",
+              "user_value": {
+                "id_str": "13334762",
+                "path": []
+              },
+              "scribe_key": "publisher_id"
+            },
+            "title": {
+              "type": "STRING",
+              "string_value": "Merge pull request #195 from opentween/reorder-in-mediaselector · opentween/OpenTween@73079c5"
+            },
+            "summary_photo_image_alt_text": {
+              "type": "STRING",
+              "string_value": "MediaSelectorに追加したメディアの順序変更・削除に対応"
+            },
+            "photo_image_full_size_alt_text": {
+              "type": "STRING",
+              "string_value": "MediaSelectorに追加したメディアの順序変更・削除に対応"
+            },
+            "description": {
+              "type": "STRING",
+              "string_value": "MediaSelectorに追加したメディアの順序変更・削除に対応"
+            },
+            "thumbnail_image_small": {
+              "type": "IMAGE",
+              "image_value": {
+                "url": "https://pbs.twimg.com/card_img/1746775136962027520/BepKshBj?format=jpg&name=144x144",
+                "width": 144,
+                "height": 72,
+                "alt": null
+              }
+            },
+            "thumbnail_image": {
+              "type": "IMAGE",
+              "image_value": {
+                "url": "https://pbs.twimg.com/card_img/1746775136962027520/BepKshBj?format=jpg&name=400x400",
+                "width": 400,
+                "height": 200,
+                "alt": null
+              }
+            },
+            "thumbnail_image_large": {
+              "type": "IMAGE",
+              "image_value": {
+                "url": "https://pbs.twimg.com/card_img/1746775136962027520/BepKshBj?format=jpg&name=600x600",
+                "width": 600,
+                "height": 300,
+                "alt": null
+              }
+            },
+            "thumbnail_image_x_large": {
+              "type": "IMAGE",
+              "image_value": {
+                "url": "https://pbs.twimg.com/card_img/1746775136962027520/BepKshBj?format=png&name=2048x2048_2_exp",
+                "width": 1200,
+                "height": 600,
+                "alt": null
+              }
+            },
+            "thumbnail_image_color": {
+              "type": "IMAGE_COLOR",
+              "image_color_value": {
+                "palette": [
+                  {
+                    "percentage": 90.7,
+                    "rgb": {
+                      "red": 255,
+                      "green": 255,
+                      "blue": 255
+                    }
+                  },
+                  {
+                    "percentage": 4.25,
+                    "rgb": {
+                      "red": 119,
+                      "green": 123,
+                      "blue": 128
+                    }
+                  },
+                  {
+                    "percentage": 3.15,
+                    "rgb": {
+                      "red": 23,
+                      "green": 135,
+                      "blue": 1
+                    }
+                  },
+                  {
+                    "percentage": 1.72,
+                    "rgb": {
+                      "red": 118,
+                      "green": 184,
+                      "blue": 105
+                    }
+                  },
+                  {
+                    "percentage": 0.12,
+                    "rgb": {
+                      "red": 240,
+                      "green": 202,
+                      "blue": 206
+                    }
+                  }
+                ]
+              }
+            },
+            "thumbnail_image_original": {
+              "type": "IMAGE",
+              "image_value": {
+                "url": "https://pbs.twimg.com/card_img/1746775136962027520/BepKshBj?format=jpg&name=orig",
+                "width": 1200,
+                "height": 600,
+                "alt": null
+              }
+            },
+            "summary_photo_image_small": {
+              "type": "IMAGE",
+              "image_value": {
+                "url": "https://pbs.twimg.com/card_img/1746775136962027520/BepKshBj?format=jpg&name=386x202",
+                "width": 386,
+                "height": 202,
+                "alt": null
+              }
+            },
+            "summary_photo_image": {
+              "type": "IMAGE",
+              "image_value": {
+                "url": "https://pbs.twimg.com/card_img/1746775136962027520/BepKshBj?format=jpg&name=600x314",
+                "width": 600,
+                "height": 314,
+                "alt": null
+              }
+            },
+            "summary_photo_image_large": {
+              "type": "IMAGE",
+              "image_value": {
+                "url": "https://pbs.twimg.com/card_img/1746775136962027520/BepKshBj?format=jpg&name=800x419",
+                "width": 800,
+                "height": 419,
+                "alt": null
+              }
+            },
+            "summary_photo_image_x_large": {
+              "type": "IMAGE",
+              "image_value": {
+                "url": "https://pbs.twimg.com/card_img/1746775136962027520/BepKshBj?format=png&name=2048x2048_2_exp",
+                "width": 1200,
+                "height": 600,
+                "alt": null
+              }
+            },
+            "summary_photo_image_color": {
+              "type": "IMAGE_COLOR",
+              "image_color_value": {
+                "palette": [
+                  {
+                    "percentage": 90.7,
+                    "rgb": {
+                      "red": 255,
+                      "green": 255,
+                      "blue": 255
+                    }
+                  },
+                  {
+                    "percentage": 4.25,
+                    "rgb": {
+                      "red": 119,
+                      "green": 123,
+                      "blue": 128
+                    }
+                  },
+                  {
+                    "percentage": 3.15,
+                    "rgb": {
+                      "red": 23,
+                      "green": 135,
+                      "blue": 1
+                    }
+                  },
+                  {
+                    "percentage": 1.72,
+                    "rgb": {
+                      "red": 118,
+                      "green": 184,
+                      "blue": 105
+                    }
+                  },
+                  {
+                    "percentage": 0.12,
+                    "rgb": {
+                      "red": 240,
+                      "green": 202,
+                      "blue": 206
+                    }
+                  }
+                ]
+              }
+            },
+            "summary_photo_image_original": {
+              "type": "IMAGE",
+              "image_value": {
+                "url": "https://pbs.twimg.com/card_img/1746775136962027520/BepKshBj?format=jpg&name=orig",
+                "width": 1200,
+                "height": 600,
+                "alt": null
+              }
+            },
+            "photo_image_full_size_small": {
+              "type": "IMAGE",
+              "image_value": {
+                "url": "https://pbs.twimg.com/card_img/1746775136962027520/BepKshBj?format=jpg&name=386x202",
+                "width": 386,
+                "height": 202,
+                "alt": null
+              }
+            },
+            "photo_image_full_size": {
+              "type": "IMAGE",
+              "image_value": {
+                "url": "https://pbs.twimg.com/card_img/1746775136962027520/BepKshBj?format=jpg&name=600x314",
+                "width": 600,
+                "height": 314,
+                "alt": null
+              }
+            },
+            "photo_image_full_size_large": {
+              "type": "IMAGE",
+              "image_value": {
+                "url": "https://pbs.twimg.com/card_img/1746775136962027520/BepKshBj?format=jpg&name=800x419",
+                "width": 800,
+                "height": 419,
+                "alt": null
+              }
+            },
+            "photo_image_full_size_x_large": {
+              "type": "IMAGE",
+              "image_value": {
+                "url": "https://pbs.twimg.com/card_img/1746775136962027520/BepKshBj?format=png&name=2048x2048_2_exp",
+                "width": 1200,
+                "height": 600,
+                "alt": null
+              }
+            },
+            "photo_image_full_size_color": {
+              "type": "IMAGE_COLOR",
+              "image_color_value": {
+                "palette": [
+                  {
+                    "percentage": 90.7,
+                    "rgb": {
+                      "red": 255,
+                      "green": 255,
+                      "blue": 255
+                    }
+                  },
+                  {
+                    "percentage": 4.25,
+                    "rgb": {
+                      "red": 119,
+                      "green": 123,
+                      "blue": 128
+                    }
+                  },
+                  {
+                    "percentage": 3.15,
+                    "rgb": {
+                      "red": 23,
+                      "green": 135,
+                      "blue": 1
+                    }
+                  },
+                  {
+                    "percentage": 1.72,
+                    "rgb": {
+                      "red": 118,
+                      "green": 184,
+                      "blue": 105
+                    }
+                  },
+                  {
+                    "percentage": 0.12,
+                    "rgb": {
+                      "red": 240,
+                      "green": 202,
+                      "blue": 206
+                    }
+                  }
+                ]
+              }
+            },
+            "photo_image_full_size_original": {
+              "type": "IMAGE",
+              "image_value": {
+                "url": "https://pbs.twimg.com/card_img/1746775136962027520/BepKshBj?format=jpg&name=orig",
+                "width": 1200,
+                "height": 600,
+                "alt": null
+              }
+            },
+            "card_url": {
+              "type": "STRING",
+              "string_value": "https://t.co/U8OpWWyVD6",
+              "scribe_key": "card_url"
+            }
+          },
+          "users": {
+            "13334762": {
+              "id": 13334762,
+              "id_str": "13334762",
+              "name": "GitHub",
+              "screen_name": "github",
+              "location": "San Francisco, CA",
+              "description": "The AI-powered developer platform to build, scale, and deliver secure software.",
+              "url": "https://t.co/bbJgfyzcJR",
+              "entities": {
+                "url": {
+                  "urls": [
+                    {
+                      "url": "https://t.co/bbJgfyzcJR",
+                      "expanded_url": "http://github.com",
+                      "display_url": "github.com",
+                      "indices": [
+                        0,
+                        23
+                      ]
+                    }
+                  ]
+                },
+                "description": {
+                  "urls": []
+                }
+              },
+              "protected": false,
+              "followers_count": 2550286,
+              "friends_count": 336,
+              "listed_count": 18218,
+              "created_at": "Mon Feb 11 04:41:50 +0000 2008",
+              "favourites_count": 8192,
+              "utc_offset": null,
+              "time_zone": null,
+              "geo_enabled": true,
+              "verified": false,
+              "statuses_count": 8814,
+              "lang": null,
+              "contributors_enabled": false,
+              "is_translator": false,
+              "is_translation_enabled": false,
+              "profile_background_color": "EEEEEE",
+              "profile_background_image_url": "http://abs.twimg.com/images/themes/theme1/bg.png",
+              "profile_background_image_url_https": "https://abs.twimg.com/images/themes/theme1/bg.png",
+              "profile_background_tile": false,
+              "profile_image_url": "http://pbs.twimg.com/profile_images/1633247750010830848/8zfRrYjA_normal.png",
+              "profile_image_url_https": "https://pbs.twimg.com/profile_images/1633247750010830848/8zfRrYjA_normal.png",
+              "profile_banner_url": "https://pbs.twimg.com/profile_banners/13334762/1692114901",
+              "profile_link_color": "981CEB",
+              "profile_sidebar_border_color": "BBBBBB",
+              "profile_sidebar_fill_color": "DDDDDD",
+              "profile_text_color": "000000",
+              "profile_use_background_image": false,
+              "default_profile": false,
+              "default_profile_image": false,
+              "can_media_tag": null,
+              "following": false,
+              "follow_request_sent": null,
+              "notifications": null,
+              "blocking": false,
+              "blocked_by": false,
+              "profile_interstitial_type": "",
+              "translator_type": "none",
+              "withheld_in_countries": [],
+              "followed_by": false,
+              "ext_is_blue_verified": true,
+              "ext_verified_type": "Business",
+              "ext_highlighted_label": {},
+              "ext": {
+                "highlightedLabel": {
+                  "r": {
+                    "ok": {}
+                  },
+                  "ttl": -1
+                }
+              }
+            }
+          },
+          "card_platform": {
+            "platform": {
+              "device": {
+                "name": "Swift",
+                "version": "12"
+              },
+              "audience": {
+                "name": "production",
+                "bucket": null
+              }
+            }
+          }
+        },
+        "lang": "en",
+        "ext": {
+          "superFollowMetadata": {
+            "r": {
+              "ok": {}
+            },
+            "ttl": -1
+          }
+        }
+      }
+    }
+  },
+  "timeline": {
+    "id": "AAAAAC4B0ZQAAAACm5udsSaolIM",
+    "instructions": [
+      {
+        "addEntries": {
+          "entries": [
+            {
+              "entryId": "cursor-top-1705750650164",
+              "sortIndex": "1705750650164",
+              "content": {
+                "operation": {
+                  "cursor": {
+                    "value": "DAABDAABCgABAAAAAC4B0ZQIAAIAAAACCAADm5udsQgABCaolIMACwACAAAAC0FZMG1xVjB6VEZjAAA",
+                    "cursorType": "Top"
+                  }
+                }
+              }
+            },
+            {
+              "entryId": "notification-AAAAAC4B0ZQAAAACm5udsSaolIMe0Mhk3Nw",
+              "sortIndex": "1705750650163",
+              "content": {
+                "item": {
+                  "content": {
+                    "tweet": {
+                      "id": "1748671085438988794",
+                      "displayType": "Tweet"
+                    }
+                  },
+                  "clientEventInfo": {
+                    "component": "urt",
+                    "element": "user_replied_to_your_tweet",
+                    "details": {
+                      "notificationDetails": {
+                        "impressionId": "ba99cafcbccaee49f2da523e5b86ac9c",
+                        "metadata": "CwABAAAAM2RkMDgyOTNhNjk5OTQzNGQuNDhlZWY4ZWFlMDNlMDlkZDw6ZGQwODI5M2E2OTk5NDM0ZAsAAgAAACNBQUFBQUM0QjBaUUFBQUFDbTV1ZHNTYW9sSU1lME1oazNOdwsAAwAAABQ3NzE4NzExMjQtLTI2NzU3NDczOAoABAAAAAAAAAABDwAFCgAAAAIYRIcWXJZx-hZyvC6dF8AHCwAGAAAAGnVzZXJfcmVwbGllZF90b195b3VyX3R3ZWV0DwAHCwAAAAEAAAAUNzcxODcxMTI0LS0yNjc1NzQ3MzgA"
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "entryId": "cursor-bottom-1705750650162",
+              "sortIndex": "1705750650162",
+              "content": {
+                "operation": {
+                  "cursor": {
+                    "value": "DAACDAABCgABAAAAAC4B0ZQIAAIAAAACCAADm5udsQgABCaolIMACwACAAAAC0FZMG1xVjB6VEZjAAA",
+                    "cursorType": "Bottom"
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      {
+        "clearEntriesUnreadState": {}
+      },
+      {
+        "markEntriesUnreadGreaterThanSortIndex": {
+          "sortIndex": "1697974584014"
+        }
+      }
+    ]
+  }
+}

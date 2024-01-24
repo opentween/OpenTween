@@ -651,15 +651,35 @@ namespace OpenTween
             var count = GetApiResultCount(MyCommon.WORKERTYPE.Reply, more, startup);
 
             TwitterStatus[] statuses;
-            if (more)
+            if (this.Api.AuthType == APIAuthType.TwitterComCookie)
             {
-                statuses = await this.Api.StatusesMentionsTimeline(count, maxId: tab.OldestId as TwitterStatusId)
+                var request = new NotificationsMentionsRequest
+                {
+                    Count = Math.Min(count, 50),
+                    Cursor = more ? tab.CursorBottom : tab.CursorTop,
+                };
+                var response = await request.Send(this.Api.Connection)
                     .ConfigureAwait(false);
+
+                statuses = response.Statuses;
+
+                tab.CursorBottom = response.CursorBottom;
+
+                if (!more)
+                    tab.CursorTop = response.CursorTop;
             }
             else
             {
-                statuses = await this.Api.StatusesMentionsTimeline(count)
-                    .ConfigureAwait(false);
+                if (more)
+                {
+                    statuses = await this.Api.StatusesMentionsTimeline(count, maxId: tab.OldestId as TwitterStatusId)
+                        .ConfigureAwait(false);
+                }
+                else
+                {
+                    statuses = await this.Api.StatusesMentionsTimeline(count)
+                        .ConfigureAwait(false);
+                }
             }
 
             var minimumId = this.CreatePostsFromJson(statuses, MyCommon.WORKERTYPE.Reply, tab, read);
