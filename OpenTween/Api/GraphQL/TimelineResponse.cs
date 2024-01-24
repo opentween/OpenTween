@@ -34,7 +34,7 @@ namespace OpenTween.Api.GraphQL
     {
         public TwitterStatus[] ToTwitterStatuses()
             => this.Tweets
-                .Where(x => !x.IsTombstone)
+                .Where(x => x.IsAvailable)
                 .Select(x => x.ToTwitterStatus())
                 .ToArray();
     }
