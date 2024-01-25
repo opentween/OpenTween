@@ -1,0 +1,169 @@
+{
+  "data": {
+    "user": {
+      "result": {
+        "__typename": "User",
+        "timeline_v2": {
+          "timeline": {
+            "instructions": [
+              {
+                "type": "TimelineAddEntries",
+                "entries": [
+                  {
+                    "entryId": "tweet-1616555877875744768",
+                    "sortIndex": "1750552622877638656",
+                    "content": {
+                      "entryType": "TimelineTimelineItem",
+                      "__typename": "TimelineTimelineItem",
+                      "itemContent": {
+                        "itemType": "TimelineTweet",
+                        "__typename": "TimelineTweet",
+                        "tweet_results": {
+                          "result": {
+                            "__typename": "Tweet",
+                            "rest_id": "1616555877875744768",
+                            "core": {
+                              "user_results": {
+                                "result": {
+                                  "__typename": "User",
+                                  "id": "VXNlcjo0MDQ4MDY2NA==",
+                                  "rest_id": "40480664",
+                                  "affiliates_highlighted_label": {},
+                                  "has_graduated_access": false,
+                                  "is_blue_verified": false,
+                                  "profile_image_shape": "Circle",
+                                  "legacy": {
+                                    "can_dm": false,
+                                    "can_media_tag": false,
+                                    "created_at": "Sat May 16 15:20:01 +0000 2009",
+                                    "default_profile": false,
+                                    "default_profile_image": false,
+                                    "description": "",
+                                    "entities": {
+                                      "description": {
+                                        "urls": []
+                                      },
+                                      "url": {
+                                        "urls": [
+                                          {
+                                            "display_url": "m.upsilo.net/@upsilon",
+                                            "expanded_url": "https://m.upsilo.net/@upsilon",
+                                            "url": "https://t.co/vNMmyHHh15",
+                                            "indices": [
+                                              0,
+                                              23
+                                            ]
+                                          }
+                                        ]
+                                      }
+                                    },
+                                    "fast_followers_count": 0,
+                                    "favourites_count": 215013,
+                                    "followers_count": 1280,
+                                    "friends_count": 1,
+                                    "has_custom_timelines": false,
+                                    "is_translator": false,
+                                    "listed_count": 90,
+                                    "location": "Funabashi, Chiba, Japan",
+                                    "media_count": 876,
+                                    "name": "upsilon",
+                                    "normal_followers_count": 1280,
+                                    "pinned_tweet_ids_str": [],
+                                    "possibly_sensitive": false,
+                                    "profile_banner_url": "https://pbs.twimg.com/profile_banners/40480664/1349188016",
+                                    "profile_image_url_https": "https://pbs.twimg.com/profile_images/719076434/____normal.png",
+                                    "profile_interstitial_type": "",
+                                    "screen_name": "kim_upsilon",
+                                    "statuses_count": 10080,
+                                    "translator_type": "regular",
+                                    "url": "https://t.co/vNMmyHHh15",
+                                    "verified": false,
+                                    "want_retweets": false,
+                                    "withheld_in_countries": []
+                                  }
+                                }
+                              }
+                            },
+                            "unmention_data": {},
+                            "edit_control": {
+                              "edit_tweet_ids": [
+                                "1616555877875744768"
+                              ],
+                              "editable_until_msecs": "1674253730000",
+                              "is_edit_eligible": true,
+                              "edits_remaining": "5"
+                            },
+                            "is_translatable": true,
+                            "views": {
+                              "count": "1184",
+                              "state": "EnabledWithCount"
+                            },
+                            "source": "<a href=\"https://www.opentween.org/\" rel=\"nofollow\">OpenTween (dev)</a>",
+                            "legacy": {
+                              "bookmark_count": 1,
+                              "bookmarked": false,
+                              "created_at": "Fri Jan 20 21:58:50 +0000 2023",
+                              "conversation_id_str": "1616555877875744768",
+                              "display_text_range": [
+                                0,
+                                70
+                              ],
+                              "entities": {
+                                "hashtags": [],
+                                "symbols": [],
+                                "timestamps": [],
+                                "urls": [],
+                                "user_mentions": []
+                              },
+                              "favorite_count": 8,
+                              "favorited": true,
+                              "full_text": "昨日のOpenTweenのリリース、画像投稿周りに結構手を加えたから不具合出てないか心配だったのにそれ関連のエラー報告上がってないの逆に怖い",
+                              "is_quote_status": false,
+                              "lang": "ja",
+                              "quote_count": 0,
+                              "reply_count": 0,
+                              "retweet_count": 0,
+                              "retweeted": false,
+                              "user_id_str": "40480664",
+                              "id_str": "1616555877875744768"
+                            }
+                          }
+                        },
+                        "tweetDisplayType": "Tweet"
+                      }
+                    }
+                  },
+                  {
+                    "entryId": "cursor-top-1750552622877638657",
+                    "sortIndex": "1750552622877638657",
+                    "content": {
+                      "entryType": "TimelineTimelineCursor",
+                      "__typename": "TimelineTimelineCursor",
+                      "value": "DAAHCgABGEs2Ve9AAAELAAIAAAATMTc4OTA3OTU2MDM5NDcxNTMyMggAAwAAAAEAAA",
+                      "cursorType": "Top"
+                    }
+                  },
+                  {
+                    "entryId": "cursor-bottom-1750552622877638655",
+                    "sortIndex": "1750552622877638655",
+                    "content": {
+                      "entryType": "TimelineTimelineCursor",
+                      "__typename": "TimelineTimelineCursor",
+                      "value": "DAAHCgABGEs2Ve8___8LAAIAAAATMTc4OTA3OTU2MDM5NDcxNTMyMggAAwAAAAIAAA",
+                      "cursorType": "Bottom"
+                    }
+                  }
+                ]
+              }
+            ],
+            "metadata": {
+              "scribeConfig": {
+                "page": "favorites"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

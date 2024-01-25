@@ -30,6 +30,7 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -1316,15 +1317,36 @@ namespace OpenTween
             var count = GetApiResultCount(MyCommon.WORKERTYPE.Favorites, backward, false);
 
             TwitterStatus[] statuses;
-            if (backward)
+            if (this.Api.AuthType == APIAuthType.TwitterComCookie)
             {
-                statuses = await this.Api.FavoritesList(count, maxId: tab.OldestId)
+                var request = new LikesRequest
+                {
+                    UserId = this.UserId.ToString(CultureInfo.InvariantCulture),
+                    Count = count,
+                    Cursor = backward ? tab.CursorBottom : tab.CursorTop,
+                };
+                var response = await request.Send(this.Api.Connection)
                     .ConfigureAwait(false);
+
+                statuses = response.ToTwitterStatuses();
+
+                tab.CursorBottom = response.CursorBottom;
+
+                if (!backward)
+                    tab.CursorTop = response.CursorTop;
             }
             else
             {
-                statuses = await this.Api.FavoritesList(count)
-                    .ConfigureAwait(false);
+                if (backward)
+                {
+                    statuses = await this.Api.FavoritesList(count, maxId: tab.OldestId)
+                        .ConfigureAwait(false);
+                }
+                else
+                {
+                    statuses = await this.Api.FavoritesList(count)
+                        .ConfigureAwait(false);
+                }
             }
 
             var minimumId = this.CreateFavoritePostsFromJson(statuses, read);
