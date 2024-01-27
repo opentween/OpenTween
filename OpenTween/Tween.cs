@@ -6985,7 +6985,8 @@ namespace OpenTween
                         authByCookie ? HomeLatestTimelineRequest.EndpointName : "/statuses/home_timeline",
                     MyCommon.TabUsageType.Mentions =>
                         authByCookie ? NotificationsMentionsRequest.EndpointName : "/statuses/mentions_timeline",
-                    MyCommon.TabUsageType.Favorites => "/favorites/list",
+                    MyCommon.TabUsageType.Favorites =>
+                        authByCookie ? LikesRequest.EndpointName : "/favorites/list",
                     MyCommon.TabUsageType.DirectMessage => "/direct_messages/events/list",
                     MyCommon.TabUsageType.UserTimeline =>
                         authByCookie ? UserTweetsAndRepliesRequest.EndpointName : "/statuses/user_timeline",
