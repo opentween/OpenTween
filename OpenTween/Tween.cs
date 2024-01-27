@@ -301,10 +301,6 @@ namespace OpenTween
             this.NotifyIcon1.Icon = this.iconAssets.IconTray; // タスクトレイ
             this.TabImage.Images.Add(this.iconAssets.IconTab); // タブ見出し
 
-            // <<<<<<<<<設定関連>>>>>>>>>
-            // 設定読み出し
-            this.LoadConfig();
-
             // 現在の DPI と設定保存時の DPI との比を取得する
             var configScaleFactor = this.settings.Local.GetConfigScaleFactor(this.CurrentAutoScaleDimensions);
 
@@ -763,12 +759,6 @@ namespace OpenTween
                 fore = System.Drawing.SystemBrushes.ControlText;
             }
             e.Graphics.DrawString(txt, e.Font, fore, e.Bounds, this.sfTab);
-        }
-
-        private void LoadConfig()
-        {
-            this.statuses.LoadTabsFromSettings(this.settings.Tabs);
-            this.statuses.AddDefaultTabs();
         }
 
         private void TimerInterval_Changed(object sender, IntervalChangedEventArgs e)

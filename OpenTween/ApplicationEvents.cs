@@ -73,6 +73,8 @@ namespace OpenTween
 
             ThemeManager.ApplyGlobalUIFont(settings.Local);
             container.CultureService.Initialize();
+            container.TabInfo.LoadTabsFromSettings(settings.Tabs);
+            container.TabInfo.AddDefaultTabs();
 
             Networking.Initialize();
             settings.ApplySettings();

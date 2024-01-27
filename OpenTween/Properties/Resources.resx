@@ -124,6 +124,8 @@
 	<data name="GetFriendshipInfo6"><value>フォロー状況取得失敗</value></data>
 	<data name="GetFriendshipInfo7"><value>フォロー解除しますか？</value></data>
 	<data name="GetFriendshipInfo8"><value>フォロー解除確認</value></data>
+	<data name="GetPeriodPanel_LabelGraphqlEstimate"><value>graphql エンドポイントのリクエスト回数目安: {0:#,0} 回 / 24 時間</value></data>
+	<data name="GetPeriodPanel_LabelTabCount"><value>(タブ数: {0})</value></data>
 	<data name="GetTimelineWorker_RunWorkerCompletedText1"><value>Recent更新完了</value></data>
 	<data name="GetTimelineWorker_RunWorkerCompletedText10"><value>起動時読込完了</value></data>
 	<data name="GetTimelineWorker_RunWorkerCompletedText11"><value>DMRcv更新完了</value></data>
