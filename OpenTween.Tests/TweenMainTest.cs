@@ -59,6 +59,8 @@ namespace OpenTween
                 BindingFlags.NonPublic | BindingFlags.Static | BindingFlags.SetField);
             field.SetValue(null, tabinfo);
 
+            tabinfo.AddDefaultTabs();
+
             using var tweenMain = new TweenMain(settings, tabinfo, accounts, imageCache, iconAssets, thumbnailGenerator);
             var context = new TestContext(settings, tabinfo);
 
