@@ -257,6 +257,7 @@ Available service: {1}</value></data>
 	<data name="SetStatusLabelText1"><value>[Tab: {0}/{1} All: {2}/{3} (Reply: {4})] [Spd: Pst {5}/ Fav {6}/ TL {7}] [Interval: </value></data>
 	<data name="SetStatusLabelText2"><value>-]</value></data>
 	<data name="SetStatusLabelText3"><value>]</value></data>
+	<data name="SetStatusLabelText4"><value>[Updates: {0:#,0}]</value></data>
 	<data name="Setting_FormClosing1"><value>Press [Start Authentication] button and  [Authorize App]. Key in PIN then press [Finish] button. Will you exit application without validating your account?</value></data>
 	<data name="SettingPath_Relocation"><value>Failed to write settings to {0}.
 

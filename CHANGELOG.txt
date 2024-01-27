@@ -4,6 +4,7 @@
  * NEW: Cookie使用時のReplyタブの更新に対応（/statuses/mentions_timeline.json 廃止に伴う対応）
  * NEW: Cookie使用時のFavoritesタブの更新に対応
  * NEW: Cookie使用時のFav追加・削除に対応
+ * NEW: ステータスバーに各タブの更新回数（起動時からの回数）の表示を追加
  * NEW: 設定画面の更新間隔ページに24時間分の取得回数目安の表示を追加
  * CHG: 更新間隔の初期設定を変更
  * FIX: Cookie使用時にツイート検索の言語指定が効かない不具合を修正

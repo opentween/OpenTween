@@ -1303,6 +1303,7 @@ namespace OpenTween
             {
                 this.RefreshTasktrayIcon();
                 await Task.Run(() => tab.RefreshAsync(this.tw, backward, this.initial, this.workerProgress));
+                tab.IncrementUpdateCount();
             }
             catch (WebApiException ex)
             {
@@ -6938,6 +6939,8 @@ namespace OpenTween
             {
                 slbl.Append(this.settings.Common.TimelinePeriod + Properties.Resources.SetStatusLabelText3);
             }
+            slbl.Append(" ");
+            slbl.AppendFormat(Properties.Resources.SetStatusLabelText4, this.CurrentTab.UpdateCount);
             return slbl.ToString();
         }
 

@@ -289,6 +289,7 @@
 	<data name="SetStatusLabelText1"><value>[タブ: {0}/{1} 全体: {2}/{3} (返信: {4})] [時速: 投 {5}/ ☆ {6}/ 流 {7}] [間隔: </value></data>
 	<data name="SetStatusLabelText2"><value>-]</value></data>
 	<data name="SetStatusLabelText3"><value>]</value></data>
+	<data name="SetStatusLabelText4"><value>[更新: {0:#,0}]</value></data>
 	<data name="Setting_FormClosing1"><value>「認証開始」ボタンを押すとブラウザが開きます。「連携アプリを認証」し、表示されたPINを画面上部に入力後、「Finish」ボタンを押してください。認証せずに終了してもよろしいですか？</value></data>
 	<data name="SettingPath_Relocation"><value>{0} での設定の書き込みに失敗しました。
 
