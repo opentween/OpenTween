@@ -113,11 +113,15 @@ namespace OpenTween.Models
             set => this.AnchorStatusId = value?.StatusId;
         }
 
+        public int UpdateCount
+            => this.updateCount;
+
         private IndexedSortedSet<PostId> ids = new();
         private ConcurrentQueue<TemporaryId> addQueue = new();
         private readonly ConcurrentQueue<PostId> removeQueue = new();
         private SortedSet<PostId> unreadIds = new();
         private List<PostId> selectedStatusIds = new();
+        private int updateCount = 0;
 
         private readonly object lockObj = new();
 
@@ -450,5 +454,8 @@ namespace OpenTween.Models
                 }
             }
         }
+
+        public void IncrementUpdateCount()
+            => Interlocked.Increment(ref this.updateCount);
     }
 }

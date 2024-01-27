@@ -2590,6 +2590,15 @@ namespace OpenTween.Properties {
         }
         
         /// <summary>
+        ///   [更新: {0:#,0}] に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string SetStatusLabelText4 {
+            get {
+                return ResourceManager.GetString("SetStatusLabelText4", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   「認証開始」ボタンを押すとブラウザが開きます。「連携アプリを認証」し、表示されたPINを画面上部に入力後、「Finish」ボタンを押してください。認証せずに終了してもよろしいですか？ に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string Setting_FormClosing1 {
