@@ -114,11 +114,11 @@ namespace OpenTween
 
         public long UserId = 0;
         public List<string> TabList = new();
-        public int TimelinePeriod = 90;
+        public int TimelinePeriod = 180;
         public int ReplyPeriod = 180;
         public int DMPeriod = 600;
-        public int PubSearchPeriod = 180;
-        public int ListsPeriod = 180;
+        public int PubSearchPeriod = 360;
+        public int ListsPeriod = 360;
 
         /// <summary>
         /// 起動時読み込み分を既読にするか。trueなら既読として処理
@@ -230,7 +230,7 @@ namespace OpenTween
         public int SearchCountApi = 100;
         public int FavoritesCountApi = 40;
         public int UserTimelineCountApi = 20;
-        public int UserTimelinePeriod = 600;
+        public int UserTimelinePeriod = 360;
         public bool OpenUserTimeline = true;
         public int ListCountApi = 100;
         public int UseImageService = 0;

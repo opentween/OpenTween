@@ -1,5 +1,5 @@
 ﻿// OpenTween - Client of Twitter
-// Copyright (c) 2023 kim_upsilon (@kim_upsilon) <https://upsilo.net/~upsilon/>
+// Copyright (c) 2024 kim_upsilon (@kim_upsilon) <https://upsilo.net/~upsilon/>
 // All rights reserved.
 //
 // This file is part of OpenTween.
@@ -21,21 +21,25 @@
 
 #nullable enable
 
-using System.Linq;
-using OpenTween.Api.DataModel;
+using System.Xml.Linq;
+using System.Xml.XPath;
 
 namespace OpenTween.Api.GraphQL
 {
-    public record TimelineResponse(
-        TimelineTweet[] Tweets,
-        string? CursorTop,
-        string? CursorBottom
-    )
+    public class TimelineResponseParser
     {
-        public TwitterStatus[] ToTwitterStatuses()
-            => this.Tweets
-                .Where(x => x.IsAvailable)
-                .Select(x => x.ToTwitterStatus())
-                .ToArray();
+        public static TimelineResponse Parse(XElement rootElm)
+        {
+            ErrorResponse.ThrowIfError(rootElm);
+
+            var tweets = TimelineTweet.ExtractTimelineTweets(rootElm);
+            if (tweets.Length == 0)
+                ErrorResponse.ThrowIfContainsRateLimitMessage(rootElm);
+
+            var cursorTop = rootElm.XPathSelectElement("//content[__typename[text()='TimelineTimelineCursor']][cursorType[text()='Top']]/value")?.Value;
+            var cursorBottom = rootElm.XPathSelectElement("//content[__typename[text()='TimelineTimelineCursor']][cursorType[text()='Bottom']]/value")?.Value;
+
+            return new(tweets, cursorTop, cursorBottom);
+        }
     }
 }

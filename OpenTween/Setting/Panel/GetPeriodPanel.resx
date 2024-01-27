@@ -43,10 +43,42 @@
 	<data name="&gt;&gt;Label7.Parent"><value>$this</value></data>
 	<data name="&gt;&gt;Label7.Type"><value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
 	<data name="&gt;&gt;Label7.ZOrder"><value>7</value></data>
+	<data name="&gt;&gt;labelGraphqlEstimate.Name"><value>labelGraphqlEstimate</value></data>
+	<data name="&gt;&gt;labelGraphqlEstimate.Parent"><value>$this</value></data>
+	<data name="&gt;&gt;labelGraphqlEstimate.Type"><value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
+	<data name="&gt;&gt;labelGraphqlEstimate.ZOrder"><value>15</value></data>
+	<data name="&gt;&gt;labelNoteForGraphqlLimits.Name"><value>labelNoteForGraphqlLimits</value></data>
+	<data name="&gt;&gt;labelNoteForGraphqlLimits.Parent"><value>$this</value></data>
+	<data name="&gt;&gt;labelNoteForGraphqlLimits.Type"><value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
+	<data name="&gt;&gt;labelNoteForGraphqlLimits.ZOrder"><value>14</value></data>
 	<data name="&gt;&gt;LabelPostAndGet.Name"><value>LabelPostAndGet</value></data>
 	<data name="&gt;&gt;LabelPostAndGet.Parent"><value>$this</value></data>
 	<data name="&gt;&gt;LabelPostAndGet.Type"><value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
 	<data name="&gt;&gt;LabelPostAndGet.ZOrder"><value>4</value></data>
+	<data name="&gt;&gt;labelTabCountDM.Name"><value>labelTabCountDM</value></data>
+	<data name="&gt;&gt;labelTabCountDM.Parent"><value>$this</value></data>
+	<data name="&gt;&gt;labelTabCountDM.Type"><value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
+	<data name="&gt;&gt;labelTabCountDM.ZOrder"><value>19</value></data>
+	<data name="&gt;&gt;labelTabCountHome.Name"><value>labelTabCountHome</value></data>
+	<data name="&gt;&gt;labelTabCountHome.Parent"><value>$this</value></data>
+	<data name="&gt;&gt;labelTabCountHome.Type"><value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
+	<data name="&gt;&gt;labelTabCountHome.ZOrder"><value>21</value></data>
+	<data name="&gt;&gt;labelTabCountList.Name"><value>labelTabCountList</value></data>
+	<data name="&gt;&gt;labelTabCountList.Parent"><value>$this</value></data>
+	<data name="&gt;&gt;labelTabCountList.Type"><value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
+	<data name="&gt;&gt;labelTabCountList.ZOrder"><value>17</value></data>
+	<data name="&gt;&gt;labelTabCountMentions.Name"><value>labelTabCountMentions</value></data>
+	<data name="&gt;&gt;labelTabCountMentions.Parent"><value>$this</value></data>
+	<data name="&gt;&gt;labelTabCountMentions.Type"><value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
+	<data name="&gt;&gt;labelTabCountMentions.ZOrder"><value>20</value></data>
+	<data name="&gt;&gt;labelTabCountSearch.Name"><value>labelTabCountSearch</value></data>
+	<data name="&gt;&gt;labelTabCountSearch.Parent"><value>$this</value></data>
+	<data name="&gt;&gt;labelTabCountSearch.Type"><value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
+	<data name="&gt;&gt;labelTabCountSearch.ZOrder"><value>18</value></data>
+	<data name="&gt;&gt;labelTabCountUser.Name"><value>labelTabCountUser</value></data>
+	<data name="&gt;&gt;labelTabCountUser.Parent"><value>$this</value></data>
+	<data name="&gt;&gt;labelTabCountUser.Type"><value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
+	<data name="&gt;&gt;labelTabCountUser.ZOrder"><value>16</value></data>
 	<data name="&gt;&gt;ListsPeriod.Name"><value>ListsPeriod</value></data>
 	<data name="&gt;&gt;ListsPeriod.Parent"><value>$this</value></data>
 	<data name="&gt;&gt;ListsPeriod.Type"><value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
@@ -71,72 +103,128 @@
 	<data name="CheckPostAndGet.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms"><value>NoControl</value></data>
 	<data name="CheckPostAndGet.Location" type="System.Drawing.Point, System.Drawing"><value>45, 38</value></data>
 	<data name="CheckPostAndGet.Size" type="System.Drawing.Size, System.Drawing"><value>84, 16</value></data>
-	<data name="CheckPostAndGet.TabIndex" type="System.Int32, mscorlib"><value>25</value></data>
+	<data name="CheckPostAndGet.TabIndex" type="System.Int32, mscorlib"><value>3</value></data>
 	<data name="CheckPostAndGet.Text"><value>投稿時取得</value></data>
 	<data name="DMPeriod.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms"><value>Disable</value></data>
 	<data name="DMPeriod.Location" type="System.Drawing.Point, System.Drawing"><value>259, 92</value></data>
 	<data name="DMPeriod.Size" type="System.Drawing.Size, System.Drawing"><value>65, 19</value></data>
-	<data name="DMPeriod.TabIndex" type="System.Int32, mscorlib"><value>29</value></data>
+	<data name="DMPeriod.TabIndex" type="System.Int32, mscorlib"><value>8</value></data>
 	<data name="Label21.AutoSize" type="System.Boolean, mscorlib"><value>True</value></data>
 	<data name="Label21.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms"><value>NoControl</value></data>
 	<data name="Label21.Location" type="System.Drawing.Point, System.Drawing"><value>23, 182</value></data>
 	<data name="Label21.Size" type="System.Drawing.Size, System.Drawing"><value>144, 12</value></data>
-	<data name="Label21.TabIndex" type="System.Int32, mscorlib"><value>34</value></data>
+	<data name="Label21.TabIndex" type="System.Int32, mscorlib"><value>16</value></data>
 	<data name="Label21.Text"><value>UserTimeline更新間隔（秒）</value></data>
 	<data name="Label3.AutoSize" type="System.Boolean, mscorlib"><value>True</value></data>
 	<data name="Label3.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms"><value>NoControl</value></data>
 	<data name="Label3.Location" type="System.Drawing.Point, System.Drawing"><value>23, 20</value></data>
 	<data name="Label3.Size" type="System.Drawing.Size, System.Drawing"><value>130, 12</value></data>
-	<data name="Label3.TabIndex" type="System.Int32, mscorlib"><value>23</value></data>
+	<data name="Label3.TabIndex" type="System.Int32, mscorlib"><value>0</value></data>
 	<data name="Label3.Text"><value>タイムライン更新間隔（秒）</value></data>
 	<data name="Label33.AutoSize" type="System.Boolean, mscorlib"><value>True</value></data>
 	<data name="Label33.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms"><value>NoControl</value></data>
 	<data name="Label33.Location" type="System.Drawing.Point, System.Drawing"><value>23, 153</value></data>
 	<data name="Label33.Size" type="System.Drawing.Size, System.Drawing"><value>102, 12</value></data>
-	<data name="Label33.TabIndex" type="System.Int32, mscorlib"><value>32</value></data>
+	<data name="Label33.TabIndex" type="System.Int32, mscorlib"><value>13</value></data>
 	<data name="Label33.Text"><value>Lists更新間隔（秒）</value></data>
 	<data name="Label5.AutoSize" type="System.Boolean, mscorlib"><value>True</value></data>
 	<data name="Label5.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms"><value>NoControl</value></data>
 	<data name="Label5.Location" type="System.Drawing.Point, System.Drawing"><value>23, 95</value></data>
 	<data name="Label5.Size" type="System.Drawing.Size, System.Drawing"><value>94, 12</value></data>
-	<data name="Label5.TabIndex" type="System.Int32, mscorlib"><value>28</value></data>
+	<data name="Label5.TabIndex" type="System.Int32, mscorlib"><value>7</value></data>
 	<data name="Label5.Text"><value>DM更新間隔（秒）</value></data>
 	<data name="Label69.AutoSize" type="System.Boolean, mscorlib"><value>True</value></data>
 	<data name="Label69.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms"><value>NoControl</value></data>
 	<data name="Label69.Location" type="System.Drawing.Point, System.Drawing"><value>23, 66</value></data>
 	<data name="Label69.Size" type="System.Drawing.Size, System.Drawing"><value>123, 12</value></data>
-	<data name="Label69.TabIndex" type="System.Int32, mscorlib"><value>26</value></data>
+	<data name="Label69.TabIndex" type="System.Int32, mscorlib"><value>4</value></data>
 	<data name="Label69.Text"><value>Mentions更新間隔（秒）</value></data>
 	<data name="Label7.AutoSize" type="System.Boolean, mscorlib"><value>True</value></data>
 	<data name="Label7.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms"><value>NoControl</value></data>
 	<data name="Label7.Location" type="System.Drawing.Point, System.Drawing"><value>23, 124</value></data>
 	<data name="Label7.Size" type="System.Drawing.Size, System.Drawing"><value>137, 12</value></data>
-	<data name="Label7.TabIndex" type="System.Int32, mscorlib"><value>30</value></data>
+	<data name="Label7.TabIndex" type="System.Int32, mscorlib"><value>10</value></data>
 	<data name="Label7.Text"><value>Twitter検索更新間隔（秒）</value></data>
+	<data name="labelGraphqlEstimate.AutoSize" type="System.Boolean, mscorlib"><value>True</value></data>
+	<data name="labelGraphqlEstimate.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms"><value>NoControl</value></data>
+	<data name="labelGraphqlEstimate.Location" type="System.Drawing.Point, System.Drawing"><value>23, 244</value></data>
+	<data name="labelGraphqlEstimate.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms"><value>3, 15, 3, 0</value></data>
+	<data name="labelGraphqlEstimate.Size" type="System.Drawing.Size, System.Drawing"><value>290, 12</value></data>
+	<data name="labelGraphqlEstimate.TabIndex" type="System.Int32, mscorlib"><value>20</value></data>
+	<data name="labelGraphqlEstimate.Text"><value>graphql エンドポイントのリクエスト回数目安: 0 回 / 24 時間</value></data>
+	<data name="labelNoteForGraphqlLimits.AutoSize" type="System.Boolean, mscorlib"><value>True</value></data>
+	<data name="labelNoteForGraphqlLimits.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms"><value>NoControl</value></data>
+	<data name="labelNoteForGraphqlLimits.Location" type="System.Drawing.Point, System.Drawing"><value>23, 266</value></data>
+	<data name="labelNoteForGraphqlLimits.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms"><value>3, 10, 3, 0</value></data>
+	<data name="labelNoteForGraphqlLimits.Size" type="System.Drawing.Size, System.Drawing"><value>311, 12</value></data>
+	<data name="labelNoteForGraphqlLimits.TabIndex" type="System.Int32, mscorlib"><value>21</value></data>
+	<data name="labelNoteForGraphqlLimits.Text"><value>Cookie 使用時は 2,111 回 / 24 時間 (推定) の制限があります</value></data>
 	<data name="LabelPostAndGet.AutoSize" type="System.Boolean, mscorlib"><value>True</value></data>
 	<data name="LabelPostAndGet.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms"><value>NoControl</value></data>
-	<data name="LabelPostAndGet.Location" type="System.Drawing.Point, System.Drawing"><value>23, 279</value></data>
+	<data name="LabelPostAndGet.Location" type="System.Drawing.Point, System.Drawing"><value>23, 217</value></data>
 	<data name="LabelPostAndGet.Size" type="System.Drawing.Size, System.Drawing"><value>285, 12</value></data>
-	<data name="LabelPostAndGet.TabIndex" type="System.Int32, mscorlib"><value>36</value></data>
+	<data name="LabelPostAndGet.TabIndex" type="System.Int32, mscorlib"><value>19</value></data>
 	<data name="LabelPostAndGet.Text"><value>投稿時取得が有効のため、投稿のたびにAPIを消費します。</value></data>
+	<data name="labelTabCountDM.AutoSize" type="System.Boolean, mscorlib"><value>True</value></data>
+	<data name="labelTabCountDM.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms"><value>NoControl</value></data>
+	<data name="labelTabCountDM.Location" type="System.Drawing.Point, System.Drawing"><value>337, 95</value></data>
+	<data name="labelTabCountDM.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms"><value>10, 0, 10, 0</value></data>
+	<data name="labelTabCountDM.Size" type="System.Drawing.Size, System.Drawing"><value>54, 12</value></data>
+	<data name="labelTabCountDM.TabIndex" type="System.Int32, mscorlib"><value>9</value></data>
+	<data name="labelTabCountDM.Text"><value>(タブ数: 0)</value></data>
+	<data name="labelTabCountHome.AutoSize" type="System.Boolean, mscorlib"><value>True</value></data>
+	<data name="labelTabCountHome.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms"><value>NoControl</value></data>
+	<data name="labelTabCountHome.Location" type="System.Drawing.Point, System.Drawing"><value>337, 20</value></data>
+	<data name="labelTabCountHome.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms"><value>10, 0, 10, 0</value></data>
+	<data name="labelTabCountHome.Size" type="System.Drawing.Size, System.Drawing"><value>54, 12</value></data>
+	<data name="labelTabCountHome.TabIndex" type="System.Int32, mscorlib"><value>2</value></data>
+	<data name="labelTabCountHome.Text"><value>(タブ数: 0)</value></data>
+	<data name="labelTabCountList.AutoSize" type="System.Boolean, mscorlib"><value>True</value></data>
+	<data name="labelTabCountList.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms"><value>NoControl</value></data>
+	<data name="labelTabCountList.Location" type="System.Drawing.Point, System.Drawing"><value>337, 153</value></data>
+	<data name="labelTabCountList.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms"><value>10, 0, 10, 0</value></data>
+	<data name="labelTabCountList.Size" type="System.Drawing.Size, System.Drawing"><value>54, 12</value></data>
+	<data name="labelTabCountList.TabIndex" type="System.Int32, mscorlib"><value>15</value></data>
+	<data name="labelTabCountList.Text"><value>(タブ数: 0)</value></data>
+	<data name="labelTabCountMentions.AutoSize" type="System.Boolean, mscorlib"><value>True</value></data>
+	<data name="labelTabCountMentions.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms"><value>NoControl</value></data>
+	<data name="labelTabCountMentions.Location" type="System.Drawing.Point, System.Drawing"><value>337, 66</value></data>
+	<data name="labelTabCountMentions.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms"><value>10, 0, 10, 0</value></data>
+	<data name="labelTabCountMentions.Size" type="System.Drawing.Size, System.Drawing"><value>54, 12</value></data>
+	<data name="labelTabCountMentions.TabIndex" type="System.Int32, mscorlib"><value>6</value></data>
+	<data name="labelTabCountMentions.Text"><value>(タブ数: 0)</value></data>
+	<data name="labelTabCountSearch.AutoSize" type="System.Boolean, mscorlib"><value>True</value></data>
+	<data name="labelTabCountSearch.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms"><value>NoControl</value></data>
+	<data name="labelTabCountSearch.Location" type="System.Drawing.Point, System.Drawing"><value>337, 124</value></data>
+	<data name="labelTabCountSearch.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms"><value>10, 0, 10, 0</value></data>
+	<data name="labelTabCountSearch.Size" type="System.Drawing.Size, System.Drawing"><value>54, 12</value></data>
+	<data name="labelTabCountSearch.TabIndex" type="System.Int32, mscorlib"><value>12</value></data>
+	<data name="labelTabCountSearch.Text"><value>(タブ数: 0)</value></data>
+	<data name="labelTabCountUser.AutoSize" type="System.Boolean, mscorlib"><value>True</value></data>
+	<data name="labelTabCountUser.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms"><value>NoControl</value></data>
+	<data name="labelTabCountUser.Location" type="System.Drawing.Point, System.Drawing"><value>337, 182</value></data>
+	<data name="labelTabCountUser.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms"><value>10, 0, 10, 0</value></data>
+	<data name="labelTabCountUser.Size" type="System.Drawing.Size, System.Drawing"><value>54, 12</value></data>
+	<data name="labelTabCountUser.TabIndex" type="System.Int32, mscorlib"><value>18</value></data>
+	<data name="labelTabCountUser.Text"><value>(タブ数: 0)</value></data>
 	<data name="ListsPeriod.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms"><value>Disable</value></data>
 	<data name="ListsPeriod.Location" type="System.Drawing.Point, System.Drawing"><value>259, 150</value></data>
 	<data name="ListsPeriod.Size" type="System.Drawing.Size, System.Drawing"><value>65, 19</value></data>
-	<data name="ListsPeriod.TabIndex" type="System.Int32, mscorlib"><value>33</value></data>
+	<data name="ListsPeriod.TabIndex" type="System.Int32, mscorlib"><value>14</value></data>
 	<data name="PubSearchPeriod.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms"><value>Disable</value></data>
 	<data name="PubSearchPeriod.Location" type="System.Drawing.Point, System.Drawing"><value>259, 121</value></data>
 	<data name="PubSearchPeriod.Size" type="System.Drawing.Size, System.Drawing"><value>65, 19</value></data>
-	<data name="PubSearchPeriod.TabIndex" type="System.Int32, mscorlib"><value>31</value></data>
+	<data name="PubSearchPeriod.TabIndex" type="System.Int32, mscorlib"><value>11</value></data>
 	<data name="ReplyPeriod.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms"><value>Disable</value></data>
 	<data name="ReplyPeriod.Location" type="System.Drawing.Point, System.Drawing"><value>259, 63</value></data>
 	<data name="ReplyPeriod.Size" type="System.Drawing.Size, System.Drawing"><value>65, 19</value></data>
-	<data name="ReplyPeriod.TabIndex" type="System.Int32, mscorlib"><value>27</value></data>
+	<data name="ReplyPeriod.TabIndex" type="System.Int32, mscorlib"><value>5</value></data>
 	<data name="TimelinePeriod.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms"><value>Disable</value></data>
 	<data name="TimelinePeriod.Location" type="System.Drawing.Point, System.Drawing"><value>259, 17</value></data>
 	<data name="TimelinePeriod.Size" type="System.Drawing.Size, System.Drawing"><value>65, 19</value></data>
-	<data name="TimelinePeriod.TabIndex" type="System.Int32, mscorlib"><value>24</value></data>
+	<data name="TimelinePeriod.TabIndex" type="System.Int32, mscorlib"><value>1</value></data>
 	<data name="UserTimelinePeriod.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms"><value>Disable</value></data>
 	<data name="UserTimelinePeriod.Location" type="System.Drawing.Point, System.Drawing"><value>259, 179</value></data>
 	<data name="UserTimelinePeriod.Size" type="System.Drawing.Size, System.Drawing"><value>65, 19</value></data>
-	<data name="UserTimelinePeriod.TabIndex" type="System.Int32, mscorlib"><value>35</value></data>
+	<data name="UserTimelinePeriod.TabIndex" type="System.Int32, mscorlib"><value>17</value></data>
 </root>

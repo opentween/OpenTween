@@ -30,6 +30,7 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -474,6 +475,54 @@ namespace OpenTween
             }
         }
 
+        public async Task PostFavAdd(TwitterStatusId statusId)
+        {
+            if (this.Api.AuthType == APIAuthType.TwitterComCookie)
+            {
+                var request = new FavoriteTweetRequest
+                {
+                    TweetId = statusId,
+                };
+
+                await request.Send(this.Api.Connection)
+                    .ConfigureAwait(false);
+            }
+            else
+            {
+                try
+                {
+                    await this.Api.FavoritesCreate(statusId)
+                        .IgnoreResponse()
+                        .ConfigureAwait(false);
+                }
+                catch (TwitterApiException ex)
+                    when (ex.Errors.All(x => x.Code == TwitterErrorCode.AlreadyFavorited))
+                {
+                    // エラーコード 139 のみの場合は成功と見なす
+                }
+            }
+        }
+
+        public async Task PostFavRemove(TwitterStatusId statusId)
+        {
+            if (this.Api.AuthType == APIAuthType.TwitterComCookie)
+            {
+                var request = new UnfavoriteTweetRequest
+                {
+                    TweetId = statusId,
+                };
+
+                await request.Send(this.Api.Connection)
+                    .ConfigureAwait(false);
+            }
+            else
+            {
+                await this.Api.FavoritesDestroy(statusId)
+                    .IgnoreResponse()
+                    .ConfigureAwait(false);
+            }
+        }
+
         public string Username
             => this.Api.CurrentScreenName;
 
@@ -651,15 +700,35 @@ namespace OpenTween
             var count = GetApiResultCount(MyCommon.WORKERTYPE.Reply, more, startup);
 
             TwitterStatus[] statuses;
-            if (more)
+            if (this.Api.AuthType == APIAuthType.TwitterComCookie)
             {
-                statuses = await this.Api.StatusesMentionsTimeline(count, maxId: tab.OldestId as TwitterStatusId)
+                var request = new NotificationsMentionsRequest
+                {
+                    Count = Math.Min(count, 50),
+                    Cursor = more ? tab.CursorBottom : tab.CursorTop,
+                };
+                var response = await request.Send(this.Api.Connection)
                     .ConfigureAwait(false);
+
+                statuses = response.Statuses;
+
+                tab.CursorBottom = response.CursorBottom;
+
+                if (!more)
+                    tab.CursorTop = response.CursorTop;
             }
             else
             {
-                statuses = await this.Api.StatusesMentionsTimeline(count)
-                    .ConfigureAwait(false);
+                if (more)
+                {
+                    statuses = await this.Api.StatusesMentionsTimeline(count, maxId: tab.OldestId as TwitterStatusId)
+                        .ConfigureAwait(false);
+                }
+                else
+                {
+                    statuses = await this.Api.StatusesMentionsTimeline(count)
+                        .ConfigureAwait(false);
+                }
             }
 
             var minimumId = this.CreatePostsFromJson(statuses, MyCommon.WORKERTYPE.Reply, tab, read);
@@ -1113,7 +1182,12 @@ namespace OpenTween
             TwitterStatus[] statuses;
             if (this.Api.AuthType == APIAuthType.TwitterComCookie)
             {
-                var request = new SearchTimelineRequest(tab.SearchWords)
+                var query = tab.SearchWords;
+
+                if (!MyCommon.IsNullOrEmpty(tab.SearchLang))
+                    query = $"({query}) lang:{tab.SearchLang}";
+
+                var request = new SearchTimelineRequest(query)
                 {
                     Count = count,
                     Cursor = more ? tab.CursorBottom : tab.CursorTop,
@@ -1243,15 +1317,36 @@ namespace OpenTween
             var count = GetApiResultCount(MyCommon.WORKERTYPE.Favorites, backward, false);
 
             TwitterStatus[] statuses;
-            if (backward)
+            if (this.Api.AuthType == APIAuthType.TwitterComCookie)
             {
-                statuses = await this.Api.FavoritesList(count, maxId: tab.OldestId)
+                var request = new LikesRequest
+                {
+                    UserId = this.UserId.ToString(CultureInfo.InvariantCulture),
+                    Count = count,
+                    Cursor = backward ? tab.CursorBottom : tab.CursorTop,
+                };
+                var response = await request.Send(this.Api.Connection)
                     .ConfigureAwait(false);
+
+                statuses = response.ToTwitterStatuses();
+
+                tab.CursorBottom = response.CursorBottom;
+
+                if (!backward)
+                    tab.CursorTop = response.CursorTop;
             }
             else
             {
-                statuses = await this.Api.FavoritesList(count)
-                    .ConfigureAwait(false);
+                if (backward)
+                {
+                    statuses = await this.Api.FavoritesList(count, maxId: tab.OldestId)
+                        .ConfigureAwait(false);
+                }
+                else
+                {
+                    statuses = await this.Api.FavoritesList(count)
+                        .ConfigureAwait(false);
+                }
             }
 
             var minimumId = this.CreateFavoritePostsFromJson(statuses, read);

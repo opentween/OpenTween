@@ -1,5 +1,5 @@
 ﻿// OpenTween - Client of Twitter
-// Copyright (c) 2023 kim_upsilon (@kim_upsilon) <https://upsilo.net/~upsilon/>
+// Copyright (c) 2024 kim_upsilon (@kim_upsilon) <https://upsilo.net/~upsilon/>
 // All rights reserved.
 //
 // This file is part of OpenTween.
@@ -19,23 +19,30 @@
 // the Free Software Foundation, Inc., 51 Franklin Street - Fifth Floor,
 // Boston, MA 02110-1301, USA.
 
-#nullable enable
+using OpenTween.Models;
+using Xunit;
 
-using System.Linq;
-using OpenTween.Api.DataModel;
-
-namespace OpenTween.Api.GraphQL
+namespace OpenTween.Setting.Panel
 {
-    public record TimelineResponse(
-        TimelineTweet[] Tweets,
-        string? CursorTop,
-        string? CursorBottom
-    )
+    public class TabTypeAggregationTest
     {
-        public TwitterStatus[] ToTwitterStatuses()
-            => this.Tweets
-                .Where(x => x.IsAvailable)
-                .Select(x => x.ToTwitterStatus())
-                .ToArray();
+        [Fact]
+        public void Aggregate_Test()
+        {
+            var tabinfo = new TabInformations();
+            tabinfo.AddDefaultTabs();
+            tabinfo.AddTab(new PublicSearchTabModel("search1"));
+            tabinfo.AddTab(new PublicSearchTabModel("search2"));
+
+            var expected = new TabTypeAggregation.Result(
+                HomeTabs: 1,
+                MentionsTabs: 1,
+                DMTabs: 1,
+                SearchTabs: 2,
+                ListTabs: 0,
+                UserTabs: 0
+            );
+            Assert.Equal(expected, TabTypeAggregation.Aggregate(tabinfo));
+        }
     }
 }

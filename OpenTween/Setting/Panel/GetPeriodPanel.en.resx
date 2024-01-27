@@ -18,6 +18,22 @@
 	<data name="Label69.Text"><value>Reply Fetching Interval (sec.)</value></data>
 	<data name="Label7.Size" type="System.Drawing.Size, System.Drawing"><value>149, 12</value></data>
 	<data name="Label7.Text"><value>Public Search Interval (sec.)</value></data>
+	<data name="labelGraphqlEstimate.Size" type="System.Drawing.Size, System.Drawing"><value>383, 12</value></data>
+	<data name="labelGraphqlEstimate.Text"><value>Estimated number of requests for graphql endpoint: 0 requests / 24 hours</value></data>
+	<data name="labelNoteForGraphqlLimits.Size" type="System.Drawing.Size, System.Drawing"><value>383, 12</value></data>
+	<data name="labelNoteForGraphqlLimits.Text"><value>When using cookies, the upper limit is 2,111 requests / 24 hours (approx.)</value></data>
 	<data name="LabelPostAndGet.Size" type="System.Drawing.Size, System.Drawing"><value>358, 12</value></data>
 	<data name="LabelPostAndGet.Text"><value>Because "Post &amp;&amp; fetch" is enabled, the API for each post consumed.</value></data>
+	<data name="labelTabCountDM.Size" type="System.Drawing.Size, System.Drawing"><value>50, 12</value></data>
+	<data name="labelTabCountDM.Text"><value>(Tabs: 0)</value></data>
+	<data name="labelTabCountHome.Size" type="System.Drawing.Size, System.Drawing"><value>50, 12</value></data>
+	<data name="labelTabCountHome.Text"><value>(Tabs: 0)</value></data>
+	<data name="labelTabCountList.Size" type="System.Drawing.Size, System.Drawing"><value>50, 12</value></data>
+	<data name="labelTabCountList.Text"><value>(Tabs: 0)</value></data>
+	<data name="labelTabCountMentions.Size" type="System.Drawing.Size, System.Drawing"><value>50, 12</value></data>
+	<data name="labelTabCountMentions.Text"><value>(Tabs: 0)</value></data>
+	<data name="labelTabCountSearch.Size" type="System.Drawing.Size, System.Drawing"><value>50, 12</value></data>
+	<data name="labelTabCountSearch.Text"><value>(Tabs: 0)</value></data>
+	<data name="labelTabCountUser.Size" type="System.Drawing.Size, System.Drawing"><value>50, 12</value></data>
+	<data name="labelTabCountUser.Text"><value>(Tabs: 0)</value></data>
 </root>

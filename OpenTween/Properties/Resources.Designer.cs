@@ -580,24 +580,18 @@ namespace OpenTween.Properties {
         /// <summary>
         ///   更新履歴
         ///
-        ///==== Ver 3.12.0(2024/01/20)
-        /// * NEW: graphqlエンドポイントを使用したホームタイムラインの取得に対応
-        ///
-        ///==== Ver 3.11.0(2024/01/07)
-        /// * NEW: Cookie使用時の関連発言表示に対応
-        /// * FIX: APIリクエストのタイムアウト時に接続が切断されない場合がある不具合を修正
-        /// * FIX: 存在しないユーザーのプロフィールを取得しようとした場合のエラーが適切に処理されない不具合を修正
-        ///
-        ///==== Ver 3.10.1(2023/12/23)
-        /// * FIX: OAuth 1.0a によるAPIアクセスに失敗する不具合を修正
-        ///
-        ///==== Ver 3.10.0(2023/12/16)
-        /// * NEW: graphqlエンドポイント経由で取得した引用ツイートの表示に対応
-        /// * FIX: APIリクエストがタイムアウトした場合のキャンセル処理を改善
-        ///
-        ///==== Ver 3.9.0(2023/12/03)
-        /// * NEW: graphqlエンドポイントに対するレートリミットの表示に対応
-        /// * CHG: タ [残りの文字列は切り詰められました]&quot;; に類似しているローカライズされた文字列を検索します。
+        ///==== Ver 3.13.0(2024/01/27)
+        /// * NEW: Cookie使用時のReplyタブの更新に対応（/statuses/mentions_timeline.json 廃止に伴う対応）
+        /// * NEW: Cookie使用時のFavoritesタブの更新に対応
+        /// * NEW: Cookie使用時のFav追加・削除に対応
+        /// * NEW: ステータスバーに各タブの更新回数（起動時からの回数）の表示を追加
+        /// * NEW: 設定画面の更新間隔ページに24時間分の取得回数目安の表示を追加
+        /// * CHG: 更新間隔の初期設定を変更
+        /// * FIX: Cookie使用時にツイート検索の言語指定が効かない不具合を修正
+        /// * FIX: ツイート検索のキーワードを後から変更すると検索結果が表示されない不具合を修正
+        /// * FIX: Cookie使用時にステータスバーにRecentタブのレートリミットが表示されない不具合を修正
+        /// * FIX: 取得したツイートの中身が空だった場合のエラー処理を改善
+        /// * FIX: タイムラインの取得結果にレートリミットに関するメッセージが含まれていた [残りの文字列は切り詰められました]&quot;; に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string ChangeLog {
             get {
@@ -1154,6 +1148,24 @@ namespace OpenTween.Properties {
         internal static string GetFriendshipInfo8 {
             get {
                 return ResourceManager.GetString("GetFriendshipInfo8", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   graphql エンドポイントのリクエスト回数目安: {0:#,0} 回 / 24 時間 に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string GetPeriodPanel_LabelGraphqlEstimate {
+            get {
+                return ResourceManager.GetString("GetPeriodPanel_LabelGraphqlEstimate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   (タブ数: {0}) に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string GetPeriodPanel_LabelTabCount {
+            get {
+                return ResourceManager.GetString("GetPeriodPanel_LabelTabCount", resourceCulture);
             }
         }
         
@@ -2567,6 +2579,15 @@ namespace OpenTween.Properties {
         internal static string SetStatusLabelText3 {
             get {
                 return ResourceManager.GetString("SetStatusLabelText3", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   [更新: {0:#,0}] に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string SetStatusLabelText4 {
+            get {
+                return ResourceManager.GetString("SetStatusLabelText4", resourceCulture);
             }
         }
         

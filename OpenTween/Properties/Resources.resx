@@ -124,6 +124,8 @@
 	<data name="GetFriendshipInfo6"><value>フォロー状況取得失敗</value></data>
 	<data name="GetFriendshipInfo7"><value>フォロー解除しますか？</value></data>
 	<data name="GetFriendshipInfo8"><value>フォロー解除確認</value></data>
+	<data name="GetPeriodPanel_LabelGraphqlEstimate"><value>graphql エンドポイントのリクエスト回数目安: {0:#,0} 回 / 24 時間</value></data>
+	<data name="GetPeriodPanel_LabelTabCount"><value>(タブ数: {0})</value></data>
 	<data name="GetTimelineWorker_RunWorkerCompletedText1"><value>Recent更新完了</value></data>
 	<data name="GetTimelineWorker_RunWorkerCompletedText10"><value>起動時読込完了</value></data>
 	<data name="GetTimelineWorker_RunWorkerCompletedText11"><value>DMRcv更新完了</value></data>
@@ -287,6 +289,7 @@
 	<data name="SetStatusLabelText1"><value>[タブ: {0}/{1} 全体: {2}/{3} (返信: {4})] [時速: 投 {5}/ ☆ {6}/ 流 {7}] [間隔: </value></data>
 	<data name="SetStatusLabelText2"><value>-]</value></data>
 	<data name="SetStatusLabelText3"><value>]</value></data>
+	<data name="SetStatusLabelText4"><value>[更新: {0:#,0}]</value></data>
 	<data name="Setting_FormClosing1"><value>「認証開始」ボタンを押すとブラウザが開きます。「連携アプリを認証」し、表示されたPINを画面上部に入力後、「Finish」ボタンを押してください。認証せずに終了してもよろしいですか？</value></data>
 	<data name="SettingPath_Relocation"><value>{0} での設定の書き込みに失敗しました。
 

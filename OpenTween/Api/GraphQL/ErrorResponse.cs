@@ -30,6 +30,7 @@ using System.Threading.Tasks;
 using System.Xml;
 using System.Xml.Linq;
 using System.Xml.XPath;
+using OpenTween.Api.DataModel;
 
 namespace OpenTween.Api.GraphQL
 {
@@ -62,6 +63,26 @@ namespace OpenTween.Api.GraphQL
             var responseJson = JsonUtils.JsonXmlToString(rootElm);
 
             throw new WebApiException(messageText, responseJson);
+        }
+
+        public static void ThrowIfContainsRateLimitMessage(XElement rootElm)
+        {
+            var messageElm = rootElm.XPathSelectElement("//itemContent[itemType[text()='TimelineMessagePrompt']]");
+            if (messageElm == null)
+                return;
+
+            var bodyText = messageElm.XPathSelectElement("content/bodyText")?.Value ?? "";
+            if (bodyText.StartsWith("You have reached the limit"))
+            {
+                var error = new TwitterError
+                {
+                    Errors = new[]
+                    {
+                        new TwitterErrorItem { Code = TwitterErrorCode.RateLimit, Message = "" },
+                    },
+                };
+                throw new TwitterApiException(0, error, "");
+            }
         }
     }
 }

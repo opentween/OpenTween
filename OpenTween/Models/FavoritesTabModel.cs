@@ -43,6 +43,10 @@ namespace OpenTween.Models
 
         public long OldestId { get; set; } = long.MaxValue;
 
+        public string? CursorTop { get; set; }
+
+        public string? CursorBottom { get; set; }
+
         public FavoritesTabModel()
             : this(MyCommon.DEFAULTTAB.FAV)
         {

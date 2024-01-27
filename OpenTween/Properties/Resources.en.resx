@@ -117,6 +117,8 @@
 	<data name="GetFriendshipInfo6"><value>Faild to get relation info.</value></data>
 	<data name="GetFriendshipInfo7"><value>Really Unfollow?</value></data>
 	<data name="GetFriendshipInfo8"><value>Confirm Unfollow</value></data>
+	<data name="GetPeriodPanel_LabelGraphqlEstimate"><value>Estimated number of requests for graphql endpoint: {0:#,0} requests / 24 hours</value></data>
+	<data name="GetPeriodPanel_LabelTabCount"><value>(Tabs: {0})</value></data>
 	<data name="GetTimelineWorker_RunWorkerCompletedText1"><value>Recent refreshed</value></data>
 	<data name="GetTimelineWorker_RunWorkerCompletedText10"><value>Initial fetch completed</value></data>
 	<data name="GetTimelineWorker_RunWorkerCompletedText11"><value>DMRcv refreshed</value></data>
@@ -255,6 +257,7 @@ Available service: {1}</value></data>
 	<data name="SetStatusLabelText1"><value>[Tab: {0}/{1} All: {2}/{3} (Reply: {4})] [Spd: Pst {5}/ Fav {6}/ TL {7}] [Interval: </value></data>
 	<data name="SetStatusLabelText2"><value>-]</value></data>
 	<data name="SetStatusLabelText3"><value>]</value></data>
+	<data name="SetStatusLabelText4"><value>[Updates: {0:#,0}]</value></data>
 	<data name="Setting_FormClosing1"><value>Press [Start Authentication] button and  [Authorize App]. Key in PIN then press [Finish] button. Will you exit application without validating your account?</value></data>
 	<data name="SettingPath_Relocation"><value>Failed to write settings to {0}.
 

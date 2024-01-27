@@ -301,10 +301,6 @@ namespace OpenTween
             this.NotifyIcon1.Icon = this.iconAssets.IconTray; // タスクトレイ
             this.TabImage.Images.Add(this.iconAssets.IconTab); // タブ見出し
 
-            // <<<<<<<<<設定関連>>>>>>>>>
-            // 設定読み出し
-            this.LoadConfig();
-
             // 現在の DPI と設定保存時の DPI との比を取得する
             var configScaleFactor = this.settings.Local.GetConfigScaleFactor(this.CurrentAutoScaleDimensions);
 
@@ -763,12 +759,6 @@ namespace OpenTween
                 fore = System.Drawing.SystemBrushes.ControlText;
             }
             e.Graphics.DrawString(txt, e.Font, fore, e.Bounds, this.sfTab);
-        }
-
-        private void LoadConfig()
-        {
-            this.statuses.LoadTabsFromSettings(this.settings.Tabs);
-            this.statuses.AddDefaultTabs();
         }
 
         private void TimerInterval_Changed(object sender, IntervalChangedEventArgs e)
@@ -1313,6 +1303,7 @@ namespace OpenTween
             {
                 this.RefreshTasktrayIcon();
                 await Task.Run(() => tab.RefreshAsync(this.tw, backward, this.initial, this.workerProgress));
+                tab.IncrementUpdateCount();
             }
             catch (WebApiException ex)
             {
@@ -1381,17 +1372,9 @@ namespace OpenTween
                 try
                 {
                     var twitterStatusId = (post.RetweetedId ?? post.StatusId).ToTwitterStatusId();
-                    try
-                    {
-                        await this.tw.Api.FavoritesCreate(twitterStatusId)
-                            .IgnoreResponse()
-                            .ConfigureAwait(false);
-                    }
-                    catch (TwitterApiException ex)
-                        when (ex.Errors.All(x => x.Code == TwitterErrorCode.AlreadyFavorited))
-                    {
-                        // エラーコード 139 のみの場合は成功と見なす
-                    }
+
+                    await this.tw.PostFavAdd(twitterStatusId)
+                        .ConfigureAwait(false);
 
                     if (this.settings.Common.RestrictFavCheck)
                     {
@@ -1511,9 +1494,7 @@ namespace OpenTween
 
                     try
                     {
-                        await this.tw.Api.FavoritesDestroy(twitterStatusId)
-                            .IgnoreResponse()
-                            .ConfigureAwait(false);
+                        await this.tw.PostFavRemove(twitterStatusId);
                     }
                     catch (WebApiException)
                     {
@@ -6958,6 +6939,8 @@ namespace OpenTween
             {
                 slbl.Append(this.settings.Common.TimelinePeriod + Properties.Resources.SetStatusLabelText3);
             }
+            slbl.Append(" ");
+            slbl.AppendFormat(Properties.Resources.SetStatusLabelText4, this.CurrentTab.UpdateCount);
             return slbl.ToString();
         }
 
@@ -6996,10 +6979,14 @@ namespace OpenTween
                 // 表示中のタブに応じて更新
                 endpointName = tabType switch
                 {
-                    MyCommon.TabUsageType.Home => "/statuses/home_timeline",
-                    MyCommon.TabUsageType.UserDefined => "/statuses/home_timeline",
-                    MyCommon.TabUsageType.Mentions => "/statuses/mentions_timeline",
-                    MyCommon.TabUsageType.Favorites => "/favorites/list",
+                    MyCommon.TabUsageType.Home =>
+                        authByCookie ? HomeLatestTimelineRequest.EndpointName : "/statuses/home_timeline",
+                    MyCommon.TabUsageType.UserDefined =>
+                        authByCookie ? HomeLatestTimelineRequest.EndpointName : "/statuses/home_timeline",
+                    MyCommon.TabUsageType.Mentions =>
+                        authByCookie ? NotificationsMentionsRequest.EndpointName : "/statuses/mentions_timeline",
+                    MyCommon.TabUsageType.Favorites =>
+                        authByCookie ? LikesRequest.EndpointName : "/favorites/list",
                     MyCommon.TabUsageType.DirectMessage => "/direct_messages/events/list",
                     MyCommon.TabUsageType.UserTimeline =>
                         authByCookie ? UserTweetsAndRepliesRequest.EndpointName : "/statuses/user_timeline",
@@ -7007,7 +6994,8 @@ namespace OpenTween
                         authByCookie ? ListLatestTweetsTimelineRequest.EndpointName : "/lists/statuses",
                     MyCommon.TabUsageType.PublicSearch =>
                         authByCookie ? SearchTimelineRequest.EndpointName : "/search/tweets",
-                    MyCommon.TabUsageType.Related => "/statuses/show/:id",
+                    MyCommon.TabUsageType.Related =>
+                        authByCookie ? TweetDetailRequest.EndpointName : "/statuses/show/:id",
                     _ => null,
                 };
                 this.toolStripApiGauge.ApiEndpoint = endpointName;
