@@ -1159,6 +1159,24 @@ namespace OpenTween.Properties {
         }
         
         /// <summary>
+        ///   graphql エンドポイントのリクエスト回数目安: {0:#,0} 回 / 24 時間 に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string GetPeriodPanel_LabelGraphqlEstimate {
+            get {
+                return ResourceManager.GetString("GetPeriodPanel_LabelGraphqlEstimate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   (タブ数: {0}) に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string GetPeriodPanel_LabelTabCount {
+            get {
+                return ResourceManager.GetString("GetPeriodPanel_LabelTabCount", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Recent更新完了 に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string GetTimelineWorker_RunWorkerCompletedText1 {

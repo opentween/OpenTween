@@ -43,6 +43,14 @@
             this.CheckPostAndGet = new System.Windows.Forms.CheckBox();
             this.Label5 = new System.Windows.Forms.Label();
             this.DMPeriod = new System.Windows.Forms.TextBox();
+            this.labelTabCountHome = new System.Windows.Forms.Label();
+            this.labelTabCountMentions = new System.Windows.Forms.Label();
+            this.labelTabCountDM = new System.Windows.Forms.Label();
+            this.labelTabCountSearch = new System.Windows.Forms.Label();
+            this.labelTabCountList = new System.Windows.Forms.Label();
+            this.labelTabCountUser = new System.Windows.Forms.Label();
+            this.labelGraphqlEstimate = new System.Windows.Forms.Label();
+            this.labelNoteForGraphqlLimits = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // Label21
@@ -54,6 +62,7 @@
             // 
             resources.ApplyResources(this.UserTimelinePeriod, "UserTimelinePeriod");
             this.UserTimelinePeriod.Name = "UserTimelinePeriod";
+            this.UserTimelinePeriod.Validating += new System.ComponentModel.CancelEventHandler(this.UserTimeline_Validating);
             // 
             // TimelinePeriod
             // 
@@ -121,6 +130,48 @@
             this.DMPeriod.Name = "DMPeriod";
             this.DMPeriod.Validating += new System.ComponentModel.CancelEventHandler(this.DMPeriod_Validating);
             // 
+            // labelTabCountHome
+            // 
+            resources.ApplyResources(this.labelTabCountHome, "labelTabCountHome");
+            this.labelTabCountHome.Name = "labelTabCountHome";
+            // 
+            // labelTabCountMentions
+            // 
+            resources.ApplyResources(this.labelTabCountMentions, "labelTabCountMentions");
+            this.labelTabCountMentions.Name = "labelTabCountMentions";
+            // 
+            // labelTabCountDM
+            // 
+            resources.ApplyResources(this.labelTabCountDM, "labelTabCountDM");
+            this.labelTabCountDM.Name = "labelTabCountDM";
+            // 
+            // labelTabCountSearch
+            // 
+            resources.ApplyResources(this.labelTabCountSearch, "labelTabCountSearch");
+            this.labelTabCountSearch.Name = "labelTabCountSearch";
+            // 
+            // labelTabCountList
+            // 
+            resources.ApplyResources(this.labelTabCountList, "labelTabCountList");
+            this.labelTabCountList.Name = "labelTabCountList";
+            // 
+            // labelTabCountUser
+            // 
+            resources.ApplyResources(this.labelTabCountUser, "labelTabCountUser");
+            this.labelTabCountUser.Name = "labelTabCountUser";
+            // 
+            // labelGraphqlEstimate
+            // 
+            resources.ApplyResources(this.labelGraphqlEstimate, "labelGraphqlEstimate");
+            this.labelGraphqlEstimate.Name = "labelGraphqlEstimate";
+            // 
+            // labelNoteForGraphqlLimits
+            // 
+            resources.ApplyResources(this.labelNoteForGraphqlLimits, "labelNoteForGraphqlLimits");
+            this.labelNoteForGraphqlLimits.BackColor = System.Drawing.SystemColors.ActiveCaption;
+            this.labelNoteForGraphqlLimits.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.labelNoteForGraphqlLimits.Name = "labelNoteForGraphqlLimits";
+            // 
             // GetPeriodPanel
             // 
             resources.ApplyResources(this, "$this");
@@ -139,6 +190,14 @@
             this.Controls.Add(this.CheckPostAndGet);
             this.Controls.Add(this.Label5);
             this.Controls.Add(this.DMPeriod);
+            this.Controls.Add(this.labelNoteForGraphqlLimits);
+            this.Controls.Add(this.labelGraphqlEstimate);
+            this.Controls.Add(this.labelTabCountUser);
+            this.Controls.Add(this.labelTabCountList);
+            this.Controls.Add(this.labelTabCountSearch);
+            this.Controls.Add(this.labelTabCountDM);
+            this.Controls.Add(this.labelTabCountMentions);
+            this.Controls.Add(this.labelTabCountHome);
             this.Name = "GetPeriodPanel";
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -160,5 +219,13 @@
         internal System.Windows.Forms.CheckBox CheckPostAndGet;
         internal System.Windows.Forms.Label Label5;
         internal System.Windows.Forms.TextBox DMPeriod;
+        private System.Windows.Forms.Label labelTabCountHome;
+        private System.Windows.Forms.Label labelTabCountMentions;
+        private System.Windows.Forms.Label labelTabCountDM;
+        private System.Windows.Forms.Label labelTabCountSearch;
+        private System.Windows.Forms.Label labelTabCountList;
+        private System.Windows.Forms.Label labelTabCountUser;
+        private System.Windows.Forms.Label labelGraphqlEstimate;
+        private System.Windows.Forms.Label labelNoteForGraphqlLimits;
     }
 }

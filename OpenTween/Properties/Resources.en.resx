@@ -117,6 +117,8 @@
 	<data name="GetFriendshipInfo6"><value>Faild to get relation info.</value></data>
 	<data name="GetFriendshipInfo7"><value>Really Unfollow?</value></data>
 	<data name="GetFriendshipInfo8"><value>Confirm Unfollow</value></data>
+	<data name="GetPeriodPanel_LabelGraphqlEstimate"><value>Estimated number of requests for graphql endpoint: {0:#,0} requests / 24 hours</value></data>
+	<data name="GetPeriodPanel_LabelTabCount"><value>(Tabs: {0})</value></data>
 	<data name="GetTimelineWorker_RunWorkerCompletedText1"><value>Recent refreshed</value></data>
 	<data name="GetTimelineWorker_RunWorkerCompletedText10"><value>Initial fetch completed</value></data>
 	<data name="GetTimelineWorker_RunWorkerCompletedText11"><value>DMRcv refreshed</value></data>

@@ -27,22 +27,15 @@
 #nullable enable
 
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
-using System.Drawing;
-using System.IO;
 using System.Linq;
-using System.Net.Http;
-using System.Resources;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using OpenTween.Api;
 using OpenTween.Connection;
+using OpenTween.Models;
 using OpenTween.Setting.Panel;
-using OpenTween.Thumbnail;
 
 namespace OpenTween
 {
@@ -322,6 +315,7 @@ namespace OpenTween
             this.TopMost = this.PreviewPanel.CheckAlwaysTop.Checked;
 
             this.GetPeriodPanel.LabelPostAndGet.Visible = this.GetPeriodPanel.CheckPostAndGet.Checked;
+            this.GetPeriodPanel.UpdateTabCounts(TabInformations.GetInstance());
         }
 
         private async Task OpenUrl(string url)

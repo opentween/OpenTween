@@ -27,19 +27,17 @@
 #nullable enable
 
 using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
 using System.Windows.Forms;
+using OpenTween.Models;
 
 namespace OpenTween.Setting.Panel
 {
     public partial class GetPeriodPanel : SettingPanelBase
     {
         public event EventHandler<IntervalChangedEventArgs>? IntervalChanged;
+
+        private TabTypeAggregation.Result tabCountByType;
 
         public GetPeriodPanel()
             => this.InitializeComponent();
@@ -114,6 +112,38 @@ namespace OpenTween.Setting.Panel
                 this.IntervalChanged?.Invoke(this, arg);
         }
 
+        public void UpdateTabCounts(TabInformations tabInfo)
+        {
+            var tabCountByType = TabTypeAggregation.Aggregate(tabInfo);
+            this.tabCountByType = tabCountByType;
+
+            static string GetLabelText(int tabCount)
+                => string.Format(Properties.Resources.GetPeriodPanel_LabelTabCount, tabCount);
+
+            this.labelTabCountHome.Text = GetLabelText(tabCountByType.HomeTabs);
+            this.labelTabCountMentions.Text = GetLabelText(tabCountByType.MentionsTabs);
+            this.labelTabCountDM.Text = GetLabelText(tabCountByType.DMTabs);
+            this.labelTabCountSearch.Text = GetLabelText(tabCountByType.SearchTabs);
+            this.labelTabCountList.Text = GetLabelText(tabCountByType.ListTabs);
+            this.labelTabCountUser.Text = GetLabelText(tabCountByType.UserTabs);
+
+            this.EstimateGraphqlRequests();
+        }
+
+        private void EstimateGraphqlRequests()
+        {
+            var intervals = new GraphqlRequestEstimation.Intervals(
+                Home: int.Parse(this.TimelinePeriod.Text),
+                Search: int.Parse(this.PubSearchPeriod.Text),
+                List: int.Parse(this.ListsPeriod.Text),
+                User: int.Parse(this.UserTimelinePeriod.Text)
+            );
+            var estimate = GraphqlRequestEstimation.CalcDailyRequestCount(intervals, this.tabCountByType);
+
+            this.labelGraphqlEstimate.Text =
+                string.Format(Properties.Resources.GetPeriodPanel_LabelGraphqlEstimate, estimate);
+        }
+
         private void TimelinePeriod_Validating(object sender, CancelEventArgs e)
         {
             if (!this.ValidateIntervalStr(this.TimelinePeriod.Text))
@@ -121,6 +151,8 @@ namespace OpenTween.Setting.Panel
                 MessageBox.Show(Properties.Resources.TimelinePeriod_ValidatingText1);
                 e.Cancel = true;
             }
+
+            this.EstimateGraphqlRequests();
         }
 
         private void ReplyPeriod_Validating(object sender, CancelEventArgs e)
@@ -148,6 +180,8 @@ namespace OpenTween.Setting.Panel
                 MessageBox.Show(Properties.Resources.TimelinePeriod_ValidatingText1);
                 e.Cancel = true;
             }
+
+            this.EstimateGraphqlRequests();
         }
 
         private void ListsPeriod_Validating(object sender, CancelEventArgs e)
@@ -157,6 +191,8 @@ namespace OpenTween.Setting.Panel
                 MessageBox.Show(Properties.Resources.TimelinePeriod_ValidatingText1);
                 e.Cancel = true;
             }
+
+            this.EstimateGraphqlRequests();
         }
 
         private void UserTimeline_Validating(object sender, CancelEventArgs e)
@@ -166,6 +202,8 @@ namespace OpenTween.Setting.Panel
                 MessageBox.Show(Properties.Resources.TimelinePeriod_ValidatingText1);
                 e.Cancel = true;
             }
+
+            this.EstimateGraphqlRequests();
         }
 
         private bool ValidateIntervalStr(string str)
