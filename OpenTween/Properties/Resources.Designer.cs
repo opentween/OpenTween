@@ -580,6 +580,8 @@ namespace OpenTween.Properties {
         /// <summary>
         ///   更新履歴
         ///
+        ///==== Unreleased
+        ///
         ///==== Ver 3.13.0(2024/01/27)
         /// * NEW: Cookie使用時のReplyタブの更新に対応（/statuses/mentions_timeline.json 廃止に伴う対応）
         /// * NEW: Cookie使用時のFavoritesタブの更新に対応
@@ -591,7 +593,7 @@ namespace OpenTween.Properties {
         /// * FIX: ツイート検索のキーワードを後から変更すると検索結果が表示されない不具合を修正
         /// * FIX: Cookie使用時にステータスバーにRecentタブのレートリミットが表示されない不具合を修正
         /// * FIX: 取得したツイートの中身が空だった場合のエラー処理を改善
-        /// * FIX: タイムラインの取得結果にレートリミットに関するメッセージが含まれていた [残りの文字列は切り詰められました]&quot;; に類似しているローカライズされた文字列を検索します。
+        /// * FIX: タイムラインの取得結果にレートリ [残りの文字列は切り詰められました]&quot;; に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string ChangeLog {
             get {
