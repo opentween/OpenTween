@@ -5,9 +5,9 @@
 	<resheader name="writer"><value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
 	<assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
 
-	<data name="AuthClearButton.Text"><value>Remove</value></data>
-	<data name="CreateAccountButton.Text"><value>Sign up for Twitter account</value></data>
-	<data name="Label4.Size" type="System.Drawing.Size, System.Drawing"><value>47, 12</value></data>
-	<data name="Label4.Text"><value>Account</value></data>
-	<data name="StartAuthButton.Text"><value>Start Authentication</value></data>
+	<data name="AccountListLabel.Size" type="System.Drawing.Size, System.Drawing"><value>53, 12</value></data>
+	<data name="AccountListLabel.Text"><value>Accounts</value></data>
+	<data name="AddAccountButton.Text"><value>Add</value></data>
+	<data name="MakePrimaryButton.Text"><value>Make Primary</value></data>
+	<data name="RemoveAccountButton.Text"><value>Remove</value></data>
 </root>

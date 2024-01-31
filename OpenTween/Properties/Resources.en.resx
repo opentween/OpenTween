@@ -4,6 +4,7 @@
 	<resheader name="reader"><value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
 	<resheader name="writer"><value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
 
+	<data name="AccountListBoxItem_Primary"><value>(Primary)</value></data>
 	<data name="AddNewTab_ListView_AccessibleName"><value>PostsList</value></data>
 	<data name="AddNewTabText1"><value>(New Tab)</value></data>
 	<data name="AddNewTabText2"><value>Name</value></data>
@@ -258,7 +259,7 @@ Available service: {1}</value></data>
 	<data name="SetStatusLabelText2"><value>-]</value></data>
 	<data name="SetStatusLabelText3"><value>]</value></data>
 	<data name="SetStatusLabelText4"><value>[Updates: {0:#,0}]</value></data>
-	<data name="Setting_FormClosing1"><value>Press [Start Authentication] button and  [Authorize App]. Key in PIN then press [Finish] button. Will you exit application without validating your account?</value></data>
+	<data name="Setting_FormClosing1"><value>The primary account has not been set up. Are you sure you want to exit?</value></data>
 	<data name="SettingPath_Relocation"><value>Failed to write settings to {0}.
 
 Existing setting files are copied to {1}.
