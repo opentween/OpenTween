@@ -822,18 +822,6 @@ namespace OpenTween
             return item;
         }
 
-        public async Task GetStatusApi(bool read, TwitterStatusId id, TabModel tab)
-        {
-            var post = await this.GetStatusApi(read, id)
-                .ConfigureAwait(false);
-
-            // 非同期アイコン取得＆StatusDictionaryに追加
-            if (tab != null && tab.IsInnerStorageTabType)
-                tab.AddPostQueue(post);
-            else
-                TabInformations.GetInstance().AddPost(post);
-        }
-
         private PostClass CreatePostsFromStatusData(TwitterStatus status)
             => this.CreatePostsFromStatusData(status, favTweet: false);
 
