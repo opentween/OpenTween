@@ -47,8 +47,7 @@ namespace OpenTween
         {
             this.InitializeComponent();
 
-            this.BasedPanel.StartAuthButton.Click += this.StartAuthButton_Click;
-            this.BasedPanel.CreateAccountButton.Click += this.CreateAccountButton_Click;
+            this.BasedPanel.AddAccountButton.Click += this.AddAccountButton_Click;
             this.GetPeriodPanel.CheckPostAndGet.CheckedChanged += this.CheckPostAndGet_CheckedChanged;
             this.ActionPanel.UReadMng.CheckedChanged += this.UReadMng_CheckedChanged;
 
@@ -115,7 +114,8 @@ namespace OpenTween
         {
             if (MyCommon.EndingFlag) return;
 
-            if (this.BasedPanel.AuthUserCombo.SelectedIndex == -1 && e.CloseReason == CloseReason.None)
+            var primaryAccountExists = this.BasedPanel.AccountsList.Any(x => x.IsPrimary);
+            if (!primaryAccountExists && e.CloseReason == CloseReason.None)
             {
                 if (MessageBox.Show(Properties.Resources.Setting_FormClosing1, "Confirm", MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == DialogResult.Cancel)
                 {
@@ -151,7 +151,7 @@ namespace OpenTween
             this.TreeViewSetting.SelectedNode = this.TreeViewSetting.Nodes[0];
             this.TreeViewSetting.ExpandAll();
 
-            this.ActiveControl = this.BasedPanel.StartAuthButton;
+            this.ActiveControl = this.BasedPanel.AddAccountButton;
         }
 
         private void UReadMng_CheckedChanged(object sender, EventArgs e)
@@ -166,9 +166,9 @@ namespace OpenTween
             }
         }
 
-        private async void StartAuthButton_Click(object sender, EventArgs e)
+        private async void AddAccountButton_Click(object sender, EventArgs e)
         {
-            using (ControlTransaction.Disabled(this.BasedPanel.StartAuthButton))
+            using (ControlTransaction.Disabled(this.BasedPanel.AddAccountButton))
             {
                 try
                 {
@@ -201,23 +201,7 @@ namespace OpenTween
                         newAccount = account;
                     }
 
-                    var authUserCombo = this.BasedPanel.AuthUserCombo;
-
-                    var oldAccount = authUserCombo.Items.Cast<UserAccount>()
-                        .FirstOrDefault(x => x.UserId == newAccount.UserId);
-
-                    int idx;
-                    if (oldAccount != null)
-                    {
-                        idx = authUserCombo.Items.IndexOf(oldAccount);
-                        authUserCombo.Items[idx] = newAccount;
-                    }
-                    else
-                    {
-                        idx = authUserCombo.Items.Add(newAccount);
-                    }
-
-                    authUserCombo.SelectedIndex = idx;
+                    this.BasedPanel.AddAccount(newAccount);
 
                     MessageBox.Show(
                         this,
@@ -317,15 +301,6 @@ namespace OpenTween
             this.GetPeriodPanel.LabelPostAndGet.Visible = this.GetPeriodPanel.CheckPostAndGet.Checked;
             this.GetPeriodPanel.UpdateTabCounts(TabInformations.GetInstance());
         }
-
-        private async Task OpenUrl(string url)
-        {
-            var browserPathWithArgs = this.ActionPanel.BrowserPathText.Text;
-            await MyCommon.OpenInBrowserAsync(this, browserPathWithArgs, url);
-        }
-
-        private async void CreateAccountButton_Click(object sender, EventArgs e)
-            => await this.OpenUrl("https://twitter.com/signup");
 
         private void GetPeriodPanel_IntervalChanged(object sender, IntervalChangedEventArgs e)
             => this.IntervalChanged?.Invoke(sender, e);

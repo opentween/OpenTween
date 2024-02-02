@@ -1,6 +1,7 @@
 ﻿更新履歴
 
 ==== Unreleased
+ * CHG: 設定画面でのアカウント一覧の表示形式を変更
 
 ==== Ver 3.13.0(2024/01/27)
  * NEW: Cookie使用時のReplyタブの更新に対応（/statuses/mentions_timeline.json 廃止に伴う対応）

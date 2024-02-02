@@ -61,6 +61,15 @@ namespace OpenTween.Properties {
         }
         
         /// <summary>
+        ///   (メイン) に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string AccountListBoxItem_Primary {
+            get {
+                return ResourceManager.GetString("AccountListBoxItem_Primary", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   発言一覧 に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string AddNewTab_ListView_AccessibleName {
@@ -2594,7 +2603,7 @@ namespace OpenTween.Properties {
         }
         
         /// <summary>
-        ///   「認証開始」ボタンを押すとブラウザが開きます。「連携アプリを認証」し、表示されたPINを画面上部に入力後、「Finish」ボタンを押してください。認証せずに終了してもよろしいですか？ に類似しているローカライズされた文字列を検索します。
+        ///   メインのアカウントが設定されていません。このまま終了してもよろしいですか？ に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string Setting_FormClosing1 {
             get {

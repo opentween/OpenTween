@@ -5,6 +5,7 @@
 	<resheader name="writer"><value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
 	<assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
 
+	<data name="AccountListBoxItem_Primary"><value>(メイン)</value></data>
 	<data name="AddNewTab_ListView_AccessibleName"><value>発言一覧</value></data>
 	<data name="AddNewTabText1"><value>(新規タブ)</value></data>
 	<data name="AddNewTabText2"><value>名前</value></data>
@@ -290,7 +291,7 @@
 	<data name="SetStatusLabelText2"><value>-]</value></data>
 	<data name="SetStatusLabelText3"><value>]</value></data>
 	<data name="SetStatusLabelText4"><value>[更新: {0:#,0}]</value></data>
-	<data name="Setting_FormClosing1"><value>「認証開始」ボタンを押すとブラウザが開きます。「連携アプリを認証」し、表示されたPINを画面上部に入力後、「Finish」ボタンを押してください。認証せずに終了してもよろしいですか？</value></data>
+	<data name="Setting_FormClosing1"><value>メインのアカウントが設定されていません。このまま終了してもよろしいですか？</value></data>
 	<data name="SettingPath_Relocation"><value>{0} での設定の書き込みに失敗しました。
 
 既存の設定ファイルは {1} にコピーされます。
