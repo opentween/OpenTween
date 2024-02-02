@@ -363,7 +363,7 @@ namespace OpenTween
             {
                 try
                 {
-                    post = await this.Owner.TwitterInstance.GetStatusApi(false, statusId.ToTwitterStatusId())
+                    post = await this.Owner.TwitterInstance.GetStatusApi(statusId.ToTwitterStatusId())
                         .ConfigureAwait(false);
                 }
                 catch (WebApiException ex)
@@ -371,7 +371,6 @@ namespace OpenTween
                     return FormatQuoteTweetHtml(statusId, WebUtility.HtmlEncode($"Err:{ex.Message}(GetStatus)"), isReply);
                 }
 
-                post.IsRead = true;
                 if (!TabInformations.GetInstance().AddQuoteTweet(post))
                     return FormatQuoteTweetHtml(statusId, "This Tweet is unavailable.", isReply);
             }

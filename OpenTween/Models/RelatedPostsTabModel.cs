@@ -51,23 +51,22 @@ namespace OpenTween.Models
             this.TargetPost = targetPost;
         }
 
-        public Task RefreshAsync(Twitter tw, bool startup, IProgress<string> progress)
-            => this.RefreshAsync(tw, false, startup, progress);
+        public Task RefreshAsync(Twitter tw, IProgress<string> progress)
+            => this.RefreshAsync(tw, false, progress);
 
-        public override async Task RefreshAsync(Twitter tw, bool backward, bool startup, IProgress<string> progress)
+        public override async Task RefreshAsync(Twitter tw, bool backward, IProgress<string> progress)
         {
-            bool read;
-            if (!SettingManager.Instance.Common.UnreadManage)
-                read = true;
-            else
-                read = startup && SettingManager.Instance.Common.Read;
-
             try
             {
                 progress.Report("Related refreshing...");
 
-                await tw.GetRelatedResult(read, this)
+                var firstLoad = !this.IsFirstLoadCompleted;
+
+                await tw.GetRelatedResult(this, firstLoad)
                     .ConfigureAwait(false);
+
+                if (firstLoad)
+                    this.IsFirstLoadCompleted = true;
 
                 progress.Report("Related refreshed");
             }

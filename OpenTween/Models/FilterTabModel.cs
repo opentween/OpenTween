@@ -171,11 +171,11 @@ namespace OpenTween.Models
             }
         }
 
-        public override Task RefreshAsync(Twitter tw, bool backward, bool startup, IProgress<string> progress)
+        public override Task RefreshAsync(Twitter tw, bool backward, IProgress<string> progress)
         {
             var homeTab = TabInformations.GetInstance().HomeTab;
 
-            return homeTab.RefreshAsync(tw, backward, startup, progress);
+            return homeTab.RefreshAsync(tw, backward, progress);
         }
     }
 }

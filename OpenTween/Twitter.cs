@@ -284,7 +284,8 @@ namespace OpenTween
 
             // 投稿したものを返す
             var post = this.CreatePostsFromStatusData(status);
-            if (this.ReadOwnPost) post.IsRead = true;
+            this.SetInitialUnreadState(post, firstLoad: false);
+
             return post;
         }
 
@@ -381,11 +382,11 @@ namespace OpenTween
             var messageEventSingle = await response.LoadJsonAsync()
                 .ConfigureAwait(false);
 
-            await this.CreateDirectMessagesEventFromJson(messageEventSingle, read: true)
+            await this.CreateDirectMessagesEventFromJson(messageEventSingle, firstLoad: false)
                 .ConfigureAwait(false);
         }
 
-        public async Task<PostClass?> PostRetweet(PostId id, bool read)
+        public async Task<PostClass?> PostRetweet(PostId id)
         {
             this.CheckAccountState();
 
@@ -425,12 +426,10 @@ namespace OpenTween
                 throw new WebApiException("Invalid Json!");
 
             // Retweetしたものを返す
-            return this.CreatePostsFromStatusData(status) with
-            {
-                IsMe = true,
-                IsRead = this.ReadOwnPost ? true : read,
-                IsOwl = false,
-            };
+            var retweetPost = this.CreatePostsFromStatusData(status);
+            this.SetInitialUnreadState(retweetPost, firstLoad: false);
+
+            return retweetPost;
         }
 
         public async Task DeleteRetweet(PostClass post)
@@ -595,7 +594,7 @@ namespace OpenTween
         /// <summary>
         /// WORKERTYPEに応じた取得件数を取得する
         /// </summary>
-        public static int GetApiResultCount(MyCommon.WORKERTYPE type, bool more, bool startup)
+        public static int GetApiResultCount(MyCommon.WORKERTYPE type, bool more, bool firstLoad)
         {
             if (SettingManager.Instance.Common.UseAdditionalCount)
             {
@@ -622,7 +621,7 @@ namespace OpenTween
                 {
                     return Math.Min(SettingManager.Instance.Common.MoreCountApi, GetMaxApiResultCount(type));
                 }
-                if (startup && SettingManager.Instance.Common.FirstCountApi != 0 && type != MyCommon.WORKERTYPE.Reply)
+                if (firstLoad && SettingManager.Instance.Common.FirstCountApi != 0 && type != MyCommon.WORKERTYPE.Reply)
                 {
                     return Math.Min(SettingManager.Instance.Common.FirstCountApi, GetMaxApiResultCount(type));
                 }
@@ -637,11 +636,11 @@ namespace OpenTween
             return Math.Min(count, GetMaxApiResultCount(type));
         }
 
-        public async Task GetHomeTimelineApi(bool read, HomeTabModel tab, bool more, bool startup)
+        public async Task GetHomeTimelineApi(HomeTabModel tab, bool more, bool firstLoad)
         {
             this.CheckAccountState();
 
-            var count = GetApiResultCount(MyCommon.WORKERTYPE.Timeline, more, startup);
+            var count = GetApiResultCount(MyCommon.WORKERTYPE.Timeline, more, firstLoad);
 
             TwitterStatus[] statuses;
             if (this.Api.AuthType == APIAuthType.TwitterComCookie)
@@ -688,16 +687,16 @@ namespace OpenTween
                     .ConfigureAwait(false);
             }
 
-            var minimumId = this.CreatePostsFromJson(statuses, MyCommon.WORKERTYPE.Timeline, tab, read);
+            var minimumId = this.CreatePostsFromJson(statuses, MyCommon.WORKERTYPE.Timeline, tab, firstLoad);
             if (minimumId != null)
                 tab.OldestId = minimumId;
         }
 
-        public async Task GetMentionsTimelineApi(bool read, MentionsTabModel tab, bool more, bool startup)
+        public async Task GetMentionsTimelineApi(MentionsTabModel tab, bool more, bool firstLoad)
         {
             this.CheckAccountState();
 
-            var count = GetApiResultCount(MyCommon.WORKERTYPE.Reply, more, startup);
+            var count = GetApiResultCount(MyCommon.WORKERTYPE.Reply, more, firstLoad);
 
             TwitterStatus[] statuses;
             if (this.Api.AuthType == APIAuthType.TwitterComCookie)
@@ -731,16 +730,16 @@ namespace OpenTween
                 }
             }
 
-            var minimumId = this.CreatePostsFromJson(statuses, MyCommon.WORKERTYPE.Reply, tab, read);
+            var minimumId = this.CreatePostsFromJson(statuses, MyCommon.WORKERTYPE.Reply, tab, firstLoad);
             if (minimumId != null)
                 tab.OldestId = minimumId;
         }
 
-        public async Task GetUserTimelineApi(bool read, UserTimelineTabModel tab, bool more)
+        public async Task GetUserTimelineApi(UserTimelineTabModel tab, bool more, bool firstLoad)
         {
             this.CheckAccountState();
 
-            var count = GetApiResultCount(MyCommon.WORKERTYPE.UserTimeline, more, false);
+            var count = GetApiResultCount(MyCommon.WORKERTYPE.UserTimeline, more, firstLoad);
 
             TwitterStatus[] statuses;
             if (this.Api.AuthType == APIAuthType.TwitterComCookie)
@@ -786,13 +785,13 @@ namespace OpenTween
                 }
             }
 
-            var minimumId = this.CreatePostsFromJson(statuses, MyCommon.WORKERTYPE.UserTimeline, tab, read);
+            var minimumId = this.CreatePostsFromJson(statuses, MyCommon.WORKERTYPE.UserTimeline, tab, firstLoad);
 
             if (minimumId != null)
                 tab.OldestId = minimumId;
         }
 
-        public async Task<PostClass> GetStatusApi(bool read, TwitterStatusId id)
+        public async Task<PostClass> GetStatusApi(TwitterStatusId id, bool firstLoad = false)
         {
             this.CheckAccountState();
 
@@ -815,9 +814,7 @@ namespace OpenTween
             }
 
             var item = this.CreatePostsFromStatusData(status);
-
-            item.IsRead = read;
-            if (item.IsMe && !read && this.ReadOwnPost) item.IsRead = true;
+            this.SetInitialUnreadState(item, firstLoad);
 
             return item;
         }
@@ -833,7 +830,7 @@ namespace OpenTween
             return post;
         }
 
-        private PostId? CreatePostsFromJson(TwitterStatus[] items, MyCommon.WORKERTYPE gType, TabModel? tab, bool read)
+        private PostId? CreatePostsFromJson(TwitterStatus[] items, MyCommon.WORKERTYPE gType, TabModel? tab, bool firstLoad)
         {
             PostId? minimumId = null;
 
@@ -867,8 +864,7 @@ namespace OpenTween
                 if (gType != MyCommon.WORKERTYPE.UserTimeline &&
                     post.RetweetedByUserId != null && this.noRTId.Contains(post.RetweetedByUserId.Value)) continue;
 
-                post.IsRead = read;
-                if (post.IsMe && !read && this.ReadOwnPost) post.IsRead = true;
+                this.SetInitialUnreadState(post, firstLoad);
 
                 if (tab != null && tab.IsInnerStorageTabType)
                     tab.AddPostQueue(post);
@@ -879,7 +875,7 @@ namespace OpenTween
             return minimumId;
         }
 
-        private PostId? CreatePostsFromSearchJson(TwitterStatus[] statuses, PublicSearchTabModel tab, bool read, bool more)
+        private PostId? CreatePostsFromSearchJson(TwitterStatus[] statuses, PublicSearchTabModel tab, bool more, bool firstLoad)
         {
             PostId? minimumId = null;
 
@@ -905,8 +901,7 @@ namespace OpenTween
                         continue;
                 }
 
-                post.IsRead = read;
-                if ((post.IsMe && !read) && this.ReadOwnPost) post.IsRead = true;
+                this.SetInitialUnreadState(post, firstLoad);
 
                 tab.AddPostQueue(post);
             }
@@ -914,7 +909,7 @@ namespace OpenTween
             return minimumId;
         }
 
-        private long? CreateFavoritePostsFromJson(TwitterStatus[] items, bool read)
+        private long? CreateFavoritePostsFromJson(TwitterStatus[] items, bool firstLoad)
         {
             var favTab = TabInformations.GetInstance().FavoriteTab;
             long? minimumId = null;
@@ -933,7 +928,7 @@ namespace OpenTween
 
                 var post = this.CreatePostsFromStatusData(status, true);
 
-                post.IsRead = read;
+                this.SetInitialUnreadState(post, firstLoad);
 
                 TabInformations.GetInstance().AddPost(post);
             }
@@ -941,9 +936,22 @@ namespace OpenTween
             return minimumId;
         }
 
-        public async Task GetListStatus(bool read, ListTimelineTabModel tab, bool more, bool startup)
+        private void SetInitialUnreadState(PostClass post, bool firstLoad)
         {
-            var count = GetApiResultCount(MyCommon.WORKERTYPE.List, more, startup);
+            bool isRead;
+            if (post.IsMe && this.ReadOwnPost)
+                isRead = true;
+            else if (firstLoad && SettingManager.Instance.Common.Read)
+                isRead = true;
+            else
+                isRead = false;
+
+            post.IsRead = isRead;
+        }
+
+        public async Task GetListStatus(ListTimelineTabModel tab, bool more, bool firstLoad)
+        {
+            var count = GetApiResultCount(MyCommon.WORKERTYPE.List, more, firstLoad);
 
             TwitterStatus[] statuses;
             if (this.Api.AuthType == APIAuthType.TwitterComCookie)
@@ -978,7 +986,7 @@ namespace OpenTween
                     .ConfigureAwait(false);
             }
 
-            var minimumId = this.CreatePostsFromJson(statuses, MyCommon.WORKERTYPE.List, tab, read);
+            var minimumId = this.CreatePostsFromJson(statuses, MyCommon.WORKERTYPE.List, tab, firstLoad);
 
             if (minimumId != null)
                 tab.OldestId = minimumId;
@@ -1004,7 +1012,7 @@ namespace OpenTween
             return nextPost;
         }
 
-        public async Task GetRelatedResult(bool read, RelatedPostsTabModel tab)
+        public async Task GetRelatedResult(RelatedPostsTabModel tab, bool firstLoad)
         {
             var targetPost = tab.TargetPost;
 
@@ -1030,7 +1038,7 @@ namespace OpenTween
                 }
                 else
                 {
-                    p = await this.GetStatusApi(read, targetPost.StatusId.ToTwitterStatusId())
+                    p = await this.GetStatusApi(targetPost.StatusId.ToTwitterStatusId(), firstLoad)
                         .ConfigureAwait(false);
                     targetPost = p;
                 }
@@ -1051,7 +1059,7 @@ namespace OpenTween
                 {
                     try
                     {
-                        inReplyToPost = await this.GetStatusApi(read, inReplyToId.ToTwitterStatusId())
+                        inReplyToPost = await this.GetStatusApi(inReplyToId.ToTwitterStatusId(), firstLoad)
                             .ConfigureAwait(false);
                     }
                     catch (WebApiException ex)
@@ -1080,7 +1088,7 @@ namespace OpenTween
                     {
                         try
                         {
-                            p = await this.GetStatusApi(read, statusId)
+                            p = await this.GetStatusApi(statusId, firstLoad)
                                 .ConfigureAwait(false);
                         }
                         catch (WebApiException ex)
@@ -1121,10 +1129,6 @@ namespace OpenTween
             relPosts.Values.ToList().ForEach(p =>
             {
                 var post = p with { };
-                if (post.IsMe && !read && this.ReadOwnPost)
-                    post.IsRead = true;
-                else
-                    post.IsRead = read;
 
                 tab.AddPostQueue(post);
             });
@@ -1163,9 +1167,9 @@ namespace OpenTween
             return statuses.Select(x => this.CreatePostsFromStatusData(x)).ToArray();
         }
 
-        public async Task GetSearch(bool read, PublicSearchTabModel tab, bool more)
+        public async Task GetSearch(PublicSearchTabModel tab, bool more, bool firstLoad)
         {
-            var count = GetApiResultCount(MyCommon.WORKERTYPE.PublicSearch, more, false);
+            var count = GetApiResultCount(MyCommon.WORKERTYPE.PublicSearch, more, firstLoad);
 
             TwitterStatus[] statuses;
             if (this.Api.AuthType == APIAuthType.TwitterComCookie)
@@ -1212,13 +1216,13 @@ namespace OpenTween
             if (!TabInformations.GetInstance().ContainsTab(tab))
                 return;
 
-            var minimumId = this.CreatePostsFromSearchJson(statuses, tab, read, more);
+            var minimumId = this.CreatePostsFromSearchJson(statuses, tab, more, firstLoad);
 
             if (minimumId != null)
                 tab.OldestId = minimumId;
         }
 
-        public async Task GetDirectMessageEvents(bool read, DirectMessagesTabModel dmTab, bool backward)
+        public async Task GetDirectMessageEvents(DirectMessagesTabModel dmTab, bool backward, bool firstLoad)
         {
             this.CheckAccountState();
             this.CheckAccessLevel(TwitterApiAccessLevel.ReadWriteAndDirectMessage);
@@ -1239,11 +1243,11 @@ namespace OpenTween
 
             dmTab.NextCursor = eventList.NextCursor;
 
-            await this.CreateDirectMessagesEventFromJson(eventList, read)
+            await this.CreateDirectMessagesEventFromJson(eventList, firstLoad)
                 .ConfigureAwait(false);
         }
 
-        private async Task CreateDirectMessagesEventFromJson(TwitterMessageEventSingle eventSingle, bool read)
+        private async Task CreateDirectMessagesEventFromJson(TwitterMessageEventSingle eventSingle, bool firstLoad)
         {
             var eventList = new TwitterMessageEventList
             {
@@ -1251,11 +1255,11 @@ namespace OpenTween
                 Events = new[] { eventSingle.Event },
             };
 
-            await this.CreateDirectMessagesEventFromJson(eventList, read)
+            await this.CreateDirectMessagesEventFromJson(eventList, firstLoad)
                 .ConfigureAwait(false);
         }
 
-        private async Task CreateDirectMessagesEventFromJson(TwitterMessageEventList eventList, bool read)
+        private async Task CreateDirectMessagesEventFromJson(TwitterMessageEventList eventList, bool firstLoad)
         {
             var events = eventList.Events
                 .Where(x => x.Type == "message_create")
@@ -1274,35 +1278,33 @@ namespace OpenTween
 
             var apps = eventList.Apps ?? new Dictionary<string, TwitterMessageEventList.App>();
 
-            this.CreateDirectMessagesEventFromJson(events, users, apps, read);
+            this.CreateDirectMessagesEventFromJson(events, users, apps, firstLoad);
         }
 
         private void CreateDirectMessagesEventFromJson(
             IEnumerable<TwitterMessageEvent> events,
             IReadOnlyDictionary<string, TwitterUser> users,
             IReadOnlyDictionary<string, TwitterMessageEventList.App> apps,
-            bool read)
+            bool firstLoad)
         {
             var dmTab = TabInformations.GetInstance().DirectMessageTab;
 
             foreach (var eventItem in events)
             {
                 var post = this.postFactory.CreateFromDirectMessageEvent(eventItem, users, apps, this.UserId);
-                _ = this.urlExpander.Expand(post);
+                this.SetInitialUnreadState(post, firstLoad);
 
-                post.IsRead = read;
-                if (post.IsMe && !read && this.ReadOwnPost)
-                    post.IsRead = true;
+                _ = this.urlExpander.Expand(post);
 
                 dmTab.AddPostQueue(post);
             }
         }
 
-        public async Task GetFavoritesApi(bool read, FavoritesTabModel tab, bool backward)
+        public async Task GetFavoritesApi(FavoritesTabModel tab, bool backward, bool firstLoad)
         {
             this.CheckAccountState();
 
-            var count = GetApiResultCount(MyCommon.WORKERTYPE.Favorites, backward, false);
+            var count = GetApiResultCount(MyCommon.WORKERTYPE.Favorites, backward, firstLoad);
 
             TwitterStatus[] statuses;
             if (this.Api.AuthType == APIAuthType.TwitterComCookie)
@@ -1337,7 +1339,7 @@ namespace OpenTween
                 }
             }
 
-            var minimumId = this.CreateFavoritePostsFromJson(statuses, read);
+            var minimumId = this.CreateFavoritePostsFromJson(statuses, firstLoad);
 
             if (minimumId != null)
                 tab.OldestId = minimumId.Value;
