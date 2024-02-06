@@ -455,7 +455,7 @@ namespace OpenTween
                     throw new TabException(Properties.Resources.TweenMain_LoadText1);
             }
 
-            this.ListTabSelect(this.ListTab.SelectedTab);
+            this.ListTabSelect(this.statuses.SelectedTabName);
 
             // タブの位置を調整する
             this.SetTabAlignment();
@@ -7785,7 +7785,7 @@ namespace OpenTween
             }
         }
 
-        private void ListTabSelect(TabPage tabPage)
+        private void ListTabSelect(string tabName)
         {
             this.SetListProperty();
 
@@ -7795,7 +7795,7 @@ namespace OpenTween
 
             this.listCache?.PurgeCache();
 
-            this.statuses.SelectTab(tabPage.Text);
+            this.statuses.SelectTab(tabName);
 
             this.InitializeTimelineListView();
 
@@ -7838,7 +7838,7 @@ namespace OpenTween
         }
 
         private void ListTab_Selecting(object sender, TabControlCancelEventArgs e)
-            => this.ListTabSelect(e.TabPage);
+            => this.ListTabSelect(e.TabPage.Text);
 
         private void SelectListItem(DetailsListView lView, int index)
         {

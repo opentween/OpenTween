@@ -133,8 +133,13 @@ namespace OpenTween.Models
                 if (this.Tabs.Contains(tab.TabName))
                     return false;
 
+                var isFirstTab = this.Tabs.Count == 0;
+
                 this.tabs.Add(tab);
                 tab.SetSortMode(this.SortMode, this.SortOrder);
+
+                if (isFirstTab)
+                    this.SelectTab(tab.TabName);
 
                 return true;
             }
