@@ -114,11 +114,14 @@ namespace OpenTween
         private readonly AccountCollection accounts;
 
 #pragma warning disable SA1300
-        private Twitter tw => ((TwitterAccount)this.PrimaryAccount).Legacy; // AccountCollection への移行用
+        private Twitter tw => ((TwitterAccount)this.CurrentTabAccount).Legacy; // AccountCollection への移行用
 #pragma warning restore SA1300
 
         private ISocialAccount PrimaryAccount
             => this.accounts.Primary;
+
+        private ISocialAccount CurrentTabAccount
+            => this.accounts.GetAccountForTab(this.CurrentTab) ?? throw new InvalidOperationException("Account not found");
 
         // Growl呼び出し部
         private readonly GrowlHelper gh = new(ApplicationSettings.ApplicationName);
@@ -2217,7 +2220,7 @@ namespace OpenTween
                 this.StatusOpenMenuItem.Enabled = true;
                 this.ShowRelatedStatusesMenuItem.Enabled = true;  // PublicSearchの時問題出るかも
 
-                if (!post.CanRetweetBy(this.PrimaryAccount.UserId))
+                if (!post.CanRetweetBy(this.CurrentTabAccount.UserId))
                 {
                     this.ReTweetStripMenuItem.Enabled = false;
                     this.ReTweetUnofficialStripMenuItem.Enabled = false;
@@ -2246,7 +2249,7 @@ namespace OpenTween
 
             if (this.ExistCurrentPost && post != null)
             {
-                var primaryUserId = this.PrimaryAccount.UserId;
+                var primaryUserId = this.CurrentTabAccount.UserId;
                 this.DeleteStripMenuItem.Enabled = post.CanDeleteBy(primaryUserId);
                 if (post.RetweetedByUserId == primaryUserId)
                     this.DeleteStripMenuItem.Text = Properties.Resources.DeleteMenuText2;
@@ -2268,7 +2271,7 @@ namespace OpenTween
                 return;
 
             // 選択されたツイートの中に削除可能なものが一つでもあるか
-            var primaryUserId = this.PrimaryAccount.UserId;
+            var primaryUserId = this.CurrentTabAccount.UserId;
             if (!posts.Any(x => x.CanDeleteBy(primaryUserId)))
                 return;
 
@@ -3495,7 +3498,7 @@ namespace OpenTween
                 disableFooter = true;
 
             // 自分宛のリプライの場合は先頭の「@screen_name 」の部分を除去する (in_reply_to_status_id は維持される)
-            var primaryUserName = this.PrimaryAccount.UserName;
+            var primaryUserName = this.CurrentTabAccount.UserName;
             if (this.inReplyTo != null && this.inReplyTo.Value.ScreenName == primaryUserName)
             {
                 var mentionSelf = $"@{primaryUserName} ";
@@ -6018,7 +6021,7 @@ namespace OpenTween
                 this.inReplyTo = null;
             }
 
-            var selfScreenName = this.PrimaryAccount.UserName;
+            var selfScreenName = this.CurrentTabAccount.UserName;
             var targetScreenNames = new List<string>();
             foreach (var post in selectedPosts)
             {
@@ -6852,7 +6855,7 @@ namespace OpenTween
                 }
             }
 
-            if (this.settings.Common.DispUsername) ttl.Append(this.PrimaryAccount.UserName).Append(" - ");
+            if (this.settings.Common.DispUsername) ttl.Append(this.CurrentTabAccount.UserName).Append(" - ");
             ttl.Append(ApplicationSettings.ApplicationName);
             ttl.Append("  ");
             switch (this.settings.Common.DispLatestPost)
@@ -7021,7 +7024,7 @@ namespace OpenTween
             ur.Remove(0, ur.Length);
             if (this.settings.Common.DispUsername)
             {
-                ur.Append(this.PrimaryAccount.UserName);
+                ur.Append(this.CurrentTabAccount.UserName);
                 ur.Append(" - ");
             }
             ur.Append(ApplicationSettings.ApplicationName);
@@ -7990,7 +7993,7 @@ namespace OpenTween
             if (this.ExistCurrentPost)
             {
                 var selectedPosts = this.CurrentTab.SelectedPosts;
-                var primaryUserId = this.PrimaryAccount.UserId;
+                var primaryUserId = this.CurrentTabAccount.UserId;
 
                 if (selectedPosts.Any(x => !x.CanRetweetBy(primaryUserId)))
                 {
@@ -8333,7 +8336,7 @@ namespace OpenTween
 
                 try
                 {
-                    var task = this.tw.Api.FriendshipsShow(this.PrimaryAccount.UserName, id);
+                    var task = this.tw.Api.FriendshipsShow(this.CurrentTabAccount.UserName, id);
                     var friendship = await dialog.WaitForAsync(this, task);
 
                     isFollowing = friendship.Relationship.Source.Following;
@@ -8383,7 +8386,7 @@ namespace OpenTween
 
                     try
                     {
-                        var task = this.tw.Api.FriendshipsShow(this.PrimaryAccount.UserName, id);
+                        var task = this.tw.Api.FriendshipsShow(this.CurrentTabAccount.UserName, id);
                         var friendship = await dialog.WaitForAsync(this, task);
 
                         isFollowing = friendship.Relationship.Source.Following;
@@ -8443,7 +8446,7 @@ namespace OpenTween
         }
 
         private async void OwnStatusMenuItem_Click(object sender, EventArgs e)
-            => await this.DoShowUserStatus(this.PrimaryAccount.UserName, false);
+            => await this.DoShowUserStatus(this.CurrentTabAccount.UserName, false);
 
         // TwitterIDでない固定文字列を調べる（文字列検証のみ　実際に取得はしない）
         // URLから切り出した文字列を渡す
@@ -8784,7 +8787,7 @@ namespace OpenTween
                 this.OpenStatusOpMenuItem.Enabled = true;
                 this.ShowRelatedStatusesMenuItem2.Enabled = true;  // PublicSearchの時問題出るかも
 
-                if (!post.CanRetweetBy(this.PrimaryAccount.UserId))
+                if (!post.CanRetweetBy(this.CurrentTabAccount.UserId))
                 {
                     this.RtOpMenuItem.Enabled = false;
                     this.RtUnOpMenuItem.Enabled = false;
@@ -8821,7 +8824,7 @@ namespace OpenTween
 
             if (this.ExistCurrentPost && post != null)
             {
-                this.DelOpMenuItem.Enabled = post.CanDeleteBy(this.PrimaryAccount.UserId);
+                this.DelOpMenuItem.Enabled = post.CanDeleteBy(this.CurrentTabAccount.UserId);
             }
         }
 
@@ -9208,7 +9211,7 @@ namespace OpenTween
 
             var tabName = this.statuses.MakeTabName("Related Tweets");
 
-            tabRelated = new RelatedPostsTabModel(tabName, this.PrimaryAccount.UniqueKey, post)
+            tabRelated = new RelatedPostsTabModel(tabName, this.CurrentTabAccount.UniqueKey, post)
             {
                 UnreadManage = false,
                 Notify = false,
@@ -9263,7 +9266,7 @@ namespace OpenTween
         }
 
         private async void OpenOwnHomeMenuItem_Click(object sender, EventArgs e)
-            => await MyCommon.OpenInBrowserAsync(this, MyCommon.TwitterUrl + this.PrimaryAccount.UserName);
+            => await MyCommon.OpenInBrowserAsync(this, MyCommon.TwitterUrl + this.CurrentTabAccount.UserName);
 
         private bool ExistCurrentPost
         {
