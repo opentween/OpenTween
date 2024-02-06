@@ -70,8 +70,6 @@ namespace OpenTween.Models
 
         public bool IsDistributableTabType => this.TabType.IsDistributable();
 
-        public bool IsInnerStorageTabType => this.TabType.IsInnerStorage();
-
         /// <summary>
         /// 次回起動時にも保持されるタブか（SettingTabsに保存されるか）
         /// </summary>

@@ -1029,18 +1029,5 @@ namespace OpenTween.Models
         [InlineData(MyCommon.TabUsageType.Related,       false)]
         public void IsDistributable_Test(MyCommon.TabUsageType tabType, bool expected)
             => Assert.Equal(expected, tabType.IsDistributable());
-
-        [Theory]
-        [InlineData(MyCommon.TabUsageType.Home,          false)]
-        [InlineData(MyCommon.TabUsageType.Mentions,      false)]
-        [InlineData(MyCommon.TabUsageType.DirectMessage, true)]
-        [InlineData(MyCommon.TabUsageType.Favorites,     false)]
-        [InlineData(MyCommon.TabUsageType.UserDefined,   false)]
-        [InlineData(MyCommon.TabUsageType.Lists,         true)]
-        [InlineData(MyCommon.TabUsageType.UserTimeline,  true)]
-        [InlineData(MyCommon.TabUsageType.PublicSearch,  true)]
-        [InlineData(MyCommon.TabUsageType.Related,       true)]
-        public void IsInnerStorage_Test(MyCommon.TabUsageType tabType, bool expected)
-            => Assert.Equal(expected, tabType.IsInnerStorage());
     }
 }
