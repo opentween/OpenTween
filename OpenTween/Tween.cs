@@ -1301,9 +1301,13 @@ namespace OpenTween
 
             try
             {
+                var accountForTab = this.accounts.GetAccountForTab(tab);
+                if (accountForTab == null)
+                    return;
+
                 this.RefreshTasktrayIcon();
                 await Task.Run(
-                    () => tab.RefreshAsync(this.PrimaryAccount, backward, this.workerProgress)
+                    () => tab.RefreshAsync(accountForTab, backward, this.workerProgress)
                 );
                 tab.IncrementUpdateCount();
             }
@@ -9204,7 +9208,7 @@ namespace OpenTween
 
             var tabName = this.statuses.MakeTabName("Related Tweets");
 
-            tabRelated = new RelatedPostsTabModel(tabName, post)
+            tabRelated = new RelatedPostsTabModel(tabName, this.PrimaryAccount.UniqueKey, post)
             {
                 UnreadManage = false,
                 Notify = false,

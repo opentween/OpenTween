@@ -24,6 +24,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using OpenTween.Models;
 using OpenTween.SocialProtocol.Twitter;
 
 namespace OpenTween.SocialProtocol
@@ -82,6 +83,19 @@ namespace OpenTween.SocialProtocol
         {
             foreach (var account in accounts)
                 account.Dispose();
+        }
+
+        public ISocialAccount? GetAccountForTab(TabModel tab)
+        {
+            if (tab.SourceAccountId is { } accountId)
+            {
+                if (this.accounts.TryGetValue(accountId, out var account))
+                    return account;
+
+                return null;
+            }
+
+            return this.Primary;
         }
     }
 }

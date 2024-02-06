@@ -60,6 +60,9 @@ namespace OpenTween.Models
 
         public abstract MyCommon.TabUsageType TabType { get; }
 
+        public virtual Guid? SourceAccountId
+            => null;
+
         public virtual ConcurrentDictionary<PostId, PostClass> Posts
             => TabInformations.GetInstance().Posts;
 
