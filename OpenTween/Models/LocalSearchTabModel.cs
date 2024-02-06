@@ -41,7 +41,7 @@ namespace OpenTween.Models
         {
         }
 
-        public override Task RefreshAsync(Twitter tw, bool backward, bool startup, IProgress<string> progress)
+        public override Task RefreshAsync(Twitter tw, bool backward, IProgress<string> progress)
             => Task.CompletedTask; // 何もしない
     }
 }

@@ -77,23 +77,22 @@ namespace OpenTween.Models
         {
         }
 
-        public override async Task RefreshAsync(Twitter tw, bool backward, bool startup, IProgress<string> progress)
+        public override async Task RefreshAsync(Twitter tw, bool backward, IProgress<string> progress)
         {
             if (MyCommon.IsNullOrEmpty(this.SearchWords))
                 return;
 
-            bool read;
-            if (!SettingManager.Instance.Common.UnreadManage)
-                read = true;
-            else
-                read = startup && SettingManager.Instance.Common.Read;
-
             progress.Report("Search refreshing...");
 
-            await tw.GetSearch(read, this, backward)
+            var firstLoad = !this.IsFirstLoadCompleted;
+
+            await tw.GetSearch(this, backward, firstLoad)
                 .ConfigureAwait(false);
 
             TabInformations.GetInstance().DistributePosts();
+
+            if (firstLoad)
+                this.IsFirstLoadCompleted = true;
 
             progress.Report("Search refreshed");
         }
@@ -107,6 +106,7 @@ namespace OpenTween.Models
             this.OldestId = null;
             this.CursorTop = null;
             this.CursorBottom = null;
+            this.IsFirstLoadCompleted = false;
         }
     }
 }

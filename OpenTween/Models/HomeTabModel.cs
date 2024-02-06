@@ -71,17 +71,13 @@ namespace OpenTween.Models
             this.UpdateTimelineSpeed(post.CreatedAt);
         }
 
-        public override async Task RefreshAsync(Twitter tw, bool backward, bool startup, IProgress<string> progress)
+        public override async Task RefreshAsync(Twitter tw, bool backward, IProgress<string> progress)
         {
-            bool read;
-            if (!SettingManager.Instance.Common.UnreadManage)
-                read = true;
-            else
-                read = startup && SettingManager.Instance.Common.Read;
-
             progress.Report(string.Format(Properties.Resources.GetTimelineWorker_RunWorkerCompletedText5, backward ? -1 : 1));
 
-            await tw.GetHomeTimelineApi(read, this, backward, startup)
+            var firstLoad = !this.IsFirstLoadCompleted;
+
+            await tw.GetHomeTimelineApi(this, backward, firstLoad)
                 .ConfigureAwait(false);
 
             // 新着時未読クリア
@@ -89,6 +85,9 @@ namespace OpenTween.Models
                 TabInformations.GetInstance().SetReadHomeTab();
 
             TabInformations.GetInstance().DistributePosts();
+
+            if (firstLoad)
+                this.IsFirstLoadCompleted = true;
 
             progress.Report(Properties.Resources.GetTimelineWorker_RunWorkerCompletedText1);
         }

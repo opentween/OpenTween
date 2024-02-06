@@ -55,6 +55,8 @@ namespace OpenTween.Models
 
         public SortOrder SortOrder { get; private set; }
 
+        public bool IsFirstLoadCompleted { get; protected set; } = false;
+
         public abstract MyCommon.TabUsageType TabType { get; }
 
         public virtual ConcurrentDictionary<PostId, PostClass> Posts
@@ -128,7 +130,7 @@ namespace OpenTween.Models
         protected TabModel(string tabName)
             => this.TabName = tabName;
 
-        public abstract Task RefreshAsync(Twitter tw, bool backward, bool startup, IProgress<string> progress);
+        public abstract Task RefreshAsync(Twitter tw, bool backward, IProgress<string> progress);
 
         private readonly record struct TemporaryId(
             PostId StatusId,

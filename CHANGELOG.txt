@@ -2,6 +2,7 @@
 
 ==== Unreleased
  * CHG: 設定画面でのアカウント一覧の表示形式を変更
+ * CHG: 新規タブの初回に読み込まれた発言を既読状態にする（起動時の初回の読み込みと同じ動作となる）
 
 ==== Ver 3.13.0(2024/01/27)
  * NEW: Cookie使用時のReplyタブの更新に対応（/statuses/mentions_timeline.json 廃止に伴う対応）

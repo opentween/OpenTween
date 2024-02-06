@@ -57,20 +57,19 @@ namespace OpenTween.Models
         {
         }
 
-        public override async Task RefreshAsync(Twitter tw, bool backward, bool startup, IProgress<string> progress)
+        public override async Task RefreshAsync(Twitter tw, bool backward, IProgress<string> progress)
         {
-            bool read;
-            if (!SettingManager.Instance.Common.UnreadManage)
-                read = true;
-            else
-                read = startup && SettingManager.Instance.Common.Read;
-
             progress.Report(Properties.Resources.GetTimelineWorker_RunWorkerCompletedText19);
 
-            await tw.GetFavoritesApi(read, this, backward)
+            var firstLoad = !this.IsFirstLoadCompleted;
+
+            await tw.GetFavoritesApi(this, backward, firstLoad)
                 .ConfigureAwait(false);
 
             TabInformations.GetInstance().DistributePosts();
+
+            if (firstLoad)
+                this.IsFirstLoadCompleted = true;
 
             progress.Report(Properties.Resources.GetTimelineWorker_RunWorkerCompletedText20);
         }

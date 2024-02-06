@@ -1302,7 +1302,7 @@ namespace OpenTween
             try
             {
                 this.RefreshTasktrayIcon();
-                await Task.Run(() => tab.RefreshAsync(this.tw, backward, this.initial, this.workerProgress));
+                await Task.Run(() => tab.RefreshAsync(this.tw, backward, this.workerProgress));
                 tab.IncrementUpdateCount();
             }
             catch (WebApiException ex)
@@ -1730,12 +1730,6 @@ namespace OpenTween
             if (!CheckAccountValid())
                 throw new WebApiException("Auth error. Check your account");
 
-            bool read;
-            if (!this.settings.Common.UnreadManage)
-                read = true;
-            else
-                read = this.initial && this.settings.Common.Read;
-
             p.Report("Posting...");
 
             var posts = new List<PostClass>();
@@ -1744,7 +1738,7 @@ namespace OpenTween
             {
                 foreach (var statusId in statusIds)
                 {
-                    var post = await this.tw.PostRetweet(statusId, read).ConfigureAwait(false);
+                    var post = await this.tw.PostRetweet(statusId).ConfigureAwait(false);
                     if (post != null) posts.Add(post);
                 }
             });
@@ -5217,7 +5211,7 @@ namespace OpenTween
             {
                 try
                 {
-                    var post = await this.tw.GetStatusApi(false, currentPost.StatusId.ToTwitterStatusId());
+                    var post = await this.tw.GetStatusApi(currentPost.StatusId.ToTwitterStatusId());
 
                     currentPost = currentPost with
                     {
@@ -5265,9 +5259,8 @@ namespace OpenTween
                 {
                     await Task.Run(async () =>
                     {
-                        var post = await this.tw.GetStatusApi(false, currentPost.InReplyToStatusId.ToTwitterStatusId())
+                        var post = await this.tw.GetStatusApi(currentPost.InReplyToStatusId.ToTwitterStatusId())
                             .ConfigureAwait(false);
-                        post.IsRead = true;
 
                         this.statuses.AddPost(post);
                         this.statuses.DistributePosts();
@@ -9182,7 +9175,7 @@ namespace OpenTween
             {
                 try
                 {
-                    post = await this.tw.GetStatusApi(false, statusId.ToTwitterStatusId());
+                    post = await this.tw.GetStatusApi(statusId.ToTwitterStatusId());
                 }
                 catch (WebApiException ex)
                 {
