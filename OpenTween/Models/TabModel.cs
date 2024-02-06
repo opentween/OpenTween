@@ -36,6 +36,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using OpenTween.Setting;
+using OpenTween.SocialProtocol;
 
 namespace OpenTween.Models
 {
@@ -128,7 +129,7 @@ namespace OpenTween.Models
         protected TabModel(string tabName)
             => this.TabName = tabName;
 
-        public abstract Task RefreshAsync(Twitter tw, bool backward, IProgress<string> progress);
+        public abstract Task RefreshAsync(ISocialAccount account, bool backward, IProgress<string> progress);
 
         private readonly record struct TemporaryId(
             PostId StatusId,

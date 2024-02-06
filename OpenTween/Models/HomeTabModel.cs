@@ -35,6 +35,8 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using OpenTween.Setting;
+using OpenTween.SocialProtocol;
+using OpenTween.SocialProtocol.Twitter;
 
 namespace OpenTween.Models
 {
@@ -71,13 +73,16 @@ namespace OpenTween.Models
             this.UpdateTimelineSpeed(post.CreatedAt);
         }
 
-        public override async Task RefreshAsync(Twitter tw, bool backward, IProgress<string> progress)
+        public override async Task RefreshAsync(ISocialAccount account, bool backward, IProgress<string> progress)
         {
+            if (account is not TwitterAccount twAccount)
+                throw new ArgumentException($"Invalid account type: {account.GetType()}", nameof(account));
+
             progress.Report(string.Format(Properties.Resources.GetTimelineWorker_RunWorkerCompletedText5, backward ? -1 : 1));
 
             var firstLoad = !this.IsFirstLoadCompleted;
 
-            await tw.GetHomeTimelineApi(this, backward, firstLoad)
+            await twAccount.Legacy.GetHomeTimelineApi(this, backward, firstLoad)
                 .ConfigureAwait(false);
 
             // 新着時未読クリア

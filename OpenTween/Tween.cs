@@ -1302,7 +1302,9 @@ namespace OpenTween
             try
             {
                 this.RefreshTasktrayIcon();
-                await Task.Run(() => tab.RefreshAsync(this.tw, backward, this.workerProgress));
+                await Task.Run(
+                    () => tab.RefreshAsync(this.PrimaryAccount, backward, this.workerProgress)
+                );
                 tab.IncrementUpdateCount();
             }
             catch (WebApiException ex)
