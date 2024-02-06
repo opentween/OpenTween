@@ -1380,15 +1380,6 @@ namespace OpenTween.Models
         }
 
         [Fact]
-        public void GetTabsInnerStorageType_Test()
-        {
-            Assert.Equal(
-                new TabModel[] { this.tabinfo.DirectMessageTab },
-                this.tabinfo.GetTabsInnerStorageType()
-            );
-        }
-
-        [Fact]
         public void GetTabByName_Test()
         {
             var tab = new PublicSearchTabModel("search");

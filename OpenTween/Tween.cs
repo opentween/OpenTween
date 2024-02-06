@@ -1397,7 +1397,7 @@ namespace OpenTween
                     }
 
                     // 検索,リスト,UserTimeline,Relatedの各タブに反映
-                    foreach (var tb in this.statuses.GetTabsInnerStorageType())
+                    foreach (var tb in this.statuses.GetTabsByType<InternalStorageTabModel>())
                     {
                         if (tb.Contains(statusId))
                             tb.Posts[statusId].IsFav = true;
@@ -1509,7 +1509,7 @@ namespace OpenTween
                         tabinfoPost.IsFav = false;
 
                     // 検索,リスト,UserTimeline,Relatedの各タブに反映
-                    foreach (var tb in this.statuses.GetTabsInnerStorageType())
+                    foreach (var tb in this.statuses.GetTabsByType<InternalStorageTabModel>())
                     {
                         if (tb.Contains(statusId))
                             tb.Posts[statusId].IsFav = false;

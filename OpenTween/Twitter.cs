@@ -866,7 +866,7 @@ namespace OpenTween
 
                 this.SetInitialUnreadState(post, firstLoad);
 
-                if (tab != null && tab.IsInnerStorageTabType)
+                if (tab != null && tab is InternalStorageTabModel)
                     tab.AddPostQueue(post);
                 else
                     TabInformations.GetInstance().AddPost(post);

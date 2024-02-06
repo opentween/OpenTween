@@ -46,14 +46,6 @@ namespace OpenTween.Models
             MyCommon.TabUsageType.UserDefined |
             MyCommon.TabUsageType.Mute;
 
-        private const MyCommon.TabUsageType InnerStorageTabTypeMask =
-            MyCommon.TabUsageType.DirectMessage |
-            MyCommon.TabUsageType.PublicSearch |
-            MyCommon.TabUsageType.Lists |
-            MyCommon.TabUsageType.UserTimeline |
-            MyCommon.TabUsageType.Related |
-            MyCommon.TabUsageType.SearchResults;
-
         /// <summary>
         /// デフォルトタブかどうかを示す値を取得します。
         /// </summary>
@@ -65,11 +57,5 @@ namespace OpenTween.Models
         /// </summary>
         public static bool IsDistributable(this MyCommon.TabUsageType tabType)
             => (tabType & DistributableTabTypeMask) != 0;
-
-        /// <summary>
-        /// 内部ストレージを使用するタブかどうかを示す値を取得します。
-        /// </summary>
-        public static bool IsInnerStorage(this MyCommon.TabUsageType tabType)
-            => (tabType & InnerStorageTabTypeMask) != 0;
     }
 }

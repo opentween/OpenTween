@@ -54,9 +54,6 @@ namespace OpenTween.Models
         // フィルタに合致したら追加
         public MyCommon.HITRESULT AddFiltered(PostClass post, bool immediately = false)
         {
-            if (this.IsInnerStorageTabType)
-                return MyCommon.HITRESULT.None;
-
             var rslt = MyCommon.HITRESULT.None;
 
             // 全フィルタ評価（優先順位あり）

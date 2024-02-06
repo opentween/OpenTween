@@ -147,7 +147,7 @@ namespace OpenTween.Models
                 var tb = this.GetTabByName(tabName);
                 if (tb == null || tb.IsDefaultTabType) return; // 念のため
 
-                if (!tb.IsInnerStorageTabType)
+                if (tb is not InternalStorageTabModel)
                 {
                     var homeTab = this.HomeTab;
                     var dmTab = this.DirectMessageTab;
@@ -725,7 +725,7 @@ namespace OpenTween.Models
                 if (this.quotes.TryGetValue(id, out status))
                     return status;
 
-                return this.GetTabsInnerStorageType()
+                return this.GetTabsByType<InternalStorageTabModel>()
                     .Select(x => x.Posts.TryGetValue(id, out status) ? status : null)
                     .FirstOrDefault(x => x != null);
             }
@@ -856,7 +856,7 @@ namespace OpenTween.Models
             lock (this.lockObj)
             {
                 var tb = this.Tabs[tabName];
-                if (!tb.IsInnerStorageTabType)
+                if (tb is not InternalStorageTabModel)
                 {
                     foreach (var id in tb.StatusIds)
                     {
@@ -889,7 +889,7 @@ namespace OpenTween.Models
         {
             lock (this.lockObj)
             {
-                var allPosts = this.GetTabsInnerStorageType()
+                var allPosts = this.GetTabsByType<InternalStorageTabModel>()
                     .SelectMany(x => x.Posts.Values)
                     .Concat(this.Posts.Values);
 
@@ -962,16 +962,6 @@ namespace OpenTween.Models
         {
             lock (this.lockObj)
                 return this.Tabs.OfType<T>().ToArray();
-        }
-
-        public TabModel[] GetTabsInnerStorageType()
-        {
-            lock (this.lockObj)
-            {
-                return this.Tabs
-                    .Where(x => x.IsInnerStorageTabType)
-                    .ToArray();
-            }
         }
 
         public TabModel? GetTabByName(string tabName)
