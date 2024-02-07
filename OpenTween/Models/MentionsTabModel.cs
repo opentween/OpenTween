@@ -33,6 +33,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using OpenTween.Setting;
+using OpenTween.SocialProtocol;
+using OpenTween.SocialProtocol.Twitter;
 
 namespace OpenTween.Models
 {
@@ -57,13 +59,16 @@ namespace OpenTween.Models
         {
         }
 
-        public override async Task RefreshAsync(Twitter tw, bool backward, IProgress<string> progress)
+        public override async Task RefreshAsync(ISocialAccount account, bool backward, IProgress<string> progress)
         {
+            if (account is not TwitterAccount twAccount)
+                throw new ArgumentException($"Invalid account type: {account.GetType()}", nameof(account));
+
             progress.Report(string.Format(Properties.Resources.GetTimelineWorker_RunWorkerCompletedText4, backward ? -1 : 1));
 
             var firstLoad = !this.IsFirstLoadCompleted;
 
-            await tw.GetMentionsTimelineApi(this, backward, firstLoad)
+            await twAccount.Legacy.GetMentionsTimelineApi(this, backward, firstLoad)
                 .ConfigureAwait(false);
 
             TabInformations.GetInstance().DistributePosts();

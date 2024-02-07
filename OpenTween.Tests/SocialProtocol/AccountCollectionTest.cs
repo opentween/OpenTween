@@ -20,6 +20,7 @@
 // Boston, MA 02110-1301, USA.
 
 using System;
+using OpenTween.Models;
 using OpenTween.SocialProtocol.Twitter;
 using Xunit;
 
@@ -138,6 +139,66 @@ namespace OpenTween.SocialProtocol
                 accountItem2.UserId
             );
             Assert.False(accountItem2.IsDisposed);
+        }
+
+        [Fact]
+        public void GetAccountForTab_DefaultTest()
+        {
+            using var accounts = new AccountCollection();
+            accounts.LoadFromSettings(new()
+            {
+                UserAccounts = new()
+                {
+                    this.CreateAccountSetting("00000000-0000-4000-8000-000000000000"),
+                },
+                SelectedAccountKey = new("00000000-0000-4000-8000-000000000000"),
+            });
+
+            var tabWithoutAccountId = new PublicSearchTabModel("hoge");
+
+            // SourceAccountId が null のタブに対しては Primary のアカウントを返す
+            var actual = accounts.GetAccountForTab(tabWithoutAccountId);
+            Assert.Equal(new("00000000-0000-4000-8000-000000000000"), actual?.UniqueKey);
+        }
+
+        [Fact]
+        public void GetAccountForTab_SpecifiedAccountTest()
+        {
+            using var accounts = new AccountCollection();
+            accounts.LoadFromSettings(new()
+            {
+                UserAccounts = new()
+                {
+                    this.CreateAccountSetting("00000000-0000-4000-8000-000000000000"),
+                    this.CreateAccountSetting("00000000-0000-4000-8000-111111111111"),
+                },
+                SelectedAccountKey = new("00000000-0000-4000-8000-000000000000"),
+            });
+
+            var tabWithAccountId = new RelatedPostsTabModel("hoge", new("00000000-0000-4000-8000-111111111111"), new());
+
+            // SourceAccountId が設定されているタブに対しては対応するアカウントを返す
+            var actual = accounts.GetAccountForTab(tabWithAccountId);
+            Assert.Equal(new("00000000-0000-4000-8000-111111111111"), actual?.UniqueKey);
+        }
+
+        [Fact]
+        public void GetAccountForTab_NotExistsTest()
+        {
+            using var accounts = new AccountCollection();
+            accounts.LoadFromSettings(new()
+            {
+                UserAccounts = new()
+                {
+                    this.CreateAccountSetting("00000000-0000-4000-8000-000000000000"),
+                },
+                SelectedAccountKey = new("00000000-0000-4000-8000-000000000000"),
+            });
+
+            var tabWithAccountId = new RelatedPostsTabModel("hoge", new("00000000-0000-4000-8000-999999999999"), new());
+
+            // SourceAccountId に存在しない ID が設定されていた場合は null を返す
+            Assert.Null(accounts.GetAccountForTab(tabWithAccountId));
         }
     }
 }

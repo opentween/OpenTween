@@ -28,6 +28,7 @@
 #nullable enable
 
 using System;
+using System.Linq;
 using System.Windows.Forms;
 using OpenTween.Connection;
 using OpenTween.Setting;

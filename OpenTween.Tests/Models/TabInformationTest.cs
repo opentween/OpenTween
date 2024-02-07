@@ -72,6 +72,18 @@ namespace OpenTween.Models
         }
 
         [Fact]
+        public void AddTab_FirstTabTest()
+        {
+            var tabinfo = new TabInformations();
+            var tab = new PublicSearchTabModel("hoge");
+
+            tabinfo.AddTab(tab);
+
+            Assert.Equal("hoge", tabinfo.SelectedTabName);
+            Assert.Same(tab, tabinfo.SelectedTab);
+        }
+
+        [Fact]
         public void RemoveTab_InnerStorageTabTest()
         {
             var tab = new PublicSearchTabModel("search");

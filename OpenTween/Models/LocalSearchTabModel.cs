@@ -26,6 +26,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using OpenTween.SocialProtocol;
 
 namespace OpenTween.Models
 {
@@ -41,7 +42,7 @@ namespace OpenTween.Models
         {
         }
 
-        public override Task RefreshAsync(Twitter tw, bool backward, IProgress<string> progress)
+        public override Task RefreshAsync(ISocialAccount account, bool backward, IProgress<string> progress)
             => Task.CompletedTask; // 何もしない
     }
 }

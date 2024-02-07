@@ -33,6 +33,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using OpenTween.Setting;
+using OpenTween.SocialProtocol;
+using OpenTween.SocialProtocol.Twitter;
 
 namespace OpenTween.Models
 {
@@ -43,26 +45,29 @@ namespace OpenTween.Models
 
         public override bool IsPermanentTabType => false;
 
+        public override Guid? SourceAccountId { get; }
+
         public PostClass TargetPost { get; }
 
-        public RelatedPostsTabModel(string tabName, PostClass targetPost)
+        public RelatedPostsTabModel(string tabName, Guid accountId, PostClass targetPost)
             : base(tabName)
         {
+            this.SourceAccountId = accountId;
             this.TargetPost = targetPost;
         }
 
-        public Task RefreshAsync(Twitter tw, IProgress<string> progress)
-            => this.RefreshAsync(tw, false, progress);
-
-        public override async Task RefreshAsync(Twitter tw, bool backward, IProgress<string> progress)
+        public override async Task RefreshAsync(ISocialAccount account, bool backward, IProgress<string> progress)
         {
+            if (account is not TwitterAccount twAccount)
+                throw new ArgumentException($"Invalid account type: {account.GetType()}", nameof(account));
+
             try
             {
                 progress.Report("Related refreshing...");
 
                 var firstLoad = !this.IsFirstLoadCompleted;
 
-                await tw.GetRelatedResult(this, firstLoad)
+                await twAccount.Legacy.GetRelatedResult(this, firstLoad)
                     .ConfigureAwait(false);
 
                 if (firstLoad)
