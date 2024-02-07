@@ -31,6 +31,7 @@ using System;
 using System.Linq;
 using System.Windows.Forms;
 using OpenTween.Connection;
+using OpenTween.Models;
 using OpenTween.Setting;
 using OpenTween.SocialProtocol;
 using OpenTween.SocialProtocol.Twitter;
@@ -100,6 +101,7 @@ namespace OpenTween
             }
 
             SetupAccounts(container.AccountCollection, settings);
+            AddSecondaryAccountTabs(container.AccountCollection, container.TabInfo);
 
             Application.Run(container.MainForm);
 
@@ -162,6 +164,20 @@ namespace OpenTween
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Warning
                 );
+            }
+        }
+
+        private static void AddSecondaryAccountTabs(AccountCollection accounts, TabInformations tabInfo)
+        {
+            foreach (var account in accounts.Items)
+            {
+                var accountKey = account.UniqueKey;
+                if (accountKey == accounts.Primary.UniqueKey)
+                    continue;
+
+                var tabName = tabInfo.MakeTabName($"@{account.UserName}");
+                var homeTab = new HomeSpecifiedAccountTabModel(tabName, accountKey);
+                tabInfo.AddTab(homeTab);
             }
         }
     }

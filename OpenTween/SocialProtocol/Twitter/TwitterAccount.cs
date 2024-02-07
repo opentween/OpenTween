@@ -71,5 +71,8 @@ namespace OpenTween.SocialProtocol.Twitter
             this.twLegacy.Dispose();
             this.IsDisposed = true;
         }
+
+        public bool Equals(ISocialAccount? other)
+            => other != null && this.UniqueKey == other.UniqueKey;
     }
 }
