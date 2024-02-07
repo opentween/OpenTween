@@ -2480,6 +2480,7 @@ namespace OpenTween
         {
             // 設定画面表示前のユーザー情報
             var previousUserId = this.settings.Common.UserId;
+            var previousSecondaryAccounts = this.accounts.SecondaryAccounts;
             var oldIconCol = this.Use2ColumnsMode;
 
             if (this.ShowSettingDialog() == DialogResult.OK)
@@ -2673,6 +2674,27 @@ namespace OpenTween
 
             if (this.PrimaryAccount.UserId != previousUserId)
                 await this.DoGetFollowersMenu();
+
+            var currentSecondaryAccounts = this.accounts.SecondaryAccounts;
+            var newSecondaryAccounts = currentSecondaryAccounts.Except(previousSecondaryAccounts);
+            this.AddSecondaryAccountTabs(newSecondaryAccounts);
+        }
+
+        private void AddSecondaryAccountTabs(IEnumerable<ISocialAccount> accounts)
+        {
+            foreach (var account in accounts)
+            {
+                var isPrimary = account.UniqueKey == this.accounts.Primary.UniqueKey;
+                var tabExists = this.statuses.GetTabsByType<HomeSpecifiedAccountTabModel>()
+                    .Any(x => x.SourceAccountId == account.UniqueKey);
+                if (tabExists)
+                    continue;
+
+                var tabName = this.statuses.MakeTabName($"@{account.UserName}");
+                var homeTab = new HomeSpecifiedAccountTabModel(tabName, account.UniqueKey);
+                this.statuses.AddTab(homeTab);
+                this.AddNewTab(homeTab, startup: false);
+            }
         }
 
         /// <summary>

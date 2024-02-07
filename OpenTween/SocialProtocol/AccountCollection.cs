@@ -43,6 +43,9 @@ namespace OpenTween.SocialProtocol
         public ISocialAccount[] Items
             => this.accounts.Values.ToArray();
 
+        public ISocialAccount[] SecondaryAccounts
+            => this.accounts.Values.Where(x => x.UniqueKey != this.primaryId).ToArray();
+
         public void LoadFromSettings(SettingCommon settingCommon)
         {
             var oldAccounts = this.accounts;

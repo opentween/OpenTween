@@ -692,6 +692,62 @@ namespace OpenTween
                 tab.OldestId = minimumId;
         }
 
+        public async Task GetHomeSpecifiedAccountTimelineApi(HomeSpecifiedAccountTabModel tab, bool more, bool firstLoad)
+        {
+            this.CheckAccountState();
+
+            var count = GetApiResultCount(MyCommon.WORKERTYPE.Timeline, more, firstLoad);
+
+            TwitterStatus[] statuses;
+            if (this.Api.AuthType == APIAuthType.TwitterComCookie)
+            {
+                var request = new HomeLatestTimelineRequest
+                {
+                    Count = count,
+                    Cursor = more ? tab.CursorBottom : tab.CursorTop,
+                };
+                var response = await request.Send(this.Api.Connection)
+                    .ConfigureAwait(false);
+
+                statuses = response.ToTwitterStatuses();
+
+                tab.CursorBottom = response.CursorBottom;
+
+                if (!more)
+                    tab.CursorTop = response.CursorTop;
+            }
+            else if (SettingManager.Instance.Common.EnableTwitterV2Api)
+            {
+                var request = new GetTimelineRequest(this.UserId)
+                {
+                    MaxResults = count,
+                    UntilId = more ? tab.OldestId as TwitterStatusId : null,
+                };
+
+                var response = await request.Send(this.Api.Connection)
+                    .ConfigureAwait(false);
+
+                if (response.Data == null || response.Data.Length == 0)
+                    return;
+
+                var tweetIds = response.Data.Select(x => x.Id).ToList();
+
+                statuses = await this.Api.StatusesLookup(tweetIds)
+                    .ConfigureAwait(false);
+            }
+            else
+            {
+                var maxId = more ? tab.OldestId : null;
+
+                statuses = await this.Api.StatusesHomeTimeline(count, maxId as TwitterStatusId)
+                    .ConfigureAwait(false);
+            }
+
+            var minimumId = this.CreatePostsFromJson(statuses, MyCommon.WORKERTYPE.Timeline, tab, firstLoad);
+            if (minimumId != null)
+                tab.OldestId = minimumId;
+        }
+
         public async Task GetMentionsTimelineApi(MentionsTabModel tab, bool more, bool firstLoad)
         {
             this.CheckAccountState();

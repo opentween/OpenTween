@@ -26,7 +26,7 @@ using OpenTween.Connection;
 
 namespace OpenTween.SocialProtocol
 {
-    public interface ISocialAccount : IDisposable
+    public interface ISocialAccount : IEquatable<ISocialAccount?>, IDisposable
     {
         public Guid UniqueKey { get; }
 
