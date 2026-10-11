@@ -134,7 +134,7 @@ namespace OpenTween.Api.GraphQL
             return new()
             {
                 IdStr = GetText(tweetElm, "rest_id"),
-                Source = GetText(tweetElm, "source"),
+                Source = GetTextOrNull(tweetElm, "source") ?? "",
                 CreatedAt = GetText(tweetLegacyElm, "created_at"),
                 FullText = GetText(tweetLegacyElm, "full_text"),
                 InReplyToScreenName = GetTextOrNull(tweetLegacyElm, "in_reply_to_screen_name"),
