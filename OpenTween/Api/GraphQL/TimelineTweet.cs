@@ -123,7 +123,9 @@ namespace OpenTween.Api.GraphQL
             var user = new TwitterGraphqlUser(userElm);
             var quotedTweetElm = tweetElm.Element("quoted_status_result")?.Element("result") ?? null;
             var quotedStatusPermalink = tweetLegacyElm.Element("quoted_status_permalink") ?? null;
-            var isQuotedTweetTombstone = quotedTweetElm != null && GetTweetTypeName(quotedTweetElm) == "TweetTombstone";
+
+            var isQuotedTweetAvailable = quotedTweetElm != null
+                && GetTweetTypeName(quotedTweetElm) is "Tweet" or "TweetWithVisibilityResults";
 
             static string GetText(XElement elm, string name)
                 => elm.Element(name)?.Value ?? throw CreateParseError();
@@ -186,7 +188,7 @@ namespace OpenTween.Api.GraphQL
                 User = user.ToTwitterUser(),
                 RetweetedStatus = retweetedTweetElm != null ? TimelineTweet.ParseTweetUnion(retweetedTweetElm) : null,
                 IsQuoteStatus = GetTextOrNull(tweetLegacyElm, "is_quote_status") == "true",
-                QuotedStatus = quotedTweetElm != null && !isQuotedTweetTombstone ? TimelineTweet.ParseTweetUnion(quotedTweetElm) : null,
+                QuotedStatus = isQuotedTweetAvailable ? TimelineTweet.ParseTweetUnion(quotedTweetElm!) : null,
                 QuotedStatusIdStr = GetTextOrNull(tweetLegacyElm, "quoted_status_id_str"),
                 QuotedStatusPermalink = quotedStatusPermalink == null ? null : new()
                 {
